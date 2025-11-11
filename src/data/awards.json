@@ -1,0 +1,86 @@
+{
+  "awards": [
+    {
+      "id": "award2023-ktc",
+      "title": "방송통신위원장 표창장",
+      "subtitle": "미디어규제체계정비",
+      "organization": "방송통신위원회",
+      "date": "2023-12-20",
+      "description": "통합방송법(한국형 AVMSD) 및 방송통신발전기금관련 공로",
+      "category": "Government"
+    },
+    {
+      "id": "award2022-msit",
+      "title": "과학기술정보통신부장관 표창장",
+      "subtitle": "OTT정책 및 산업전략발굴, 핵심인재 양성",
+      "organization": "과학기술정보통신부",
+      "date": "2022-12-15",
+      "description": "OTT 정책 및 산업전략, 인재양성 관련 공로",
+      "category": "Government"
+    },
+    {
+      "id": "award2021-ksms",
+      "title": "우수논문발표상",
+      "organization": "한국서비스경영학회",
+      "date": "2021-11-19",
+      "description": "유료방송 및 OTT의 공적 규범 가치 제도화 방향",
+      "category": "Academic"
+    },
+    {
+      "id": "award2019-ksms",
+      "title": "우수논문발표상",
+      "organization": "한국서비스경영학회",
+      "date": "2019-12-16",
+      "description": "소셜미디어 인플루언서와 팔로워 간의 파라소셜 관계가 구매의도에 미치는 영향",
+      "category": "Academic"
+    },
+    {
+      "id": "award2017-qmod",
+      "title": "20th QMOD Conference Selected Best Papers",
+      "organization": "QMOD-ICQSS Conference",
+      "date": "2017-08-07",
+      "description": "Assessment of Efficiency in Public Service",
+      "category": "International"
+    },
+    {
+      "id": "award2016-ksqm",
+      "title": "우수논문상",
+      "organization": "한국품질경영학회",
+      "date": "2016-05-27",
+      "description": "어플라이언스 시스템의 혁신특성과 품질이 채택의도에 미치는 영향",
+      "category": "Academic"
+    },
+    {
+      "id": "award2015-ksms-best",
+      "title": "최우수논문상",
+      "organization": "한국서비스경영학회",
+      "date": "2015-05-23",
+      "description": "Social Network Game 이용자의 전환의도에 관한 연구",
+      "category": "Academic"
+    },
+    {
+      "id": "award2015-ksqm-presentation",
+      "title": "Best Presentation Award",
+      "organization": "한국품질경영학회",
+      "date": "2015-11-13",
+      "description": "지각된 희생과 편익이 스마트 홈 수용의도에 미치는 영향에 관한 연구",
+      "category": "Academic"
+    },
+    {
+      "id": "award2014-ksqm",
+      "title": "우수연구논문상",
+      "organization": "한국품질경영학회",
+      "date": "2014-10-31",
+      "description": "IOT서비스의 성공적 수용에 관한 연구",
+      "category": "Academic"
+    },
+    {
+      "id": "award2012-anq",
+      "title": "Best Paper Award",
+      "organization": "Asian Network For Quality",
+      "date": "2012-08-03",
+      "description": "International Comparison of Productivity and Efficiency of Pay-TV Operations",
+      "category": "International"
+    }
+  ]
+}

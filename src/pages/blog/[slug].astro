@@ -1,0 +1,359 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SocialShare from '../../components/SocialShare.astro';
+import Comments from '../../components/Comments.astro';
+import Badge from '../../components/Badge.astro';
+import blogData from '../../data/blog.json';
+
+export function getStaticPaths() {
+  const posts = blogData.posts || [];
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const pageTitle = `${post.title} - Blog`;
+const currentUrl = `https://kimyonghee.com${Astro.url.pathname}`;
+const shareImage = post.image ? `https://kimyonghee.com${post.image}` : 'https://kimyonghee.com/assets/og-image.png';
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={post.excerpt || post.title}
+  image={shareImage}
+  url={currentUrl}
+>
+  <article class="blog-post">
+    <!-- Back Link -->
+    <a href="/blog" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to Blog
+    </a>
+
+    <!-- Post Header -->
+    <header class="post-header">
+      {post.image && (
+        <div class="post-hero-image">
+          <img src={post.image} alt={post.title} />
+        </div>
+      )}
+
+      <div class="post-header-content">
+        <div class="post-meta">
+          <time datetime={post.date}>
+            {new Date(post.date).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </time>
+          {post.category && (
+            <span class="post-category">{post.category}</span>
+          )}
+        </div>
+
+        <h1 class="post-title">{post.title}</h1>
+
+        {post.excerpt && (
+          <p class="post-excerpt">{post.excerpt}</p>
+        )}
+
+        {post.tags && post.tags.length > 0 && (
+          <div class="post-tags">
+            {post.tags.map(tag => (
+              <Badge text={tag} variant="tag" />
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <div class="post-content">
+      {post.content ? (
+        <div set:html={post.content} />
+      ) : (
+        <p class="no-content">콘텐츠가 아직 작성되지 않았습니다.</p>
+      )}
+    </div>
+
+    <!-- Social Share -->
+    {post.enableShare !== false && (
+      <div class="share-section">
+        <SocialShare
+          title={post.title}
+          url={currentUrl}
+          excerpt={post.excerpt}
+          image={shareImage}
+        />
+      </div>
+    )}
+
+    <!-- Post Footer -->
+    {post.author && (
+      <footer class="post-footer">
+        <div class="author-info">
+          <strong>작성자:</strong> {post.author}
+        </div>
+      </footer>
+    )}
+
+    <!-- Comments Section -->
+    <Comments
+      repo="trustune/kimyonghee-website"
+      repoId="R_kgDOQSpBlA"
+      category="Announcements"
+      categoryId="DIC_kwDOQSpBlM4CxoNB"
+    />
+  </article>
+</BaseLayout>
+
+<style>
+  .blog-post {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  /* Back Link */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: #1e40af;
+  }
+
+  /* Post Header */
+  .post-header {
+    margin-bottom: 3rem;
+  }
+
+  .post-hero-image {
+    width: 100%;
+    max-height: 400px;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .post-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .post-header-content {
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9375rem;
+    color: #6b7280;
+  }
+
+  .post-category {
+    padding: 0.25rem 0.75rem;
+    background: #dbeafe;
+    color: #1e40af;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .post-title {
+    font-family: 'Paperozi', 'Merriweather', serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  :global(.dark) .post-title {
+    color: #fbbf24;
+  }
+
+  .post-excerpt {
+    font-size: 1.125rem;
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Share Section */
+  .share-section {
+    margin: 3rem 0;
+    padding-top: 2rem;
+    border-top: 2px solid #e5e7eb;
+  }
+
+  /* Post Content */
+  .post-content {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: #374151;
+    margin-bottom: 3rem;
+  }
+
+  :global(.dark) .post-content {
+    color: #d1d5db;
+  }
+
+  .post-content :global(h2) {
+    font-family: 'Paperozi', 'Merriweather', serif;
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  :global(.dark) .post-content :global(h2) {
+    color: #fbbf24;
+  }
+
+  .post-content :global(h3) {
+    font-family: 'Paperozi', 'Merriweather', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  :global(.dark) .post-content :global(h3) {
+    color: #fbbf24;
+  }
+
+  .post-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+  }
+
+  .post-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .post-content :global(blockquote) {
+    border-left: 4px solid #2563eb;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #6b7280;
+  }
+
+  .post-content :global(code) {
+    background: #f3f4f6;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: 'Courier New', monospace;
+  }
+
+  .post-content :global(pre) {
+    background: #1f2937;
+    color: #f3f4f6;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 2rem 0;
+  }
+
+  .post-content :global(pre code) {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  .post-content :global(a) {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .post-content :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  .post-content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+  }
+
+  .no-content {
+    text-align: center;
+    color: #9ca3af;
+    font-style: italic;
+    padding: 3rem 0;
+  }
+
+  /* Post Footer */
+  .post-footer {
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .author-info {
+    color: #6b7280;
+    font-size: 0.9375rem;
+  }
+
+  .author-info strong {
+    color: #1f2937;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .blog-post {
+      padding: 2rem 1rem;
+    }
+
+    .post-title {
+      font-size: 2rem;
+    }
+
+    .post-content :global(h2) {
+      font-size: 1.5rem;
+    }
+
+    .post-content :global(h3) {
+      font-size: 1.25rem;
+    }
+  }
+</style>

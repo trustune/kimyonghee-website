@@ -1,8 +1,279 @@
 ---
-import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const popularPages = [
+  { title: 'Research & Publications', href: '/research/publications', description: 'View all research papers and publications' },
+  { title: 'About', href: '/about', description: 'Learn more about my background and experience' },
+  { title: 'Blog', href: '/blog', description: 'Read latest posts and insights' },
+  { title: 'Media Contributions', href: '/media', description: 'View opinion pieces and editorials' },
+];
 ---
 
-<BaseLayout title="Not Found" description="404 Error — this page was not found">
-	<Hero title="Page Not Found" tagline="Not found" />
+<BaseLayout title="404 - Page Not Found">
+  <div class="not-found-page">
+    <div class="not-found-content">
+      <div class="not-found-header">
+        <h1 class="not-found-title">404</h1>
+        <h2 class="not-found-subtitle">Page Not Found</h2>
+        <p class="not-found-description">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+      </div>
+
+      <div class="not-found-search">
+        <h3 class="search-title">Try searching:</h3>
+        <div class="search-box">
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search for pages..."
+            class="search-input"
+          />
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </div>
+        <div id="search-results" class="search-results"></div>
+      </div>
+
+      <div class="popular-pages">
+        <h3 class="popular-title">Popular Pages</h3>
+        <div class="popular-grid">
+          {popularPages.map(page => (
+            <a href={page.href} class="popular-card">
+              <h4 class="popular-card-title">{page.title}</h4>
+              <p class="popular-card-description">{page.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="not-found-actions">
+        <a href="/" class="btn-primary">Go to Homepage</a>
+        <a href="/blog" class="btn-secondary">View Blog</a>
+      </div>
+    </div>
+  </div>
 </BaseLayout>
+
+<style>
+  .not-found-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  }
+
+  .not-found-content {
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .not-found-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .not-found-title {
+    font-family: 'Paperozi', 'Merriweather', serif;
+    font-size: 8rem;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  .not-found-subtitle {
+    font-family: 'Paperozi', 'Inter', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  .not-found-description {
+    font-size: 1.125rem;
+    color: #6b7280;
+  }
+
+  .not-found-search {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+  }
+
+  .search-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1rem;
+  }
+
+  .search-box {
+    position: relative;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.2s;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+  }
+
+  .search-results {
+    margin-top: 1rem;
+  }
+
+  .search-result {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    transition: background 0.2s;
+  }
+
+  .search-result:hover {
+    background: #f3f4f6;
+  }
+
+  .search-result a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .popular-pages {
+    margin-bottom: 2rem;
+  }
+
+  .popular-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  .popular-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .popular-card {
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .popular-card:hover {
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .popular-card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }
+
+  .popular-card-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  .not-found-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: #2563eb;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #1e40af;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: #2563eb;
+    border: 2px solid #2563eb;
+  }
+
+  .btn-secondary:hover {
+    background: #eff6ff;
+  }
+</style>
+
+<script>
+  // Simple search functionality
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const searchResults = document.getElementById('search-results');
+
+  const pages = [
+    { title: 'Home', url: '/' },
+    { title: 'About', url: '/about' },
+    { title: 'CV', url: '/cv' },
+    { title: 'Research & Publications', url: '/research/publications' },
+    { title: 'Blog', url: '/blog' },
+    { title: 'Media Contributions', url: '/media' },
+  ];
+
+  searchInput?.addEventListener('input', (e) => {
+    const query = (e.target as HTMLInputElement).value.toLowerCase();
+
+    if (!query || !searchResults) {
+      searchResults.innerHTML = '';
+      return;
+    }
+
+    const results = pages.filter(page =>
+      page.title.toLowerCase().includes(query)
+    );
+
+    if (results.length > 0) {
+      searchResults.innerHTML = results.map(page => `
+        <div class="search-result">
+          <a href="${page.url}">${page.title}</a>
+        </div>
+      `).join('');
+    } else {
+      searchResults.innerHTML = '<div class="search-result">No results found</div>';
+    }
+  });
+</script>

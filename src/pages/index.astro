@@ -1,249 +1,174 @@
 ---
-import { getCollection } from 'astro:content';
-// Component Imports
-import CallToAction from '../components/CallToAction.astro';
-// Page section components
-import ContactCTA from '../components/ContactCTA.astro';
-import Grid from '../components/Grid.astro';
-import Hero from '../components/Hero.astro';
-import Icon from '../components/Icon.astro';
-import Pill from '../components/Pill.astro';
-import PortfolioPreview from '../components/PortfolioPreview.astro';
-import Skills from '../components/Skills.astro';
-// Layout import — provides basic page elements: <head>, <nav>, <footer> etc.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import publications from '../data/publications.json';
+import books from '../data/books.json';
+import media from '../data/media.json';
 
-// Content Fetching: List four most recent work projects
-const projects = (await getCollection('work'))
-	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
-	.slice(0, 4);
-
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+const recentPubs = publications.publications
+  .sort((a, b) => b.year - a.year)
+  .slice(0, 3);
 ---
 
-<BaseLayout>
-	<div class="stack gap-20 lg:gap-48">
-		<div class="wrapper stack gap-8 lg:gap-20">
-			<header class="hero">
-				<Hero
-					title="Hello, my name is Jeanine White"
-					tagline="I am a Creative Developer who is currently based in Portland, Oregon."
-					align="start"
-				>
-					<div class="roles">
-						<Pill><Icon icon="code" size="1.33em" /> Developer</Pill>
-						<Pill><Icon icon="microphone-stage" size="1.33em" /> Speaker</Pill>
-						<Pill><Icon icon="pencil-line" size="1.33em" /> Writer</Pill>
-					</div>
-				</Hero>
+<BaseLayout title="Home">
+  <div class="homepage">
+    <header class="hero">
+      <h1 class="name">김용희 (Yonghee Kim)</h1>
+      <p class="subtitle">Professor of Business Administration | Media Policy & Management Expert</p>
+    </header>
 
-				<img
-					alt="Jeanine White smiling in a red plaid shirt and tortoise shell glasses"
-					width="480"
-					height="620"
-					src="/assets/portrait.jpg"
-				/>
-			</header>
+    <section class="bio">
+      <p>
+        I'm a business administration professor and data scientist specializing in media policy, OTT service markets, and ICT efficiency analysis. My research combines econometric methods with big data analytics to inform policy decisions in Korea's rapidly evolving digital media landscape. You can find my <a href="/research/publications">academic research here</a>.
+      </p>
+      <p>
+        I've published seven papers in SSCI-indexed journals, including work on cord-cutting behavior, media regulation, and ESG practices in media industries. My research has been cited by policymakers and has contributed to regulatory frameworks in Korean broadcasting and telecommunications. I regularly contribute policy analysis and expert commentary to <a href="https://www.etnews.com/20251103000041" target="_blank">The Electronic Times (etnews)</a>, Korea's leading technology and media publication.
+      </p>
+      <p>
+        Currently, I serve as an associate professor at the <a href="https://mgt.sunmoon.ac.kr/mgt/ad/pp/profsrintrcnPage.do?profsrSe=A&mi=41267" target="_blank">Department of Business Administration at Sunmoon University</a>, where I teach courses on digital business strategy and data analytics. I also direct the Daeyeon Industrial Policy Institute, focusing on evidence-based policy research for Korea's media and ICT sectors.
+      </p>
+      <p>
+        In recognition of my contributions to media policy, I've received commendations from both the Korea Communications Commission and the Ministry of Science and ICT. I'm also a cofounder of <a href="https://www.openroute.kr/" target="_blank">OpenRoute</a>, a research consultancy that bridges academic research and industry practice in digital transformation.
+      </p>
+    </section>
 
-			<Skills />
-		</div>
+    <section class="section">
+      <div class="section-header">
+        <h2 data-lang="en">Recent Research</h2>
+        <h2 data-lang="ko">최근 연구</h2>
+        <a href="/research/publications" class="section-link">
+          <span data-lang="en">View All Research →</span>
+          <span data-lang="ko">전체 연구 보기 →</span>
+        </a>
+      </div>
+      
+      <div class="publication-list">
+        {recentPubs.map(pub => (
+          <article class="publication-item">
+            <h3 class="pub-title">{pub.title}</h3>
+            <div class="pub-meta">
+              <span class="pub-authors">{pub.authors.join(', ')}</span>
+              <span class="separator">•</span>
+              <span class="pub-journal">{pub.journal}</span>
+              <span class="separator">•</span>
+              <span class="pub-year">{pub.year}</span>
+              {pub.impact_factor && (
+                <>
+                  <span class="separator">•</span>
+                  <span class="pub-if">IF {pub.impact_factor}</span>
+                </>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
 
-		<main class="wrapper stack gap-20 lg:gap-48">
-			<section class="section with-background with-cta">
-				<header class="section-header stack gap-2 lg:gap-4">
-					<h3>Selected Work</h3>
-					<p>Take a look below at some of my featured work for clients from the past few years.</p>
-				</header>
+    <section class="section">
+      <div class="section-header">
+        <h2 data-lang="en">Books</h2>
+        <h2 data-lang="ko">저서</h2>
+      </div>
+      
+      <div class="book-list">
+        {books.books.filter(b => b.type === 'main').map(book => (
+          <article class="book-item">
+            <h3 class="book-title">{book.title}</h3>
+            <div class="book-meta">
+              <span class="book-authors">{Array.isArray(book.authors) ? book.authors.join(', ') : book.authors}</span>
+              <span class="separator">•</span>
+              <span class="book-year">{book.year}</span>
+              {book.isbn && (
+                <>
+                  <span class="separator">•</span>
+                  <span class="book-isbn">ISBN {book.isbn}</span>
+                </>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
 
-				<div class="gallery">
-					<Grid variant="offset">
-						{
-							projects.map((project) => (
-								<li>
-									<PortfolioPreview project={project} />
-								</li>
-							))
-						}
-					</Grid>
-				</div>
+    <section class="section">
+      <div class="section-header">
+        <h2>Media Articles</h2>
+        <a href="/media" class="section-link">View All →</a>
+      </div>
+      
+      <div class="article-list">
+        {media.articles.slice(0, 3).map(article => (
+          <article class="article-item">
+            <a href={article.url} target="_blank" class="article-link">
+              <div class="article-meta">
+                <span class="article-outlet">{article.outlet}</span>
+                <span class="separator">•</span>
+                <span class="article-date">{article.date}</span>
+              </div>
+              <h3 class="article-title">{article.title}</h3>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
 
-				<div class="cta">
-					<CallToAction href="/work/">
-						View All
-						<Icon icon="arrow-right" size="1.2em" />
-					</CallToAction>
-				</div>
-			</section>
+    <section class="section">
+      <div class="section-header">
+        <h2>Links</h2>
+      </div>
 
-			<section class="section with-background bg-variant">
-				<header class="section-header stack gap-2 lg:gap-4">
-					<h3>Mentions</h3>
-					<p>
-						I have been fortunate enough to receive praise for my work in several publications. Take
-						a look below to learn more.
-					</p>
-				</header>
-
-				<div class="gallery">
-					<Grid variant="small">
-						{
-							['Medium', 'BuzzFeed', 'The Next Web', 'awwwards.', 'TechCrunch'].map((brand) => (
-								<li class="mention-card">
-									<p>{brand}</p>
-								</li>
-							))
-						}
-					</Grid>
-				</div>
-			</section>
-		</main>
-
-		<ContactCTA />
-	</div>
+      <nav class="links">
+        <a href="mailto:yhkim1981@sunmoon.ac.kr" class="link-item">
+          <span class="link-title">Email</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="https://github.com/yhkim1981-svg" class="link-item">
+          <span class="link-title">GitHub</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="https://scholar.google.com/citations?user=semkeskAAAAJ" class="link-item">
+          <span class="link-title">Google Scholar</span>
+          <span class="link-arrow">→</span>
+        </a>
+      </nav>
+    </section>
+  </div>
 </BaseLayout>
 
 <style>
-	.hero {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 2rem;
-	}
-
-	.roles {
-		display: none;
-	}
-
-	.hero img {
-		aspect-ratio: 5 / 4;
-		object-fit: cover;
-		object-position: top;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
-	}
-
-	@media (min-width: 50em) {
-		.hero {
-			display: grid;
-			grid-template-columns: 6fr 4fr;
-			padding-inline: 2.5rem;
-			gap: 3.75rem;
-		}
-
-		.roles {
-			margin-top: 0.5rem;
-			display: flex;
-			gap: 0.5rem;
-		}
-
-		.hero img {
-			aspect-ratio: 3 / 4;
-			border-radius: 4.5rem;
-			object-fit: cover;
-		}
-	}
-
-	/* ====================================================== */
-
-	.section {
-		display: grid;
-		gap: 2rem;
-	}
-
-	.with-background {
-		position: relative;
-	}
-
-	.with-background::before {
-		--hero-bg: var(--bg-image-subtle-2);
-
-		content: '';
-		position: absolute;
-		pointer-events: none;
-		left: 50%;
-		width: 100vw;
-		aspect-ratio: calc(2.25 / var(--bg-scale));
-		top: 0;
-		transform: translateY(-75%) translateX(-50%);
-		background:
-			url('/assets/backgrounds/noise.png') top center/220px repeat,
-			var(--hero-bg) center center / var(--bg-gradient-size) no-repeat,
-			var(--gray-999);
-		background-blend-mode: overlay, normal, normal, normal;
-		mix-blend-mode: var(--bg-blend-mode);
-		z-index: -1;
-	}
-
-	.with-background.bg-variant::before {
-		--hero-bg: var(--bg-image-subtle-1);
-	}
-
-	.section-header {
-		justify-self: center;
-		text-align: center;
-		max-width: 50ch;
-		font-size: var(--text-md);
-		color: var(--gray-300);
-	}
-
-	.section-header h3 {
-		font-size: var(--text-2xl);
-	}
-
-	@media (min-width: 50em) {
-		.section {
-			grid-template-columns: repeat(4, 1fr);
-			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery';
-			gap: 5rem;
-		}
-
-		.section.with-cta {
-			grid-template-areas: 'header header header cta' 'gallery gallery gallery gallery';
-		}
-
-		.section-header {
-			grid-area: header;
-			font-size: var(--text-lg);
-		}
-
-		.section-header h3 {
-			font-size: var(--text-4xl);
-		}
-
-		.with-cta .section-header {
-			justify-self: flex-start;
-			text-align: left;
-		}
-
-		.gallery {
-			grid-area: gallery;
-		}
-
-		.cta {
-			grid-area: cta;
-		}
-	}
-
-	/* ====================================================== */
-
-	.mention-card {
-		display: flex;
-		height: 7rem;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		border: 1px solid var(--gray-800);
-		border-radius: 1.5rem;
-		color: var(--gray-300);
-		background: var(--gradient-subtle);
-		box-shadow: var(--shadow-sm);
-	}
-
-	@media (min-width: 50em) {
-		.mention-card {
-			border-radius: 1.5rem;
-			height: 9.5rem;
-		}
-	}
+  .homepage { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+  .hero { margin-bottom: 4rem; }
+  .name { font-family: 'Paperozi', 'Merriweather', serif; font-size: 2.5rem; font-weight: 300; letter-spacing: -0.02em; color: #1e40af; margin-bottom: 0.5rem; }
+  .subtitle { font-size: 1.125rem; color: #6b7280; margin: 0; }
+  .bio { margin-bottom: 4rem; padding-bottom: 3rem; border-bottom: 1px solid #e5e7eb; font-size: 1.125rem; line-height: 1.7; }
+  .bio p { margin-bottom: 1.5rem; }
+  .bio a { color: #2563eb; text-decoration: underline; text-underline-offset: 0.2em; }
+  .section { margin-bottom: 4rem; padding-bottom: 3rem; border-bottom: 1px solid #e5e7eb; }
+  .section:last-child { border-bottom: none; }
+  .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem; }
+  .section-header h2 { font-family: 'Paperozi', 'Merriweather', serif; font-size: 1.875rem; font-weight: 400; margin: 0; }
+  .section-link { font-size: 0.875rem; color: #6b7280; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; }
+  .section-link:hover { color: #2563eb; }
+  .publication-item, .book-item { margin-bottom: 2rem; }
+  .pub-title, .book-title { font-family: 'Paperozi', 'Inter', sans-serif; font-size: 1.125rem; font-weight: 500; margin-bottom: 0.5rem; line-height: 1.4; }
+  .pub-meta, .book-meta { font-size: 0.875rem; color: #6b7280; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .separator { color: #d1d5db; }
+  .pub-if { font-weight: 600; color: #059669; }
+  .article-list { display: flex; flex-direction: column; gap: 1rem; }
+  .article-item { padding: 1.25rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s; }
+  .article-item:hover { border-color: #2563eb; background: #eff6ff; }
+  .article-link { text-decoration: none; display: block; }
+  .article-meta { font-size: 0.875rem; color: #6b7280; margin-bottom: 0.5rem; }
+  .article-outlet { font-weight: 600; color: #2563eb; }
+  .article-title { font-family: 'Paperozi', 'Inter', sans-serif; font-size: 1.125rem; color: #1f2937; font-weight: 500; line-height: 1.4; }
+  .article-link:hover .article-title { color: #2563eb; }
+  .links { display: grid; gap: 1rem; }
+  .link-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; text-decoration: none; color: #1f2937; transition: all 0.2s; }
+  .link-item:hover { border-color: #2563eb; background-color: #eff6ff; }
+  .link-title { font-weight: 500; }
+  .link-arrow { color: #9ca3af; font-weight: 600; }
+  @media (max-width: 768px) {
+    .homepage { padding: 2rem 1rem; }
+    .name { font-size: 2rem; }
+    .section-header { flex-direction: column; gap: 0.5rem; }
+  }
 </style>

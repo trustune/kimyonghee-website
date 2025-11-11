@@ -1,0 +1,91 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  subtitle?: string;
+  author: string;
+  date: string;
+  number: string;
+  category: string;
+  tags: string[];
+  summary: string;
+  impact: 'high' | 'medium' | 'low';
+  urgency: 'urgent' | 'normal' | 'low';
+}
+
+const { title, subtitle, author, date, number, category, tags, summary, impact, urgency } = Astro.props;
+---
+
+<BaseLayout title={title} description={summary}>
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Policy Brief Header -->
+    <header class="mb-8 border-b border-gray-200 pb-8">
+      <div class="mb-4">
+        <span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
+          Policy Brief {number}
+        </span>
+        <span class="ml-3 text-gray-500 text-sm">{category}</span>
+      </div>
+      
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        {title}
+      </h1>
+      
+      {subtitle && (
+        <h2 class="text-xl text-gray-600 mb-6">
+          {subtitle}
+        </h2>
+      )}
+      
+      <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+        <div>
+          <strong>Author:</strong> {author}
+        </div>
+        <div>
+          <strong>Published:</strong> {date}
+        </div>
+        <div class="flex items-center gap-2">
+          <strong>Policy Impact:</strong>
+          <span class={`px-2 py-1 rounded text-xs font-semibold ${
+            impact === 'high' ? 'bg-red-100 text-red-800' :
+            impact === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+            'bg-green-100 text-green-800'
+          }`}>
+            {impact === 'high' ? 'High' : impact === 'medium' ? 'Medium' : 'Low'}
+          </span>
+        </div>
+        <div class="flex items-center gap-2">
+          <strong>Urgency:</strong>
+          <span class={`px-2 py-1 rounded text-xs font-semibold ${
+            urgency === 'urgent' ? 'bg-red-100 text-red-800' :
+            urgency === 'normal' ? 'bg-yellow-100 text-yellow-800' :
+            'bg-green-100 text-green-800'
+          }`}>
+            {urgency === 'urgent' ? 'Urgent' : urgency === 'normal' ? 'Normal' : 'Low'}
+          </span>
+        </div>
+      </div>
+      
+      <div class="bg-blue-50 p-4 rounded-lg mb-6">
+        <p class="text-gray-700 leading-relaxed">
+          <strong>Summary:</strong> {summary}
+        </p>
+      </div>
+      
+      <div class="flex flex-wrap gap-2">
+        {tags.map(tag => (
+          <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    </header>
+    
+    <!-- Content -->
+    <main class="prose prose-lg max-w-none">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>

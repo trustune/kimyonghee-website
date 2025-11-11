@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Search from '../components/Search.astro';
+---
+
+<BaseLayout
+  title="Search - Yonghee Kim"
+  description="Search content across research, blog, and teaching materials"
+>
+  <div class="search-page">
+    <header class="page-header">
+      <h1 data-lang="en">Search</h1>
+      <h1 data-lang="ko">검색</h1>
+      <p class="page-description" data-lang="en">
+        Search across all content including research papers, blog posts, and teaching materials.
+      </p>
+      <p class="page-description" data-lang="ko">
+        논문, 블로그, 강의 자료 등 모든 콘텐츠를 검색할 수 있습니다.
+      </p>
+    </header>
+
+    <!-- 검색 컴포넌트 -->
+    <div class="search-container">
+      <Search />
+    </div>
+
+    <!-- 검색 팁 -->
+    <section class="search-tips">
+      <h2 data-lang="en">Search Tips</h2>
+      <h2 data-lang="ko">검색 팁</h2>
+      <ul>
+        <li data-lang="en">Use multiple keywords for more precise results</li>
+        <li data-lang="ko">여러 키워드를 사용하여 더 정확한 결과를 얻으세요</li>
+        <li data-lang="en">Click on search results to navigate to the page</li>
+        <li data-lang="ko">검색 결과를 클릭하면 해당 페이지로 이동합니다</li>
+        <li data-lang="en">Search works in both light and dark modes</li>
+        <li data-lang="ko">라이트/다크 모드 모두에서 검색이 가능합니다</li>
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .search-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  /* Page Header */
+  .page-header {
+    margin-bottom: 3rem;
+  }
+
+  .page-header h1 {
+    font-family: 'Paperozi', 'Merriweather', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    color: #1e40af;
+    margin-bottom: 1rem;
+  }
+
+  .page-description {
+    font-size: 1.125rem;
+    color: #6b7280;
+    line-height: 1.7;
+    max-width: 65ch;
+  }
+
+  /* Search Container */
+  .search-container {
+    max-width: 900px;
+    margin: 0 auto 4rem;
+  }
+
+  /* Search Tips */
+  .search-tips {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+  }
+
+  .search-tips h2 {
+    font-family: 'Paperozi', 'Merriweather', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin-bottom: 1rem;
+  }
+
+  .search-tips ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .search-tips li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.6;
+    color: #4b5563;
+  }
+
+  .search-tips li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #1e40af;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  /* 반응형 */
+  @media (max-width: 768px) {
+    .search-page {
+      padding: 2rem 1rem;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+    }
+
+    .page-description {
+      font-size: 1rem;
+    }
+
+    .search-tips {
+      padding: 1.5rem;
+    }
+
+    .search-tips h2 {
+      font-size: 1.125rem;
+    }
+  }
+</style>

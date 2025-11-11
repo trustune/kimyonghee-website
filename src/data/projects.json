@@ -2,25 +2,36 @@
   "projects": [
     {
       "id": "broadcasting-revenue-2015-2024",
-      "title": "방송산업 순유입재원 구조 분석 (2015-2024)",
-      "title_en": "Broadcasting Industry Net Inflow Revenue Structure Analysis (2015-2024)",
-      "date": "2024-11-02",
+      "title": "지속가능한 미디어 생태계를 위한 통합정책 로드맵",
+      "title_en": "Integrated Policy Roadmap for Sustainable Media Ecosystem",
+      "subtitle": "방송산업 순유입재원 구조 분석과 정책 제안 (2015-2024)",
+      "subtitle_en": "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations",
+      "date": "2025-11-08",
       "category": "Broadcasting Policy",
-      "tags": ["Broadcasting", "Media Economics", "Data Analysis", "Policy Research"],
-      "conference": "한국방송학회",
-      "conference_en": "Korean Broadcasting Association",
-      "description": "방송산업의 10년간(2015-2024) 순유입재원 구조 변화를 분석하여 광고 중심에서 수신료 중심으로의 전환, IPTV 급성장과 SO 붕괴, 홈쇼핑의 부상 등 핵심 트렌드를 발견했습니다.",
-      "description_en": "Analysis of 10-year (2015-2024) structural changes in broadcasting industry revenue, discovering key trends including transition from ad-centric to subscription-centric model, IPTV surge, SO collapse, and home shopping emergence.",
-      "summary": "방송산업 재원구조의 근본적 변화: 광고 의존도 49.64%→25.82%, 유료방송수신료 39.03%→42.31%, 홈쇼핑 신규 진입 22.79%",
+      "tags": ["Broadcasting", "Media Economics", "Data Analysis", "Policy Research", "Government Policy"],
+      "conference": "한국방송학회 2025 가을철 정기학술대회",
+      "conference_en": "Korean Broadcasting Association 2025 Fall Conference",
+      "description": "방송산업의 10년간(2015-2024) 순유입재원 구조 변화를 실증 분석하고, 정부재원 비중 10.15% (OECD 최하위), 방송광고 43.9% 급락, KBS 수신료 44년 동결 등 위기를 진단하여 통합정책 로드맵을 제시합니다.",
+      "description_en": "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 43.9% advertising decline, and 44-year KBS license fee freeze, proposing an integrated policy roadmap.",
+      "summary": "정부재원 10.15% (OECD 최하위), 방송광고 10년간 43.9% 급락, KBS 수신료 44년 동결로 인한 방송산업 위기 진단 및 통합정책 제안",
       "key_findings": [
-        "광고 중심 → 수신료 중심 전환 (광고 비중 49.64% → 25.82%)",
+        "정부재원 비중 10.15% - OECD 최하위 (KBS수신료 9.36% + 방발기금 0.79%)",
+        "방송광고 10년간 43.9% 급락 (3.50조 → 1.99조원)",
+        "KBS 수신료 44년 동결 - 실질가치 82% 하락",
+        "광고 중심 → 수신료 중심 전환 (49.64% → 25.82%)",
         "IPTV 급성장 +99.1% vs SO 붕괴 -39.1%",
         "홈쇼핑 부상: 0원 → 20,249억원 (3위 재원)",
-        "총 순유입재원 25.9% 증가 (70,579억 → 88,862억)"
+        "방송미디어통신위원회 출범 (2025.10.1) - 예산 2,423억원"
+      ],
+      "policy_proposals": [
+        "KBS 수신료 정상화 및 징수율 제고",
+        "방송광고 규제 완화 (간접광고, 가상광고)",
+        "플랫폼 기여금 조정 및 공정성 제고",
+        "정부재원 확대 및 방발기금 효율화"
       ],
       "data_period": "2015-2024",
       "verification_accuracy": "99.50%",
-      "technologies": ["Python", "SQLite", "Pandas", "Data Analysis"],
+      "technologies": ["Python", "SQLite", "Pandas", "Data Analysis", "Data Visualization"],
       "featured": true
     }
   ]

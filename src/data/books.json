@@ -1,0 +1,54 @@
+{
+  "books": [
+    {
+      "id": "book2022-broadcasting",
+      "type": "main",
+      "title": "제6차 방송영상산업 진흥 중장기 계획 수립 연구",
+      "authors": ["김용희 외"],
+      "year": 2022,
+      "month": 1,
+      "isbn": "979-11-6677-103-3",
+      "category": "Broadcasting Policy"
+    },
+    {
+      "id": "book2021-platform",
+      "type": "main",
+      "title": "영상플랫폼에서의 콘텐츠 영향력 분석 및 영상콘텐츠 진흥정책 연구",
+      "authors": ["문철수 외"],
+      "year": 2021,
+      "month": 11,
+      "isbn": "979-11-6357-391-3",
+      "category": "Platform Policy"
+    },
+    {
+      "id": "book2022-esg",
+      "type": "main",
+      "title": "미디어 기업의 ESG 실천방안",
+      "authors": ["우형진", "김용희", "성용준"],
+      "year": 2022,
+      "month": 10,
+      "isbn": "978-89-5711-645-6",
+      "category": "Media ESG"
+    },
+    {
+      "id": "chapter2021-selfdriving",
+      "type": "chapter",
+      "title": "An Empirical Investigation of Customer Acceptance of Self-driving Cars",
+      "authors": ["Kim, Y.", "Park, Y.", "Seo, H. H.", "Choi, J."],
+      "year": 2021,
+      "book_title": "Key Challenges and Opportunities for Quality, Sustainability, and Innovation in the FOURTH INDUSTRIAL REVOLUTION",
+      "pages": "73-97",
+      "category": "Autonomous Vehicles"
+    },
+    {
+      "id": "chapter2019-mobile",
+      "type": "chapter",
+      "title": "A Study on the Efficiency of Global Major Mobile Operators",
+      "authors": ["Choi, J.", "Park, Y.", "Kim, Y."],
+      "year": 2019,
+      "book_title": "Software Engineering Research, Management and Applications",
+      "pages": "129",
+      "category": "Mobile Operators"
+    }
+  ]
+}

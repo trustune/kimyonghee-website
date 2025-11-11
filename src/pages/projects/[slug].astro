@@ -35,6 +35,12 @@ if (project.id === 'broadcasting-revenue-2015-2024') {
       </div>
       <h1 class="project-title">{project.title}</h1>
       <p class="project-title-en">{project.title_en}</p>
+      {project.subtitle && (
+        <>
+          <p class="project-subtitle">{project.subtitle}</p>
+          {project.subtitle_en && <p class="project-subtitle-en">{project.subtitle_en}</p>}
+        </>
+      )}
 
       <div class="project-meta">
         <span class="meta-item">
@@ -102,6 +108,21 @@ if (project.id === 'broadcasting-revenue-2015-2024') {
             <h3 data-lang="en">Revenue Breakdown by Source (2024)</h3>
             <h3 data-lang="ko">재원별 구성 (2024)</h3>
             <canvas id="pieChart"></canvas>
+          </div>
+        </section>
+      )}
+
+      {project.policy_proposals && project.policy_proposals.length > 0 && (
+        <section class="section policy-section">
+          <h2 data-lang="en">Policy Proposals</h2>
+          <h2 data-lang="ko">정책 제안</h2>
+          <div class="policy-grid">
+            {project.policy_proposals.map((proposal, index) => (
+              <div class="policy-card">
+                <div class="policy-number">{index + 1}</div>
+                <p>{proposal}</p>
+              </div>
+            ))}
           </div>
         </section>
       )}
@@ -348,6 +369,20 @@ if (project.id === 'broadcasting-revenue-2015-2024') {
     font-size: 1.25rem;
     color: #6b7280;
     font-style: italic;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-subtitle {
+    font-size: 1.125rem;
+    color: #4b5563;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-subtitle-en {
+    font-size: 1rem;
+    color: #6b7280;
+    font-style: italic;
     margin-bottom: 1.5rem;
   }
 
@@ -469,6 +504,43 @@ if (project.id === 'broadcasting-revenue-2015-2024') {
 
   .chart-container canvas {
     max-height: 400px;
+  }
+
+  .policy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .policy-card {
+    position: relative;
+    padding: 1.5rem;
+    padding-left: 4rem;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-left: 4px solid #f59e0b;
+    border-radius: 0.5rem;
+  }
+
+  .policy-number {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f59e0b;
+    color: white;
+    font-weight: 700;
+    border-radius: 50%;
+    font-size: 1rem;
+  }
+
+  .policy-card p {
+    color: #78350f;
+    font-weight: 600;
+    line-height: 1.6;
   }
 
   .tech-tags {

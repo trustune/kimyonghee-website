@@ -1,0 +1,83 @@
+---
+interface Props {
+  value: string | number;
+  label: string;
+  sublabel?: string;
+  align?: 'left' | 'center' | 'right';
+  size?: 'small' | 'medium' | 'large';
+}
+
+const {
+  value,
+  label,
+  sublabel,
+  align = 'center',
+  size = 'medium'
+} = Astro.props;
+---
+
+<div class={`stat-item stat-item--${align} stat-item--${size}`}>
+  <span class="stat-item__value">{value}</span>
+  <div class="stat-item__label">{label}</div>
+  {sublabel && (
+    <div class="stat-item__sublabel">{sublabel}</div>
+  )}
+</div>
+
+<style>
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  /* Alignment */
+  .stat-item--left {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .stat-item--center {
+    text-align: center;
+    align-items: center;
+  }
+
+  .stat-item--right {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  /* Value */
+  .stat-item__value {
+    font-family: 'Paperozi', 'Merriweather', serif;
+    font-weight: 700;
+    color: #1e40af;
+    display: block;
+  }
+
+  .stat-item--small .stat-item__value {
+    font-size: 1.5rem;
+  }
+
+  .stat-item--medium .stat-item__value {
+    font-size: 2rem;
+  }
+
+  .stat-item--large .stat-item__value {
+    font-size: 2.5rem;
+  }
+
+  /* Label */
+  .stat-item__label {
+    font-size: 0.875rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Sublabel */
+  .stat-item__sublabel {
+    font-size: 0.75rem;
+    color: #94a3b8;
+  }
+</style>

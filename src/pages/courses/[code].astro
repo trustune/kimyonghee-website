@@ -1,0 +1,506 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import coursesData from '../../data/courses.json';
+
+export async function getStaticPaths() {
+  const courses = coursesData.courses;
+  return courses.map(course => ({
+    params: { code: course.code },
+    props: { course }
+  }));
+}
+
+const { course } = Astro.props;
+
+// Evaluation labels in English
+const evalLabels = {
+  midterm: 'Midterm',
+  final: 'Final',
+  project: 'Project',
+  assignment: 'Assignment',
+  quiz: 'Quiz',
+  attendance: 'Attendance',
+  participation: 'Participation',
+  individual: 'Individual'
+};
+---
+
+<BaseLayout title={`${course.title} - Kim Yonghee`} description={course.description}>
+  <div class="course-page">
+    <!-- Back Link -->
+    <nav class="breadcrumb">
+      <a href="/teaching" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Teaching
+      </a>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+      <h1>{course.title}</h1>
+      <p class="title-en">{course.title_en}</p>
+
+      <div class="course-info-grid">
+        <div class="info-item">
+          <span class="info-label">Course Code</span>
+          <span class="info-value">{course.code}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Semester</span>
+          <span class="info-value">{course.semester}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Schedule</span>
+          <span class="info-value">{course.schedule}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Credits</span>
+          <span class="info-value">{course.credits}/{course.hours}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Year</span>
+          <span class="info-value">Year {course.year}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Department</span>
+          <span class="info-value">{course.department}</span>
+        </div>
+      </div>
+
+      <div class="contact-info">
+        <p><strong>Instructor:</strong> {course.instructor}</p>
+        <p><strong>Email:</strong> <a href={`mailto:${course.email}`}>{course.email}</a></p>
+        {course.office && <p><strong>Office:</strong> {course.office}</p>}
+        {course.office_hours && <p><strong>Office Hours:</strong> {course.office_hours}</p>}
+      </div>
+    </header>
+
+    <!-- Course Description -->
+    <section class="section">
+      <h2>Course Description</h2>
+      <p class="description">{course.description}</p>
+    </section>
+
+    <!-- Learning Objectives -->
+    <section class="section">
+      <h2>Learning Objectives</h2>
+      <ul class="objectives-list">
+        {course.objectives.map(obj => (
+          <li>{obj}</li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Evaluation -->
+    <section class="section">
+      <h2>Evaluation</h2>
+      <div class="evaluation-grid">
+        {Object.entries(course.evaluation).map(([key, value]) => (
+          <div class="eval-card">
+            <div class="eval-label">{evalLabels[key] || key}</div>
+            <div class="eval-value">{value}<span class="percent">%</span></div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Weekly Schedule -->
+    <section class="section">
+      <h2>Weekly Schedule</h2>
+      <div class="schedule-table-wrapper">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th class="week-col">Week</th>
+              <th class="topic-col">Topic</th>
+              <th class="details-col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {course.weekly_topics.map((week) => (
+              <tr class={week.topic.includes('Exam') ? 'exam-row' : ''}>
+                <td class="week-num">{week.week}</td>
+                <td class="topic">{week.topic}</td>
+                <td class="details">{week.details}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Textbook -->
+    <section class="section">
+      <h2>Textbook</h2>
+      {typeof course.textbook === 'object' ? (
+        <div class="textbook-card">
+          <div class="textbook-title">{course.textbook.title}</div>
+          <div class="textbook-author">{course.textbook.author}</div>
+          <div class="textbook-publisher">{course.textbook.publisher}, {course.textbook.year}</div>
+        </div>
+      ) : (
+        <div class="textbook-simple">
+          <p>{course.textbook}</p>
+        </div>
+      )}
+    </section>
+
+    <!-- Back to Teaching -->
+    <div class="footer-nav">
+      <a href="/teaching" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Teaching
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .course-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    margin-bottom: 2rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: #1e40af;
+  }
+
+  /* Page Header */
+  .page-header {
+    margin-bottom: 4rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #1e40af;
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+  }
+
+  .title-en {
+    font-size: 1.5rem;
+    color: #6b7280;
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  .course-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f9fafb;
+    border-radius: 0.5rem;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .info-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  .info-value {
+    font-size: 1rem;
+    color: #1f2937;
+    font-weight: 500;
+  }
+
+  .contact-info {
+    padding: 1.5rem;
+    background: #eff6ff;
+    border-left: 3px solid #2563eb;
+    border-radius: 0.25rem;
+  }
+
+  .contact-info p {
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+    font-size: 0.9375rem;
+  }
+
+  .contact-info p:last-child {
+    margin-bottom: 0;
+  }
+
+  .contact-info a {
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  .contact-info a:hover {
+    text-decoration: underline;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 4rem;
+  }
+
+  .section h2 {
+    font-size: 1.875rem;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .description {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: #4b5563;
+  }
+
+  /* Objectives */
+  .objectives-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .objectives-list li {
+    padding: 1rem 1rem 1rem 2.5rem;
+    margin-bottom: 0.75rem;
+    background: #f9fafb;
+    border-left: 3px solid #2563eb;
+    border-radius: 0.25rem;
+    color: #4b5563;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .objectives-list li::before {
+    content: "→";
+    position: absolute;
+    left: 1rem;
+    color: #2563eb;
+    font-weight: bold;
+  }
+
+  /* Evaluation */
+  .evaluation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .eval-card {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-radius: 0.75rem;
+    text-align: center;
+    border: 1px solid #bae6fd;
+    transition: all 0.2s;
+  }
+
+  .eval-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  }
+
+  .eval-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .eval-value {
+    font-size: 2.5rem;
+    color: #1e40af;
+    font-weight: 700;
+  }
+
+  .percent {
+    font-size: 1.25rem;
+    margin-left: 0.125rem;
+  }
+
+  /* Schedule Table */
+  .schedule-table-wrapper {
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+  }
+
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+  }
+
+  .schedule-table thead {
+    background: #f9fafb;
+  }
+
+  .schedule-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #1f2937;
+    border-bottom: 2px solid #e5e7eb;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .week-col {
+    width: 80px;
+  }
+
+  .topic-col {
+    width: 35%;
+  }
+
+  .details-col {
+    width: auto;
+  }
+
+  .schedule-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    color: #4b5563;
+  }
+
+  .schedule-table tbody tr:hover {
+    background: #f9fafb;
+  }
+
+  .week-num {
+    text-align: center;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  .topic {
+    font-weight: 500;
+    color: #1f2937;
+  }
+
+  .details {
+    font-size: 0.9375rem;
+    color: #6b7280;
+  }
+
+  .exam-row {
+    background: #fef3c7;
+  }
+
+  .exam-row:hover {
+    background: #fde68a;
+  }
+
+  .exam-row .topic {
+    color: #92400e;
+    font-weight: 600;
+  }
+
+  /* Textbook */
+  .textbook-card {
+    padding: 2rem;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-left: 4px solid #f59e0b;
+    border-radius: 0.5rem;
+  }
+
+  .textbook-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }
+
+  .textbook-author {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+  }
+
+  .textbook-publisher {
+    font-size: 0.875rem;
+    color: #9ca3af;
+  }
+
+  .textbook-simple {
+    padding: 1.5rem;
+    background: #f9fafb;
+    border-left: 3px solid #2563eb;
+    border-radius: 0.25rem;
+  }
+
+  .textbook-simple p {
+    color: #4b5563;
+    margin: 0;
+  }
+
+  /* Footer Nav */
+  .footer-nav {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .course-page {
+      padding: 2rem 1rem;
+    }
+
+    .page-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .title-en {
+      font-size: 1.125rem;
+    }
+
+    .course-info-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .evaluation-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+      padding: 0.75rem 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .week-col {
+      width: 50px;
+    }
+  }
+</style>

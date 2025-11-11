@@ -1,0 +1,213 @@
+---
+import Badge from './Badge.astro';
+
+interface Props {
+  publication: {
+    id?: string;
+    title: string;
+    authors: string[];
+    journal?: string;
+    year: number;
+    volume?: string;
+    issue?: string;
+    pages?: string;
+    abstract?: string;
+    status?: string;
+    type?: string;
+    impact_factor?: number;
+    quartile?: string;
+    citations?: number;
+    doi?: string;
+    pdf?: string;
+  };
+  variant?: 'full' | 'compact' | 'list';
+  showAbstract?: boolean;
+  showBadges?: boolean;
+  showLinks?: boolean;
+}
+
+const {
+  publication: pub,
+  variant = 'full',
+  showAbstract = true,
+  showBadges = true,
+  showLinks = true
+} = Astro.props;
+---
+
+<article class={`publication-card publication-card--${variant}`}>
+  {variant === 'full' && pub.status && (
+    <div class="publication-status">
+      {pub.status === 'published' ? 'PUBLISHED' : pub.status.toUpperCase()} • {pub.year}
+    </div>
+  )}
+
+  <h3 class="publication-title">
+    {pub.id ? (
+      <a href={`/research/${pub.id}`}>{pub.title}</a>
+    ) : (
+      pub.title
+    )}
+  </h3>
+
+  <div class="publication-authors">
+    {pub.authors.join(', ')}
+  </div>
+
+  {pub.journal && (
+    <div class="publication-journal">
+      {pub.journal}
+      {pub.volume && `, Vol. ${pub.volume}`}
+      {pub.issue && `(${pub.issue})`}
+      {pub.pages && `, pp. ${pub.pages}`}
+      {variant === 'compact' && (
+        <>
+          {' • '}{pub.year}
+          {pub.impact_factor && ` • IF ${pub.impact_factor}`}
+        </>
+      )}
+    </div>
+  )}
+
+  {showAbstract && pub.abstract && variant !== 'compact' && (
+    <p class="publication-abstract">{pub.abstract}</p>
+  )}
+
+  {showBadges && (pub.type || pub.impact_factor || pub.quartile || pub.citations) && (
+    <div class="publication-badges">
+      {pub.type && (
+        <Badge variant={pub.type.toLowerCase()} text={pub.type.toUpperCase()} />
+      )}
+      {pub.impact_factor && (
+        <Badge variant="if" text={`IF ${pub.impact_factor}`} />
+      )}
+      {pub.quartile && (
+        <Badge variant="if" text={pub.quartile} />
+      )}
+      {pub.citations && pub.citations > 0 && (
+        <Badge variant="citations" text={`${pub.citations} citations`} />
+      )}
+    </div>
+  )}
+
+  {showLinks && (pub.doi || pub.pdf) && (
+    <div class="publication-links">
+      {pub.doi && (
+        <a href={`https://doi.org/${pub.doi}`} target="_blank" class="publication-link">
+          Publication ↗
+        </a>
+      )}
+      {pub.pdf && (
+        <a href={pub.pdf} target="_blank" class="publication-link">
+          PDF ↗
+        </a>
+      )}
+    </div>
+  )}
+</article>
+
+<style>
+  .publication-card {
+    padding: 2rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: white;
+    transition: all 0.2s;
+  }
+
+  .publication-card:hover {
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .publication-card--compact {
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+  }
+
+  .publication-card--list {
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .publication-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #2563eb;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .publication-title {
+    font-family: 'Paperozi', 'Inter', sans-serif;
+    font-size: 1.375rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .publication-card--compact .publication-title {
+    font-size: 1.125rem;
+  }
+
+  .publication-card--list .publication-title {
+    font-size: 1rem;
+  }
+
+  .publication-title a {
+    color: #1f2937;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .publication-title a:hover {
+    color: #2563eb;
+  }
+
+  .publication-authors {
+    font-size: 0.9375rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+  }
+
+  .publication-journal {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    margin-bottom: 1rem;
+  }
+
+  .publication-abstract {
+    font-size: 0.9375rem;
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .publication-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .publication-links {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f3f4f6;
+  }
+
+  .publication-link {
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .publication-link:hover {
+    color: #1e40af;
+  }
+</style>

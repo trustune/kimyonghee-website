@@ -1,0 +1,64 @@
+---
+interface Props {
+  repo?: string;
+  repoId?: string;
+  category?: string;
+  categoryId?: string;
+}
+
+const {
+  repo = "trustune/kimyonghee-website",
+  repoId = "R_kgDOQSpBlA",
+  category = "Announcements",
+  categoryId = "DIC_kwDOQSpBlM4CxoNB"
+} = Astro.props;
+---
+
+<div class="comments-section">
+  <h2 class="comments-title">Comments</h2>
+  <div class="giscus"></div>
+</div>
+
+<style>
+  .comments-section {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 2px solid #e5e7eb;
+  }
+
+  .comments-title {
+    font-family: 'Paperozi', 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: #1f2937;
+  }
+
+  :global(.dark) .comments-title {
+    color: #f3f4f6;
+  }
+</style>
+
+<script define:vars={{ repo, repoId, category, categoryId }}>
+  // Giscus configuration
+  const script = document.createElement('script');
+  script.src = 'https://giscus.app/client.js';
+  script.setAttribute('data-repo', repo);
+  script.setAttribute('data-repo-id', repoId);
+  script.setAttribute('data-category', category);
+  script.setAttribute('data-category-id', categoryId);
+  script.setAttribute('data-mapping', 'pathname');
+  script.setAttribute('data-strict', '0');
+  script.setAttribute('data-reactions-enabled', '1');
+  script.setAttribute('data-emit-metadata', '0');
+  script.setAttribute('data-input-position', 'bottom');
+  script.setAttribute('data-theme', 'preferred_color_scheme');
+  script.setAttribute('data-lang', 'en');
+  script.setAttribute('crossorigin', 'anonymous');
+  script.async = true;
+
+  const giscusContainer = document.querySelector('.giscus');
+  if (giscusContainer) {
+    giscusContainer.appendChild(script);
+  }
+</script>

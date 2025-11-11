@@ -1,0 +1,298 @@
+---
+// CV 페이지 - 인쇄 최적화
+import publicationsData from '../data/publications.json';
+import booksData from '../data/books.json';
+import mediaData from '../data/media.json';
+import awardsData from '../data/awards.json';
+
+const publications = publicationsData.publications || [];
+const books = booksData.books || [];
+const media = mediaData.media || [];
+const awards = awardsData.awards || [];
+
+const pageTitle = "Curriculum Vitae - Yonghee Kim";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{pageTitle}</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 2cm 2.5cm;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Times New Roman', serif;
+      font-size: 11pt;
+      line-height: 1.4;
+      color: #000;
+      max-width: 21cm;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      font-size: 24pt;
+      font-weight: bold;
+      margin-bottom: 8px;
+      text-align: center;
+      border-bottom: 2px solid #000;
+      padding-bottom: 10px;
+    }
+    
+    .contact {
+      text-align: center;
+      font-size: 10pt;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    
+    h2 {
+      font-size: 13pt;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .section {
+      margin-bottom: 18px;
+    }
+    
+    .item {
+      margin-bottom: 12px;
+      padding-left: 0;
+    }
+    
+    .item-title {
+      font-weight: bold;
+      font-size: 11pt;
+    }
+    
+    .item-meta {
+      font-style: italic;
+      color: #333;
+      font-size: 10pt;
+    }
+    
+    .item-detail {
+      margin-top: 2px;
+      font-size: 10pt;
+      color: #444;
+    }
+    
+    .year {
+      display: inline-block;
+      width: 60px;
+      font-weight: bold;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 9pt;
+      border-radius: 3px;
+      margin-left: 8px;
+      font-weight: bold;
+    }
+    
+    .badge-ssci { background: #dbeafe; color: #1e40af; }
+    .badge-scie { background: #fef3c7; color: #92400e; }
+    .badge-scopus { background: #ddd6fe; color: #5b21b6; }
+    
+    a {
+      color: #1e40af;
+      text-decoration: none;
+    }
+    
+    .no-print {
+      display: block;
+      text-align: center;
+      margin: 20px 0;
+      padding: 15px;
+      background: #f3f4f6;
+      border-radius: 8px;
+    }
+    
+    .btn-download {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #1e40af;
+      color: white;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 14px;
+    }
+    
+    .btn-download:hover {
+      background: #1e3a8a;
+    }
+    
+    @media print {
+      .no-print {
+        display: none;
+      }
+      
+      body {
+        padding: 0;
+      }
+      
+      a {
+        color: #000;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 다운로드 버튼 (인쇄시 숨김) -->
+  <div class="no-print">
+    <button class="btn-download" onclick="window.print()">
+      📄 Download PDF (Ctrl+P)
+    </button>
+  </div>
+
+  <!-- 헤더 -->
+  <h1>YONGHEE KIM, Ph.D.</h1>
+  <div class="contact">
+    Professor, Department of Business Administration, Sunmoon University<br>
+    Email: yhkim1981@sunmoon.ac.kr | Google Scholar: <a href="https://scholar.google.com/citations?user=semkeskAAAAJ">Profile</a><br>
+    Website: <a href="http://kimyonghee.com">kimyonghee.com</a>
+  </div>
+
+  <!-- Research Interests -->
+  <section class="section">
+    <h2>Research Interests</h2>
+    <p>Media Policy & Economics, Digital Platform Regulation, AI Governance, OTT Market Competition</p>
+  </section>
+
+  <!-- Education -->
+  <section class="section">
+    <h2>Education</h2>
+    <div class="item">
+      <span class="year">2013–2016</span>
+      <span class="item-title">Ph.D. in Business Administration (OMIS)</span><br>
+      <span class="item-detail">Soongsil University, Seoul, Korea</span><br>
+      <span class="item-detail" style="font-style: italic; margin-top: 4px;">Dissertation: "A Study on the Acceptance of IoT-based Smart Home Services: Focusing on Contingent Valuation Method and Value-based Acceptance Model"</span>
+    </div>
+    <div class="item">
+      <span class="year">2010–2012</span>
+      <span class="item-title">M.S. in Business Administration (OMIS)</span><br>
+      <span class="item-detail">Soongsil University, Seoul, Korea</span><br>
+      <span class="item-detail" style="font-style: italic; margin-top: 4px;">Thesis: "International Comparison of Productivity and Efficiency of Pay-TV Operators"</span>
+    </div>
+    <div class="item">
+      <span class="year">2000–2010</span>
+      <span class="item-title">B.A. in Economics</span><br>
+      <span class="item-detail">Soongsil University, Seoul, Korea</span>
+    </div>
+  </section>
+
+  <!-- Current Position -->
+  <section class="section">
+    <h2>Current Position</h2>
+    <div class="item">
+      <span class="year">2024–</span>
+      <span class="item-title">Professor</span><br>
+      <span class="item-detail">Department of Business Administration, Sunmoon University</span>
+    </div>
+  </section>
+
+  <!-- Publications -->
+  <section class="section">
+    <h2>Publications</h2>
+    {publications.map((pub) => (
+      <div class="item">
+        <span class="item-title">{pub.title}</span>
+        {pub.type === 'ssci' && <span class="badge badge-ssci">SSCI</span>}
+        {pub.type === 'scie' && <span class="badge badge-scie">SCIE</span>}
+        {pub.type === 'scopus' && <span class="badge badge-scopus">SCOPUS</span>}
+        <br>
+        <span class="item-meta">
+          {pub.journal}, {pub.year}
+          {pub.impact_factor && ` (IF: ${pub.impact_factor})`}
+        </span>
+        {pub.doi && (
+          <span class="item-detail"><br>DOI: {pub.doi}</span>
+        )}
+      </div>
+    ))}
+  </section>
+
+  <!-- Books -->
+  <section class="section">
+    <h2>Books & Book Chapters</h2>
+    {books.map((book) => (
+      <div class="item">
+        <span class="item-title">{book.title}</span><br>
+        <span class="item-meta">
+          {book.publisher}, {book.year}
+          {book.role && ` (${book.role})`}
+        </span>
+        {book.isbn && (
+          <span class="item-detail"><br>ISBN: {book.isbn}</span>
+        )}
+      </div>
+    ))}
+  </section>
+
+  <!-- Media Contributions -->
+  <section class="section">
+    <h2>Media Contributions & Opinion Pieces</h2>
+    {media.map((item) => (
+      <div class="item">
+        <span class="item-title">{item.title}</span><br>
+        <span class="item-meta">
+          {item.outlet}, {item.date}
+          {item.type && ` (${item.type})`}
+        </span>
+      </div>
+    ))}
+  </section>
+
+  <!-- Awards & Honors -->
+  <section class="section">
+    <h2>Awards & Honors</h2>
+    {awards.map((award) => (
+      <div class="item">
+        <span class="year">{award.year}</span>
+        <span class="item-title">{award.title}</span><br>
+        <span class="item-detail">{award.organization}</span>
+      </div>
+    ))}
+  </section>
+
+  <!-- Professional Service -->
+  <section class="section">
+    <h2>Professional Service</h2>
+    <div class="item">
+      <span class="item-title">CEO & Founder</span><br>
+      <span class="item-detail">OpenRoute Inc. (2019–Present)</span>
+    </div>
+    <div class="item">
+      <span class="item-title">Board Member</span><br>
+      <span class="item-detail">Korea Media Management Association</span>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="no-print" style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
+    <p>Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+    <p>This CV is automatically generated from <a href="http://kimyonghee.com">kimyonghee.com</a></p>
+  </div>
+</body>
+</html>
