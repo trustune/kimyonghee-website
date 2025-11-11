@@ -5,6 +5,7 @@ import StatItem from '../../components/StatItem.astro';
 import publicationsData from '../../data/publications.json';
 
 const publications = publicationsData.publications || [];
+const domesticPublications = publicationsData.domestic_publications || [];
 const scholarStats = publicationsData.scholarStats || {
   citations: 0,
   hIndex: 0,
@@ -24,6 +25,10 @@ const workingPapers = publications
 const publishedPapers = publications
   .filter(p => p.status === 'published')
   .sort((a, b) => b.year - a.year);
+
+// 한국어 논문 정렬 (인용수 높은 순)
+const domesticPapers = domesticPublications
+  .sort((a, b) => b.citations - a.citations);
 
 const pageTitle = "Research - Yonghee Kim";
 
@@ -310,6 +315,111 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
       height: 16px;
     }
 
+    /* Domestic Publications */
+    .domestic-pub-item {
+      padding: 1.5rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .domestic-pub-item:hover {
+      border-color: #2563eb;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .pub-header {
+      margin-bottom: 1rem;
+    }
+
+    .pub-title-ko {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .pub-title-en {
+      font-size: 1rem;
+      color: #6b7280;
+      font-style: italic;
+      margin: 0;
+    }
+
+    .pub-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: #4b5563;
+      margin-bottom: 1rem;
+    }
+
+    .pub-authors {
+      font-weight: 500;
+    }
+
+    .pub-separator {
+      color: #9ca3af;
+    }
+
+    .pub-journal-ko {
+      font-weight: 500;
+      color: #2563eb;
+    }
+
+    .pub-journal-en {
+      color: #6b7280;
+      font-size: 0.8125rem;
+    }
+
+    .pub-abstract {
+      background: #f9fafb;
+      padding: 1rem;
+      border-left: 3px solid #2563eb;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      color: #4b5563;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .pub-footer {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .pub-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pub-badge-kci {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .pub-citations {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .pub-citations svg {
+      flex-shrink: 0;
+    }
+
     /* Responsive */
     @media (max-width: 640px) {
       .page-title {
@@ -322,6 +432,14 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
 
       .orcid-id-value {
         font-size: 1rem;
+      }
+
+      .pub-title-ko {
+        font-size: 1.125rem;
+      }
+
+      .pub-meta {
+        font-size: 0.8125rem;
       }
     }
   </style>
@@ -558,20 +676,71 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
 
     <!-- Working Papers -->
     {workingPapers.length > 0 && (
+      <>
+        <section class="research-section">
+          <h2 class="section-title" data-lang="en">Working Papers</h2>
+          <h2 class="section-title" data-lang="ko">워킹 페이퍼</h2>
+          <p class="section-description" data-lang="en">Research papers under review or revision</p>
+          <p class="section-description" data-lang="ko">심사중이거나 수정중인 연구 논문</p>
+          <div class="publication-list">
+            {workingPapers.map((pub) => (
+              <PublicationCard
+                publication={pub}
+                variant="full"
+                showAbstract={true}
+                showBadges={true}
+                showLinks={false}
+              />
+            ))}
+          </div>
+        </section>
+        <hr class="section-divider" />
+      </>
+    )}
+
+    <!-- Domestic Publications (Korean) -->
+    {domesticPapers.length > 0 && (
       <section class="research-section">
-        <h2 class="section-title" data-lang="en">Working Papers</h2>
-        <h2 class="section-title" data-lang="ko">워킹 페이퍼</h2>
-        <p class="section-description" data-lang="en">Research papers under review or revision</p>
-        <p class="section-description" data-lang="ko">심사중이거나 수정중인 연구 논문</p>
+        <h2 class="section-title" data-lang="en">Domestic Publications (Korean)</h2>
+        <h2 class="section-title" data-lang="ko">국내 학술지 논문</h2>
+        <p class="section-description" data-lang="en">Publications in Korean academic journals (KCI)</p>
+        <p class="section-description" data-lang="ko">한국어 학술지 게재 논문 (KCI 등재)</p>
         <div class="publication-list">
-          {workingPapers.map((pub) => (
-            <PublicationCard
-              publication={pub}
-              variant="full"
-              showAbstract={true}
-              showBadges={true}
-              showLinks={false}
-            />
+          {domesticPapers.map((pub) => (
+            <div class="domestic-pub-item">
+              <div class="pub-header">
+                <h3 class="pub-title-ko">{pub.title}</h3>
+                {pub.title_en && <p class="pub-title-en">{pub.title_en}</p>}
+              </div>
+              <div class="pub-meta">
+                <span class="pub-authors">{pub.authors.join(', ')}</span>
+                <span class="pub-separator">•</span>
+                <span class="pub-journal-ko">{pub.journal}</span>
+                {pub.journal_en && <span class="pub-journal-en">({pub.journal_en})</span>}
+                <span class="pub-separator">•</span>
+                <span class="pub-year">{pub.year}</span>
+                {pub.volume && <span class="pub-volume"> {pub.volume}({pub.issue})</span>}
+                {pub.pages && <span class="pub-pages">, {pub.pages}</span>}
+              </div>
+              {pub.abstract && (
+                <div class="pub-abstract">{pub.abstract}</div>
+              )}
+              <div class="pub-footer">
+                <span class="pub-badge pub-badge-kci">KCI</span>
+                {pub.citations > 0 && (
+                  <span class="pub-citations">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <path d="M14 2v6h6"></path>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <line x1="10" y1="9" x2="8" y2="9"></line>
+                    </svg>
+                    {pub.citations} citations
+                  </span>
+                )}
+              </div>
+            </div>
           ))}
         </div>
       </section>

@@ -1,0 +1,452 @@
+{
+  "publications": [
+    {
+      "id": "kim2026-digital-divide",
+      "type": "working-paper",
+      "status": "working-paper",
+      "title": "Digital Inequality of Time: Analyzing Quality Gaps in Media Usage Across Income Strata",
+      "authors": [
+        "Kim, Y."
+      ],
+      "journal": "Working Paper",
+      "year": 2025,
+      "category": "Digital Inequality",
+      "abstract": "This paper examines the evolving nature of digital inequality, moving beyond device access to analyze qualitative differences in media usage time. Using Korea Media Panel data (2019-2024), we find that while first-generation digital divides have been resolved, stark differences persist in how different income groups allocate their media time between entertainment and productive activities.",
+      "pdf": "",
+      "citations": 0
+    },
+    {
+      "id": "kim2025-media-financing",
+      "type": "work-in-progress",
+      "status": "work-in-progress",
+      "title": "Restructuring Government Financing for a Sustainable Media Ecosystem",
+      "authors": [
+        "Kim, Y."
+      ],
+      "journal": "Work in Progress",
+      "year": 2025,
+      "category": "Media Policy",
+      "abstract": "This study analyzes the structural crisis in Korea's media industry financing, examining the 44-year freeze on public broadcasting license fees and the 43.5% collapse in broadcast advertising revenue. We propose a comprehensive policy roadmap including license fee normalization, advertising deregulation, and platform contribution adjustments.",
+      "pdf": "",
+      "citations": 0
+    },
+    {
+      "id": "kim2026-cordcutting",
+      "type": "ssci",
+      "status": "published",
+      "title": "Why subscribers cut the cord: A study of the migration from pay-TV to OTT services through the push-pull-mooring framework",
+      "authors": [
+        "Kim, D.",
+        "Kim, H.",
+        "Kim, Y."
+      ],
+      "journal": "Journal of Retailing and Consumer Services",
+      "year": 2026,
+      "volume": 88,
+      "pages": "104516",
+      "impact_factor": 13.1,
+      "quartile": "Q1",
+      "doi": "10.1016/j.jretconser.2025.104516",
+      "category": "OTT Services",
+      "abstract": "This study examines factors driving subscriber migration from traditional pay-TV to OTT services using the push-pull-mooring framework, analyzing switching behavior in the evolving media consumption landscape.",
+      "pdf": "",
+      "citations": 0
+    },
+    {
+      "id": "kim2025-platform",
+      "type": "ssci",
+      "status": "published",
+      "title": "Platform Power Under Asymmetric Market Evolution: Evidence from Korean Home Shopping",
+      "authors": [
+        "Kim, Y.",
+        "Yoo, S.",
+        "Park, C. I."
+      ],
+      "journal": "Sustainability",
+      "year": 2025,
+      "volume": 17,
+      "issue": 14,
+      "pages": "6248",
+      "impact_factor": 3.9,
+      "quartile": "Q2",
+      "doi": "10.3390/su17146248",
+      "category": "Media Economics",
+      "abstract": "We analyze platform power dynamics in Korea's home shopping industry, examining how market asymmetries shape competitive advantages and sustainability outcomes for television commerce platforms.",
+      "pdf": "",
+      "citations": 0
+    },
+    {
+      "id": "kim2024-efficiency",
+      "type": "ssci",
+      "status": "published",
+      "title": "The efficiency analysis of media companies: An application of DEA and Malmquist indices",
+      "authors": [
+        "Kim, Y.",
+        "Yoo, S."
+      ],
+      "journal": "Telecommunications Policy",
+      "year": 2024,
+      "volume": 48,
+      "issue": 4,
+      "pages": "102737",
+      "impact_factor": 5.6,
+      "quartile": "Q1",
+      "doi": "10.1016/j.telpol.2024.102737",
+      "category": "Efficiency Analysis",
+      "abstract": "This paper evaluates operational efficiency of media companies using Data Envelopment Analysis and Malmquist productivity indices, providing insights into performance trends and competitive positioning in the media industry.",
+      "pdf": "",
+      "citations": 5
+    },
+    {
+      "id": "kim2024-global",
+      "type": "ssci",
+      "title": "Global Financial Investment Connectedness, ICT, and Intellectual Property Strategies: A Country-Level Empirical Analysis",
+      "authors": [
+        "Kim, Y.",
+        "Yoo, S."
+      ],
+      "journal": "Sustainability",
+      "year": 2024,
+      "volume": 16,
+      "issue": 8,
+      "pages": "3282",
+      "impact_factor": 3.9,
+      "quartile": "Q2",
+      "doi": "10.3390/su16083282",
+      "category": "ICT Policy",
+      "citations": 1,
+      "abstract": "This study investigated the direct and indirect impacts of financial investment connectedness and Information and Communication Technology (ICT) on countries’ intellectual property (IP) strategies. By utilizing the panel logit model on longitudinal country-level data, we found that countries’ positions in the global financial investment network significantly affect their IP strategies.",
+      "status": "published"
+    },
+    {
+      "id": "kim2019-iot",
+      "type": "scie",
+      "title": "Interpretive Structural Modeling in the Adoption of IoT Services",
+      "authors": [
+        "Kim, Y.",
+        "Park, Y.",
+        "Song, G."
+      ],
+      "journal": "KSII Transactions on Internet and Information Systems",
+      "year": 2019,
+      "volume": 13,
+      "issue": 3,
+      "pages": "1184-1198",
+      "impact_factor": 1.5,
+      "quartile": "Q3",
+      "doi": "10.3837/tiis.2019.03.007",
+      "category": "IoT",
+      "citations": 7,
+      "abstract": "This study aims to use ISM to identify the enablers affecting the acceptance of IoT services. For this purpose, this study conducted an ISM analysis and a MICMAC analysis, extracted the enablers from Internet of Things-An Action Plan for Europe published by the EU for the research, and conducted interviews and surveys.",
+      "status": "published"
+    },
+    {
+      "id": "seo2018-efficiency",
+      "type": "ssci",
+      "title": "Assessment of efficiency in public service–focused on Government 3.0 case in Korea",
+      "authors": [
+        "Seo, I.",
+        "Kim, Y.",
+        "Choi, J."
+      ],
+      "journal": "Total Quality Management & Business Excellence",
+      "year": 2018,
+      "volume": 29,
+      "issue": "9-10",
+      "pages": "1161-1184",
+      "impact_factor": 3.9,
+      "quartile": "Q1",
+      "doi": "10.1080/14783363.2018.1487312",
+      "category": "Public Service",
+      "citations": 19,
+      "abstract": "This study aims to examine Gov. 3.0 (E-government) efficiency of 42 central administrative agencies in Republic of Korea and to identify the critical factors which can have an influence on the improvement of Gov.",
+      "status": "published"
+    },
+    {
+      "id": "choi2018-mobile",
+      "type": "scopus",
+      "title": "A Study on the Efficiency of Global Major Mobile Operators",
+      "authors": [
+        "Choi, J.",
+        "Park, Y.",
+        "Kim, Y."
+      ],
+      "journal": "International Conference on Software Engineering Research, Management and Applications",
+      "year": 2018,
+      "pages": "129-141",
+      "publisher": "Springer, Cham",
+      "doi": "10.1007/978-3-319-98881-8_9",
+      "category": "Mobile Operators",
+      "citations": 1,
+      "abstract": "This study analyzed the efficiency of global major mobile operators and the reason for their efficiency. For this purpose, the financial data of 96 operators in 40 OECD member countries were utilized.",
+      "status": "published"
+    },
+    {
+      "id": "kim2018-is",
+      "type": "ssci",
+      "title": "A study on the interrelations of decision-making factors of information system (IS) upgrades for sustainable business using interpretive structural modeling and MICMAC analysis",
+      "authors": [
+        "Kim, D.",
+        "Kim, Y.",
+        "Lee, N."
+      ],
+      "journal": "Sustainability",
+      "year": 2018,
+      "volume": 10,
+      "issue": 3,
+      "pages": "872",
+      "impact_factor": 3.9,
+      "quartile": "Q2",
+      "doi": "10.3390/su10030872",
+      "category": "Information Systems",
+      "citations": 18,
+      "abstract": "An information system (IS) upgrade is an essential way to enhance the competitiveness of an organization. Specifically, the decision making processes surrounding IS upgrades is one of the most important parts of an organization’s competitiveness in regard to business sustainability.",
+      "status": "published"
+    },
+    {
+      "id": "kim2017-vr",
+      "type": "scopus",
+      "title": "Estimation of Willingness to Pay for Virtual Reality Theme Park through Contingent Valuation Method",
+      "authors": [
+        "Kim, Y.",
+        "Kim, H.",
+        "Kim, Y.",
+        "Choi, J."
+      ],
+      "journal": "Information",
+      "year": 2017,
+      "volume": 20,
+      "issue": "10B",
+      "pages": "7627-7634",
+      "publisher": "International Information Institute",
+      "category": "VR/AR",
+      "citations": 1,
+      "abstract": "With the advancement of information and communications technologies, market related to Virtual Reality (VR) using mobile-based devices has been rapidly expanded. Global companies such as Google, Facebook, SONY and Samsung Electronics have competed for the preoccupancy in the virtual reality market by introducing products and services in the area of game, education, and tourism.",
+      "status": "published"
+    },
+    {
+      "id": "kim2017-smarthome",
+      "type": "ssci",
+      "title": "A study on the adoption of IoT smart home service: using Value-based Adoption Model",
+      "authors": [
+        "Kim, Y.",
+        "Park, Y.",
+        "Choi, J."
+      ],
+      "journal": "Total Quality Management & Business Excellence",
+      "year": 2017,
+      "volume": 28,
+      "issue": "9-10",
+      "pages": "1149-1165",
+      "impact_factor": 3.9,
+      "quartile": "Q1",
+      "doi": "10.1080/14783363.2017.1310708",
+      "category": "IoT",
+      "citations": 481,
+      "abstract": "This study aims to comprehensively examine the adoption of smart home service. A new model combining VAM (Value-based Adoption Model) and TAM (Technical Acceptance Model) was developed and analysed with a set of variables from Unified Theory of Acceptance and Use of Technology and Elaboration Likelihood Model.",
+      "status": "published"
+    },
+    {
+      "id": "kim2016-fintech",
+      "type": "scopus",
+      "status": "published",
+      "title": "The adoption of mobile payment services for Fintech",
+      "authors": [
+        "Kim, Y.",
+        "Choi, J.",
+        "Park, Y. J.",
+        "Yeon, J."
+      ],
+      "journal": "International Journal of Applied Engineering Research",
+      "year": 2016,
+      "volume": 11,
+      "issue": 2,
+      "pages": "1058-1061",
+      "category": "Fintech",
+      "abstract": "This study examines factors affecting adoption of mobile payment services in the Fintech industry, analyzing user acceptance patterns and behavioral intentions toward mobile financial technology services.",
+      "pdf": "",
+      "citations": 404
+    },
+    {
+      "id": "kim2015-portal",
+      "type": "scopus",
+      "status": "published",
+      "title": "International Comparison on Efficiency of Portal Service Providers Using Stochastic Frontier Analysis",
+      "authors": [
+        "Kim, Y.",
+        "Kim, J.",
+        "Choi, J.",
+        "Kim, Y. S."
+      ],
+      "journal": "International Journal of u-and e-Service, Science and Technology",
+      "year": 2015,
+      "volume": 8,
+      "issue": 12,
+      "pages": "183-186",
+      "category": "Portal Services",
+      "abstract": "This paper identifies industrial characteristics of portal sites using stochastic frontier analysis and tobit regression, proposing that market share and appropriate fixed assets have positive impacts on portal site efficiency.",
+      "pdf": "",
+      "citations": 0
+    },
+    {
+      "id": "kim2015-tv",
+      "type": "scopus",
+      "title": "An international comparison on operational efficiency of terrestrial TV operators using bootstrapped DEA and tobit regression",
+      "authors": [
+        "Kim, Y.",
+        "Choi, J.",
+        "Kim, Y. S."
+      ],
+      "journal": "Information",
+      "year": 2015,
+      "volume": 18,
+      "issue": "6B",
+      "pages": "2667",
+      "publisher": "International Information Institute",
+      "category": "Broadcasting",
+      "citations": 3,
+      "abstract": "Terrestrial TV service operators have begun to represent an increasing share of content production in the media industry. However, despite its importance, there are relatively few studies about the efficiency of terrestrial TV operators.",
+      "status": "published"
+    }
+  ],
+  "scholarStats": {
+    "citations": 1181,
+    "hIndex": 7,
+    "i10Index": 6
+  },
+  "citationGraph": [
+    {
+      "year": 2014,
+      "citations": 6
+    },
+    {
+      "year": 2015,
+      "citations": 5
+    },
+    {
+      "year": 2016,
+      "citations": 17
+    },
+    {
+      "year": 2017,
+      "citations": 28
+    },
+    {
+      "year": 2018,
+      "citations": 42
+    },
+    {
+      "year": 2019,
+      "citations": 108
+    },
+    {
+      "year": 2020,
+      "citations": 161
+    },
+    {
+      "year": 2021,
+      "citations": 173
+    },
+    {
+      "year": 2022,
+      "citations": 167
+    },
+    {
+      "year": 2023,
+      "citations": 181
+    },
+    {
+      "year": 2024,
+      "citations": 151
+    },
+    {
+      "year": 2025,
+      "citations": 129
+    }
+  ],
+  "domestic_publications": [
+    {
+      "id": "kim2019-iot-korean",
+      "type": "kci",
+      "status": "published",
+      "title": "IoT 서비스의 성공적 수용에 관한 연구: iBeacon과 Nearby를 중심으로",
+      "title_en": "A Study on the Successful Adoption of IoT Services: Focusing on iBeacon and Nearby",
+      "authors": [
+        "Kim, Y.",
+        "Park, Y.",
+        "Choi, J."
+      ],
+      "journal": "한국IT서비스학회지",
+      "journal_en": "Journal of Information Technology Services",
+      "year": 2019,
+      "volume": 18,
+      "issue": 1,
+      "pages": "89-102",
+      "category": "IoT",
+      "citations": 12,
+      "abstract": "본 연구는 IoT 서비스의 성공적 수용 요인을 iBeacon과 Nearby 기술을 중심으로 분석하였습니다."
+    },
+    {
+      "id": "kim2015-sng-korean",
+      "type": "kci",
+      "status": "published",
+      "title": "Social Network Game 이용자의 전환의도에 관한 연구: 카카오톡 플랫폼 기반 게임을 중심으로",
+      "title_en": "A Study on Switching Intentions of Social Network Game Users: Focusing on KakaoTalk Platform-Based Games",
+      "authors": [
+        "Kim, Y.",
+        "Choi, J."
+      ],
+      "journal": "한국게임학회 논문지",
+      "journal_en": "Journal of Korea Game Society",
+      "year": 2015,
+      "volume": 15,
+      "issue": 6,
+      "pages": "103-114",
+      "category": "Game",
+      "citations": 7,
+      "abstract": "본 연구는 소셜 네트워크 게임 이용자의 전환의도에 영향을 미치는 요인을 분석하였습니다."
+    },
+    {
+      "id": "kim2015-app-korean",
+      "type": "kci",
+      "status": "published",
+      "title": "스마트폰 어플리케이션 서비스의 불만족이 고객 행동에 미치는 영향에 관한 연구",
+      "title_en": "A Study on the Impact of Smartphone Application Service Dissatisfaction on Customer Behavior",
+      "authors": [
+        "Kim, Y.",
+        "Park, Y.",
+        "Choi, J."
+      ],
+      "journal": "한국IT서비스학회지",
+      "journal_en": "Journal of Information Technology Services",
+      "year": 2015,
+      "volume": 14,
+      "issue": 4,
+      "pages": "205-222",
+      "category": "Mobile Services",
+      "citations": 6,
+      "abstract": "본 연구는 스마트폰 어플리케이션 서비스의 불만족 요인이 고객 행동에 미치는 영향을 실증 분석하였습니다."
+    },
+    {
+      "id": "kim2014-univ-korean",
+      "type": "kci",
+      "status": "published",
+      "title": "한국 대학의 운영 효율성 평가에 관한 연구: Bootstrap DEA와 Tobit Regression을 중심으로",
+      "title_en": "A Study on the Evaluation of Operational Efficiency of Korean Universities: Using Bootstrap DEA and Tobit Regression",
+      "authors": [
+        "Kim, Y.",
+        "Choi, J.",
+        "Kim, Y. S."
+      ],
+      "journal": "한국경영과학회지",
+      "journal_en": "Journal of the Korean Operations Research and Management Science Society",
+      "year": 2014,
+      "volume": 39,
+      "issue": 4,
+      "pages": "19-33",
+      "category": "Efficiency Analysis",
+      "citations": 5,
+      "abstract": "본 연구는 Bootstrap DEA와 Tobit Regression을 활용하여 한국 대학의 운영 효율성을 평가하였습니다."
+    }
+  ]
+}
