@@ -1,0 +1,317 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import projectsData from '../../data/projects.json';
+
+const projects = projectsData.projects || [];
+const featuredProjects = projects.filter(p => p.featured);
+const allProjects = projects.sort((a, b) => new Date(b.date) - new Date(a.date));
+---
+
+<BaseLayout title="Projects - Yonghee Kim" description="Research projects and data analysis work">
+  <div class="projects-container">
+    <header class="page-header">
+      <h1 class="page-title" data-lang="en">Research Projects</h1>
+      <h1 class="page-title" data-lang="ko">연구 프로젝트</h1>
+      <p class="page-description" data-lang="en">
+        Data-driven research projects and policy analysis work
+      </p>
+      <p class="page-description" data-lang="ko">
+        데이터 기반 연구 프로젝트 및 정책 분석 작업
+      </p>
+    </header>
+
+    {featuredProjects.length > 0 && (
+      <section class="featured-section">
+        <h2 class="section-title" data-lang="en">Featured Project</h2>
+        <h2 class="section-title" data-lang="ko">주요 프로젝트</h2>
+        {featuredProjects.map((project) => (
+          <a href={`/projects/${project.id}`} class="featured-card">
+            <div class="featured-badge">FEATURED</div>
+            <h3 class="project-title-ko">{project.title}</h3>
+            <p class="project-title-en">{project.title_en}</p>
+            <p class="project-summary">{project.summary}</p>
+            <div class="project-meta">
+              <span class="project-category">{project.category}</span>
+              <span class="project-date">{new Date(project.date).toLocaleDateString('ko-KR')}</span>
+              {project.conference && (
+                <span class="project-conference">{project.conference}</span>
+              )}
+            </div>
+            <div class="key-findings">
+              <strong data-lang="en">Key Findings:</strong>
+              <strong data-lang="ko">주요 발견:</strong>
+              <ul>
+                {project.key_findings.slice(0, 3).map((finding) => (
+                  <li>{finding}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="view-project">
+              <span data-lang="en">View Project →</span>
+              <span data-lang="ko">프로젝트 보기 →</span>
+            </div>
+          </a>
+        ))}
+      </section>
+    )}
+
+    <section class="projects-section">
+      <h2 class="section-title" data-lang="en">All Projects</h2>
+      <h2 class="section-title" data-lang="ko">전체 프로젝트</h2>
+      <div class="projects-grid">
+        {allProjects.map((project) => (
+          <a href={`/projects/${project.id}`} class="project-card">
+            <div class="project-header">
+              <h3 class="project-title-ko">{project.title}</h3>
+              <p class="project-title-en">{project.title_en}</p>
+            </div>
+            <p class="project-description">{project.description}</p>
+            <div class="project-tags">
+              {project.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+            <div class="project-footer">
+              <span class="project-date">{new Date(project.date).toLocaleDateString('ko-KR')}</span>
+              <span class="view-link">
+                <span data-lang="en">View →</span>
+                <span data-lang="ko">보기 →</span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .projects-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+
+  .page-header {
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .page-title {
+    font-size: 3rem;
+    color: #1e40af;
+    margin-bottom: 1rem;
+  }
+
+  .page-description {
+    font-size: 1.125rem;
+    color: #6b7280;
+  }
+
+  .section-title {
+    font-size: 1.875rem;
+    color: #1f2937;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  /* Featured Card */
+  .featured-section {
+    margin-bottom: 4rem;
+  }
+
+  .featured-card {
+    display: block;
+    position: relative;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 2px solid #2563eb;
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .featured-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.2);
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    background: #2563eb;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+  }
+
+  .project-title-ko {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-title-en {
+    font-size: 1.125rem;
+    color: #6b7280;
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .project-summary {
+    font-size: 1.125rem;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .project-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-category,
+  .project-date,
+  .project-conference {
+    padding: 0.25rem 0.75rem;
+    background: white;
+    color: #1e40af;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 0.25rem;
+  }
+
+  .key-findings {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .key-findings strong {
+    display: block;
+    color: #1e40af;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .key-findings ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .key-findings li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #4b5563;
+    line-height: 1.5;
+  }
+
+  .key-findings li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: #2563eb;
+    font-weight: 700;
+  }
+
+  .view-project {
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+
+  /* Projects Grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .project-card {
+    display: block;
+    padding: 2rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .project-card:hover {
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .project-header {
+    margin-bottom: 1rem;
+  }
+
+  .project-card .project-title-ko {
+    font-size: 1.25rem;
+  }
+
+  .project-card .project-title-en {
+    font-size: 0.875rem;
+  }
+
+  .project-description {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.75rem;
+    background: #f3f4f6;
+    color: #4b5563;
+    font-size: 0.75rem;
+    border-radius: 0.25rem;
+  }
+
+  .project-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .project-date {
+    font-size: 0.875rem;
+    color: #9ca3af;
+  }
+
+  .view-link {
+    color: #2563eb;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

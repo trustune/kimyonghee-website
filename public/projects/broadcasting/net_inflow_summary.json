@@ -1,0 +1,92 @@
+[
+  {
+    "year": 2015,
+    "broadcasting_ad": 35035.0,
+    "subscription_fee": 27544.0,
+    "homeshop_fee": 0.0,
+    "kbs_fee": 6500,
+    "broadcast_fund": 1500,
+    "total": 70579.0
+  },
+  {
+    "year": 2016,
+    "broadcasting_ad": 32132.0,
+    "subscription_fee": 28969.0,
+    "homeshop_fee": 0.0,
+    "kbs_fee": 6500,
+    "broadcast_fund": 1477,
+    "total": 69078.0
+  },
+  {
+    "year": 2017,
+    "broadcasting_ad": 31401.0,
+    "subscription_fee": 31269.0,
+    "homeshop_fee": 24448.0,
+    "kbs_fee": 6500,
+    "broadcast_fund": 1551,
+    "total": 95169.0
+  },
+  {
+    "year": 2018,
+    "broadcasting_ad": 30169.0,
+    "subscription_fee": 33436.0,
+    "homeshop_fee": 22360.0,
+    "kbs_fee": 6500,
+    "broadcast_fund": 1631,
+    "total": 94096.0
+  },
+  {
+    "year": 2019,
+    "broadcasting_ad": 29784.0,
+    "subscription_fee": 34960.0,
+    "homeshop_fee": 21994.0,
+    "kbs_fee": 6500,
+    "broadcast_fund": 1632,
+    "total": 94870.0
+  },
+  {
+    "year": 2020,
+    "broadcasting_ad": 26929.0,
+    "subscription_fee": 36114.0,
+    "homeshop_fee": 22828.0,
+    "kbs_fee": 6500,
+    "broadcast_fund": 1617,
+    "total": 93988.0
+  },
+  {
+    "year": 2021,
+    "broadcasting_ad": 31023.0,
+    "subscription_fee": 36540.0,
+    "homeshop_fee": 21952.0,
+    "kbs_fee": 6500,
+    "broadcast_fund": 1544,
+    "total": 97559.0
+  },
+  {
+    "year": 2022,
+    "broadcasting_ad": 30754.0,
+    "subscription_fee": 37053.0,
+    "homeshop_fee": 20539.0,
+    "kbs_fee": 6500,
+    "broadcast_fund": 1597,
+    "total": 96443.0
+  },
+  {
+    "year": 2023,
+    "broadcasting_ad": 24900.0,
+    "subscription_fee": 37330.0,
+    "homeshop_fee": 20249.0,
+    "kbs_fee": 6500,
+    "broadcast_fund": 1550,
+    "total": 90529.0
+  },
+  {
+    "year": 2024,
+    "broadcasting_ad": 22942.0,
+    "subscription_fee": 37595.0,
+    "homeshop_fee": 20249.0,
+    "kbs_fee": 6500,
+    "broadcast_fund": 1576,
+    "total": 88862.0
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "projects": [
+    {
+      "id": "broadcasting-revenue-2015-2024",
+      "title": "방송산업 순유입재원 구조 분석 (2015-2024)",
+      "title_en": "Broadcasting Industry Net Inflow Revenue Structure Analysis (2015-2024)",
+      "date": "2024-11-02",
+      "category": "Broadcasting Policy",
+      "tags": ["Broadcasting", "Media Economics", "Data Analysis", "Policy Research"],
+      "conference": "한국방송학회",
+      "conference_en": "Korean Broadcasting Association",
+      "description": "방송산업의 10년간(2015-2024) 순유입재원 구조 변화를 분석하여 광고 중심에서 수신료 중심으로의 전환, IPTV 급성장과 SO 붕괴, 홈쇼핑의 부상 등 핵심 트렌드를 발견했습니다.",
+      "description_en": "Analysis of 10-year (2015-2024) structural changes in broadcasting industry revenue, discovering key trends including transition from ad-centric to subscription-centric model, IPTV surge, SO collapse, and home shopping emergence.",
+      "summary": "방송산업 재원구조의 근본적 변화: 광고 의존도 49.64%→25.82%, 유료방송수신료 39.03%→42.31%, 홈쇼핑 신규 진입 22.79%",
+      "key_findings": [
+        "광고 중심 → 수신료 중심 전환 (광고 비중 49.64% → 25.82%)",
+        "IPTV 급성장 +99.1% vs SO 붕괴 -39.1%",
+        "홈쇼핑 부상: 0원 → 20,249억원 (3위 재원)",
+        "총 순유입재원 25.9% 증가 (70,579억 → 88,862억)"
+      ],
+      "data_period": "2015-2024",
+      "verification_accuracy": "99.50%",
+      "technologies": ["Python", "SQLite", "Pandas", "Data Analysis"],
+      "featured": true
+    }
+  ]
+}
