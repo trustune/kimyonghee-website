@@ -7,66 +7,98 @@ const { chartId, title, labels, datasets, yAxisLabel, yAxisCallback } = Astro.pr
 </div>
 
 <script define:vars={{ chartId, title, labels, datasets, yAxisLabel, yAxisCallback }}>
-  window.addEventListener('load', async () => {
-    // Dynamically import Chart.js
-    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/+esm');
-    Chart.register(...registerables);
+  (function() {
+    const initChart = async () => {
+      try {
+        // Dynamically import Chart.js
+        const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/+esm');
+        Chart.register(...registerables);
 
-    const canvas = document.getElementById(chartId);
-    if (canvas) {
-      const config = {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: datasets
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            title: {
-              display: true,
-              text: title,
-              font: { size: 18, weight: 'bold', family: "'Inter', sans-serif" }
-            },
-            legend: {
-              position: 'bottom',
-              labels: {
-                font: { size: 14, family: "'Inter', sans-serif" },
-                padding: 15
-              }
-            }
+        const canvas = document.getElementById(chartId);
+
+        // Validate canvas element
+        if (!canvas) {
+          console.error(`Canvas element with id "${chartId}" not found`);
+          return;
+        }
+
+        // Check if canvas is visible and has dimensions
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) {
+          console.warn(`Canvas "${chartId}" has zero dimensions, retrying...`);
+          setTimeout(initChart, 100);
+          return;
+        }
+
+        // Destroy existing chart if it exists
+        if (canvas._chartInstance) {
+          canvas._chartInstance.destroy();
+        }
+
+        const config = {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: datasets
           },
-          scales: {
-            y: {
-              beginAtZero: true,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
               title: {
                 display: true,
-                text: yAxisLabel,
-                font: { size: 14, family: "'Inter', sans-serif" }
+                text: title,
+                font: { size: 18, weight: 'bold', family: "'Inter', sans-serif" }
               },
-              ticks: {
-                font: { size: 12 }
+              legend: {
+                position: 'bottom',
+                labels: {
+                  font: { size: 14, family: "'Inter', sans-serif" },
+                  padding: 15
+                }
               }
             },
-            x: {
-              ticks: {
-                font: { size: 12 }
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: yAxisLabel,
+                  font: { size: 14, family: "'Inter', sans-serif" }
+                },
+                ticks: {
+                  font: { size: 12 }
+                }
+              },
+              x: {
+                ticks: {
+                  font: { size: 12 }
+                }
               }
             }
           }
-        }
-      };
-
-      if (yAxisCallback) {
-        config.options.scales.y.ticks.callback = function(value) {
-          return value + 'T';
         };
-      }
 
-      new Chart(canvas, config);
+        if (yAxisCallback) {
+          config.options.scales.y.ticks.callback = function(value) {
+            return value + 'T';
+          };
+        }
+
+        const chart = new Chart(canvas, config);
+        canvas._chartInstance = chart;
+      } catch (error) {
+        console.error(`Failed to initialize chart "${chartId}":`, error);
+      }
+    };
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initChart);
+    } else {
+      initChart();
     }
-  });
+  })();
 </script>
 
 <style>
