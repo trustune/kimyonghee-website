@@ -1447,15 +1447,12 @@ First recorded at 2.44 trillion won in 2017, home shopping transmission fees rea
 
 ## Project Information
 
-**Research Period:** August 2024 - November 2025  
-**Data Period:** 2015 - 2024 (10 years)  
-**Last Updated:** November 12, 2025  
-**Version:** v7.0 FINAL  
-**Verification Accuracy:** 99.50%
-
-**Database Scale:** 3,126 records  
-**Analysis Platform:** Python, SQLite, Excel  
+**Research Period:** August 2024 - November 2025
+**Last Updated:** November 12, 2025
+**Version:** v7.0 FINAL
 **Presentation:** Korean Broadcasting Association 2025 Fall Conference
+
+*For detailed methodology, data sources, and technical specifications, see Research Methodology section above.*
 
 <hr class="section-divider">
 
