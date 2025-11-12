@@ -1,40 +1,65 @@
 ---
-const { chartId, data, options, title } = Astro.props;
+const { chartId, title, labels, datasets, yAxisLabel, yAxisCallback } = Astro.props;
 ---
 
-<div id={chartId} class="chart-container"></div>
+<div class="chart-wrapper">
+  <div id={chartId} class="chart-canvas"></div>
+</div>
 
-<script define:vars={{ chartId, data, options, title }}>
-  // Wait for Chart.js to load
-  window.addEventListener('load', () => {
-    import('chart.js/auto').then((module) => {
-      const Chart = module.default;
-      const ctx = document.getElementById(chartId);
-      if (ctx) {
-        new Chart(ctx, {
-          type: 'line',
-          data: data,
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
+<script define:vars={{ chartId, title, labels, datasets, yAxisLabel, yAxisCallback }}>
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Dynamically import Chart.js
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/+esm');
+    Chart.register(...registerables);
+    
+    const ctx = document.getElementById(chartId);
+    if (ctx) {
+      const config = {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: title,
+              font: { size: 16, weight: 'bold' }
+            },
+            legend: {
+              position: 'bottom'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
               title: {
                 display: true,
-                text: title,
-                font: { size: 16, weight: 'bold' }
-              },
-              legend: { position: 'bottom' }
-            },
-            ...options
+                text: yAxisLabel
+              }
+            }
           }
-        });
+        }
+      };
+      
+      if (yAxisCallback) {
+        config.options.scales.y.ticks = {
+          callback: function(value) {
+            return value + 'T';
+          }
+        };
       }
-    });
+      
+      new Chart(ctx, config);
+    }
   });
 </script>
 
 <style>
-  .chart-container {
+  .chart-wrapper {
     width: 100%;
     height: 400px;
     margin: 2rem 0;
@@ -42,5 +67,10 @@ const { chartId, data, options, title } = Astro.props;
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .chart-canvas {
+    width: 100%;
+    height: 100%;
   }
 </style>
