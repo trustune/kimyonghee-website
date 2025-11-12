@@ -26,17 +26,13 @@ const { data } = project;
         <time class="project-date">{new Date(data.date).toLocaleDateString('ko-KR')}</time>
       </div>
       
-      <h1 class="project-title-ko">{data.title}</h1>
-      <p class="project-title-en">{data.title_en}</p>
+      <h1 class="project-title">{data.title_en}</h1>
       
-      {data.subtitle && (
-        <div class="project-subtitle">
-          <p class="subtitle-ko">{data.subtitle}</p>
-          <p class="subtitle-en">{data.subtitle_en}</p>
-        </div>
+      {data.subtitle_en && (
+        <p class="project-subtitle">{data.subtitle_en}</p>
       )}
 
-      {data.conference && (
+      {data.conference_en && (
         <div class="conference-info">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -44,10 +40,7 @@ const { data } = project;
             <line x1="8" y1="2" x2="8" y2="6"></line>
             <line x1="3" y1="10" x2="21" y2="10"></line>
           </svg>
-          <div>
-            <span class="conference-ko">{data.conference}</span>
-            <span class="conference-en">{data.conference_en}</span>
-          </div>
+          <span>{data.conference_en}</span>
         </div>
       )}
 
@@ -109,40 +102,19 @@ const { data } = project;
     color: #6b7280;
   }
 
-  .project-title-ko {
+  .project-title {
     font-size: 2.5rem;
     font-weight: 700;
     color: #1e40af;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     line-height: 1.2;
   }
 
-  .project-title-en {
-    font-size: 1.5rem;
-    color: #6b7280;
-    font-style: italic;
-    margin-bottom: 1.5rem;
-  }
-
   .project-subtitle {
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background: #f9fafb;
-    border-left: 4px solid #2563eb;
-    border-radius: 0.25rem;
-  }
-
-  .subtitle-ko {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 0.5rem;
-  }
-
-  .subtitle-en {
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: #6b7280;
-    font-style: italic;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
   }
 
   .conference-info {
@@ -161,17 +133,9 @@ const { data } = project;
     color: #f59e0b;
   }
 
-  .conference-ko {
-    display: block;
+  .conference-info span {
     font-weight: 600;
     color: #92400e;
-  }
-
-  .conference-en {
-    display: block;
-    font-size: 0.875rem;
-    color: #78350f;
-    font-style: italic;
   }
 
   .project-tags {
@@ -307,12 +271,12 @@ const { data } = project;
   }
 
   @media (max-width: 768px) {
-    .project-title-ko {
+    .project-title {
       font-size: 2rem;
     }
 
-    .project-title-en {
-      font-size: 1.25rem;
+    .project-subtitle {
+      font-size: 1.125rem;
     }
 
     .project-content {
