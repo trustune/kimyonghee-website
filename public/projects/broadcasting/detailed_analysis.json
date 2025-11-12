@@ -1,0 +1,49 @@
+{
+  "nominal_vs_real": {
+    "total_revenue_2015": 150365,
+    "total_revenue_2024": 178749,
+    "total_growth": 18.9,
+    "net_inflow_2015": 69388,
+    "net_inflow_2024": 69441,
+    "net_growth": 0.1,
+    "internal_trade_2015": 80977,
+    "internal_trade_2024": 109308,
+    "internal_growth": 35.0,
+    "net_inflow_ratio_2015": 46.1,
+    "net_inflow_ratio_2024": 38.8
+  },
+  "advertising_collapse": {
+    "broadcast_ad_2015": 34794,
+    "broadcast_ad_2024": 19644,
+    "broadcast_decline": -43.5,
+    "digital_ad_2015": 27000,
+    "digital_ad_2024": 101358,
+    "digital_growth": 275.4,
+    "annual_decline": 1449,
+    "prediction_2030": 11398
+  },
+  "kbs_license": {
+    "frozen_years": 44,
+    "fee_1981": 2500,
+    "fee_2024": 2500,
+    "real_value_decline": 82,
+    "annual_loss": 3400,
+    "accumulated_loss": 150000
+  },
+  "broadcast_fund": {
+    "total": 13466,
+    "telecom": 8500,
+    "telecom_ratio": 63.1,
+    "broadcast": 1200,
+    "broadcast_ratio": 8.9,
+    "platform_burden": 1077,
+    "platform_revenue": 72361,
+    "burden_rate": 1.49
+  },
+  "policy_cost": {
+    "kbs_freeze_loss": 150000,
+    "ad_regulation_delay": 50000,
+    "total_loss": 200000,
+    "golden_time": 2026
+  }
+}

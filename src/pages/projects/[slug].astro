@@ -14,6 +14,7 @@ const { project } = Astro.props;
 
 // Load data for broadcasting project
 let chartData = null;
+let detailedData = null;
 if (project.id === 'broadcasting-revenue-2015-2024') {
   try {
     const fs = await import('fs/promises');
@@ -21,6 +22,10 @@ if (project.id === 'broadcasting-revenue-2015-2024') {
     const dataPath = path.join(process.cwd(), 'public', 'projects', 'broadcasting', 'net_inflow_summary.json');
     const data = await fs.readFile(dataPath, 'utf-8');
     chartData = JSON.parse(data);
+
+    const detailedPath = path.join(process.cwd(), 'public', 'projects', 'broadcasting', 'detailed_analysis.json');
+    const detailedStr = await fs.readFile(detailedPath, 'utf-8');
+    detailedData = JSON.parse(detailedStr);
   } catch (error) {
     console.error('Failed to load chart data:', error);
   }
@@ -87,6 +92,171 @@ if (project.id === 'broadcasting-revenue-2015-2024') {
         </section>
       )}
 
+      {detailedData && (
+        <>
+          <section class="section analysis-section">
+            <h2 data-lang="en">I. Structural Analysis: The Illusion of Nominal Growth</h2>
+            <h2 data-lang="ko">I. 구조 분석: 명목 성장의 허상</h2>
+
+            <div class="analysis-card warning">
+              <h3>명목 성장 vs 실질 성장</h3>
+              <div class="comparison-grid">
+                <div class="comparison-item">
+                  <div class="label">전체 재원 (2015→2024)</div>
+                  <div class="value positive">+{detailedData.nominal_vs_real.total_growth}%</div>
+                  <div class="amount">{detailedData.nominal_vs_real.total_revenue_2015.toLocaleString()}억 → {detailedData.nominal_vs_real.total_revenue_2024.toLocaleString()}억</div>
+                </div>
+                <div class="comparison-item">
+                  <div class="label">순유입재원 (2015→2024)</div>
+                  <div class="value neutral">+{detailedData.nominal_vs_real.net_growth}%</div>
+                  <div class="amount">{detailedData.nominal_vs_real.net_inflow_2015.toLocaleString()}억 → {detailedData.nominal_vs_real.net_inflow_2024.toLocaleString()}억</div>
+                </div>
+                <div class="comparison-item">
+                  <div class="label">내부거래 (2015→2024)</div>
+                  <div class="value warning">+{detailedData.nominal_vs_real.internal_growth}%</div>
+                  <div class="amount">{detailedData.nominal_vs_real.internal_trade_2015.toLocaleString()}억 → {detailedData.nominal_vs_real.internal_trade_2024.toLocaleString()}억</div>
+                </div>
+              </div>
+              <div class="insight">
+                <strong>핵심 인사이트:</strong> 전체 재원은 18.9% 증가했으나, 실제 외부유입(순유입)은 0.1% 정체.
+                내부거래가 35.0% 급증하며 명목 성장을 만들어냈습니다.
+                순유입 비중은 {detailedData.nominal_vs_real.net_inflow_ratio_2015}% → {detailedData.nominal_vs_real.net_inflow_ratio_2024}%로 7.3%p 하락했습니다.
+              </div>
+            </div>
+          </section>
+
+          <section class="section analysis-section">
+            <h2 data-lang="en">II. Crisis Diagnosis: Advertising Collapse</h2>
+            <h2 data-lang="ko">II. 위기 진단: 광고 붕괴</h2>
+
+            <div class="crisis-grid">
+              <div class="crisis-card negative">
+                <div class="crisis-icon">📉</div>
+                <h3>방송광고 붕괴</h3>
+                <div class="crisis-stat">{detailedData.advertising_collapse.broadcast_decline}%</div>
+                <div class="crisis-detail">
+                  {detailedData.advertising_collapse.broadcast_ad_2015.toLocaleString()}억 (2015) →
+                  {detailedData.advertising_collapse.broadcast_ad_2024.toLocaleString()}억 (2024)
+                </div>
+                <div class="crisis-trend">
+                  연평균 {detailedData.advertising_collapse.annual_decline.toLocaleString()}억원 감소<br/>
+                  2030년 예상: {detailedData.advertising_collapse.prediction_2030.toLocaleString()}억원
+                </div>
+              </div>
+
+              <div class="crisis-card positive">
+                <div class="crisis-icon">📈</div>
+                <h3>디지털광고 급성장</h3>
+                <div class="crisis-stat">+{detailedData.advertising_collapse.digital_growth}%</div>
+                <div class="crisis-detail">
+                  {detailedData.advertising_collapse.digital_ad_2015.toLocaleString()}억 (2015) →
+                  {detailedData.advertising_collapse.digital_ad_2024.toLocaleString()}억 (2024)
+                </div>
+                <div class="crisis-trend">
+                  10년간 3.8배 성장<br/>
+                  방송광고 점유율 역전
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section analysis-section">
+            <h2 data-lang="en">III. Policy Failure: KBS License Fee Freeze</h2>
+            <h2 data-lang="ko">III. 정책 실패: KBS 수신료 44년 동결</h2>
+
+            <div class="analysis-card critical">
+              <div class="freeze-stats">
+                <div class="freeze-item">
+                  <div class="freeze-label">동결 기간</div>
+                  <div class="freeze-value">{detailedData.kbs_license.frozen_years}년</div>
+                  <div class="freeze-sub">1981년 이후</div>
+                </div>
+                <div class="freeze-item">
+                  <div class="freeze-label">수신료</div>
+                  <div class="freeze-value">{detailedData.kbs_license.fee_1981.toLocaleString()}원</div>
+                  <div class="freeze-sub">변동 없음</div>
+                </div>
+                <div class="freeze-item">
+                  <div class="freeze-label">실질가치 하락</div>
+                  <div class="freeze-value">{detailedData.kbs_license.real_value_decline}%</div>
+                  <div class="freeze-sub">물가상승 미반영</div>
+                </div>
+              </div>
+              <div class="economic-loss">
+                <div class="loss-row">
+                  <span>연간 손실</span>
+                  <strong>{detailedData.kbs_license.annual_loss.toLocaleString()}억원</strong>
+                </div>
+                <div class="loss-row total">
+                  <span>누적 손실 (1981-2024)</span>
+                  <strong>{detailedData.kbs_license.accumulated_loss.toLocaleString()}억원</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section analysis-section">
+            <h2 data-lang="en">IV. The Cost of Policy Delay</h2>
+            <h2 data-lang="ko">IV. 정책 지연의 대가</h2>
+
+            <div class="analysis-card urgent">
+              <div class="cost-breakdown">
+                <div class="cost-item">
+                  <div class="cost-label">KBS 수신료 동결 손실</div>
+                  <div class="cost-value">{detailedData.policy_cost.kbs_freeze_loss.toLocaleString()}억원</div>
+                </div>
+                <div class="cost-item">
+                  <div class="cost-label">광고 규제 지연 손실</div>
+                  <div class="cost-value">{detailedData.policy_cost.ad_regulation_delay.toLocaleString()}억원</div>
+                </div>
+                <div class="cost-separator"></div>
+                <div class="cost-item total">
+                  <div class="cost-label">총 누적 손실</div>
+                  <div class="cost-value highlight">{detailedData.policy_cost.total_loss.toLocaleString()}억원</div>
+                </div>
+              </div>
+              <div class="deadline-warning">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-text">
+                  <strong>골든타임: {detailedData.policy_cost.golden_time}년까지</strong>
+                  <p>통합정책 실행이 지연될수록 산업 회복 비용은 기하급수적으로 증가합니다.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section analysis-section">
+            <h2 data-lang="en">V. Broadcasting Fund Structure</h2>
+            <h2 data-lang="ko">V. 방송발전기금 구조</h2>
+
+            <div class="fund-overview">
+              <div class="fund-total">
+                <div class="fund-label">2024년 총 기금</div>
+                <div class="fund-amount">{detailedData.broadcast_fund.total.toLocaleString()}억원</div>
+              </div>
+              <div class="fund-sources">
+                <div class="fund-source telecom">
+                  <div class="source-name">통신사업자</div>
+                  <div class="source-amount">{detailedData.broadcast_fund.telecom.toLocaleString()}억원</div>
+                  <div class="source-ratio">{detailedData.broadcast_fund.telecom_ratio}%</div>
+                </div>
+                <div class="fund-source broadcast">
+                  <div class="source-name">방송사업자</div>
+                  <div class="source-amount">{detailedData.broadcast_fund.broadcast.toLocaleString()}억원</div>
+                  <div class="source-ratio">{detailedData.broadcast_fund.broadcast_ratio}%</div>
+                </div>
+              </div>
+              <div class="platform-burden">
+                <strong>플랫폼 부담 현황:</strong>
+                플랫폼 매출 {detailedData.broadcast_fund.platform_revenue.toLocaleString()}억원 대비
+                {detailedData.broadcast_fund.platform_burden.toLocaleString()}억원 부담
+                (부담률 {detailedData.broadcast_fund.burden_rate}%)
+              </div>
+            </div>
+          </section>
+        </>
+      )}
+
       {chartData && (
         <section class="section charts-section">
           <h2 data-lang="en">Data Visualization</h2>
@@ -107,7 +277,7 @@ if (project.id === 'broadcasting-revenue-2015-2024') {
           <div class="chart-container">
             <h3 data-lang="en">Revenue Breakdown by Source (2024)</h3>
             <h3 data-lang="ko">재원별 구성 (2024)</h3>
-            <canvas id="pieChart"></canvas>
+            <canvas id="breakdownChart"></canvas>
           </div>
         </section>
       )}
@@ -279,51 +449,107 @@ if (project.id === 'broadcasting-revenue-2015-2024') {
           });
         }
 
-        // Pie Chart
-        const pieCtx = document.getElementById('pieChart');
-        if (pieCtx) {
+        // Breakdown Chart (Horizontal Bar)
+        const breakdownCtx = document.getElementById('breakdownChart');
+        if (breakdownCtx) {
           const data2024 = chartData.find(d => d.year === 2024);
+          const total = data2024.subscription_fee + data2024.broadcasting_ad +
+                       data2024.homeshop_fee + data2024.kbs_fee + data2024.broadcast_fund;
 
-          new Chart(pieCtx, {
-            type: 'doughnut',
+          const dataValues = [
+            data2024.subscription_fee,
+            data2024.broadcasting_ad,
+            data2024.homeshop_fee,
+            data2024.kbs_fee,
+            data2024.broadcast_fund
+          ];
+
+          const percentages = dataValues.map(val => ((val / total) * 100).toFixed(1));
+
+          new Chart(breakdownCtx, {
+            type: 'bar',
             data: {
               labels: ['유료방송수신료', '방송광고', '홈쇼핑송출수수료', 'KBS수신료', '방발기금'],
               datasets: [{
-                data: [
-                  data2024.subscription_fee,
-                  data2024.broadcasting_ad,
-                  data2024.homeshop_fee,
-                  data2024.kbs_fee,
-                  data2024.broadcast_fund
-                ],
+                data: dataValues,
                 backgroundColor: [
-                  'rgba(37, 99, 235, 0.8)',
-                  'rgba(220, 38, 38, 0.8)',
-                  'rgba(22, 163, 74, 0.8)',
-                  'rgba(202, 138, 4, 0.8)',
-                  'rgba(147, 51, 234, 0.8)'
+                  'rgba(37, 99, 235, 0.85)',
+                  'rgba(220, 38, 38, 0.85)',
+                  'rgba(22, 163, 74, 0.85)',
+                  'rgba(202, 138, 4, 0.85)',
+                  'rgba(147, 51, 234, 0.85)'
                 ],
-                borderWidth: 2,
-                borderColor: '#ffffff'
+                borderWidth: 0
               }]
             },
             options: {
+              indexAxis: 'y',
               responsive: true,
+              maintainAspectRatio: true,
               plugins: {
                 legend: {
-                  position: 'right',
+                  display: false
                 },
                 tooltip: {
                   callbacks: {
                     label: function(context) {
-                      const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                      const percentage = ((context.parsed / total) * 100).toFixed(1);
-                      return context.label + ': ' + context.parsed.toLocaleString() + '억원 (' + percentage + '%)';
+                      const percentage = percentages[context.dataIndex];
+                      return context.parsed.x.toLocaleString() + '억원 (' + percentage + '%)';
+                    }
+                  }
+                },
+                datalabels: {
+                  display: false
+                }
+              },
+              scales: {
+                x: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: function(value) {
+                      return value.toLocaleString() + '억';
+                    }
+                  }
+                },
+                y: {
+                  ticks: {
+                    font: {
+                      size: 13,
+                      weight: '500'
                     }
                   }
                 }
+              },
+              layout: {
+                padding: {
+                  right: 80
+                }
               }
-            }
+            },
+            plugins: [{
+              id: 'percentageLabels',
+              afterDatasetsDraw: function(chart) {
+                const ctx = chart.ctx;
+                chart.data.datasets.forEach(function(dataset, i) {
+                  const meta = chart.getDatasetMeta(i);
+                  meta.data.forEach(function(bar, index) {
+                    const data = dataset.data[index];
+                    const percentage = percentages[index];
+
+                    ctx.fillStyle = '#1f2937';
+                    ctx.font = 'bold 13px sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'middle';
+
+                    const text = percentage + '%';
+                    const xPos = bar.x + 10;
+                    const yPos = bar.y;
+
+                    ctx.fillText(text, xPos, yPos);
+                  });
+                });
+              }
+            }]
           });
         }
       </script>
@@ -559,6 +785,394 @@ if (project.id === 'broadcasting-revenue-2015-2024') {
     border: 1px solid #d1d5db;
   }
 
+  /* Analysis sections */
+  .analysis-section {
+    background: #fafbfc;
+    padding: 2rem;
+    border-radius: 1rem;
+  }
+
+  .analysis-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .analysis-card.warning {
+    border-left: 5px solid #f59e0b;
+  }
+
+  .analysis-card.critical {
+    border-left: 5px solid #dc2626;
+  }
+
+  .analysis-card.urgent {
+    border-left: 5px solid #7c3aed;
+  }
+
+  .analysis-card h3 {
+    font-size: 1.375rem;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  /* Comparison Grid */
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .comparison-item {
+    background: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    text-align: center;
+  }
+
+  .comparison-item .label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+
+  .comparison-item .value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .comparison-item .value.positive {
+    color: #16a34a;
+  }
+
+  .comparison-item .value.neutral {
+    color: #6b7280;
+  }
+
+  .comparison-item .value.warning {
+    color: #dc2626;
+  }
+
+  .comparison-item .amount {
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+
+  .insight {
+    background: #fffbeb;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    border-left: 3px solid #f59e0b;
+    font-size: 0.938rem;
+    line-height: 1.6;
+    color: #78350f;
+  }
+
+  .insight strong {
+    color: #92400e;
+  }
+
+  /* Crisis Grid */
+  .crisis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .crisis-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .crisis-card.negative {
+    border: 2px solid #fca5a5;
+    background: linear-gradient(135deg, #ffffff 0%, #fee2e2 100%);
+  }
+
+  .crisis-card.positive {
+    border: 2px solid #86efac;
+    background: linear-gradient(135deg, #ffffff 0%, #dcfce7 100%);
+  }
+
+  .crisis-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .crisis-card h3 {
+    font-size: 1.25rem;
+    color: #1f2937;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .crisis-stat {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .crisis-card.negative .crisis-stat {
+    color: #dc2626;
+  }
+
+  .crisis-card.positive .crisis-stat {
+    color: #16a34a;
+  }
+
+  .crisis-detail {
+    font-size: 1rem;
+    color: #4b5563;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .crisis-trend {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.6;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  /* Freeze Stats */
+  .freeze-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .freeze-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: #fef2f2;
+    border-radius: 0.5rem;
+  }
+
+  .freeze-label {
+    font-size: 0.813rem;
+    color: #7f1d1d;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .freeze-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #dc2626;
+    margin-bottom: 0.25rem;
+  }
+
+  .freeze-sub {
+    font-size: 0.75rem;
+    color: #991b1b;
+  }
+
+  .economic-loss {
+    background: #7f1d1d;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .loss-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    font-size: 1rem;
+  }
+
+  .loss-row.total {
+    border-top: 2px solid rgba(255, 255, 255, 0.3);
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    font-size: 1.125rem;
+  }
+
+  .loss-row strong {
+    font-size: 1.375rem;
+    font-weight: 700;
+  }
+
+  .loss-row.total strong {
+    font-size: 1.75rem;
+  }
+
+  /* Cost Breakdown */
+  .cost-breakdown {
+    background: #f5f3ff;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cost-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+  }
+
+  .cost-label {
+    font-size: 1rem;
+    color: #4c1d95;
+    font-weight: 500;
+  }
+
+  .cost-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #6d28d9;
+  }
+
+  .cost-separator {
+    height: 2px;
+    background: linear-gradient(to right, transparent, #c4b5fd, transparent);
+    margin: 1rem 0;
+  }
+
+  .cost-item.total {
+    padding-top: 1.5rem;
+  }
+
+  .cost-item.total .cost-label {
+    font-size: 1.25rem;
+    color: #3730a3;
+  }
+
+  .cost-item.total .cost-value.highlight {
+    font-size: 2.25rem;
+    color: #5b21b6;
+  }
+
+  .deadline-warning {
+    display: flex;
+    gap: 1rem;
+    background: #fef3c7;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border-left: 4px solid #f59e0b;
+  }
+
+  .warning-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .warning-text strong {
+    display: block;
+    color: #92400e;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .warning-text p {
+    color: #78350f;
+    font-size: 0.938rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Fund Overview */
+  .fund-overview {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .fund-total {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .fund-label {
+    font-size: 0.938rem;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .fund-amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e3a8a;
+  }
+
+  .fund-sources {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .fund-source {
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    text-align: center;
+  }
+
+  .fund-source.telecom {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  }
+
+  .fund-source.broadcast {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  }
+
+  .source-name {
+    font-size: 0.938rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  .source-amount {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .fund-source.telecom .source-amount {
+    color: #92400e;
+  }
+
+  .fund-source.broadcast .source-amount {
+    color: #1e40af;
+  }
+
+  .source-ratio {
+    font-size: 1.125rem;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+
+  .platform-burden {
+    background: #f9fafb;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    font-size: 0.938rem;
+    line-height: 1.6;
+    color: #4b5563;
+  }
+
+  .platform-burden strong {
+    color: #1f2937;
+  }
+
   @media (max-width: 768px) {
     .project-title {
       font-size: 1.875rem;
@@ -570,6 +1184,22 @@ if (project.id === 'broadcasting-revenue-2015-2024') {
 
     .chart-container {
       padding: 1rem;
+    }
+
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .crisis-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .freeze-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .fund-sources {
+      grid-template-columns: 1fr;
     }
   }
 </style>
