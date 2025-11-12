@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import LineChart from '../../components/LineChart.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -13,6 +14,82 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 const { data } = project;
+const showCharts = project.slug === 'broadcasting-revenue-2015-2024';
+
+// Chart data
+const revenueLabels = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
+const revenueDatasets = [
+  {
+    label: 'Pay-TV Subscriptions',
+    data: [27.5, 28.3, 29.4, 31.2, 32.4, 33.5, 36.5, 37.1, 37.3, 37.6],
+    borderColor: 'rgba(102, 126, 234, 1)',
+    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+    borderWidth: 3,
+    fill: true,
+    tension: 0.4
+  },
+  {
+    label: 'Broadcasting Advertising',
+    data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
+    borderColor: 'rgba(239, 68, 68, 1)',
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    borderWidth: 3,
+    fill: true,
+    tension: 0.4
+  },
+  {
+    label: 'Home Shopping Fees',
+    data: [0, 0, 24.4, 24.0, 23.7, 23.5, 22.0, 21.5, 20.5, 20.2],
+    borderColor: 'rgba(245, 158, 11, 1)',
+    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    borderWidth: 3,
+    fill: true,
+    tension: 0.4
+  }
+];
+
+const advertisingDatasets = [
+  {
+    label: 'Broadcasting Advertising',
+    data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
+    borderColor: 'rgba(239, 68, 68, 1)',
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    borderWidth: 3,
+    fill: true,
+    tension: 0.4
+  },
+  {
+    label: 'Digital Advertising',
+    data: [null, null, null, null, 50.5, 57.8, 67.8, 76.1, 83.8, null],
+    borderColor: 'rgba(59, 130, 246, 1)',
+    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+    borderWidth: 3,
+    fill: true,
+    tension: 0.4,
+    borderDash: [5, 5]
+  }
+];
+
+const platformDatasets = [
+  {
+    label: 'IPTV',
+    data: [14.7, 16.7, 18.9, 21.1, 23.3, 25.0, 26.8, 27.9, 28.7, 29.3],
+    borderColor: 'rgba(16, 185, 129, 1)',
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    borderWidth: 3,
+    fill: true,
+    tension: 0.4
+  },
+  {
+    label: 'Cable (SO)',
+    data: [9.4, 8.9, 8.5, 8.0, 7.6, 7.0, 6.5, 6.1, 5.9, 5.7],
+    borderColor: 'rgba(239, 68, 68, 1)',
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    borderWidth: 3,
+    fill: true,
+    tension: 0.4
+  }
+];
 ---
 
 <BaseLayout 
@@ -54,6 +131,73 @@ const { data } = project;
     <div class="project-content">
       <Content />
     </div>
+
+    {showCharts && (
+      <>
+        <div id="chart-container-revenue" style="display: none;">
+          <LineChart
+            chartId="revenueChart"
+            title="Net Inflow Revenue Trends (2015-2024)"
+            labels={revenueLabels}
+            datasets={revenueDatasets}
+            yAxisLabel="Amount (Trillion Won)"
+            yAxisCallback={true}
+          />
+        </div>
+        <div id="chart-container-advertising" style="display: none;">
+          <LineChart
+            chartId="advertisingChart"
+            title="Broadcasting vs Digital Advertising Trends"
+            labels={revenueLabels}
+            datasets={advertisingDatasets}
+            yAxisLabel="Amount (Trillion Won)"
+            yAxisCallback={false}
+          />
+        </div>
+        <div id="chart-container-platform" style="display: none;">
+          <LineChart
+            chartId="platformChart"
+            title="IPTV vs Cable Platform Subscription Fee Trends"
+            labels={revenueLabels}
+            datasets={platformDatasets}
+            yAxisLabel="Amount (Trillion Won)"
+            yAxisCallback={false}
+          />
+        </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            // Move charts to their markers
+            const revenueMarker = document.querySelector('[data-chart-marker="revenueChart"]');
+            const advertisingMarker = document.querySelector('[data-chart-marker="advertisingChart"]');
+            const platformMarker = document.querySelector('[data-chart-marker="platformChart"]');
+
+            if (revenueMarker) {
+              const revenueContainer = document.getElementById('chart-container-revenue');
+              if (revenueContainer) {
+                revenueContainer.style.display = 'block';
+                revenueMarker.replaceWith(revenueContainer);
+              }
+            }
+
+            if (advertisingMarker) {
+              const advertisingContainer = document.getElementById('chart-container-advertising');
+              if (advertisingContainer) {
+                advertisingContainer.style.display = 'block';
+                advertisingMarker.replaceWith(advertisingContainer);
+              }
+            }
+
+            if (platformMarker) {
+              const platformContainer = document.getElementById('chart-container-platform');
+              if (platformContainer) {
+                platformContainer.style.display = 'block';
+                platformMarker.replaceWith(platformContainer);
+              }
+            }
+          });
+        </script>
+      </>
+    )}
 
     <footer class="project-footer">
       <a href="/projects" class="back-link">
