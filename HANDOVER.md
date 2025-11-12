@@ -2,7 +2,6 @@
 
 **최종 업데이트**: 2025년 11월 12일 21:30 KST  
 **프로젝트**: kimyonghee.com 학술 웹사이트  
-**작업자**: Claude (AI Assistant)
 
 ---
 
@@ -713,6 +712,5 @@ refactor: Simplify chart injection logic
 
 ---
 
-**작성자**: Claude (AI Assistant)  
 **일시**: 2025년 11월 12일 21:30 KST  
 **다음 업데이트**: 다음 작업 세션 후
