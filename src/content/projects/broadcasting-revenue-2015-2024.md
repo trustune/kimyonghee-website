@@ -311,25 +311,23 @@ featured: true
 ## Executive Summary: Nominal Growth, Real Collapse
 
 <div class="hero-section">
-  <div class="hero-numbers">
-    <div class="hero-card growth">
-      <div class="hero-value">+25.90%</div>
-      <div class="hero-label">Nominal Growth</div>
-      <div class="hero-detail">7.06T → 8.89T won (2015-2024)</div>
-    </div>
-
-    <div class="hero-card decline">
-      <div class="hero-value">-6.4%</div>
-      <div class="hero-label">Real Decline</div>
-      <div class="hero-detail">9.49T (2019 peak) → 8.89T (2024)</div>
-    </div>
-
-    <div class="hero-card freeze">
-      <div class="hero-value">44 Years</div>
-      <div class="hero-label">Policy Freeze</div>
-      <div class="hero-detail">KBS license fee frozen since 1981</div>
-    </div>
-  </div>
+<div class="hero-numbers">
+<div class="hero-card growth">
+<div class="hero-value">+25.90%</div>
+<div class="hero-label">Nominal Growth</div>
+<div class="hero-detail">7.06T → 8.89T won (2015-2024)</div>
+</div>
+<div class="hero-card decline">
+<div class="hero-value">-6.4%</div>
+<div class="hero-label">Real Decline</div>
+<div class="hero-detail">9.49T (2019 peak) → 8.89T (2024)</div>
+</div>
+<div class="hero-card freeze">
+<div class="hero-value">44 Years</div>
+<div class="hero-label">Policy Freeze</div>
+<div class="hero-detail">KBS license fee frozen since 1981</div>
+</div>
+</div>
 </div>
 
 <div style="font-size: 1.125rem; line-height: 1.75; margin-top: 2rem;">
