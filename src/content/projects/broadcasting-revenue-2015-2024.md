@@ -49,7 +49,8 @@ featured: true
   padding: 1rem;
   text-align: left;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .data-table tbody tr {
@@ -63,8 +64,9 @@ featured: true
 
 .data-table td {
   padding: 1rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #374151;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .data-table .number {
@@ -108,11 +110,13 @@ featured: true
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .metric-label {
   font-size: 1rem;
   opacity: 0.9;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .info-box {
@@ -149,6 +153,8 @@ featured: true
 
 ## Executive Summary
 
+<div style="font-size: 1.125rem; line-height: 1.75;">
+
 This study conducts an empirical analysis of the 10-year (2015-2024) structural changes in Korea's broadcasting industry revenue, revealing a complete paradigm shift from advertising-based to subscription-based revenue model. However, the actual inflow of external funding remains stagnant.
 
 Based on complete analysis of 3,126 records from official data sources, this research achieved 99.50% accuracy through cross-validation with original 2021 data.
@@ -156,6 +162,8 @@ Based on complete analysis of 3,126 records from official data sources, this res
 ### Key Findings
 
 Broadcasting advertising revenue collapsed by 34.52% over ten years, declining from 3.50 trillion won to 2.29 trillion won. During the same period, IPTV grew by 99.1% while cable declined by 39.1%. The KBS license fee, frozen for 44 years, has lost 82% of its real value. Government support for broadcasting stands at only 10.15%, the lowest among OECD countries.
+
+</div>
 
 <div class="metric-card">
 <div class="metric-value">8.89T</div>
@@ -380,10 +388,6 @@ Over ten years, the broadcasting industry's revenue structure has been completel
 </div>
 
 <div id="revenueChart" class="chart-container"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
   const ctx = document.getElementById('revenueChart');
   if (ctx) {
     new Chart(ctx, {
@@ -1120,3 +1124,154 @@ Transmission charges paid by TV home shopping companies to platforms.
 
 **Broadcasting Fund**  
 Broadcasting Communications Development Fund executed by the government to support the broadcasting industry.
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<script>
+window.addEventListener('load', function() {
+  // Revenue Chart
+  const ctx1 = document.getElementById('revenueChart');
+  if (ctx1) {
+    new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+        datasets: [
+          {
+            label: 'Pay-TV Subscriptions',
+            data: [27.5, 28.3, 29.4, 31.2, 32.4, 33.5, 36.5, 37.1, 37.3, 37.6],
+            borderColor: 'rgba(102, 126, 234, 1)',
+            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Broadcasting Advertising',
+            data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
+            borderColor: 'rgba(239, 68, 68, 1)',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Home Shopping Fees',
+            data: [0, 0, 24.4, 24.0, 23.7, 23.5, 22.0, 21.5, 20.5, 20.2],
+            borderColor: 'rgba(245, 158, 11, 1)',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: { display: true, text: 'Net Inflow Revenue Trends (2015-2024)', font: { size: 16, weight: 'bold' } },
+          legend: { position: 'bottom' }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Amount (Trillion Won)' },
+            ticks: { callback: function(value) { return value + 'T'; } }
+          }
+        }
+      }
+    });
+  }
+  
+  // Advertising Chart
+  const ctx2 = document.getElementById('advertisingChart');
+  if (ctx2) {
+    new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+        datasets: [
+          {
+            label: 'Broadcasting Advertising',
+            data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
+            borderColor: 'rgba(239, 68, 68, 1)',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Digital Advertising',
+            data: [null, null, null, null, 50.5, 57.8, 67.8, 76.1, 83.8, null],
+            borderColor: 'rgba(59, 130, 246, 1)',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            borderDash: [5, 5]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: { display: true, text: 'Broadcasting vs Digital Advertising Trends', font: { size: 16, weight: 'bold' } },
+          legend: { position: 'bottom' }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Amount (Trillion Won)' }
+          }
+        }
+      }
+    });
+  }
+  
+  // Platform Chart
+  const ctx3 = document.getElementById('platformChart');
+  if (ctx3) {
+    new Chart(ctx3, {
+      type: 'line',
+      data: {
+        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+        datasets: [
+          {
+            label: 'IPTV',
+            data: [14.7, 16.7, 18.9, 21.1, 23.3, 25.0, 26.8, 27.9, 28.7, 29.3],
+            borderColor: 'rgba(16, 185, 129, 1)',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Cable (SO)',
+            data: [9.4, 8.9, 8.5, 8.0, 7.6, 7.0, 6.5, 6.1, 5.9, 5.7],
+            borderColor: 'rgba(239, 68, 68, 1)',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: { display: true, text: 'IPTV vs Cable Platform Subscription Fee Trends', font: { size: 16, weight: 'bold' } },
+          legend: { position: 'bottom' }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Amount (Trillion Won)' }
+          }
+        }
+      }
+    });
+  }
+});
+</script>
