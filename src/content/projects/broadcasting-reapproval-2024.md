@@ -3,7 +3,7 @@ title: "The Investment Paradox: Korea's Broadcasting Reapproval System"
 title_en: "The Investment Paradox: Korea's Broadcasting Reapproval System"
 subtitle: "Why Higher Content Investment Doesn't Always Lead to Better Performance"
 subtitle_en: "Why Higher Content Investment Doesn't Always Lead to Better Performance"
-date: "2024-10-11"
+date: "2025-10-11"
 category: "Broadcasting Policy"
 tags: ["Broadcasting", "Media Policy", "Regulation Reform", "Content Investment", "Data Analysis"]
 conference: "Korean Society for Journalism & Communication Studies 2024 Fall Conference"
@@ -330,7 +330,7 @@ The path forward isn't less accountability - it's **smarter accountability** inf
 ## Project Information
 
 **Research Period:** August 2024 - November 2025
-**Last Updated:** October 11, 2024
+**Last Updated:** October 11, 2025
 **Version:** v2.0 FINAL
 **Presentation:** Korean Society for Journalism & Communication Studies 2024 Fall Conference
 

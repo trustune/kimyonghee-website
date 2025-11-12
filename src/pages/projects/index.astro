@@ -12,7 +12,7 @@ const projects = allProjects.map(project => ({
 }));
 
 const featuredProjects = projects.filter(p => p.featured);
-const allProjectsSorted = projects.sort((a, b) => new Date(b.date) - new Date(a.date));
+const otherProjects = projects.filter(p => !p.featured).sort((a, b) => new Date(b.date) - new Date(a.date));
 ---
 
 <BaseLayout title="Projects - Yonghee Kim" description="Research projects and data analysis work">
@@ -63,10 +63,10 @@ const allProjectsSorted = projects.sort((a, b) => new Date(b.date) - new Date(a.
     )}
 
     <section class="projects-section">
-      <h2 class="section-title" data-lang="en">All Projects</h2>
-      <h2 class="section-title" data-lang="ko">전체 프로젝트</h2>
+      <h2 class="section-title" data-lang="en">More Projects</h2>
+      <h2 class="section-title" data-lang="ko">추가 프로젝트</h2>
       <div class="projects-grid">
-        {allProjectsSorted.map((project) => (
+        {otherProjects.map((project) => (
           <a href={`/projects/${project.id}`} class="project-card">
             <div class="project-header">
               <h3 class="project-title">{project.title_en}</h3>
