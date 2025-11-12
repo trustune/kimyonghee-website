@@ -1,27 +1,26 @@
 ---
-title: "지속가능한 미디어 생태계를 위한 통합정책 로드맵"
-title_en: "Integrated Policy Roadmap for Sustainable Media Ecosystem"
-subtitle: "방송산업 순유입재원 구조 분석과 정책 제안 (2015-2024)"
-subtitle_en: "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations (2015-2024)"
+title: "Integrated Policy Roadmap for Sustainable Media Ecosystem"
+subtitle: "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations (2015-2024)"
 date: "2025-11-08"
 category: "Broadcasting Policy"
 tags: ["Broadcasting", "Media Economics", "Data Analysis", "Policy Research", "Government Policy", "Digital Transformation"]
-conference: "한국방송학회 2025 가을철 정기학술대회"
-conference_en: "Korean Broadcasting Association 2025 Fall Conference"
-description: "방송산업의 10년간(2015-2024) 순유입재원 구조 변화를 실증 분석하고, 정부재원 비중 10.15% (OECD 최하위), 방송광고 34.52% 급락, KBS 수신료 44년 동결 등 위기를 진단하여 통합정책 로드맵을 제시합니다."
-description_en: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze."
-summary: "정부재원 10.15% (OECD 최하위), 방송광고 10년간 34.52% 급락, KBS 수신료 44년 동결로 인한 방송산업 위기 진단"
+conference: "Korean Broadcasting Association 2025 Fall Conference"
+description: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze, proposing an integrated policy roadmap with 99.50% data accuracy."
+summary: "Government funding 10.15% (OECD lowest), broadcasting advertising -34.52% decline over 10 years, KBS license fee frozen for 44 years - Crisis diagnosis and integrated policy proposal with 99.50% verification accuracy"
 key_findings:
-  - "Government funding: 10.15% (OECD lowest)"
-  - "Broadcasting ad revenue: -34.52% decline over 10 years"
-  - "KBS license fee: 44-year freeze"
-  - "IPTV growth: +99.1% vs Cable collapse: -39.1%"
-  - "Data verification accuracy: 99.50%"
+  - "Government funding: 10.15% (OECD lowest - KBS 9.36% + Fund 0.79%)"
+  - "Broadcasting advertising: -34.52% decline (3.50T → 2.29T won)"
+  - "KBS license fee: 44-year freeze, 82% real value loss"
+  - "Complete shift: Advertising-based → Subscription-based (49.64% → 25.82%)"
+  - "IPTV surge +99.1% vs Cable collapse -39.1%"
+  - "Home shopping emergence: 0 → 2.02T won (3rd largest revenue)"
+  - "Data verification accuracy: 99.50% (2021 baseline)"
 policy_proposals:
-  - "KBS license fee normalization and phased increase"
-  - "Broadcasting advertising deregulation"
-  - "Platform contribution fee adjustment"
-  - "Broadcasting fund expansion and efficiency improvement"
+  - "KBS license fee normalization and phased increase (3,500 → 5,000 won → inflation indexation)"
+  - "Broadcasting advertising deregulation (PPL, virtual advertising expansion)"
+  - "Platform contribution fee adjustment and fairness enhancement (IPTV-Cable-OTT)"
+  - "Broadcasting fund expansion and efficiency improvement (integrated management)"
+  - "Digital transformation support policy (terrestrial survival strategy)"
 featured: true
 ---
 
@@ -142,11 +141,19 @@ featured: true
   border-left: 4px solid #f59e0b;
   background: #fffbeb;
 }
+
+.success-box {
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  border-left: 4px solid #10b981;
+  background: #f0fdf4;
+}
 </style>
 
 ## Executive Summary
 
-This study conducts an empirical analysis of the 10-year (2015-2024) structural changes in Korea's broadcasting industry revenue, revealing a complete paradigm shift from advertising-based to subscription-based revenue model. However, the actual inflow of external funding remains stagnant.
+This study conducts an empirical analysis of the 10-year (2015-2024) structural changes in Korea's broadcasting industry revenue, revealing a complete paradigm shift from advertising-based to subscription-based revenue model. However, actual inflow of external funding remains stagnant.
 
 Based on complete analysis of 3,126 records from official data sources, this research achieved 99.50% accuracy through cross-validation with original 2021 data.
 
@@ -155,18 +162,18 @@ Based on complete analysis of 3,126 records from official data sources, this res
 Broadcasting advertising revenue collapsed by 34.52% over ten years, declining from 3.50 trillion won to 2.29 trillion won. During the same period, IPTV grew by 99.1% while cable declined by 39.1%. The KBS license fee, frozen for 44 years, has lost 82% of its real value. Government support for broadcasting stands at only 10.15%, the lowest among OECD countries.
 
 <div class="metric-card">
-<div class="metric-value">8.89</div>
-<div class="metric-label">Trillion Won<br>Total Net Inflow Revenue (2024)</div>
+<div class="metric-value">8.89T</div>
+<div class="metric-label">Total Net Inflow Revenue<br>(2024, in won)</div>
 </div>
 
 <div class="metric-card">
 <div class="metric-value">99.50%</div>
-<div class="metric-label">Data Verification<br>Accuracy (2021 baseline)</div>
+<div class="metric-label">Data Verification<br>Accuracy Rate</div>
 </div>
 
 <div class="metric-card">
 <div class="metric-value">-34.52%</div>
-<div class="metric-label">Broadcasting Ad Revenue<br>Decline (10 years)</div>
+<div class="metric-label">Broadcasting Ad Revenue<br>10-Year Decline</div>
 </div>
 
 <hr class="section-divider">
@@ -259,9 +266,9 @@ The 3.76 trillion won in pay-TV subscription fees is distributed across platform
 
 <hr class="section-divider">
 
-## 10-Year Structural Changes
+## 10-Year Structural Changes (2015-2024)
 
-### Revenue Source Trends (2015-2024)
+### Revenue Source Trends
 
 <table class="data-table">
 <thead>
@@ -524,7 +531,7 @@ To ensure research reliability, we cross-validated database analysis results wit
 <td class="number">-0.36T won</td>
 <td class="number positive">94.72%</td>
 </tr>
-<tr style="background: #f0fdf4; font-weight: 600;">
+<tr class="success-box" style="background: #f0fdf4; font-weight: 600;">
 <td><strong>Total</strong></td>
 <td class="number"><strong>9.77T won</strong></td>
 <td class="number"><strong>9.72T won</strong></td>
@@ -534,7 +541,7 @@ To ensure research reliability, we cross-validated database analysis results wit
 </tbody>
 </table>
 
-<div class="info-box">
+<div class="success-box">
 <strong>High Reliability Achieved:</strong> The overall verification accuracy of 99.50% for total net inflow revenue establishes high credibility for this academic research.
 </div>
 
@@ -666,7 +673,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>2015</td>
 <td class="number">3.50T won</td>
 <td class="number">49.64%</td>
-<td class="number">-</td>
+<td class="number">—</td>
 </tr>
 <tr>
 <td>2019</td>
@@ -698,6 +705,55 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="warning-box">
 <strong>Irreversible Decline:</strong> Showing consistent decline since 2019 peak, with particularly sharp drops after 2022. This is not a temporary phenomenon but a structural transformation.
 </div>
+
+#### Migration to Digital Advertising
+
+According to Cheil Worldwide's Advertising Yearbook data, the gap between broadcasting and digital advertising is rapidly widening.
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Year</th>
+<th class="number">Broadcasting</th>
+<th class="number">Digital</th>
+<th class="number">Gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2019</td>
+<td class="number">3.79T won</td>
+<td class="number">5.05T won</td>
+<td class="number">1.27T won</td>
+</tr>
+<tr>
+<td>2020</td>
+<td class="number">3.57T won</td>
+<td class="number">5.78T won</td>
+<td class="number">2.21T won</td>
+</tr>
+<tr>
+<td>2021</td>
+<td class="number">3.68T won</td>
+<td class="number">6.78T won</td>
+<td class="number">3.10T won</td>
+</tr>
+<tr>
+<td>2022</td>
+<td class="number">3.80T won</td>
+<td class="number">7.61T won</td>
+<td class="number">3.80T won</td>
+</tr>
+<tr class="highlight">
+<td>2023</td>
+<td class="number">3.41T won</td>
+<td class="number">8.38T won</td>
+<td class="number">4.97T won</td>
+</tr>
+</tbody>
+</table>
+
+From 2019 to 2023, broadcasting advertising decreased by 9.92% while digital advertising increased by 65.86%. The gap expanded from 1.27 trillion won to 4.97 trillion won, a 3.9x increase.
 
 ### 2. IPTV vs Cable: The Platform War Ends
 
@@ -791,6 +847,45 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+#### Platform Subscription Fee Trends
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Year</th>
+<th class="number">IPTV</th>
+<th class="number">Cable (SO)</th>
+<th class="number">IPTV Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2015</td>
+<td class="number">1.47T won</td>
+<td class="number">0.94T won</td>
+<td class="number">53.4%</td>
+</tr>
+<tr>
+<td>2018</td>
+<td class="number">2.11T won</td>
+<td class="number">0.80T won</td>
+<td class="number">68.0%</td>
+</tr>
+<tr>
+<td>2021</td>
+<td class="number">2.68T won</td>
+<td class="number">0.65T won</td>
+<td class="number">77.2%</td>
+</tr>
+<tr class="highlight">
+<td>2024</td>
+<td class="number">2.93T won</td>
+<td class="number">0.57T won</td>
+<td class="number positive">77.8%</td>
+</tr>
+</tbody>
+</table>
+
 <div class="info-box">
 <strong>Decisive Victory:</strong> IPTV grew 99.1% over ten years while cable collapsed by 39.1%. Platform restructuring was effectively complete around 2018 when IPTV surpassed 70% market share.
 </div>
@@ -868,7 +963,7 @@ While total net inflow revenue increased from 7.06 trillion won in 2015 to 8.89 
 <tr>
 <td>2015</td>
 <td class="number">7.06T won</td>
-<td class="number">-</td>
+<td class="number">—</td>
 </tr>
 <tr class="highlight">
 <td>2019</td>
@@ -909,37 +1004,35 @@ Official advertising market data from Cheil Worldwide was used for comparing bro
 **Ministry of Strategy and Finance Fund Operation Report**  
 Annual execution details of the Broadcasting Communications Development Fund were verified.
 
-**Broadcasting and Media Communications Commission Business Status Report (2025.10)**  
+**Broadcasting and Media Communications Commission Business Status Report (October 2025)**  
 Used for KBS license fee verification and latest industry status.
 
 ### Analysis Tools and Technical Stack
 
-**Python 3.x**  
-Core tool for data preprocessing, aggregation, and analysis.
-
-**Pandas**  
-Used for time series data analysis and revenue source aggregation.
-
-**SQLite**  
-Relational database for systematic management of 3,126 records.
-
-**Matplotlib & Seaborn**  
-Used for trend analysis and comparative chart generation.
-
-**Microsoft Excel**  
-Used for final report preparation and cross-validation table creation.
+**Python 3.x**: Core tool for data preprocessing, aggregation, and analysis  
+**Pandas**: Used for time series data analysis and revenue source aggregation  
+**SQLite**: Relational database for systematic management of 3,126 records  
+**Matplotlib & Seaborn**: Used for trend analysis and comparative chart generation  
+**Microsoft Excel**: Used for final report preparation and cross-validation table creation
 
 ### Net Inflow Revenue Concept
 
 The core concept of this research, net inflow revenue, refers only to pure revenue flowing into the broadcasting industry from external sources.
 
-**Included Items**
+**Included Items:**
 
-Pay-TV subscription fees are viewing fees paid directly by IPTV, cable, and satellite subscribers. Broadcasting advertising is advertising expenses from advertisers. Home shopping transmission fees are transmission charges paid by TV home shopping companies to platforms. KBS license fee is the public broadcasting fee paid by viewers along with electricity bills. Broadcasting fund is government funding for supporting the broadcasting industry.
+- Pay-TV subscription fees (from subscribers)
+- Broadcasting advertising (from advertisers)
+- Home shopping transmission fees (from TV home shopping companies)
+- KBS license fee (from viewers)
+- Broadcasting fund (from government)
 
-**Excluded Items**
+**Excluded Items:**
 
-Retransmission fees are internal transactions paid by platform operators to terrestrial broadcasters. PP transmission fees are internal transactions paid by IPTV/cable to PP. Program sales are content transactions between broadcasters, classified as internal transactions. Sponsorship fees are also classified as transactions between broadcasting operators and were excluded.
+- Retransmission fees (internal transactions between operators)
+- PP transmission fees (internal transactions)
+- Program sales (transactions between broadcasters)
+- Sponsorship fees (inter-operator transactions)
 
 <hr class="section-divider">
 
@@ -951,17 +1044,21 @@ Retransmission fees are internal transactions paid by platform operators to terr
 
 Gradually increase the KBS license fee, which has been frozen at 2,500 won for 44 years.
 
-**Stage 1 (2025): Increase to 3,500 won (+40%)**  
-**Stage 2 (2027): Increase to 5,000 won (+100%)**  
-**Stage 3 (2029): Introduce inflation indexation**
+- **Stage 1 (2025)**: Increase to 3,500 won (+40%)
+- **Stage 2 (2027)**: Increase to 5,000 won (+100%)
+- **Stage 3 (2029)**: Introduce inflation indexation
 
-Expected effects include KBS financial stabilization, restoration of public broadcasting role, and expanded content production investment.
+**Expected Effects:** KBS financial stabilization, restoration of public broadcasting role, expanded content production investment
 
 #### Broadcasting Advertising Deregulation
 
 Deregulate advertising to strengthen terrestrial broadcasting competitiveness.
 
-Relax indirect advertising (PPL) regulations, allow and expand virtual advertising, and ease program time restrictions, expecting annual advertising revenue increase of 300-500 billion won.
+- Relax indirect advertising (PPL) regulations
+- Allow and expand virtual advertising
+- Ease program time restrictions
+
+**Expected Impact:** Annual advertising revenue increase of 300-500 billion won
 
 ### Phase 2: Structural Reform (2027-2028)
 
@@ -1004,17 +1101,29 @@ Establish a fair contribution system proportional to market dominance.
 
 Expand the broadcasting fund from the current 157.6 billion won (1.77% of net inflow revenue) to over 500 billion won (over 5%).
 
-Establish integrated management system centered on the Broadcasting and Media Communications Commission, with strategic allocation: 40% content production support, 30% technology innovation support, 20% global expansion support, 10% infrastructure support.
+**Management:** Integrated management system centered on the Broadcasting and Media Communications Commission
+
+**Strategic Allocation:**
+- 40% Content production support
+- 30% Technology innovation support
+- 20% Global expansion support
+- 10% Infrastructure support
 
 ### Phase 3: Long-term Sustainability (Post-2029)
 
 #### Digital Transformation Support
 
-Promote terrestrial OTT platform development, 5G and 6G broadcasting technology development, AI-based content production support, and global K-content expansion.
+- Promote terrestrial OTT platform development
+- 5G and 6G broadcasting technology development
+- AI-based content production support
+- Global K-content expansion
 
 #### Institutional Improvement
 
-Introduce automatic license fee adjustment system, establish transparent funding distribution structure, build performance-based evaluation system, and strengthen public participation governance.
+- Introduce automatic license fee adjustment system
+- Establish transparent funding distribution structure
+- Build performance-based evaluation system
+- Strengthen public participation governance
 
 <hr class="section-divider">
 
@@ -1030,7 +1139,11 @@ Achieved 99.50% verification accuracy through cross-validation with original dat
 
 ### Policy Implications
 
-The government can use this research for accurate diagnosis of broadcasting industry crisis and evidence-based policy formulation. Broadcasting operators can respond to revenue structure changes and establish platform transition strategies. Academia gains foundational data for media economics research and baseline for policy effect analysis.
+**For Government:** Accurate diagnosis of broadcasting industry crisis and evidence-based policy formulation foundation
+
+**For Broadcasting Operators:** Response to revenue structure changes and platform transition strategy establishment
+
+**For Academia:** Foundational data for media economics research and baseline for policy effect analysis
 
 <hr class="section-divider">
 
@@ -1060,15 +1173,15 @@ First recorded at 2.44 trillion won in 2017, home shopping transmission fees rea
 
 ## Project Information
 
-**Research Period**: August 2024 - November 2025  
-**Data Period**: 2015 - 2024 (10 years)  
-**Last Updated**: November 12, 2025  
-**Version**: v7.0 FINAL  
-**Verification Accuracy**: 99.50%
+**Research Period:** August 2024 - November 2025  
+**Data Period:** 2015 - 2024 (10 years)  
+**Last Updated:** November 12, 2025  
+**Version:** v7.0 FINAL  
+**Verification Accuracy:** 99.50%
 
-**Database Scale**: 3,126 records  
-**Analysis Platform**: Python, SQLite, Excel  
-**Presentation**: Korean Broadcasting Association 2025 Fall Conference
+**Database Scale:** 3,126 records  
+**Analysis Platform:** Python, SQLite, Excel  
+**Presentation:** Korean Broadcasting Association 2025 Fall Conference
 
 <hr class="section-divider">
 
@@ -1078,11 +1191,16 @@ First recorded at 2.44 trillion won in 2017, home shopping transmission fees rea
 Assistant Professor, Department of Business Administration  
 Sunmoon University
 
-Expertise in media policy and regulation, digital platform economics, broadcasting and telecommunications industry analysis, and media business strategy.
+**Expertise:**
+- Media policy and regulation
+- Digital platform economics
+- Broadcasting and telecommunications industry analysis
+- Media business strategy
 
-**Email**: yhkim@sunmoon.ac.kr  
-**ORCID**: 0000-0002-5643-2748  
-**Google Scholar**: [View Profile](https://scholar.google.com/citations?user=semkeskAAAAJ)
+**Contact:**
+- Email: yhkim@sunmoon.ac.kr
+- ORCID: 0000-0002-5643-2748
+- Google Scholar: [View Profile](https://scholar.google.com/citations?user=semkeskAAAAJ)
 
 <hr class="section-divider">
 
@@ -1098,7 +1216,7 @@ Kim, Yonghee. "Integrated Policy Roadmap for Sustainable Media Ecosystem: Broadc
 
 <hr class="section-divider">
 
-## Key Terms
+## Key Terminology
 
 **Net Inflow Revenue**  
 Pure revenue flowing into the broadcasting industry from external sources, excluding internal transactions.
