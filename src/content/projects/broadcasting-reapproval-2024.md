@@ -388,7 +388,7 @@ Regression analysis reveals counterintuitive relationships between content inves
 ### 4. Broadcasting Development Fund Substitution Effect
 
 <div class="image-container">
-<img src="/images/projects/broadcasting-reapproval/11_기금_투자_관계_v4.1_20251010.png" alt="Fund vs Investment Relationship">
+<img src="/images/projects/broadcasting-reapproval/06_기금_구축효과_final_20251010.png" alt="Fund vs Investment Relationship">
 <div class="image-caption">Figure 4: Broadcasting Development Fund crowds out content investment</div>
 </div>
 
