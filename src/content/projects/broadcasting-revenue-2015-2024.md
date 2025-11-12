@@ -965,7 +965,7 @@ Transmission charges paid by TV home shopping companies to platforms.
 **Broadcasting Fund**  
 Broadcasting Communications Development Fund executed by the government to support the broadcasting industry.
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<script src="/js/chart.umd.js"></script>
 <script>
 window.addEventListener('load', function() {
   // Revenue Chart
