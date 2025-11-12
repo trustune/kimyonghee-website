@@ -388,65 +388,6 @@ Over ten years, the broadcasting industry's revenue structure has been completel
 </div>
 
 <div id="revenueChart" class="chart-container"></div>
-  const ctx = document.getElementById('revenueChart');
-  if (ctx) {
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
-        datasets: [
-          {
-            label: 'Pay-TV Subscriptions',
-            data: [27.5, 28.3, 29.4, 31.2, 32.4, 33.5, 36.5, 37.1, 37.3, 37.6],
-            borderColor: 'rgba(102, 126, 234, 1)',
-            backgroundColor: 'rgba(102, 126, 234, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4
-          },
-          {
-            label: 'Broadcasting Advertising',
-            data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
-            borderColor: 'rgba(239, 68, 68, 1)',
-            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4
-          },
-          {
-            label: 'Home Shopping Fees',
-            data: [0, 0, 24.4, 24.0, 23.7, 23.5, 22.0, 21.5, 20.5, 20.2],
-            borderColor: 'rgba(245, 158, 11, 1)',
-            backgroundColor: 'rgba(245, 158, 11, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Net Inflow Revenue Trends (2015-2024)',
-            font: { size: 16, weight: 'bold' }
-          },
-          legend: { position: 'bottom' }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: { display: true, text: 'Amount (Trillion Won)' },
-            ticks: { callback: function(value) { return value + 'T'; } }
-          }
-        }
-      }
-    });
-  }
-});
-</script>
 
 <hr class="section-divider">
 
@@ -532,58 +473,7 @@ Broadcasting advertising revenue plummeted by 34.52% over ten years, from 3.50 t
 
 <div id="advertisingChart" class="chart-container"></div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const ctx2 = document.getElementById('advertisingChart');
-  if (ctx2) {
-    new Chart(ctx2, {
-      type: 'line',
-      data: {
-        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
-        datasets: [
-          {
-            label: 'Broadcasting Advertising',
-            data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
-            borderColor: 'rgba(239, 68, 68, 1)',
-            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4
-          },
-          {
-            label: 'Digital Advertising',
-            data: [null, null, null, null, 50.5, 57.8, 67.8, 76.1, 83.8, null],
-            borderColor: 'rgba(59, 130, 246, 1)',
-            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            borderDash: [5, 5]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Broadcasting vs Digital Advertising Trends',
-            font: { size: 16, weight: 'bold' }
-          },
-          legend: { position: 'bottom' }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: { display: true, text: 'Amount (Trillion Won)' }
-          }
-        }
-      }
-    });
-  }
-});
-</script>
+
 
 #### Annual Trends
 
@@ -689,57 +579,7 @@ The contrast between IPTV and cable in the pay-TV platform market is stark.
 
 <div id="platformChart" class="chart-container"></div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const ctx3 = document.getElementById('platformChart');
-  if (ctx3) {
-    new Chart(ctx3, {
-      type: 'line',
-      data: {
-        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
-        datasets: [
-          {
-            label: 'IPTV',
-            data: [14.7, 16.7, 18.9, 21.1, 23.3, 25.0, 26.8, 27.9, 28.7, 29.3],
-            borderColor: 'rgba(16, 185, 129, 1)',
-            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4
-          },
-          {
-            label: 'Cable (SO)',
-            data: [9.4, 8.9, 8.5, 8.0, 7.6, 7.0, 6.5, 6.1, 5.9, 5.7],
-            borderColor: 'rgba(239, 68, 68, 1)',
-            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: 'IPTV vs Cable Platform Subscription Fee Trends',
-            font: { size: 16, weight: 'bold' }
-          },
-          legend: { position: 'bottom' }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: { display: true, text: 'Amount (Trillion Won)' }
-          }
-        }
-      }
-    });
-  }
-});
-</script>
+
 
 #### Platform Subscription Fee Trends
 
