@@ -1,11 +1,15 @@
 ---
 title: "Integrated Policy Roadmap for Sustainable Media Ecosystem"
+title_en: "Integrated Policy Roadmap for Sustainable Media Ecosystem"
 subtitle: "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations (2015-2024)"
+subtitle_en: "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations (2015-2024)"
 date: "2025-11-08"
 category: "Broadcasting Policy"
 tags: ["Broadcasting", "Media Economics", "Data Analysis", "Policy Research", "Government Policy", "Digital Transformation"]
 conference: "Korean Broadcasting Association 2025 Fall Conference"
+conference_en: "Korean Broadcasting Association 2025 Fall Conference"
 description: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze, proposing an integrated policy roadmap with 99.50% data accuracy."
+description_en: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze, proposing an integrated policy roadmap with 99.50% data accuracy."
 summary: "Government funding 10.15% (OECD lowest), broadcasting advertising -34.52% decline over 10 years, KBS license fee frozen for 44 years - Crisis diagnosis and integrated policy proposal with 99.50% verification accuracy"
 key_findings:
   - "Government funding: 10.15% (OECD lowest - KBS 9.36% + Fund 0.79%)"
