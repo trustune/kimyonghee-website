@@ -20,14 +20,17 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
   month: 'long', 
   day: 'numeric' 
 });
+
+const currentUrl = `https://kimyonghee.com/blog/${entry.slug}`;
+const fullImageUrl = image ? `https://kimyonghee.com${image}` : '';
 ---
 
-<BaseLayout title={` | Yonghee Kim`} description={excerpt}>
+<BaseLayout title={`${title} | Yonghee Kim`} description={excerpt} image={fullImageUrl} url={currentUrl}>
   <article class="blog-post" style="max-width: 800px; margin: 0 auto; padding: 2rem 1rem;">
     <header style="margin-bottom: 3rem;">
       <div style="margin-bottom: 1.5rem;">
         <a href="/blog" style="color: #2563eb; text-decoration: none; font-size: 0.95rem;">
-           Back to Blog
+          ← Back to Blog
         </a>
       </div>
 
@@ -41,9 +44,9 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
 
       <div style="display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem; color: #666;">
         <span>{formattedDate}</span>
-        <span></span>
+        <span>•</span>
         <span>{category}</span>
-        <span></span>
+        <span>•</span>
         <span>by {author}</span>
       </div>
 
@@ -66,13 +69,18 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
 
     {enableShare && (
       <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
-        <SocialShare />
+        <SocialShare 
+          title={title}
+          url={currentUrl}
+          excerpt={excerpt}
+          image={fullImageUrl}
+        />
       </div>
     )}
 
     <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; text-align: center;">
       <a href="/blog" style="color: #2563eb; text-decoration: none; font-weight: 500;">
-         Back to all posts
+        ← Back to all posts
       </a>
     </footer>
   </article>
