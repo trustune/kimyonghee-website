@@ -387,7 +387,6 @@ Over ten years, the broadcasting industry's revenue structure has been completel
 <strong>Complete Paradigm Shift:</strong> The transition from advertising-based to subscription-based revenue model is now complete. This represents a fundamental transformation in the industry's revenue structure.
 </div>
 
-<div id="revenueChart" class="chart-container"></div>
 
 <hr class="section-divider">
 
@@ -471,7 +470,7 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 
 Broadcasting advertising revenue plummeted by 34.52% over ten years, from 3.50 trillion won to 2.29 trillion won. This represents a structural change, not merely a cyclical downturn.
 
-<div id="advertisingChart" class="chart-container"></div>
+
 
 
 
@@ -576,9 +575,6 @@ From 2019 to 2023, broadcasting advertising decreased by 9.92% while digital adv
 ### 2. IPTV vs Cable: The Platform War Ends
 
 The contrast between IPTV and cable in the pay-TV platform market is stark.
-
-<div id="platformChart" class="chart-container"></div>
-
 
 
 #### Platform Subscription Fee Trends
@@ -965,85 +961,3 @@ Transmission charges paid by TV home shopping companies to platforms.
 **Broadcasting Fund**  
 Broadcasting Communications Development Fund executed by the government to support the broadcasting industry.
 
-<script src="/js/chart.umd.js"></script>
-<script>
-window.addEventListener('load', async function() {
-  try {
-    // JSON 데이터 로드
-    const response = await fetch('/data/broadcasting-revenue-charts.json');
-    const chartData = await response.json();
-    
-    // Revenue Chart
-    const ctx1 = document.getElementById('revenueChart');
-    if (ctx1 && chartData.revenueChart) {
-      new Chart(ctx1, {
-        type: 'line',
-        data: chartData.revenueChart,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            title: { display: true, text: 'Net Inflow Revenue Trends (2015-2024)', font: { size: 16, weight: 'bold' } },
-            legend: { position: 'bottom' }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: { display: true, text: 'Amount (Trillion Won)' },
-              ticks: { callback: function(value) { return value + 'T'; } }
-            }
-          }
-        }
-      });
-    }
-    
-    // Advertising Chart
-    const ctx2 = document.getElementById('advertisingChart');
-    if (ctx2 && chartData.advertisingChart) {
-      new Chart(ctx2, {
-        type: 'line',
-        data: chartData.advertisingChart,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            title: { display: true, text: 'Broadcasting vs Digital Advertising Trends', font: { size: 16, weight: 'bold' } },
-            legend: { position: 'bottom' }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: { display: true, text: 'Amount (Trillion Won)' }
-            }
-          }
-        }
-      });
-    }
-    
-    // Platform Chart
-    const ctx3 = document.getElementById('platformChart');
-    if (ctx3 && chartData.platformChart) {
-      new Chart(ctx3, {
-        type: 'line',
-        data: chartData.platformChart,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            title: { display: true, text: 'IPTV vs Cable Platform Subscription Fee Trends', font: { size: 16, weight: 'bold' } },
-            legend: { position: 'bottom' }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: { display: true, text: 'Amount (Trillion Won)' }
-            }
-          }
-        }
-      });
-    }
-  } catch (error) {
-    console.error('Failed to load chart data:', error);
-  }
-});
-</script>
