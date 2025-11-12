@@ -29,6 +29,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
+        port: 2222
         script: |
           cd /home/projects/kimyonghee-website
           git pull origin main
