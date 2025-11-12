@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import BroadcastingCharts from '../../components/BroadcastingCharts.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -14,7 +13,6 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 const { data } = project;
-const showCharts = project.slug === 'broadcasting-revenue-2015-2024';
 ---
 
 <BaseLayout 
@@ -55,7 +53,6 @@ const showCharts = project.slug === 'broadcasting-revenue-2015-2024';
 
     <div class="project-content">
       <Content />
-      {showCharts && <BroadcastingCharts />}
     </div>
 
     <footer class="project-footer">
