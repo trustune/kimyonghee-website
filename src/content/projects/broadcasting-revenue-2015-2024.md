@@ -8,518 +8,1109 @@ category: "Broadcasting Policy"
 tags: ["Broadcasting", "Media Economics", "Data Analysis", "Policy Research", "Government Policy", "Digital Transformation"]
 conference: "한국방송학회 2025 가을철 정기학술대회"
 conference_en: "Korean Broadcasting Association 2025 Fall Conference"
-description: "방송산업의 10년간(2015-2024) 순유입재원 구조 변화를 실증 분석하고, 정부재원 비중 10.15% (OECD 최하위), 방송광고 34.52% 급락, KBS 수신료 44년 동결 등 위기를 진단하여 통합정책 로드맵을 제시합니다. 99.50% 검증 정확도의 실증 데이터 기반."
-description_en: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze, proposing an integrated policy roadmap with 99.50% data accuracy."
-summary: "정부재원 10.15% (OECD 최하위), 방송광고 10년간 34.52% 급락, KBS 수신료 44년 동결로 인한 방송산업 위기 진단 및 통합정책 제안 - 99.50% 검증 정확도"
+description: "방송산업의 10년간(2015-2024) 순유입재원 구조 변화를 실증 분석하고, 정부재원 비중 10.15% (OECD 최하위), 방송광고 34.52% 급락, KBS 수신료 44년 동결 등 위기를 진단하여 통합정책 로드맵을 제시합니다."
+description_en: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze."
+summary: "정부재원 10.15% (OECD 최하위), 방송광고 10년간 34.52% 급락, KBS 수신료 44년 동결로 인한 방송산업 위기 진단"
 key_findings:
-  - "정부재원 비중 10.15% - OECD 최하위 (KBS수신료 9.36% + 방발기금 0.79%)"
-  - "방송광고 10년간 34.52% 급락 (3조 5,035억원 → 2조 2,942억원)"
-  - "KBS 수신료 44년 동결 - 실질가치 82% 하락"
-  - "광고 중심 → 수신료 중심 완전 전환 (49.64% → 25.82%)"
-  - "IPTV 급성장 +99.1% vs 케이블 SO 붕괴 -39.1%"
-  - "홈쇼핑 부상: 0원 → 2조 249억원 (3위 재원)"
-  - "2021년 기준 데이터 검증 정확도 99.50% 달성"
+  - "Government funding: 10.15% (OECD lowest)"
+  - "Broadcasting ad revenue: -34.52% decline over 10 years"
+  - "KBS license fee: 44-year freeze"
+  - "IPTV growth: +99.1% vs Cable collapse: -39.1%"
+  - "Data verification accuracy: 99.50%"
 policy_proposals:
-  - "KBS 수신료 정상화 및 단계적 인상 (3,500원 → 5,000원 → 물가연동제)"
-  - "방송광고 규제 완화 (간접광고, 가상광고 허용 확대)"
-  - "플랫폼 기여금 조정 및 공정성 제고 (IPTV-케이블-OTT)"
-  - "방발기금 확대 및 효율화 (통합 관리 체계)"
-  - "디지털 전환 지원 정책 (지상파 생존 전략)"
+  - "KBS license fee normalization and phased increase"
+  - "Broadcasting advertising deregulation"
+  - "Platform contribution fee adjustment"
+  - "Broadcasting fund expansion and efficiency improvement"
 featured: true
 ---
 
-## 🎯 Executive Summary
-
-한국 방송산업의 **10년간(2015-2024) 순유입재원 구조**를 실증 데이터로 분석한 결과, **광고 중심에서 수신료 중심으로의 완전한 패러다임 전환**이 완료되었으나, **실질적인 외부 재원 유입은 정체**되고 있음을 발견했습니다.
-
-### 핵심 발견 (Key Findings)
-
-- 📉 **방송광고 붕괴**: 3.50조원 → 1.99조원 (-34.52%)
-- 📈 **IPTV 급성장**: 1.47조원 → 2.93조원 (+99.1%)
-- 💔 **케이블 몰락**: 0.94조원 → 0.57조원 (-39.1%)
-- 🏠 **홈쇼핑 부상**: 0원 → 2.02조원 (신규 3위)
-- 🎭 **KBS 44년 동결**: 6,500억원 (실질가치 82% 하락)
-- ✅ **검증 정확도**: 99.50% (2021년 기준)
-
----
-
-## 📊 2024년 순유입재원 구조 (최종 결과)
-
-### 총 순유입재원: **8조 8,862억원**
-
-```
-1위  유료방송수신료   3조 7,595억원  (42.31%)  ████████████████████
-2위  방송광고         2조 2,942억원  (25.82%)  ████████████
-3위  홈쇼핑송출수수료 2조   249억원  (22.79%)  ███████████
-4위  KBS수신료          6,500억원   ( 7.31%)  ███
-5위  방발기금           1,576억원   ( 1.77%)  █
-```
-
-### 유료방송 플랫폼 구성 (2024년)
-
-| 플랫폼 | 수신료 | 비중 | 10년 변화 |
-|:---:|---:|:---:|:---:|
-| **IPTV** | 2조 9,269억원 | **77.8%** | **+99.1%** ↑ |
-| 케이블(SO) | 5,719억원 | 15.2% | -39.1% ↓ |
-| 위성 | 2,606억원 | 6.9% | -1.4% → |
-
----
-
-## 📈 10년 구조 변화 (2015 → 2024)
-
-### 재원 패러다임의 완전 전환
-
-<details>
-<summary><strong>📊 재원별 변화 상세 보기</strong></summary>
-
-| 재원 | 2015년 | 2024년 | 증감액 | 증감률 | 트렌드 |
-|---|---:|---:|---:|---:|:---:|
-| 유료방송수신료 | 2조 7,544억 | **3조 7,595억** | +1조 51억 | **+36.49%** | 🚀 급증 |
-| 방송광고 | **3조 5,035억** | 2조 2,942억 | -1조 2,093억 | **-34.52%** | 💔 붕괴 |
-| 홈쇼핑송출수수료 | 0억 | **2조 249억** | +2조 249억 | **신규** | 🏠 부상 |
-| KBS수신료 | 6,500억 | 6,500억 | 0억 | 0% | ⏸️ 동결 |
-| 방발기금 | 1,500억 | 1,576억 | +76억 | +5.07% | → 정체 |
-| **합계** | **7조 579억** | **8조 8,862억** | **+1조 8,283억** | **+25.90%** | 📊 |
-
-</details>
-
-### 비중 구조의 극적 변화
-
-```
-2015년: 광고 시대                   2024년: 수신료 시대
-━━━━━━━━━━━━━━━━━━━━━━━━━━━    ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1위  방송광고       49.64% 👑      1위  유료방송수신료 42.31% 👑
-2위  유료방송수신료 39.03%         2위  방송광고       25.82%
-3위  KBS수신료      9.21%          3위  홈쇼핑        22.79% ⭐
-4위  방발기금       2.13%          4위  KBS수신료      7.31%
-5위  홈쇼핑         0.00%          5위  방발기금       1.77%
-```
-
-**🔄 완전한 역전**: 광고 중심 → 수신료 중심 전환 완료
-
----
-
-## 🔍 데이터 검증: 99.50% 정확도
-
-### 2021년 원본 데이터 대조 검증
-
-이미지 원본 데이터(방미통위 공표자료)와 DB 분석 결과를 교차 검증한 결과:
-
-| 재원 | DB 분석 | 원본 데이터 | 차이 | 정확도 |
-|---|---:|---:|---:|---:|
-| 유료방송수신료 | 3조 6,540억 | 3조 6,579억 | -39억 | **99.89%** ✓ |
-| 방송광고 | 3조 1,023억 | 3조 1,247억 | -224억 | **99.28%** ✓ |
-| 홈쇼핑송출수수료 | 2조 1,952억 | 2조 2,489억 | -537억 | **97.61%** ✓ |
-| KBS수신료 | 6,500억 | 6,862억 | -362억 | **94.72%** ✓ |
-| **전체 합계** | **9조 7,665억** | **9조 7,177억** | **+488억** | **99.50%** ✅ |
-
-### 검증 방법론
-
-1. **원본 대조**: 방송통신위원회 공표 이미지 데이터
-2. **교차 검증**: 제일기획 광고연감, 기획재정부 부담금 보고서
-3. **내부 일관성**: 10년 시계열 데이터 논리적 정합성
-4. **독립 재현**: 다른 연구자가 재계산 가능한 투명성
-
----
-
-## 💥 위기의 징후: 5대 핵심 이슈
-
-### 1️⃣ 방송광고 시장의 구조적 붕괴
-
-<details>
-<summary><strong>📉 광고 붕괴 상세 분석</strong></summary>
-
-#### 10년 추이 (2015-2024)
-
-```
-2015년: 3조 5,035억원 (49.64%) 👑 최대 재원
-2016년: 3조 4,584억원 (48.59%)
-2017년: 3조 1,827억원 (41.04%)
-2018년: 3조 2,350억원 (38.18%)
-2019년: 3조 2,976억원 (34.74%) ← 정점
-2020년: 3조 1,378억원 (33.32%)
-2021년: 3조 1,023억원 (31.76%)
-2022년: 2조 8,816억원 (29.88%)
-2023년: 2조 4,972억원 (27.57%)
-2024년: 2조 2,942억원 (25.82%) 💔 붕괴
-```
-
-#### 회복 불가능한 이유
-
-1. **디지털 광고 대이동**
-   - 방송광고: 3조 7,852억 → 3조 4,096억 (-9.92%)
-   - 디지털광고: 5조 532억 → 8조 3,810억 (+65.86%)
-   - **격차**: 1조 2,680억 → 4조 9,714억 (3.9배 확대)
-
-2. **시청률 급락**
-   - OTT 시대 도래
-   - 유튜브 등 대체 미디어
-   - 광고 단가 하락
-
-3. **구조적 변화**
-   - 단순 경기 순환이 아님
-   - 2019년 이후 지속 하락
-   - 회복 가능성 희박
-
-</details>
-
-### 2️⃣ IPTV vs 케이블: 플랫폼 전쟁의 종결
-
-<details>
-<summary><strong>🔄 플랫폼 재편 타임라인</strong></summary>
-
-#### 수신료 추이 (2015-2024)
-
-| 연도 | IPTV | 케이블(SO) | IPTV 비중 |
-|:---:|---:|---:|:---:|
-| 2015년 | 1조 4,695억 | **0조 9,386억** | 53.4% |
-| 2016년 | 1조 6,720억 | 0조 8,933억 | 59.1% |
-| 2017년 | 1조 8,861억 | 0조 8,474억 | 64.1% |
-| 2018년 | 2조 1,072억 | 0조 7,984억 | 68.0% | ← 교차
-| 2019년 | 2조 3,346억 | 0조 7,556억 | 72.0% |
-| 2020년 | 2조 5,011억 | 0조 7,030억 | 74.7% |
-| 2021년 | 2조 6,779억 | 0조 6,492억 | 77.2% |
-| 2022년 | 2조 7,936억 | 0조 6,122억 | 79.2% |
-| 2023년 | 2조 8,682억 | 0조 5,863억 | 79.8% |
-| 2024년 | **2조 9,269억** | 0조 5,719억 | **77.8%** | ← 완료
-
-**결론**: IPTV의 압도적 승리 (77.8%), 케이블의 몰락 (-39.1%)
-
-</details>
-
-### 3️⃣ KBS 수신료 44년 동결의 재앙
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1981년: 2,500원 책정
-   ⋮
-2025년: 2,500원 유지 (44년간 동결)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-물가상승률 반영 시 실질가치: 82% 하락
-2024년 적정 수신료: 약 13,900원
-현재 정부재원 비중: 10.15% (OECD 최하위)
-```
-
-#### 국제 비교
-
-| 국가 | 정부재원 비중 | 비고 |
-|---|:---:|---|
-| 영국 BBC | ~70% | 수신료 중심 |
-| 독일 ARD/ZDF | ~80% | 세금 기반 |
-| 일본 NHK | ~90% | 수신료 |
-| 프랑스 | ~60% | 공영방송세 |
-| **한국 KBS** | **10.15%** | **OECD 최하위** ⚠️ |
-
-### 4️⃣ 홈쇼핑의 놀라운 부상
-
-```
-2015-2016년: 0원 (데이터 없음)
-2017년: 2조 4,448억원 ← 갑자기 등장!
-2024년: 2조   249억원 (3위 재원, 22.79%)
-```
-
-**특징**:
-- 안정적 수익원
-- 플랫폼 송출수수료 기반
-- 내부거래 없는 순수 외부 재원
-- 방송산업의 새로운 버팀목
-
-### 5️⃣ 순유입재원의 정체
-
-<details>
-<summary><strong>📊 외부 재원 유입 정체 현상</strong></summary>
-
-#### 2019년 정점 이후 지속 하락
-
-```
-2015년: 7조 0,579억원
-2016년: 7조 1,183억원
-2017년: 7조 7,511억원
-2018년: 8조 4,768억원
-2019년: 9조 4,938억원 ← 정점 👑
-2020년: 9조 4,157억원
-2021년: 9조 7,665억원
-2022년: 9조 6,446억원
-2023년: 9조 0,555억원 ← 급락!
-2024년: 8조 8,862억원 ← 더 하락!
-```
-
-**2019년 대비**: -6,076억원 (-6.4%)
-
-**의미**: 외부로부터의 실질적 재원 유입 능력 약화
-
-</details>
-
----
-
-## 🎓 연구 방법론
-
-### 데이터 소스
-
-1. **1차 데이터**: 방송통신위원회 방송사업자 재무제표 (2015-2024)
-2. **2차 데이터**: 제일기획 『2024 광고연감』
-3. **3차 데이터**: 기획재정부 『부담금 운용종합보고서』
-4. **검증 데이터**: 방송미디어통신위원회 『업무현황』 (2025.10)
-
-### 분석 도구
-
-- **Python 3.x**: 데이터 처리 및 분석
-- **Pandas**: 시계열 데이터 분석 및 집계
-- **SQLite**: 3,126개 레코드 데이터베이스 관리
-- **Matplotlib/Seaborn**: 데이터 시각화
-- **Excel**: 최종 보고서 작성
-
-### 핵심 개념: 순유입재원
-
-```
-순유입재원 = 외부로부터 유입되는 순수 재원
-
-포함:
-✓ 유료방송수신료 (가입자로부터)
-✓ 방송광고 (광고주로부터)
-✓ 홈쇼핑송출수수료 (홈쇼핑사로부터)
-✓ KBS수신료 (시청자로부터)
-✓ 방발기금 (정부로부터)
-
-제외:
-✗ 재송신료 (내부거래)
-✗ 협찬고료 (내부거래)
-✗ 프로그램판매 (내부거래)
-✗ PP전송수수료 (내부거래)
-```
-
----
-
-## 🛣️ 통합 정책 로드맵
-
-### Phase 1: 긴급 안정화 (2025-2026)
-
-#### 1-1. KBS 수신료 정상화
-
-```
-현재: 2,500원/월 (44년 동결)
-  ↓
-1단계 (2025): 3,500원/월 (+40%)
-  ↓
-2단계 (2027): 5,000원/월 (+100%)
-  ↓
-3단계 (2029): 물가연동제 도입
-```
-
-**기대 효과**:
-- KBS 재정 안정화
-- 공영방송 역할 복원
-- 콘텐츠 품질 향상
-
-#### 1-2. 방송광고 규제 완화
-
-- ✅ 간접광고(PPL) 규제 완화
-- ✅ 가상광고 허용 및 확대
-- ✅ 프로그램 시간 제한 완화
-- ✅ 지상파 경쟁력 강화
-
-**예상 증가**: 연간 3,000-5,000억원
-
-### Phase 2: 구조 개혁 (2027-2028)
-
-#### 2-1. 플랫폼 기여금 재조정
-
-| 플랫폼 | 현재 | 개선안 | 근거 |
-|---|:---:|:---:|---|
-| IPTV | 낮음 | 상향 | 수신료 77.8% 차지 |
-| 케이블 | 높음 | 유지 | 생존 지원 |
-| OTT | 없음 | 신설 | 공정 기여 |
-
-#### 2-2. 방발기금 확대 및 효율화
-
-```
-현재: 1,576억원 (순유입의 1.77%)
-목표: 5,000억원+ (순유입의 5%+)
-
-관리: 방송미디어통신위원회 통합 관리
-배분:
-  - 콘텐츠 제작 지원 40%
-  - 기술 혁신 지원 30%
-  - 글로벌 진출 지원 20%
-  - 인프라 지원 10%
-```
-
-### Phase 3: 장기 지속가능성 (2029+)
-
-#### 3-1. 디지털 전환 지원
-
-- 지상파 OTT 플랫폼 육성
-- 5G/6G 방송 기술 개발
-- AI 기반 콘텐츠 제작 지원
-- 글로벌 K-콘텐츠 확산
-
-#### 3-2. 제도 개선
-
-- 수신료 자동 조정 시스템
-- 투명한 재원 배분 구조
-- 성과 기반 평가 체계
-- 국민 참여 거버넌스
-
----
-
-## 📚 학술적 기여
-
-### 이론적 기여
-
-1. **순유입재원 개념 정립**
-   - 내부거래와 외부 유입 명확히 구분
-   - 실질적 재원 유입 능력 측정 방법론 제시
-
-2. **구조 변화 분석 프레임워크**
-   - 10년 장기 시계열 분석
-   - 패러다임 전환 시점 규명
-
-3. **국제 비교 기준 마련**
-   - OECD 국가들과의 체계적 비교
-   - 한국 방송산업의 상대적 위치 확인
-
-### 실증적 기여
-
-1. **99.50% 검증 정확도**
-   - 원본 데이터와의 교차 검증
-   - 학술적 신뢰성 확보
-
-2. **전수 데이터 분석**
-   - 3,126개 레코드 완전 집계
-   - 표본 오차 없는 모집단 분석
-
-3. **재현 가능성**
-   - 모든 데이터와 코드 공개
-   - 독립적 검증 가능
-
----
-
-## 💼 정책적 함의
-
-### 정부
-
-- 방송산업 위기 정확한 진단
-- 증거 기반 정책 수립
-- 예산 배분 우선순위 결정
-- 국제 비교를 통한 벤치마킹
-
-### 방송사업자
-
-- 재원 구조 변화 대응
-- 플랫폼 전환 전략 수립
-- 수익모델 다각화
-- 디지털 역량 강화
-
-### 학계
-
-- 미디어 경제학 연구 기초 데이터
-- 정책 효과 분석 기준점
-- 후속 연구 토대
-- 교육 자료
-
----
-
-## 🔗 데이터 및 코드 공개
-
-### GitHub Repository
-
-```
-https://github.com/yhkim1981-svg/broadcasting-analysis
-```
-
-**포함 내용**:
-- 전체 데이터셋 (SQLite DB)
-- Python 분석 스크립트
-- 검증 절차 문서
-- 시각화 코드
-- 최종 보고서 (Excel)
-
-### 재현성 (Reproducibility)
-
-1. 데이터베이스 다운로드
-2. Python 스크립트 실행
-3. 동일한 결과 재현 가능
-4. 독립적 검증 환영
-
----
-
-## 📖 관련 자료
-
-### 발표 자료
-
-- [HTML 프레젠테이션](https://kimyonghee.com/presentations/broadcasting-2024)
-- [PDF 발표문](https://kimyonghee.com/publications/broadcasting-policy-2024.pdf)
-
-### 데이터
-
-- [최종 보고서 (Excel)](https://kimyonghee.com/data/NET_INFLOW_FINAL_COMPLETE_20251102_01.xlsx)
-- [검증 보고서](https://kimyonghee.com/data/DATA_VERIFICATION_20251102.xlsx)
-
-### 언론 보도
-
-- 조선일보, "방송산업 구조적 위기...광고 붕괴·수신료 동결", 2024.11
-- 한국경제, "IPTV 승리, 케이블 몰락...10년만에 완전 역전", 2024.11
-
----
-
-## 📞 연구자 정보
-
-**김용희** (Yonghee Kim, Ph.D.)  
-선문대학교 경영학과 조교수
-
-**전문 분야**:
-- 미디어 정책 및 규제
-- 디지털 플랫폼 경제
-- 방송통신 산업 분석
-- 미디어 경영 전략
-
-**연락처**:
-- Email: yhkim@sunmoon.ac.kr
-- ORCID: 0000-0002-5643-2748
-- Google Scholar: [Profile](https://scholar.google.com/citations?user=semkeskAAAAJ)
-
----
-
-## 📝 인용 방법 (Citation)
-
-### APA Style
-```
-Kim, Y. (2024). Integrated Policy Roadmap for Sustainable Media Ecosystem: 
-Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations 
-(2015-2024). Korean Broadcasting Association 2025 Fall Conference.
-```
-
-### Chicago Style
-```
-Kim, Yonghee. "Integrated Policy Roadmap for Sustainable Media Ecosystem: 
-Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations 
-(2015-2024)." Paper presented at Korean Broadcasting Association 2025 Fall 
-Conference, November 2024.
-```
-
----
-
-## 🙏 감사의 글
-
-본 연구는 방송통신위원회의 공개 데이터를 활용하여 수행되었습니다. 데이터 검증 과정에서 조언을 주신 한국방송학회 동료 연구자분들께 감사드립니다.
-
----
-
-## 📌 주요 용어 정리
-
-| 용어 | 정의 |
-|---|---|
-| **순유입재원** | 방송산업으로 외부에서 유입되는 순수 재원 (내부거래 제외) |
-| **내부거래** | 방송사업자 간 거래 (재송신료, PP전송수수료 등) |
-| **유료방송수신료** | IPTV, 케이블, 위성 가입자가 지불하는 시청료 |
-| **홈쇼핑송출수수료** | TV홈쇼핑사가 플랫폼에 지불하는 송출 대가 |
-| **방발기금** | 방송통신발전기금, 정부 지원금 |
-
----
-
-**프로젝트 기간**: 2024.08 - 2025.11  
-**데이터 기간**: 2015-2024 (10년)  
-**최종 업데이트**: 2025.11.12  
-**버전**: v7.0 FINAL  
-**검증 정확도**: 99.50%
+<style>
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.data-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.2s;
+}
+
+.data-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.data-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.data-table td {
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.data-table .number {
+  text-align: right;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-weight: 500;
+}
+
+.data-table .highlight {
+  background: #fef3c7;
+}
+
+.data-table .positive {
+  color: #059669;
+  font-weight: 600;
+}
+
+.data-table .negative {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.chart-container {
+  width: 100%;
+  height: 400px;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.metric-card {
+  display: inline-block;
+  padding: 1.5rem;
+  margin: 0.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  min-width: 200px;
+}
+
+.metric-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.metric-label {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.section-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #667eea, transparent);
+  margin: 3rem 0;
+  border: none;
+}
+
+.info-box {
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+  background: #f0f9ff;
+}
+
+.warning-box {
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  border-left: 4px solid #f59e0b;
+  background: #fffbeb;
+}
+</style>
+
+## Executive Summary
+
+This study conducts an empirical analysis of the 10-year (2015-2024) structural changes in Korea's broadcasting industry revenue, revealing a complete paradigm shift from advertising-based to subscription-based revenue model. However, the actual inflow of external funding remains stagnant.
+
+Based on complete analysis of 3,126 records from official data sources, this research achieved 99.50% accuracy through cross-validation with original 2021 data.
+
+### Key Findings
+
+Broadcasting advertising revenue collapsed by 34.52% over ten years, declining from 3.50 trillion won to 2.29 trillion won. During the same period, IPTV grew by 99.1% while cable declined by 39.1%. The KBS license fee, frozen for 44 years, has lost 82% of its real value. Government support for broadcasting stands at only 10.15%, the lowest among OECD countries.
+
+<div class="metric-card">
+<div class="metric-value">8.89</div>
+<div class="metric-label">Trillion Won<br>Total Net Inflow Revenue (2024)</div>
+</div>
+
+<div class="metric-card">
+<div class="metric-value">99.50%</div>
+<div class="metric-label">Data Verification<br>Accuracy (2021 baseline)</div>
+</div>
+
+<div class="metric-card">
+<div class="metric-value">-34.52%</div>
+<div class="metric-label">Broadcasting Ad Revenue<br>Decline (10 years)</div>
+</div>
+
+<hr class="section-divider">
+
+## 2024 Net Inflow Revenue Structure
+
+### Total Net Inflow Revenue: 8.89 Trillion Won
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Rank</th>
+<th>Revenue Source</th>
+<th class="number">Amount</th>
+<th class="number">Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1st</strong></td>
+<td>Pay-TV Subscription Fees</td>
+<td class="number">3.76 trillion won</td>
+<td class="number positive">42.31%</td>
+</tr>
+<tr>
+<td><strong>2nd</strong></td>
+<td>Broadcasting Advertising</td>
+<td class="number">2.29 trillion won</td>
+<td class="number">25.82%</td>
+</tr>
+<tr>
+<td><strong>3rd</strong></td>
+<td>Home Shopping Transmission Fees</td>
+<td class="number">2.02 trillion won</td>
+<td class="number">22.79%</td>
+</tr>
+<tr>
+<td><strong>4th</strong></td>
+<td>KBS License Fee</td>
+<td class="number">0.65 trillion won</td>
+<td class="number">7.31%</td>
+</tr>
+<tr>
+<td><strong>5th</strong></td>
+<td>Broadcasting Development Fund</td>
+<td class="number">0.16 trillion won</td>
+<td class="number">1.77%</td>
+</tr>
+</tbody>
+</table>
+
+### Platform Distribution in Pay-TV Market
+
+The 3.76 trillion won in pay-TV subscription fees is distributed across platforms as follows:
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Platform</th>
+<th class="number">Subscription Fees</th>
+<th class="number">Market Share</th>
+<th class="number">10-Year Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IPTV</strong></td>
+<td class="number">2.93 trillion won</td>
+<td class="number">77.8%</td>
+<td class="number positive">+99.1%</td>
+</tr>
+<tr>
+<td>Cable (SO)</td>
+<td class="number">0.57 trillion won</td>
+<td class="number">15.2%</td>
+<td class="number negative">-39.1%</td>
+</tr>
+<tr>
+<td>Satellite</td>
+<td class="number">0.26 trillion won</td>
+<td class="number">6.9%</td>
+<td class="number negative">-1.4%</td>
+</tr>
+</tbody>
+</table>
+
+<div class="info-box">
+<strong>Platform Consolidation Complete:</strong> IPTV now dominates approximately 80% of the pay-TV market, marking the completion of platform restructuring.
+</div>
+
+<hr class="section-divider">
+
+## 10-Year Structural Changes
+
+### Revenue Source Trends (2015-2024)
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Revenue Source</th>
+<th class="number">2015</th>
+<th class="number">2024</th>
+<th class="number">Change</th>
+<th class="number">Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pay-TV Subscriptions</td>
+<td class="number">2.75T won</td>
+<td class="number">3.76T won</td>
+<td class="number positive">+1.01T won</td>
+<td class="number positive">+36.49%</td>
+</tr>
+<tr class="highlight">
+<td>Broadcasting Advertising</td>
+<td class="number">3.50T won</td>
+<td class="number">2.29T won</td>
+<td class="number negative">-1.21T won</td>
+<td class="number negative">-34.52%</td>
+</tr>
+<tr>
+<td>Home Shopping Fees</td>
+<td class="number">0.00T won</td>
+<td class="number">2.02T won</td>
+<td class="number positive">+2.02T won</td>
+<td class="number">New</td>
+</tr>
+<tr>
+<td>KBS License Fee</td>
+<td class="number">0.65T won</td>
+<td class="number">0.65T won</td>
+<td class="number">0.00T won</td>
+<td class="number">0%</td>
+</tr>
+<tr>
+<td>Broadcasting Fund</td>
+<td class="number">0.15T won</td>
+<td class="number">0.16T won</td>
+<td class="number">+0.01T won</td>
+<td class="number">+5.07%</td>
+</tr>
+<tr style="background: #f3f4f6; font-weight: 600;">
+<td><strong>Total</strong></td>
+<td class="number"><strong>7.06T won</strong></td>
+<td class="number"><strong>8.89T won</strong></td>
+<td class="number positive"><strong>+1.83T won</strong></td>
+<td class="number positive"><strong>+25.90%</strong></td>
+</tr>
+</tbody>
+</table>
+
+### Structural Transformation in Revenue Share
+
+Over ten years, the broadcasting industry's revenue structure has been completely reorganized. Broadcasting advertising, which held the top position at 49.64% in 2015, fell to second place at 25.82% in 2024. Pay-TV subscription fees became the primary revenue source at 42.31%. Notably, home shopping transmission fees, which emerged in 2017, have risen to become the third-largest revenue source at 22.79% in 2024.
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Rank</th>
+<th>2015</th>
+<th class="number">Share</th>
+<th>2024</th>
+<th class="number">Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1st</td>
+<td>Broadcasting Advertising</td>
+<td class="number">49.64%</td>
+<td>Pay-TV Subscriptions</td>
+<td class="number positive">42.31%</td>
+</tr>
+<tr>
+<td>2nd</td>
+<td>Pay-TV Subscriptions</td>
+<td class="number">39.03%</td>
+<td>Broadcasting Advertising</td>
+<td class="number">25.82%</td>
+</tr>
+<tr>
+<td>3rd</td>
+<td>KBS License Fee</td>
+<td class="number">9.21%</td>
+<td>Home Shopping Fees</td>
+<td class="number positive">22.79%</td>
+</tr>
+<tr>
+<td>4th</td>
+<td>Broadcasting Fund</td>
+<td class="number">2.13%</td>
+<td>KBS License Fee</td>
+<td class="number">7.31%</td>
+</tr>
+<tr>
+<td>5th</td>
+<td>Home Shopping</td>
+<td class="number">0.00%</td>
+<td>Broadcasting Fund</td>
+<td class="number">1.77%</td>
+</tr>
+</tbody>
+</table>
+
+<div class="warning-box">
+<strong>Complete Paradigm Shift:</strong> The transition from advertising-based to subscription-based revenue model is now complete. This represents a fundamental transformation in the industry's revenue structure.
+</div>
+
+<div id="revenueShareChart" class="chart-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const ctx = document.getElementById('revenueShareChart');
+  if (ctx) {
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+        datasets: [
+          {
+            label: 'Pay-TV Subscriptions',
+            data: [27.5, 28.3, 29.4, 31.2, 32.4, 33.5, 36.5, 37.1, 37.3, 37.6],
+            backgroundColor: 'rgba(102, 126, 234, 0.8)',
+            borderColor: 'rgba(102, 126, 234, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Broadcasting Advertising',
+            data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
+            backgroundColor: 'rgba(239, 68, 68, 0.8)',
+            borderColor: 'rgba(239, 68, 68, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Home Shopping Fees',
+            data: [0, 0, 24.4, 24.0, 23.7, 23.5, 22.0, 21.5, 20.5, 20.2],
+            backgroundColor: 'rgba(245, 158, 11, 0.8)',
+            borderColor: 'rgba(245, 158, 11, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'KBS License Fee',
+            data: [6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5],
+            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+            borderColor: 'rgba(16, 185, 129, 1)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Net Inflow Revenue Trends (2015-2024)',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            position: 'bottom'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += context.parsed.y.toFixed(1) + ' trillion won';
+                return label;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            stacked: false,
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            stacked: false,
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Amount (Trillion Won)'
+            },
+            ticks: {
+              callback: function(value) {
+                return value + 'T';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+});
+</script>
+
+<hr class="section-divider">
+
+## Data Verification: 99.50% Accuracy
+
+### Cross-Validation with Original 2021 Data
+
+To ensure research reliability, we cross-validated database analysis results with original image data published by the Broadcasting and Media Communications Commission.
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Revenue Source</th>
+<th class="number">DB Analysis</th>
+<th class="number">Original Data</th>
+<th class="number">Difference</th>
+<th class="number">Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pay-TV Subscriptions</td>
+<td class="number">3.65T won</td>
+<td class="number">3.66T won</td>
+<td class="number">-0.04T won</td>
+<td class="number positive">99.89%</td>
+</tr>
+<tr>
+<td>Broadcasting Advertising</td>
+<td class="number">3.10T won</td>
+<td class="number">3.12T won</td>
+<td class="number">-0.22T won</td>
+<td class="number positive">99.28%</td>
+</tr>
+<tr>
+<td>Home Shopping Fees</td>
+<td class="number">2.20T won</td>
+<td class="number">2.25T won</td>
+<td class="number">-0.54T won</td>
+<td class="number positive">97.61%</td>
+</tr>
+<tr>
+<td>KBS License Fee</td>
+<td class="number">0.65T won</td>
+<td class="number">0.69T won</td>
+<td class="number">-0.36T won</td>
+<td class="number positive">94.72%</td>
+</tr>
+<tr style="background: #f0fdf4; font-weight: 600;">
+<td><strong>Total</strong></td>
+<td class="number"><strong>9.77T won</strong></td>
+<td class="number"><strong>9.72T won</strong></td>
+<td class="number positive"><strong>+0.05T won</strong></td>
+<td class="number positive"><strong>99.50%</strong></td>
+</tr>
+</tbody>
+</table>
+
+<div class="info-box">
+<strong>High Reliability Achieved:</strong> The overall verification accuracy of 99.50% for total net inflow revenue establishes high credibility for this academic research.
+</div>
+
+### Verification Methodology
+
+This research underwent a three-stage verification process:
+
+**Stage 1: Original Data Comparison**  
+Database analysis results were compared 1:1 with official image data published by the Korea Communications Commission to calculate error rates.
+
+**Stage 2: Cross-Validation**  
+Independent data sources including Cheil Worldwide's Advertising Yearbook and the Ministry of Strategy and Finance's Fund Operation Report were used for cross-validation.
+
+**Stage 3: Logical Consistency**  
+Internal consistency of the 10-year time series data was reviewed, and causes were identified for any sudden changes to reconfirm data reliability.
+
+<hr class="section-divider">
+
+## Crisis Diagnosis: Five Critical Issues
+
+### 1. Structural Collapse of Broadcasting Advertising Market
+
+Broadcasting advertising revenue plummeted by 34.52% over ten years, from 3.50 trillion won to 2.29 trillion won. This represents a structural change, not merely a cyclical downturn.
+
+<div id="advertisingTrendChart" class="chart-container"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const ctx2 = document.getElementById('advertisingTrendChart');
+  if (ctx2) {
+    new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+        datasets: [
+          {
+            label: 'Broadcasting Advertising',
+            data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
+            borderColor: 'rgba(239, 68, 68, 1)',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Digital Advertising (Cheil)',
+            data: [null, null, null, null, 50.5, 57.8, 67.8, 76.1, 83.8, null],
+            borderColor: 'rgba(59, 130, 246, 1)',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            borderDash: [5, 5]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Broadcasting vs Digital Advertising Trends',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            position: 'bottom'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                  label += context.parsed.y.toFixed(1) + ' trillion won';
+                }
+                return label;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Amount (Trillion Won)'
+            },
+            ticks: {
+              callback: function(value) {
+                return value + 'T';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+});
+</script>
+
+#### Annual Trends
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Year</th>
+<th class="number">Amount</th>
+<th class="number">Share</th>
+<th class="number">YoY Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2015</td>
+<td class="number">3.50T won</td>
+<td class="number">49.64%</td>
+<td class="number">-</td>
+</tr>
+<tr>
+<td>2019</td>
+<td class="number">3.30T won</td>
+<td class="number">34.74%</td>
+<td class="number">Peak</td>
+</tr>
+<tr>
+<td>2022</td>
+<td class="number">2.88T won</td>
+<td class="number">29.88%</td>
+<td class="number negative">-7.11%</td>
+</tr>
+<tr>
+<td>2023</td>
+<td class="number">2.50T won</td>
+<td class="number">27.57%</td>
+<td class="number negative">-13.34%</td>
+</tr>
+<tr class="highlight">
+<td>2024</td>
+<td class="number">2.29T won</td>
+<td class="number">25.82%</td>
+<td class="number negative">-8.13%</td>
+</tr>
+</tbody>
+</table>
+
+<div class="warning-box">
+<strong>Irreversible Decline:</strong> Showing consistent decline since 2019 peak, with particularly sharp drops after 2022. This is not a temporary phenomenon but a structural transformation.
+</div>
+
+### 2. IPTV vs Cable: The Platform War Ends
+
+The contrast between IPTV and cable in the pay-TV platform market is stark.
+
+<div id="platformChart" class="chart-container"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const ctx3 = document.getElementById('platformChart');
+  if (ctx3) {
+    new Chart(ctx3, {
+      type: 'line',
+      data: {
+        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+        datasets: [
+          {
+            label: 'IPTV',
+            data: [14.7, 16.7, 18.9, 21.1, 23.3, 25.0, 26.8, 27.9, 28.7, 29.3],
+            borderColor: 'rgba(16, 185, 129, 1)',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Cable (SO)',
+            data: [9.4, 8.9, 8.5, 8.0, 7.6, 7.0, 6.5, 6.1, 5.9, 5.7],
+            borderColor: 'rgba(239, 68, 68, 1)',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'IPTV vs Cable Platform Subscription Fee Trends',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          legend: {
+            position: 'bottom'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += context.parsed.y.toFixed(1) + ' trillion won';
+                return label;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Amount (Trillion Won)'
+            },
+            ticks: {
+              callback: function(value) {
+                return value + 'T';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+});
+</script>
+
+<div class="info-box">
+<strong>Decisive Victory:</strong> IPTV grew 99.1% over ten years while cable collapsed by 39.1%. Platform restructuring was effectively complete around 2018 when IPTV surpassed 70% market share.
+</div>
+
+### 3. KBS License Fee: 44-Year Freeze
+
+The KBS license fee has not been adjusted once since it was set at 2,500 won in 1981. Considering inflation, the real value has declined by 82%, and the appropriate 2024 fee is estimated at approximately 13,900 won.
+
+#### International Comparison
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Country</th>
+<th>Public Broadcaster</th>
+<th class="number">Govt Funding %</th>
+<th>Funding Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>United Kingdom</td>
+<td>BBC</td>
+<td class="number">~70%</td>
+<td>License fee</td>
+</tr>
+<tr>
+<td>Germany</td>
+<td>ARD/ZDF</td>
+<td class="number">~80%</td>
+<td>Broadcasting tax</td>
+</tr>
+<tr>
+<td>Japan</td>
+<td>NHK</td>
+<td class="number">~90%</td>
+<td>License fee</td>
+</tr>
+<tr>
+<td>France</td>
+<td>France Télévisions</td>
+<td class="number">~60%</td>
+<td>Broadcasting levy</td>
+</tr>
+<tr class="highlight">
+<td>South Korea</td>
+<td>KBS</td>
+<td class="number negative">10.15%</td>
+<td>License fee (frozen)</td>
+</tr>
+</tbody>
+</table>
+
+<div class="warning-box">
+<strong>OECD Lowest:</strong> Korea's government funding ratio of 10.15% is the lowest among major OECD countries, highlighting severe underfunding of public broadcasting.
+</div>
+
+### 4. Rise of Home Shopping
+
+Home shopping transmission fees first appeared at 2.44 trillion won in 2017 and reached 2.02 trillion won in 2024, becoming the third-largest revenue source. This has established itself as a new revenue stream for the broadcasting industry and is significant as pure external inflow without internal transactions.
+
+### 5. Stagnation of Net Inflow Revenue
+
+While total net inflow revenue increased from 7.06 trillion won in 2015 to 8.89 trillion won in 2024, it has been declining since peaking at 9.49 trillion won in 2019.
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Year</th>
+<th class="number">Net Inflow Revenue</th>
+<th class="number">YoY Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2015</td>
+<td class="number">7.06T won</td>
+<td class="number">-</td>
+</tr>
+<tr class="highlight">
+<td>2019</td>
+<td class="number">9.49T won</td>
+<td class="number">Peak</td>
+</tr>
+<tr>
+<td>2023</td>
+<td class="number">9.06T won</td>
+<td class="number negative">-4.62%</td>
+</tr>
+<tr>
+<td>2024</td>
+<td class="number">8.89T won</td>
+<td class="number negative">-1.87%</td>
+</tr>
+</tbody>
+</table>
+
+<div class="warning-box">
+<strong>Declining External Funding Capacity:</strong> Down 0.61 trillion won (6.4%) from 2019 peak, indicating weakening ability to generate external revenue.
+</div>
+
+<hr class="section-divider">
+
+## Research Methodology
+
+### Data Sources
+
+This research utilized the following official data sources:
+
+**Korea Communications Commission Broadcasting Operator Financial Statements (2015-2024)**  
+Based on broadcasting operator asset disclosure data, 3,126 records were organized into a database.
+
+**Cheil Worldwide Advertising Yearbook (2024)**  
+Official advertising market data from Cheil Worldwide was used for comparing broadcasting and digital advertising.
+
+**Ministry of Strategy and Finance Fund Operation Report**  
+Annual execution details of the Broadcasting Communications Development Fund were verified.
+
+**Broadcasting and Media Communications Commission Business Status Report (2025.10)**  
+Used for KBS license fee verification and latest industry status.
+
+### Analysis Tools and Technical Stack
+
+**Python 3.x**  
+Core tool for data preprocessing, aggregation, and analysis.
+
+**Pandas**  
+Used for time series data analysis and revenue source aggregation.
+
+**SQLite**  
+Relational database for systematic management of 3,126 records.
+
+**Matplotlib & Seaborn**  
+Used for trend analysis and comparative chart generation.
+
+**Microsoft Excel**  
+Used for final report preparation and cross-validation table creation.
+
+### Net Inflow Revenue Concept
+
+The core concept of this research, net inflow revenue, refers only to pure revenue flowing into the broadcasting industry from external sources.
+
+**Included Items**
+
+Pay-TV subscription fees are viewing fees paid directly by IPTV, cable, and satellite subscribers. Broadcasting advertising is advertising expenses from advertisers. Home shopping transmission fees are transmission charges paid by TV home shopping companies to platforms. KBS license fee is the public broadcasting fee paid by viewers along with electricity bills. Broadcasting fund is government funding for supporting the broadcasting industry.
+
+**Excluded Items**
+
+Retransmission fees are internal transactions paid by platform operators to terrestrial broadcasters. PP transmission fees are internal transactions paid by IPTV/cable to PP. Program sales are content transactions between broadcasters, classified as internal transactions. Sponsorship fees are also classified as transactions between broadcasting operators and were excluded.
+
+<hr class="section-divider">
+
+## Integrated Policy Roadmap
+
+### Phase 1: Emergency Stabilization (2025-2026)
+
+#### KBS License Fee Normalization
+
+Gradually increase the KBS license fee, which has been frozen at 2,500 won for 44 years.
+
+**Stage 1 (2025): Increase to 3,500 won (+40%)**  
+**Stage 2 (2027): Increase to 5,000 won (+100%)**  
+**Stage 3 (2029): Introduce inflation indexation**
+
+Expected effects include KBS financial stabilization, restoration of public broadcasting role, and expanded content production investment.
+
+#### Broadcasting Advertising Deregulation
+
+Deregulate advertising to strengthen terrestrial broadcasting competitiveness.
+
+Relax indirect advertising (PPL) regulations, allow and expand virtual advertising, and ease program time restrictions, expecting annual advertising revenue increase of 300-500 billion won.
+
+### Phase 2: Structural Reform (2027-2028)
+
+#### Platform Contribution Fee Readjustment
+
+<table class="data-table">
+<thead>
+<tr>
+<th>Platform</th>
+<th>Current Contribution</th>
+<th>Improvement Direction</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPTV</td>
+<td>Low level</td>
+<td>Increase contribution</td>
+<td>77.8% market share</td>
+</tr>
+<tr>
+<td>Cable</td>
+<td>High level</td>
+<td>Maintain current</td>
+<td>Industry survival support</td>
+</tr>
+<tr>
+<td>OTT</td>
+<td>None</td>
+<td>Establish contribution</td>
+<td>Fair contribution</td>
+</tr>
+</tbody>
+</table>
+
+Establish a fair contribution system proportional to market dominance.
+
+#### Broadcasting Fund Expansion and Efficiency
+
+Expand the broadcasting fund from the current 157.6 billion won (1.77% of net inflow revenue) to over 500 billion won (over 5%).
+
+Establish integrated management system centered on the Broadcasting and Media Communications Commission, with strategic allocation: 40% content production support, 30% technology innovation support, 20% global expansion support, 10% infrastructure support.
+
+### Phase 3: Long-term Sustainability (Post-2029)
+
+#### Digital Transformation Support
+
+Promote terrestrial OTT platform development, 5G and 6G broadcasting technology development, AI-based content production support, and global K-content expansion.
+
+#### Institutional Improvement
+
+Introduce automatic license fee adjustment system, establish transparent funding distribution structure, build performance-based evaluation system, and strengthen public participation governance.
+
+<hr class="section-divider">
+
+## Academic Contributions
+
+### Theoretical Contributions
+
+This research clearly establishes the concept of net inflow revenue, presenting an analytical framework that distinguishes between internal transactions and external inflows. Through 10-year longitudinal analysis, it identifies the timing of paradigm shifts and confirms Korea's broadcasting industry's relative position through systematic comparison with OECD countries.
+
+### Empirical Contributions
+
+Achieved 99.50% verification accuracy through cross-validation with original data, demonstrating academic credibility. Conducted complete population analysis of 3,126 records without sampling error, and made all data and code publicly available for independent verification.
+
+### Policy Implications
+
+The government can use this research for accurate diagnosis of broadcasting industry crisis and evidence-based policy formulation. Broadcasting operators can respond to revenue structure changes and establish platform transition strategies. Academia gains foundational data for media economics research and baseline for policy effect analysis.
+
+<hr class="section-divider">
+
+## Key Insights
+
+### Quantitative Growth, Qualitative Stagnation
+
+Net inflow revenue increased 25.90% from 7.06 trillion won in 2015 to 8.89 trillion won in 2024, but declined 6.4% from the 2019 peak of 9.49 trillion won, indicating weakened external funding capacity.
+
+### Platform Transformation Complete
+
+IPTV grew from 53.4% to 77.8% of the pay-TV market while cable shrank from 34.1% to 15.2%, with platform restructuring effectively complete around 2018.
+
+### Advertising Market Collapse
+
+Broadcasting advertising declined 34.52% over ten years while digital advertising grew 65.86% over five years, representing a structural change with slim recovery prospects.
+
+### Government Support Concentration
+
+With KBS license fee at 650 billion won (77.1%) and broadcasting fund at 157.6 billion won (22.9%), overall industry support is insufficient and concentrated on KBS.
+
+### Home Shopping Emergence
+
+First recorded at 2.44 trillion won in 2017, home shopping transmission fees reached 2.02 trillion won in 2024, becoming the third-largest revenue source and an established stable revenue stream.
+
+<hr class="section-divider">
+
+## Project Information
+
+**Research Period**: August 2024 - November 2025  
+**Data Period**: 2015 - 2024 (10 years)  
+**Last Updated**: November 12, 2025  
+**Version**: v7.0 FINAL  
+**Verification Accuracy**: 99.50%
+
+**Database Scale**: 3,126 records  
+**Analysis Platform**: Python, SQLite, Excel  
+**Presentation**: Korean Broadcasting Association 2025 Fall Conference
+
+<hr class="section-divider">
+
+## Researcher Information
+
+**Yonghee Kim, Ph.D.**  
+Assistant Professor, Department of Business Administration  
+Sunmoon University
+
+Expertise in media policy and regulation, digital platform economics, broadcasting and telecommunications industry analysis, and media business strategy.
+
+**Email**: yhkim@sunmoon.ac.kr  
+**ORCID**: 0000-0002-5643-2748  
+**Google Scholar**: [View Profile](https://scholar.google.com/citations?user=semkeskAAAAJ)
+
+<hr class="section-divider">
+
+## Citation
+
+**APA Style**
+
+Kim, Y. (2024). Integrated Policy Roadmap for Sustainable Media Ecosystem: Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations (2015-2024). Paper presented at Korean Broadcasting Association 2025 Fall Conference.
+
+**Chicago Style**
+
+Kim, Yonghee. "Integrated Policy Roadmap for Sustainable Media Ecosystem: Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations (2015-2024)." Paper presented at Korean Broadcasting Association 2025 Fall Conference, November 2024.
+
+<hr class="section-divider">
+
+## Key Terms
+
+**Net Inflow Revenue**  
+Pure revenue flowing into the broadcasting industry from external sources, excluding internal transactions.
+
+**Internal Transactions**  
+Transactions between broadcasting operators, including retransmission fees, PP transmission fees, and program sales.
+
+**Pay-TV Subscription Fees**  
+Viewing fees paid by IPTV, cable, and satellite subscribers.
+
+**Home Shopping Transmission Fees**  
+Transmission charges paid by TV home shopping companies to platforms.
+
+**Broadcasting Fund**  
+Broadcasting Communications Development Fund executed by the government to support the broadcasting industry.
