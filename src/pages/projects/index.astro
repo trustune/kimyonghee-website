@@ -35,8 +35,7 @@ const allProjectsSorted = projects.sort((a, b) => new Date(b.date) - new Date(a.
         {featuredProjects.map((project) => (
           <a href={`/projects/${project.id}`} class="featured-card">
             <div class="featured-badge">FEATURED</div>
-            <h3 class="project-title-ko">{project.title}</h3>
-            <p class="project-title-en">{project.title_en}</p>
+            <h3 class="project-title">{project.title_en}</h3>
             <p class="project-summary">{project.summary}</p>
             <div class="project-meta">
               <span class="project-category">{project.category}</span>
@@ -70,8 +69,7 @@ const allProjectsSorted = projects.sort((a, b) => new Date(b.date) - new Date(a.
         {allProjectsSorted.map((project) => (
           <a href={`/projects/${project.id}`} class="project-card">
             <div class="project-header">
-              <h3 class="project-title-ko">{project.title}</h3>
-              <p class="project-title-en">{project.title_en}</p>
+              <h3 class="project-title">{project.title_en}</h3>
             </div>
             <p class="project-description">{project.description}</p>
             <div class="project-tags">
@@ -158,17 +156,10 @@ const allProjectsSorted = projects.sort((a, b) => new Date(b.date) - new Date(a.
     letter-spacing: 0.05em;
   }
 
-  .project-title-ko {
+  .project-title {
     font-size: 1.875rem;
     font-weight: 700;
     color: #1e40af;
-    margin-bottom: 0.5rem;
-  }
-
-  .project-title-en {
-    font-size: 1.125rem;
-    color: #6b7280;
-    font-style: italic;
     margin-bottom: 1rem;
   }
 
@@ -266,12 +257,9 @@ const allProjectsSorted = projects.sort((a, b) => new Date(b.date) - new Date(a.
     margin-bottom: 1rem;
   }
 
-  .project-card .project-title-ko {
+  .project-card .project-title {
     font-size: 1.25rem;
-  }
-
-  .project-card .project-title-en {
-    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
   }
 
   .project-description {
