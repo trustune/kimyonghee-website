@@ -60,22 +60,7 @@
    Value: root
    ```
 
-   **③ SSH_KEY**
-   ```
-   Name: SSH_KEY
-   Value: (아래 SSH 키 복사)
-   ```
 
-   SSH 키 내용:
-   ```
-   -----BEGIN OPENSSH PRIVATE KEY-----
-   b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-   QyNTUxOQAAACBNq3fhPebC3FOUu0PRlu/EbEy7VV780Va2uFm1GlfdKAAAAJg2TtvjNk7b
-   4wAAAAtzc2gtZWQyNTUxOQAAACBNq3fhPebC3FOUu0PRlu/EbEy7VV780Va2uFm1GlfdKA
-   AAAECSehXX2YGkWUBwEkkkHUhoRZe52fCh8uGJJoqvSTeKCE2rd+E95sLcU5S7Q9GW78Rs
-   TLtVXvzRVra4WbUaV90oAAAAFWdpdGh1Yi1hY3Rpb25zLWRlcGxveQ==
-   -----END OPENSSH PRIVATE KEY-----
-   ```
 
 4. **저장 확인**
    - 3개의 Secret이 모두 추가되었는지 확인
