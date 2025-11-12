@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LineChart from '../../components/LineChart.astro';
+import SocialShare from '../../components/SocialShare.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -209,6 +210,12 @@ const platformDatasets = [
         </script>
       </>
     )}
+
+    <SocialShare
+      title={data.title_en}
+      url={`https://kimyonghee.com/projects/${project.slug}`}
+      excerpt={data.summary}
+    />
 
     <footer class="project-footer">
       <a href="/projects" class="back-link">
