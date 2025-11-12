@@ -1,25 +1,25 @@
 ---
 title: "Broadcasting Reapproval System Reform: Investment Paradox Analysis"
 title_en: "Broadcasting Reapproval System Reform: Investment Paradox Analysis"
-subtitle: "Empirical Analysis of Content Investment Regulations and Policy Recommendations (2014-2023)"
-subtitle_en: "Empirical Analysis of Content Investment Regulations and Policy Recommendations (2014-2023)"
+subtitle: "Empirical Analysis of Content Investment Regulations and Policy Recommendations (2015-2024)"
+subtitle_en: "Empirical Analysis of Content Investment Regulations and Policy Recommendations (2015-2024)"
 date: "2024-10-11"
 category: "Broadcasting Policy"
 tags: ["Broadcasting", "Media Policy", "Regulation Reform", "Content Investment", "Comprehensive Channels", "Data Analysis"]
-conference: "Korean Society for Journalism & Communication Studies 2024 Fall Conference"
-conference_en: "Korean Society for Journalism & Communication Studies 2024 Fall Conference"
-description: "Empirical analysis of broadcasting reapproval system and content investment regulations for comprehensive channels (2014-2023), revealing the investment paradox and providing evidence-based policy recommendations."
-description_en: "Empirical analysis of broadcasting reapproval system and content investment regulations for comprehensive channels (2014-2023), revealing the investment paradox and providing evidence-based policy recommendations."
-summary: "Investment paradox revealed: 70% content investment requirement shows negative correlation with business performance. International comparison shows Korea's 7-year reapproval period is shortest among major countries."
+conference: "Korean Society for Journalism & Communication Studies 2025 Fall Conference"
+conference_en: "Korean Society for Journalism & Communication Studies 2025 Fall Conference"
+description: "Empirical analysis of broadcasting reapproval system and content investment regulations for comprehensive channels (2015-2024), revealing the investment paradox and providing evidence-based policy recommendations."
+description_en: "Empirical analysis of broadcasting reapproval system and content investment regulations for comprehensive channels (2015-2024), revealing the investment paradox and providing evidence-based policy recommendations."
+summary: "Investment paradox revealed: 70% content investment requirement shows negative correlation with business performance. International comparison shows Korea's actual 3.5-year reapproval period is shortest among major countries."
 key_findings:
   - "Investment paradox: Higher investment ratio correlates with lower operating profit margin"
   - "TV Chosun exceeded 70% requirement (73.5% avg) but faced financial difficulties"
-  - "Korea's 7-year reapproval period shortest globally (UK: 10-12 years, US: 8 years)"
+  - "Korea's actual 3.5-year reapproval period shortest globally (UK: 10 years, Japan: 10 years, US: 8 years)"
   - "Broadcasting Development Fund substitution effect: 1 billion won increase → 0.85 billion won content investment decrease"
   - "Regression analysis: Content investment ratio increase → ROI and operating margin decrease"
 policy_proposals:
   - "Relax content investment ratio requirement (70% → 60-65%)"
-  - "Extend reapproval period (7 years → 10 years)"
+  - "Extend reapproval period (actual 3.5 years → 10 years to match international standards)"
   - "Introduce flexible evaluation system based on market conditions"
   - "Reform Broadcasting Development Fund to complement content investment"
   - "Establish differentiated standards by channel characteristics"
@@ -163,7 +163,7 @@ featured: true
 
 <div style="font-size: 1.125rem; line-height: 1.75;">
 
-This research conducts an empirical analysis of Korea's broadcasting reapproval system, focusing on content investment regulations for comprehensive channels (종편) from 2014 to 2023. The study reveals a critical **investment paradox**: higher content investment ratios correlate with poorer business performance, contradicting the intended policy objectives.
+This research conducts an empirical analysis of Korea's broadcasting reapproval system, focusing on content investment regulations for comprehensive channels (종편) from 2015 to 2024. The study reveals a critical **investment paradox**: higher content investment ratios correlate with poorer business performance, contradicting the intended policy objectives.
 
 Based on comprehensive data analysis including regression models and international comparisons, this research demonstrates that the current 70% content investment requirement may be counterproductive to both industry sustainability and content quality improvement.
 
@@ -179,8 +179,8 @@ TV Chosun exceeded the 70% requirement with an average 73.5% investment ratio, y
 </div>
 
 <div class="metric-card">
-<div class="metric-value">7 years</div>
-<div class="metric-label">Korea's Reapproval Period<br>(Shortest globally)</div>
+<div class="metric-value">3.5 years</div>
+<div class="metric-label">Korea's Actual Reapproval Period<br>(Shortest globally)</div>
 </div>
 
 <div class="metric-card">
@@ -194,14 +194,14 @@ TV Chosun exceeded the 70% requirement with an average 73.5% investment ratio, y
 
 ### Broadcasting Reapproval System in Korea
 
-Korea's Broadcasting Act requires comprehensive channels (종편) to undergo reapproval every 7 years, with strict content investment requirements of 70% of broadcasting business revenue. This system, introduced in 2011, aims to ensure quality content production and prevent monopolistic practices.
+Korea's Broadcasting Act stipulates reapproval within 7 years, but in practice, comprehensive channels (종편) receive only 3-4 years (average 3.5 years), with strict content investment requirements of 70% of broadcasting business revenue. This system, introduced in 2011, aims to ensure quality content production and prevent monopolistic practices.
 
 ### Problem Statement
 
 Despite over a decade of implementation, questions arise about the effectiveness of current regulations:
 
 1. **Sustainability Concerns**: Financial difficulties persist despite meeting investment requirements
-2. **International Disparity**: Korea's 7-year period significantly shorter than global standards
+2. **International Disparity**: Korea's actual 3.5-year period significantly shorter than global standards
 3. **Market Environment Changes**: Digital transformation and OTT competition not reflected in regulations
 4. **Substitution Effects**: Broadcasting Development Fund may be crowding out content investment
 
@@ -211,7 +211,7 @@ Despite over a decade of implementation, questions arise about the effectiveness
 
 ### Data Sources
 
-**Broadcasting Industry Survey (2014-2023)**  
+**Broadcasting Industry Survey (2015-2024)**  
 Comprehensive financial data from Korea Communications Commission covering all major broadcasters including terrestrial, cable, IPTV, and comprehensive channels.
 
 **Company Disclosure Data**  
@@ -222,7 +222,7 @@ Reapproval systems and content requirements from USA (FCC), UK (Ofcom), Japan (M
 
 ### Analytical Framework
 
-**Time Series Analysis (2014-2023)**  
+**Time Series Analysis (2015-2024)**  
 10-year longitudinal analysis of content investment trends, revenue patterns, and profitability indicators.
 
 **Regression Analysis**  
@@ -375,14 +375,14 @@ Regression analysis reveals counterintuitive relationships between content inves
 <tr style="background: #fef3c7;">
 <td><strong>South Korea</strong></td>
 <td><strong>KCC/MSIT</strong></td>
-<td class="number negative"><strong>7 years</strong></td>
+<td class="number negative"><strong>3.5 years (actual)</strong></td>
 <td><strong>70% investment ratio (rigid)</strong></td>
 </tr>
 </tbody>
 </table>
 
 <div class="info-box">
-<strong>International Context:</strong> Korea's 7-year reapproval period is 1-5 years shorter than comparable countries, creating greater regulatory uncertainty and limiting long-term investment planning.
+<strong>International Context:</strong> Korea's actual 3.5-year reapproval period is 1.5-6.5 years shorter than comparable countries, creating greater regulatory uncertainty and limiting long-term investment planning. While the Broadcasting Act stipulates "within 7 years," actual grants are only 3-4 years.
 </div>
 
 ### 4. Broadcasting Development Fund Substitution Effect
@@ -405,11 +405,11 @@ Regression analysis reveals counterintuitive relationships between content inves
 <strong>Policy Conflict:</strong> Broadcasting Development Fund, intended to supplement content investment, actually substitutes for it, reducing overall content spending effectiveness.
 </div>
 
-### 5. Content Investment Trends (2014-2023)
+### 5. Content Investment Trends (2015-2024)
 
 <div class="image-container">
 <img src="/images/projects/broadcasting-reapproval/01_콘텐츠투자_추이_final_20251010.png" alt="Content Investment Trends">
-<div class="image-caption">Figure 5: Content investment trends across broadcasting sectors (2014-2023)</div>
+<div class="image-caption">Figure 5: Content investment trends across broadcasting sectors (2015-2024)</div>
 </div>
 
 **Key Trends**:
@@ -689,8 +689,8 @@ This research reveals a fundamental flaw in Korea's broadcasting reapproval syst
 ## Project Information
 
 **Research Period**: October 2024 - October 2025  
-**Data Period**: 2014 - 2023 (10 years)  
-**Presentation**: Korean Society for Journalism & Communication Studies 2024 Fall Conference  
+**Data Period**: 2015 - 2024 (10 years)  
+**Presentation**: Korean Society for Journalism & Communication Studies 2025 Fall Conference  
 **Last Updated**: October 11, 2024  
 **Version**: v2.0 FINAL
 
@@ -739,11 +739,11 @@ Sunmoon University
 
 **APA Style**
 
-Kim, Y. (2024). Broadcasting Reapproval System Reform: Investment Paradox Analysis. Paper presented at Korean Society for Journalism & Communication Studies 2024 Fall Conference.
+Kim, Y. (2025). Broadcasting Reapproval System Reform: Investment Paradox Analysis. Paper presented at Korean Society for Journalism & Communication Studies 2025 Fall Conference.
 
 **Chicago Style**
 
-Kim, Yonghee. "Broadcasting Reapproval System Reform: Investment Paradox Analysis." Paper presented at Korean Society for Journalism & Communication Studies 2024 Fall Conference, October 2024.
+Kim, Yonghee. "Broadcasting Reapproval System Reform: Investment Paradox Analysis." Paper presented at Korean Society for Journalism & Communication Studies 2025 Fall Conference, 2025.
 
 **BibTeX**
 
@@ -751,8 +751,8 @@ Kim, Yonghee. "Broadcasting Reapproval System Reform: Investment Paradox Analysi
 @inproceedings{kim2024broadcasting,
   title={Broadcasting Reapproval System Reform: Investment Paradox Analysis},
   author={Kim, Yonghee},
-  booktitle={Korean Society for Journalism \& Communication Studies 2024 Fall Conference},
-  year={2024},
+  booktitle={Korean Society for Journalism \& Communication Studies 2025 Fall Conference},
+  year={2025},
   month={October}
 }
 ```
