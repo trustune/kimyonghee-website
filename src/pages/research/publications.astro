@@ -1,17 +1,27 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PublicationCard from '../../components/PublicationCard.astro';
 import StatItem from '../../components/StatItem.astro';
 import publicationsData from '../../data/publications.json';
 
-const publications = publicationsData.publications || [];
-const domesticPublications = publicationsData.domestic_publications || [];
+// Markdown publications 가져오기
+const allPublications = await getCollection('publications');
+
+// JSON에서 scholarStats와 citationGraph 가져오기
 const scholarStats = publicationsData.scholarStats || {
   citations: 0,
   hIndex: 0,
   i10Index: 0
 };
 const citationGraph = publicationsData.citationGraph || [];
+const domesticPublications = publicationsData.domestic_publications || [];
+
+// Markdown publications를 JSON과 동일한 형식으로 변환
+const publications = allPublications.map(pub => ({
+  id: pub.slug,
+  ...pub.data,
+}));
 
 // status별로 그룹핑
 const workInProgress = publications

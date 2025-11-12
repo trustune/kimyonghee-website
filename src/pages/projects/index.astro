@@ -1,10 +1,18 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import projectsData from '../../data/projects.json';
 
-const projects = projectsData.projects || [];
+// Markdown projects 가져오기
+const allProjects = await getCollection('projects');
+
+// 데이터 변환
+const projects = allProjects.map(project => ({
+  id: project.slug,
+  ...project.data,
+}));
+
 const featuredProjects = projects.filter(p => p.featured);
-const allProjects = projects.sort((a, b) => new Date(b.date) - new Date(a.date));
+const allProjectsSorted = projects.sort((a, b) => new Date(b.date) - new Date(a.date));
 ---
 
 <BaseLayout title="Projects - Yonghee Kim" description="Research projects and data analysis work">
@@ -59,7 +67,7 @@ const allProjects = projects.sort((a, b) => new Date(b.date) - new Date(a.date))
       <h2 class="section-title" data-lang="en">All Projects</h2>
       <h2 class="section-title" data-lang="ko">전체 프로젝트</h2>
       <div class="projects-grid">
-        {allProjects.map((project) => (
+        {allProjectsSorted.map((project) => (
           <a href={`/projects/${project.id}`} class="project-card">
             <div class="project-header">
               <h3 class="project-title-ko">{project.title}</h3>

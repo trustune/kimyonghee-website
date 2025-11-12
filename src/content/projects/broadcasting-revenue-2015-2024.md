@@ -1,0 +1,82 @@
+---
+title: "지속가능한 미디어 생태계를 위한 통합정책 로드맵"
+title_en: "Integrated Policy Roadmap for Sustainable Media Ecosystem"
+subtitle: "방송산업 순유입재원 구조 분석과 정책 제안 (2015-2024)"
+subtitle_en: "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations"
+date: "2025-11-08"
+category: "Broadcasting Policy"
+tags: ["Broadcasting", "Media Economics", "Data Analysis", "Policy Research", "Government Policy"]
+conference: "한국방송학회 2025 가을철 정기학술대회"
+conference_en: "Korean Broadcasting Association 2025 Fall Conference"
+description: "방송산업의 10년간(2015-2024) 순유입재원 구조 변화를 실증 분석하고, 정부재원 비중 10.15% (OECD 최하위), 방송광고 43.9% 급락, KBS 수신료 44년 동결 등 위기를 진단하여 통합정책 로드맵을 제시합니다."
+description_en: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 43.9% advertising decline, and 44-year KBS license fee freeze, proposing an integrated policy roadmap."
+summary: "정부재원 10.15% (OECD 최하위), 방송광고 10년간 43.9% 급락, KBS 수신료 44년 동결로 인한 방송산업 위기 진단 및 통합정책 제안"
+key_findings:
+  - "정부재원 비중 10.15% - OECD 최하위 (KBS수신료 9.36% + 방발기금 0.79%)"
+  - "방송광고 10년간 43.9% 급락 (3.50조 → 1.99조원)"
+  - "KBS 수신료 44년 동결 - 실질가치 82% 하락"
+  - "광고 중심 → 수신료 중심 전환 (49.64% → 25.82%)"
+  - "IPTV 급성장 +99.1% vs SO 붕괴 -39.1%"
+  - "홈쇼핑 부상: 0원 → 20,249억원 (3위 재원)"
+  - "방송미디어통신위원회 출범 (2025.10.1) - 예산 2,423억원"
+policy_proposals:
+  - "KBS 수신료 정상화 및 징수율 제고"
+  - "방송광고 규제 완화 (간접광고, 가상광고)"
+  - "플랫폼 기여금 조정 및 공정성 제고"
+  - "정부재원 확대 및 방발기금 효율화"
+featured: true
+---
+
+## 프로젝트 개요
+
+한국 방송산업의 10년간(2015-2024) 순유입재원 구조 변화를 실증 데이터로 분석하고, 지속가능한 미디어 생태계를 위한 통합정책 로드맵을 제시하는 연구입니다.
+
+## 연구 배경
+
+### 방송산업의 위기
+- **정부재원**: OECD 최하위 수준 (10.15%)
+- **광고 수익**: 10년간 43.9% 급락
+- **KBS 수신료**: 44년간 동결 (실질가치 82% 하락)
+- **플랫폼 변화**: IPTV 급성장 vs 케이블 붕괴
+
+## 주요 발견사항
+
+### 1. 정부재원 구조의 문제
+- 한국: 10.15% (OECD 최하위)
+- KBS 수신료: 9.36%
+- 방발기금: 0.79%
+
+### 2. 방송광고 시장의 붕괴
+- 2015년: 3조 5,005억원
+- 2024년: 1조 9,987억원
+- 변화율: -43.9% (1조 5,018억원 감소)
+
+### 3. 플랫폼 재원 구조 변화
+- IPTV: +99.1% 성장
+- 케이블/SO: -39.1% 감소
+- 홈쇼핑: 0원 → 2조 249억원
+
+## 정책 제안
+
+### 1. KBS 수신료 정상화
+단계적 인상 및 징수율 제고
+
+### 2. 방송광고 규제 완화
+간접광고, 가상광고 허용 확대
+
+### 3. 플랫폼 기여금 조정
+IPTV, 케이블, OTT 간 형평성 확보
+
+### 4. 방발기금 효율화
+통합 관리 체계 구축
+
+## 데이터 분석
+
+**분석 도구**: Python, Pandas, SQLite  
+**데이터 기간**: 2015-2024 (10년)  
+**검증 정확도**: 99.50%
+
+## 발표 정보
+
+**학술대회**: 한국방송학회 2025 가을철 정기학술대회  
+**발표일**: 2025년 11월
