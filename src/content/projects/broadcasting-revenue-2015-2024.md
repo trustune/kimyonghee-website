@@ -1284,12 +1284,13 @@ Policy delay = Industry neglect = Ecosystem collapse
     <div class="timeline-period">2027-2028</div>
     <h3 style="color: #f59e0b;">Phase 2: Structural Reform</h3>
     <ul style="line-height: 1.8;">
-      <li>Platform contribution fee realignment</li>
-      <li>Expand broadcasting fund to 500B won (from 157.6B)</li>
+      <li>Government direct support expansion (not just fund redistribution)</li>
+      <li>Cable platform burden significantly reduced</li>
+      <li>Industry burden relief - Enable market mechanism operation</li>
       <li>Enact Integrated Broadcasting Act</li>
     </ul>
     <div style="margin-top: 1rem; padding: 0.75rem; background: #fef3c7; border-radius: 4px; font-weight: 600; color: #92400e;">
-      <strong>Goal:</strong> Establish sustainable structure
+      <strong>Goal:</strong> Sustainable market-driven structure
     </div>
   </div>
 
@@ -1335,52 +1336,52 @@ Deregulate advertising to strengthen terrestrial broadcasting competitiveness.
 
 ### Phase 2: Structural Reform (2027-2028)
 
-#### Platform Contribution Fee Readjustment
+#### Industry Burden Relief and Market Mechanism Restoration
 
 <table class="data-table">
 <thead>
 <tr>
 <th>Platform</th>
-<th>Current Contribution</th>
-<th>Improvement Direction</th>
+<th>Current Status</th>
+<th>Reform Direction</th>
 <th>Rationale</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>IPTV</td>
-<td>Low level</td>
-<td>Increase contribution</td>
-<td>77.8% market share</td>
+<td>Low contribution</td>
+<td>Proportional contribution</td>
+<td>77.8% market dominance</td>
 </tr>
 <tr>
 <td>Cable</td>
-<td>High level</td>
-<td>Maintain current</td>
-<td>Industry survival support</td>
-</tr>
-<tr>
-<td>OTT</td>
-<td>None</td>
-<td>Establish contribution</td>
-<td>Fair contribution</td>
+<td>High burden</td>
+<td><strong>Significantly reduce burden</strong></td>
+<td>Industry survival - Enable fair competition</td>
 </tr>
 </tbody>
 </table>
 
-Establish a fair contribution system proportional to market dominance.
+**Core Principle:** Reduce regulatory burden on struggling operators, enable market mechanism to operate naturally.
 
-#### Broadcasting Fund Expansion and Efficiency
+#### Government Direct Support Expansion
 
-Expand the broadcasting fund from the current 157.6 billion won (1.77% of net inflow revenue) to over 500 billion won (over 5%).
+Instead of merely redistributing existing funds, expand direct government support to the broadcasting industry.
 
-**Management:** Integrated management system centered on the Broadcasting and Media Communications Commission
+**Key Initiatives:**
+- Establish dedicated broadcasting support budget (separate from telecommunications)
+- Direct subsidy programs for content production and technology investment
+- Tax incentives for broadcasting operators
+- Support for market-driven restructuring (not regulatory intervention)
 
-**Strategic Allocation:**
-- 40% Content production support
-- 30% Technology innovation support
-- 20% Global expansion support
-- 10% Infrastructure support
+**Target:** Shift from regulation-heavy approach to support-driven industry revitalization
+
+**Strategic Focus:**
+- 40% Content production and creative investment
+- 30% Technology innovation and digital transformation
+- 20% Global market expansion (K-content export)
+- 10% Industry infrastructure modernization
 
 ### Phase 3: Long-term Sustainability (Post-2029)
 
