@@ -1,0 +1,46 @@
+---
+const { chartId, data, options, title } = Astro.props;
+---
+
+<div id={chartId} class="chart-container"></div>
+
+<script define:vars={{ chartId, data, options, title }}>
+  // Wait for Chart.js to load
+  window.addEventListener('load', () => {
+    import('chart.js/auto').then((module) => {
+      const Chart = module.default;
+      const ctx = document.getElementById(chartId);
+      if (ctx) {
+        new Chart(ctx, {
+          type: 'line',
+          data: data,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: title,
+                font: { size: 16, weight: 'bold' }
+              },
+              legend: { position: 'bottom' }
+            },
+            ...options
+          }
+        });
+      }
+    });
+  });
+</script>
+
+<style>
+  .chart-container {
+    width: 100%;
+    height: 400px;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+</style>
