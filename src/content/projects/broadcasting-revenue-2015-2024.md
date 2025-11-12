@@ -26,13 +26,6 @@ policy_proposals:
   - "Broadcasting fund expansion and efficiency improvement"
   - "Digital transformation support policy"
 featured: true
-charts:
-  - id: "revenueChart"
-    position: "after-structural-changes"
-  - id: "advertisingChart"
-    position: "advertising-section"
-  - id: "platformChart"
-    position: "platform-section"
 ---
 
 <style>
@@ -395,7 +388,7 @@ Over ten years, the broadcasting industry's revenue structure has been completel
 <strong>Complete Paradigm Shift:</strong> The transition from advertising-based to subscription-based revenue model is now complete. This represents a fundamental transformation in the industry's revenue structure.
 </div>
 
-<div data-chart-marker="revenueChart"></div>
+<!-- CHART:revenueChart -->
 
 <hr class="section-divider">
 
@@ -479,7 +472,7 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 
 Broadcasting advertising revenue plummeted by 34.52% over ten years, from 3.50 trillion won to 2.29 trillion won. This represents a structural change, not merely a cyclical downturn.
 
-<div data-chart-marker="advertisingChart"></div>
+<!-- CHART:advertisingChart -->
 
 #### Annual Trends
 
@@ -583,7 +576,7 @@ From 2019 to 2023, broadcasting advertising decreased by 9.92% while digital adv
 
 The contrast between IPTV and cable in the pay-TV platform market is stark.
 
-<div data-chart-marker="platformChart"></div>
+<!-- CHART:platformChart -->
 
 #### Platform Subscription Fee Trends
 

@@ -55,10 +55,6 @@ const projectCollection = defineCollection({
     key_findings: z.array(z.string()),
     policy_proposals: z.array(z.string()).optional(),
     featured: z.boolean().default(false),
-    charts: z.array(z.object({
-      id: z.string(),
-      position: z.string(),
-    })).optional(),
   }),
 });
 

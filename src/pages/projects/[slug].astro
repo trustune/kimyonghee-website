@@ -166,34 +166,45 @@ const platformDatasets = [
         </div>
         <script>
           document.addEventListener('DOMContentLoaded', () => {
-            // Move charts to their markers
-            const revenueMarker = document.querySelector('[data-chart-marker="revenueChart"]');
-            const advertisingMarker = document.querySelector('[data-chart-marker="advertisingChart"]');
-            const platformMarker = document.querySelector('[data-chart-marker="platformChart"]');
+            const projectContent = document.querySelector('.project-content');
+            if (!projectContent) return;
 
-            if (revenueMarker) {
-              const revenueContainer = document.getElementById('chart-container-revenue');
-              if (revenueContainer) {
-                revenueContainer.style.display = 'block';
-                revenueMarker.replaceWith(revenueContainer);
-              }
+            // Find HTML comment markers and replace with charts
+            const walker = document.createTreeWalker(
+              projectContent,
+              NodeFilter.SHOW_COMMENT,
+              null
+            );
+
+            const comments = [];
+            let node;
+            while (node = walker.nextNode()) {
+              comments.push(node);
             }
 
-            if (advertisingMarker) {
-              const advertisingContainer = document.getElementById('chart-container-advertising');
-              if (advertisingContainer) {
-                advertisingContainer.style.display = 'block';
-                advertisingMarker.replaceWith(advertisingContainer);
-              }
-            }
+            comments.forEach(comment => {
+              const text = comment.textContent.trim();
 
-            if (platformMarker) {
-              const platformContainer = document.getElementById('chart-container-platform');
-              if (platformContainer) {
-                platformContainer.style.display = 'block';
-                platformMarker.replaceWith(platformContainer);
+              if (text === 'CHART:revenueChart') {
+                const container = document.getElementById('chart-container-revenue');
+                if (container) {
+                  container.style.display = 'block';
+                  comment.parentNode.replaceChild(container, comment);
+                }
+              } else if (text === 'CHART:advertisingChart') {
+                const container = document.getElementById('chart-container-advertising');
+                if (container) {
+                  container.style.display = 'block';
+                  comment.parentNode.replaceChild(container, comment);
+                }
+              } else if (text === 'CHART:platformChart') {
+                const container = document.getElementById('chart-container-platform');
+                if (container) {
+                  container.style.display = 'block';
+                  comment.parentNode.replaceChild(container, comment);
+                }
               }
-            }
+            });
           });
         </script>
       </>
