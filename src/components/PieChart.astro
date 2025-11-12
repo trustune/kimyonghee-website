@@ -1,0 +1,128 @@
+---
+const { chartId, title, labels, data, backgroundColors } = Astro.props;
+---
+
+<div class="chart-wrapper">
+  <canvas id={chartId} class="chart-canvas"></canvas>
+</div>
+
+<script define:vars={{ chartId, title, labels, data, backgroundColors }}>
+  (function() {
+    const initChart = async () => {
+      try {
+        // Dynamically import Chart.js
+        const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4.4.0/+esm');
+        Chart.register(...registerables);
+
+        const canvas = document.getElementById(chartId);
+
+        // Validate canvas element
+        if (!canvas) {
+          console.error(`Canvas element with id "${chartId}" not found`);
+          return;
+        }
+
+        // Check if canvas is visible and has dimensions
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) {
+          console.warn(`Canvas "${chartId}" has zero dimensions, retrying...`);
+          setTimeout(initChart, 100);
+          return;
+        }
+
+        // Destroy existing chart if it exists
+        if (canvas._chartInstance) {
+          canvas._chartInstance.destroy();
+        }
+
+        const config = {
+          type: 'pie',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: data,
+              backgroundColor: backgroundColors,
+              borderWidth: 2,
+              borderColor: '#fff'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: title,
+                font: { size: 18, weight: 'bold', family: "'Inter', sans-serif" }
+              },
+              legend: {
+                position: 'bottom',
+                labels: {
+                  font: { size: 14, family: "'Inter', sans-serif" },
+                  padding: 15,
+                  generateLabels: function(chart) {
+                    const data = chart.data;
+                    if (data.labels.length && data.datasets.length) {
+                      return data.labels.map((label, i) => {
+                        const value = data.datasets[0].data[i];
+                        const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        const percentage = ((value / total) * 100).toFixed(1);
+                        return {
+                          text: `${label}: ${value}B won (${percentage}%)`,
+                          fillStyle: data.datasets[0].backgroundColor[i],
+                          hidden: false,
+                          index: i
+                        };
+                      });
+                    }
+                    return [];
+                  }
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const label = context.label || '';
+                    const value = context.parsed || 0;
+                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                    const percentage = ((value / total) * 100).toFixed(1);
+                    return `${label}: ${value}B won (${percentage}%)`;
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const chart = new Chart(canvas, config);
+        canvas._chartInstance = chart;
+      } catch (error) {
+        console.error(`Failed to initialize chart "${chartId}":`, error);
+      }
+    };
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initChart);
+    } else {
+      initChart();
+    }
+  })();
+</script>
+
+<style>
+  .chart-wrapper {
+    width: 100%;
+    height: 400px;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .chart-canvas {
+    width: 100%;
+    height: 100%;
+  }
+</style>
