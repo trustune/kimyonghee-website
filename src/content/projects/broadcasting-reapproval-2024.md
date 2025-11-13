@@ -1,32 +1,115 @@
 ---
-title: "Broadcasting Reapproval System Reform: Investment Paradox Analysis"
-title_en: "Broadcasting Reapproval System Reform: Investment Paradox Analysis"
-subtitle: "Empirical Analysis of Content Investment Regulations and Policy Recommendations (2014-2023)"
-subtitle_en: "Empirical Analysis of Content Investment Regulations and Policy Recommendations (2014-2023)"
-date: "2024-10-11"
+title: "The Investment Paradox: Korea's Broadcasting Reapproval System"
+title_en: "The Investment Paradox: Korea's Broadcasting Reapproval System"
+subtitle: "Why Higher Content Investment Doesn't Always Lead to Better Performance"
+subtitle_en: "Why Higher Content Investment Doesn't Always Lead to Better Performance"
+date: "2025-10-11"
 category: "Broadcasting Policy"
-tags: ["Broadcasting", "Media Policy", "Regulation Reform", "Content Investment", "Comprehensive Channels", "Data Analysis"]
+tags: ["Broadcasting", "Media Policy", "Regulation Reform", "Content Investment", "Data Analysis"]
 conference: "Korean Society for Journalism & Communication Studies 2024 Fall Conference"
 conference_en: "Korean Society for Journalism & Communication Studies 2024 Fall Conference"
-description: "Empirical analysis of broadcasting reapproval system and content investment regulations for comprehensive channels (2014-2023), revealing the investment paradox and providing evidence-based policy recommendations."
-description_en: "Empirical analysis of broadcasting reapproval system and content investment regulations for comprehensive channels (2014-2023), revealing the investment paradox and providing evidence-based policy recommendations."
-summary: "Investment paradox revealed: 70% content investment requirement shows negative correlation with business performance. International comparison shows Korea's 7-year reapproval period is shortest among major countries."
+description: "An empirical investigation into Korea's broadcasting reapproval system reveals an investment paradox: stricter content investment requirements correlate with poorer financial performance."
+description_en: "An empirical investigation into Korea's broadcasting reapproval system reveals an investment paradox: stricter content investment requirements correlate with poorer financial performance."
+summary: "Korea grants only 3-4 years reapproval period despite 7-year legal maximum - shortest globally. Analysis of 10 years of data reveals higher investment ratios correlate with lower profitability."
 key_findings:
-  - "Investment paradox: Higher investment ratio correlates with lower operating profit margin"
-  - "TV Chosun exceeded 70% requirement (73.5% avg) but faced financial difficulties"
-  - "Korea's 7-year reapproval period shortest globally (UK: 10-12 years, US: 8 years)"
-  - "Broadcasting Development Fund substitution effect: 1 billion won increase → 0.85 billion won content investment decrease"
-  - "Regression analysis: Content investment ratio increase → ROI and operating margin decrease"
+  - "Korea grants 3-4 years actual reapproval (legal max: 7 years) - shortest globally"
+  - "Investment paradox: 70% requirement shows negative correlation with profit margins"
+  - "TV Chosun achieved 73.5% average (exceeding 70%) but faced financial difficulties"
+  - "International comparison: UK 10 years, US 8 years vs Korea 3-4 years"
 policy_proposals:
-  - "Relax content investment ratio requirement (70% → 60-65%)"
-  - "Extend reapproval period (7 years → 10 years)"
-  - "Introduce flexible evaluation system based on market conditions"
-  - "Reform Broadcasting Development Fund to complement content investment"
-  - "Establish differentiated standards by channel characteristics"
+  - "Extend actual reapproval period (3-4 years → 7 years legal maximum)"
+  - "Relax content investment requirement (70% → 60-65%)"
+  - "Introduce flexible evaluation based on market conditions"
 featured: true
 ---
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
 <style>
+.story-section {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.story-section h3 {
+  color: #2d3748;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.story-section p {
+  color: #4a5568;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.metric-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.metric-card {
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.metric-label {
+  font-size: 1rem;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+.chart-container {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.chart-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.insight-box {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #fff5f5;
+  border-left: 4px solid #e53e3e;
+  border-radius: 4px;
+}
+
+.insight-box h4 {
+  color: #c53030;
+  margin-bottom: 0.5rem;
+}
+
+.data-source {
+  font-size: 0.9rem;
+  color: #718096;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
 .data-table {
   width: 100%;
   border-collapse: separate;
@@ -48,7 +131,6 @@ featured: true
   text-align: left;
   font-weight: 600;
   font-size: 1rem;
-  font-family: 'Paperozi', 'Inter', sans-serif;
 }
 
 .data-table tbody tr {
@@ -64,72 +146,11 @@ featured: true
   padding: 1rem;
   font-size: 1rem;
   color: #374151;
-  font-family: 'Paperozi', 'Inter', sans-serif;
 }
 
 .data-table .number {
   text-align: right;
-  font-family: 'Paperozi', 'Inter', sans-serif;
   font-weight: 500;
-  font-variant-numeric: tabular-nums;
-}
-
-.data-table .positive {
-  color: #059669;
-  font-weight: 600;
-}
-
-.data-table .negative {
-  color: #dc2626;
-  font-weight: 600;
-}
-
-.metric-card {
-  display: inline-block;
-  padding: 1.5rem;
-  margin: 0.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-  min-width: 200px;
-}
-
-.metric-value {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  font-family: 'Paperozi', 'Inter', sans-serif;
-}
-
-.metric-label {
-  font-size: 1rem;
-  opacity: 0.9;
-  font-family: 'Paperozi', 'Inter', sans-serif;
-}
-
-.info-box {
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  border-radius: 8px;
-  border-left: 4px solid #667eea;
-  background: #f0f9ff;
-}
-
-.warning-box {
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  border-radius: 8px;
-  border-left: 4px solid #f59e0b;
-  background: #fffbeb;
-}
-
-.success-box {
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  border-radius: 8px;
-  border-left: 4px solid #10b981;
-  background: #f0fdf4;
 }
 
 .section-divider {
@@ -138,621 +159,582 @@ featured: true
   margin: 3rem 0;
   border: none;
 }
-
-.image-container {
-  margin: 2rem 0;
-  text-align: center;
-}
-
-.image-container img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.image-caption {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
-  color: #6b7280;
-  font-style: italic;
-}
 </style>
 
-## Executive Summary
+## The Untold Story of Korea's Broadcasting Regulation
 
-<div style="font-size: 1.125rem; line-height: 1.75;">
+In 2011, Korea introduced comprehensive programming channels (종편) as a bold experiment in media diversification. These channels were meant to compete with traditional terrestrial broadcasters, bringing fresh perspectives and innovative content to Korean viewers. But thirteen years later, the experiment faces a critical question: **Has the regulatory framework kept pace with market realities?**
 
-This research conducts an empirical analysis of Korea's broadcasting reapproval system, focusing on content investment regulations for comprehensive channels (종편) from 2014 to 2023. The study reveals a critical **investment paradox**: higher content investment ratios correlate with poorer business performance, contradicting the intended policy objectives.
-
-Based on comprehensive data analysis including regression models and international comparisons, this research demonstrates that the current 70% content investment requirement may be counterproductive to both industry sustainability and content quality improvement.
-
-### Key Discovery: The Investment Paradox
-
-TV Chosun exceeded the 70% requirement with an average 73.5% investment ratio, yet faced persistent financial difficulties. Statistical analysis shows negative correlations between investment ratios and both Return on Investment (ROI) and operating profit margins, suggesting fundamental flaws in current regulatory design.
-
+<div class="metric-cards">
+  <div class="metric-card">
+    <div class="metric-value">3-4 years</div>
+    <div class="metric-label">Actual Reapproval Period<br/>(Legal max: 7 years)</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-value">70%</div>
+    <div class="metric-label">Mandatory Content<br/>Investment Ratio</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-value">10 years</div>
+    <div class="metric-label">Data Analysis<br/>Period (2015-2024)</div>
+  </div>
 </div>
 
-<div class="metric-card">
-<div class="metric-value">73.5%</div>
-<div class="metric-label">TV Chosun Avg Investment<br>(Exceeded 70% requirement)</div>
+## Part 1: The Shortest Leash in Global Broadcasting
+
+When Korea's Broadcasting Act was revised, it allowed reapproval periods **up to 7 years** for comprehensive channels. Yet in practice, regulators have granted only **3-4 years** - creating the shortest reapproval cycle among major broadcasting markets globally.
+
+<div class="chart-container">
+  <div class="chart-title">International Comparison: Reapproval Periods</div>
+  <canvas id="internationalComparison"></canvas>
 </div>
 
-<div class="metric-card">
-<div class="metric-value">7 years</div>
-<div class="metric-label">Korea's Reapproval Period<br>(Shortest globally)</div>
-</div>
-
-<div class="metric-card">
-<div class="metric-value">-0.85B</div>
-<div class="metric-label">Content Investment Decrease<br>per 1B Fund Increase</div>
+<div class="insight-box">
+  <h4>Why This Matters</h4>
+  <p>Short reapproval periods create uncertainty that discourages long-term investment in content development, talent cultivation, and technology infrastructure. Broadcasters operate in perpetual "evaluation mode" rather than growth mode.</p>
 </div>
 
 <hr class="section-divider">
 
-## Research Background
+## Part 2: The Investment Paradox Revealed
 
-### Broadcasting Reapproval System in Korea
+Our analysis of ten years of financial data from all four comprehensive channels reveals a surprising pattern: **higher content investment ratios consistently correlate with lower profitability**.
 
-Korea's Broadcasting Act requires comprehensive channels (종편) to undergo reapproval every 7 years, with strict content investment requirements of 70% of broadcasting business revenue. This system, introduced in 2011, aims to ensure quality content production and prevent monopolistic practices.
+<div class="chart-container">
+  <div class="chart-title">Content Investment Ratio vs Operating Profit Margin (2015-2024)</div>
+  <canvas id="investmentParadox"></canvas>
+</div>
 
-### Problem Statement
+This isn't a failure of investment strategy - it's evidence of a regulatory requirement that doesn't account for market realities. TV Chosun, for example, maintained an average investment ratio of **73.5%** (exceeding the 70% requirement) while facing significant financial challenges in certain years.
 
-Despite over a decade of implementation, questions arise about the effectiveness of current regulations:
-
-1. **Sustainability Concerns**: Financial difficulties persist despite meeting investment requirements
-2. **International Disparity**: Korea's 7-year period significantly shorter than global standards
-3. **Market Environment Changes**: Digital transformation and OTT competition not reflected in regulations
-4. **Substitution Effects**: Broadcasting Development Fund may be crowding out content investment
+<div class="chart-container">
+  <div class="chart-title">TV Chosun: Investment Performance Timeline</div>
+  <canvas id="tvChosunTimeline"></canvas>
+</div>
 
 <hr class="section-divider">
 
-## Data and Methodology
+## Part 3: The Tale of Four Channels
 
-### Data Sources
+Each comprehensive channel tells a different story of adaptation, struggle, and resilience under the current regulatory framework.
 
-**Broadcasting Industry Survey (2014-2023)**  
-Comprehensive financial data from Korea Communications Commission covering all major broadcasters including terrestrial, cable, IPTV, and comprehensive channels.
+<div class="chart-container">
+  <div class="chart-title">4-Channel Comparison: Investment Ratios Over Time</div>
+  <canvas id="fourChannelComparison"></canvas>
+</div>
 
-**Company Disclosure Data**  
-Detailed financial statements and content investment reports from TV Chosun, Channel A, JTBC, and MBN.
+**JTBC** achieved the highest investment ratio (averaging 85.2%) but experienced volatile profitability, with significant losses in 2019-2020 and 2023-2024.
 
-**International Regulatory Data**  
-Reapproval systems and content requirements from USA (FCC), UK (Ofcom), Japan (MIC), Germany, and France.
+**Channel A** maintained moderate investment levels (79.2% average) but faced persistent financial challenges, recording losses in six out of ten years.
 
-### Analytical Framework
+**MBN** kept a relatively conservative investment approach (78.7% average) and achieved more stable, albeit modest, profitability.
 
-**Time Series Analysis (2014-2023)**  
-10-year longitudinal analysis of content investment trends, revenue patterns, and profitability indicators.
+**TV Chosun** strategically increased investment over time, peaking at over 70% by 2022-2023, with notable profitability improvements in 2020-2022.
 
-**Regression Analysis**  
-- Dependent variables: ROI, Operating Profit Margin
-- Independent variables: Content Investment Ratio, Broadcasting Development Fund Contribution, Market Share
-- Control variables: Year dummies, Channel fixed effects
-
-**Comparative Analysis**  
-International comparison of reapproval periods and content investment requirements.
-
-**Case Study Analysis**  
-In-depth examination of TV Chosun's content investment performance and financial outcomes.
+<div class="chart-container">
+  <div class="chart-title">Operating Profit Margins: The Reality Behind Investment</div>
+  <canvas id="profitMargins"></canvas>
+</div>
 
 <hr class="section-divider">
 
-## Key Findings
+## Part 4: Market Context - The Bigger Picture
 
-### 1. The Investment Paradox
+The comprehensive channels don't operate in a vacuum. Comparing their investment patterns with terrestrial broadcasters and general PP channels reveals important context.
 
-**Statistical Evidence of Negative Correlation**
-
-Regression analysis reveals counterintuitive relationships between content investment and business performance:
-
-<div class="image-container">
-<img src="/images/projects/broadcasting-reapproval/09_투자비율_ROI_관계_v4.1_20251010.png" alt="Content Investment Ratio vs ROI">
-<div class="image-caption">Figure 1: Negative correlation between content investment ratio and ROI</div>
+<div class="chart-container">
+  <div class="chart-title">Media Type Comparison: Average Investment Ratios</div>
+  <canvas id="mediaComparison"></canvas>
 </div>
 
-**Regression Results**:
-- **ROI Model**: Content investment ratio increase of 1% → ROI decrease of 0.34%
-- **Operating Margin Model**: Investment ratio increase of 1% → Operating margin decrease of 0.28%
-- **Statistical Significance**: Both relationships significant at p < 0.01 level
+- **Terrestrial broadcasters** (KBS, MBC, SBS, EBS): Average 79.3%
+- **Comprehensive channels**: Average 79.3%
+- **General PP channels**: Average 124.8% (but with huge variance)
 
-<div class="warning-box">
-<strong>Paradox Identified:</strong> Higher compliance with investment requirements correlates with worse financial performance, suggesting regulatory design flaws.
-</div>
-
-### 2. TV Chosun Case Study: Over-compliance without Reward
-
-<div class="image-container">
-<img src="/images/projects/broadcasting-reapproval/05_TV조선_조건vs실제_final_20251010.png" alt="TV Chosun Investment vs Requirement">
-<div class="image-caption">Figure 2: TV Chosun's content investment exceeded requirements consistently</div>
-</div>
-
-**TV Chosun Performance (2018-2022)**:
-
-<table class="data-table">
-<thead>
-<tr>
-<th>Year</th>
-<th class="number">Requirement</th>
-<th class="number">Actual Investment</th>
-<th class="number">Achievement Rate</th>
-<th class="number">Operating Profit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>2018</td>
-<td class="number">70.0%</td>
-<td class="number">71.2%</td>
-<td class="number positive">101.7%</td>
-<td class="number negative">-45.2B won</td>
-</tr>
-<tr>
-<td>2019</td>
-<td class="number">70.0%</td>
-<td class="number">73.8%</td>
-<td class="number positive">105.4%</td>
-<td class="number negative">-38.7B won</td>
-</tr>
-<tr>
-<td>2020</td>
-<td class="number">70.0%</td>
-<td class="number">74.1%</td>
-<td class="number positive">105.9%</td>
-<td class="number negative">-42.3B won</td>
-</tr>
-<tr>
-<td>2021</td>
-<td class="number">70.0%</td>
-<td class="number">73.2%</td>
-<td class="number positive">104.6%</td>
-<td class="number negative">-51.8B won</td>
-</tr>
-<tr>
-<td>2022</td>
-<td class="number">70.0%</td>
-<td class="number">75.3%</td>
-<td class="number positive">107.6%</td>
-<td class="number negative">-48.9B won</td>
-</tr>
-<tr style="background: #fef3c7; font-weight: 600;">
-<td><strong>Average</strong></td>
-<td class="number"><strong>70.0%</strong></td>
-<td class="number positive"><strong>73.5%</strong></td>
-<td class="number positive"><strong>105.0%</strong></td>
-<td class="number negative"><strong>-45.4B won</strong></td>
-</tr>
-</tbody>
-</table>
-
-<div class="warning-box">
-<strong>Over-compliance Paradox:</strong> TV Chosun consistently exceeded the 70% requirement by average 3.5 percentage points, yet accumulated operating losses of 226.9 billion won over 5 years.
-</div>
-
-### 3. International Comparison: Korea as an Outlier
-
-<div class="image-container">
-<img src="/images/projects/broadcasting-reapproval/07_국제_재승인기간_비교_final_20251010.png" alt="International Reapproval Period Comparison">
-<div class="image-caption">Figure 3: Korea's reapproval period significantly shorter than global standards</div>
-</div>
-
-**Global Reapproval Standards**:
-
-<table class="data-table">
-<thead>
-<tr>
-<th>Country</th>
-<th>Regulatory Body</th>
-<th class="number">Reapproval Period</th>
-<th>Content Requirements</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>United States</td>
-<td>FCC</td>
-<td class="number">8 years</td>
-<td>Public interest standards (flexible)</td>
-</tr>
-<tr>
-<td>United Kingdom</td>
-<td>Ofcom</td>
-<td class="number">10-12 years</td>
-<td>Original content quotas (varying)</td>
-</tr>
-<tr>
-<td>Japan</td>
-<td>MIC</td>
-<td class="number">10 years</td>
-<td>Quality content guidelines</td>
-</tr>
-<tr>
-<td>Germany</td>
-<td>Media Authorities</td>
-<td class="number">10 years</td>
-<td>European content 50%</td>
-</tr>
-<tr style="background: #fef3c7;">
-<td><strong>South Korea</strong></td>
-<td><strong>KCC/MSIT</strong></td>
-<td class="number negative"><strong>7 years</strong></td>
-<td><strong>70% investment ratio (rigid)</strong></td>
-</tr>
-</tbody>
-</table>
-
-<div class="info-box">
-<strong>International Context:</strong> Korea's 7-year reapproval period is 1-5 years shorter than comparable countries, creating greater regulatory uncertainty and limiting long-term investment planning.
-</div>
-
-### 4. Broadcasting Development Fund Substitution Effect
-
-<div class="image-container">
-<img src="/images/projects/broadcasting-reapproval/11_기금_투자_관계_v4.1_20251010.png" alt="Fund vs Investment Relationship">
-<div class="image-caption">Figure 4: Broadcasting Development Fund crowds out content investment</div>
-</div>
-
-**Regression Analysis Results**:
-
-**Model**: Content Investment = α + β₁(Fund Contribution) + β₂(Revenue) + β₃(Year) + ε
-
-**Findings**:
-- **Coefficient (β₁)**: -0.85 (p < 0.05)
-- **Interpretation**: 1 billion won increase in fund contribution → 0.85 billion won decrease in content investment
-- **R-squared**: 0.67
-
-<div class="warning-box">
-<strong>Policy Conflict:</strong> Broadcasting Development Fund, intended to supplement content investment, actually substitutes for it, reducing overall content spending effectiveness.
-</div>
-
-### 5. Content Investment Trends (2014-2023)
-
-<div class="image-container">
-<img src="/images/projects/broadcasting-reapproval/01_콘텐츠투자_추이_final_20251010.png" alt="Content Investment Trends">
-<div class="image-caption">Figure 5: Content investment trends across broadcasting sectors (2014-2023)</div>
-</div>
-
-**Key Trends**:
-
-1. **Comprehensive Channels**: Maintained 70%+ investment despite declining revenues
-2. **Terrestrial Broadcasters**: Gradual increase from 65% to 72%
-3. **Cable PP**: Stable around 60-65% range
-4. **Investment Absolute Amount**: Declining across all sectors since 2019
-
-<table class="data-table">
-<thead>
-<tr>
-<th>Sector</th>
-<th class="number">2014</th>
-<th class="number">2023</th>
-<th class="number">Change</th>
-<th class="number">Avg Ratio</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Comprehensive Channels</td>
-<td class="number">421.5B won</td>
-<td class="number">398.2B won</td>
-<td class="number negative">-5.5%</td>
-<td class="number">72.3%</td>
-</tr>
-<tr>
-<td>Terrestrial TV</td>
-<td class="number">1,845.3B won</td>
-<td class="number">1,923.1B won</td>
-<td class="number positive">+4.2%</td>
-<td class="number">68.7%</td>
-</tr>
-<tr>
-<td>Cable PP</td>
-<td class="number">892.4B won</td>
-<td class="number">856.9B won</td>
-<td class="number negative">-4.0%</td>
-<td class="number">62.1%</td>
-</tr>
-</tbody>
-</table>
+The data shows comprehensive channels are investing at levels comparable to traditional terrestrial broadcasters, despite operating in a far more competitive and fragmented market environment.
 
 <hr class="section-divider">
 
-## Research Methodology
+## Part 5: Evidence-Based Policy Recommendations
 
-### Econometric Models
+Based on ten years of empirical data, our research suggests three key reforms:
 
-**Model 1: ROI Determinants**
+### 1. Extend the Actual Reapproval Period
 
-```
-ROI = β₀ + β₁(Investment_Ratio) + β₂(Market_Share) + β₃(Revenue_Growth) 
-      + β₄(Fund_Contribution) + Year_FE + Channel_FE + ε
-```
+**Current**: 3-4 years granted (despite 7-year legal maximum)
+**Recommended**: Utilize the full 7-year legal maximum
 
-**Model 2: Operating Profit Margin**
+<div class="insight-box">
+  <h4>International Standard</h4>
+  <p>UK: 10 years | US: 8 years | Japan: 5-7 years | Korea: 3-4 years (actual)</p>
+</div>
 
-```
-OP_Margin = β₀ + β₁(Investment_Ratio) + β₂(Revenue) + β₃(Leverage) 
-            + β₄(Competition_Index) + Year_FE + Channel_FE + ε
-```
+### 2. Adjust Content Investment Requirements
 
-**Model 3: Investment Substitution**
+**Current**: Fixed 70% ratio requirement
+**Recommended**: Flexible 60-65% range based on market conditions
 
-```
-Content_Investment = β₀ + β₁(Fund_Contribution) + β₂(Revenue) 
-                     + β₃(Reapproval_Dummy) + Channel_FE + ε
-```
+The data shows that forcing higher investment ratios beyond 70% creates diminishing returns and may actually harm long-term sustainability.
 
-### Data Validation
+### 3. Introduce Market-Responsive Evaluation
 
-**Three-Stage Validation Process**:
+Rather than rigid numerical targets, evaluation should consider:
+- Market share dynamics and competition intensity
+- Multi-year investment trends (not single-year snapshots)
+- Quality metrics alongside quantity
+- Revenue context (absolute investment amounts, not just ratios)
 
-1. **Internal Consistency**: Cross-checking financial statements with disclosure data
-2. **Temporal Consistency**: Verifying year-over-year changes align with industry trends
-3. **External Validation**: Comparing with Korea Communications Commission official reports
-
-**Data Quality**:
-- Sample size: 10 years × 4 comprehensive channels = 40 observations
-- Missing data: < 2% (imputed using previous year average)
-- Outlier treatment: Winsorization at 1st and 99th percentiles
+<div class="chart-container">
+  <div class="chart-title">Proposed Framework: Flexible Investment Bands</div>
+  <canvas id="proposedFramework"></canvas>
+</div>
 
 <hr class="section-divider">
 
-## Policy Implications
+## Methodology & Data Transparency
 
-### 1. Regulatory Reform Framework
+**Data Sources**:
+- Broadcasting Industry Survey (2015-2024)
+- Korea Communications Commission official reports
+- Individual broadcaster business reports and reapproval documents
 
-**Phase 1: Immediate Adjustments (2025-2026)**
+**Analysis Period**: 10 years (2015-2024)
+**Sample**: 4 comprehensive channels, 4 major terrestrial broadcasters, 145+ PP channels
+**Total Observations**: 1,532 company-year records
 
-#### Relax Content Investment Ratio
-- **Current**: 70% mandatory
-- **Proposed**: 60-65% with flexibility corridor
-- **Rationale**: Align with international standards and market realities
+**Statistical Methods**:
+- Time series analysis
+- Cross-sectional regression
+- Correlation analysis
+- Comparative international research
 
-#### Extend Reapproval Period
-- **Current**: 7 years
-- **Proposed**: 10 years (matching UK, Japan)
-- **Benefits**: 
-  - Reduced regulatory uncertainty
-  - Improved long-term investment planning
-  - Lower administrative burden
-
-**Phase 2: Structural Reforms (2027-2029)**
-
-#### Introduce Performance-Based Evaluation
-Replace rigid quantitative requirements with:
-- Content quality metrics (viewer ratings, critical reviews)
-- Innovation indicators (new format development, technology adoption)
-- Public interest contribution (educational content, cultural programming)
-- Market performance (audience share, competitiveness)
-
-#### Reform Broadcasting Development Fund
-- Restructure to complement (not substitute) content investment
-- Introduce matching grants for quality content production
-- Separate fund for technology innovation and digital transformation
-
-### 2. Differentiated Standards by Channel Type
-
-<table class="data-table">
-<thead>
-<tr>
-<th>Channel Type</th>
-<th>Current Standard</th>
-<th>Proposed Standard</th>
-<th>Rationale</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Comprehensive (General)</td>
-<td>70%</td>
-<td>60-65%</td>
-<td>Balance profitability and content quality</td>
-</tr>
-<tr>
-<td>News-focused</td>
-<td>70%</td>
-<td>65-70%</td>
-<td>Higher news production costs justified</td>
-</tr>
-<tr>
-<td>Entertainment-focused</td>
-<td>70%</td>
-<td>55-60%</td>
-<td>Lower cost structure, higher competition</td>
-</tr>
-<tr>
-<td>Niche/Specialized</td>
-<td>70%</td>
-<td>50-60%</td>
-<td>Small market size consideration</td>
-</tr>
-</tbody>
-</table>
-
-### 3. International Best Practices Adoption
-
-**Learn from UK Ofcom**:
-- Flexible content quotas adjusted to market conditions
-- Quality over quantity emphasis
-- Regular stakeholder consultation process
-
-**Learn from US FCC**:
-- Public interest standard instead of rigid percentages
-- Market-based approach with minimum safeguards
-- Longer license periods with mid-term reviews
-
-**Learn from Japan MIC**:
-- Differentiated standards by channel characteristics
-- Technology innovation incentives
-- Balanced approach between regulation and industry autonomy
+**Limitations**:
+- 2021 terrestrial data required correction (100x scaling error in original database)
+- PP channel data shows high variance due to diverse business models
+- Operating profit margins affected by multiple factors beyond investment ratios
 
 <hr class="section-divider">
 
-## Academic Contributions
+## Conclusion: Rethinking Regulation for Sustainability
 
-### Theoretical Contributions
+Korea's broadcasting reapproval system was designed with good intentions: ensuring quality content and broadcaster accountability. But thirteen years of real-world data reveal unintended consequences.
 
-**Investment Paradox Framework**: This research establishes a theoretical framework explaining how rigid content investment requirements can paradoxically harm both financial sustainability and content quality through:
-- Resource misallocation
-- Risk aversion in content development
-- Short-term compliance focus over long-term innovation
+The **investment paradox** - where meeting higher requirements correlates with worse financial performance - suggests the current framework may be undermining the very sustainability it seeks to ensure.
 
-**Regulatory Effectiveness Model**: Proposes a model for evaluating broadcast regulation effectiveness that considers:
-- Direct effects (content quantity)
-- Indirect effects (content quality, innovation)
-- Unintended consequences (financial sustainability, market dynamics)
+By extending reapproval periods to the legal maximum of 7 years and introducing more flexible investment requirements, Korea can maintain quality standards while giving broadcasters the stability needed for long-term growth and innovation.
 
-### Empirical Contributions
-
-**Comprehensive 10-Year Analysis**: First systematic empirical analysis of Korea's comprehensive channel reapproval system covering full decade since implementation.
-
-**Quantified Substitution Effect**: First rigorous estimation of Broadcasting Development Fund's substitution effect on content investment.
-
-**International Comparative Framework**: Systematic comparison of reapproval systems across five major countries with detailed regulatory analysis.
-
-### Policy Contributions
-
-**Evidence-Based Reform Recommendations**: Provides quantitative foundation for policy reform backed by:
-- Statistical significance testing
-- Robustness checks
-- International benchmarking
-
-**Implementation Roadmap**: Offers practical, phased implementation strategy with:
-- Clear timelines
-- Stakeholder considerations
-- Risk mitigation measures
-
-<hr class="section-divider">
-
-## Limitations and Future Research
-
-### Research Limitations
-
-1. **Sample Size**: Limited to 4 comprehensive channels over 10 years
-2. **Causality**: Correlation established but causality requires further investigation
-3. **External Factors**: OTT competition and COVID-19 impacts not fully isolated
-4. **Qualitative Aspects**: Content quality metrics not comprehensively analyzed
-
-### Future Research Directions
-
-**Content Quality Analysis**:
-- Develop comprehensive content quality metrics
-- Analyze relationship between investment quantity and quality
-- Compare Korean vs international content quality standards
-
-**OTT Impact Study**:
-- Examine OTT competition effects on traditional broadcasters
-- Analyze content migration from broadcast to streaming platforms
-- Study optimal regulatory framework for converged media environment
-
-**Long-term Industry Evolution**:
-- Project industry structure under different regulatory scenarios
-- Model optimal investment levels for sustainable growth
-- Analyze technology innovation and content investment relationship
-
-**Stakeholder Perspectives**:
-- Survey broadcasters on regulatory burden and compliance costs
-- Interview content creators on regulatory impact on creativity
-- Examine viewer preferences regarding content quantity vs quality
-
-<hr class="section-divider">
-
-## Conclusion
-
-This research reveals a fundamental flaw in Korea's broadcasting reapproval system: the 70% content investment requirement creates an **investment paradox** where compliance correlates with worse business performance and potentially lower content quality.
-
-### Key Takeaways
-
-1. **Regulatory Design Flaw**: Current system prioritizes quantitative compliance over quality outcomes
-2. **International Misalignment**: Korea's standards significantly stricter and shorter than global norms  
-3. **Market Reality Gap**: Regulations not adapted to digital transformation and OTT competition
-4. **Substitution Effects**: Broadcasting Development Fund undermines content investment goals
-
-### Call to Action
-
-**For Policymakers**:
-- Initiate comprehensive regulatory review based on empirical evidence
-- Engage stakeholders in reform process
-- Prioritize industry sustainability alongside content quality goals
-
-**For Industry**:
-- Provide transparent financial and content quality data
-- Participate actively in policy dialogue
-- Innovate within current constraints while advocating for rational reform
-
-**For Academia**:
-- Continue rigorous empirical analysis of regulatory effectiveness
-- Develop better content quality measurement frameworks
-- Study international best practices and adaptation strategies
+The path forward isn't less accountability - it's **smarter accountability** informed by empirical evidence rather than arbitrary targets.
 
 <hr class="section-divider">
 
 ## Project Information
 
-**Research Period**: October 2024 - October 2025  
-**Data Period**: 2014 - 2023 (10 years)  
-**Presentation**: Korean Society for Journalism & Communication Studies 2024 Fall Conference  
-**Last Updated**: October 11, 2024  
-**Version**: v2.0 FINAL
-
-**Analysis Tools**:
-- Python 3.x: Data processing, statistical analysis
-- Pandas, NumPy: Data manipulation
-- Statsmodels: Regression analysis
-- Matplotlib, Seaborn: Visualization
-
-**Data Sources**:
-- Korea Communications Commission Broadcasting Industry Survey
-- Company Financial Disclosures
-- International Regulatory Databases
+**Research Period:** August 2024 - November 2025
+**Last Updated:** October 11, 2025
+**Version:** v2.0 FINAL
+**Presentation:** Korean Society for Journalism & Communication Studies 2024 Fall Conference
 
 <hr class="section-divider">
 
 ## Researcher Information
 
-**Yonghee Kim, Ph.D.**  
-Assistant Professor, Department of Business Administration  
+**Yonghee Kim, Ph.D.**
+Assistant Professor, Department of Business Administration
 Sunmoon University
 
-**Expertise**:
+**Expertise:**
 - Media policy and regulation
-- Broadcasting economics
-- Digital platform governance
-- Content industry analysis
+- Digital platform economics
+- Broadcasting and telecommunications industry analysis
+- Media business strategy
 
-**Contact**:
+**Contact:**
 - Email: yhkim@sunmoon.ac.kr
 - ORCID: 0000-0002-5643-2748
 - Google Scholar: [View Profile](https://scholar.google.com/citations?user=semkeskAAAAJ)
 
-<hr class="section-divider">
+---
 
-## Downloads
+<script>
+// Chart.js Configuration and Data
 
-**Research Materials**:
-- [Full Paper (PDF)](/documents/언론학회발제_방송산업의 지속가능성과 경쟁력 강화를 위한 재승인.pdf)
-- [Presentation Slides (PPTX)](/documents/언론학회발제_방송산업의 지속가능성과 경쟁력 강화를 위한 재승인.pptx)
-- [Data Repository](/data/broadcasting-reapproval/)
-
-<hr class="section-divider">
-
-## Citation
-
-**APA Style**
-
-Kim, Y. (2024). Broadcasting Reapproval System Reform: Investment Paradox Analysis. Paper presented at Korean Society for Journalism & Communication Studies 2024 Fall Conference.
-
-**Chicago Style**
-
-Kim, Yonghee. "Broadcasting Reapproval System Reform: Investment Paradox Analysis." Paper presented at Korean Society for Journalism & Communication Studies 2024 Fall Conference, October 2024.
-
-**BibTeX**
-
-```bibtex
-@inproceedings{kim2024broadcasting,
-  title={Broadcasting Reapproval System Reform: Investment Paradox Analysis},
-  author={Kim, Yonghee},
-  booktitle={Korean Society for Journalism \& Communication Studies 2024 Fall Conference},
-  year={2024},
-  month={October}
+// 1. International Comparison Chart
+const ctxInternational = document.getElementById('internationalComparison');
+if (ctxInternational) {
+  new Chart(ctxInternational, {
+    type: 'bar',
+    data: {
+      labels: ['Korea\n(Actual)', 'Korea\n(Legal Max)', 'Japan', 'US', 'UK'],
+      datasets: [{
+        label: 'Reapproval Period (Years)',
+        data: [3.5, 7, 6, 8, 10],
+        backgroundColor: [
+          'rgba(220, 38, 38, 0.8)',
+          'rgba(245, 158, 11, 0.8)',
+          'rgba(59, 130, 246, 0.8)',
+          'rgba(16, 185, 129, 0.8)',
+          'rgba(139, 92, 246, 0.8)'
+        ],
+        borderColor: [
+          'rgb(220, 38, 38)',
+          'rgb(245, 158, 11)',
+          'rgb(59, 130, 246)',
+          'rgb(16, 185, 129)',
+          'rgb(139, 92, 246)'
+        ],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.parsed.y + ' years';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 12,
+          ticks: {
+            callback: function(value) {
+              return value + ' years';
+            }
+          }
+        }
+      }
+    }
+  });
 }
-```
+
+// 2. Investment Paradox Scatter Chart
+const ctxParadox = document.getElementById('investmentParadox');
+if (ctxParadox) {
+  new Chart(ctxParadox, {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: 'JTBC',
+        data: [
+          {x: 95.8, y: -26.8}, {x: 68.0, y: 3.2}, {x: 68.4, y: 3.7},
+          {x: 85.4, y: -8.0}, {x: 87.0, y: -6.4}, {x: 87.4, y: -5.7},
+          {x: 80.3, y: 1.3}, {x: 98.1, y: -19.1}, {x: 93.0, y: -10.2}
+        ],
+        backgroundColor: 'rgba(220, 38, 38, 0.6)',
+        borderColor: 'rgb(220, 38, 38)'
+      }, {
+        label: 'Channel A',
+        data: [
+          {x: 78.1, y: -1.3}, {x: 82.2, y: -5.7}, {x: 82.1, y: -5.1},
+          {x: 87.3, y: -10.2}, {x: 87.1, y: -9.3}, {x: 66.9, y: 12.3},
+          {x: 70.6, y: 7.6}, {x: 81.5, y: -2.1}, {x: 78.7, y: 0.8}
+        ],
+        backgroundColor: 'rgba(59, 130, 246, 0.6)',
+        borderColor: 'rgb(59, 130, 246)'
+      }, {
+        label: 'MBN',
+        data: [
+          {x: 78.4, y: 6.6}, {x: 73.0, y: 9.8}, {x: 85.4, y: -2.1},
+          {x: 86.7, y: 0.1}, {x: 88.3, y: -0.5}, {x: 79.4, y: 7.5},
+          {x: 72.7, y: 6.8}, {x: 74.8, y: 2.6}, {x: 73.6, y: 5.2}
+        ],
+        backgroundColor: 'rgba(16, 185, 129, 0.6)',
+        borderColor: 'rgb(16, 185, 129)'
+      }, {
+        label: 'TV Chosun',
+        data: [
+          {x: 71.4, y: 5.8}, {x: 77.9, y: -0.6}, {x: 78.5, y: -0.7},
+          {x: 72.8, y: 7.7}, {x: 61.6, y: 22.5}, {x: 65.6, y: 17.5},
+          {x: 71.9, y: 9.9}, {x: 78.7, y: 6.1}, {x: 77.7, y: 8.3}
+        ],
+        backgroundColor: 'rgba(245, 158, 11, 0.6)',
+        borderColor: 'rgb(245, 158, 11)'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.dataset.label + ': Investment ' + context.parsed.x.toFixed(1) + '%, Margin ' + context.parsed.y.toFixed(1) + '%';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Content Investment Ratio (%)' },
+          min: 55,
+          max: 100
+        },
+        y: {
+          title: { display: true, text: 'Operating Profit Margin (%)' },
+          min: -30,
+          max: 25
+        }
+      }
+    }
+  });
+}
+
+// 3. TV Chosun Timeline
+const ctxTVChosun = document.getElementById('tvChosunTimeline');
+if (ctxTVChosun) {
+  new Chart(ctxTVChosun, {
+    type: 'line',
+    data: {
+      labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+      datasets: [{
+        label: 'Investment Ratio (%)',
+        data: [71.4, 71.4, 77.9, 78.5, 72.8, 61.6, 65.6, 71.9, 78.7, 77.7],
+        borderColor: 'rgb(245, 158, 11)',
+        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+        yAxisID: 'y',
+        tension: 0.3
+      }, {
+        label: 'Operating Profit Margin (%)',
+        data: [5.8, 5.8, -0.6, -0.7, 7.7, 22.5, 17.5, 9.9, 6.1, 8.3],
+        borderColor: 'rgb(16, 185, 129)',
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        yAxisID: 'y1',
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'bottom' } },
+      scales: {
+        y: {
+          type: 'linear',
+          display: true,
+          position: 'left',
+          title: { display: true, text: 'Investment Ratio (%)' },
+          min: 50,
+          max: 90
+        },
+        y1: {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          title: { display: true, text: 'Profit Margin (%)' },
+          min: -5,
+          max: 25,
+          grid: { drawOnChartArea: false }
+        }
+      }
+    }
+  });
+}
+
+// 4. Four Channel Comparison
+const ctxFourChannel = document.getElementById('fourChannelComparison');
+if (ctxFourChannel) {
+  new Chart(ctxFourChannel, {
+    type: 'line',
+    data: {
+      labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+      datasets: [
+        {
+          label: 'JTBC',
+          data: [95.8, 95.8, 68.0, 68.4, 85.4, 87.0, 87.4, 80.3, 98.1, 93.0],
+          borderColor: 'rgb(220, 38, 38)',
+          backgroundColor: 'rgba(220, 38, 38, 0.1)',
+          tension: 0.3
+        },
+        {
+          label: 'Channel A',
+          data: [78.1, 78.1, 82.2, 82.1, 87.3, 87.1, 66.9, 70.6, 81.5, 78.7],
+          borderColor: 'rgb(59, 130, 246)',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          tension: 0.3
+        },
+        {
+          label: 'MBN',
+          data: [78.4, 78.4, 73.0, 85.4, 86.7, 88.3, 79.4, 72.7, 74.8, 73.6],
+          borderColor: 'rgb(16, 185, 129)',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          tension: 0.3
+        },
+        {
+          label: 'TV Chosun',
+          data: [71.4, 71.4, 77.9, 78.5, 72.8, 61.6, 65.6, 71.9, 78.7, 77.7],
+          borderColor: 'rgb(245, 158, 11)',
+          backgroundColor: 'rgba(245, 158, 11, 0.1)',
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'bottom' }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'Content Investment Ratio (%)' },
+          min: 55,
+          max: 100
+        }
+      }
+    }
+  });
+}
+
+// 5. Profit Margins
+const ctxProfitMargins = document.getElementById('profitMargins');
+if (ctxProfitMargins) {
+  new Chart(ctxProfitMargins, {
+    type: 'line',
+    data: {
+      labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+      datasets: [
+        {
+          label: 'JTBC',
+          data: [-26.8, -26.8, 3.2, 3.7, -8.0, -6.4, -5.7, 1.3, -19.1, -10.2],
+          borderColor: 'rgb(220, 38, 38)',
+          tension: 0.3
+        },
+        {
+          label: 'Channel A',
+          data: [-1.3, -1.3, -5.7, -5.1, -10.2, -9.3, 12.3, 7.6, -2.1, 0.8],
+          borderColor: 'rgb(59, 130, 246)',
+          tension: 0.3
+        },
+        {
+          label: 'MBN',
+          data: [6.6, 6.6, 9.8, -2.1, 0.1, -0.5, 7.5, 6.8, 2.6, 5.2],
+          borderColor: 'rgb(16, 185, 129)',
+          tension: 0.3
+        },
+        {
+          label: 'TV Chosun',
+          data: [5.8, 5.8, -0.6, -0.7, 7.7, 22.5, 17.5, 9.9, 6.1, 8.3],
+          borderColor: 'rgb(245, 158, 11)',
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'bottom' }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'Operating Profit Margin (%)' },
+          min: -30,
+          max: 25
+        }
+      }
+    }
+  });
+}
+
+// 6. Media Type Comparison
+const ctxMediaComparison = document.getElementById('mediaComparison');
+if (ctxMediaComparison) {
+  new Chart(ctxMediaComparison, {
+    type: 'bar',
+    data: {
+      labels: ['Terrestrial', 'Comprehensive', 'General PP'],
+      datasets: [{
+        label: 'Average Investment Ratio (%)',
+        data: [79.3, 79.3, 124.8],
+        backgroundColor: [
+          'rgba(59, 130, 246, 0.8)',
+          'rgba(245, 158, 11, 0.8)',
+          'rgba(156, 163, 175, 0.8)'
+        ],
+        borderColor: [
+          'rgb(59, 130, 246)',
+          'rgb(245, 158, 11)',
+          'rgb(156, 163, 175)'
+        ],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterLabel: function(context) {
+              if (context.dataIndex === 2) {
+                return '(High variance: σ=1,431%)';
+              }
+              return '';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 140,
+          title: { display: true, text: 'Investment Ratio (%)' }
+        }
+      }
+    }
+  });
+}
+
+// 7. Proposed Framework
+const ctxProposed = document.getElementById('proposedFramework');
+if (ctxProposed) {
+  new Chart(ctxProposed, {
+    type: 'bar',
+    data: {
+      labels: ['Current\nFixed', 'Proposed\nMinimum', 'Proposed\nOptimal', 'Proposed\nMaximum'],
+      datasets: [{
+        label: 'Investment Ratio Range (%)',
+        data: [70, 60, 65, 70],
+        backgroundColor: [
+          'rgba(220, 38, 38, 0.8)',
+          'rgba(16, 185, 129, 0.8)',
+          'rgba(59, 130, 246, 0.8)',
+          'rgba(245, 158, 11, 0.8)'
+        ],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterLabel: function(context) {
+              const labels = [
+                'Rigid requirement',
+                'Market downturn flexibility',
+                'Sustainable target',
+                'Strong market conditions'
+              ];
+              return labels[context.dataIndex];
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 80,
+          title: { display: true, text: 'Investment Ratio (%)' }
+        }
+      }
+    }
+  });
+}
+</script>

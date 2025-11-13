@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LineChart from '../../components/LineChart.astro';
+import PieChart from '../../components/PieChart.astro';
 import SocialShare from '../../components/SocialShare.astro';
 
 export async function getStaticPaths() {
@@ -91,6 +92,11 @@ const platformDatasets = [
     tension: 0.4
   }
 ];
+
+// Fund distribution pie chart data
+const fundLabels = ['Telecommunications', 'Convergence/Other', 'Broadcasting'];
+const fundData = [850, 377, 120]; // in 100 million won (0.1B won)
+const fundColors = ['rgba(59, 130, 246, 0.8)', 'rgba(156, 163, 175, 0.8)', 'rgba(239, 68, 68, 0.8)'];
 ---
 
 <BaseLayout 
@@ -165,6 +171,15 @@ const platformDatasets = [
             yAxisCallback={false}
           />
         </div>
+        <div id="chart-container-fund" style="display: none;">
+          <PieChart
+            chartId="fundPieChart"
+            title="Broadcasting Fund Distribution (2024, Total: 1,347B won)"
+            labels={fundLabels}
+            data={fundData}
+            backgroundColors={fundColors}
+          />
+        </div>
         <script>
           document.addEventListener('DOMContentLoaded', () => {
             const projectContent = document.querySelector('.project-content');
@@ -200,6 +215,12 @@ const platformDatasets = [
                 }
               } else if (text === 'CHART:platformChart') {
                 const container = document.getElementById('chart-container-platform');
+                if (container) {
+                  container.style.display = 'block';
+                  comment.parentNode.replaceChild(container, comment);
+                }
+              } else if (text === 'CHART:fundPieChart') {
+                const container = document.getElementById('chart-container-fund');
                 if (container) {
                   container.style.display = 'block';
                   comment.parentNode.replaceChild(container, comment);
