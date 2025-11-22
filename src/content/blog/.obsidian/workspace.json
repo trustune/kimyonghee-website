@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "abb9e0f5f92768c4",
+        "id": "6bd509626e4c925e",
         "type": "tabs",
         "children": [
           {
-            "id": "4703965f7f376a6e",
+            "id": "33680724a35ad531",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "mydata-policy-seminar-review-2025.md",
+                "file": "k-content-ip-sovereignty-2025.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "mydata-policy-seminar-review-2025"
+              "title": "k-content-ip-sovereignty-2025"
             }
           }
         ]
@@ -95,7 +95,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "mydata-policy-seminar-review-2025.md",
+                "file": "k-content-ip-sovereignty-2025.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +105,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for mydata-policy-seminar-review-2025"
+              "title": "Backlinks for k-content-ip-sovereignty-2025"
             }
           },
           {
@@ -114,12 +114,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "mydata-policy-seminar-review-2025.md",
+                "file": "k-content-ip-sovereignty-2025.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from mydata-policy-seminar-review-2025"
+              "title": "Outgoing links from k-content-ip-sovereignty-2025"
             }
           },
           {
@@ -143,13 +143,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "mydata-policy-seminar-review-2025.md",
+                "file": "k-content-ip-sovereignty-2025.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of mydata-policy-seminar-review-2025"
+              "title": "Outline of k-content-ip-sovereignty-2025"
             }
           }
         ]
@@ -170,10 +170,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "b9db329c214bcdc4",
+  "active": "33680724a35ad531",
   "lastOpenFiles": [
-    "kabts-conference-2025.md",
+    "Untitled.base",
+    "2025-11-23.md",
+    "Untitled 1.canvas",
+    "Untitled.canvas",
     "mydata-policy-seminar-review-2025.md",
+    "kabts-conference-2025.md",
     "k-content-ip-sovereignty-2025.md",
     "student-gratitude-2025.md",
     "starting-this-blog.md",

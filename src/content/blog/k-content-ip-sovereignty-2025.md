@@ -1,11 +1,20 @@
 ---
 title: "K-Content IP Sovereignty: The Crisis of Revenue Models and the Path to Industrial Restructuring"
-excerpt: "Presented a discussant paper at the National Assembly forum on K-Content IP sovereignty held on November 11, 2025, analyzing the structural challenges facing Korea's content industry through the lens of business economics."
-date: "2025-11-11"
-category: "Analysis"
-tags: ["K-Content", "IP Rights", "Media Economics", "OTT", "Global Value Chain", "Industrial Policy", "Media Financing", "Netflix", "Content Industry"]
-image: "/images/blog/photo1.jpg"
-author: "Yonghee Kim"
+excerpt: Presented a discussant paper at the National Assembly forum on K-Content IP sovereignty held on November 11, 2025, analyzing the structural challenges facing Korea's content industry through the lens of business economics.
+date: 2025-11-11
+category: Analysis
+tags:
+  - K-Content
+  - IP Rights
+  - Media Economics
+  - OTT
+  - Global Value Chain
+  - Industrial Policy
+  - Media Financing
+  - Netflix
+  - Content Industry
+image: /images/blog/photo1.jpg
+author: Yonghee Kim
 enableShare: true
 ---
 
