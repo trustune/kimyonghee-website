@@ -1,12 +1,15 @@
 ---
-title: "The Right to Data Transfer: Social Problems and Response Plans"
-subtitle: "Critical Analysis of Personal Information Protection Act Enforcement Decree Amendment"
+title: "본인전송요구권 확대가 가져올 사회적 문제와 대응 방안"
+title_en: "The Right to Data Transfer: Social Problems and Response Plans"
+subtitle: "개인정보보호법 시행령 개정안의 법적·정책적 문제점 검토"
+subtitle_en: "Critical Analysis of Personal Information Protection Act Enforcement Decree Amendment"
 date: "2025-11-21"
 category: "Data Policy"
 tags: ["MyData", "Data Privacy", "Regulation", "Policy Analysis", "Startup Ecosystem", "GDPR"]
 conference: "MyData Policy Startup Seminar"
 venue: "Korea Startup Forum, D.CAMP, Gangnam, Seoul"
-description: "In-depth analysis of the proposed expansion of the Right to Request Data Transfer, examining seven critical concerns including regulatory procedural violations, constitutional issues, GDPR non-compliance, and threats to the startup ecosystem."
+description: "본인전송요구권 확대 개정안의 7가지 핵심 문제점 분석: 절차적 정당성 위반, 헌법적 문제, GDPR 불일치, 스타트업 생태계 위협"
+description_en: "In-depth analysis of the proposed expansion of the Right to Request Data Transfer, examining seven critical concerns including regulatory procedural violations, constitutional issues, GDPR non-compliance, and threats to the startup ecosystem."
 summary: "The June 2025 amendment proposal ignores Regulatory Reform Committee recommendations (August 2024), violates constitutional principles, contradicts GDPR standards, and threatens to destroy Korea's startup ecosystem through unfair privileges to specialized agencies."
 key_findings:
   - "Procedural violation: Re-proposing rejected content only 4 months after Regulatory Reform Committee decision"
