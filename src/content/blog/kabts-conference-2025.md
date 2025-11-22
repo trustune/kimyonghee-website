@@ -1,4 +1,4 @@
-﻿---
+---
 title: "KABTS Conference Presentation: Media Financing, Digital Inequality, and the Future of OTT Markets"
 excerpt: "Presented three research studies on sustainable media ecosystem financing, Korea-US OTT switching behavior, and digital inequality in media usage at the 2025 KABTS Fall Conference."
 date: "2025-11-08"

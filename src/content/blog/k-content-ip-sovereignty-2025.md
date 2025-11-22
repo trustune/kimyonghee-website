@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K-Content IP Sovereignty: The Crisis of Revenue Models and the Path to Industrial Restructuring"
 excerpt: "Presented a discussant paper at the National Assembly forum on K-Content IP sovereignty held on November 11, 2025, analyzing the structural challenges facing Korea's content industry through the lens of business economics."
 date: "2025-11-11"

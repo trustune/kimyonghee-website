@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Starting This Blog"
 excerpt: "Welcome to my blog. I'm excited to share my thoughts on media policy, technology, and research."
 date: "2025-11-08"
