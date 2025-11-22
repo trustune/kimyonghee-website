@@ -6,6 +6,18 @@ subtitle_en: "Why Higher Content Investment Doesn't Always Lead to Better Perfor
 date: "2025-10-11"
 category: "Broadcasting Policy"
 tags: ["Broadcasting", "Media Policy", "Regulation Reform", "Content Investment", "Data Analysis"]
+keywords: ["Broadcasting Reapproval", "Content Investment", "Regulatory Reform", "Media Performance", "Investment Paradox", "Broadcasting License", "TV Chosun", "Profitability Analysis"]
+methodology: ["Correlation Analysis", "Financial Performance Analysis", "Comparative International Study", "Regulatory Impact Assessment"]
+data_period:
+  start: "2014"
+  end: "2024"
+data_sources:
+  - name: "Korea Communications Commission Reapproval Data"
+    type: "primary"
+  - name: "Broadcasting Companies Financial Statements"
+    type: "primary"
+related_publications: []
+related_projects: ["broadcasting-revenue-2015-2024"]
 conference: "Korean Society for Journalism & Communication Studies 2024 Fall Conference"
 conference_en: "Korean Society for Journalism & Communication Studies 2024 Fall Conference"
 description: "An empirical investigation into Korea's broadcasting reapproval system reveals an investment paradox: stricter content investment requirements correlate with poorer financial performance."

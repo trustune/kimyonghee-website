@@ -6,6 +6,13 @@ subtitle_en: "Critical Analysis of Personal Information Protection Act Enforceme
 date: "2025-11-21"
 category: "Data Policy"
 tags: ["MyData", "Data Privacy", "Regulation", "Policy Analysis", "Startup Ecosystem", "GDPR"]
+keywords: ["MyData", "본인전송요구권", "개인정보보호법", "GDPR", "스타트업", "규제개혁", "데이터이동권", "Data Portability", "Privacy Regulation", "Startup Policy"]
+methodology: ["Policy Analysis", "Legal Review", "Comparative Study (GDPR)", "Stakeholder Analysis", "Cost-Benefit Analysis"]
+data_period:
+  start: "2023-03"
+  end: "2025-11"
+related_publications: []
+related_projects: []
 conference: "MyData Policy Startup Seminar"
 venue: "Korea Startup Forum, D.CAMP, Gangnam, Seoul"
 description: "본인전송요구권 확대 개정안의 7가지 핵심 문제점 분석: 절차적 정당성 위반, 헌법적 문제, GDPR 불일치, 스타트업 생태계 위협"

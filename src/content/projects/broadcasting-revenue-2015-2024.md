@@ -6,6 +6,18 @@ subtitle_en: "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recom
 date: "2025-11-08"
 category: "Broadcasting Policy"
 tags: ["Broadcasting", "Media Economics", "Data Analysis", "Policy Research", "Government Policy", "Digital Transformation"]
+keywords: ["Broadcasting Revenue", "Media Economics", "KBS", "License Fee", "Advertising Decline", "IPTV", "Cable TV", "Media Policy", "Government Funding", "Subscription Model"]
+methodology: ["Time-series Analysis", "Statistical Verification", "Comparative Analysis (OECD)", "Revenue Structure Analysis", "Policy Impact Assessment"]
+data_period:
+  start: "2015"
+  end: "2024"
+data_sources:
+  - name: "Korea Communications Commission"
+    type: "primary"
+  - name: "OECD Broadcasting Statistics"
+    type: "secondary"
+related_publications: []
+related_projects: ["broadcasting-reapproval-2024"]
 conference: "Korean Broadcasting Association 2025 Fall Conference"
 conference_en: "Korean Broadcasting Association 2025 Fall Conference"
 description: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze."
