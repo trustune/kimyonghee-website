@@ -375,9 +375,15 @@ The amendment, which aims to expand the "Right to Request Data Transfer" to all 
 <p><strong>Result:</strong> Virtually all successful digital businesses are captured → De facto expansion to ALL industries</p>
 </div>
 
+<div class="chart-container" style="height: 400px; margin: 3rem 0;">
+  <canvas id="scopeComparison"></canvas>
+</div>
+
 ---
 
 ## Seven Critical Concerns
+
+<div class="chart-container" style="height: 500px; margin-bottom: 3rem;"><canvas id="sevenConcernsRadar"></canvas></div>
 
 <div class="concern-grid">
   <div class="concern-card procedural">
@@ -434,6 +440,14 @@ The amendment, which aims to expand the "Right to Request Data Transfer" to all 
 
 ## Deep Dive: GDPR Compliance Gap
 
+<div class="chart-container" style="height: 400px; margin: 3rem 0;">
+  <canvas id="timelineChart"></canvas>
+</div>
+
+---
+
+## Deep Dive: GDPR Compliance Gap
+
 <div class="vs-divider">
   <div class="vs-badge">VS</div>
 </div>
@@ -468,6 +482,12 @@ The amendment, which aims to expand the "Right to Request Data Transfer" to all 
       Forces transfer of core business data (purchase patterns, pricing policies, customer segmentation, seller information) without "legitimate grounds" despite being trade secrets accumulated through years of investment
     </div>
   </div>
+</div>
+
+### EU Article 29 Working Party Guidelines
+
+<div class="chart-container" style="height: 450px; margin: 3rem 0;">
+  <canvas id="gdprComplianceChart"></canvas>
 </div>
 
 ### EU Article 29 Working Party Guidelines (WP242)
@@ -749,6 +769,10 @@ The EU's authoritative interpretation provides clear boundaries:
 
 *Source: Financial Services Commission announcement (Jan 10, 2023), Samjong KPMG cost analysis*
 
+<div class="chart-container" style="height: 400px; margin: 3rem 0;">
+  <canvas id="costImpactChart"></canvas>
+</div>
+
 ### All-Industry Expansion Impact (Estimated)
 
 - **Target companies:** Revenue ≥150B KRW & ≥1M users
@@ -769,6 +793,10 @@ The EU's authoritative interpretation provides clear boundaries:
 <strong>Choice</strong> → More growth = Massive costs + Core data exposure
 
 <strong>Result</strong> → Stop growth just before 1M users → Loss of innovation momentum
+
+<div class="chart-container" style="height: 400px; margin: 3rem 0;">
+  <canvas id="startupGrowthTrap"></canvas>
+</div>
 
 **Irony:** The threshold "Revenue 150B KRW & 1M users" is marketed as targeting "large businesses" but actually hits **growing companies the hardest**.
 </div>
@@ -1001,11 +1029,214 @@ The EU's authoritative interpretation provides clear boundaries:
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Charts will be added here
 document.addEventListener('DOMContentLoaded', function() {
-  // Timeline comparison chart
-  // Regulatory contradiction chart
-  // SPOF risk visualization
-  // Startup growth trap chart
+  
+  // 1. Seven Concerns Radar Chart
+  const radarCtx = document.getElementById('sevenConcernsRadar');
+  if (radarCtx) {
+    new Chart(radarCtx, {
+      type: 'radar',
+      data: {
+        labels: ['Procedural\nLegitimacy', 'Legal\nValidity', 'GDPR\nCompliance', 'Market\nFairness', 'Security', 'Economic\nImpact', 'Policy\nConsistency'],
+        datasets: [{
+          label: 'Risk Level',
+          data: [95, 90, 85, 88, 92, 87, 90],
+          backgroundColor: 'rgba(239, 68, 68, 0.2)',
+          borderColor: 'rgb(239, 68, 68)',
+          borderWidth: 3,
+          pointBackgroundColor: 'rgb(239, 68, 68)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgb(239, 68, 68)',
+          pointRadius: 6,
+          pointHoverRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            beginAtZero: true,
+            max: 100,
+            ticks: { stepSize: 20, font: { size: 12 } },
+            pointLabels: { font: { size: 13, weight: 'bold' } }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Seven Critical Concerns - Risk Assessment',
+            font: { size: 20, weight: 'bold' },
+            padding: 20
+          },
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return 'Risk Level: ' + context.parsed.r + '/100';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // 2. Timeline Comparison Chart
+  const timelineCtx = document.getElementById('timelineChart');
+  if (timelineCtx) {
+    new Chart(timelineCtx, {
+      type: 'line',
+      data: {
+        labels: ['2023-03\nLaw Passed', '2024-08\nCommittee\nDecision', '2025-02\nEnforcement\nDecree', '2025-03\nSystem\nLaunch', '2025-06\nControversial\nAmendment'],
+        datasets: [
+          {
+            label: 'Regulatory Compliance',
+            data: [100, 100, 100, 100, 30],
+            borderColor: 'rgb(37, 99, 235)',
+            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+            borderWidth: 3,
+            tension: 0.4,
+            fill: true,
+            pointRadius: 6,
+            pointHoverRadius: 8
+          },
+          {
+            label: 'Industry Preparedness',
+            data: [20, 40, 60, 70, 25],
+            borderColor: 'rgb(245, 158, 11)',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+            borderWidth: 3,
+            tension: 0.4,
+            fill: true,
+            pointRadius: 6,
+            pointHoverRadius: 8
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Regulatory Timeline: Compliance vs. Industry Preparedness',
+            font: { size: 18, weight: 'bold' },
+            padding: 20
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            title: { display: true, text: 'Score (%)', font: { size: 14, weight: 'bold' } },
+            ticks: { callback: function(value) { return value + '%'; } }
+          },
+          x: { title: { display: true, text: 'Timeline', font: { size: 14, weight: 'bold' } } }
+        }
+      }
+    });
+  }
+
+  // 3. Scope Comparison Chart
+  const comparisonCtx = document.getElementById('scopeComparison');
+  if (comparisonCtx) {
+    new Chart(comparisonCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Medical', 'Telecom', 'Energy', 'E-commerce', 'Gaming', 'Education', 'Hospitality', 'Culture'],
+        datasets: [
+          { label: 'Current (Feb 2025)', data: [1, 1, 1, 0, 0, 0, 0, 0], backgroundColor: 'rgba(37, 99, 235, 0.7)', borderColor: 'rgb(37, 99, 235)', borderWidth: 2 },
+          { label: 'Proposed (June 2025)', data: [1, 1, 1, 1, 1, 1, 1, 1], backgroundColor: 'rgba(239, 68, 68, 0.7)', borderColor: 'rgb(239, 68, 68)', borderWidth: 2 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: { display: true, text: 'Sector Coverage: Current (3 Sectors) vs. Proposed (ALL Sectors)', font: { size: 18, weight: 'bold' }, padding: 20 }
+        },
+        scales: {
+          y: { beginAtZero: true, max: 1.2, ticks: { stepSize: 1, callback: function(value) { return value === 1 ? '✓ Included' : ''; } } }
+        }
+      }
+    });
+  }
+
+  // 4. GDPR Compliance Gap Chart
+  const gdprCtx = document.getElementById('gdprComplianceChart');
+  if (gdprCtx) {
+    new Chart(gdprCtx, {
+      type: 'radar',
+      data: {
+        labels: ['Data Subject\nRights', 'Business\nRights', 'Trade Secret\nProtection', 'Technical\nFeasibility', 'Balanced\nApproach'],
+        datasets: [
+          { label: 'GDPR Standard', data: [90, 85, 90, 80, 95], backgroundColor: 'rgba(37, 99, 235, 0.2)', borderColor: 'rgb(37, 99, 235)', borderWidth: 3, pointBackgroundColor: 'rgb(37, 99, 235)', pointRadius: 6 },
+          { label: 'Korean Amendment', data: [95, 30, 20, 40, 35], backgroundColor: 'rgba(239, 68, 68, 0.2)', borderColor: 'rgb(239, 68, 68)', borderWidth: 3, pointBackgroundColor: 'rgb(239, 68, 68)', pointRadius: 6 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { r: { beginAtZero: true, max: 100, ticks: { stepSize: 20 } } },
+        plugins: { title: { display: true, text: 'GDPR Compliance Gap: EU Standard vs. Korean Amendment', font: { size: 18, weight: 'bold' }, padding: 20 } }
+      }
+    });
+  }
+
+  // 5. Cost Impact Chart
+  const costCtx = document.getElementById('costImpactChart');
+  if (costCtx) {
+    new Chart(costCtx, {
+      type: 'bar',
+      data: {
+        labels: ['System\nConstruction', 'Annual\nOperations', 'Security\nMeasures', 'Compliance\nStaff', 'Total Annual\nCost'],
+        datasets: [{
+          label: 'Estimated Cost (Million KRW)',
+          data: [500, 300, 200, 150, 650],
+          backgroundColor: ['rgba(239, 68, 68, 0.7)', 'rgba(245, 158, 11, 0.7)', 'rgba(59, 130, 246, 0.7)', 'rgba(139, 92, 246, 0.7)', 'rgba(16, 185, 129, 0.7)'],
+          borderColor: ['rgb(239, 68, 68)', 'rgb(245, 158, 11)', 'rgb(59, 130, 246)', 'rgb(139, 92, 246)', 'rgb(16, 185, 129)'],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: { display: true, text: 'Estimated Compliance Costs per Startup (Revenue 150B & 1M Users)', font: { size: 18, weight: 'bold' }, padding: 20 },
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: 'Cost (Million KRW)', font: { size: 14, weight: 'bold' } }, ticks: { callback: function(value) { return value.toLocaleString() + 'M'; } } }
+        }
+      }
+    });
+  }
+
+  // 6. Startup Growth Trap Chart
+  const growthCtx = document.getElementById('startupGrowthTrap');
+  if (growthCtx) {
+    new Chart(growthCtx, {
+      type: 'line',
+      data: {
+        labels: ['0', '200K', '400K', '600K', '800K', '1M ⚠', '1.2M', '1.5M'],
+        datasets: [
+          { label: 'Natural Growth Path', data: [0, 15, 35, 60, 85, 110, 140, 175], borderColor: 'rgb(16, 185, 129)', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 3, tension: 0.4, borderDash: [10, 5], pointRadius: 6 },
+          { label: 'Actual Growth (Under Amendment)', data: [0, 15, 35, 60, 85, 95, 98, 100], borderColor: 'rgb(239, 68, 68)', backgroundColor: 'rgba(239, 68, 68, 0.1)', borderWidth: 3, tension: 0.4, pointRadius: 6, pointHoverRadius: 8 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { title: { display: true, text: 'The Startup Growth Trap: Innovation Ceiling at 1M Users', font: { size: 18, weight: 'bold' }, padding: 20 } },
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: 'Growth Index', font: { size: 14, weight: 'bold' } } },
+          x: { title: { display: true, text: 'User Base', font: { size: 14, weight: 'bold' } } }
+        }
+      }
+    });
+  }
+
 });
 </script>
