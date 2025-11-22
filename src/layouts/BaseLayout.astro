@@ -1,4 +1,4 @@
-﻿---
+---
 import Analytics from '../components/Analytics.astro';
 import DarkModeToggle from '../components/DarkModeToggle.astro';
 import LanguageSwitcher from '../components/LanguageSwitcher.astro';
@@ -24,7 +24,7 @@ const currentPath = Astro.url.pathname;
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} ??Yonghee Kim</title>
+  <title>{title} | Yonghee Kim</title>
   <meta name="description" content={description}>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
@@ -48,7 +48,7 @@ const currentPath = Astro.url.pathname;
   <!-- Twitter -->
   <meta property="twitter:card" content={image ? "summary_large_image" : "summary"}>
   <meta property="twitter:url" content={url}>
-  <meta property="twitter:title" content={`${title} ??Yonghee Kim`}>
+  <meta property="twitter:title" content={`${title} | Yonghee Kim`}>
   <meta property="twitter:description" content={description}>
   {image && <meta property="twitter:image" content={image}>}
 
@@ -59,7 +59,7 @@ const currentPath = Astro.url.pathname;
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
   
   <style is:global>
-  /* Paperozi ?쒓? ?고듃 */
+  /* Paperozi Korean Font */
   @font-face {
     font-family: 'Paperozi';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2');
@@ -243,7 +243,7 @@ const currentPath = Astro.url.pathname;
           <a href="/media" class={currentPath === '/media' ? 'active' : ''}>Media</a>
           <a href="/teaching" class={currentPath.startsWith('/teaching') || currentPath.startsWith('/courses') ? 'active' : ''}>Teaching</a>
           <a href="/about" class={currentPath === '/about' ? 'active' : ''}>About</a>
-          <a href="/search" class={currentPath === '/search' ? 'active' : ''}>?뵇</a>
+          <a href="/search" class={currentPath === '/search' ? 'active' : ''}>Search</a>
           <LanguageSwitcher />
           <DarkModeToggle />
         </div>
@@ -274,8 +274,8 @@ const currentPath = Astro.url.pathname;
           </ul>
         </div>
         <div class="footer-section">
-          <p>짤 2025 Yonghee Kim. All rights reserved.</p>
-          <p class="built-with">Built with Astro ??Deployed on Nginx</p>
+          <p>&copy; 2025 Yonghee Kim. All rights reserved.</p>
+          <p class="built-with">Built with Astro | Deployed on Nginx</p>
         </div>
       </div>
     </div>
@@ -380,13 +380,14 @@ const currentPath = Astro.url.pathname;
     }
 
     .footer-section a:hover {
+      color: var(--color-accent);
+    }
+
     .built-with {
       font-size: 0.75rem;
       color: #9ca3af;
       margin-top: 0.5rem;
       opacity: 0.6;
-    }
-      color: var(--color-accent);
     }
 
     @media (max-width: 768px) {
