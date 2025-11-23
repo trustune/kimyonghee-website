@@ -23,6 +23,8 @@ export async function GET() {
       keywords: p.data.keywords,
       research_area: p.data.research_area,
       methodology: p.data.methodology,
+      statistical_methods: p.data.statistical_methods,
+      software_used: p.data.software_used,
       related_projects: p.data.related_projects,
     }));
   
