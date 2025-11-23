@@ -43,11 +43,122 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
         My research has been published in leading SSCI journals including <em>Telecommunications Policy</em> (IF 5.6, Q1), <em>Journal of Retailing and Consumer Services</em> (IF 13.1, Q1), and <em>Sustainability</em>. With over {totalCitations} citations, my work on IoT adoption and technology acceptance has become a foundational reference in the field.
       </p>
       <p>
-        I actively contribute to policy discourse through research presentations at the National Assembly and expert commentary in <a href="https://www.etnews.com/" target="_blank">The Electronic Times</a>. My current projects include developing the <strong>K-Survey Analytics Platform (KSAP)</strong>, a Korean-language statistical analysis platform designed as an alternative to SPSS and SmartPLS.
+        I actively contribute to policy discourse through research presentations at the National Assembly and expert commentary in <a href="https://www.etnews.com/" target="_blank">The Electronic Times</a>. My research emphasizes <strong>reproducible methods</strong> and <strong>open data</strong>, with all code and datasets publicly available for verification and replication.
       </p>
       <p>
         In recognition of my contributions to media policy research, I've received commendations from the Korea Communications Commission and the Ministry of Science and ICT. I also serve as Director of the Daeyeon Industrial Policy Institute and am a cofounder of <a href="https://www.openroute.kr/" target="_blank">OpenRoute</a>.
       </p>
+    </section>
+
+    <section class="section ksap-highlight">
+      <div class="section-header">
+        <h2>K-Survey Analytics Platform (KSAP)</h2>
+        <a href="https://github.com/yhkim1981-svg/KSAP" target="_blank" rel="noopener" class="section-link">View on GitHub →</a>
+      </div>
+      
+      <div class="ksap-content">
+        <p class="ksap-intro">
+          A Korean-language statistical analysis platform designed as an open-source alternative to SPSS, SmartPLS, and PROCESS. 
+          KSAP combines Python FastAPI with R statistical computing to provide comprehensive tools for quantitative research.
+        </p>
+        
+        <div class="ksap-features">
+          <div class="feature-card">
+            <span class="feature-icon">📊</span>
+            <h4>Basic Statistics</h4>
+            <p>t-tests, ANOVA, Regression with full diagnostics</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🔗</span>
+            <h4>MCDM Methods</h4>
+            <p>AHP, ANP, ISM, DEMATEL, TOPSIS</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🎯</span>
+            <h4>SEM & PLS</h4>
+            <p>Structural Equation Modeling</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🔬</span>
+            <h4>R Integration</h4>
+            <p>Leveraging professional R packages via rpy2</p>
+          </div>
+        </div>
+
+        <div class="ksap-status">
+          <div class="status-item">
+            <span class="status-label">Status</span>
+            <span class="status-value">Phase 1.5 - Advanced Regression</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">Tech Stack</span>
+            <span class="status-value">Python FastAPI + R 4.3+</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Code & Data</h2>
+        <a href="https://github.com/trustune" target="_blank" rel="noopener" class="section-link">View All Repositories →</a>
+      </div>
+      
+      <div class="code-data-list">
+        <article class="code-item">
+          <a href="https://github.com/trustune/broadcasting-disclosure-db" target="_blank" rel="noopener" class="code-link">
+            <div class="code-header">
+              <span class="code-icon">🗄️</span>
+              <h3 class="code-title">Korean Broadcasting Industry Database</h3>
+            </div>
+            <p class="code-description">
+              Comprehensive SQLite database (tv_integrated.db) containing 2015-2024 Korean broadcasting industry data. 
+              Includes revenue, investment, employment, and regulatory data for reproducible media policy research.
+            </p>
+            <div class="code-meta">
+              <span class="code-tag">SQLite</span>
+              <span class="code-tag">Panel Data</span>
+              <span class="code-tag">1,500+ observations</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="code-item">
+          <a href="https://kimyonghee.com/api" class="code-link">
+            <div class="code-header">
+              <span class="code-icon">🔌</span>
+              <h3 class="code-title">Research Data API</h3>
+            </div>
+            <p class="code-description">
+              JSON/CSV APIs providing structured access to publications, projects, and research metadata. 
+              Supports R, Python, and Excel for immediate analysis.
+            </p>
+            <div class="code-meta">
+              <span class="code-tag">JSON API</span>
+              <span class="code-tag">CSV Export</span>
+              <span class="code-tag">Open Access</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="code-item">
+          <a href="https://github.com/yhkim1981-svg/KSAP" target="_blank" rel="noopener" class="code-link">
+            <div class="code-header">
+              <span class="code-icon">💻</span>
+              <h3 class="code-title">KSAP Source Code</h3>
+            </div>
+            <p class="code-description">
+              Open-source statistical analysis platform. All analysis scripts, documentation, 
+              and development roadmap available for community contribution.
+            </p>
+            <div class="code-meta">
+              <span class="code-tag">Python</span>
+              <span class="code-tag">R</span>
+              <span class="code-tag">Open Source</span>
+            </div>
+          </a>
+        </article>
+      </div>
     </section>
 
     <section class="section">
@@ -262,6 +373,154 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
   }
   .section-link:hover { color: #2563eb; }
   
+  /* KSAP Highlight Section */
+  .ksap-highlight {
+    background: linear-gradient(135deg, #eff6ff 0%, #f9fafb 100%);
+    border: 2px solid #2563eb;
+    border-radius: 1rem;
+    padding: 2rem !important;
+  }
+  
+  .ksap-intro {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #4b5563;
+    margin-bottom: 2rem;
+  }
+  
+  .ksap-features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .feature-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    border-color: #2563eb;
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  
+  .feature-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+  }
+  
+  .feature-card p {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.5;
+  }
+  
+  .ksap-status {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    background: white;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+  }
+  
+  .status-item {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .status-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+  }
+  
+  .status-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1e40af;
+  }
+  
+  /* Code & Data Section */
+  .code-data-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .code-link {
+    text-decoration: none;
+    display: block;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    transition: all 0.2s;
+    background: white;
+  }
+  
+  .code-link:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+  
+  .code-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .code-icon {
+    font-size: 2rem;
+  }
+  
+  .code-title {
+    font-family: 'Paperozi', 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #1f2937;
+    line-height: 1.4;
+  }
+  
+  .code-description {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  
+  .code-meta {
+    display: flex;
+    gap: 0.75rem;
+  }
+  
+  .code-tag {
+    background: #f3f4f6;
+    color: #4b5563;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
   /* Publications */
   .publication-list { display: flex; flex-direction: column; gap: 1.5rem; }
   .publication-item { }
@@ -444,6 +703,10 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
       flex-direction: column; 
       gap: 0.5rem; 
       align-items: start;
+    }
+    .ksap-features {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
   }
 </style>
