@@ -11,6 +11,12 @@ issue: "12"
 pages: "183-186"
 citations: 0
 abstract: "This paper identifies industrial characteristics of portal sites using stochastic frontier analysis and tobit regression, proposing that market share and appropriate fixed assets have positive impacts on portal site efficiency."
+keywords: ["Portal Services", "Stochastic Frontier Analysis", "Efficiency", "Market Share", "Tobit Regression", "Network Effects", "Internet Services", "Platform Economics", "Productivity Analysis"]
+research_area: ["Internet Services", "Efficiency Analysis", "Platform Economics", "Industrial Organization"]
+methodology: ["Stochastic Frontier Analysis", "Tobit Regression", "Two-stage Analysis", "Production Function Estimation"]
+statistical_methods: ["SFA", "Tobit Model", "Maximum Likelihood Estimation"]
+software_used: ["Stata", "Frontier"]
+related_projects: []
 ---
 
 ## Research Overview

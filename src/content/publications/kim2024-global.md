@@ -14,6 +14,12 @@ impact_factor: 3.9
 quartile: "Q2"
 citations: 1
 abstract: "This study investigated the direct and indirect impacts of financial investment connectedness and Information and Communication Technology (ICT) on countries' intellectual property (IP) strategies. By utilizing the panel logit model on longitudinal country-level data, we found that countries' positions in the global financial investment network significantly affect their IP strategies."
+keywords: ["Financial Networks", "ICT Development", "Intellectual Property", "Panel Logit", "Network Analysis", "IP Strategy", "Global Investment", "Technology Policy", "Cross-country Analysis", "Innovation Policy"]
+research_area: ["ICT Policy", "International Economics", "Innovation Studies", "Network Economics"]
+methodology: ["Panel Logit Model", "Network Analysis", "Mediation Analysis", "Cross-country Comparison"]
+statistical_methods: ["Panel Logit", "Network Centrality Measures", "Robustness Checks", "Interaction Effects"]
+software_used: ["Stata", "R"]
+related_projects: []
 ---
 
 ## Research Overview

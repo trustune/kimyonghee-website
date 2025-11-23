@@ -11,6 +11,12 @@ publisher: "Springer, Cham"
 doi: "10.1007/978-3-319-98881-8_9"
 citations: 1
 abstract: "This study analyzed the efficiency of global major mobile operators and the reason for their efficiency. For this purpose, the financial data of 96 operators in 40 OECD member countries were utilized."
+keywords: ["Mobile Operators", "DEA", "Telecommunications Efficiency", "OECD", "Global Comparison", "Operator Performance", "Network Economics", "Telecom Industry", "Benchmarking"]
+research_area: ["Telecommunications", "Efficiency Analysis", "Network Economics", "Global Comparison"]
+methodology: ["Data Envelopment Analysis", "Cross-country Comparison", "Benchmarking", "Performance Analysis"]
+statistical_methods: ["DEA", "Efficiency Scores", "Comparative Analysis", "Ranking"]
+software_used: ["DEAP", "Excel"]
+related_projects: []
 ---
 
 ## Research Overview

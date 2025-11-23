@@ -12,6 +12,12 @@ pages: "7627-7634"
 publisher: "International Information Institute"
 citations: 1
 abstract: "With the advancement of information and communications technologies, market related to Virtual Reality (VR) using mobile-based devices has been rapidly expanded. Global companies such as Google, Facebook, SONY and Samsung Electronics have competed for the preoccupancy in the virtual reality market by introducing products and services in the area of game, education, and tourism."
+keywords: ["Virtual Reality", "VR Theme Park", "Contingent Valuation", "Willingness to Pay", "Economic Valuation", "Immersive Technology", "Entertainment Economics", "Consumer Preferences", "CVM"]
+research_area: ["VR/AR", "Economic Valuation", "Entertainment Industry", "Technology Markets"]
+methodology: ["Contingent Valuation Method", "Survey Research", "Bid Design", "Willingness to Pay Analysis"]
+statistical_methods: ["CVM", "Logit Model", "Bid Function Analysis", "Descriptive Statistics"]
+software_used: ["Stata", "SPSS"]
+related_projects: []
 ---
 
 ## Research Overview

@@ -14,6 +14,12 @@ impact_factor: 1.5
 quartile: "Q3"
 citations: 7
 abstract: "This study aims to use ISM to identify the enablers affecting the acceptance of IoT services. For this purpose, this study conducted an ISM analysis and a MICMAC analysis, extracted the enablers from Internet of Things-An Action Plan for Europe published by the EU for the research, and conducted interviews and surveys."
+keywords: ["IoT Services", "ISM", "MICMAC", "Technology Adoption", "Enablers", "EU Action Plan", "Internet of Things", "Hierarchical Analysis", "Policy Framework", "Service Acceptance"]
+research_area: ["IoT", "Technology Management", "Innovation Studies", "Policy Analysis"]
+methodology: ["Interpretive Structural Modeling", "MICMAC Analysis", "Expert Interviews", "Survey Research"]
+statistical_methods: ["ISM", "Driver-Dependence Matrix", "Level Partitioning", "Structural Analysis"]
+software_used: ["ISM Software", "Excel"]
+related_projects: []
 ---
 
 ## Research Overview

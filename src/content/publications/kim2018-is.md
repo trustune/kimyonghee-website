@@ -14,6 +14,12 @@ impact_factor: 3.9
 quartile: "Q2"
 citations: 18
 abstract: "An information system (IS) upgrade is an essential way to enhance the competitiveness of an organization. Specifically, the decision making processes surrounding IS upgrades is one of the most important parts of an organization's competitiveness in regard to business sustainability."
+keywords: ["IS Upgrade", "Decision Making", "ISM", "MICMAC", "Sustainability", "Information Systems", "Organizational Competitiveness", "Strategic Planning", "Technology Adoption", "Change Management"]
+research_area: ["Information Systems", "Strategic Management", "Business Sustainability", "Organizational Behavior"]
+methodology: ["Interpretive Structural Modeling", "MICMAC Analysis", "Expert Panel", "Structural Analysis"]
+statistical_methods: ["ISM", "Reachability Matrix", "Level Partitioning", "Driver-Dependence Analysis"]
+software_used: ["ISM Software", "Excel"]
+related_projects: []
 ---
 
 ## Research Overview

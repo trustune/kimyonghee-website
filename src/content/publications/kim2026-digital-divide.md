@@ -8,6 +8,12 @@ status: "working-paper"
 category: "Digital Inequality"
 citations: 0
 abstract: "This paper examines the evolving nature of digital inequality, moving beyond device access to analyze qualitative differences in media usage time. Using Korea Media Panel data (2019-2024), we find that while first-generation digital divides have been resolved, stark differences persist in how different income groups allocate their media time between entertainment and productive activities."
+keywords: ["Digital Inequality", "Media Usage Time", "Digital Divide", "Income Inequality", "Media Panel Data", "Quality Gap", "Korea", "Time Allocation", "Third-level Divide", "Media Consumption"]
+research_area: ["Digital Inequality", "Media Studies", "Social Inequality", "Communication Studies"]
+methodology: ["Panel Data Analysis", "Time Allocation Analysis", "Longitudinal Study", "Content Categorization"]
+statistical_methods: ["Descriptive Statistics", "Trend Analysis", "Income Stratification", "Comparative Analysis"]
+software_used: ["R", "Stata"]
+related_projects: []
 ---
 
 ## Research Background

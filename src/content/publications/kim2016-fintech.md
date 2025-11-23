@@ -11,6 +11,12 @@ issue: "2"
 pages: "1058-1061"
 citations: 404
 abstract: "This study examines factors affecting adoption of mobile payment services in the Fintech industry, analyzing user acceptance patterns and behavioral intentions toward mobile financial technology services."
+keywords: ["Fintech", "Mobile Payment", "Technology Adoption", "TAM", "Digital Finance", "Trust", "Security", "Payment Innovation", "Consumer Behavior", "Financial Services"]
+research_area: ["Fintech", "Technology Adoption", "Digital Finance", "Consumer Behavior"]
+methodology: ["Structural Equation Modeling", "Survey Research", "TAM Framework", "Quantitative Analysis"]
+statistical_methods: ["SEM", "Factor Analysis", "Path Analysis", "Reliability Testing"]
+software_used: ["AMOS", "SPSS"]
+related_projects: []
 ---
 
 ## Research Overview

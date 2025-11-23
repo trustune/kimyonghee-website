@@ -14,6 +14,12 @@ impact_factor: 3.9
 quartile: "Q1"
 citations: 481
 abstract: "This study aims to comprehensively examine the adoption of smart home service. A new model combining VAM (Value-based Adoption Model) and TAM (Technical Acceptance Model) was developed and analysed with a set of variables from Unified Theory of Acceptance and Use of Technology and Elaboration Likelihood Model."
+keywords: ["IoT", "Smart Home", "Technology Adoption", "VAM", "TAM", "UTAUT", "Consumer Behavior", "Value-based Adoption", "Technology Acceptance", "Innovation Diffusion"]
+research_area: ["Information Systems", "Technology Adoption", "IoT", "Consumer Behavior"]
+methodology: ["Structural Equation Modeling", "Survey Research", "Quantitative Analysis", "Model Integration"]
+statistical_methods: ["SEM", "Confirmatory Factor Analysis", "Path Analysis", "Reliability Analysis"]
+software_used: ["AMOS", "SPSS"]
+related_projects: []
 ---
 
 ## Overview

@@ -14,6 +14,12 @@ impact_factor: 5.6
 quartile: "Q1"
 citations: 5
 abstract: "This paper evaluates operational efficiency of media companies using Data Envelopment Analysis and Malmquist productivity indices, providing insights into performance trends and competitive positioning in the media industry."
+keywords: ["Media Efficiency", "DEA", "Malmquist Index", "Productivity Analysis", "Broadcasting Companies", "Performance Measurement", "Technical Efficiency", "Total Factor Productivity", "Media Economics", "Benchmarking"]
+research_area: ["Media Economics", "Efficiency Analysis", "Broadcasting Industry", "Performance Management"]
+methodology: ["Data Envelopment Analysis", "Malmquist Productivity Index", "Panel Data Analysis", "Efficiency Decomposition"]
+statistical_methods: ["DEA", "Malmquist Index", "Technical Efficiency", "Scale Efficiency", "Productivity Change"]
+software_used: ["DEAP", "R"]
+related_projects: ["broadcasting-revenue-2015-2024"]
 ---
 
 ## Research Overview

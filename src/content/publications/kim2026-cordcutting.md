@@ -13,6 +13,12 @@ impact_factor: 13.1
 quartile: "Q1"
 citations: 0
 abstract: "This study examines factors driving subscriber migration from traditional pay-TV to OTT services using the push-pull-mooring framework, analyzing switching behavior in the evolving media consumption landscape."
+keywords: ["Cord-cutting", "OTT Services", "Pay-TV", "Push-Pull-Mooring", "Switching Behavior", "Consumer Migration", "Streaming Services", "Media Consumption", "Service Migration", "PPM Framework"]
+research_area: ["Consumer Behavior", "Media Economics", "Service Marketing", "Digital Transformation"]
+methodology: ["Structural Equation Modeling", "Survey Research", "Push-Pull-Mooring Framework", "Quantitative Analysis"]
+statistical_methods: ["SEM", "Factor Analysis", "Path Analysis", "Mediation Analysis"]
+software_used: ["AMOS", "SPSS"]
+related_projects: []
 ---
 
 ## Overview

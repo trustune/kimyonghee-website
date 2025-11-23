@@ -8,6 +8,12 @@ status: "work-in-progress"
 category: "Media Policy"
 citations: 0
 abstract: "This study analyzes the structural crisis in Korea's media industry financing, examining the 44-year freeze on public broadcasting license fees and the 43.5% collapse in broadcast advertising revenue. We propose a comprehensive policy roadmap including license fee normalization, advertising deregulation, and platform contribution adjustments."
+keywords: ["Media Financing", "Public Broadcasting", "License Fee", "Advertising Revenue", "Platform Contribution", "Media Policy", "Sustainability", "Broadcasting Reform", "Korea", "Policy Roadmap"]
+research_area: ["Media Policy", "Broadcasting Economics", "Public Service Media", "Media Regulation"]
+methodology: ["Policy Analysis", "Time-series Analysis", "International Benchmarking", "Stakeholder Analysis"]
+statistical_methods: ["Revenue Analysis", "Comparative Analysis", "Policy Simulation"]
+software_used: ["R", "Excel"]
+related_projects: ["broadcasting-revenue-2015-2024"]
 ---
 
 ## Research Overview
