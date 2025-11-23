@@ -1,110 +1,103 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import publications from '../data/publications.json';
-import books from '../data/books.json';
-import media from '../data/media.json';
+import { getCollection } from 'astro:content';
 
-const recentPubs = publications.publications
-  .sort((a, b) => b.year - a.year)
+// Collections 가져오기
+const publications = await getCollection('publications');
+const projects = await getCollection('projects');
+const blogPosts = await getCollection('blog');
+
+// Recent publications (최신 3개)
+const recentPubs = publications
+  .filter(p => p.data.status === 'published')
+  .sort((a, b) => b.data.year - a.data.year)
   .slice(0, 3);
+
+// Featured projects (최신 3개)
+const featuredProjects = projects
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+
+// Recent blog posts (최신 3개)
+const recentPosts = blogPosts
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+
+// 통계
+const totalCitations = publications.reduce((sum, pub) => sum + (pub.data.citations || 0), 0);
+const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
 ---
 
-<BaseLayout title="Home">
+<BaseLayout title="Home" description="Professor of Business Administration specializing in media policy, digital platforms, and AI governance research">
   <div class="homepage">
     <header class="hero">
       <h1 class="name">김용희 (YONGHEE KIM)</h1>
-      <p class="subtitle">Professor of Business Administration | Media Policy & Management Expert</p>
+      <p class="subtitle">Assistant Professor of Business Administration | Media Policy & Digital Platform Research</p>
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-number">{publications.length}</span>
+          <span class="stat-label">Publications</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{ssciPapers}</span>
+          <span class="stat-label">SSCI Papers</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{totalCitations}</span>
+          <span class="stat-label">Citations</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{projects.length}</span>
+          <span class="stat-label">Projects</span>
+        </div>
+      </div>
     </header>
 
     <section class="bio">
       <p>
-        I'm a business administration professor and data scientist specializing in media policy, OTT service markets, and ICT efficiency analysis. My research combines econometric methods with big data analytics to inform policy decisions in Korea's rapidly evolving digital media landscape. You can find my <a href="/research/publications">academic research here</a>.
+        I'm an Assistant Professor at <a href="https://mgt.sunmoon.ac.kr/mgt/ad/pp/profsrintrcnPage.do?profsrSe=A&mi=41267" target="_blank">Sunmoon University</a>, specializing in media policy, digital platform regulation, and AI governance research. My work focuses on Korean broadcasting policy, K-Content IP sovereignty, digital platform governance, and statistical analysis methodologies.
       </p>
       <p>
-        I've published seven papers in SSCI-indexed journals, including work on cord-cutting behavior, media regulation, and ESG practices in media industries. My research has been cited by policymakers and has contributed to regulatory frameworks in Korean broadcasting and telecommunications. I regularly contribute policy analysis and expert commentary to <a href="https://www.etnews.com/20251103000041" target="_blank">The Electronic Times (etnews)</a>, Korea's leading technology and media publication.
+        My research has been published in leading SSCI journals including <em>Telecommunications Policy</em> (IF 5.6, Q1), <em>Journal of Retailing and Consumer Services</em> (IF 13.1, Q1), and <em>Sustainability</em>. With over {totalCitations} citations, my work on IoT adoption and technology acceptance has become a foundational reference in the field.
       </p>
       <p>
-        Currently, I serve as an associate professor at the <a href="https://mgt.sunmoon.ac.kr/mgt/ad/pp/profsrintrcnPage.do?profsrSe=A&mi=41267" target="_blank">Department of Business Administration at Sunmoon University</a>, where I teach courses on digital business strategy and data analytics. I also direct the Daeyeon Industrial Policy Institute, focusing on evidence-based policy research for Korea's media and ICT sectors.
+        I actively contribute to policy discourse through research presentations at the National Assembly and expert commentary in <a href="https://www.etnews.com/" target="_blank">The Electronic Times</a>. My current projects include developing the <strong>K-Survey Analytics Platform (KSAP)</strong>, a Korean-language statistical analysis platform designed as an alternative to SPSS and SmartPLS.
       </p>
       <p>
-        In recognition of my contributions to media policy, I've received commendations from both the Korea Communications Commission and the Ministry of Science and ICT. I'm also a cofounder of <a href="https://www.openroute.kr/" target="_blank">OpenRoute</a>, a research consultancy that bridges academic research and industry practice in digital transformation.
+        In recognition of my contributions to media policy research, I've received commendations from the Korea Communications Commission and the Ministry of Science and ICT. I also serve as Director of the Daeyeon Industrial Policy Institute and am a cofounder of <a href="https://www.openroute.kr/" target="_blank">OpenRoute</a>.
       </p>
     </section>
 
     <section class="section">
       <div class="section-header">
-        <h2 data-lang="en">Recent Research</h2>
-        <h2 data-lang="ko">최근 연구</h2>
-        <a href="/research/publications" class="section-link">
-          <span data-lang="en">View All Research →</span>
-          <span data-lang="ko">전체 연구 보기 →</span>
-        </a>
+        <h2>Recent Research</h2>
+        <a href="/research/publications" class="section-link">View All Publications →</a>
       </div>
       
       <div class="publication-list">
         {recentPubs.map(pub => (
           <article class="publication-item">
-            <h3 class="pub-title">{pub.title}</h3>
-            <div class="pub-meta">
-              <span class="pub-authors">{pub.authors.join(', ')}</span>
-              <span class="separator">•</span>
-              <span class="pub-journal">{pub.journal}</span>
-              <span class="separator">•</span>
-              <span class="pub-year">{pub.year}</span>
-              {pub.impact_factor && (
-                <>
-                  <span class="separator">•</span>
-                  <span class="pub-if">IF {pub.impact_factor}</span>
-                </>
-              )}
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-header">
-        <h2 data-lang="en">Books</h2>
-        <h2 data-lang="ko">저서</h2>
-      </div>
-      
-      <div class="book-list">
-        {books.books.filter(b => b.type === 'main').map(book => (
-          <article class="book-item">
-            <h3 class="book-title">{book.title}</h3>
-            <div class="book-meta">
-              <span class="book-authors">{Array.isArray(book.authors) ? book.authors.join(', ') : book.authors}</span>
-              <span class="separator">•</span>
-              <span class="book-year">{book.year}</span>
-              {book.isbn && (
-                <>
-                  <span class="separator">•</span>
-                  <span class="book-isbn">ISBN {book.isbn}</span>
-                </>
-              )}
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-header">
-        <h2>Media Articles</h2>
-        <a href="/media" class="section-link">View All →</a>
-      </div>
-      
-      <div class="article-list">
-        {media.articles.slice(0, 3).map(article => (
-          <article class="article-item">
-            <a href={article.url} target="_blank" class="article-link">
-              <div class="article-meta">
-                <span class="article-outlet">{article.outlet}</span>
+            <a href={`/research/${pub.slug}`} class="pub-link">
+              <h3 class="pub-title">{pub.data.title}</h3>
+              <div class="pub-meta">
+                <span class="pub-authors">{pub.data.authors.join(', ')}</span>
                 <span class="separator">•</span>
-                <span class="article-date">{article.date}</span>
+                <span class="pub-journal">{pub.data.journal}</span>
+                <span class="separator">•</span>
+                <span class="pub-year">{pub.data.year}</span>
+                {pub.data.impact_factor && (
+                  <>
+                    <span class="separator">•</span>
+                    <span class="pub-if">IF {pub.data.impact_factor}</span>
+                  </>
+                )}
+                {pub.data.citations > 0 && (
+                  <>
+                    <span class="separator">•</span>
+                    <span class="pub-citations">{pub.data.citations} citations</span>
+                  </>
+                )}
               </div>
-              <h3 class="article-title">{article.title}</h3>
             </a>
           </article>
         ))}
@@ -113,20 +106,82 @@ const recentPubs = publications.publications
 
     <section class="section">
       <div class="section-header">
-        <h2>Links</h2>
+        <h2>Featured Projects</h2>
+        <a href="/projects" class="section-link">View All Projects →</a>
+      </div>
+      
+      <div class="project-list">
+        {featuredProjects.map(project => (
+          <article class="project-item">
+            <a href={`/projects/${project.slug}`} class="project-link">
+              <div class="project-header">
+                <h3 class="project-title">{project.data.title}</h3>
+                <span class="project-category">{project.data.category}</span>
+              </div>
+              <p class="project-description">{project.data.description}</p>
+              <div class="project-meta">
+                <span class="project-date">{new Date(project.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}</span>
+                {project.data.tags && project.data.tags.length > 0 && (
+                  <div class="project-tags">
+                    {project.data.tags.slice(0, 3).map(tag => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Latest Blog Posts</h2>
+        <a href="/blog" class="section-link">View All Posts →</a>
+      </div>
+      
+      <div class="blog-list">
+        {recentPosts.map(post => (
+          <article class="blog-item">
+            <a href={`/blog/${post.slug}`} class="blog-link">
+              <div class="blog-meta">
+                <span class="blog-category">{post.data.category}</span>
+                <span class="separator">•</span>
+                <span class="blog-date">{new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+              </div>
+              <h3 class="blog-title">{post.data.title}</h3>
+              <p class="blog-excerpt">{post.data.excerpt}</p>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Connect</h2>
       </div>
 
       <nav class="links">
         <a href="mailto:yhkim1981@sunmoon.ac.kr" class="link-item">
+          <span class="link-icon">✉️</span>
           <span class="link-title">Email</span>
           <span class="link-arrow">→</span>
         </a>
-        <a href="https://github.com/yhkim1981-svg" class="link-item">
+        <a href="https://github.com/yhkim1981-svg" target="_blank" rel="noopener" class="link-item">
+          <span class="link-icon">💻</span>
           <span class="link-title">GitHub</span>
           <span class="link-arrow">→</span>
         </a>
-        <a href="https://scholar.google.com/citations?user=semkeskAAAAJ" class="link-item">
+        <a href="https://scholar.google.com/citations?user=semkeskAAAAJ" target="_blank" rel="noopener" class="link-item">
+          <span class="link-icon">🎓</span>
           <span class="link-title">Google Scholar</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="https://bsky.app/profile/hastara.bsky.social" target="_blank" rel="noopener" class="link-item">
+          <span class="link-icon">🦋</span>
+          <span class="link-title">Bluesky</span>
           <span class="link-arrow">→</span>
         </a>
       </nav>
@@ -136,39 +191,277 @@ const recentPubs = publications.publications
 
 <style>
   .homepage { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
-  .hero { margin-bottom: 4rem; }
-  .name { font-family: 'Paperozi', 'Merriweather', serif; font-size: 2.5rem; font-weight: 300; letter-spacing: -0.02em; color: #1e40af; margin-bottom: 0.5rem; }
-  .subtitle { font-size: 1.125rem; color: #6b7280; margin: 0; }
-  .bio { margin-bottom: 4rem; padding-bottom: 3rem; border-bottom: 1px solid #e5e7eb; font-size: 1.125rem; line-height: 1.7; }
+  
+  .hero { margin-bottom: 4rem; text-align: center; }
+  .name { 
+    font-family: 'Paperozi', 'Merriweather', serif; 
+    font-size: 3rem; 
+    font-weight: 300; 
+    letter-spacing: -0.02em; 
+    color: #1e40af; 
+    margin-bottom: 0.75rem; 
+  }
+  .subtitle { 
+    font-size: 1.25rem; 
+    color: #6b7280; 
+    margin: 0 0 2rem 0; 
+  }
+  
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #f9fafb;
+    border-radius: 1rem;
+  }
+  
+  .stat-item {
+    text-align: center;
+  }
+  
+  .stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e40af;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-label {
+    display: block;
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .bio { 
+    margin-bottom: 4rem; 
+    padding-bottom: 3rem; 
+    border-bottom: 1px solid #e5e7eb; 
+    font-size: 1.125rem; 
+    line-height: 1.7; 
+  }
   .bio p { margin-bottom: 1.5rem; }
   .bio a { color: #2563eb; text-decoration: underline; text-underline-offset: 0.2em; }
-  .section { margin-bottom: 4rem; padding-bottom: 3rem; border-bottom: 1px solid #e5e7eb; }
+  .bio em { font-style: italic; color: #4b5563; }
+  .bio strong { font-weight: 600; color: #1e40af; }
+  
+  .section { 
+    margin-bottom: 4rem; 
+    padding-bottom: 3rem; 
+    border-bottom: 1px solid #e5e7eb; 
+  }
   .section:last-child { border-bottom: none; }
-  .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem; }
-  .section-header h2 { font-family: 'Paperozi', 'Merriweather', serif; font-size: 1.875rem; font-weight: 400; margin: 0; }
-  .section-link { font-size: 0.875rem; color: #6b7280; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; }
+  
+  .section-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: baseline; 
+    margin-bottom: 2rem; 
+  }
+  .section-header h2 { 
+    font-family: 'Paperozi', 'Merriweather', serif; 
+    font-size: 2rem; 
+    font-weight: 400; 
+    margin: 0; 
+    color: #1e40af;
+  }
+  .section-link { 
+    font-size: 0.875rem; 
+    color: #6b7280; 
+    text-decoration: none; 
+    text-transform: uppercase; 
+    letter-spacing: 0.05em; 
+  }
   .section-link:hover { color: #2563eb; }
-  .publication-item, .book-item { margin-bottom: 2rem; }
-  .pub-title, .book-title { font-family: 'Paperozi', 'Inter', sans-serif; font-size: 1.125rem; font-weight: 500; margin-bottom: 0.5rem; line-height: 1.4; }
-  .pub-meta, .book-meta { font-size: 0.875rem; color: #6b7280; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  
+  /* Publications */
+  .publication-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .publication-item { }
+  .pub-link { 
+    text-decoration: none; 
+    display: block;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    transition: all 0.2s;
+  }
+  .pub-link:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+  .pub-title { 
+    font-family: 'Paperozi', 'Inter', sans-serif; 
+    font-size: 1.25rem; 
+    font-weight: 500; 
+    margin-bottom: 0.75rem; 
+    line-height: 1.4; 
+    color: #1f2937;
+  }
+  .pub-meta { 
+    font-size: 0.875rem; 
+    color: #6b7280; 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 0.5rem; 
+  }
   .separator { color: #d1d5db; }
   .pub-if { font-weight: 600; color: #059669; }
-  .article-list { display: flex; flex-direction: column; gap: 1rem; }
-  .article-item { padding: 1.25rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s; }
-  .article-item:hover { border-color: #2563eb; background: #eff6ff; }
-  .article-link { text-decoration: none; display: block; }
-  .article-meta { font-size: 0.875rem; color: #6b7280; margin-bottom: 0.5rem; }
-  .article-outlet { font-weight: 600; color: #2563eb; }
-  .article-title { font-family: 'Paperozi', 'Inter', sans-serif; font-size: 1.125rem; color: #1f2937; font-weight: 500; line-height: 1.4; }
-  .article-link:hover .article-title { color: #2563eb; }
+  .pub-citations { font-weight: 600; color: #7c3aed; }
+  
+  /* Projects */
+  .project-list { display: grid; gap: 1.5rem; }
+  .project-item { }
+  .project-link {
+    text-decoration: none;
+    display: block;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    transition: all 0.2s;
+  }
+  .project-link:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.75rem;
+  }
+  .project-title {
+    font-family: 'Paperozi', 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #1f2937;
+    line-height: 1.4;
+    flex: 1;
+  }
+  .project-category {
+    font-size: 0.75rem;
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .project-description {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .project-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .tag {
+    background: #f3f4f6;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+  }
+  
+  /* Blog */
+  .blog-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .blog-item { }
+  .blog-link {
+    text-decoration: none;
+    display: block;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    transition: all 0.2s;
+  }
+  .blog-link:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+  .blog-meta {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+  }
+  .blog-category {
+    font-weight: 600;
+    color: #2563eb;
+  }
+  .blog-title {
+    font-family: 'Paperozi', 'Inter', sans-serif;
+    font-size: 1.25rem;
+    color: #1f2937;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+  .blog-excerpt {
+    color: #4b5563;
+    line-height: 1.6;
+  }
+  
+  /* Links */
   .links { display: grid; gap: 1rem; }
-  .link-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; text-decoration: none; color: #1f2937; transition: all 0.2s; }
-  .link-item:hover { border-color: #2563eb; background-color: #eff6ff; }
-  .link-title { font-weight: 500; }
-  .link-arrow { color: #9ca3af; font-weight: 600; }
+  .link-item { 
+    display: flex; 
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem; 
+    border: 1px solid #e5e7eb; 
+    border-radius: 0.75rem; 
+    text-decoration: none; 
+    color: #1f2937; 
+    transition: all 0.2s; 
+  }
+  .link-item:hover { 
+    border-color: #2563eb; 
+    background-color: #eff6ff; 
+    transform: translateX(4px);
+  }
+  .link-icon {
+    font-size: 1.5rem;
+  }
+  .link-title { 
+    font-weight: 500; 
+    flex: 1;
+  }
+  .link-arrow { 
+    color: #9ca3af; 
+    font-weight: 600; 
+  }
+  
   @media (max-width: 768px) {
     .homepage { padding: 2rem 1rem; }
     .name { font-size: 2rem; }
-    .section-header { flex-direction: column; gap: 0.5rem; }
+    .subtitle { font-size: 1rem; }
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .stat-number { font-size: 2rem; }
+    .section-header { 
+      flex-direction: column; 
+      gap: 0.5rem; 
+      align-items: start;
+    }
   }
 </style>
