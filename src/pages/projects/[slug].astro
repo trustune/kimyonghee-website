@@ -95,7 +95,7 @@ const platformDatasets = [
 
 // Fund distribution pie chart data
 const fundLabels = ['Telecommunications', 'Convergence/Other', 'Broadcasting'];
-const fundData = [850, 377, 120]; // in 100 million won (0.1B won)
+const fundData = [850, 377, 120];
 const fundColors = ['rgba(59, 130, 246, 0.8)', 'rgba(156, 163, 175, 0.8)', 'rgba(239, 68, 68, 0.8)'];
 ---
 
@@ -110,13 +110,22 @@ const fundColors = ['rgba(59, 130, 246, 0.8)', 'rgba(156, 163, 175, 0.8)', 'rgba
         <time class="project-date">{new Date(data.date).toLocaleDateString('ko-KR')}</time>
       </div>
       
-      <h1 class="project-title">{data.title_en}</h1>
+      <!-- Bilingual Title -->
+      <h1 class="project-title">
+        <span class="lang-content" data-lang="en">{data.title_en}</span>
+        <span class="lang-content" data-lang="ko">{data.title_ko || data.title_en}</span>
+      </h1>
       
-      {data.subtitle_en && (
-        <p class="project-subtitle">{data.subtitle_en}</p>
+      <!-- Bilingual Subtitle -->
+      {(data.subtitle_en || data.subtitle_ko) && (
+        <p class="project-subtitle">
+          <span class="lang-content" data-lang="en">{data.subtitle_en}</span>
+          <span class="lang-content" data-lang="ko">{data.subtitle_ko || data.subtitle_en}</span>
+        </p>
       )}
 
-      {data.conference_en && (
+      <!-- Bilingual Conference Info -->
+      {(data.conference_en || data.conference_ko) && (
         <div class="conference-info">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -124,7 +133,8 @@ const fundColors = ['rgba(59, 130, 246, 0.8)', 'rgba(156, 163, 175, 0.8)', 'rgba
             <line x1="8" y1="2" x2="8" y2="6"></line>
             <line x1="3" y1="10" x2="21" y2="10"></line>
           </svg>
-          <span>{data.conference_en}</span>
+          <span class="lang-content" data-lang="en">{data.conference_en}</span>
+          <span class="lang-content" data-lang="ko">{data.conference_ko || data.conference_en}</span>
         </div>
       )}
 
@@ -133,6 +143,40 @@ const fundColors = ['rgba(59, 130, 246, 0.8)', 'rgba(156, 163, 175, 0.8)', 'rgba
           <span class="tag">{tag}</span>
         ))}
       </div>
+
+      <!-- Bilingual Summary Box -->
+      {(data.summary || data.summary_ko) && (
+        <div class="summary-box">
+          <h3 class="summary-title">
+            <span class="lang-content" data-lang="en">Executive Summary</span>
+            <span class="lang-content" data-lang="ko">핵심 요약</span>
+          </h3>
+          <p class="summary-text">
+            <span class="lang-content" data-lang="en">{data.summary}</span>
+            <span class="lang-content" data-lang="ko">{data.summary_ko || data.summary}</span>
+          </p>
+        </div>
+      )}
+
+      <!-- Bilingual Key Findings -->
+      {(data.key_findings || data.key_findings_ko) && (
+        <div class="key-findings-box">
+          <h3 class="findings-title">
+            <span class="lang-content" data-lang="en">Key Findings</span>
+            <span class="lang-content" data-lang="ko">주요 발견</span>
+          </h3>
+          <ul class="findings-list lang-content" data-lang="en">
+            {data.key_findings?.map((finding) => (
+              <li>{finding}</li>
+            ))}
+          </ul>
+          <ul class="findings-list lang-content" data-lang="ko">
+            {(data.key_findings_ko || data.key_findings)?.map((finding) => (
+              <li>{finding}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </header>
 
     <div class="project-content">
@@ -185,7 +229,6 @@ const fundColors = ['rgba(59, 130, 246, 0.8)', 'rgba(156, 163, 175, 0.8)', 'rgba
             const projectContent = document.querySelector('.project-content');
             if (!projectContent) return;
 
-            // Find HTML comment markers and replace with charts
             const walker = document.createTreeWalker(
               projectContent,
               NodeFilter.SHOW_COMMENT,
@@ -244,8 +287,8 @@ const fundColors = ['rgba(59, 130, 246, 0.8)', 'rgba(156, 163, 175, 0.8)', 'rgba
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
-        <span data-lang="en">Back to Projects</span>
-        <span data-lang="ko">프로젝트 목록으로</span>
+        <span class="lang-content" data-lang="en">Back to Projects</span>
+        <span class="lang-content" data-lang="ko">프로젝트 목록으로</span>
       </a>
     </footer>
   </article>
@@ -325,6 +368,7 @@ const fundColors = ['rgba(59, 130, 246, 0.8)', 'rgba(156, 163, 175, 0.8)', 'rgba
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .tag {
@@ -333,6 +377,97 @@ const fundColors = ['rgba(59, 130, 246, 0.8)', 'rgba(156, 163, 175, 0.8)', 'rgba
     color: #4b5563;
     font-size: 0.875rem;
     border-radius: 0.25rem;
+  }
+
+  /* Summary Box */
+  .summary-box {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-left: 4px solid #3b82f6;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .summary-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 0.75rem;
+  }
+
+  .summary-text {
+    font-size: 1rem;
+    color: #374151;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Key Findings Box */
+  .key-findings-box {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-left: 4px solid #10b981;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .findings-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #065f46;
+    margin-bottom: 0.75rem;
+  }
+
+  .findings-list {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .findings-list li {
+    font-size: 0.95rem;
+    color: #374151;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  .findings-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Language Content - Default hide Korean */
+  .lang-content[data-lang="ko"] {
+    display: none;
+  }
+
+  .lang-content[data-lang="en"] {
+    display: inline;
+  }
+
+  /* When Korean is selected */
+  :global([data-language="ko"]) .lang-content[data-lang="ko"] {
+    display: inline;
+  }
+
+  :global([data-language="ko"]) .lang-content[data-lang="en"] {
+    display: none;
+  }
+
+  /* Block elements need display: block */
+  ul.lang-content[data-lang="ko"],
+  ul.lang-content[data-lang="en"] {
+    display: none;
+  }
+
+  ul.lang-content[data-lang="en"] {
+    display: block;
+  }
+
+  :global([data-language="ko"]) ul.lang-content[data-lang="ko"] {
+    display: block;
+  }
+
+  :global([data-language="ko"]) ul.lang-content[data-lang="en"] {
+    display: none;
   }
 
   .project-content {
@@ -467,3 +602,24 @@ const fundColors = ['rgba(59, 130, 246, 0.8)', 'rgba(156, 163, 175, 0.8)', 'rgba
     }
   }
 </style>
+
+<script>
+  // Initialize language display on page load
+  function updateLanguageDisplay() {
+    const lang = localStorage.getItem('language') || 'en';
+    document.documentElement.setAttribute('data-language', lang);
+  }
+
+  // Run on initial load
+  updateLanguageDisplay();
+
+  // Listen for language changes
+  window.addEventListener('languagechange', () => {
+    updateLanguageDisplay();
+  });
+
+  // Re-run on Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    updateLanguageDisplay();
+  });
+</script>
