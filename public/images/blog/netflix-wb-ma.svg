@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="netflixRed" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e50914"/>
+      <stop offset="100%" style="stop-color:#b81d24"/>
+    </linearGradient>
+    <linearGradient id="wbBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0072ce"/>
+      <stop offset="100%" style="stop-color:#004990"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Grid pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.05"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Netflix Logo Area -->
+  <rect x="150" y="200" width="300" height="180" rx="12" fill="url(#netflixRed)" opacity="0.9"/>
+  <text x="300" y="305" font-family="Arial Black, sans-serif" font-size="72" font-weight="900" fill="#ffffff" text-anchor="middle">N</text>
+  <text x="300" y="355" font-family="Arial, sans-serif" font-size="24" fill="#ffffff" text-anchor="middle" opacity="0.9">NETFLIX</text>
+  
+  <!-- Plus Sign -->
+  <text x="530" y="310" font-family="Arial, sans-serif" font-size="80" fill="#ffffff" text-anchor="middle" opacity="0.8">+</text>
+  
+  <!-- Warner Bros Logo Area -->
+  <rect x="610" y="200" width="300" height="180" rx="12" fill="url(#wbBlue)" opacity="0.9"/>
+  <text x="760" y="290" font-family="Arial Black, sans-serif" font-size="48" font-weight="900" fill="#ffffff" text-anchor="middle">WB</text>
+  <text x="760" y="340" font-family="Arial, sans-serif" font-size="18" fill="#ffffff" text-anchor="middle" opacity="0.9">WARNER BROS.</text>
+  
+  <!-- Deal Value -->
+  <rect x="960" y="220" width="180" height="140" rx="8" fill="#ffffff" opacity="0.1"/>
+  <text x="1050" y="275" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" text-anchor="middle" opacity="0.7">ENTERPRISE VALUE</text>
+  <text x="1050" y="320" font-family="Arial Black, sans-serif" font-size="36" fill="#e50914" text-anchor="middle">$82.7B</text>
+  
+  <!-- Title -->
+  <text x="600" y="500" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="#ffffff" text-anchor="middle">M&amp;A Deal Analysis</text>
+  <text x="600" y="550" font-family="Arial, sans-serif" font-size="22" fill="#ffffff" text-anchor="middle" opacity="0.7">December 2025 | Comprehensive Financial &amp; Strategic Review</text>
+  
+  <!-- Decorative lines -->
+  <line x1="200" y1="580" x2="1000" y2="580" stroke="#e50914" stroke-width="3" opacity="0.6"/>
+  <line x1="250" y1="590" x2="950" y2="590" stroke="#0072ce" stroke-width="2" opacity="0.4"/>
+</svg>
