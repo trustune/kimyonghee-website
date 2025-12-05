@@ -850,6 +850,108 @@ The content industry's workforce is predominantly **freelance and project-based*
 
 <hr class="section-divider">
 
+<h2 data-lang="en">Part 7: The Hidden Tax Contribution</h2>
+<h2 data-lang="ko">Part 7: 숨겨진 조세 기여</h2>
+
+<p data-lang="en">When evaluating Netflix's tax contribution, the conventional approach focuses solely on corporate income tax reported in financial statements. However, this perspective misses <strong>97.5% of Netflix's actual tax contribution to the Korean treasury</strong>. Input-output analysis reveals a massive "hidden" tax contribution through indirect taxes generated in the content production supply chain.</p>
+<p data-lang="ko">넷플릭스의 조세 기여를 평가할 때, 전통적인 접근법은 재무제표에 보고된 법인세에만 초점을 맞춥니다. 하지만 이러한 관점은 <strong>넷플릭스의 실제 한국 국고 기여의 97.5%를 놓치고 있습니다</strong>. 산업연관분석을 통해 콘텐츠 제작 공급망에서 발생하는 간접세를 통한 막대한 "숨겨진" 조세 기여가 드러납니다.</p>
+
+<div class="metric-cards">
+  <div class="metric-card">
+    <div class="metric-value">3.6B</div>
+    <div class="metric-label">Corporate Tax (KRW)<br/>Visible in Statements</div>
+  </div>
+  <div class="metric-card green">
+    <div class="metric-value">143B</div>
+    <div class="metric-label">Indirect Tax (KRW)<br/>Hidden in Supply Chain</div>
+  </div>
+  <div class="metric-card blue">
+    <div class="metric-value">146.6B</div>
+    <div class="metric-label">Total Tax (KRW)<br/>4-Year Cumulative</div>
+  </div>
+  <div class="metric-card orange">
+    <div class="metric-value">97.5%</div>
+    <div class="metric-label">Hidden Ratio<br/>Invisible Contribution</div>
+  </div>
+</div>
+
+<div class="chart-container">
+  <div class="chart-title" data-lang="en">Corporate Tax vs Indirect Tax Contribution (2020-2023)</div>
+  <div class="chart-title" data-lang="ko">법인세 vs 간접세 기여 (2020-2023)</div>
+  <canvas id="taxContribution"></canvas>
+</div>
+
+<table class="data-table orange-header">
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Corporate Tax<br/>(Billion KRW)</th>
+      <th>Indirect Tax<br/>(Billion KRW)</th>
+      <th>Total Tax<br/>(Billion KRW)</th>
+      <th>Hidden Ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2020</td>
+      <td class="number">0.9</td>
+      <td class="number">21</td>
+      <td class="number"><strong>21.9</strong></td>
+      <td class="number">95.9%</td>
+    </tr>
+    <tr>
+      <td>2021</td>
+      <td class="number">0.9</td>
+      <td class="number">35</td>
+      <td class="number"><strong>35.9</strong></td>
+      <td class="number">97.5%</td>
+    </tr>
+    <tr>
+      <td>2022</td>
+      <td class="number">1.0</td>
+      <td class="number">49</td>
+      <td class="number"><strong>50.0</strong></td>
+      <td class="number">98.0%</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td class="number">0.8</td>
+      <td class="number">38</td>
+      <td class="number"><strong>38.8</strong></td>
+      <td class="number">97.9%</td>
+    </tr>
+    <tr style="background: #fffbeb; font-weight: bold;">
+      <td>4-Year Total</td>
+      <td class="number">3.6</td>
+      <td class="number">143</td>
+      <td class="number"><strong>146.6</strong></td>
+      <td class="number">97.5%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="data-source">Source: DART (Corporate Tax), IO Analysis (Indirect Tax from 4-year cumulative production inducement)</p>
+
+<div class="insight-box orange">
+  <h4 data-lang="en">Why Indirect Taxes Matter More</h4>
+  <h4 data-lang="ko">간접세가 더 중요한 이유</h4>
+  <p data-lang="en"><strong>VAT, production taxes, and supply chain taxes are embedded in content production:</strong><br/><br/>
+  • When Netflix's Korean production partners purchase equipment, hire crews, rent studios, and buy materials, they pay VAT and production taxes<br/>
+  • These taxes are "invisible" in Netflix's financial statements but represent real contributions to the Korean treasury<br/>
+  • Unlike corporate tax which depends on profitability, indirect taxes are generated whenever production activity occurs<br/>
+  • The 40x multiplier (143B vs 3.6B) demonstrates that <strong>production activity generates far more tax revenue than corporate profits</strong></p>
+  <p data-lang="ko"><strong>부가가치세, 생산세, 공급망 세금이 콘텐츠 제작에 내재되어 있습니다:</strong><br/><br/>
+  • 넷플릭스의 한국 제작 파트너들이 장비를 구매하고, 스태프를 고용하고, 스튜디오를 임대하고, 자재를 구입할 때 부가가치세와 생산세를 납부합니다<br/>
+  • 이러한 세금은 넷플릭스의 재무제표에는 "보이지 않지만" 한국 국고에 대한 실질적인 기여를 나타냅니다<br/>
+  • 수익성에 따라 달라지는 법인세와 달리, 간접세는 생산 활동이 일어날 때마다 발생합니다<br/>
+  • 40배의 승수 (1,431억 vs 36억)는 <strong>생산 활동이 기업 이익보다 훨씬 더 많은 세수를 창출한다</strong>는 것을 보여줍니다</p>
+</div>
+
+<p data-lang="en"><strong>Policy Implication:</strong> The current debate surrounding foreign digital platforms focuses almost exclusively on corporate income tax. However, input-output analysis reveals that Netflix's contribution through production-induced indirect taxes is <strong>40 times larger</strong> than its visible corporate tax. This finding suggests the need for a more holistic framework when evaluating digital platforms' economic and fiscal contributions - one that accounts for the entire value chain impact rather than just the platform's own profitability.</p>
+<p data-lang="ko"><strong>정책적 함의:</strong> 외국 디지털 플랫폼을 둘러싼 현재의 논쟁은 거의 전적으로 법인소득세에 초점을 맞추고 있습니다. 하지만 산업연관분석은 넷플릭스의 생산유발 간접세를 통한 기여가 가시적인 법인세보다 <strong>40배 더 크다</strong>는 것을 보여줍니다. 이러한 발견은 디지털 플랫폼의 경제적·재정적 기여를 평가할 때 플랫폼 자체의 수익성만이 아닌 전체 가치사슬의 영향을 고려하는 보다 종합적인 프레임워크의 필요성을 시사합니다.</p>
+
+<hr class="section-divider">
+
 <h2 data-lang="en">Conclusion: Reframing the Debate</h2>
 <h2 data-lang="ko">결론: 논쟁의 재구성</h2>
 
@@ -1096,6 +1198,47 @@ if (ctxCumulative) {
         y: {
           beginAtZero: true,
           title: { display: true, text: 'Trillion KRW' }
+        }
+      }
+    }
+  });
+}
+
+// 6. Tax Contribution Chart
+const ctxTax = document.getElementById('taxContribution');
+if (ctxTax) {
+  new Chart(ctxTax, {
+    type: 'bar',
+    data: {
+      labels: ['Corporate Tax\n(Visible)', 'Indirect Tax\n(Hidden)'],
+      datasets: [{
+        label: 'Billion KRW',
+        data: [3.6, 143],
+        backgroundColor: [
+          'rgba(229, 9, 20, 0.8)',
+          'rgba(16, 185, 129, 0.8)'
+        ],
+        borderColor: [
+          'rgb(229, 9, 20)',
+          'rgb(16, 185, 129)'
+        ],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: '40x difference: Production activity generates far more tax revenue',
+          font: { size: 12, weight: 'bold' }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: { display: true, text: 'Billion KRW' }
         }
       }
     }

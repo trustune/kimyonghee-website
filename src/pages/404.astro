@@ -2,10 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const popularPages = [
-  { title: 'Research & Publications', href: '/research/publications', description: 'View all research papers and publications' },
-  { title: 'About', href: '/about', description: 'Learn more about my background and experience' },
-  { title: 'Blog', href: '/blog', description: 'Read latest posts and insights' },
-  { title: 'Media Contributions', href: '/media', description: 'View opinion pieces and editorials' },
+  { title: 'Research & Publications', title_ko: '연구 및 논문', href: '/research/publications', description: 'View all research papers and publications', description_ko: '모든 연구 논문 및 출판물 보기' },
+  { title: 'Projects', title_ko: '프로젝트', href: '/projects', description: 'Explore research projects and analysis', description_ko: '연구 프로젝트 및 분석 탐색' },
+  { title: 'About', title_ko: '소개', href: '/about', description: 'Learn more about my background and experience', description_ko: '배경 및 경험에 대해 알아보기' },
+  { title: 'Blog', title_ko: '블로그', href: '/blog', description: 'Read latest posts and insights', description_ko: '최신 게시글 및 인사이트 읽기' },
+  { title: 'Teaching', title_ko: '강의', href: '/teaching', description: 'View courses and teaching materials', description_ko: '강의 및 교육 자료 보기' },
+  { title: 'Media', title_ko: '미디어', href: '/media', description: 'View opinion pieces and editorials', description_ko: '칼럼 및 기고문 보기' },
 ];
 ---
 
@@ -14,19 +16,26 @@ const popularPages = [
     <div class="not-found-content">
       <div class="not-found-header">
         <h1 class="not-found-title">404</h1>
-        <h2 class="not-found-subtitle">Page Not Found</h2>
-        <p class="not-found-description">
+        <h2 class="not-found-subtitle" data-lang="en">Page Not Found</h2>
+        <h2 class="not-found-subtitle" data-lang="ko">페이지를 찾을 수 없습니다</h2>
+        <p class="not-found-description" data-lang="en">
           The page you're looking for doesn't exist or has been moved.
+        </p>
+        <p class="not-found-description" data-lang="ko">
+          찾으시는 페이지가 존재하지 않거나 이동되었습니다.
         </p>
       </div>
 
       <div class="not-found-search">
-        <h3 class="search-title">Try searching:</h3>
+        <h3 class="search-title" data-lang="en">Try searching:</h3>
+        <h3 class="search-title" data-lang="ko">검색해보세요:</h3>
         <div class="search-box">
           <input
             type="search"
             id="search-input"
             placeholder="Search for pages..."
+            data-placeholder-en="Search for pages..."
+            data-placeholder-ko="페이지 검색..."
             class="search-input"
           />
           <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -38,20 +47,25 @@ const popularPages = [
       </div>
 
       <div class="popular-pages">
-        <h3 class="popular-title">Popular Pages</h3>
+        <h3 class="popular-title" data-lang="en">Popular Pages</h3>
+        <h3 class="popular-title" data-lang="ko">인기 페이지</h3>
         <div class="popular-grid">
           {popularPages.map(page => (
             <a href={page.href} class="popular-card">
-              <h4 class="popular-card-title">{page.title}</h4>
-              <p class="popular-card-description">{page.description}</p>
+              <h4 class="popular-card-title" data-lang="en">{page.title}</h4>
+              <h4 class="popular-card-title" data-lang="ko">{page.title_ko}</h4>
+              <p class="popular-card-description" data-lang="en">{page.description}</p>
+              <p class="popular-card-description" data-lang="ko">{page.description_ko}</p>
             </a>
           ))}
         </div>
       </div>
 
       <div class="not-found-actions">
-        <a href="/" class="btn-primary">Go to Homepage</a>
-        <a href="/blog" class="btn-secondary">View Blog</a>
+        <a href="/" class="btn-primary" data-lang="en">Go to Homepage</a>
+        <a href="/" class="btn-primary" data-lang="ko">홈으로 가기</a>
+        <a href="/projects" class="btn-secondary" data-lang="en">View Projects</a>
+        <a href="/projects" class="btn-secondary" data-lang="ko">프로젝트 보기</a>
       </div>
     </div>
   </div>
@@ -241,6 +255,24 @@ const popularPages = [
 </style>
 
 <script>
+  // Update placeholder based on language
+  function updatePlaceholder() {
+    const searchInput = document.getElementById('search-input') as HTMLInputElement;
+    if (searchInput) {
+      const lang = document.documentElement.getAttribute('data-language') || 'en';
+      const placeholder = lang === 'ko' ?
+        searchInput.getAttribute('data-placeholder-ko') :
+        searchInput.getAttribute('data-placeholder-en');
+      searchInput.placeholder = placeholder || 'Search for pages...';
+    }
+  }
+
+  // Initialize placeholder
+  updatePlaceholder();
+
+  // Listen for language changes
+  window.addEventListener('languagechange', updatePlaceholder);
+
   // Simple search functionality
   const searchInput = document.getElementById('search-input') as HTMLInputElement;
   const searchResults = document.getElementById('search-results');
@@ -250,8 +282,14 @@ const popularPages = [
     { title: 'About', url: '/about' },
     { title: 'CV', url: '/cv' },
     { title: 'Research & Publications', url: '/research/publications' },
+    { title: 'Projects', url: '/projects' },
+    { title: 'Netflix Korea Economic Impact', url: '/projects/netflix-korea-economic-impact-2024' },
+    { title: 'Broadcasting Revenue Analysis', url: '/projects/broadcasting-revenue-2015-2024' },
+    { title: 'MyData Policy', url: '/projects/mydata-right-transfer-policy-2025' },
     { title: 'Blog', url: '/blog' },
+    { title: 'Teaching', url: '/teaching' },
     { title: 'Media Contributions', url: '/media' },
+    { title: 'Search', url: '/search' },
   ];
 
   searchInput?.addEventListener('input', (e) => {
@@ -273,7 +311,9 @@ const popularPages = [
         </div>
       `).join('');
     } else {
-      searchResults.innerHTML = '<div class="search-result">No results found</div>';
+      const lang = document.documentElement.getAttribute('data-language') || 'en';
+      const noResults = lang === 'ko' ? '검색 결과가 없습니다' : 'No results found';
+      searchResults.innerHTML = `<div class="search-result">${noResults}</div>`;
     }
   });
 </script>
