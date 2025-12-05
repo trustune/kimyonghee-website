@@ -363,11 +363,61 @@ featured: true
   font-weight: 800;
   color: #059669;
 }
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .flow-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .flow-box {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+    margin: 0.5rem 0;
+  }
+
+  .flow-row:nth-child(2) .flow-arrow {
+    transform: rotate(90deg);
+  }
+
+  .pipeline-highlight .big-number {
+    font-size: 2rem;
+  }
+
+  .metric-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-value {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .pipeline-highlight .big-number {
+    font-size: 1.75rem;
+  }
+
+  .metric-value {
+    font-size: 1.5rem;
+  }
+
+  .flow-amount {
+    font-size: 1.25rem;
+  }
+}
 </style>
 
-## The Untold Story: What Financial Statements Don't Reveal
+<h2 data-lang="en">The Untold Story: What Financial Statements Don't Reveal</h2>
+<h2 data-lang="ko">숨겨진 이야기: 재무제표가 말해주지 않는 것들</h2>
 
-When we evaluate Netflix Korea's economic contribution, most analyses focus on the company's reported revenue and profits. But this approach misses a crucial piece of the puzzle: **the massive content production investments that flow directly from Netflix Inc. (US) to Korean production companies** - bypassing Korean financial statements entirely.
+<p data-lang="en">When we evaluate Netflix Korea's economic contribution, most analyses focus on the company's reported revenue and profits. But this approach misses a crucial piece of the puzzle: <strong>the massive content production investments that flow directly from Netflix Inc. (US) to Korean production companies</strong> - bypassing Korean financial statements entirely.</p>
+<p data-lang="ko">넷플릭스 코리아의 경제적 기여를 평가할 때, 대부분의 분석은 회사의 보고된 매출과 이익에 초점을 맞춥니다. 하지만 이러한 접근은 퍼즐의 중요한 조각을 놓치고 있습니다: <strong>넷플릭스 본사(미국)에서 한국 제작사로 직접 유입되는 대규모 콘텐츠 제작 투자금</strong> - 한국 재무제표를 완전히 우회하는 자금입니다.</p>
 
 <div class="metric-cards">
   <div class="metric-card">
@@ -389,15 +439,20 @@ When we evaluate Netflix Korea's economic contribution, most analyses focus on t
 </div>
 
 <div class="insight-box">
-  <h4>The Hidden FDI Discovery</h4>
-  <p><strong>Financial statements show:</strong> ~450 billion KRW (two subsidiaries' operating costs)<br/>
+  <h4 data-lang="en">The Hidden FDI Discovery</h4>
+  <h4 data-lang="ko">숨겨진 FDI 발견</h4>
+  <p data-lang="en"><strong>Financial statements show:</strong> ~450 billion KRW (two subsidiaries' operating costs)<br/>
   <strong>Actual investment:</strong> ~3.3 trillion KRW (including content production)<br/>
   <strong>The gap:</strong> 2.9 trillion KRW of "invisible" foreign direct investment that bypasses Korean subsidiaries</p>
+  <p data-lang="ko"><strong>재무제표 상:</strong> ~4,500억원 (두 자회사의 운영비용)<br/>
+  <strong>실제 투자액:</strong> ~3.3조원 (콘텐츠 제작 포함)<br/>
+  <strong>차이:</strong> 한국 자회사를 우회하는 2.9조원의 "보이지 않는" 외국인 직접투자</p>
 </div>
 
 <hr class="section-divider">
 
-## Part 1: The Global Capital Pipeline - More Comes In Than Goes Out
+<h2 data-lang="en">Part 1: The Global Capital Pipeline - More Comes In Than Goes Out</h2>
+<h2 data-lang="ko">Part 1: 글로벌 자본 파이프라인 - 나가는 것보다 들어오는 것이 더 많다</h2>
 
 A common criticism is that Netflix "takes subscription fees to the US." But examining the actual money flow reveals a fundamentally different picture: **Netflix is not a drain on Korea's economy - it's a pipeline that channels global capital INTO Korea.**
 
@@ -465,7 +520,8 @@ A common criticism is that Netflix "takes subscription fees to the US." But exam
 
 <hr class="section-divider">
 
-## Part 2: Investment Flow by Year
+<h2 data-lang="en">Part 2: Investment Flow by Year</h2>
+<h2 data-lang="ko">Part 2: 연도별 투자 흐름</h2>
 
 <div class="chart-container">
   <div class="chart-title">Netflix Korea Investment Flow (2020-2023)</div>
@@ -525,12 +581,13 @@ A common criticism is that Netflix "takes subscription fees to the US." But exam
 
 <hr class="section-divider">
 
-## Part 3: Employment Efficiency - The 3.6x Advantage
+<h2 data-lang="en">Part 3: Employment Efficiency - The 3.6x Advantage</h2>
+<h2 data-lang="ko">Part 3: 고용 효율성 - 3.6배의 우위</h2>
 
-When we compare job creation efficiency across industries, **content investment creates 3.6 times more jobs per 10 billion won than semiconductor manufacturing**.
+When we compare job creation efficiency across industries, **content investment creates 3.6 times more jobs per 1 billion won than semiconductor manufacturing**.
 
 <div class="chart-container">
-  <div class="chart-title">Employment Inducement Coefficient by Industry (Jobs per 10 Billion KRW)</div>
+  <div class="chart-title">Employment Inducement Coefficient by Industry (Jobs per 1 Billion KRW)</div>
   <canvas id="employmentComparison"></canvas>
 </div>
 
@@ -538,7 +595,7 @@ When we compare job creation efficiency across industries, **content investment 
   <thead>
     <tr>
       <th>Industry</th>
-      <th>Employment Coefficient<br/>(per 10B KRW)</th>
+      <th>Employment Coefficient<br/>(per 1B KRW)</th>
       <th>Import Coefficient</th>
       <th>Industry Type</th>
     </tr>
@@ -585,14 +642,15 @@ When we compare job creation efficiency across industries, **content investment 
 
 <div class="insight-box">
   <h4>The 3.6x Employment Efficiency</h4>
-  <p><strong>Content industry (8.29)</strong> vs <strong>Semiconductor (2.34)</strong> = 3.54x more jobs per 10 billion won<br/><br/>
+  <p><strong>Content industry (8.29)</strong> vs <strong>Semiconductor (2.34)</strong> = 3.54x more jobs per 1 billion won<br/><br/>
   <strong>Why?</strong> Content production is labor-intensive: directors, writers, actors, cinematographers, lighting, sound, VFX artists, costume designers, set builders, caterers, drivers...<br/><br/>
   <strong>Policy Implication:</strong> When measuring FDI quality, employment efficiency should be weighted alongside investment volume.</p>
 </div>
 
 <hr class="section-divider">
 
-## Part 4: The Counter-Cyclical Safety Net
+<h2 data-lang="en">Part 4: The Counter-Cyclical Safety Net</h2>
+<h2 data-lang="ko">Part 4: 경기역행적 안전망</h2>
 
 **This is the most critical finding.** When COVID-19 devastated the traditional broadcasting industry in 2020, Netflix didn't retreat - it **doubled down** on Korean content investment.
 
@@ -688,7 +746,8 @@ According to Korea Communications Commission data, Korean broadcasting advertisi
 
 <hr class="section-divider">
 
-## Part 5: Human Capital Preservation
+<h2 data-lang="en">Part 5: Human Capital Preservation</h2>
+<h2 data-lang="ko">Part 5: 인적자본 보존</h2>
 
 The content industry's workforce is predominantly **freelance and project-based**. When projects stop, they immediately become unemployed. During COVID-19, Netflix's continued investment **prevented a mass exodus of skilled talent**.
 
@@ -707,7 +766,8 @@ The content industry's workforce is predominantly **freelance and project-based*
 
 <hr class="section-divider">
 
-## Part 6: Four-Year Cumulative Impact Summary
+<h2 data-lang="en">Part 6: Four-Year Cumulative Impact Summary</h2>
+<h2 data-lang="ko">Part 6: 4년간 누적 영향 요약</h2>
 
 <div class="chart-container">
   <div class="chart-title">Cumulative Economic Ripple Effects (2020-2023)</div>
@@ -790,7 +850,8 @@ The content industry's workforce is predominantly **freelance and project-based*
 
 <hr class="section-divider">
 
-## Conclusion: Reframing the Debate
+<h2 data-lang="en">Conclusion: Reframing the Debate</h2>
+<h2 data-lang="ko">결론: 논쟁의 재구성</h2>
 
 <table class="data-table">
   <thead>
@@ -821,19 +882,20 @@ The content industry's workforce is predominantly **freelance and project-based*
 
 <hr class="section-divider">
 
-## Methodology & Data Transparency
+<h2 data-lang="en">Methodology & Data Transparency</h2>
+<h2 data-lang="ko">방법론 및 데이터 투명성</h2>
 
 **Analysis Framework**: Input-Output Analysis using Bank of Korea ECOS Tables
 
 **Key Coefficients Used**:
 - Production Inducement Coefficient (Leontief Inverse): 2.0147
 - Value Added Inducement Coefficient: 1.0543
-- Employment Inducement Coefficient: 8.290 per 10 billion KRW
+- Employment Inducement Coefficient: 8.290 per 1 billion KRW
 - Import Inducement Coefficient: 0.159
 
 **Unit Convention**:
 - 1 Trillion KRW = 1,000 Billion KRW = 10,000 Eok Won
-- Employment coefficients are per 10 billion KRW
+- Employment coefficients are per 1 billion KRW
 
 **Data Sources**:
 - Bank of Korea ECOS Input-Output Tables (New Series, 2020-2023)
@@ -897,7 +959,7 @@ if (ctxEmployment) {
     data: {
       labels: ['Accommodation\n& Food', 'Arts/Sports\n(Content)', 'ICT &\nBroadcasting', 'Construction', 'Semiconductor', 'Automobile'],
       datasets: [{
-        label: 'Jobs per 10 Billion KRW',
+        label: 'Jobs per 1 Billion KRW',
         data: [16.23, 8.44, 8.29, 6.54, 2.34, 2.23],
         backgroundColor: [
           'rgba(156, 163, 175, 0.8)',
@@ -918,7 +980,7 @@ if (ctxEmployment) {
       scales: {
         y: {
           beginAtZero: true,
-          title: { display: true, text: 'Jobs per 10 Billion KRW' }
+          title: { display: true, text: 'Jobs per 1 Billion KRW' }
         }
       }
     }
