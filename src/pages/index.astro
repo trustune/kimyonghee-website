@@ -64,22 +64,18 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
         
         <div class="ksap-features">
           <div class="feature-card">
-            <span class="feature-icon">📊</span>
             <h4>Basic Statistics</h4>
             <p>t-tests, ANOVA, Regression with full diagnostics</p>
           </div>
           <div class="feature-card">
-            <span class="feature-icon">🔗</span>
             <h4>MCDM Methods</h4>
             <p>AHP, ANP, ISM, DEMATEL, TOPSIS</p>
           </div>
           <div class="feature-card">
-            <span class="feature-icon">🎯</span>
             <h4>SEM & PLS</h4>
             <p>Structural Equation Modeling</p>
           </div>
           <div class="feature-card">
-            <span class="feature-icon">🔬</span>
             <h4>R Integration</h4>
             <p>Leveraging professional R packages via rpy2</p>
           </div>
@@ -108,7 +104,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
         <article class="code-item">
           <a href="https://github.com/trustune/broadcasting-disclosure-db" target="_blank" rel="noopener" class="code-link">
             <div class="code-header">
-              <span class="code-icon">🗄️</span>
               <h3 class="code-title">Korean Broadcasting Industry Database</h3>
             </div>
             <p class="code-description">
@@ -126,7 +121,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
         <article class="code-item">
           <a href="https://kimyonghee.com/api" class="code-link">
             <div class="code-header">
-              <span class="code-icon">🔌</span>
               <h3 class="code-title">Research Data API</h3>
             </div>
             <p class="code-description">
@@ -144,7 +138,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
         <article class="code-item">
           <a href="https://github.com/yhkim1981-svg/KSAP" target="_blank" rel="noopener" class="code-link">
             <div class="code-header">
-              <span class="code-icon">💻</span>
               <h3 class="code-title">KSAP Source Code</h3>
             </div>
             <p class="code-description">
@@ -258,22 +251,18 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
 
       <nav class="links">
         <a href="mailto:yhkim1981@sunmoon.ac.kr" class="link-item">
-          <span class="link-icon">✉️</span>
           <span class="link-title">Email</span>
           <span class="link-arrow">→</span>
         </a>
         <a href="https://github.com/yhkim1981-svg" target="_blank" rel="noopener" class="link-item">
-          <span class="link-icon">💻</span>
           <span class="link-title">GitHub</span>
           <span class="link-arrow">→</span>
         </a>
         <a href="https://scholar.google.com/citations?user=semkeskAAAAJ" target="_blank" rel="noopener" class="link-item">
-          <span class="link-icon">🎓</span>
           <span class="link-title">Google Scholar</span>
           <span class="link-arrow">→</span>
         </a>
         <a href="https://bsky.app/profile/hastara.bsky.social" target="_blank" rel="noopener" class="link-item">
-          <span class="link-icon">🦋</span>
           <span class="link-title">Bluesky</span>
           <span class="link-arrow">→</span>
         </a>
@@ -338,7 +327,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
     border-bottom: 1px solid #e5e7eb;
     font-size: 1.125rem;
     line-height: 1.8;
-    max-width: 900px;
   }
   .bio p {
     margin-bottom: 1.75rem;
@@ -421,18 +409,14 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
     border-color: #2563eb;
   }
-  
-  .feature-icon {
-    font-size: 2.5rem;
-    display: block;
-    margin-bottom: 1rem;
-  }
-  
+
   .feature-card h4 {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     color: #1e40af;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
   }
   
   .feature-card p {
@@ -495,22 +479,17 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
   }
   
   .code-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
     margin-bottom: 0.75rem;
   }
-  
-  .code-icon {
-    font-size: 2rem;
-  }
-  
+
   .code-title {
     font-family: 'Paperozi', 'Inter', sans-serif;
     font-size: 1.25rem;
-    font-weight: 500;
+    font-weight: 600;
     color: #1f2937;
     line-height: 1.4;
+    border-left: 3px solid #2563eb;
+    padding-left: 1rem;
   }
   
   .code-description {
@@ -673,33 +652,37 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
   }
   
   /* Links */
-  .links { display: grid; gap: 1rem; }
-  .link-item { 
-    display: flex; 
-    align-items: center;
+  .links {
+    display: grid;
     gap: 1rem;
-    padding: 1rem 1.5rem; 
-    border: 1px solid #e5e7eb; 
-    border-radius: 0.75rem; 
-    text-decoration: none; 
-    color: #1f2937; 
-    transition: all 0.2s; 
+    grid-template-columns: repeat(2, 1fr);
   }
-  .link-item:hover { 
-    border-color: #2563eb; 
-    background-color: #eff6ff; 
-    transform: translateX(4px);
+  .link-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.125rem 1.5rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: #1f2937;
+    transition: all 0.2s;
+    background: white;
   }
-  .link-icon {
-    font-size: 1.5rem;
+  .link-item:hover {
+    border-color: #2563eb;
+    background-color: #eff6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   }
-  .link-title { 
-    font-weight: 500; 
-    flex: 1;
+  .link-title {
+    font-weight: 600;
+    font-size: 1rem;
   }
-  .link-arrow { 
-    color: #9ca3af; 
-    font-weight: 600; 
+  .link-arrow {
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 1.25rem;
   }
   
   /* Tablet */
@@ -807,11 +790,11 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
     }
 
     /* Links */
+    .links {
+      grid-template-columns: 1fr;
+    }
     .link-item {
       padding: 1.25rem 1.5rem;
-    }
-    .link-icon {
-      font-size: 1.75rem;
     }
   }
 
@@ -864,9 +847,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
     .feature-card {
       padding: 1rem;
     }
-    .feature-icon {
-      font-size: 2rem;
-    }
     .feature-card h4 {
       font-size: 0.9375rem;
     }
@@ -888,10 +868,10 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
       font-size: 1.0625rem;
     }
 
-    .code-icon {
-      font-size: 1.75rem;
+    /* Links */
+    .links {
+      grid-template-columns: 1fr;
     }
-
     .link-item {
       padding: 1.125rem 1.25rem;
     }
