@@ -1,6 +1,6 @@
 ---
 title: "Restructuring Government Financing for a Sustainable Media Ecosystem"
-authors: ["Kim, Y."]
+authors: ["Kim, Y.", "Yu, J."]
 journal: "Work in Progress"
 year: 2025
 type: "work-in-progress"

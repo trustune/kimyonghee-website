@@ -50,50 +50,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
       </p>
     </section>
 
-    <section class="section ksap-highlight">
-      <div class="section-header">
-        <h2>K-Survey Analytics Platform (KSAP)</h2>
-        <a href="https://github.com/yhkim1981-svg/KSAP" target="_blank" rel="noopener" class="section-link">View on GitHub →</a>
-      </div>
-      
-      <div class="ksap-content">
-        <p class="ksap-intro">
-          A Korean-language statistical analysis platform designed as an open-source alternative to SPSS, SmartPLS, and PROCESS. 
-          KSAP combines Python FastAPI with R statistical computing to provide comprehensive tools for quantitative research.
-        </p>
-        
-        <div class="ksap-features">
-          <div class="feature-card">
-            <h4>Basic Statistics</h4>
-            <p>t-tests, ANOVA, Regression with full diagnostics</p>
-          </div>
-          <div class="feature-card">
-            <h4>MCDM Methods</h4>
-            <p>AHP, ANP, ISM, DEMATEL, TOPSIS</p>
-          </div>
-          <div class="feature-card">
-            <h4>SEM & PLS</h4>
-            <p>Structural Equation Modeling</p>
-          </div>
-          <div class="feature-card">
-            <h4>R Integration</h4>
-            <p>Leveraging professional R packages via rpy2</p>
-          </div>
-        </div>
-
-        <div class="ksap-status">
-          <div class="status-item">
-            <span class="status-label">Status</span>
-            <span class="status-value">Phase 1.5 - Advanced Regression</span>
-          </div>
-          <div class="status-item">
-            <span class="status-label">Tech Stack</span>
-            <span class="status-value">Python FastAPI + R 4.3+</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="section">
       <div class="section-header">
         <h2>Code & Data</h2>
@@ -135,22 +91,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
           </a>
         </article>
 
-        <article class="code-item">
-          <a href="https://github.com/yhkim1981-svg/KSAP" target="_blank" rel="noopener" class="code-link">
-            <div class="code-header">
-              <h3 class="code-title">KSAP Source Code</h3>
-            </div>
-            <p class="code-description">
-              Open-source statistical analysis platform. All analysis scripts, documentation, 
-              and development roadmap available for community contribution.
-            </p>
-            <div class="code-meta">
-              <span class="code-tag">Python</span>
-              <span class="code-tag">R</span>
-              <span class="code-tag">Open Source</span>
-            </div>
-          </a>
-        </article>
       </div>
     </section>
 
@@ -372,87 +312,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
     letter-spacing: 0.05em; 
   }
   .section-link:hover { color: #2563eb; }
-  
-  /* KSAP Highlight Section */
-  .ksap-highlight {
-    background: linear-gradient(135deg, #eff6ff 0%, #f9fafb 100%);
-    border: 2px solid #2563eb;
-    border-radius: 1rem;
-    padding: 2rem !important;
-  }
-  
-  .ksap-intro {
-    font-size: 1.125rem;
-    line-height: 1.7;
-    color: #4b5563;
-    margin-bottom: 2rem;
-  }
-  
-  .ksap-features {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-  }
-  
-  .feature-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    text-align: center;
-    border: 1px solid #e5e7eb;
-    transition: all 0.2s;
-  }
-  
-  .feature-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
-    border-color: #2563eb;
-  }
-
-  .feature-card h4 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #1e40af;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #e5e7eb;
-  }
-  
-  .feature-card p {
-    font-size: 0.875rem;
-    color: #6b7280;
-    line-height: 1.5;
-  }
-  
-  .ksap-status {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    background: white;
-    padding: 1.25rem;
-    border-radius: 0.5rem;
-    border: 1px solid #e5e7eb;
-  }
-  
-  .status-item {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .status-label {
-    font-size: 0.75rem;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.25rem;
-  }
-  
-  .status-value {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #1e40af;
-  }
   
   /* Code & Data Section */
   .code-data-list {
@@ -689,9 +548,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
   @media (max-width: 1024px) {
     .homepage { padding: 3rem 1.5rem; }
     .name { font-size: 2.5rem; }
-    .ksap-features {
-      grid-template-columns: repeat(2, 1fr);
-    }
   }
 
   /* Mobile */
@@ -745,26 +601,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
       padding: 1.5rem;
     }
     .stat-number { font-size: 1.75rem; }
-
-    .ksap-highlight {
-      padding: 1.5rem !important;
-      margin-bottom: 3rem;
-    }
-    .ksap-intro {
-      font-size: 1rem;
-      line-height: 1.8;
-      margin-bottom: 1.5rem;
-    }
-    .ksap-features {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    .feature-card {
-      padding: 1.25rem;
-    }
-    .ksap-status {
-      grid-template-columns: 1fr;
-    }
 
     /* Cards */
     .code-link,
@@ -840,19 +676,6 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
     }
     .stat-number { font-size: 1.5rem; }
     .stat-label { font-size: 0.8125rem; }
-
-    .ksap-highlight {
-      padding: 1.25rem !important;
-    }
-    .feature-card {
-      padding: 1rem;
-    }
-    .feature-card h4 {
-      font-size: 0.9375rem;
-    }
-    .feature-card p {
-      font-size: 0.8125rem;
-    }
 
     .code-link,
     .pub-link,
