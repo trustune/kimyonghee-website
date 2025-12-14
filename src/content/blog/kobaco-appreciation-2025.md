@@ -6,7 +6,7 @@ category: "Award"
 excerpt: "한국방송광고진흥공사(KOBACO) 미디어광고연구소로부터 광고·미디어 연구자문단 활동에 대한 감사장을 수여받았습니다."
 excerpt_en: "Received an appreciation award from KOBACO Media & Advertising Research Institute for contributions as a member of the Advertising & Media Research Advisory Committee."
 tags: ["KOBACO", "Award", "Media Research", "Advisory", "Advertising"]
-image: "/images/blog/a2.jpg"
+image: "/images/blog/kobaco-award.svg"
 ---
 
 ## 감사장 수상 소식
