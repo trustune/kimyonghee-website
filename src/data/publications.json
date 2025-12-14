@@ -66,7 +66,7 @@
       "category": "OTT Services",
       "abstract": "This study examines factors driving subscriber migration from traditional pay-TV to OTT services using the push-pull-mooring framework, analyzing switching behavior in the evolving media consumption landscape.",
       "pdf": "",
-      "citations": 0
+      "citations": 1
     },
     {
       "id": "kim2025-platform",
@@ -258,7 +258,7 @@
       "quartile": "Q1",
       "doi": "10.1080/14783363.2017.1310708",
       "category": "IoT",
-      "citations": 483,
+      "citations": 487,
       "abstract": "This study aims to comprehensively examine the adoption of smart home service. A new model combining VAM (Value-based Adoption Model) and TAM (Technical Acceptance Model) was developed and analysed with a set of variables from Unified Theory of Acceptance and Use of Technology and Elaboration Likelihood Model.",
       "status": "published"
     },
@@ -326,7 +326,7 @@
     }
   ],
   "scholarStats": {
-    "citations": 1188,
+    "citations": 1198,
     "hIndex": 7,
     "i10Index": 6
   },
@@ -353,31 +353,31 @@
     },
     {
       "year": 2019,
-      "citations": 111
+      "citations": 110
     },
     {
       "year": 2020,
-      "citations": 158
+      "citations": 161
     },
     {
       "year": 2021,
-      "citations": 173
+      "citations": 172
     },
     {
       "year": 2022,
-      "citations": 167
+      "citations": 168
     },
     {
       "year": 2023,
-      "citations": 183
+      "citations": 181
     },
     {
       "year": 2024,
-      "citations": 153
+      "citations": 152
     },
     {
       "year": 2025,
-      "citations": 131
+      "citations": 141
     }
   ],
   "domestic_publications": [
