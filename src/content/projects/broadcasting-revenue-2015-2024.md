@@ -1,7 +1,7 @@
 ---
-title: "Integrated Policy Roadmap for Sustainable Media Ecosystem"
+title: "지속가능한 미디어 생태계를 위한 통합 정책 로드맵"
 title_en: "Integrated Policy Roadmap for Sustainable Media Ecosystem"
-subtitle: "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations (2015-2024)"
+subtitle: "방송산업 순유입 재원 분석 및 정책 제언 (2015-2024)"
 subtitle_en: "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations (2015-2024)"
 date: "2025-11-08"
 category: "Broadcasting Policy"
@@ -18,11 +18,12 @@ data_sources:
     type: "secondary"
 related_publications: []
 related_projects: ["broadcasting-reapproval-2024"]
-conference: "Korean Broadcasting Association 2025 Fall Conference"
+conference: "한국방송학회 2025 가을 정기학술대회"
 conference_en: "Korean Broadcasting Association 2025 Fall Conference"
-description: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze."
+description: "방송산업 재원의 10년간 구조 변화(2015-2024) 실증 분석: 정부 재원 10.15%(OECD 최저), 광고 매출 34.52% 감소, KBS 수신료 44년 동결 등 위기 진단."
 description_en: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze."
-summary: "Government funding 10.15% (OECD lowest), broadcasting advertising -34.52% decline over 10 years, KBS license fee frozen for 44 years - Crisis diagnosis with 99.50% verification accuracy"
+summary: "정부 재원 10.15%(OECD 최저), 방송 광고 10년간 -34.52% 감소, KBS 수신료 44년 동결 - 99.50% 검증 정확도로 위기 진단"
+summary_en: "Government funding 10.15% (OECD lowest), broadcasting advertising -34.52% decline over 10 years, KBS license fee frozen for 44 years - Crisis diagnosis with 99.50% verification accuracy"
 key_findings:
   - "Government funding: 10.15% (OECD lowest - KBS 9.36% + Fund 0.79%)"
   - "Broadcasting advertising: -34.52% decline (3.50T → 2.29T won)"
