@@ -5,6 +5,7 @@ Google Scholar 크롤링 스크립트
 """
 
 import json
+import re
 import time
 from pathlib import Path
 
@@ -157,6 +158,52 @@ def match_and_update_publications(scholar_data, json_path):
     print(f"✅ Scholar 통계 업데이트 완료!")
     print(f"📁 저장 위치: {json_path}")
 
+    return updated_count, data.get('publications', [])
+
+
+def update_md_files(publications, md_dir):
+    """
+    publications.json의 citations 데이터를 .md 파일에도 동기화
+    """
+    print(f"\n📝 Markdown 파일 업데이트 중...")
+
+    updated_count = 0
+
+    for pub in publications:
+        pub_id = pub.get('id', '')
+        citations = pub.get('citations', 0)
+
+        if not pub_id:
+            continue
+
+        md_file = md_dir / f"{pub_id}.md"
+
+        if not md_file.exists():
+            continue
+
+        try:
+            with open(md_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            # frontmatter에서 citations 값 찾기 및 업데이트
+            pattern = r'^(citations:\s*)(\d+)(.*)$'
+            new_content = re.sub(
+                pattern,
+                f'\\g<1>{citations}\\g<3>',
+                content,
+                flags=re.MULTILINE
+            )
+
+            if new_content != content:
+                with open(md_file, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
+                updated_count += 1
+                print(f"  ✓ {pub_id}.md 업데이트 ({citations} citations)")
+
+        except Exception as e:
+            print(f"  ⚠ {pub_id}.md 업데이트 실패: {e}")
+
+    print(f"\n✅ {updated_count}개 Markdown 파일 업데이트 완료!")
     return updated_count
 
 def update_scholar_stats(scholar_data, astro_file_path):
@@ -207,10 +254,12 @@ def main():
     # 프로젝트 경로 설정
     project_root = Path(__file__).parent.parent
     json_path = project_root / 'src' / 'data' / 'publications.json'
+    md_dir = project_root / 'src' / 'content' / 'publications'
     astro_path = project_root / 'src' / 'pages' / 'research' / 'publications.astro'
 
     print(f"\n📂 프로젝트 경로: {project_root}")
     print(f"📂 JSON 경로: {json_path}")
+    print(f"📂 MD 경로: {md_dir}")
 
     # Google Scholar 데이터 가져오기
     scholar_data = get_scholar_data("semkeskAAAAJ")
@@ -220,7 +269,10 @@ def main():
         return
 
     # publications.json 업데이트
-    match_and_update_publications(scholar_data, json_path)
+    _, publications = match_and_update_publications(scholar_data, json_path)
+
+    # .md 파일 citations 동기화
+    update_md_files(publications, md_dir)
 
     # publications.astro 통계 업데이트
     # update_scholar_stats(scholar_data, astro_path)

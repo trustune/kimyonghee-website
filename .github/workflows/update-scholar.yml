@@ -1,0 +1,52 @@
+name: Update Google Scholar Data
+
+on:
+  schedule:
+    # 매주 일요일 오전 9시 (KST) = UTC 00:00
+    - cron: '0 0 * * 0'
+  workflow_dispatch:  # 수동 실행 가능
+
+jobs:
+  update-scholar:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install scholarly
+
+    - name: Run Scholar update script
+      run: |
+        python scripts/update_scholar_data.py
+      env:
+        PYTHONIOENCODING: utf-8
+
+    - name: Check for changes
+      id: check_changes
+      run: |
+        git diff --quiet src/data/publications.json src/content/publications/ || echo "changes=true" >> $GITHUB_OUTPUT
+
+    - name: Commit and push changes
+      if: steps.check_changes.outputs.changes == 'true'
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add src/data/publications.json src/content/publications/
+        git commit -m "chore: Auto-update Google Scholar data $(date +'%Y-%m-%d')
+
+        🤖 Generated with GitHub Actions"
+        git push
+
+    - name: No changes detected
+      if: steps.check_changes.outputs.changes != 'true'
+      run: echo "No citation changes detected"
