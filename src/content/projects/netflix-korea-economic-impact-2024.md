@@ -1,10 +1,8 @@
 ---
-title: "The Hidden Investor: Netflix Korea's Economic Impact on K-Content Ecosystem"
+title: "숨겨진 투자자: 넷플릭스 코리아의 K-콘텐츠 생태계 경제적 파급효과"
 title_en: "The Hidden Investor: Netflix Korea's Economic Impact on K-Content Ecosystem"
-title_ko: "숨겨진 투자자: 넷플릭스 코리아의 K-콘텐츠 생태계 경제적 파급효과"
-subtitle: "How 3.3 Trillion Won of 'Invisible FDI' Sustained Korea's Creative Industry Through Crisis"
+subtitle: "3.3조원의 '보이지 않는 FDI'가 위기의 한국 창작산업을 지탱한 방법"
 subtitle_en: "How 3.3 Trillion Won of 'Invisible FDI' Sustained Korea's Creative Industry Through Crisis"
-subtitle_ko: "3.3조원의 '보이지 않는 FDI'가 위기의 한국 창작산업을 지탱한 방법"
 date: "2025-12-05"
 category: "Media Economics"
 tags: ["Netflix", "K-Content", "FDI", "Input-Output Analysis", "Economic Impact", "Employment", "COVID-19"]
@@ -28,12 +26,10 @@ related_publications: []
 related_projects: ["broadcasting-revenue-2015-2024", "broadcasting-reapproval-2024"]
 conference: ""
 conference_en: ""
-conference_ko: ""
-description: "Input-output analysis reveals Netflix Korea's true economic contribution: 3.3 trillion won in 'hidden FDI' generated 6.9 trillion won production and sustained 28,500 jobs during the pandemic crisis."
+description: "산업연관분석으로 밝힌 넷플릭스 코리아의 진정한 경제적 기여: 3.3조원의 '숨겨진 FDI'가 6.9조원의 생산을 유발하고 팬데믹 위기 동안 28,500개의 일자리를 유지했습니다."
 description_en: "Input-output analysis reveals Netflix Korea's true economic contribution: 3.3 trillion won in 'hidden FDI' generated 6.9 trillion won production and sustained 28,500 jobs during the pandemic crisis."
-description_ko: "산업연관분석으로 밝힌 넷플릭스 코리아의 진정한 경제적 기여: 3.3조원의 '숨겨진 FDI'가 6.9조원의 생산을 유발하고 팬데믹 위기 동안 28,500개의 일자리를 유지했습니다."
-summary: "Financial statements show only 450 billion won, but actual investment including content production reached 3.3 trillion won (4-year cumulative). This 'hidden FDI' created 3.6x more jobs per billion won than semiconductor industry."
-summary_ko: "재무제표에는 4,500억원만 보이지만, 콘텐츠 제작을 포함한 실제 투자액은 3.3조원(4년 누적)에 달합니다. 이 '숨겨진 FDI'는 반도체 산업 대비 10억원당 3.6배 더 많은 일자리를 창출했습니다."
+summary: "재무제표에는 4,500억원만 보이지만, 콘텐츠 제작을 포함한 실제 투자액은 3.3조원(4년 누적)에 달합니다. 이 '숨겨진 FDI'는 반도체 산업 대비 10억원당 3.6배 더 많은 일자리를 창출했습니다."
+summary_en: "Financial statements show only 450 billion won, but actual investment including content production reached 3.3 trillion won (4-year cumulative). This 'hidden FDI' created 3.6x more jobs per billion won than semiconductor industry."
 key_findings:
   - "Hidden FDI discovered: 3.3 trillion won total vs 450 billion won in financial statements"
   - "Global Capital Pipeline: Net inflow +487 billion won (2023) - more comes in than goes out"

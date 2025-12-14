@@ -101,10 +101,9 @@ const projectCollection = defineCollection({
     
     // 내용
     description: z.string(),
-    description_en: z.string(),
-    description_ko: z.string().optional(),
+    description_en: z.string().optional(),
     summary: z.string(),
-    summary_ko: z.string().optional(),
+    summary_en: z.string().optional(),
     key_findings: z.array(z.string()),
     key_findings_ko: z.array(z.string()).optional(),
     policy_proposals: z.array(z.string()).optional(),

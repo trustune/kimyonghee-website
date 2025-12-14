@@ -1,6 +1,8 @@
 ---
-title: "Netflix's $82.7 Billion Bet on Warner Bros.: A Comprehensive Deal Analysis"
-excerpt: "A detailed examination of Netflix's landmark acquisition of Warner Bros., analyzing deal structure, valuation metrics, strategic rationale, and implications for the global streaming industry."
+title: "Netflix의 $827억 Warner Bros. 인수: 종합 딜 분석"
+title_en: "Netflix's $82.7 Billion Bet on Warner Bros.: A Comprehensive Deal Analysis"
+excerpt: "Netflix의 Warner Bros. 인수에 대한 상세 분석. 딜 구조, 밸류에이션 지표, 전략적 논거, 글로벌 스트리밍 산업에 대한 함의를 검토한다."
+excerpt_en: "A detailed examination of Netflix's landmark acquisition of Warner Bros., analyzing deal structure, valuation metrics, strategic rationale, and implications for the global streaming industry."
 date: 2025-12-06
 category: Analysis
 tags:
