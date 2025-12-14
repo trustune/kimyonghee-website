@@ -1,16 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(tree:*)",
-      "Bash(npm run build:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(git remote set-url:*)",
-      "Bash(git checkout:*)",
-      "Bash(git pull:*)",
-      "Bash(gh pr create:*)",
-      "Bash(ls \"D:\\PROJECT_2025\\kimyonghee-website\\dist\\research\"\" | grep -E \"kim2025 \")"
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)",
+      "Bash(python scripts/update_scholar_data.py:*)",
+      "Bash(chcp 65001)",
+      "Bash(python -X utf8:*)",
+      "Bash(PYTHONIOENCODING=utf-8 python:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []
