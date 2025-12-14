@@ -1,12 +1,28 @@
 {
   "publications": [
     {
+      "id": "kim2025-data-portability",
+      "type": "work-in-progress",
+      "status": "work-in-progress",
+      "title": "Mandatory Data Portability and Innovation: How Regulatory Design Shapes Platform Investment",
+      "authors": [
+        "Kim, Y."
+      ],
+      "journal": "Work in Progress",
+      "year": 2025,
+      "category": "Data Policy",
+      "abstract": "Data portability mandates represent a new class of innovation policy that fundamentally alters appropriability regimes in digital markets. This paper develops a framework linking regulatory design to investment outcomes, introducing the Data Portability Regulatory Index (DPRI). Applying this framework to Korea's MyData initiative reveals that high-intensity mandates (DPRI = 0.925) may reduce platform investment by approximately 62 percent compared to the unregulated baseline.",
+      "pdf": "",
+      "citations": 0
+    },
+    {
       "id": "kim2026-digital-divide",
       "type": "working-paper",
       "status": "working-paper",
       "title": "Digital Inequality of Time: Analyzing Quality Gaps in Media Usage Across Income Strata",
       "authors": [
-        "Kim, Y."
+        "Kim, Y.",
+        "Yu, J."
       ],
       "journal": "Working Paper",
       "year": 2025,

@@ -85,7 +85,7 @@ The analysis builds on core insights from innovation economics:
 
 **Stage**: Model development and calibration complete
 **Target Completion**: Q1 2025
-**Planned Submission**: Journal of Law, Economics, & Organization or similar
+**Planned Submission**: Research Policy
 
 ## Related Work
 

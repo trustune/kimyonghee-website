@@ -1,6 +1,6 @@
 ---
 title: "Digital Inequality of Time: Analyzing Quality Gaps in Media Usage Across Income Strata"
-authors: ["Kim, Y."]
+authors: ["Kim, Y.", "Yu, J."]
 journal: "Working Paper"
 year: 2025
 type: "working-paper"
