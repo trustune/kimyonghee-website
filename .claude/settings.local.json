@@ -10,7 +10,13 @@
       "Bash(curl:*)",
       "Bash(npm install:*)",
       "Bash(sort:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Bash(git checkout:*)",
+      "Bash(git push)",
+      "Bash(git push:*)",
+      "Bash(gh run list:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

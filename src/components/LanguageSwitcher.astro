@@ -47,11 +47,26 @@
 
 <script>
   // Language persistence and switching
+  const detectBrowserLanguage = (): string => {
+    // Check browser/OS language preference
+    const browserLang = navigator.language || (navigator as any).userLanguage || 'en';
+    // If browser language starts with 'ko', return Korean
+    return browserLang.toLowerCase().startsWith('ko') ? 'ko' : 'en';
+  };
+
   const getLanguage = (): string => {
     if (typeof localStorage !== 'undefined') {
-      return localStorage.getItem('language') || 'en';
+      const savedLang = localStorage.getItem('language');
+      // If user has previously selected a language, use it
+      if (savedLang) {
+        return savedLang;
+      }
+      // Otherwise, detect browser language and save it
+      const detectedLang = detectBrowserLanguage();
+      localStorage.setItem('language', detectedLang);
+      return detectedLang;
     }
-    return 'en';
+    return detectBrowserLanguage();
   };
 
   const setLanguage = (lang: string) => {
