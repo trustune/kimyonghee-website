@@ -1,7 +1,7 @@
 ---
-import Analytics from '../components/Analytics.astro';
-import DarkModeToggle from '../components/DarkModeToggle.astro';
-import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import Analytics from "../components/Analytics.astro";
+import DarkModeToggle from "../components/DarkModeToggle.astro";
+import LanguageSwitcher from "../components/LanguageSwitcher.astro";
 
 interface Props {
   title: string;
@@ -14,561 +14,657 @@ const {
   title,
   description = "Media Policy & Management Expert",
   image,
-  url = `https://kimyonghee.com${Astro.url.pathname}`
+  url = `https://kimyonghee.com${Astro.url.pathname}`,
 } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} | Yonghee Kim</title>
-  <meta name="description" content={description}>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Yonghee Kim</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="article">
-  <meta property="og:url" content={url}>
-  <meta property="og:title" content={title}>
-  <meta property="og:description" content={description}>
-  {image && (
-    <>
-      <meta property="og:image" content={image}>
-      <meta property="og:image:secure_url" content={image}>
-      <meta property="og:image:width" content="1200">
-      <meta property="og:image:height" content="630">
-      <meta property="og:image:alt" content={title}>
-    </>
-  )}
-  <meta property="og:site_name" content="Yonghee Kim">
-  <meta property="og:locale" content="ko_KR">
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content={image ? "summary_large_image" : "summary"}>
-  <meta property="twitter:url" content={url}>
-  <meta property="twitter:title" content={`${title} | Yonghee Kim`}>
-  <meta property="twitter:description" content={description}>
-  {image && <meta property="twitter:image" content={image}>}
-
-  <link rel="alternate" type="application/rss+xml" title="Yonghee Kim Blog" href="/rss.xml" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
-  
-  <style is:global>
-  /* Paperozi Korean Font */
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2');
-    font-weight: 100;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2') format('woff2');
-    font-weight: 200;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2') format('woff2');
-    font-weight: 300;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
-    font-weight: 800;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2');
-    font-weight: 900;
-    font-display: swap;
-  }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {
+      image && (
+        <>
+          <meta property="og:image" content={image} />
+          <meta property="og:image:secure_url" content={image} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={title} />
+        </>
+      )
     }
+    <meta property="og:site_name" content="Yonghee Kim" />
+    <meta property="og:locale" content="ko_KR" />
 
-    :root {
-      --color-primary: #1e40af;
-      --color-secondary: #7c3aed;
-      --color-accent: #2563eb;
-      --color-text: #1f2937;
-      --color-text-light: #6b7280;
-      --color-border: #e5e7eb;
-      --color-bg: #ffffff;
-    }
+    <!-- Twitter -->
+    <meta
+      property="twitter:card"
+      content={image ? "summary_large_image" : "summary"}
+    />
+    <meta property="twitter:url" content={url} />
+    <meta property="twitter:title" content={`${title} | Yonghee Kim`} />
+    <meta property="twitter:description" content={description} />
+    {image && <meta property="twitter:image" content={image} />}
 
-    html {
-      font-family: 'Paperozi', 'Inter', sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--color-text);
-      background: var(--color-bg);
-      scroll-behavior: smooth;
-    }
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Yonghee Kim Blog"
+      href="/rss.xml"
+    />
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
 
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Paperozi', 'Merriweather', serif;
-      font-weight: 400;
-      line-height: 1.3;
-    }
+    <style is:global>
+      /* Paperozi Korean Font */
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2")
+          format("woff2");
+        font-weight: 100;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2")
+          format("woff2");
+        font-weight: 200;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2")
+          format("woff2");
+        font-weight: 300;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2")
+          format("woff2");
+        font-weight: 400;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2")
+          format("woff2");
+        font-weight: 500;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2")
+          format("woff2");
+        font-weight: 600;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2")
+          format("woff2");
+        font-weight: 700;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2")
+          format("woff2");
+        font-weight: 800;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2")
+          format("woff2");
+        font-weight: 900;
+        font-display: swap;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    a {
-      color: inherit;
-      transition: color 0.2s;
-    }
+      :root {
+        /* Paper Design System Colors */
+        --color-primary: #57534e; /* Warm Gray 600 - was #1e40af */
+        --color-secondary: #78716c; /* Warm Gray 500 - was #7c3aed */
+        --color-accent: #ea580c; /* Burnt Orange - was #2563eb */
+        --color-text: #292524; /* Warm Gray 800 - was #1f2937 */
+        --color-text-light: #57534e; /* Warm Gray 600 - was #6b7280 */
+        --color-border: #e7e5e4; /* Warm Gray 200 - was #e5e7eb */
+        --color-bg: #fafaf9; /* Warm Gray 50 (Paper White) - was #ffffff */
 
-    a:hover {
-      color: var(--color-accent);
-    }
+        /* Spacing & Layout */
+        --header-height: 80px;
+      }
 
-    /* Dark mode styles */
-    .dark {
-      --color-text: #f3f4f6;
-      --color-text-light: #d1d5db;
-      --color-border: #374151;
-      --color-bg: #111827;
-    }
+      html {
+        font-family: "Paperozi", "Inter", sans-serif;
+        font-size: 16px;
+        line-height: 1.7; /* Increased line-height for paper feel */
+        color: var(--color-text);
+        background: var(--color-bg);
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased; /* Better font rendering */
+      }
 
-    .dark body {
-      background: #111827;
-      color: #f3f4f6;
-    }
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
 
-    .dark h1,
-    .dark h2,
-    .dark h3,
-    .dark h4,
-    .dark h5,
-    .dark h6 {
-      color: #fbbf24 !important;
-    }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Paperozi", "Merriweather", serif;
+        font-weight: 600; /* Slightly bolder for hierarchy */
+        line-height: 1.3;
+        letter-spacing: -0.02em; /* Tighter letter spacing for headings */
+      }
 
-    .dark .site-header {
-      background: #1f2937;
-      border-color: #374151;
-    }
+      a {
+        color: inherit;
+        text-decoration-color: var(--color-border);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+        transition: all 0.2s ease;
+      }
 
-    .dark .site-footer {
-      background: #1f2937;
-      border-color: #374151;
-    }
+      a:hover {
+        color: var(--color-accent);
+        text-decoration-color: var(--color-accent);
+      }
 
-    /* Language switching - Global */
-    [data-lang="en"] {
-      display: none;
-    }
+      /* Dark mode styles - Warm Dark */
+      .dark {
+        --color-text: #f5f5f4; /* Warm Gray 100 */
+        --color-text-light: #a8a29e; /* Warm Gray 400 */
+        --color-border: #44403c; /* Warm Gray 700 */
+        --color-bg: #1c1917; /* Warm Gray 900 (Warm Black) */
+      }
 
-    [data-lang="ko"] {
-      display: none;
-    }
+      .dark body {
+        background: #111827;
+        color: #f3f4f6;
+      }
 
-    html[data-language="en"] [data-lang="en"] {
-      display: inline;
-    }
+      .dark h1,
+      .dark h2,
+      .dark h3,
+      .dark h4,
+      .dark h5,
+      .dark h6 {
+        color: #fbbf24 !important;
+      }
 
-    html[data-language="ko"] [data-lang="ko"] {
-      display: inline;
-    }
+      .dark .site-header {
+        background: #1f2937;
+        border-color: #374151;
+      }
 
-    /* Block-level elements */
-    html[data-language="en"] h1[data-lang="en"],
-    html[data-language="en"] h2[data-lang="en"],
-    html[data-language="en"] h3[data-lang="en"],
-    html[data-language="en"] p[data-lang="en"],
-    html[data-language="en"] div[data-lang="en"],
-    html[data-language="en"] li[data-lang="en"] {
-      display: block;
-    }
+      .dark .site-footer {
+        background: #1f2937;
+        border-color: #374151;
+      }
 
-    html[data-language="ko"] h1[data-lang="ko"],
-    html[data-language="ko"] h2[data-lang="ko"],
-    html[data-language="ko"] h3[data-lang="ko"],
-    html[data-language="ko"] p[data-lang="ko"],
-    html[data-language="ko"] div[data-lang="ko"],
-    html[data-language="ko"] li[data-lang="ko"] {
-      display: block;
-    }
-  </style>
-  <Analytics />
-</head>
-<body>
-  <header class="site-header">
-    <div class="container">
-      <nav class="nav">
-        <a href="/" class="logo">Yonghee Kim</a>
+      /* Language switching - Global */
+      [data-lang="en"] {
+        display: none;
+      }
 
-        <!-- Mobile Menu Toggle -->
-        <button class="mobile-menu-toggle" aria-label="Toggle menu">
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-        </button>
+      [data-lang="ko"] {
+        display: none;
+      }
 
-        <!-- Desktop & Mobile Navigation -->
-        <div class="nav-links">
-          <a href="/" class={currentPath === '/' ? 'active' : ''}>Home</a>
-          <a href="/research/publications" class={currentPath.startsWith('/research') ? 'active' : ''}>Research</a>
-          <a href="/projects" class={currentPath.startsWith('/projects') ? 'active' : ''}>Projects</a>
-          <a href="/blog" class={currentPath.startsWith('/blog') ? 'active' : ''}>Blog</a>
-          <a href="/media" class={currentPath === '/media' ? 'active' : ''}>Media</a>
-          <a href="/teaching" class={currentPath.startsWith('/teaching') || currentPath.startsWith('/courses') ? 'active' : ''}>Teaching</a>
-          <a href="/about" class={currentPath === '/about' ? 'active' : ''}>About</a>
-          <a href="/search" class={currentPath === '/search' ? 'active' : ''}>Search</a>
-          <div class="nav-controls">
-            <LanguageSwitcher />
-            <DarkModeToggle />
+      html[data-language="en"] [data-lang="en"] {
+        display: inline;
+      }
+
+      html[data-language="ko"] [data-lang="ko"] {
+        display: inline;
+      }
+
+      /* Block-level elements */
+      html[data-language="en"] h1[data-lang="en"],
+      html[data-language="en"] h2[data-lang="en"],
+      html[data-language="en"] h3[data-lang="en"],
+      html[data-language="en"] p[data-lang="en"],
+      html[data-language="en"] div[data-lang="en"],
+      html[data-language="en"] li[data-lang="en"] {
+        display: block;
+      }
+
+      html[data-language="ko"] h1[data-lang="ko"],
+      html[data-language="ko"] h2[data-lang="ko"],
+      html[data-language="ko"] h3[data-lang="ko"],
+      html[data-language="ko"] p[data-lang="ko"],
+      html[data-language="ko"] div[data-lang="ko"],
+      html[data-language="ko"] li[data-lang="ko"] {
+        display: block;
+      }
+    </style>
+    <Analytics />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <nav class="nav">
+          <a href="/" class="logo">Yonghee Kim</a>
+
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-toggle" aria-label="Toggle menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+
+          <!-- Desktop & Mobile Navigation -->
+          <div class="nav-links">
+            <a href="/" class={currentPath === "/" ? "active" : ""}>Home</a>
+            <a
+              href="/research/publications"
+              class={currentPath.startsWith("/research") ? "active" : ""}
+              >Research</a
+            >
+            <a
+              href="/projects"
+              class={currentPath.startsWith("/projects") ? "active" : ""}
+              >Projects</a
+            >
+            <a
+              href="/blog"
+              class={currentPath.startsWith("/blog") ? "active" : ""}>Blog</a
+            >
+            <a href="/media" class={currentPath === "/media" ? "active" : ""}
+              >Media</a
+            >
+            <a
+              href="/teaching"
+              class={currentPath.startsWith("/teaching") ||
+              currentPath.startsWith("/courses")
+                ? "active"
+                : ""}>Teaching</a
+            >
+            <a href="/about" class={currentPath === "/about" ? "active" : ""}
+              >About</a
+            >
+            <a href="/search" class={currentPath === "/search" ? "active" : ""}
+              >Search</a
+            >
+            <div class="nav-controls">
+              <LanguageSwitcher />
+              <DarkModeToggle />
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Contact</h3>
+            <p>Sunmoon University</p>
+            <p>
+              Email: <a href="mailto:yhkim1981@sunmoon.ac.kr"
+                >yhkim1981@sunmoon.ac.kr</a
+              >
+            </p>
+          </div>
+          <div class="footer-section">
+            <h3>Links</h3>
+            <ul>
+              <li><a href="https://github.com/yhkim1981-svg">GitHub</a></li>
+              <li><a href="https://scholar.google.com">Google Scholar</a></li>
+              <li>
+                <a href="https://bsky.app/profile/hastara.bsky.social"
+                  >Bluesky</a
+                >
+              </li>
+              <li>
+                <a href="https://www.facebook.com/profile.php?id=61583103077881"
+                  >Facebook</a
+                >
+              </li>
+              <li><a href="/rss.xml" title="Blog RSS feed">RSS</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <p>&copy; 2025 Yonghee Kim. All rights reserved.</p>
+            <p class="built-with">Built with Astro | Deployed on Nginx</p>
           </div>
         </div>
-      </nav>
-    </div>
-  </header>
-
-  <main class="site-main">
-    <slot />
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>Contact</h3>
-          <p>Sunmoon University</p>
-          <p>Email: <a href="mailto:yhkim1981@sunmoon.ac.kr">yhkim1981@sunmoon.ac.kr</a></p>
-        </div>
-        <div class="footer-section">
-          <h3>Links</h3>
-          <ul>
-            <li><a href="https://github.com/yhkim1981-svg">GitHub</a></li>
-            <li><a href="https://scholar.google.com">Google Scholar</a></li>
-            <li><a href="https://bsky.app/profile/hastara.bsky.social">Bluesky</a></li>
-            <li><a href="https://www.facebook.com/profile.php?id=61583103077881">Facebook</a></li>
-            <li><a href="/rss.xml" title="Blog RSS feed">RSS</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <p>&copy; 2025 Yonghee Kim. All rights reserved.</p>
-          <p class="built-with">Built with Astro | Deployed on Nginx</p>
-        </div>
       </div>
-    </div>
-  </footer>
+    </footer>
 
-  <style>
-    .site-header {
-      border-bottom: 1px solid var(--color-border);
-      padding: 1.5rem 0;
-      background: var(--color-bg);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-    }
-
-    .logo {
-      font-family: 'Paperozi', 'Merriweather', serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      text-decoration: none;
-      color: var(--color-primary);
-      z-index: 102;
-    }
-
-    /* Mobile Menu Toggle */
-    .mobile-menu-toggle {
-      display: none;
-      flex-direction: column;
-      gap: 0.375rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.5rem;
-      z-index: 102;
-    }
-
-    .hamburger-line {
-      width: 24px;
-      height: 2px;
-      background-color: var(--color-text);
-      transition: all 0.3s ease;
-    }
-
-    .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px);
-    }
-
-    .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
-      opacity: 0;
-    }
-
-    .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px);
-    }
-
-    /* Navigation Links */
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--color-text-light);
-      padding: 0.625rem 0;
-      border-bottom: 2px solid transparent;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--color-primary);
-      border-bottom-color: var(--color-primary);
-    }
-
-    .nav-controls {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    .site-main {
-      flex: 1;
-      width: 100%;
-    }
-
-    .site-footer {
-      border-top: 1px solid var(--color-border);
-      padding: 3rem 0;
-      margin-top: 6rem;
-      background: #f9fafb;
-    }
-
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
-    }
-
-    .footer-section h3 {
-      font-size: 0.875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 1rem;
-      color: var(--color-text);
-    }
-
-    .footer-section p,
-    .footer-section ul {
-      font-size: 0.875rem;
-      color: var(--color-text-light);
-      line-height: 1.8;
-    }
-
-    .footer-section ul {
-      list-style: none;
-    }
-
-    .footer-section ul li {
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-section a {
-      text-decoration: none;
-      color: var(--color-text-light);
-    }
-
-    .footer-section a:hover {
-      color: var(--color-accent);
-    }
-
-    .built-with {
-      font-size: 0.75rem;
-      color: #9ca3af;
-      margin-top: 0.5rem;
-      opacity: 0.6;
-    }
-
-    /* Tablet & Mobile Responsive */
-    @media (max-width: 1024px) {
-      .container {
-        padding: 0 1.5rem;
-      }
-
-      .nav-links {
-        gap: 1.25rem;
-      }
-
-      .nav-links a {
-        font-size: 0.85rem;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 0 1rem;
-      }
-
+    <style>
       .site-header {
-        padding: 1rem 0;
-      }
-
-      /* Show mobile menu toggle */
-      .mobile-menu-toggle {
-        display: flex;
-      }
-
-      /* Mobile Navigation */
-      .nav-links {
-        position: fixed;
+        /* Removed border for cleaner look */
+        padding: 1.5rem 0;
+        background: rgba(
+          250,
+          250,
+          249,
+          0.85
+        ); /* Semi-transparent paper white */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        position: sticky;
         top: 0;
-        right: -100%;
-        width: 280px;
-        height: 100vh;
-        background: var(--color-bg);
-        flex-direction: column;
-        gap: 0;
-        padding: 5rem 2rem 2rem;
-        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
-        transition: right 0.3s ease;
-        z-index: 101;
-        overflow-y: auto;
+        z-index: 100;
       }
 
-      .nav-links.active {
-        right: 0;
+      .dark .site-header {
+        background: rgba(28, 25, 23, 0.85); /* Semi-transparent warm dark */
+        border-color: transparent !important;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+      }
+
+      .logo {
+        font-family: "Paperozi", "Merriweather", serif;
+        font-size: 1.5rem; /* Larger logo */
+        font-weight: 800;
+        text-decoration: none;
+        color: var(--color-text); /* Link color matches text */
+        z-index: 102;
+        letter-spacing: -0.03em;
+      }
+
+      /* Mobile Menu Toggle */
+      .mobile-menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 0.375rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        z-index: 102;
+      }
+
+      .hamburger-line {
+        width: 24px;
+        height: 2px;
+        background-color: var(--color-text);
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+      }
+
+      .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+        opacity: 0;
+      }
+
+      .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
+
+      /* Navigation Links */
+      .nav-links {
+        display: flex;
+        gap: 2.5rem; /* Increased gap */
+        align-items: center;
       }
 
       .nav-links a {
-        width: 100%;
-        padding: 1rem 0;
-        border-bottom: 1px solid var(--color-border);
-        font-size: 1rem;
+        text-decoration: none;
+        font-size: 0.95rem; /* Slightly larger */
+        font-weight: 500;
+        text-transform: none; /* Removed uppercase */
+        letter-spacing: normal;
+        color: var(--color-text-light);
+        padding: 0.5rem 0;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+        white-space: nowrap;
       }
 
       .nav-links a:hover,
       .nav-links a.active {
-        border-bottom-color: var(--color-primary);
-        background: rgba(37, 99, 235, 0.05);
-        padding-left: 1rem;
+        color: var(--color-text);
+        border-bottom-color: var(--color-accent);
       }
 
       .nav-controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .site-main {
+        flex: 1;
         width: 100%;
-        padding-top: 1rem;
-        margin-top: 1rem;
-        border-top: 2px solid var(--color-border);
-        justify-content: center;
-        gap: 1.5rem;
+      }
+
+      .site-footer {
+        border-top: 1px solid var(--color-border);
+        padding: 4rem 0 2rem; /* More padding */
+        margin-top: 8rem; /* More separation */
+        background: transparent; /* Seamless footer */
+      }
+
+      .dark .site-footer {
+        background: transparent !important;
+        border-color: var(--color-border);
       }
 
       .footer-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .container {
-        padding: 0 0.75rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
       }
 
-      .nav-links {
-        width: 100%;
-        right: -100%;
+      .footer-section h3 {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+        color: var(--color-text);
       }
-    }
-  </style>
 
-  <script>
-    // Mobile Menu Toggle
-    document.addEventListener('DOMContentLoaded', () => {
-      const menuToggle = document.querySelector('.mobile-menu-toggle');
-      const navLinks = document.querySelector('.nav-links');
+      .footer-section p,
+      .footer-section ul {
+        font-size: 0.875rem;
+        color: var(--color-text-light);
+        line-height: 1.8;
+      }
 
-      if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', () => {
-          menuToggle.classList.toggle('active');
-          navLinks.classList.toggle('active');
+      .footer-section ul {
+        list-style: none;
+      }
 
-          // Prevent body scroll when menu is open
-          document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
-        });
+      .footer-section ul li {
+        margin-bottom: 0.5rem;
+      }
 
-        // Close menu when clicking on a link
-        const links = navLinks.querySelectorAll('a');
-        links.forEach(link => {
-          link.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-            document.body.style.overflow = '';
+      .footer-section a {
+        text-decoration: none;
+        color: var(--color-text-light);
+      }
+
+      .footer-section a:hover {
+        color: var(--color-accent);
+      }
+
+      .built-with {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        margin-top: 0.5rem;
+        opacity: 0.6;
+      }
+
+      /* Tablet & Mobile Responsive */
+      @media (max-width: 1024px) {
+        .container {
+          padding: 0 1.5rem;
+        }
+
+        .nav-links {
+          gap: 1.25rem;
+        }
+
+        .nav-links a {
+          font-size: 0.85rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 0 1rem;
+        }
+
+        .site-header {
+          padding: 1rem 0;
+        }
+
+        /* Show mobile menu toggle */
+        .mobile-menu-toggle {
+          display: flex;
+        }
+
+        /* Mobile Navigation */
+        .nav-links {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          width: 280px;
+          height: 100vh;
+          background: var(--color-bg);
+          flex-direction: column;
+          gap: 0;
+          padding: 5rem 2rem 2rem;
+          box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+          transition: right 0.3s ease;
+          z-index: 101;
+          overflow-y: auto;
+        }
+
+        .nav-links.active {
+          right: 0;
+        }
+
+        .nav-links a {
+          width: 100%;
+          padding: 1rem 0;
+          border-bottom: 1px solid var(--color-border);
+          font-size: 1rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+          border-bottom-color: var(--color-primary);
+          background: rgba(37, 99, 235, 0.05);
+          padding-left: 1rem;
+        }
+
+        .nav-controls {
+          width: 100%;
+          padding-top: 1rem;
+          margin-top: 1rem;
+          border-top: 2px solid var(--color-border);
+          justify-content: center;
+          gap: 1.5rem;
+        }
+
+        .footer-content {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          padding: 0 0.75rem;
+        }
+
+        .nav-links {
+          width: 100%;
+          right: -100%;
+        }
+      }
+    </style>
+
+    <script>
+      // Mobile Menu Toggle
+      document.addEventListener("DOMContentLoaded", () => {
+        const menuToggle = document.querySelector(".mobile-menu-toggle");
+        const navLinks = document.querySelector(".nav-links");
+
+        if (menuToggle && navLinks) {
+          menuToggle.addEventListener("click", () => {
+            menuToggle.classList.toggle("active");
+            navLinks.classList.toggle("active");
+
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = navLinks.classList.contains("active")
+              ? "hidden"
+              : "";
           });
-        });
 
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-          if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
-            menuToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-            document.body.style.overflow = '';
-          }
-        });
-      }
-    });
-  </script>
-</body>
+          // Close menu when clicking on a link
+          const links = navLinks.querySelectorAll("a");
+          links.forEach((link) => {
+            link.addEventListener("click", () => {
+              menuToggle.classList.remove("active");
+              navLinks.classList.remove("active");
+              document.body.style.overflow = "";
+            });
+          });
+
+          // Close menu when clicking outside
+          document.addEventListener("click", (e) => {
+            if (
+              !navLinks.contains(e.target as Node) &&
+              !menuToggle.contains(e.target as Node)
+            ) {
+              menuToggle.classList.remove("active");
+              navLinks.classList.remove("active");
+              document.body.style.overflow = "";
+            }
+          });
+        }
+      });
+    </script>
+  </body>
 </html>

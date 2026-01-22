@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 웹툰 전문인력 양성과정 통합 특강자료</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- 1. CORE VARIABLES --- */
+        :root {
+            --navy-deep: #0f172a;
+            --navy-primary: #1e293b;
+            --navy-light: #334155;
+            --gold-classic: #d4af37;
+            --gold-light: #fcd34d;
+            --white: #ffffff;
+            --gray-bg: #f1f5f9;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #cbd5e1;
+            font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            gap: 30px;
+        }
+
+        /* --- 2. SLIDE STRUCTURE --- */
+        .slide {
+            width: 100%;
+            max-width: 1280px;
+            /* Aspect ratio for desktop, auto height for mobile if needed */
+            aspect-ratio: 16 / 9;
+            background-color: var(--white);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+            page-break-after: always;
+            /* For PDF Print */
+        }
+
+        /* --- 3. HEADER & FOOTER --- */
+        .header {
+            height: clamp(60px, 8vw, 80px);
+            background: var(--navy-deep);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 max(20px, 3vw);
+            border-bottom: 4px solid var(--gold-classic);
+            flex-shrink: 0;
+        }
+
+        .header-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--white);
+            font-size: clamp(16px, 2vw, 20px);
+            letter-spacing: 1px;
+        }
+
+        .header-section {
+            color: var(--gold-classic);
+            font-size: clamp(12px, 1.5vw, 14px);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .footer {
+            height: 30px;
+            background: #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 max(20px, 3vw);
+            font-size: 11px;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+
+        /* --- 4. LAYOUTS --- */
+        .content {
+            flex: 1;
+            padding: clamp(20px, 4vw, 40px);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            /* Allow scrolling if content overflows on small screens */
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            height: 100%;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            height: 100%;
+        }
+
+        .grid-2-1 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            height: 100%;
+        }
+
+        .grid-1-2 {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            height: 100%;
+        }
+
+        /* --- 5. TYPOGRAPHY --- */
+        h1 {
+            font-size: clamp(32px, 5vw, 58px);
+            font-weight: 900;
+            color: var(--navy-deep);
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: clamp(24px, 3.5vw, 38px);
+            font-weight: 800;
+            color: var(--navy-primary);
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 6px solid var(--gold-classic);
+        }
+
+        h3 {
+            font-size: clamp(18px, 2.5vw, 24px);
+            font-weight: 700;
+            color: var(--navy-light);
+            margin-bottom: 10px;
+        }
+
+        h4 {
+            font-size: clamp(16px, 2vw, 20px);
+            font-weight: 600;
+            color: var(--navy-primary);
+            margin-bottom: 8px;
+        }
+
+        p,
+        li {
+            font-size: clamp(14px, 1.5vw, 18px);
+            line-height: 1.6;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .txt-gold {
+            color: var(--gold-classic);
+        }
+
+        .txt-red {
+            color: var(--accent-red);
+        }
+
+        .txt-blue {
+            color: var(--accent-blue);
+        }
+
+        .txt-green {
+            color: var(--accent-green);
+        }
+
+        .txt-navy {
+            color: var(--navy-primary);
+        }
+
+        .bg-navy {
+            background: var(--navy-deep);
+            color: white;
+        }
+
+        .bg-gray {
+            background: var(--gray-bg);
+        }
+
+        /* --- 6. COMPONENTS --- */
+        .box {
+            background: white;
+            border: 1px solid #cbd5e1;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .box-title {
+            font-weight: 700;
+            color: var(--navy-primary);
+            border-bottom: 2px solid var(--gold-classic);
+            display: inline-block;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+
+        /* Section Cover Slide Style */
+        .section-cover {
+            background: var(--navy-deep);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .section-num {
+            font-size: clamp(60px, 8vw, 100px);
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            margin-bottom: -30px;
+            font-family: 'Montserrat';
+        }
+
+        /* Tag Style */
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .tag-red {
+            background: var(--accent-red);
+        }
+
+        .tag-blue {
+            background: var(--accent-blue);
+        }
+
+        .tag-gold {
+            background: var(--gold-classic);
+        }
+
+        /* --- 7. UTILITIES & HELPERS --- */
+        .interactive-answer {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f1f5f9;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .interactive-answer:hover {
+            background: #e2e8f0;
+        }
+
+        .answer-reveal {
+            display: none;
+            margin-top: 10px;
+            font-size: 30px;
+            font-weight: 900;
+            color: var(--accent-blue);
+        }
+
+        .answer-reveal.visible {
+            display: block;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* --- 8. MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .slide {
+                width: 100%;
+                aspect-ratio: auto;
+                min-height: 100vh;
+                height: auto;
+                border-radius: 0;
+            }
+
+            .grid-2,
+            .grid-3,
+            .grid-2-1,
+            .grid-1-2 {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .header {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .section-num {
+                font-size: 60px;
+            }
+
+            /* Specific tweaks for complicated charts/tables */
+            .chart-year {
+                width: 100% !important;
+                margin-bottom: 20px;
+            }
+
+            .chart-container {
+                flex-direction: column;
+                height: auto !important;
+                align-items: center;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            th,
+            td {
+                white-space: nowrap;
+                padding: 10px 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========================= INTRO (Slides 1-4) ========================= -->
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide bg-navy" style="justify-content: center; align-items: center; text-align: center;">
+        <div
+            style="border: 2px solid var(--gold-classic); padding: clamp(30px, 5vw, 60px) clamp(20px, 5vw, 100px); max-width: 90%;">
+            <div
+                style="color: var(--gold-classic); font-size: clamp(16px, 2vw, 24px); font-weight: 700; margin-bottom: 20px; letter-spacing: 4px;">
+                2025 SPECIAL LECTURE</div>
+            <h1 style="color: white; margin-bottom: 30px;">웹툰 전문인력 양성과정<br>커리어 & 창업 마스터 클래스</h1>
+            <p style="color: #94a3b8; font-size: clamp(16px, 2vw, 24px);">3시간 완성 | 산업분석 · 취업전략 · 창업가이드</p>
+            <div style="margin-top: 50px; font-size: 18px; opacity: 0.8;">Date: 2025. 12 | Instructor: 김용희 연구위원</div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Instructor -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">강사 소개</div>
+            <div class="header-section">INTRO</div>
+        </header>
+        <div class="content">
+            <div class="grid-1-2">
+                <div
+                    style="background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #64748b; border-radius: 8px; aspect-ratio: 3/4; height: 100%; max-height: 400px;">
+                    <div style="text-align: center;">
+                        <i class="fa-solid fa-user" style="font-size: 60px; margin-bottom: 10px;"></i><br>
+                        [강사 프로필 사진]
+                    </div>
+                </div>
+                <div style="padding: 10px;">
+                    <h2>김용희 <span style="font-size: clamp(16px, 1.5vw, 20px); font-weight: 400; color: #666;">연구위원 / 커리어
+                            코치</span></h2>
+                    <div style="margin-top: 30px;">
+                        <div style="margin-bottom: 30px;">
+                            <h4><i class="fa-solid fa-briefcase txt-gold"></i> 주요 경력</h4>
+                            <ul>
+                                <li>現 웹툰 산업 연구소 수석 연구원</li>
+                                <li>前 OO웹툰 플랫폼 기획팀장</li>
+                                <li>2024 콘텐츠 진흥원 자문위원</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4><i class="fa-solid fa-book txt-gold"></i> 주요 강의 및 저서</h4>
+                            <ul>
+                                <li>'웹툰 작가를 위한 생존 전략' 저자</li>
+                                <li>대학 및 기관 특강 100회 이상 진행</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Instructor Profile</span><span>Page 2</span></footer>
+    </div>
+
+    <!-- SLIDE 3: Goals -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">강의 목표 및 로드맵</div>
+            <div class="header-section">INTRO</div>
+        </header>
+        <div class="content">
+            <h2>3시간의 여정 (Roadmap)</h2>
+            <div class="grid-2">
+                <div class="box bg-gray">
+                    <h3><i class="fa-regular fa-clock"></i> 1교시: 현실 인식</h3>
+                    <ul style="margin-top: 15px;">
+                        <li>2025 청년 고용 시장의 냉혹한 현실</li>
+                        <li>웹툰 산업의 거시적 변화와 트렌드</li>
+                        <li><strong>Goal:</strong> 시장을 읽는 눈 키우기</li>
+                    </ul>
+                </div>
+                <div class="box bg-gray">
+                    <h3><i class="fa-regular fa-clock"></i> 2교시: 전략 수립</h3>
+                    <ul style="margin-top: 15px;">
+                        <li>성장 마인드셋 장착</li>
+                        <li>필승 취업 전략 (자소서, 포트폴리오)</li>
+                        <li><strong>Goal:</strong> 나만의 무기 만들기</li>
+                    </ul>
+                </div>
+                <div class="box bg-gray">
+                    <h3><i class="fa-regular fa-clock"></i> 3교시: 실전 적용</h3>
+                    <ul style="margin-top: 15px;">
+                        <li>모의 면접 및 AI 역량검사 팁</li>
+                        <li>창업/창직 비즈니스 모델링 (BMC)</li>
+                        <li><strong>Goal:</strong> 실행 계획 확정</li>
+                    </ul>
+                </div>
+                <div class="box"
+                    style="border: 2px solid var(--gold-classic); display: flex; flex-direction: column; justify-content: center;">
+                    <h3 class="txt-gold">Outcome</h3>
+                    <p style="margin-top: 20px; font-weight: 700; font-size: clamp(20px, 2vw, 22px);">"막연한 '꿈'을 구체적인
+                        '직업'으로 전환하는 전략서"</p>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Lecture Roadmap</span><span>Page 3</span></footer>
+    </div>
+
+    <!-- SLIDE 4: Ice Breaking -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">Ice Breaking</div>
+            <div class="header-section">INTRO</div>
+        </header>
+        <div class="content" style="align-items: center; justify-content: center;">
+            <h2 style="border: none; margin-bottom: 50px;">웹툰 상식 퀴즈 (O/X)</h2>
+            <div class="grid-2" style="width: 100%;">
+                <div class="box interactive-answer" onclick="toggleAnswer(this)">
+                    <p style="font-size: 24px; font-weight: 700; text-align: center;">Q1. 2024년 한국 웹툰 시장 규모는<br>2조 원을
+                        넘었다?</p>
+                    <p style="font-size: 14px; color: #94a3b8; margin-top: 10px;">(클릭하여 정답 확인)</p>
+                    <div class="answer-reveal">O (정답)</div>
+                </div>
+                <div class="box interactive-answer" onclick="toggleAnswer(this)">
+                    <p style="font-size: 24px; font-weight: 700; text-align: center;">Q2. 네이버웹툰은 현재<br>미국 증시에 상장되어 있다?
+                    </p>
+                    <p style="font-size: 14px; color: #94a3b8; margin-top: 10px;">(클릭하여 정답 확인)</p>
+                    <div class="answer-reveal">O (정답)</div>
+                </div>
+            </div>
+            <p style="margin-top: 30px; color: #666;">가볍게 손을 들어 정답을 맞춰보세요!</p>
+        </div>
+        <footer class="footer"><span>Ice Breaking</span><span>Page 4</span></footer>
+    </div>
+
+    <!-- ========================= PART 1: INDUSTRY (Slides 5-15) ========================= -->
+
+    <!-- SLIDE 5: Section Cover 1 -->
+    <div class="slide section-cover">
+        <div class="section-num">01</div>
+        <h1 style="color: var(--gold-classic);">산업 및 고용 분석</h1>
+        <p style="font-size: 24px; margin-top: 20px;">The Battlefield: 우리가 싸울 전장</p>
+    </div>
+
+    <!-- SLIDE 6: 2025 Macro Economy -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">2025 고용 동향 (거시경제)</div>
+            <div class="header-section">PART 1</div>
+        </header>
+        <div class="content">
+            <h2>청년 고용의 현주소: '쉬었음'의 증가</h2>
+            <div class="grid-3">
+                <div class="box" style="text-align: center;">
+                    <div style="font-size: clamp(36px, 4vw, 48px); font-weight: 900; color: var(--accent-red);">44.3%
+                    </div>
+                    <div style="margin-top: 10px; font-weight: 700;">청년 고용률</div>
+                    <p style="font-size: 14px; color: #666;">전년 대비 ▼1.2%p</p>
+                </div>
+                <div class="box" style="text-align: center;">
+                    <div style="font-size: clamp(36px, 4vw, 48px); font-weight: 900; color: var(--accent-red);">41.6만
+                    </div>
+                    <div style="margin-top: 10px; font-weight: 700;">'쉬었음' 청년</div>
+                    <p style="font-size: 14px; color: #666;">역대 최대 규모</p>
+                </div>
+                <div class="box" style="text-align: center;">
+                    <div style="font-size: clamp(36px, 4vw, 48px); font-weight: 900; color: var(--navy-primary);">37개월
+                    </div>
+                    <div style="margin-top: 10px; font-weight: 700;">취업자 감소 지속</div>
+                    <p style="font-size: 14px; color: #666;">장기 침체 국면</p>
+                </div>
+            </div>
+            <div style="margin-top: 30px;">
+                <p><strong>Insight:</strong> 전통적인 제조업과 서비스업(숙박/음식)의 고용 창출 능력은 한계에 봉착했습니다.<br>단순 구직 활동만으로는 취업이 어려운 구조적
+                    불황기입니다.</p>
+            </div>
+        </div>
+        <footer class="footer"><span>Source: 통계청 2025.11 고용동향</span><span>Page 6</span></footer>
+    </div>
+
+    <!-- SLIDE 7: Content Industry Resilience -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">콘텐츠 산업의 회복탄력성</div>
+            <div class="header-section">PART 1</div>
+        </header>
+        <div class="content">
+            <h2>그럼에도 불구하고, 콘텐츠는 성장한다</h2>
+            <div class="grid-2">
+                <div>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                        <tr style="background: var(--navy-primary); color: white; height: 50px;">
+                            <th style="padding: 10px;">산업 분야</th>
+                            <th>취업자 증감</th>
+                            <th>상태</th>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc; height: 60px; text-align: center;">
+                            <td>숙박/음식업</td>
+                            <td class="txt-red">-9.4만</td>
+                            <td>위험</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc; height: 60px; text-align: center;">
+                            <td>제조업</td>
+                            <td class="txt-red">-4.1만</td>
+                            <td>감소</td>
+                        </tr>
+                        <tr
+                            style="border-bottom: 1px solid #ccc; height: 60px; text-align: center; background: #e6fffa;">
+                            <td><strong>예술/여가(웹툰)</strong></td>
+                            <td class="txt-blue"><strong>+1.8만</strong></td>
+                            <td><strong>성장</strong></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="box bg-gray" style="display: flex; flex-direction: column; justify-content: center;">
+                    <h3 class="txt-blue">Why Webtoon?</h3>
+                    <ul style="line-height: 2; list-style-position: inside;">
+                        <li>1. <strong>IP 확장성:</strong> 드라마, 영화, 게임의 원천 소스</li>
+                        <li>2. <strong>글로벌 수요:</strong> 언어 장벽을 넘는 비주얼 스토리텔링</li>
+                        <li>3. <strong>디지털 네이티브:</strong> 스마트폰에 최적화된 소비 방식</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Industry Resilience</span><span>Page 7</span></footer>
+    </div>
+
+    <!-- SLIDE 8: Webtoon Market Stats -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">국내 웹툰 시장 규모</div>
+            <div class="header-section">PART 1</div>
+        </header>
+        <div class="content">
+            <h2>최초 2조 원 시대 돌파</h2>
+            <!-- Chart Container -->
+            <div class="chart-container"
+                style="display: flex; align-items: flex-end; justify-content: space-around; height: 350px; border-bottom: 2px solid #999; padding-bottom: 10px; flex-wrap: wrap;">
+                <div class="chart-year" style="width: 15%; text-align: center; min-width: 80px;">
+                    <div style="height: 150px; background: #cbd5e1; margin: 0 auto; width: 60%;"></div>
+                    <p>2020<br>1.0조</p>
+                </div>
+                <div class="chart-year" style="width: 15%; text-align: center; min-width: 80px;">
+                    <div style="height: 220px; background: #94a3b8; margin: 0 auto; width: 60%;"></div>
+                    <p>2021<br>1.5조</p>
+                </div>
+                <div class="chart-year" style="width: 15%; text-align: center; min-width: 80px;">
+                    <div style="height: 270px; background: #64748b; margin: 0 auto; width: 60%;"></div>
+                    <p>2022<br>1.8조</p>
+                </div>
+                <div class="chart-year" style="width: 15%; text-align: center; min-width: 80px;">
+                    <div
+                        style="height: 320px; background: var(--gold-classic); margin: 0 auto; width: 60%; position: relative;">
+                        <span
+                            style="position: absolute; top: -30px; width: 100%; font-weight: 700; color: var(--navy-deep); font-size: 14px;">2.2조</span>
+                    </div>
+                    <p style="font-weight: 700;">2023</p>
+                </div>
+            </div>
+            <div class="box" style="margin-top: 20px;">
+                <p><strong>Key Data:</strong> 연평균 성장률 19.7% 기록. 이는 한국 경제 성장률(1~2%)을 10배 이상 상회하는 수치입니다.</p>
+            </div>
+        </div>
+        <footer class="footer"><span>Market Size</span><span>Page 8</span></footer>
+    </div>
+
+    <!-- SLIDE 9: Global Market -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">글로벌 시장 분석</div>
+            <div class="header-section">PART 1</div>
+        </header>
+        <div class="content">
+            <h2>K-웹툰, 세계의 표준이 되다</h2>
+            <div class="grid-2">
+                <div class="box">
+                    <h3 class="txt-blue">주요 수출국 현황</h3>
+                    <ul>
+                        <li><span class="tag tag-blue">1위</span> <strong>일본 (Piccoma, LINE):</strong> 시장 규모 최대, 유료 결제 활발
+                        </li>
+                        <li><span class="tag tag-red">2위</span> <strong>북미 (Webtoon US):</strong> 가파른 성장세, IP 영상화의 중심
+                        </li>
+                        <li><span class="tag tag-gold">3위</span> <strong>동남아 (태국/대만/인니):</strong> 한류 열풍과 결합된 충성 팬덤</li>
+                        <li><span class="tag tag-blue">4위</span> <strong>유럽 (프랑스):</strong> 예술적 가치를 인정받으며 시장 확대 중</li>
+                    </ul>
+                </div>
+                <div class="box bg-navy" style="display: flex; flex-direction: column; justify-content: center;">
+                    <h3 style="color: white;">나스닥 상장의 의미</h3>
+                    <p style="color: #cbd5e1; margin-top: 20px;">네이버웹툰(WEBTOON Entertainment)의 미국 상장은 웹툰이 틈새 장르가 아닌
+                        <strong>글로벌 메인스트림 콘텐츠</strong>로 인정받았다는 신호탄입니다.
+                    </p>
+                    <div
+                        style="margin-top: auto; font-size: clamp(20px, 2.5vw, 24px); font-weight: 700; color: var(--gold-classic); text-align: center; padding: 20px 0;">
+                        "Content is King,<br>Platform is Kingdom"
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Global Market</span><span>Page 9</span></footer>
+    </div>
+
+    <!-- SLIDE 10: Platform & Genres -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">플랫폼 및 장르 트렌드</div>
+            <div class="header-section">PART 1</div>
+        </header>
+        <div class="content">
+            <div class="grid-2">
+                <div>
+                    <h3>플랫폼 지형도</h3>
+                    <ul style="margin-top: 20px;">
+                        <li style="margin-bottom: 20px;"><strong>네이버웹툰:</strong> 대중성, 다양한 장르, 글로벌 1위</li>
+                        <li style="margin-bottom: 20px;"><strong>카카오페이지:</strong> 노블코믹스 강세, 기다무 BM, 판타지/로맨스</li>
+                        <li style="margin-bottom: 20px;"><strong>리디(RIDI):</strong> 성인/BL/GL 타겟, 고퀄리티 작화 중심</li>
+                        <li><strong>포스타입/딜리헙:</strong> 독립 창작, 후원 모델, 비주류 장르</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>2025 장르 키워드</h3>
+                    <div class="box bg-gray">
+                        <h4>1. 회빙환 (회귀/빙의/환생)의 진화</h4>
+                        <p>단순 클리셰를 넘어 '전문직물', '복수극' 등과 결합하여 고도화</p>
+                    </div>
+                    <div class="box bg-gray" style="margin-top: 15px;">
+                        <h4>2. 여성향 스릴러/피폐물</h4>
+                        <p>로맨스 일변도에서 벗어나 심리 스릴러 등 장르 다양화</p>
+                    </div>
+                    <div class="box bg-gray" style="margin-top: 15px;">
+                        <h4>3. 일상/힐링툰의 귀환</h4>
+                        <p>자극적 콘텐츠 피로감에 따른 '인스타툰' 스타일의 부상</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Platforms & Genres</span><span>Page 10</span></footer>
+    </div>
+
+    <!-- SLIDE 11-14: Trends (Summarized) -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">2025 웹툰 3대 핵심 트렌드</div>
+            <div class="header-section">PART 1</div>
+        </header>
+        <div class="content">
+            <div class="grid-3">
+                <div class="box" style="border-top: 5px solid var(--accent-red);">
+                    <h3>TREND 1<br>스튜디오 시스템</h3>
+                    <p style="margin-top: 20px;"><strong>분업화의 정착:</strong><br>개인 작가 시스템에서 '글/콘티/선화/채색/배경/후보정'이 분업화된 공장형
+                        시스템으로 전환.</p>
+                    <p class="txt-red">→ 취업 시장에서 '멀티플레이어'보다 '스페셜리스트' 선호</p>
+                </div>
+                <div class="box" style="border-top: 5px solid var(--accent-blue);">
+                    <h3>TREND 2<br>AI Co-Creation</h3>
+                    <p style="margin-top: 20px;"><strong>도구로서의 AI:</strong><br>생성형 AI를 배경 생성, 자동 채색, 레퍼런스 탐색에 활용하여 제작 효율
+                        극대화.</p>
+                    <p class="txt-blue">→ AI 툴 활용 능력이 필수 역량화</p>
+                </div>
+                <div class="box" style="border-top: 5px solid var(--gold-classic);">
+                    <h3>TREND 3<br>OSMU & IP</h3>
+                    <p style="margin-top: 20px;"><strong>슈퍼 IP 전성시대:</strong><br>기획 단계부터 영상화, 게임화, 굿즈화를 염두에 둔 IP 개발.</p>
+                    <p class="txt-gold">→ 캐릭터 디자인 시트 및 세계관 설정의 중요성 증대</p>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>2025 Key Trends</span><span>Page 11</span></footer>
+    </div>
+
+    <!-- SLIDE 15: Summary -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">PART 1 요약</div>
+            <div class="header-section">SUMMARY</div>
+        </header>
+        <div class="content" style="justify-content: center; align-items: center;">
+            <h2 style="text-align: center; border: none; margin-bottom: 40px;">"지금이 골든 타임입니다"</h2>
+            <div style="width: 80%; text-align: center;">
+                <p style="font-size: 24px; margin-bottom: 20px;">시장은 커지고 있지만, <strong>양극화</strong>는 심해지고 있습니다.</p>
+                <p style="font-size: 24px;">단순히 그림을 그리는 사람이 아니라,<br><span class="txt-gold" style="font-weight: 700;">산업의
+                        니즈를 이해하는 프로페셔널</span>만이 살아남습니다.</p>
+            </div>
+        </div>
+        <footer class="footer"><span>Part 1 Summary</span><span>Page 15</span></footer>
+    </div>
+
+    <!-- ========================= PART 2: MINDSET (Slides 16-23) ========================= -->
+
+    <!-- SLIDE 16: Section Cover 2 -->
+    <div class="slide section-cover">
+        <div class="section-num">02</div>
+        <h1 style="color: var(--gold-classic);">마인드셋 & 멘탈 관리</h1>
+        <p style="font-size: 24px; margin-top: 20px;">The Weapon: 롱런하는 작가의 무기</p>
+    </div>
+
+    <!-- SLIDE 17: Creator Reality -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">창작자의 현실: 번아웃</div>
+            <div class="header-section">PART 2</div>
+        </header>
+        <div class="content">
+            <h2>화려함 뒤의 그림자</h2>
+            <div class="grid-2">
+                <div>
+                    <ul>
+                        <li><strong>살인적인 마감:</strong> 주간 연재를 위해 주 6~7일 근무가 일상</li>
+                        <li><strong>고립감:</strong> 하루 10시간 이상 책상 앞 혼자 작업</li>
+                        <li><strong>불확실성:</strong> 차기작 준비 기간의 수입 절벽</li>
+                    </ul>
+                    <div class="box bg-gray" style="margin-top: 30px;">
+                        <p><strong>통계:</strong> 웹툰 작가의 80% 이상이 근골격계 질환 및 우울증/불면증 경험 (2023 실태조사)</p>
+                    </div>
+                </div>
+                <div
+                    style="background: #e2e8f0; display: flex; align-items: center; justify-content: center; border-radius: 12px;">
+                    <i class="fa-solid fa-battery-quarter"
+                        style="font-size: clamp(60px, 10vw, 100px); color: var(--navy-light);"></i>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Mental Health Stats</span><span>Page 17</span></footer>
+    </div>
+
+    <!-- SLIDE 18: Growth Mindset -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">성장 마인드셋 (Growth Mindset)</div>
+            <div class="header-section">PART 2</div>
+        </header>
+        <div class="content">
+            <h2>재능은 고정값이 아닙니다</h2>
+            <div class="grid-2">
+                <div class="box" style="background: #fee2e2;">
+                    <h3 class="txt-red">고정 마인드셋 (Fixed)</h3>
+                    <ul style="margin-top: 15px;">
+                        <li>"나는 재능이 없어."</li>
+                        <li>"피드백은 나에 대한 공격이야."</li>
+                        <li>"다른 작가의 성공은 배 아픈 일이야."</li>
+                        <li><strong>결과:</strong> 도전 회피, 조기 포기</li>
+                    </ul>
+                </div>
+                <div class="box" style="background: #d1fae5;">
+                    <h3 class="txt-green">성장 마인드셋 (Growth)</h3>
+                    <ul style="margin-top: 15px;">
+                        <li>"아직 방법을 모를 뿐이야."</li>
+                        <li>"피드백은 성장의 재료야."</li>
+                        <li>"다른 작가에게서 배울 점을 찾자."</li>
+                        <li><strong>결과:</strong> 끈기(Grit), 지속 성장</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 30px; text-align: center; font-weight: 700;">캐롤 드웩 교수의 연구: 뇌의 가소성(Neuroplasticity)을
+                믿으세요.</p>
+        </div>
+        <footer class="footer"><span>Mindset Theory</span><span>Page 18</span></footer>
+    </div>
+
+    <!-- SLIDE 19: Handling Criticism -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">비판과 악플에 대처하는 자세</div>
+            <div class="header-section">PART 2</div>
+        </header>
+        <div class="content">
+            <h2>멘탈 방탄조끼 입기</h2>
+            <div class="grid-3">
+                <div class="box">
+                    <div class="tag tag-red">STEP 1</div>
+                    <h4>분리하기 (Separation)</h4>
+                    <p>작품에 대한 비판이지, <strong>나라는 사람(인격)</strong>에 대한 비난이 아님을 명심하세요.</p>
+                </div>
+                <div class="box">
+                    <div class="tag tag-blue">STEP 2</div>
+                    <h4>필터링 (Filtering)</h4>
+                    <p>건설적인 피드백(작화 붕괴 지적 등)과 단순 비난(악플)을 구분하세요. 악플은 무시가 답입니다.</p>
+                </div>
+                <div class="box">
+                    <div class="tag tag-gold">STEP 3</div>
+                    <h4>연료화 (Fuel)</h4>
+                    <p>"두고 봐라, 다음 화에서 증명한다"는 오기로 승화시키세요. 최고의 복수는 성공입니다.</p>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Handling Criticism</span><span>Page 19</span></footer>
+    </div>
+
+    <!-- SLIDE 20: Routine -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">프로의 루틴 관리</div>
+            <div class="header-section">PART 2</div>
+        </header>
+        <div class="content">
+            <h2>영감이 올 때까지 기다리지 마라</h2>
+            <div class="grid-2">
+                <div>
+                    <blockquote>"아마추어는 영감이 찾아오기를 기다리지만,<br>프로는 그냥 아침에 일어나서 일을 시작한다."<br>- 스티븐 킹</blockquote>
+                    <div class="box bg-navy" style="margin-top: 30px;">
+                        <h4>건강 관리 체크리스트</h4>
+                        <ul>
+                            <li><input type="checkbox"> 1시간 작업 후 10분 스트레칭 (필수)</li>
+                            <li><input type="checkbox"> 손목 보호대 및 인체공학 의자 투자</li>
+                            <li><input type="checkbox"> 햇빛 보기 (세로토닌 분비)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>시간 관리 기법 (Pomodoro)</h4>
+                    <div style="display: flex; justify-content: center; margin-top: 20px;">
+                        <div
+                            style="width: 150px; height: 150px; border-radius: 50%; border: 10px solid var(--accent-red); display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 700; text-align: center; flex-shrink: 0;">
+                            50분<br>집중</div>
+                    </div>
+                    <p style="text-align: center; margin-top: 20px;">50분 몰입 + 10분 완전 휴식<br>스마트폰 멀리 두기</p>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Routine Management</span><span>Page 20</span></footer>
+    </div>
+
+    <!-- ========================= PART 3: JOB STRATEGY (Slides 24-38) ========================= -->
+
+    <!-- SLIDE 24: Section Cover 3 -->
+    <div class="slide section-cover">
+        <div class="section-num">03</div>
+        <h1 style="color: var(--gold-classic);">취업 실전 전략</h1>
+        <p style="font-size: 24px; margin-top: 20px;">The Strategy: 합격하는 포트폴리오의 비밀</p>
+    </div>
+
+    <!-- SLIDE 25: Career Paths -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">웹툰 산업 직무 지도</div>
+            <div class="header-section">PART 3</div>
+        </header>
+        <div class="content">
+            <h2>나에게 맞는 직무는?</h2>
+            <div class="grid-3">
+                <div class="box">
+                    <h3 class="txt-navy">제작 직군</h3>
+                    <ul>
+                        <li><strong>메인 작가:</strong> 연출, 작화 총괄</li>
+                        <li><strong>콘티 작가:</strong> 스토리보드 구성</li>
+                        <li><strong>선화/채색/배경:</strong> 파트별 전문 스텝</li>
+                        <li><strong>3D 어셋 제작:</strong> 스케치업/블렌더</li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h3 class="txt-navy">기획/관리 직군</h3>
+                    <ul>
+                        <li><strong>웹툰 PD:</strong> 작품 기획, 작가 관리, 편집</li>
+                        <li><strong>사업 PM:</strong> 플랫폼 제휴, 프로모션</li>
+                        <li><strong>IP 사업:</strong> 굿즈, 영상화 판권 관리</li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h3 class="txt-navy">기술 직군</h3>
+                    <ul>
+                        <li><strong>웹툰 서비스 기획:</strong> 앱/웹 기획</li>
+                        <li><strong>AI 테크:</strong> 자동 채색 모델링</li>
+                        <li><strong>번역/식자:</strong> 글로벌 로컬라이제이션</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Career Paths</span><span>Page 25</span></footer>
+    </div>
+
+    <!-- SLIDE 26: 2025 Recruitment -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">2025 채용 트렌드</div>
+            <div class="header-section">PART 3</div>
+        </header>
+        <div class="content">
+            <h2>수시채용과 직무적합성</h2>
+            <div class="grid-2-1">
+                <div class="box">
+                    <h3>1. 수시채용의 보편화 (63.5%)</h3>
+                    <p>공채 시즌은 사라졌습니다. TO가 날 때마다 뽑습니다.</p>
+                    <p class="txt-red">→ 전략: 관심 기업 리스트업 후 채용 사이트 즐겨찾기 필수</p>
+                </div>
+                <div class="box">
+                    <h3>2. 중고신입 선호</h3>
+                    <p>기업은 교육 비용을 아끼고 싶어합니다.</p>
+                    <p class="txt-red">→ 전략: 인턴, 외주, 단기 계약직 등 실무 경험 한 줄이라도 만들기</p>
+                </div>
+                <div class="box"
+                    style="background: var(--navy-deep); color: white; display: flex; flex-direction: column; justify-content: center;">
+                    <h3>Keyword</h3>
+                    <div
+                        style="font-size: clamp(24px, 3vw, 30px); font-weight: 700; color: var(--gold-classic); text-align: center; margin-top: 30px;">
+                        "즉시 전력감"
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Recruitment Trends</span><span>Page 26</span></footer>
+    </div>
+
+    <!-- SLIDE 29: Portfolio Strategy 1 -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">포트폴리오 전략: The Hook</div>
+            <div class="header-section">PART 3</div>
+        </header>
+        <div class="content">
+            <h2>면접관은 10초 만에 판단합니다</h2>
+            <div class="grid-2">
+                <div>
+                    <h3><i class="fa-solid fa-triangle-exclamation txt-red"></i> 흔한 실수</h3>
+                    <ul class="box bg-gray">
+                        <li>표지 없이 바로 그림부터 나온다.</li>
+                        <li>자신 없는 옛날 그림을 "성장 과정"이라며 넣는다. (절대 금지)</li>
+                        <li>이미지 파일 50개를 압축해서 보낸다. (PDF 1개로 병합 필수)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3><i class="fa-solid fa-check txt-green"></i> 필승 전략</h3>
+                    <ul class="box bg-gray">
+                        <li><strong>표지:</strong> 지원 직무(배경/채색/콘티)와 이름 명시</li>
+                        <li><strong>하이라이트:</strong> 가장 자신 있는 '인생작' 3컷을 맨 앞에 배치</li>
+                        <li><strong>목차:</strong> 프로젝트별 카테고리 분류</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 20px; font-weight: 700; text-align: center;">"여러분의 포트폴리오는 '작품집'이 아니라 나를 파는 '제안서'입니다."
+            </p>
+        </div>
+        <footer class="footer"><span>Portfolio Hook</span><span>Page 29</span></footer>
+    </div>
+
+    <!-- SLIDE 30: Portfolio Strategy 2 -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">포트폴리오 전략: Process</div>
+            <div class="header-section">PART 3</div>
+        </header>
+        <div class="content">
+            <h2>결과물보다 과정을 보여주세요</h2>
+            <p>스튜디오는 <strong>협업 가능성</strong>을 봅니다. 레이어 정리가 잘 되는지, 작업 속도는 어떤지 궁금해합니다.</p>
+            <div style="margin-top: 30px; border: 1px dashed #999; padding: 20px; border-radius: 8px;">
+                <h4 style="text-align: center;">[포트폴리오 페이지 예시 레이아웃]</h4>
+                <div class="grid-3" style="margin-top: 20px;">
+                    <div style="border: 1px solid #ccc; padding: 10px; border-radius: 4px;">
+                        <div
+                            style="background: #eee; height: 150px; display: flex; align-items: center; justify-content: center; color: #666;">
+                            Final Image</div>
+                        <p style="font-size: 14px; margin-top: 10px;"><strong>프로젝트명:</strong> 로맨스 표지</p>
+                        <p style="font-size: 14px;"><strong>기여도:</strong> 작화 100%</p>
+                        <p style="font-size: 14px;"><strong>소요시간:</strong> 5시간</p>
+                    </div>
+                    <div style="border: 1px solid #ccc; padding: 10px; border-radius: 4px;">
+                        <div
+                            style="background: #eee; height: 150px; display: flex; align-items: center; justify-content: center; color: #666;">
+                            Process (GIF)</div>
+                        <p style="font-size: 14px; margin-top: 10px;">러프 -> 선화 -> 밑색 -> 명암 -> 후보정</p>
+                        <p style="font-size: 14px; color: #666;">*단계별 변화 과정을 보여줌</p>
+                    </div>
+                    <div style="border: 1px solid #ccc; padding: 10px; border-radius: 4px;">
+                        <div
+                            style="background: #eee; height: 150px; display: flex; align-items: center; justify-content: center; color: #666;">
+                            Technical Note</div>
+                        <p style="font-size: 14px; margin-top: 10px;"><strong>사용 툴:</strong> Clip Studio, SketchUp</p>
+                        <p style="font-size: 14px;"><strong>의도:</strong> 빛의 산란 효과를 이용해 따뜻한 분위기 연출...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Portfolio Process</span><span>Page 30</span></footer>
+    </div>
+
+    <!-- SLIDE 33: Interview Prep -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">실전 면접 가이드</div>
+            <div class="header-section">PART 3</div>
+        </header>
+        <div class="content">
+            <h2>1분 자기소개의 정석</h2>
+            <div class="box bg-gray">
+                <p><strong>[나쁜 예]</strong><br>"안녕하세요. 저는 어릴 때부터 만화를 좋아했고..." (너무 흔함, TMI)</p>
+            </div>
+            <div class="box" style="margin-top: 20px; border-left: 5px solid var(--accent-blue);">
+                <p><strong>[좋은 예] - 키워드/역량 중심</strong><br>"안녕하십니까. <strong>'속도와 디테일'</strong>을 동시에 잡는 배경 아티스트 홍길동입니다. 저는
+                    지난 1년간 스케치업 에셋 50개를 자체 제작하고, 2건의 외주 프로젝트를 <strong>마감일보다 3일 일찍</strong> 완수하여 클라이언트의 만족을 이끌어낸 경험이
+                    있습니다. 귀사의 OO프로젝트에서도 이러한 효율성을 발휘하고 싶습니다."</p>
+            </div>
+            <div class="grid-2" style="margin-top: 30px;">
+                <div>
+                    <h4>자주 나오는 질문 (Tech)</h4>
+                    <ul>
+                        <li>가장 자신 있는 툴과 단축키 활용 숙련도는?</li>
+                        <li>하루에 몇 컷까지 작업 가능한가? (작업 속도)</li>
+                        <li>다른 작가의 그림체를 모작(스타일 맞춤)할 수 있는가?</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>자주 나오는 질문 (Personality)</h4>
+                    <ul>
+                        <li>동료와 의견 충돌이 있을 때 어떻게 해결하는가?</li>
+                        <li>반복되는 단순 노동(채색 등)을 견딜 수 있는가?</li>
+                        <li>우리 회사의 작품 중 아쉬운 점은 무엇인가?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Interview Prep</span><span>Page 33</span></footer>
+    </div>
+
+    <!-- ========================= PART 4: STARTUP (Slides 39-48) ========================= -->
+
+    <!-- SLIDE 39: Section Cover 4 -->
+    <div class="slide section-cover">
+        <div class="section-num">04</div>
+        <h1 style="color: var(--gold-classic);">창업 및 창직 가이드</h1>
+        <p style="font-size: 24px; margin-top: 20px;">The Alternative: 나만의 비즈니스 만들기</p>
+    </div>
+
+    <!-- SLIDE 40: Startup Types -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">창업의 유형과 방향성</div>
+            <div class="header-section">PART 4</div>
+        </header>
+        <div class="content">
+            <div class="grid-3">
+                <div class="box">
+                    <h3 class="txt-navy">1. 프리랜서 (1인 기업)</h3>
+                    <p><strong>특징:</strong> 플랫폼 연재 작가, 외주 작가</p>
+                    <p><strong>핵심:</strong> 개인 브랜딩, 포트폴리오 관리, 계약 관리</p>
+                </div>
+                <div class="box">
+                    <h3 class="txt-navy">2. 에이전시/스튜디오</h3>
+                    <p><strong>특징:</strong> 팀 빌딩, IP 대량 생산</p>
+                    <p><strong>핵심:</strong> 자금 조달, 인력 관리, 시스템 구축</p>
+                </div>
+                <div class="box">
+                    <h3 class="txt-navy">3. 창직 (Job Creation)</h3>
+                    <p><strong>특징:</strong> 틈새 시장 공략 (예: 웹툰 배경 전문, 웹툰 교육, 굿즈 제작)</p>
+                    <p><strong>핵심:</strong> 아이디어, 니치 마켓 발굴</p>
+                </div>
+            </div>
+            <div class="box bg-navy" style="margin-top: 30px; text-align: center;">
+                <p style="color: white; margin: 0;">"내가 작화를 못해도, 웹툰 산업에서 돈을 벌 수 있는 방법은 무수히 많습니다."</p>
+            </div>
+        </div>
+        <footer class="footer"><span>Startup Types</span><span>Page 40</span></footer>
+    </div>
+
+    <!-- SLIDE 42: BMC Overview -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">비즈니스 모델 캔버스 (BMC)</div>
+            <div class="header-section">PART 4</div>
+        </header>
+        <div class="content">
+            <h2>사업 계획의 9가지 블록</h2>
+            <div class="bmc-grid"
+                style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr) 100px; gap: 10px; height: 400px;">
+                <div class="box" style="grid-row: span 2;"><strong>KP (파트너)</strong><br>플랫폼, 어시스턴트</div>
+                <div class="box"><strong>KA (활동)</strong><br>작화, 연재, 마케팅</div>
+                <div class="box" style="grid-row: span 2; background: #e0f2fe;"><strong>VP (가치제안)</strong><br>독자에게 어떤
+                    재미/감동을 주는가?<br>차별점은 무엇인가?</div>
+                <div class="box"><strong>CR (관계)</strong><br>팬덤 소통, SNS</div>
+                <div class="box" style="grid-row: span 2;"><strong>CS (고객)</strong><br>10대 남성? 30대 여성?<br>타겟 페르소나</div>
+
+                <div class="box"><strong>KR (자원)</strong><br>타블렛, IP, 자본금</div>
+                <div class="box"><strong>CH (채널)</strong><br>네이버, 카카오, 인스타</div>
+
+                <div class="box" style="grid-column: span 2;"><strong>C$ (비용)</strong><br>인건비, 임대료, 서버비, 수수료</div>
+                <div class="box" style="grid-column: span 3;"><strong>R$ (수익)</strong><br>MG, RS, 광고 수익, 굿즈 판매, 2차 판권
+                </div>
+            </div>
+            <!-- Mobile fallback for grid -->
+            <style>
+                @media (max-width: 768px) {
+                    .bmc-grid {
+                        display: flex !important;
+                        flex-direction: column;
+                        height: auto !important;
+                    }
+                }
+            </style>
+        </div>
+        <footer class="footer"><span>BMC Overview</span><span>Page 42</span></footer>
+    </div>
+
+    <!-- SLIDE 45: Government Funding -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">2025 정부지원사업 로드맵</div>
+            <div class="header-section">PART 4</div>
+        </header>
+        <div class="content">
+            <h2>예비/초기 창업자를 위한 자금 지도</h2>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                <tr style="background: var(--navy-primary); color: white; height: 50px;">
+                    <th>사업명</th>
+                    <th>대상</th>
+                    <th>지원 내용</th>
+                    <th>시기 (예상)</th>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc; height: 70px; text-align: center;">
+                    <td><strong>예비창업패키지</strong></td>
+                    <td>사업자 없는 예비창업자</td>
+                    <td>평균 5천만원 (바우처)</td>
+                    <td>2월</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc; height: 70px; text-align: center;">
+                    <td><strong>초기창업패키지</strong></td>
+                    <td>창업 3년 미만</td>
+                    <td>최대 1억원</td>
+                    <td>3월</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc; height: 70px; text-align: center;">
+                    <td><strong>청년창업사관학교</strong></td>
+                    <td>만 39세 이하 청년</td>
+                    <td>최대 1억원 + 공간 + 교육</td>
+                    <td>1~2월</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc; height: 70px; text-align: center; background: #fffbeb;">
+                    <td><strong>콘텐츠 창의인재동반</strong></td>
+                    <td>콘텐츠 분야 멘티</td>
+                    <td>월 지원금 + 멘토링</td>
+                    <td>4~5월</td>
+                </tr>
+            </table>
+            <div class="box bg-gray" style="margin-top: 20px;">
+                <p><strong>Tip:</strong> K-Startup (www.k-startup.go.kr)과 한국콘텐츠진흥원 (www.kocca.kr) 공지사항을 매일 확인하세요.</p>
+            </div>
+        </div>
+        <footer class="footer"><span>Government Funding</span><span>Page 45</span></footer>
+    </div>
+
+    <!-- ========================= CLOSING (Slides 49-50) ========================= -->
+
+    <!-- SLIDE 49: Summary -->
+    <div class="slide">
+        <header class="header">
+            <div class="header-title">강의 요약 및 액션 플랜</div>
+            <div class="header-section">OUTRO</div>
+        </header>
+        <div class="content">
+            <h2>오늘 당장 해야 할 일 (To-Do)</h2>
+            <div class="grid-2">
+                <div class="box">
+                    <h3 class="txt-red">취업 준비생</h3>
+                    <ul style="margin-top: 15px;">
+                        <li><input type="checkbox"> 내 관심 직무(배경/채색/PD 등) 1개 픽스하기</li>
+                        <li><input type="checkbox"> 포트폴리오 PDF 병합하고 용량 줄이기</li>
+                        <li><input type="checkbox"> 잡코리아/게임잡 이력서 업데이트하기</li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h3 class="txt-blue">예비 창업자</h3>
+                    <ul style="margin-top: 15px;">
+                        <li><input type="checkbox"> K-Startup 회원가입 하기</li>
+                        <li><input type="checkbox"> BMC 캔버스 1차 작성해보기</li>
+                        <li><input type="checkbox"> 내 아이디어와 유사한 경쟁사 3곳 분석하기</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <footer class="footer"><span>Action Plan</span><span>Page 49</span></footer>
+    </div>
+
+    <!-- SLIDE 50: Q&A -->
+    <div class="slide bg-navy" style="justify-content: center; align-items: center; text-align: center;">
+        <h1 style="color: var(--gold-classic);">Q & A</h1>
+        <p style="font-size: clamp(20px, 2.5vw, 28px); margin-top: 30px; color: white;">여러분의 시작을 응원합니다.</p>
+        <div style="margin-top: 60px; color: #cbd5e1; font-size: 20px;">
+            <i class="fa-solid fa-envelope"></i> email@example.com <br>
+            <i class="fa-solid fa-phone"></i> 010-1234-5678
+        </div>
+        <div style="margin-top: 40px; font-size: 14px; opacity: 0.5;">
+            Designed for 2025 Webtoon Career Special Lecture
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(element) {
+            const answer = element.querySelector('.answer-reveal');
+            if (answer) {
+                answer.classList.toggle('visible');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -20,8 +20,22 @@
               "icon": "lucide-file",
               "title": "k-content-ip-sovereignty-2025"
             }
+          },
+          {
+            "id": "3f312bdfb5d3ba1d",
+            "type": "leaf",
+            "state": {
+              "type": "bases",
+              "state": {
+                "file": "Untitled 1.base",
+                "viewName": "Table"
+              },
+              "icon": "lucide-table",
+              "title": "Untitled 1"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -170,8 +184,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "33680724a35ad531",
+  "active": "3f312bdfb5d3ba1d",
   "lastOpenFiles": [
+    "images/blog/kobaco.jpg.md",
+    "images/blog",
+    "images",
+    "student-gratitude-2025.md",
+    "spec.md",
+    "Untitled 1.base",
+    "2026-01-03.md",
+    "kobaco-appreciation-2025.md",
+    "Untitled 2.canvas",
     "Untitled.base",
     "2025-11-23.md",
     "Untitled 1.canvas",
@@ -179,7 +202,6 @@
     "mydata-policy-seminar-review-2025.md",
     "kabts-conference-2025.md",
     "k-content-ip-sovereignty-2025.md",
-    "student-gratitude-2025.md",
     "starting-this-blog.md",
     "policy-advisory-appointment-2025.md"
   ]
