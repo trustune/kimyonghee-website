@@ -1,57 +1,88 @@
 ﻿---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import SocialShare from '../../components/SocialShare.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SocialShare from "../../components/SocialShare.astro";
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection('blog');
-  return blogEntries.map(entry => ({
-    params: { slug: entry.slug }, 
+  const blogEntries = await getCollection("blog");
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
-const { title, title_en, excerpt, excerpt_en, date, category, tags, image, author, enableShare } = entry.data;
+const {
+  title,
+  title_en,
+  excerpt,
+  excerpt_en,
+  date,
+  category,
+  tags,
+  image,
+  author,
+  enableShare,
+} = entry.data;
 
-const formattedDateEn = new Date(date).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
+const formattedDateEn = new Date(date).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 });
 
-const formattedDateKo = new Date(date).toLocaleDateString('ko-KR', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
+const formattedDateKo = new Date(date).toLocaleDateString("ko-KR", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 });
 
-const currentUrl = `https://kimyonghee.com/blog/${entry.slug}`;
-const fullImageUrl = image ? `https://kimyonghee.com${image}` : '';
+const currentUrl = `https://kimyonghee.com/blog/${entry.id}`;
+const fullImageUrl = image ? `https://kimyonghee.com${image}` : "";
 ---
 
-<BaseLayout title={`${title} | Yonghee Kim`} description={excerpt} image={fullImageUrl} url={currentUrl}>
-  <article class="blog-post" style="max-width: 800px; margin: 0 auto; padding: 2rem 1rem;">
+<BaseLayout
+  title={`${title} | Yonghee Kim`}
+  description={excerpt}
+  image={fullImageUrl}
+  url={currentUrl}
+>
+  <article
+    class="blog-post"
+    style="max-width: 800px; margin: 0 auto; padding: 2rem 1rem;"
+  >
     <header style="margin-bottom: 3rem;">
       <div style="margin-bottom: 1.5rem;">
-        <a href="/blog" style="color: #2563eb; text-decoration: none; font-size: 0.95rem;" data-lang="en">
+        <a
+          href="/blog"
+          style="color: #2563eb; text-decoration: none; font-size: 0.95rem;"
+          data-lang="en"
+        >
           ← Back to Blog
         </a>
-        <a href="/blog" style="color: #2563eb; text-decoration: none; font-size: 0.95rem;" data-lang="ko">
+        <a
+          href="/blog"
+          style="color: #2563eb; text-decoration: none; font-size: 0.95rem;"
+          data-lang="ko"
+        >
           ← 블로그로 돌아가기
         </a>
       </div>
 
-      {image && (
-        <img
-          src={image}
-          alt={title}
-          style="width: 100%; height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 2rem;"
-        />
-      )}
+      {
+        image && (
+          <img
+            src={image}
+            alt={title}
+            style="width: 100%; height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 2rem;"
+          />
+        )
+      }
 
-      <div style="display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem; color: #666;">
+      <div
+        style="display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem; color: #666;"
+      >
         <span data-lang="en">{formattedDateEn}</span>
         <span data-lang="ko">{formattedDateKo}</span>
         <span>•</span>
@@ -61,19 +92,29 @@ const fullImageUrl = image ? `https://kimyonghee.com${image}` : '';
         <span data-lang="ko">{author}</span>
       </div>
 
-      <h1 style="font-size: 2.5rem; line-height: 1.2; margin-bottom: 1.5rem; color: #1a1a1a;" data-lang="ko">
+      <h1
+        style="font-size: 2.5rem; line-height: 1.2; margin-bottom: 1.5rem; color: #1a1a1a;"
+        data-lang="ko"
+      >
         {title}
       </h1>
-      <h1 style="font-size: 2.5rem; line-height: 1.2; margin-bottom: 1.5rem; color: #1a1a1a;" data-lang="en">
+      <h1
+        style="font-size: 2.5rem; line-height: 1.2; margin-bottom: 1.5rem; color: #1a1a1a;"
+        data-lang="en"
+      >
         {title_en || title}
       </h1>
 
-      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem;">
-        {tags.map((tag) => (
-          <span style="background: #f3f4f6; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.9rem; color: #4b5563;">
-            #{tag}
-          </span>
-        ))}
+      <div
+        style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem;"
+      >
+        {
+          tags.map((tag) => (
+            <span style="background: #f3f4f6; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.9rem; color: #4b5563;">
+              #{tag}
+            </span>
+          ))
+        }
       </div>
     </header>
 
@@ -81,22 +122,34 @@ const fullImageUrl = image ? `https://kimyonghee.com${image}` : '';
       <Content />
     </div>
 
-    {enableShare && (
-      <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
-        <SocialShare 
-          title={title}
-          url={currentUrl}
-          excerpt={excerpt}
-          image={fullImageUrl}
-        />
-      </div>
-    )}
+    {
+      enableShare && (
+        <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
+          <SocialShare
+            title={title}
+            url={currentUrl}
+            excerpt={excerpt}
+            image={fullImageUrl}
+          />
+        </div>
+      )
+    }
 
-    <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; text-align: center;">
-      <a href="/blog" style="color: #2563eb; text-decoration: none; font-weight: 500;" data-lang="en">
+    <footer
+      style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; text-align: center;"
+    >
+      <a
+        href="/blog"
+        style="color: #2563eb; text-decoration: none; font-weight: 500;"
+        data-lang="en"
+      >
         ← Back to all posts
       </a>
-      <a href="/blog" style="color: #2563eb; text-decoration: none; font-weight: 500;" data-lang="ko">
+      <a
+        href="/blog"
+        style="color: #2563eb; text-decoration: none; font-weight: 500;"
+        data-lang="ko"
+      >
         ← 모든 글 보기
       </a>
     </footer>
@@ -124,7 +177,8 @@ const fullImageUrl = image ? `https://kimyonghee.com${image}` : '';
     margin-bottom: 1.5rem;
   }
 
-  .prose ul, .prose ol {
+  .prose ul,
+  .prose ol {
     margin: 1.5rem 0;
     padding-left: 2rem;
   }
@@ -158,7 +212,7 @@ const fullImageUrl = image ? `https://kimyonghee.com${image}` : '';
     padding: 0.2rem 0.4rem;
     border-radius: 4px;
     font-size: 0.9em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .prose pre {

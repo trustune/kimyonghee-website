@@ -1,14 +1,14 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import LineChart from '../../components/LineChart.astro';
-import PieChart from '../../components/PieChart.astro';
-import SocialShare from '../../components/SocialShare.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LineChart from "../../components/LineChart.astro";
+import PieChart from "../../components/PieChart.astro";
+import SocialShare from "../../components/SocialShare.astro";
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
-  return projects.map(project => ({
-    params: { slug: project.slug },
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
     props: { project },
   }));
 }
@@ -16,66 +16,86 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 const { data } = project;
-const showCharts = project.slug === 'broadcasting-revenue-2015-2024';
+const showCharts = project.id === "broadcasting-revenue-2015-2024";
 
 // Chart data
-const revenueLabels = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
+const revenueLabels = [
+  "2015",
+  "2016",
+  "2017",
+  "2018",
+  "2019",
+  "2020",
+  "2021",
+  "2022",
+  "2023",
+  "2024",
+];
 const revenueDatasets = [
   {
-    label: 'Pay-TV Subscriptions',
+    label: "Pay-TV Subscriptions",
     data: [27.5, 28.3, 29.4, 31.2, 32.4, 33.5, 36.5, 37.1, 37.3, 37.6],
-    borderColor: 'rgba(102, 126, 234, 1)',
-    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+    borderColor: "rgba(102, 126, 234, 1)",
+    backgroundColor: "rgba(102, 126, 234, 0.1)",
     borderWidth: 3,
     fill: true,
-    tension: 0.4
+    tension: 0.4,
   },
   {
-    label: 'Broadcasting Advertising',
+    label: "Broadcasting Advertising",
     data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
-    borderColor: 'rgba(239, 68, 68, 1)',
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    borderColor: "rgba(239, 68, 68, 1)",
+    backgroundColor: "rgba(239, 68, 68, 0.1)",
     borderWidth: 3,
     fill: true,
-    tension: 0.4
+    tension: 0.4,
   },
   {
-    label: 'Home Shopping Fees',
+    label: "Home Shopping Fees",
     data: [0, 0, 24.4, 24.0, 23.7, 23.5, 22.0, 21.5, 20.5, 20.2],
-    borderColor: 'rgba(245, 158, 11, 1)',
-    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    borderColor: "rgba(245, 158, 11, 1)",
+    backgroundColor: "rgba(245, 158, 11, 0.1)",
     borderWidth: 3,
     fill: true,
-    tension: 0.4
-  }
+    tension: 0.4,
+  },
 ];
 
 const pieData = {
-  labels: ['Pay-TV Subscriptions', 'Broadcasting Advertising', 'Home Shopping Fees', 'Program Sales', 'Government Subsidy', 'Other'],
-  datasets: [{
-    data: [37.6, 22.9, 20.2, 9.5, 2.8, 7.0],
-    backgroundColor: [
-      'rgba(102, 126, 234, 0.8)',
-      'rgba(239, 68, 68, 0.8)',
-      'rgba(245, 158, 11, 0.8)',
-      'rgba(16, 185, 129, 0.8)',
-      'rgba(139, 92, 246, 0.8)',
-      'rgba(107, 114, 128, 0.8)'
-    ],
-    borderColor: '#ffffff',
-    borderWidth: 2
-  }]
+  labels: [
+    "Pay-TV Subscriptions",
+    "Broadcasting Advertising",
+    "Home Shopping Fees",
+    "Program Sales",
+    "Government Subsidy",
+    "Other",
+  ],
+  datasets: [
+    {
+      data: [37.6, 22.9, 20.2, 9.5, 2.8, 7.0],
+      backgroundColor: [
+        "rgba(102, 126, 234, 0.8)",
+        "rgba(239, 68, 68, 0.8)",
+        "rgba(245, 158, 11, 0.8)",
+        "rgba(16, 185, 129, 0.8)",
+        "rgba(139, 92, 246, 0.8)",
+        "rgba(107, 114, 128, 0.8)",
+      ],
+      borderColor: "#ffffff",
+      borderWidth: 2,
+    },
+  ],
 };
 
 // Language support - get Korean versions if available
 const titleEn = data.title_en || data.title;
 const titleKo = data.title_ko || data.title;
-const subtitleEn = data.subtitle_en || data.subtitle || '';
-const subtitleKo = data.subtitle_ko || data.subtitle || '';
-const conferenceEn = data.conference_en || data.conference || '';
-const conferenceKo = data.conference_ko || data.conference || '';
-const summaryEn = data.summary || '';
-const summaryKo = data.summary_ko || data.summary || '';
+const subtitleEn = data.subtitle_en || data.subtitle || "";
+const subtitleKo = data.subtitle_ko || data.subtitle || "";
+const conferenceEn = data.conference_en || data.conference || "";
+const conferenceKo = data.conference_ko || data.conference || "";
+const summaryEn = data.summary || "";
+const summaryKo = data.summary_ko || data.summary || "";
 const keyFindingsEn = data.key_findings || [];
 const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
 ---
@@ -89,117 +109,154 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
           <span class="lang-content" data-lang="en">{titleEn}</span>
           <span class="lang-content" data-lang="ko">{titleKo}</span>
         </h1>
-        {(subtitleEn || subtitleKo) && (
-          <p class="subtitle">
-            <span class="lang-content" data-lang="en">{subtitleEn}</span>
-            <span class="lang-content" data-lang="ko">{subtitleKo}</span>
-          </p>
-        )}
-        
+        {
+          (subtitleEn || subtitleKo) && (
+            <p class="subtitle">
+              <span class="lang-content" data-lang="en">
+                {subtitleEn}
+              </span>
+              <span class="lang-content" data-lang="ko">
+                {subtitleKo}
+              </span>
+            </p>
+          )
+        }
+
         <div class="meta-info">
-          <time datetime={data.date}>{new Date(data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-          {(conferenceEn || conferenceKo) && (
-            <span class="conference">
-              <span class="lang-content" data-lang="en">{conferenceEn}</span>
-              <span class="lang-content" data-lang="ko">{conferenceKo}</span>
-            </span>
-          )}
+          <time datetime={data.date}
+            >{
+              new Date(data.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            }</time
+          >
+          {
+            (conferenceEn || conferenceKo) && (
+              <span class="conference">
+                <span class="lang-content" data-lang="en">
+                  {conferenceEn}
+                </span>
+                <span class="lang-content" data-lang="ko">
+                  {conferenceKo}
+                </span>
+              </span>
+            )
+          }
         </div>
 
         <div class="tags">
-          {data.tags.map((tag: string) => (
-            <span class="tag">{tag}</span>
-          ))}
+          {data.tags.map((tag: string) => <span class="tag">{tag}</span>)}
         </div>
       </div>
     </header>
 
     {/* Summary Box */}
-    {(summaryEn || summaryKo) && (
-      <div class="summary-box">
-        <h3>
-          <span class="lang-content" data-lang="en">Executive Summary</span>
-          <span class="lang-content" data-lang="ko">핵심 요약</span>
-        </h3>
-        <p>
-          <span class="lang-content" data-lang="en">{summaryEn}</span>
-          <span class="lang-content" data-lang="ko">{summaryKo}</span>
-        </p>
-      </div>
-    )}
+    {
+      (summaryEn || summaryKo) && (
+        <div class="summary-box">
+          <h3>
+            <span class="lang-content" data-lang="en">
+              Executive Summary
+            </span>
+            <span class="lang-content" data-lang="ko">
+              핵심 요약
+            </span>
+          </h3>
+          <p>
+            <span class="lang-content" data-lang="en">
+              {summaryEn}
+            </span>
+            <span class="lang-content" data-lang="ko">
+              {summaryKo}
+            </span>
+          </p>
+        </div>
+      )
+    }
 
     {/* Key Findings Box */}
-    {(keyFindingsEn.length > 0 || keyFindingsKo.length > 0) && (
-      <div class="key-findings-box">
-        <h3>
-          <span class="lang-content" data-lang="en">Key Findings</span>
-          <span class="lang-content" data-lang="ko">주요 발견</span>
-        </h3>
-        <ul class="lang-content" data-lang="en">
-          {keyFindingsEn.map((finding: string) => (
-            <li>{finding}</li>
-          ))}
-        </ul>
-        <ul class="lang-content" data-lang="ko">
-          {keyFindingsKo.map((finding: string) => (
-            <li>{finding}</li>
-          ))}
-        </ul>
-      </div>
-    )}
+    {
+      (keyFindingsEn.length > 0 || keyFindingsKo.length > 0) && (
+        <div class="key-findings-box">
+          <h3>
+            <span class="lang-content" data-lang="en">
+              Key Findings
+            </span>
+            <span class="lang-content" data-lang="ko">
+              주요 발견
+            </span>
+          </h3>
+          <ul class="lang-content" data-lang="en">
+            {keyFindingsEn.map((finding: string) => (
+              <li>{finding}</li>
+            ))}
+          </ul>
+          <ul class="lang-content" data-lang="ko">
+            {keyFindingsKo.map((finding: string) => (
+              <li>{finding}</li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
 
     <div class="content-wrapper">
       <div class="project-content">
         <Content />
       </div>
-      
-      {showCharts && (
-        <aside class="charts-sidebar">
-          <div class="chart-card">
-            <h3>Revenue Trends (2015-2024)</h3>
-            <LineChart 
-              id="revenueChart"
-              labels={revenueLabels}
-              datasets={revenueDatasets}
-              yAxisLabel="Trillion KRW"
-            />
-          </div>
-          
-          <div class="chart-card">
-            <h3>Revenue Composition 2024</h3>
-            <PieChart 
-              id="compositionChart"
-              data={pieData}
-            />
-          </div>
-        </aside>
-      )}
+
+      {
+        showCharts && (
+          <aside class="charts-sidebar">
+            <div class="chart-card">
+              <h3>Revenue Trends (2015-2024)</h3>
+              <LineChart
+                id="revenueChart"
+                labels={revenueLabels}
+                datasets={revenueDatasets}
+                yAxisLabel="Trillion KRW"
+              />
+            </div>
+
+            <div class="chart-card">
+              <h3>Revenue Composition 2024</h3>
+              <PieChart id="compositionChart" data={pieData} />
+            </div>
+          </aside>
+        )
+      }
     </div>
 
-    {data.methodology && data.methodology.length > 0 && (
-      <section class="methodology-section">
-        <h2>Methodology</h2>
-        <div class="methodology-tags">
-          {data.methodology.map((method: string) => (
-            <span class="method-tag">{method}</span>
-          ))}
-        </div>
-      </section>
-    )}
+    {
+      data.methodology && data.methodology.length > 0 && (
+        <section class="methodology-section">
+          <h2>Methodology</h2>
+          <div class="methodology-tags">
+            {data.methodology.map((method: string) => (
+              <span class="method-tag">{method}</span>
+            ))}
+          </div>
+        </section>
+      )
+    }
 
-    {data.data_sources && data.data_sources.length > 0 && (
-      <section class="sources-section">
-        <h2>Data Sources</h2>
-        <ul class="sources-list">
-          {data.data_sources.map((source: { name: string; type: string }) => (
-            <li>
-              <span class="source-name">{source.name}</span>
-              <span class={`source-type ${source.type}`}>{source.type}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
+    {
+      data.data_sources && data.data_sources.length > 0 && (
+        <section class="sources-section">
+          <h2>Data Sources</h2>
+          <ul class="sources-list">
+            {data.data_sources.map((source: { name: string; type: string }) => (
+              <li>
+                <span class="source-name">{source.name}</span>
+                <span class={`source-type ${source.type}`}>{source.type}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
 
     <SocialShare title={data.title} />
   </article>
@@ -394,7 +451,8 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
     margin-bottom: 1.5rem;
   }
 
-  .project-content :global(ul), .project-content :global(ol) {
+  .project-content :global(ul),
+  .project-content :global(ol) {
     margin-bottom: 1.5rem;
     padding-left: 1.5rem;
   }
@@ -429,7 +487,8 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
     table-layout: fixed;
   }
 
-  .project-content :global(th), .project-content :global(td) {
+  .project-content :global(th),
+  .project-content :global(td) {
     padding: 0.75rem 1rem;
     border: 1px solid var(--color-border);
     text-align: left;
@@ -461,13 +520,15 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
     color: var(--color-text-primary);
   }
 
-  .methodology-section, .sources-section {
+  .methodology-section,
+  .sources-section {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid var(--color-border);
   }
 
-  .methodology-section h2, .sources-section h2 {
+  .methodology-section h2,
+  .sources-section h2 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
   }
@@ -480,7 +541,11 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
 
   .method-tag {
     padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-secondary)
+    );
     color: white;
     border-radius: 20px;
     font-size: 0.875rem;
@@ -647,21 +712,24 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
 <script>
   // Initialize language on page load
   function initLanguage() {
-    const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-    document.documentElement.setAttribute('data-language', savedLang);
+    const savedLang = localStorage.getItem("preferredLanguage") || "en";
+    document.documentElement.setAttribute("data-language", savedLang);
   }
 
   // Run on initial load
   initLanguage();
 
   // Listen for language changes
-  document.addEventListener('languagechange', (e: Event) => {
+  document.addEventListener("languagechange", (e: Event) => {
     const customEvent = e as CustomEvent;
     if (customEvent.detail && customEvent.detail.language) {
-      document.documentElement.setAttribute('data-language', customEvent.detail.language);
+      document.documentElement.setAttribute(
+        "data-language",
+        customEvent.detail.language,
+      );
     }
   });
 
   // Re-initialize on Astro page transitions
-  document.addEventListener('astro:page-load', initLanguage);
+  document.addEventListener("astro:page-load", initLanguage);
 </script>
