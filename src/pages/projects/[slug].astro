@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LineChart from "../../components/LineChart.astro";
 import PieChart from "../../components/PieChart.astro";
@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const { Content } = await project.render();
+const { Content } = await render(project);
 const { data } = project;
 const showCharts = project.id === "broadcasting-revenue-2015-2024";
 
