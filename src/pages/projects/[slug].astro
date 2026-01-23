@@ -22,7 +22,7 @@ const { data } = project;
       {(data.subtitle_en || data.subtitle) && <p class="subtitle">{data.subtitle_en || data.subtitle}</p>}
 
       <div class="meta-info">
-        <time datetime={data.date}>
+        <time datetime={data.date instanceof Date ? data.date.toISOString() : data.date}>
           {
             new Date(data.date).toLocaleDateString("en-US", {
               year: "numeric",
@@ -116,20 +116,20 @@ const { data } = project;
   }
 
   .project-header h1 {
-    font-size: 2.25rem;
-    margin-bottom: 1rem;
+    font-size: 1.625rem;
+    margin-bottom: 0.75rem;
     margin-top: 0;
   }
 
   .subtitle {
-    font-size: 1.125rem;
+    font-size: 0.875rem;
     color: var(--color-text-secondary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     line-height: 1.6;
   }
 
   .meta-info {
-    font-size: 0.95rem;
+    font-size: 0.75rem;
     color: var(--color-text-secondary);
   }
 
@@ -148,8 +148,8 @@ const { data } = project;
   .findings-section h2,
   .methodology-section h2,
   .sources-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
   }
 
   .summary-section p {
@@ -171,9 +171,9 @@ const { data } = project;
   }
 
   .project-content {
-    font-size: 1.125rem;
-    line-height: 1.8;
-    margin-bottom: 3rem;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
     overflow-wrap: break-word;
     word-wrap: break-word;
   }
@@ -186,15 +186,15 @@ const { data } = project;
   }
 
   .project-content h2 {
-    font-size: 1.75rem;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
   }
 
   .project-content h3 {
-    font-size: 1.375rem;
-    margin-top: 2.5rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.0625rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .project-content p {
@@ -219,9 +219,10 @@ const { data } = project;
 
   .project-content th,
   .project-content td {
-    padding: 0.75rem;
+    padding: 0.5rem 0.75rem;
     border: 1px solid var(--color-border);
     text-align: left;
+    font-size: 0.8125rem;
   }
 
   .project-content th {
@@ -261,11 +262,11 @@ const { data } = project;
     }
 
     .project-header h1 {
-      font-size: 1.75rem;
+      font-size: 1.375rem;
     }
 
     .project-content {
-      font-size: 1rem;
+      font-size: 0.875rem;
     }
   }
 </style>

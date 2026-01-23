@@ -65,7 +65,7 @@ const currentPath = Astro.url.pathname;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -78,8 +78,8 @@ const currentPath = Astro.url.pathname;
 
       :root {
         /* Design Tokens */
-        --font-primary: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-        --font-heading: "IBM Plex Serif", Georgia, serif;
+        --font-primary: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-heading: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 
         /* Colors - Clean Academic Palette */
         --color-text: #1a1a1a;
@@ -95,14 +95,14 @@ const currentPath = Astro.url.pathname;
         --max-width: min(900px, 90vw);
         --max-width-wide: min(1100px, 90vw);
 
-        /* Responsive Typography with clamp() */
-        --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-        --font-size-sm: clamp(0.875rem, 0.85rem + 0.15vw, 0.95rem);
-        --font-size-lg: clamp(1.125rem, 1rem + 0.35vw, 1.25rem);
-        --font-size-h1: clamp(1.75rem, 1.5rem + 1.25vw, 2.5rem);
-        --font-size-h2: clamp(1.375rem, 1.2rem + 0.75vw, 1.75rem);
-        --font-size-h3: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
-        --font-size-h4: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+        /* Responsive Typography - Reduced sizes */
+        --font-size-base: clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
+        --font-size-sm: clamp(0.75rem, 0.725rem + 0.1vw, 0.8125rem);
+        --font-size-lg: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);
+        --font-size-h1: clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem);
+        --font-size-h2: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+        --font-size-h3: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+        --font-size-h4: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
 
         /* Spacing */
         --space-xs: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
@@ -115,7 +115,7 @@ const currentPath = Astro.url.pathname;
       html {
         font-family: var(--font-primary);
         font-size: var(--font-size-base);
-        line-height: 1.8;
+        line-height: 1.7;
         color: var(--color-text);
         background: var(--color-bg);
         scroll-behavior: smooth;
@@ -135,11 +135,11 @@ const currentPath = Astro.url.pathname;
       h5,
       h6 {
         font-family: var(--font-heading);
-        font-weight: 700;
+        font-weight: 600;
         line-height: 1.3;
         color: var(--color-text);
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+        margin-top: 1.75rem;
+        margin-bottom: 0.75rem;
       }
 
       h1 {
