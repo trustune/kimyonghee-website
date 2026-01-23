@@ -93,6 +93,15 @@ const fullImageUrl = image ? `https://kimyonghee.com${image}` : "";
   .post-content {
     font-size: 1.125rem;
     line-height: 1.8;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 1.5rem 0;
+    border-radius: 4px;
   }
 
   .post-content h2 {

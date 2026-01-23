@@ -183,6 +183,35 @@ const currentPath = Astro.url.pathname;
         color: var(--color-link-hover);
         text-decoration-color: var(--color-link-hover);
       }
+
+      /* Responsive images */
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* Responsive tables */
+      table {
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+      }
+
+      /* Responsive iframes and embeds */
+      iframe,
+      video,
+      embed,
+      object {
+        max-width: 100%;
+      }
+
+      /* Prevent overflow */
+      pre,
+      code {
+        overflow-x: auto;
+        max-width: 100%;
+      }
     </style>
     <Analytics />
   </head>
@@ -289,6 +318,7 @@ const currentPath = Astro.url.pathname;
         z-index: 102;
         white-space: nowrap;
         flex-shrink: 0;
+        margin-right: 2rem;
       }
 
       /* Mobile Menu Toggle */
