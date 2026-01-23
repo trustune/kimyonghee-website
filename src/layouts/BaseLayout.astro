@@ -173,6 +173,12 @@ const currentPath = Astro.url.pathname;
         transition: color 0.2s ease;
       }
 
+      /* Hide ALL Korean content globally */
+      [data-lang="ko"],
+      *[data-lang="ko"] {
+        display: none !important;
+      }
+
       a:hover {
         color: var(--color-link-hover);
         text-decoration-color: var(--color-link-hover);
