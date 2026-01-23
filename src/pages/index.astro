@@ -174,8 +174,8 @@ const totalCitations = publications.reduce((sum, pub) => sum + (pub.data.citatio
                 <span class="separator">•</span>
                 <span class="blog-date">{new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
               </div>
-              <h3 class="blog-title">{post.data.title}</h3>
-              <p class="blog-excerpt">{post.data.excerpt}</p>
+              <h3 class="blog-title">{post.data.title_en || post.data.title}</h3>
+              <p class="blog-excerpt">{post.data.excerpt_en || post.data.excerpt}</p>
             </a>
           </article>
         ))}

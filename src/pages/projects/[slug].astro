@@ -236,7 +236,13 @@ const { data } = project;
   }
 
   /* Hide Korean-only content in project body */
-  .project-content [data-lang="ko"] {
+  .project-content [data-lang="ko"],
+  .project-content h2[data-lang="ko"],
+  .project-content h3[data-lang="ko"],
+  .project-content p[data-lang="ko"],
+  .project-content ul[data-lang="ko"],
+  .project-content li[data-lang="ko"],
+  .project-content blockquote[data-lang="ko"] {
     display: none;
   }
 

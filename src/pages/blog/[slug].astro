@@ -32,27 +32,21 @@ const formattedDateEn = new Date(date).toLocaleDateString("en-US", {
   day: "numeric",
 });
 
-const formattedDateKo = new Date(date).toLocaleDateString("ko-KR", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
-
 const currentUrl = `https://kimyonghee.com/blog/${entry.id}`;
 const fullImageUrl = image ? `https://kimyonghee.com${image}` : "";
 ---
 
 <BaseLayout
-  title={`${title} | Yonghee Kim`}
-  description={excerpt}
+  title={`${title_en || title} | Yonghee Kim`}
+  description={excerpt_en || excerpt}
   image={fullImageUrl}
   url={currentUrl}
 >
   <article class="blog-post">
     <header class="post-header">
-      <h1>{title}</h1>
+      <h1>{title_en || title}</h1>
       <div class="post-meta">
-        <time datetime={date.toISOString()}>{formattedDateKo}</time>
+        <time datetime={date.toISOString()}>{formattedDateEn}</time>
         <span class="meta-separator">·</span>
         <span>{author}</span>
       </div>
@@ -169,6 +163,17 @@ const fullImageUrl = image ? `https://kimyonghee.com${image}` : "";
 
   .back-link:hover {
     text-decoration: underline;
+  }
+
+  /* Hide Korean-only content in post body */
+  .post-content [data-lang="ko"],
+  .post-content h2[data-lang="ko"],
+  .post-content h3[data-lang="ko"],
+  .post-content p[data-lang="ko"],
+  .post-content ul[data-lang="ko"],
+  .post-content li[data-lang="ko"],
+  .post-content blockquote[data-lang="ko"] {
+    display: none;
   }
 
   @media (max-width: 768px) {
