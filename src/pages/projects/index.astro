@@ -1,31 +1,36 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 // Markdown projects 가져오기
-const allProjects = await getCollection('projects');
+const allProjects = await getCollection("projects");
 
 // 날짜 역순 정렬 (최신이 위로)
 const projects = allProjects
-  .map(project => ({
-    id: project.slug,
+  .map((project) => ({
+    id: project.id,
     ...project.data,
   }))
   .sort((a, b) => new Date(b.date) - new Date(a.date));
 
 // 카테고리 추출
-const categories = [...new Set(projects.map(p => p.category))];
+const categories = [...new Set(projects.map((p) => p.category))];
 
 // 연도별 그룹핑
-const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].sort((a, b) => b - a);
+const years = [
+  ...new Set(projects.map((p) => new Date(p.date).getFullYear())),
+].sort((a, b) => b - a);
 ---
 
-<BaseLayout title="Projects - Yonghee Kim" description="Research projects and data analysis work">
+<BaseLayout
+  title="Projects - Yonghee Kim"
+  description="Research projects and data analysis work"
+>
   <div class="projects-container">
     <header class="page-header">
       <h1 class="page-title" data-lang="en">Research Projects</h1>
       <h1 class="page-title" data-lang="ko">연구 프로젝트</h1>
-      
+
       <!-- Stats -->
       <div class="stats-row">
         <div class="stat-item">
@@ -39,7 +44,7 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
           <span class="stat-label" data-lang="ko">카테고리</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number">{years[0]}-{years[years.length-1]}</span>
+          <span class="stat-number">{years[0]}-{years[years.length - 1]}</span>
           <span class="stat-label" data-lang="en">Period</span>
           <span class="stat-label" data-lang="ko">기간</span>
         </div>
@@ -49,14 +54,23 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     <!-- Search & Filter Bar -->
     <div class="controls-bar">
       <div class="search-box">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg
+          class="search-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.35-4.35"></path>
         </svg>
-        <input 
-          type="text" 
-          id="searchInput" 
-          class="search-input" 
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
           placeholder="Search projects..."
           data-placeholder-en="Search projects..."
           data-placeholder-ko="프로젝트 검색..."
@@ -66,21 +80,25 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
       <select id="categoryFilter" class="filter-select">
         <option value="all" data-lang="en">All Categories</option>
         <option value="all" data-lang="ko">전체</option>
-        {categories.map(cat => (
-          <option value={cat}>{cat}</option>
-        ))}
+        {categories.map((cat) => <option value={cat}>{cat}</option>)}
       </select>
 
       <select id="yearFilter" class="filter-select">
         <option value="all" data-lang="en">All Years</option>
         <option value="all" data-lang="ko">전체 연도</option>
-        {years.map(year => (
-          <option value={year}>{year}</option>
-        ))}
+        {years.map((year) => <option value={year}>{year}</option>)}
       </select>
 
       <button id="resetBtn" class="reset-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <polyline points="1 4 1 10 7 10"></polyline>
           <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
         </svg>
@@ -91,89 +109,120 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
 
     <!-- Projects Table/List -->
     <div class="projects-list" id="projectsList">
-      {projects.map((project) => (
-        <article 
-          class="project-item" 
-          data-category={project.category}
-          data-year={new Date(project.date).getFullYear()}
-          data-date={project.date}
-          data-search-text={`${project.title} ${project.title_en} ${project.subtitle} ${project.subtitle_en} ${project.description} ${project.description_en} ${project.summary} ${project.tags?.join(' ') || ''}`}
-        >
-          <div class="project-main">
-            <div class="project-header-row">
-              <div class="project-meta-left">
-                <span class="category-badge">{project.category}</span>
-                {project.featured && (
-                  <span class="featured-badge">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                    Featured
-                  </span>
-                )}
+      {
+        projects.map((project) => (
+          <article
+            class="project-item"
+            data-category={project.category}
+            data-year={new Date(project.date).getFullYear()}
+            data-date={project.date}
+            data-search-text={`${project.title} ${project.title_en} ${project.subtitle} ${project.subtitle_en} ${project.description} ${project.description_en} ${project.summary} ${project.tags?.join(" ") || ""}`}
+          >
+            <div class="project-main">
+              <div class="project-header-row">
+                <div class="project-meta-left">
+                  <span class="category-badge">{project.category}</span>
+                  {project.featured && (
+                    <span class="featured-badge">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                      Featured
+                    </span>
+                  )}
+                </div>
+                <div class="project-date">
+                  {new Date(project.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </div>
               </div>
-              <div class="project-date">
-                {new Date(project.date).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'short', 
-                  day: 'numeric' 
-                })}
-              </div>
-            </div>
 
-            <h3 class="project-title">
-              <a href={`/projects/${project.id}`}>
-                <span data-lang="en">{project.title_en}</span>
-                <span data-lang="ko">{project.title}</span>
-              </a>
-            </h3>
+              <h3 class="project-title">
+                <a href={`/projects/${project.id}`}>
+                  <span data-lang="en">{project.title_en}</span>
+                  <span data-lang="ko">{project.title}</span>
+                </a>
+              </h3>
 
-            {project.subtitle_en && (
-              <p class="project-subtitle">
-                <span data-lang="en">{project.subtitle_en}</span>
-                <span data-lang="ko">{project.subtitle}</span>
+              {project.subtitle_en && (
+                <p class="project-subtitle">
+                  <span data-lang="en">{project.subtitle_en}</span>
+                  <span data-lang="ko">{project.subtitle}</span>
+                </p>
+              )}
+
+              <p class="project-description">
+                <span data-lang="en">{project.description_en}</span>
+                <span data-lang="ko">{project.description}</span>
               </p>
-            )}
 
-            <p class="project-description">
-              <span data-lang="en">{project.description_en}</span>
-              <span data-lang="ko">{project.description}</span>
-            </p>
+              {project.conference && (
+                <div class="conference-info">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                  <span data-lang="en">
+                    {project.conference_en || project.conference}
+                  </span>
+                  <span data-lang="ko">{project.conference}</span>
+                </div>
+              )}
 
-            {project.conference && (
-              <div class="conference-info">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                <span data-lang="en">{project.conference_en || project.conference}</span>
-                <span data-lang="ko">{project.conference}</span>
+              <div class="project-footer">
+                <div class="tags-row">
+                  {project.tags &&
+                    project.tags
+                      .slice(0, 4)
+                      .map((tag) => <span class="tag">{tag}</span>)}
+                </div>
+
+                <a href={`/projects/${project.id}`} class="view-link">
+                  <span data-lang="en">View Details</span>
+                  <span data-lang="ko">자세히 보기</span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </a>
               </div>
-            )}
-
-            <div class="project-footer">
-              <div class="tags-row">
-                {project.tags && project.tags.slice(0, 4).map(tag => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
-              
-              <a href={`/projects/${project.id}`} class="view-link">
-                <span data-lang="en">View Details</span>
-                <span data-lang="ko">자세히 보기</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
             </div>
-          </div>
-        </article>
-      ))}
+          </article>
+        ))
+      }
     </div>
 
     <!-- No Results Message -->
     <div id="noResults" class="no-results" style="display: none;">
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <svg
+        width="64"
+        height="64"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
         <circle cx="11" cy="11" r="8"></circle>
         <path d="m21 21-4.35-4.35"></path>
         <line x1="11" y1="8" x2="11" y2="14"></line>
@@ -225,7 +274,7 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     font-size: 1.5rem;
     font-weight: 700;
     color: #1e40af;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
 
   .stat-label {
@@ -376,7 +425,7 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     font-size: 0.875rem;
     color: #6b7280;
     font-weight: 500;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
 
   .project-title {
@@ -617,54 +666,59 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
 </style>
 
 <script>
-  const searchInput = document.getElementById('searchInput') as HTMLInputElement;
-  const categoryFilter = document.getElementById('categoryFilter') as HTMLSelectElement;
-  const yearFilter = document.getElementById('yearFilter') as HTMLSelectElement;
-  const resetBtn = document.getElementById('resetBtn') as HTMLButtonElement;
-  const resetFromEmpty = document.getElementById('resetFromEmpty') as HTMLButtonElement;
-  const projectsList = document.getElementById('projectsList') as HTMLElement;
-  const noResults = document.getElementById('noResults') as HTMLElement;
+  const searchInput = document.getElementById(
+    "searchInput",
+  ) as HTMLInputElement;
+  const categoryFilter = document.getElementById(
+    "categoryFilter",
+  ) as HTMLSelectElement;
+  const yearFilter = document.getElementById("yearFilter") as HTMLSelectElement;
+  const resetBtn = document.getElementById("resetBtn") as HTMLButtonElement;
+  const resetFromEmpty = document.getElementById(
+    "resetFromEmpty",
+  ) as HTMLButtonElement;
+  const projectsList = document.getElementById("projectsList") as HTMLElement;
+  const noResults = document.getElementById("noResults") as HTMLElement;
 
   function filterProjects() {
     const searchTerm = searchInput.value.toLowerCase();
     const category = categoryFilter.value;
     const year = yearFilter.value;
 
-    const items = projectsList.querySelectorAll('.project-item');
+    const items = projectsList.querySelectorAll(".project-item");
     let visibleCount = 0;
 
     items.forEach((item) => {
       const htmlItem = item as HTMLElement;
-      const searchText = htmlItem.dataset.searchText?.toLowerCase() || '';
-      const itemCategory = htmlItem.dataset.category || '';
-      const itemYear = htmlItem.dataset.year || '';
+      const searchText = htmlItem.dataset.searchText?.toLowerCase() || "";
+      const itemCategory = htmlItem.dataset.category || "";
+      const itemYear = htmlItem.dataset.year || "";
 
-      const searchMatch = searchTerm === '' || searchText.includes(searchTerm);
-      const categoryMatch = category === 'all' || itemCategory === category;
-      const yearMatch = year === 'all' || itemYear === year;
+      const searchMatch = searchTerm === "" || searchText.includes(searchTerm);
+      const categoryMatch = category === "all" || itemCategory === category;
+      const yearMatch = year === "all" || itemYear === year;
 
       if (searchMatch && categoryMatch && yearMatch) {
-        htmlItem.style.display = 'block';
+        htmlItem.style.display = "block";
         visibleCount++;
       } else {
-        htmlItem.style.display = 'none';
+        htmlItem.style.display = "none";
       }
     });
 
-    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    noResults.style.display = visibleCount === 0 ? "block" : "none";
   }
 
   function resetFilters() {
-    searchInput.value = '';
-    categoryFilter.value = 'all';
-    yearFilter.value = 'all';
+    searchInput.value = "";
+    categoryFilter.value = "all";
+    yearFilter.value = "all";
     filterProjects();
   }
 
-  searchInput.addEventListener('input', filterProjects);
-  categoryFilter.addEventListener('change', filterProjects);
-  yearFilter.addEventListener('change', filterProjects);
-  resetBtn.addEventListener('click', resetFilters);
-  resetFromEmpty.addEventListener('click', resetFilters);
+  searchInput.addEventListener("input", filterProjects);
+  categoryFilter.addEventListener("change", filterProjects);
+  yearFilter.addEventListener("change", filterProjects);
+  resetBtn.addEventListener("click", resetFilters);
+  resetFromEmpty.addEventListener("click", resetFilters);
 </script>
-</BaseLayout>
