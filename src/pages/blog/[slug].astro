@@ -159,6 +159,39 @@ const fullImageUrl = image ? `https://kimyonghee.com${image}` : "";
     padding: 0;
   }
 
+  /* Table styles */
+  .post-content table,
+  .post-content .data-table {
+    width: 100% !important;
+    display: table !important;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.8125rem;
+  }
+
+  .post-content table th,
+  .post-content table td,
+  .post-content .data-table th,
+  .post-content .data-table td {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    text-align: left;
+    font-size: 0.8125rem;
+  }
+
+  .post-content table th,
+  .post-content .data-table th {
+    background: var(--color-bg-secondary);
+    font-weight: 600;
+    font-size: 0.75rem;
+  }
+
+  .post-content table thead,
+  .post-content .data-table thead {
+    background: var(--color-bg-secondary) !important;
+    border-bottom: 2px solid var(--color-border);
+  }
+
   .post-footer {
     margin-top: 4rem;
     padding-top: 2rem;

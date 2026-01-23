@@ -113,8 +113,7 @@ keywords:
 
 .data-table {
   width: 100%;
-  min-width: 100%;
-  table-layout: fixed;
+  display: table;
   border-collapse: collapse;
   margin: 1.5rem 0;
   background: white;

@@ -16,7 +16,9 @@
       "Bash(git push:*)",
       "Bash(gh run list:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(npm run build:*)",
+      "Bash(set:*)"
     ],
     "deny": [],
     "ask": []
