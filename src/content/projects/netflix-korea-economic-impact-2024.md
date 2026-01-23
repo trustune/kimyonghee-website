@@ -179,54 +179,51 @@ featured: true
 
 .data-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin: 2rem 0;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
   background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-size: 0.8125rem;
 }
 
 .data-table thead {
-  background: linear-gradient(135deg, #e50914 0%, #b81d24 100%);
-  color: white;
+  background: var(--color-bg-secondary, #fafafa);
+  border-bottom: 2px solid var(--color-border, #d4d4d4);
 }
 
-.data-table.blue-header thead {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-}
-
-.data-table.green-header thead {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+.data-table.blue-header thead,
+.data-table.green-header thead,
+.data-table.orange-header thead {
+  background: var(--color-bg-secondary, #fafafa);
 }
 
 .data-table th {
-  padding: 1rem;
+  padding: 0.625rem 0.75rem;
   text-align: left;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.75rem;
+  color: var(--color-text, #1a1a1a);
+  border: 1px solid var(--color-border, #d4d4d4);
 }
 
 .data-table tbody tr {
-  border-bottom: 1px solid #e5e7eb;
-  transition: background 0.2s;
+  border-bottom: 1px solid var(--color-border, #d4d4d4);
 }
 
 .data-table tbody tr:hover {
-  background: #fef2f2;
+  background: var(--color-bg-secondary, #fafafa);
 }
 
 .data-table td {
-  padding: 1rem;
-  font-size: 0.95rem;
-  color: #374151;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--color-text, #1a1a1a);
+  border: 1px solid var(--color-border, #d4d4d4);
 }
 
 .data-table .number {
   text-align: right;
   font-weight: 500;
-  font-family: 'Courier New', monospace;
+  font-variant-numeric: tabular-nums;
 }
 
 .section-divider {
@@ -563,7 +560,7 @@ A common criticism is that Netflix "takes subscription fees to the US." But exam
       <td class="number"><strong>1,411</strong></td>
       <td class="number">+56.1%</td>
     </tr>
-    <tr style="background: #fef2f2; font-weight: bold;">
+    <tr style="background: #f5f5f5; font-weight: 600;">
       <td>4-Year Total</td>
       <td class="number">450</td>
       <td class="number">2,899</td>
@@ -603,13 +600,13 @@ When we compare job creation efficiency across industries, **content investment 
       <td class="number">0.053</td>
       <td>Key Industry</td>
     </tr>
-    <tr style="background: #fef2f2;">
+    <tr style="background: #f9fafb;">
       <td><strong>Arts, Sports & Leisure (R)</strong></td>
       <td class="number"><strong>8.44</strong></td>
       <td class="number"><strong>0.010</strong></td>
       <td>Independent</td>
     </tr>
-    <tr style="background: #fef2f2;">
+    <tr style="background: #f9fafb;">
       <td><strong>ICT & Broadcasting (J)</strong></td>
       <td class="number"><strong>8.29</strong></td>
       <td class="number"><strong>0.159</strong></td>
@@ -692,14 +689,14 @@ According to Korea Communications Commission data, Korean broadcasting advertisi
       <td class="number">-</td>
       <td class="number">-</td>
     </tr>
-    <tr style="background: #fef2f2;">
+    <tr style="background: #f9fafb;">
       <td>2020 (COVID Year 1)</td>
       <td class="number">2.88</td>
       <td class="number" style="color: #dc2626;">-12.7%</td>
       <td class="number"><strong>0.33</strong></td>
       <td class="number">-</td>
     </tr>
-    <tr style="background: #fef2f2;">
+    <tr style="background: #f9fafb;">
       <td>2021 (COVID Year 2)</td>
       <td class="number">3.10</td>
       <td class="number" style="color: #16a34a;">+7.6%</td>
@@ -916,7 +913,7 @@ The content industry's workforce is predominantly **freelance and project-based*
       <td class="number"><strong>38.8</strong></td>
       <td class="number">97.9%</td>
     </tr>
-    <tr style="background: #fffbeb; font-weight: bold;">
+    <tr style="background: #f5f5f5; font-weight: 600;">
       <td>4-Year Total</td>
       <td class="number">3.6</td>
       <td class="number">143</td>
