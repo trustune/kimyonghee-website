@@ -113,54 +113,52 @@ keywords:
 
 .data-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin: 2rem 0;
+  min-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
   background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-size: 0.8125rem;
 }
 
 .data-table thead {
-  background: linear-gradient(135deg, #e50914 0%, #b81d24 100%);
-  color: white;
+  background: var(--color-bg-secondary, #fafafa);
+  border-bottom: 2px solid var(--color-border, #d4d4d4);
 }
 
-.data-table.blue-header thead {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-}
-
+.data-table.blue-header thead,
 .data-table.green-header thead {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: var(--color-bg-secondary, #fafafa);
 }
 
 .data-table th {
-  padding: 1rem;
+  padding: 0.625rem 0.75rem;
   text-align: left;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.75rem;
+  color: var(--color-text, #1a1a1a);
+  border: 1px solid var(--color-border, #d4d4d4);
 }
 
 .data-table tbody tr {
-  border-bottom: 1px solid #e5e7eb;
-  transition: background 0.2s;
+  border-bottom: 1px solid var(--color-border, #d4d4d4);
 }
 
 .data-table tbody tr:hover {
-  background: #fef2f2;
+  background: var(--color-bg-secondary, #fafafa);
 }
 
 .data-table td {
-  padding: 1rem;
-  font-size: 0.95rem;
-  color: #374151;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--color-text, #1a1a1a);
+  border: 1px solid var(--color-border, #d4d4d4);
 }
 
 .data-table .number {
   text-align: right;
   font-weight: 500;
-  font-family: 'Courier New', monospace;
+  font-variant-numeric: tabular-nums;
 }
 
 .section-divider {
@@ -391,7 +389,7 @@ keywords:
       <td class="number">$10.7B</td>
       <td class="number">13.1%</td>
     </tr>
-    <tr style="background: #fef2f2; font-weight: bold;">
+    <tr style="background: #f5f5f5; font-weight: 600;">
       <td><strong>Total</strong></td>
       <td class="number"><strong>$82.7B</strong></td>
       <td class="number"><strong>100%</strong></td>
@@ -563,7 +561,7 @@ keywords:
       <td class="number">$15-20B</td>
       <td><span data-lang="en">Accelerating operational synergies; <strong>EPS accretive</strong></span><span data-lang="ko">운영 시너지 가속화; <strong>EPS 증가 전환</strong></span></td>
     </tr>
-    <tr style="background: #ecfdf5;">
+    <tr style="background: #f5f5f5;">
       <td><strong>Year 3</strong></td>
       <td class="number"><strong>$25-30B</strong></td>
       <td><span data-lang="en">Full run-rate achieved</span><span data-lang="ko">Full run-rate 달성</span></td>
@@ -598,7 +596,7 @@ keywords:
     </tr>
   </thead>
   <tbody>
-    <tr style="background: #fef2f2;">
+    <tr style="background: #f9fafb;">
       <td><strong>1</strong></td>
       <td><strong>Netflix + Warner Bros.</strong></td>
       <td><span data-lang="en">380M+ subscribers, deepest library, HBO brand</span><span data-lang="ko">3.8억+ 구독자, 가장 깊은 라이브러리, HBO 브랜드</span></td>
