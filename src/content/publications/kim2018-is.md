@@ -22,215 +22,73 @@ software_used: ["ISM Software", "Excel"]
 related_projects: []
 ---
 
-## Research Overview
-
-This study analyzes the complex interrelationships among factors influencing information system (IS) upgrade decisions using Interpretive Structural Modeling (ISM) and MICMAC analysis, providing insights for sustainable business competitiveness.
-
 ## Research Background
 
-### IS Upgrade Importance
-- Critical for maintaining competitiveness
-- Significant resource commitment required
-- High risk and uncertainty
-- Long-term business sustainability impact
+Information system upgrades represent critical strategic decisions for modern organizations, requiring substantial resource commitments while carrying significant implications for operational efficiency, competitive positioning, and long-term business sustainability. As organizations increasingly depend on information technology to support core business processes, the decision to upgrade existing systems—whether through incremental improvements, major version transitions, or complete system replacements—has become one of the most consequential choices facing organizational leaders.
 
-### Decision Complexity
-- Multiple interdependent factors
-- Technical and organizational considerations
-- Financial and strategic implications
-- Stakeholder alignment challenges
+The complexity of IS upgrade decisions stems from the multitude of interdependent factors that must be considered. Technical considerations such as system compatibility, security requirements, and integration capabilities interact with organizational factors including change management capacity, user readiness, and strategic alignment. Financial constraints, vendor relationships, and external market conditions further complicate the decision landscape. Understanding how these diverse factors relate to one another—and identifying which factors exert the greatest influence on ultimate outcomes—is essential for organizations seeking to make well-informed upgrade decisions.
+
+This study addresses the need for systematic analysis of IS upgrade decision factors by applying Interpretive Structural Modeling (ISM) and MICMAC analysis to map the relationships among key decision variables. By revealing the hierarchical structure of decision factors and classifying them according to their driving power and dependence, the research provides a framework that can guide organizational decision-making processes and enhance the sustainability of business operations through more effective technology management.
+
+## Theoretical Framework
+
+The theoretical foundation of this research draws upon literature from information systems management, strategic decision-making, and organizational change. IS upgrade decisions can be conceptualized as complex, multi-criteria problems characterized by uncertainty, interdependence among factors, and multiple stakeholder perspectives. Traditional decision-making frameworks that treat factors as independent often fail to capture the dynamic relationships that shape real-world organizational choices.
+
+Interpretive Structural Modeling provides a methodology well-suited to analyzing such complex decision contexts. ISM transforms unclear, poorly articulated mental models of complex systems into visible, well-defined models through a systematic process that draws on expert knowledge to establish relationships among elements. The resulting hierarchical structure reveals which factors are foundational drivers of the system and which are dependent outcomes influenced by other elements.
+
+MICMAC (Cross-Impact Matrix Multiplication Applied to Classification) analysis complements ISM by classifying system elements according to their driving power and dependence. This classification yields four categories of factors: autonomous variables with weak driving power and weak dependence; dependent variables strongly influenced by other factors; linkage variables that are both influential and influenced; and driver variables that exert strong influence while being relatively independent of other factors. This classification provides strategic guidance for intervention priorities.
+
+The sustainability perspective informs the analysis by emphasizing the long-term implications of IS upgrade decisions. Sustainable business practices require technology investments that not only address immediate operational needs but also position the organization for continued competitiveness and adaptability. Understanding the structural relationships among decision factors enables organizations to make choices that support sustainable business development.
 
 ## Methodology
 
-### ISM (Interpretive Structural Modeling)
-- **Purpose**: Map hierarchical relationships among factors
-- **Approach**: Expert-based structural analysis
-- **Output**: Multi-level factor hierarchy
+The research employed a multi-stage methodology combining literature review, expert consultation, and systematic structural analysis. The initial stage involved comprehensive review of the information systems and strategic management literatures to identify potential factors influencing IS upgrade decisions. This review yielded a preliminary list of factors spanning technical, organizational, financial, and external dimensions.
 
-### MICMAC Analysis
-- **Classification**: Factor categorization by influence
-- **Dimensions**: Driving power and dependence
-- **Purpose**: Strategic priority identification
+Expert panel consultation refined and validated the factor list while establishing the relationships among factors. The panel comprised information systems professionals, technology managers, and organizational decision-makers with substantial experience in IS upgrade projects. Through structured interviews and iterative consultation, the panel assessed pairwise relationships among factors, determining whether each factor influenced, was influenced by, or had no direct relationship with each other factor.
 
-### Research Process
-1. Literature review and factor identification
-2. Expert panel formation
-3. Structural self-interaction matrix
-4. Reachability matrix development
-5. Level partitioning
-6. ISM model construction
-7. MICMAC classification
+The structural self-interaction matrix (SSIM) captured these pairwise assessments, employing four relationship types: V (factor i influences factor j), A (factor j influences factor i), X (mutual influence), and O (no relationship). The SSIM was then converted to a binary reachability matrix, and transitivity was checked to ensure logical consistency of the relationship structure.
 
-## Key Decision Factors Identified
+Level partitioning of the reachability matrix assigned factors to hierarchical levels based on their reachability and antecedent sets. Factors whose reachability and intersection sets were identical occupied the top level of the hierarchy; these were then removed, and the process iterated until all factors were assigned to levels. The resulting hierarchy revealed the structural relationships among decision factors.
 
-### Technical Factors
-- System compatibility
-- Technology maturity
-- Integration capability
-- Performance requirements
-- Security considerations
+MICMAC analysis calculated driving power (the number of factors that each factor influences) and dependence (the number of factors that influence each factor) for each element. Plotting factors on a driving power-dependence diagram enabled classification into the four strategic categories: autonomous, dependent, linkage, and driver variables.
 
-### Organizational Factors
-- Strategic alignment
-- Organizational readiness
-- Change management capability
-- User acceptance
-- Training requirements
+## Key Findings
 
-### Financial Factors
-- Total cost of ownership
-- Return on investment
-- Budget availability
-- Cost-benefit analysis
-- Financial risk assessment
+The ISM analysis revealed a multi-level hierarchical structure among IS upgrade decision factors. At the foundation of the hierarchy, occupying the lowest level, were factors related to top management support, organizational culture, and resource availability. These foundational elements influence numerous other factors while being relatively independent of them, establishing the basic conditions within which upgrade decisions unfold.
 
-### External Factors
-- Vendor support
-- Industry standards
-- Regulatory compliance
-- Market trends
-- Competitive pressure
+The intermediate levels of the hierarchy contained factors related to technology capability, strategic alignment, change management capacity, and financial viability. These factors serve as transmission mechanisms, translating the foundational conditions established by driver variables into more proximate influences on upgrade decisions. Their position in the hierarchy indicates that addressing these factors requires first establishing the foundational conditions upon which they depend.
 
-## ISM Hierarchical Structure
+The upper levels of the hierarchy contained outcome-oriented factors including system performance expectations, user satisfaction requirements, and ultimately the IS upgrade decision itself. These dependent variables are shaped by the factors below them in the hierarchy, suggesting that direct intervention at these levels may be less effective than addressing the underlying drivers.
 
-### Level 1 (Top): Dependent Variables
-- IS upgrade decision
-- Business competitiveness
-- Sustainability outcomes
+MICMAC classification yielded distinct strategic categories with clear implications for management attention. Driver variables including top management support, strategic business alignment, organizational culture, and resource commitment occupy the lower-right quadrant of the driving power-dependence plot. These factors merit primary attention because they influence many other factors while being relatively autonomous. Organizations should ensure these foundational elements are in place before proceeding with upgrade initiatives.
 
-### Level 2: Intermediate Variables
-- User satisfaction
-- System performance
-- Process efficiency
+Linkage variables including technology compatibility, change management capability, user training, and integration planning occupy the upper-right quadrant, characterized by both high driving power and high dependence. These factors are critical for successful upgrades but also vulnerable to disruption from other elements. Careful management of linkage variables requires attention both to their influence on subsequent factors and to the conditions upon which they depend.
 
-### Level 3: Driving Variables
-- Strategic alignment
-- Technology capability
-- Financial viability
+Dependent variables including system performance outcomes, user satisfaction, and business results occupy the upper-left quadrant. These outcome-oriented factors are strongly influenced by other elements in the system but exert limited independent influence. Attempts to directly improve these outcomes without addressing their antecedents are unlikely to succeed.
 
-### Level 4 (Bottom): Foundation Variables
-- Management support
-- Organizational culture
-- Resource availability
+## Implications
 
-## MICMAC Classification Results
+For organizational decision-makers, the hierarchical structure revealed by ISM analysis suggests a sequential approach to IS upgrade planning. Priority should be given to establishing the foundational conditions represented by driver variables. Securing top management commitment, ensuring strategic alignment between IT initiatives and business objectives, fostering an organizational culture supportive of change, and allocating adequate resources create the conditions necessary for successful upgrades.
 
-### Driver Variables (High Driving, Low Dependence)
-- Top management support
-- Strategic business alignment
-- Organizational culture
-- Resource commitment
+With foundational elements in place, attention can turn to linkage variables that translate these conditions into upgrade capabilities. Technology compatibility assessments should evaluate how proposed upgrades interact with existing systems. Change management planning should anticipate user concerns and prepare the organization for transition. Training programs should equip staff with the skills needed to utilize upgraded systems effectively. Integration planning should ensure seamless connections with related systems and processes.
 
-**Implications**: These require primary attention as they influence many other factors
+The dependent nature of outcome variables suggests that organizations should set realistic expectations about the timing and magnitude of benefits from IS upgrades. Improved system performance, enhanced user satisfaction, and business value creation emerge from effective management of the factors upon which they depend. Attempts to achieve these outcomes through direct intervention—without addressing underlying drivers and linkage variables—are unlikely to produce sustainable results.
 
-### Linkage Variables (High Driving, High Dependence)
-- Technology compatibility
-- Change management
-- User training
-- Integration planning
-
-**Implications**: These are critical but also influenced by other factors; require careful management
-
-### Dependent Variables (Low Driving, High Dependence)
-- System performance
-- User satisfaction
-- Business outcomes
-
-**Implications**: These are outcomes rather than drivers; influenced by other factors
-
-### Autonomous Variables (Low Driving, Low Dependence)
-- Minimal direct influence
-- Peripheral considerations
-
-**Implications**: Low priority in decision-making
-
-## Strategic Implications
-
-### For Decision Makers
-
-**Priority Actions**
-1. Secure top management commitment
-2. Ensure strategic alignment
-3. Build organizational readiness
-4. Allocate adequate resources
-
-**Sequential Approach**
-- Address driver variables first
-- Manage linkage variables carefully
-- Monitor dependent variables
-- De-emphasize autonomous factors
-
-### For Organizations
-
-**Success Factors**
-- Strong leadership support
-- Clear strategic rationale
-- Comprehensive change management
-- Adequate resource allocation
-- Stakeholder engagement
-
-**Risk Mitigation**
-- Phased implementation
-- Pilot testing
-- Continuous monitoring
-- Flexibility and adaptation
-
-## Sustainability Contributions
-
-### Economic Sustainability
-- Long-term cost efficiency
-- Competitive advantage maintenance
-- Revenue optimization
-- Resource utilization
-
-### Organizational Sustainability
-- Capability development
-- Knowledge retention
-- Process improvement
-- Innovation enablement
-
-### Technical Sustainability
-- System longevity
-- Adaptability
-- Scalability
-- Maintainability
+For sustainable business development, the framework emphasizes the importance of building organizational capabilities that support ongoing technology evolution. Rather than treating each upgrade decision as an isolated event, organizations should develop the leadership commitment, cultural orientation, and change management capacity that enable continuous adaptation to technological change.
 
 ## Contributions
 
-### Theoretical
-- ISM application to IS decisions
-- Factor relationship mapping
-- Decision framework development
+This study contributes to both academic understanding and managerial practice in information systems management. Theoretically, the research demonstrates the value of structural modeling approaches for understanding complex organizational decisions, extending ISM and MICMAC methodologies to the IS upgrade context. Empirically, the study identifies specific factors relevant to upgrade decisions and maps their interrelationships, providing a foundation for future research. Practically, the hierarchical framework and factor classification offer actionable guidance for organizations facing IS upgrade decisions, helping prioritize management attention and sequence improvement efforts.
 
-### Methodological
-- Systematic analysis approach
-- Expert knowledge utilization
-- Hierarchical structure revelation
+## Publication Statistics
 
-### Practical
-- Decision support framework
-- Priority identification
-- Risk management guidance
-
-## Limitations
-
-- Expert judgment dependency
-- Static analysis
-- Context specificity
-- Binary relationship assumptions
-
-## Future Research Directions
-
-- Quantitative validation studies
-- Dynamic modeling approaches
-- Industry-specific analyses
-- Longitudinal impact studies
-- Cross-cultural comparisons
-
-## Publication Details
-
-**Journal**: Sustainability  
-**Impact Factor**: 3.9 (Q2)  
-**Citations**: 18  
-**DOI**: 10.3390/su10030872  
-**Open Access**: Yes
+| Metric | Value |
+|--------|-------|
+| Decision Factors Analyzed | Technical, Organizational, Financial, External |
+| Methodology | ISM + MICMAC Analysis |
+| Expert Panel | IS professionals and technology managers |
+| Factor Categories | Driver, Linkage, Dependent, Autonomous |
+| Key Drivers | Top management support, Strategic alignment, Culture, Resources |
+| Citations | 19 |
+| Journal Impact Factor | 3.9 |
+| Journal Ranking | Q2 (SSCI) |

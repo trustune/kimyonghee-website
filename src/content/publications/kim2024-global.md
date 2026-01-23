@@ -22,142 +22,66 @@ software_used: ["Stata", "R"]
 related_projects: []
 ---
 
-## Research Overview
+## Research Background
 
-This study examines how countries' positions in global financial networks and their ICT development levels influence their intellectual property protection strategies, using advanced econometric techniques on cross-country panel data.
+The global economy has become increasingly interconnected through flows of capital, technology, and knowledge across national borders. Countries' positions within these interconnected networks influence their economic development trajectories, technological capabilities, and policy choices. Understanding how network position shapes national strategies—particularly in domains critical to innovation and economic competitiveness—has become essential for both scholars and policymakers navigating the complexities of globalization.
 
-## Research Questions
+Intellectual property protection represents one such critical policy domain. Countries face strategic choices about the stringency of IP protection, the breadth of coverage, and the vigor of enforcement. These choices carry significant implications for domestic innovation incentives, foreign investment attraction, technology transfer, and access to global markets. Yet the factors that drive countries' IP strategy choices remain incompletely understood, particularly regarding the role of global network positions.
 
-1. How does financial investment connectedness affect IP strategies?
-2. What role does ICT development play in IP policy choices?
-3. Are there indirect effects through ICT-finance interactions?
+This study addresses this gap by investigating how countries' positions in global financial investment networks—combined with their levels of ICT development—influence intellectual property protection strategies. By analyzing longitudinal country-level data using panel logit models, the research reveals how network position and technological capability jointly shape IP policy choices, contributing to understanding of both international economic integration and innovation policy.
 
 ## Theoretical Framework
 
-### Financial Investment Networks
-- **Centrality**: Position in global investment flows
-- **Connectivity**: Number and strength of investment ties
-- **Network Effects**: Spillovers and peer influence
-- **Capital Access**: Funding for innovation
+The theoretical framework integrates insights from network economics, innovation studies, and international political economy to explain how global financial connectedness and ICT development influence IP strategies. Network theory suggests that a country's position in global investment flows affects its access to resources, information, and opportunities, while also exposing it to pressures and expectations from network partners.
 
-### ICT Development
-- **Infrastructure**: Network coverage and quality
-- **Adoption**: Usage rates and digital skills
-- **Innovation**: Technology creation and diffusion
-- **Economic Impact**: Productivity and growth
+Countries occupying central positions in financial investment networks—characterized by numerous and strong investment ties with diverse partners—experience particular pressures regarding IP protection. Foreign investors typically seek legal certainty and protection for their intellectual assets, creating demand for robust IP regimes in recipient countries. Simultaneously, central network positions provide access to international capital that can fund innovation activities, increasing domestic demand for IP protection from innovating firms.
 
-### IP Strategy Choices
-- **Protection Level**: Strength of IP rights
-- **Enforcement**: Implementation effectiveness
-- **Policy Mix**: Patents, copyrights, trademarks
-- **International Alignment**: Treaty participation
+ICT development serves as both an independent influence on IP strategy and a potential mediator of network effects. Higher ICT development enables more sophisticated innovation activities that generate intellectual property requiring protection. It also facilitates participation in global digital markets where IP protection is essential for commercial success. Furthermore, ICT infrastructure enables more effective IP administration and enforcement, making stronger IP protection more feasible to implement.
+
+The interaction between financial connectedness and ICT development may produce synergistic effects on IP strategies. Countries that combine central network positions with strong ICT capabilities may face especially strong pressures and incentives for IP protection, as both foreign investor demands and domestic innovation activities push toward stronger IP regimes.
 
 ## Methodology
 
-### Data and Sample
-- **Countries**: Cross-national panel dataset
-- **Time Period**: Multi-year observations
-- **Variables**: Financial, ICT, IP indicators
-- **Sources**: World Bank, WIPO, ITU, OECD
+The study employed panel data analysis of country-level observations spanning multiple years, drawing on data from international organizations including the World Bank, World Intellectual Property Organization, International Telecommunication Union, and OECD. The sample encompassed a broad range of countries at different development levels to ensure adequate variation in key variables and enhance generalizability of findings.
 
-### Analytical Approach
-- **Panel Logit Model**: Binary IP strategy choices
-- **Network Analysis**: Financial connectedness measures
-- **Mediation Analysis**: ICT as mediator
-- **Robustness Checks**: Alternative specifications
+Financial investment connectedness was measured using network centrality metrics derived from bilateral investment flow data. These measures captured countries' positions in the global investment network, including the number of investment partners, the volume of investment flows, and the country's role as a hub or bridge in the network structure. Multiple centrality measures were employed to ensure robustness of findings across different conceptualizations of network position.
+
+ICT development was operationalized through composite indicators reflecting infrastructure deployment, technology adoption, and digital skills. These indicators captured multiple dimensions of ICT capability relevant to innovation and IP policy, including network coverage, internet penetration, and digital literacy rates.
+
+Intellectual property strategy was measured through indicators of IP protection stringency, including treaty participation, legislative provisions, and enforcement effectiveness. These measures captured both de jure protection levels established in law and de facto protection reflected in implementation practices.
+
+The panel logit model accommodated the binary nature of certain IP strategy indicators while enabling analysis of longitudinal variation within and across countries. The model specification included country and time fixed effects to control for unobserved heterogeneity and common time trends. Mediation analysis examined whether ICT development channeled some of the effects of financial connectedness on IP strategies. Robustness checks employed alternative variable specifications, sample restrictions, and estimation approaches to assess sensitivity of findings.
 
 ## Key Findings
 
-### 1. Direct Effects of Financial Connectedness
+The analysis revealed that countries' positions in global financial investment networks significantly influence their intellectual property strategies. Countries with higher financial centrality—more numerous and stronger investment ties with diverse partners—demonstrate higher probability of adopting stronger IP protection regimes. This finding holds across multiple measures of network position and IP protection, suggesting a robust relationship between global financial integration and IP policy choices.
 
-**Positive Impact on IP Protection**
-- Countries with higher financial centrality adopt stronger IP protection
-- Investment network position predicts IP policy stringency
-- Effect robust across different network measures
+The mechanisms underlying this relationship reflect both demand and supply factors. On the demand side, foreign investors seeking to protect intellectual assets in destination countries create pressure for robust IP regimes. Countries that fail to provide adequate IP protection may find themselves disadvantaged in attracting foreign investment, particularly in knowledge-intensive sectors where intellectual property represents a significant portion of firm value. On the supply side, countries with central network positions have greater access to international capital that can fund domestic innovation, creating indigenous demand for IP protection from local innovating firms.
 
-**Mechanisms**
-- Access to international capital requires credible IP protection
-- Foreign investors demand legal certainty and enforcement
-- Network position creates pressure for policy convergence
+ICT development showed significant independent effects on IP strategies, with higher ICT levels associated with stronger IP protection. This relationship reflects the innovation-enabling role of ICT infrastructure: countries with better digital capabilities can support more sophisticated innovation activities that generate protectable intellectual property. Additionally, ICT infrastructure enables more effective IP system administration, making stronger protection regimes more feasible to implement and enforce.
 
-### 2. ICT Development Effects
+The mediation analysis revealed that ICT development partially mediates the relationship between financial connectedness and IP strategies. Countries that attract foreign investment often experience improvements in ICT infrastructure through technology transfer and spillover effects, which in turn create conditions favoring stronger IP protection. This indirect pathway complements the direct effect of financial centrality on IP strategies.
 
-**Independent Influence**
-- Higher ICT development correlates with stronger IP protection
-- Digital economy requires robust IP frameworks
-- Technology diffusion enhances IP enforcement capability
+Interaction effects between financial connectedness and ICT development showed that the combined effect exceeds the sum of individual effects. Countries combining high financial centrality with strong ICT capabilities demonstrate especially high probabilities of strong IP protection, suggesting synergistic dynamics where financial integration and technological capability reinforce each other's influence on IP policy.
 
-**Mediating Role**
-- ICT partially mediates finance-IP relationship
-- Digital infrastructure enables IP system modernization
-- Technology adoption facilitates IP management
+## Implications
 
-### 3. Interaction Effects
+For developing countries seeking to strengthen their innovation ecosystems, the findings highlight the interconnected nature of financial integration, ICT development, and IP policy. Rather than viewing these as separate policy domains, governments should recognize their mutual reinforcement and pursue coordinated strategies. Efforts to attract foreign investment should be complemented by ICT infrastructure development and IP system strengthening, as progress in each domain supports advancement in others.
 
-**Financial-ICT Synergy**
-- Combined effects exceed individual impacts
-- ICT amplifies financial network influences
-- Digital connectivity enhances investment-IP linkages
+For developed countries and international organizations, the findings suggest opportunities to support IP system development in partner countries through investment relationships and ICT capacity building. Technical assistance programs that combine financial integration support with ICT development and IP system modernization may prove more effective than isolated interventions in any single domain.
 
-**Differential Impacts by Development Level**
-- Stronger effects in middle-income countries
-- Heterogeneous responses across regions
-- Path-dependent policy adoption patterns
+For scholars of innovation policy and international economics, the research demonstrates the value of network perspectives for understanding national policy choices. Countries' positions in global networks shape the pressures, incentives, and capabilities they face, influencing policy choices in ways that cannot be fully explained by domestic factors alone. Future research should continue exploring how network position interacts with domestic conditions to shape policy outcomes across various domains.
 
-## Policy Implications
+## Publication Statistics
 
-### For Developing Countries
-- Strengthen financial market integration
-- Invest in ICT infrastructure
-- Align IP policies with international standards
-- Build enforcement capacity
-
-### For Developed Countries
-- Maintain leadership in financial networks
-- Continue ICT innovation
-- Support international IP cooperation
-- Balance protection with access
-
-### For International Organizations
-- Facilitate financial market integration
-- Support ICT development programs
-- Promote IP system harmonization
-- Provide technical assistance
-
-## Contributions
-
-### Theoretical
-- Network theory application to IP policy
-- ICT-finance-IP nexus conceptualization
-- Multi-level institutional analysis
-
-### Empirical
-- Novel network-based measures
-- Comprehensive cross-country evidence
-- Advanced econometric identification
-
-### Policy
-- Evidence-based strategy recommendations
-- Integration of multiple policy domains
-- Context-specific guidance
-
-## Limitations and Future Research
-
-### Current Limitations
-- Data availability constraints
-- Causality identification challenges
-- Measurement issues
-
-### Future Directions
-- Firm-level analysis
-- Technology-specific IP strategies
-- Dynamic network effects
-- Regional comparative studies
-
-## Publication Details
-
-**Journal**: Sustainability  
-**Impact Factor**: 3.9 (Q2)  
-**Citations**: 1  
-**DOI**: 10.3390/su16083282  
-**Open Access**: Yes
+| Metric | Value |
+|--------|-------|
+| Sample | Cross-national panel dataset |
+| Time Period | Multi-year longitudinal data |
+| Data Sources | World Bank, WIPO, ITU, OECD |
+| Analysis Method | Panel Logit Model |
+| Key Variables | Financial centrality, ICT development, IP protection |
+| Mediator | ICT development |
+| Citations | 1 |
+| Journal Impact Factor | 3.9 |
+| Journal Ranking | Q2 (SSCI) |
