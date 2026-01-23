@@ -91,13 +91,30 @@ const currentPath = Astro.url.pathname;
         --color-bg-secondary: #fafafa;
         --color-accent: #1e40af;
 
-        /* Layout */
-        --max-width: 720px;
+        /* Layout - Responsive max-width */
+        --max-width: min(720px, 90vw);
+        --max-width-wide: min(960px, 90vw);
+
+        /* Responsive Typography with clamp() */
+        --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+        --font-size-sm: clamp(0.875rem, 0.85rem + 0.15vw, 0.95rem);
+        --font-size-lg: clamp(1.125rem, 1rem + 0.35vw, 1.25rem);
+        --font-size-h1: clamp(1.75rem, 1.5rem + 1.25vw, 2.5rem);
+        --font-size-h2: clamp(1.375rem, 1.2rem + 0.75vw, 1.75rem);
+        --font-size-h3: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+        --font-size-h4: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+
+        /* Spacing */
+        --space-xs: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+        --space-sm: clamp(0.75rem, 0.6rem + 0.75vw, 1rem);
+        --space-md: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+        --space-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+        --space-xl: clamp(2rem, 1.5rem + 2vw, 3rem);
       }
 
       html {
         font-family: var(--font-primary);
-        font-size: 18px;
+        font-size: var(--font-size-base);
         line-height: 1.8;
         color: var(--color-text);
         background: var(--color-bg);
@@ -126,22 +143,22 @@ const currentPath = Astro.url.pathname;
       }
 
       h1 {
-        font-size: 2.5rem;
+        font-size: var(--font-size-h1);
       }
       h2 {
-        font-size: 1.75rem;
+        font-size: var(--font-size-h2);
       }
       h3 {
-        font-size: 1.5rem;
+        font-size: var(--font-size-h3);
       }
       h4 {
-        font-size: 1.25rem;
+        font-size: var(--font-size-h4);
       }
       h5 {
-        font-size: 1.125rem;
+        font-size: var(--font-size-lg);
       }
       h6 {
-        font-size: 1rem;
+        font-size: var(--font-size-base);
       }
 
       p {
@@ -238,7 +255,7 @@ const currentPath = Astro.url.pathname;
 
     <style>
       .site-header {
-        padding: 2rem 0 1.5rem;
+        padding: var(--space-lg) 0 var(--space-md);
         background: transparent;
         position: static;
         border-bottom: 1px solid var(--color-border);
@@ -247,7 +264,7 @@ const currentPath = Astro.url.pathname;
       .container {
         max-width: var(--max-width);
         margin: 0 auto;
-        padding: 0 2rem;
+        padding: 0 var(--space-md);
       }
 
       .nav {
@@ -322,15 +339,15 @@ const currentPath = Astro.url.pathname;
       .site-main {
         flex: 1;
         width: 100%;
-        padding: 3rem 0;
+        padding: var(--space-xl) 0;
       }
 
       .site-footer {
         border-top: 1px solid var(--color-border);
-        padding: 2rem 0;
-        margin-top: 4rem;
+        padding: var(--space-lg) 0;
+        margin-top: var(--space-xl);
         background: transparent;
-        font-size: 0.9rem;
+        font-size: var(--font-size-sm);
       }
 
       .footer-content {
@@ -357,30 +374,19 @@ const currentPath = Astro.url.pathname;
         opacity: 0.7;
       }
 
-      /* Tablet & Mobile Responsive */
-      @media (max-width: 1024px) {
-        .container {
-          padding: 0 1.5rem;
-        }
-
+      /* Tablet - Adjust navigation */
+      @media (max-width: 900px) {
         .nav-links {
-          gap: 1.25rem;
+          gap: 1rem;
         }
 
         .nav-links a {
-          font-size: 0.85rem;
+          font-size: var(--font-size-sm);
         }
       }
 
+      /* Mobile - Show hamburger menu */
       @media (max-width: 768px) {
-        .container {
-          padding: 0 1rem;
-        }
-
-        .site-header {
-          padding: 1rem 0;
-        }
-
         /* Show mobile menu toggle */
         .mobile-menu-toggle {
           display: flex;
@@ -391,12 +397,12 @@ const currentPath = Astro.url.pathname;
           position: fixed;
           top: 0;
           right: -100%;
-          width: 280px;
+          width: min(280px, 85vw);
           height: 100vh;
           background: var(--color-bg);
           flex-direction: column;
           gap: 0;
-          padding: 5rem 2rem 2rem;
+          padding: 5rem var(--space-lg) var(--space-lg);
           box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
           transition: right 0.3s ease;
           z-index: 101;
@@ -409,32 +415,16 @@ const currentPath = Astro.url.pathname;
 
         .nav-links a {
           width: 100%;
-          padding: 1rem 0;
+          padding: var(--space-sm) 0;
           border-bottom: 1px solid var(--color-border);
-          font-size: 1rem;
+          font-size: var(--font-size-base);
         }
 
         .nav-links a:hover,
         .nav-links a.active {
           border-bottom-color: var(--color-accent);
           background: rgba(30, 64, 175, 0.05);
-          padding-left: 1rem;
-        }
-
-        .footer-content {
-          grid-template-columns: 1fr;
-          gap: 2rem;
-        }
-      }
-
-      @media (max-width: 640px) {
-        .container {
-          padding: 0 0.75rem;
-        }
-
-        .nav-links {
-          width: 100%;
-          right: -100%;
+          padding-left: var(--space-sm);
         }
       }
     </style>
