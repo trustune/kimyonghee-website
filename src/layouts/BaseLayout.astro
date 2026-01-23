@@ -143,27 +143,28 @@ const currentPath = Astro.url.pathname;
       }
 
       :root {
-        /* Paper Design System Colors */
-        --color-primary: #57534e; /* Warm Gray 600 - was #1e40af */
-        --color-secondary: #78716c; /* Warm Gray 500 - was #7c3aed */
-        --color-accent: #ea580c; /* Burnt Orange - was #2563eb */
-        --color-text: #292524; /* Warm Gray 800 - was #1f2937 */
-        --color-text-light: #57534e; /* Warm Gray 600 - was #6b7280 */
-        --color-border: #e7e5e4; /* Warm Gray 200 - was #e5e7eb */
-        --color-bg: #fafaf9; /* Warm Gray 50 (Paper White) - was #ffffff */
+        /* Academic Monochrome Palette */
+        --color-text: #1a1a1a;
+        --color-text-secondary: #4a4a4a;
+        --color-link: #2c5282;
+        --color-link-hover: #1a365d;
+        --color-border: #e0e0e0;
+        --color-bg: #fefefe;
+        --color-bg-secondary: #f8f8f8;
 
-        /* Spacing & Layout */
-        --header-height: 80px;
+        /* Layout */
+        --max-width: 720px;
+        --header-height: auto;
       }
 
       html {
-        font-family: "Paperozi", "Inter", sans-serif;
-        font-size: 16px;
-        line-height: 1.7; /* Increased line-height for paper feel */
+        font-family: "Merriweather", "Georgia", serif;
+        font-size: 18px;
+        line-height: 1.8;
         color: var(--color-text);
         background: var(--color-bg);
         scroll-behavior: smooth;
-        -webkit-font-smoothing: antialiased; /* Better font rendering */
+        -webkit-font-smoothing: antialiased;
       }
 
       body {
@@ -178,33 +179,60 @@ const currentPath = Astro.url.pathname;
       h4,
       h5,
       h6 {
-        font-family: "Paperozi", "Merriweather", serif;
-        font-weight: 600; /* Slightly bolder for hierarchy */
+        font-family: "Merriweather", "Georgia", serif;
+        font-weight: 700;
         line-height: 1.3;
-        letter-spacing: -0.02em; /* Tighter letter spacing for headings */
+        color: var(--color-text);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+      h2 {
+        font-size: 2rem;
+      }
+      h3 {
+        font-size: 1.5rem;
+      }
+      h4 {
+        font-size: 1.25rem;
+      }
+      h5 {
+        font-size: 1.125rem;
+      }
+      h6 {
+        font-size: 1rem;
+      }
+
+      p {
+        margin-bottom: 1.5rem;
       }
 
       a {
-        color: inherit;
+        color: var(--color-link);
+        text-decoration: underline;
         text-decoration-color: var(--color-border);
-        text-decoration-thickness: 1px;
-        text-underline-offset: 4px;
-        transition: all 0.2s ease;
+        text-underline-offset: 3px;
+        transition: color 0.2s ease;
       }
 
       a:hover {
-        color: var(--color-accent);
-        text-decoration-color: var(--color-accent);
+        color: var(--color-link-hover);
+        text-decoration-color: var(--color-link-hover);
       }
 
-      /* Dark mode styles - Warm Dark */
+      /* Dark mode - minimal changes for readability */
       .dark {
-        --color-text: #f5f5f4; /* Warm Gray 100 */
-        --color-text-light: #a8a29e; /* Warm Gray 400 */
-        --color-border: #44403c; /* Warm Gray 700 */
-        --color-bg: #1c1917; /* Warm Gray 900 (Warm Black) */
+        --color-text: #e8e8e8;
+        --color-text-secondary: #b8b8b8;
+        --color-link: #6b9bd1;
+        --color-link-hover: #9ec5f0;
+        --color-border: #3a3a3a;
+        --color-bg: #1a1a1a;
+        --color-bg-secondary: #242424;
       }
-
       .dark body {
         background: #111827;
         color: #f3f4f6;
@@ -329,65 +357,36 @@ const currentPath = Astro.url.pathname;
     <footer class="site-footer">
       <div class="container">
         <div class="footer-content">
-          <div class="footer-section">
-            <h3>Contact</h3>
-            <p>Sunmoon University</p>
-            <p>
-              Email: <a href="mailto:yhkim1981@sunmoon.ac.kr"
-                >yhkim1981@sunmoon.ac.kr</a
-              >
-            </p>
-          </div>
-          <div class="footer-section">
-            <h3>Links</h3>
-            <ul>
-              <li><a href="https://github.com/yhkim1981-svg">GitHub</a></li>
-              <li><a href="https://scholar.google.com">Google Scholar</a></li>
-              <li>
-                <a href="https://bsky.app/profile/hastara.bsky.social"
-                  >Bluesky</a
-                >
-              </li>
-              <li>
-                <a href="https://www.facebook.com/profile.php?id=61583103077881"
-                  >Facebook</a
-                >
-              </li>
-              <li><a href="/rss.xml" title="Blog RSS feed">RSS</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <p>&copy; 2025 Yonghee Kim. All rights reserved.</p>
-            <p class="built-with">Built with Astro | Deployed on Nginx</p>
-          </div>
+          <p>
+            Yonghee Kim · Associate Professor · Sunmoon University<br />
+            <a href="mailto:yhkim1981@sunmoon.ac.kr">yhkim1981@sunmoon.ac.kr</a>
+          </p>
+          <p class="footer-links">
+            <a href="https://github.com/yhkim1981-svg">GitHub</a> ·
+            <a href="https://scholar.google.com">Google Scholar</a> ·
+            <a href="https://bsky.app/profile/hastara.bsky.social">Bluesky</a> ·
+            <a href="/rss.xml">RSS</a>
+          </p>
+          <p class="footer-note">© 2025 · Built with Astro</p>
         </div>
       </div>
     </footer>
 
     <style>
       .site-header {
-        /* Removed border for cleaner look */
-        padding: 1.5rem 0;
-        background: rgba(
-          250,
-          250,
-          249,
-          0.85
-        ); /* Semi-transparent paper white */
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        position: sticky;
-        top: 0;
-        z-index: 100;
+        padding: 2rem 0 1.5rem;
+        background: transparent;
+        position: static;
+        border-bottom: 1px solid var(--color-border);
       }
 
       .dark .site-header {
-        background: rgba(28, 25, 23, 0.85); /* Semi-transparent warm dark */
-        border-color: transparent !important;
+        background: transparent;
+        border-color: var(--color-border);
       }
 
       .container {
-        max-width: 1200px;
+        max-width: var(--max-width);
         margin: 0 auto;
         padding: 0 2rem;
       }
@@ -400,13 +399,12 @@ const currentPath = Astro.url.pathname;
       }
 
       .logo {
-        font-family: "Paperozi", "Merriweather", serif;
-        font-size: 1.5rem; /* Larger logo */
-        font-weight: 800;
+        font-family: "Merriweather", "Georgia", serif;
+        font-size: 1.25rem;
+        font-weight: 700;
         text-decoration: none;
-        color: var(--color-text); /* Link color matches text */
+        color: var(--color-text);
         z-index: 102;
-        letter-spacing: -0.03em;
       }
 
       /* Mobile Menu Toggle */
@@ -443,27 +441,23 @@ const currentPath = Astro.url.pathname;
       /* Navigation Links */
       .nav-links {
         display: flex;
-        gap: 2.5rem; /* Increased gap */
+        gap: 2rem;
         align-items: center;
       }
 
       .nav-links a {
         text-decoration: none;
-        font-size: 0.95rem; /* Slightly larger */
-        font-weight: 500;
-        text-transform: none; /* Removed uppercase */
-        letter-spacing: normal;
-        color: var(--color-text-light);
-        padding: 0.5rem 0;
-        border-bottom: 2px solid transparent;
-        transition: all 0.2s;
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--color-text-secondary);
+        padding: 0.25rem 0;
+        transition: color 0.2s;
         white-space: nowrap;
       }
 
       .nav-links a:hover,
       .nav-links a.active {
         color: var(--color-text);
-        border-bottom-color: var(--color-accent);
       }
 
       .nav-controls {
@@ -475,63 +469,44 @@ const currentPath = Astro.url.pathname;
       .site-main {
         flex: 1;
         width: 100%;
+        padding: 3rem 0;
       }
 
       .site-footer {
         border-top: 1px solid var(--color-border);
-        padding: 4rem 0 2rem; /* More padding */
-        margin-top: 8rem; /* More separation */
-        background: transparent; /* Seamless footer */
+        padding: 2rem 0;
+        margin-top: 4rem;
+        background: transparent;
+        font-size: 0.9rem;
       }
 
       .dark .site-footer {
-        background: transparent !important;
+        background: transparent;
         border-color: var(--color-border);
       }
 
       .footer-content {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 3rem;
+        text-align: center;
+        color: var(--color-text-secondary);
       }
 
-      .footer-section h3 {
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 1rem;
-        color: var(--color-text);
+      .footer-content p {
+        margin-bottom: 0.75rem;
       }
 
-      .footer-section p,
-      .footer-section ul {
-        font-size: 0.875rem;
-        color: var(--color-text-light);
-        line-height: 1.8;
-      }
-
-      .footer-section ul {
-        list-style: none;
-      }
-
-      .footer-section ul li {
-        margin-bottom: 0.5rem;
-      }
-
-      .footer-section a {
+      .footer-links a {
+        color: var(--color-text-secondary);
         text-decoration: none;
-        color: var(--color-text-light);
+        margin: 0 0.5rem;
       }
 
-      .footer-section a:hover {
-        color: var(--color-accent);
+      .footer-links a:hover {
+        color: var(--color-link);
       }
 
-      .built-with {
-        font-size: 0.75rem;
-        color: #9ca3af;
-        margin-top: 0.5rem;
-        opacity: 0.6;
+      .footer-note {
+        font-size: 0.85rem;
+        opacity: 0.7;
       }
 
       /* Tablet & Mobile Responsive */
