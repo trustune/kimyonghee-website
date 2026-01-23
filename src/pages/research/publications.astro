@@ -19,7 +19,7 @@ const domesticPublications = publicationsData.domestic_publications || [];
 
 // Convert markdown publications to JSON format
 const publications = allPublications.map(pub => ({
-  id: pub.slug,
+  id: pub.id,
   ...pub.data,
 }));
 
