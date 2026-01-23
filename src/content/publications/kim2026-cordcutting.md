@@ -52,3 +52,15 @@ The results also highlight that the attractiveness of alternatives—driven by O
 This study offers theoretical contributions by enabling integration between the PPM framework and established models such as the IS Success Model and Expectation Disconfirmation Theory. By positioning dissatisfaction and alternative attractiveness as mediators rather than parallel predictors, the refined model enhances the applicability of the PPM framework in the context of media and technology-based services.
 
 For practitioners, the findings suggest that traditional pay-TV providers should focus on improving service quality and perceived value rather than relying solely on financial barriers to retain subscribers. The significant role of procedural switching costs indicates that simplifying the user experience and maintaining habitual viewing patterns may be more effective retention strategies than contract-based lock-ins. For OTT platforms, the results underscore the importance of reducing perceived switching barriers and communicating the superior value proposition of streaming services to attract cord-cutters.
+
+## Publication Statistics
+
+| Metric | Value |
+|--------|-------|
+| Sample | U.S. pay-TV and OTT users |
+| Analysis Method | Structural Equation Modeling |
+| Framework | Push-Pull-Mooring (PPM) |
+| Key Variables | System quality, Content quality, Price value, Switching costs |
+| Mediators | Dissatisfaction, Attractiveness of alternatives |
+| Journal Impact Factor | 13.1 |
+| Journal Ranking | Q1 (SSCI) |

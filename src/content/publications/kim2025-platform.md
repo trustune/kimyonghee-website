@@ -61,3 +61,19 @@ Our simulations indicate that a 60% fee cap would affect 25 firms (24% of the ma
 This study makes three primary contributions to the literature on platform economics and competition policy. Theoretically, we introduce the concept of asymmetric market evolution and demonstrate its relevance for understanding platform power dynamics. Empirically, we provide the first comprehensive quantitative analysis of how divergent concentration trajectories affect platform fees and supplier outcomes. For policy, we offer a practical regulatory framework—the Asymmetry Ratio—that can guide competition authorities in identifying markets where novel interventions may be required.
 
 Our findings demonstrate that asymmetric market evolution creates new sources of platform power that may not be adequately addressed by traditional competition policy tools focused on horizontal concentration alone. As platform markets continue to evolve globally, regulatory frameworks must adapt to account for these more complex competitive dynamics.
+
+## Publication Statistics
+
+| Metric | Value |
+|--------|-------|
+| Sample Size | 11-12 Korean home shopping firms |
+| Time Period | 2015-2023 (9 years) |
+| Observations | 104 firm-year |
+| Platform HHI Change | 1390 → 2154 |
+| Content HHI Change | 1797 → 1118 |
+| Fee Variation Explained | 94.4% |
+| Fee Thresholds | 62.2% (p=0.012), 73% (p=0.002) |
+| IV/OLS Ratio | 2.6× (0.473 vs 0.184) |
+| Analysis Methods | Hansen Threshold Regression, IV, Panel FE |
+| Journal Impact Factor | 3.9 |
+| Journal Ranking | Q2 (SSCI) |
