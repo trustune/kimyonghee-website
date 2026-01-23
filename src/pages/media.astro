@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import StatItem from '../components/StatItem.astro';
 import media from '../data/media.json';
 
 const opinionArticles = media.articles.filter(a => a.type === 'opinion');
@@ -11,48 +10,27 @@ const editorialArticles = media.articles.filter(a => a.type === 'editorial');
 <BaseLayout title="Media" description="Expert opinion pieces and editorials on media policy, OTT, and AI regulation">
   <div class="media-page">
     <header class="page-header">
-      <h1 data-lang="en">Media</h1>
-      <h1 data-lang="ko">미디어 기고</h1>
-      <p class="page-description" data-lang="en">
+      <h1>Media</h1>
+      <p class="page-description">
         Expert opinion pieces and editorials on media policy, OTT, and AI regulation, primarily published in The Electronic Times.
       </p>
-      <p class="page-description" data-lang="ko">
-        미디어 정책, OTT, AI 규제에 관한 전문가 칼럼 및 시론, 주로 전자신문에 게재.
-      </p>
       <div class="stats">
-        <div class="stat-wrapper">
-          <StatItem
-            value={opinionArticles.length}
-            label="Opinion Pieces"
-            align="left"
-            data-lang="en"
-          />
-          <span data-lang="ko" style="text-align: left;">
-            <div style="font-size: 2rem; font-weight: 600; color: #1e40af;">{opinionArticles.length}</div>
-            <div style="font-size: 0.875rem; color: #6b7280;">전문가 칼럼</div>
-          </span>
+        <div class="stat-item">
+          <span class="stat-number">{opinionArticles.length}</span>
+          <span class="stat-label">Opinion Pieces</span>
         </div>
-        <div class="stat-wrapper">
-          <StatItem
-            value={editorialArticles.length}
-            label="Editorials"
-            align="left"
-            data-lang="en"
-          />
-          <span data-lang="ko" style="text-align: left;">
-            <div style="font-size: 2rem; font-weight: 600; color: #1e40af;">{editorialArticles.length}</div>
-            <div style="font-size: 0.875rem; color: #6b7280;">시론</div>
-          </span>
+        <div class="stat-item">
+          <span class="stat-number">{editorialArticles.length}</span>
+          <span class="stat-label">Editorials</span>
         </div>
       </div>
     </header>
 
     {opinionArticles.length > 0 && (
       <section class="media-section">
-        <h2 class="section-title" data-lang="en">Expert Opinion Pieces</h2>
-        <h2 class="section-title" data-lang="ko">전문가 칼럼</h2>
+        <h2 class="section-title">Expert Opinion Pieces</h2>
         <div class="article-list">
-          {opinionArticles.sort((a, b) => new Date(b.date) - new Date(a.date)).map(article => (
+          {opinionArticles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map(article => (
             <ArticleCard article={article} variant="full" />
           ))}
         </div>
@@ -61,10 +39,9 @@ const editorialArticles = media.articles.filter(a => a.type === 'editorial');
 
     {editorialArticles.length > 0 && (
       <section class="media-section">
-        <h2 class="section-title" data-lang="en">Editorials</h2>
-        <h2 class="section-title" data-lang="ko">시론</h2>
+        <h2 class="section-title">Editorials</h2>
         <div class="article-list">
-          {editorialArticles.sort((a, b) => new Date(b.date) - new Date(a.date)).map(article => (
+          {editorialArticles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map(article => (
             <ArticleCard article={article} variant="full" />
           ))}
         </div>
@@ -75,68 +52,86 @@ const editorialArticles = media.articles.filter(a => a.type === 'editorial');
 
 <style>
   .media-page {
-    max-width: 1200px;
+    max-width: var(--max-width);
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 0 2rem;
   }
 
   .page-header {
-    margin-bottom: 4rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid #1e40af;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .page-header h1 {
-    font-family: 'Paperozi', 'Merriweather', serif;
-    font-size: 3rem;
-    color: #1e40af;
-    margin-bottom: 1rem;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 0.75rem 0;
   }
 
   .page-description {
-    font-size: 1.125rem;
-    color: #6b7280;
-    line-height: 1.7;
-    margin-bottom: 2rem;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0 0 1.5rem 0;
   }
 
   .stats {
     display: flex;
-    gap: 3rem;
-    margin-top: 2rem;
+    gap: 2rem;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
   }
 
   .media-section {
-    margin-bottom: 4rem;
+    margin-bottom: 2.5rem;
   }
 
   .section-title {
-    font-family: 'Paperozi', 'Merriweather', serif;
-    font-size: 1.875rem;
-    color: #1f2937;
-    margin-bottom: 2rem;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 1.5rem 0;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .article-list {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   @media (max-width: 768px) {
     .media-page {
-      padding: 2rem 1rem;
+      padding: 0 1rem;
     }
 
     .page-header h1 {
-      font-size: 2rem;
+      font-size: 1.75rem;
     }
 
     .stats {
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1rem;
     }
   }
 </style>

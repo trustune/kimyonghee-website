@@ -2,28 +2,28 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Collections 가져오기
+// Fetch collections
 const publications = await getCollection('publications');
 const projects = await getCollection('projects');
 const blogPosts = await getCollection('blog');
 
-// Recent publications (최신 3개)
+// Recent publications (latest 3)
 const recentPubs = publications
   .filter(p => p.data.status === 'published')
   .sort((a, b) => b.data.year - a.data.year)
   .slice(0, 3);
 
-// Featured projects (최신 3개)
+// Featured projects (latest 3)
 const featuredProjects = projects
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 3);
 
-// Recent blog posts (최신 3개)
+// Recent blog posts (latest 3)
 const recentPosts = blogPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 3);
 
-// 통계
+// Statistics
 const totalCitations = publications.reduce((sum, pub) => sum + (pub.data.citations || 0), 0);
 const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
 ---
@@ -31,67 +31,45 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
 <BaseLayout title="Home" description="Professor of Business Administration specializing in media policy, digital platforms, and AI governance research">
   <div class="homepage">
     <header class="hero">
-      <h1 class="name">김용희 (YONGHEE KIM)</h1>
-      <p class="subtitle" data-lang="en">Assistant Professor of Business Administration | Media Policy & Digital Platform Research</p>
-      <p class="subtitle" data-lang="ko">경영학 조교수 | 미디어 정책 및 디지털 플랫폼 연구</p>
+      <h1 class="name">Yonghee Kim</h1>
+      <p class="subtitle">Assistant Professor of Business Administration | Media Policy & Digital Platform Research</p>
     </header>
 
     <section class="bio">
-      <p data-lang="en">
+      <p>
         I'm an Assistant Professor at <a href="https://mgt.sunmoon.ac.kr/mgt/ad/pp/profsrintrcnPage.do?profsrSe=A&mi=41267" target="_blank">Sunmoon University</a>, specializing in media policy, digital platform regulation, and AI governance research. My work focuses on Korean broadcasting policy, K-Content IP sovereignty, digital platform governance, and statistical analysis methodologies.
       </p>
-      <p data-lang="ko">
-        저는 <a href="https://mgt.sunmoon.ac.kr/mgt/ad/pp/profsrintrcnPage.do?profsrSe=A&mi=41267" target="_blank">선문대학교</a> 경영학과 조교수로서, 미디어 정책, 디지털 플랫폼 규제, AI 거버넌스 연구를 전문으로 합니다. 한국 방송 정책, K-콘텐츠 IP 주권, 디지털 플랫폼 거버넌스, 통계 분석 방법론에 초점을 맞추고 있습니다.
-      </p>
-      <p data-lang="en">
+      <p>
         My research has been published in leading SSCI journals including <em>Telecommunications Policy</em> (IF 5.6, Q1), <em>Journal of Retailing and Consumer Services</em> (IF 13.1, Q1), and <em>Sustainability</em>. With over {totalCitations} citations, my work on IoT adoption and technology acceptance has become a foundational reference in the field.
       </p>
-      <p data-lang="ko">
-        <em>Telecommunications Policy</em> (IF 5.6, Q1), <em>Journal of Retailing and Consumer Services</em> (IF 13.1, Q1), <em>Sustainability</em> 등 주요 SSCI 저널에 논문을 게재하였으며, {totalCitations}회 이상의 인용 실적을 보유하고 있습니다. IoT 수용과 기술 수용에 관한 연구는 해당 분야의 기초 문헌으로 자리잡았습니다.
-      </p>
-      <p data-lang="en">
+      <p>
         I actively contribute to policy discourse through research presentations at the National Assembly and expert commentary in <a href="https://www.etnews.com/" target="_blank">The Electronic Times</a>. My research emphasizes <strong>reproducible methods</strong> and <strong>open data</strong>, with all code and datasets publicly available for verification and replication.
       </p>
-      <p data-lang="ko">
-        국회 연구 발표와 <a href="https://www.etnews.com/" target="_blank">전자신문</a> 전문가 기고를 통해 정책 담론에 활발히 기여하고 있습니다. <strong>재현 가능한 연구 방법</strong>과 <strong>오픈 데이터</strong>를 강조하며, 모든 코드와 데이터셋을 공개하여 검증과 재현이 가능하도록 하고 있습니다.
-      </p>
-      <p data-lang="en">
+      <p>
         In recognition of my contributions to media policy research, I've received commendations from the Korea Communications Commission and the Ministry of Science and ICT. I also serve as Director of the Daeyeon Industrial Policy Institute and am a cofounder of <a href="https://www.openroute.kr/" target="_blank">OpenRoute</a>.
-      </p>
-      <p data-lang="ko">
-        미디어 정책 연구에 대한 기여를 인정받아 방송통신위원회와 과학기술정보통신부로부터 표창을 받았습니다. 대연산업정책연구소 이사로 활동하며, <a href="https://www.openroute.kr/" target="_blank">오픈루트</a>의 공동 창업자이기도 합니다.
       </p>
     </section>
 
     <section class="section">
       <div class="section-header">
-        <h2 data-lang="en">Code & Data</h2>
-        <h2 data-lang="ko">코드 & 데이터</h2>
-        <a href="https://github.com/trustune" target="_blank" rel="noopener" class="section-link" data-lang="en">View All Repositories →</a>
-        <a href="https://github.com/trustune" target="_blank" rel="noopener" class="section-link" data-lang="ko">모든 저장소 보기 →</a>
+        <h2>Code & Data</h2>
+        <a href="https://github.com/trustune" target="_blank" rel="noopener" class="section-link">View All Repositories →</a>
       </div>
 
       <div class="code-data-list">
         <article class="code-item">
           <a href="https://github.com/trustune/broadcasting-disclosure-db" target="_blank" rel="noopener" class="code-link">
             <div class="code-header">
-              <h3 class="code-title" data-lang="en">Korean Broadcasting Industry Database</h3>
-              <h3 class="code-title" data-lang="ko">한국 방송산업 데이터베이스</h3>
+              <h3 class="code-title">Korean Broadcasting Industry Database</h3>
             </div>
-            <p class="code-description" data-lang="en">
+            <p class="code-description">
               Comprehensive SQLite database (tv_integrated.db) containing 2015-2024 Korean broadcasting industry data.
               Includes revenue, investment, employment, and regulatory data for reproducible media policy research.
             </p>
-            <p class="code-description" data-lang="ko">
-              2015-2024년 한국 방송산업 데이터를 포함하는 종합 SQLite 데이터베이스(tv_integrated.db).
-              재현 가능한 미디어 정책 연구를 위한 매출, 투자, 고용, 규제 데이터를 포함합니다.
-            </p>
             <div class="code-meta">
               <span class="code-tag">SQLite</span>
-              <span class="code-tag" data-lang="en">Panel Data</span>
-              <span class="code-tag" data-lang="ko">패널 데이터</span>
-              <span class="code-tag" data-lang="en">1,500+ observations</span>
-              <span class="code-tag" data-lang="ko">1,500+ 관측치</span>
+              <span class="code-tag">Panel Data</span>
+              <span class="code-tag">1,500+ observations</span>
             </div>
           </a>
         </article>
@@ -99,38 +77,28 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
         <article class="code-item">
           <a href="https://kimyonghee.com/api" class="code-link">
             <div class="code-header">
-              <h3 class="code-title" data-lang="en">Research Data API</h3>
-              <h3 class="code-title" data-lang="ko">연구 데이터 API</h3>
+              <h3 class="code-title">Research Data API</h3>
             </div>
-            <p class="code-description" data-lang="en">
+            <p class="code-description">
               JSON/CSV APIs providing structured access to publications, projects, and research metadata.
               Supports R, Python, and Excel for immediate analysis.
             </p>
-            <p class="code-description" data-lang="ko">
-              논문, 프로젝트, 연구 메타데이터에 구조화된 접근을 제공하는 JSON/CSV API.
-              R, Python, Excel을 지원하여 즉시 분석 가능합니다.
-            </p>
             <div class="code-meta">
               <span class="code-tag">JSON API</span>
-              <span class="code-tag" data-lang="en">CSV Export</span>
-              <span class="code-tag" data-lang="ko">CSV 내보내기</span>
-              <span class="code-tag" data-lang="en">Open Access</span>
-              <span class="code-tag" data-lang="ko">오픈 액세스</span>
+              <span class="code-tag">CSV Export</span>
+              <span class="code-tag">Open Access</span>
             </div>
           </a>
         </article>
-
       </div>
     </section>
 
     <section class="section">
       <div class="section-header">
-        <h2 data-lang="en">Recent Research</h2>
-        <h2 data-lang="ko">최근 연구</h2>
-        <a href="/research/publications" class="section-link" data-lang="en">View All Publications →</a>
-        <a href="/research/publications" class="section-link" data-lang="ko">모든 논문 보기 →</a>
+        <h2>Recent Research</h2>
+        <a href="/research/publications" class="section-link">View All Publications →</a>
       </div>
-      
+
       <div class="publication-list">
         {recentPubs.map(pub => (
           <article class="publication-item">
@@ -163,21 +131,19 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
 
     <section class="section">
       <div class="section-header">
-        <h2 data-lang="en">Featured Projects</h2>
-        <h2 data-lang="ko">주요 프로젝트</h2>
-        <a href="/projects" class="section-link" data-lang="en">View All Projects →</a>
-        <a href="/projects" class="section-link" data-lang="ko">모든 프로젝트 보기 →</a>
+        <h2>Featured Projects</h2>
+        <a href="/projects" class="section-link">View All Projects →</a>
       </div>
-      
+
       <div class="project-list">
         {featuredProjects.map(project => (
           <article class="project-item">
             <a href={`/projects/${project.slug}`} class="project-link">
               <div class="project-header">
-                <h3 class="project-title">{project.data.title}</h3>
+                <h3 class="project-title">{project.data.title_en || project.data.title}</h3>
                 <span class="project-category">{project.data.category}</span>
               </div>
-              <p class="project-description">{project.data.description}</p>
+              <p class="project-description">{project.data.description_en || project.data.description}</p>
               <div class="project-meta">
                 <span class="project-date">{new Date(project.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}</span>
                 {project.data.tags && project.data.tags.length > 0 && (
@@ -196,12 +162,10 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
 
     <section class="section">
       <div class="section-header">
-        <h2 data-lang="en">Latest Blog Posts</h2>
-        <h2 data-lang="ko">최신 블로그</h2>
-        <a href="/blog" class="section-link" data-lang="en">View All Posts →</a>
-        <a href="/blog" class="section-link" data-lang="ko">모든 글 보기 →</a>
+        <h2>Latest Blog Posts</h2>
+        <a href="/blog" class="section-link">View All Posts →</a>
       </div>
-      
+
       <div class="blog-list">
         {recentPosts.map(post => (
           <article class="blog-item">
@@ -221,8 +185,7 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
 
     <section class="section">
       <div class="section-header">
-        <h2 data-lang="en">Connect</h2>
-        <h2 data-lang="ko">연락처</h2>
+        <h2>Connect</h2>
       </div>
 
       <nav class="links">
@@ -248,470 +211,306 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
 </BaseLayout>
 
 <style>
-  .homepage { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
-  
-  .hero { margin-bottom: 4rem; text-align: center; }
-  .name { 
-    font-family: 'Paperozi', 'Merriweather', serif; 
-    font-size: 3rem; 
-    font-weight: 300; 
-    letter-spacing: -0.02em; 
-    color: #1e40af; 
-    margin-bottom: 0.75rem; 
-  }
-  .subtitle { 
-    font-size: 1.25rem; 
-    color: #6b7280; 
-    margin: 0 0 2rem 0; 
-  }
-  
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-    background: #f9fafb;
-    border-radius: 1rem;
-  }
-  
-  .stat-item {
-    text-align: center;
-  }
-  
-  .stat-number {
-    display: block;
+  .homepage { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+
+  .hero { margin-bottom: 3rem; }
+  .name {
+    font-family: var(--font-heading);
     font-size: 2.5rem;
     font-weight: 700;
-    color: #1e40af;
-    line-height: 1;
-    margin-bottom: 0.5rem;
+    color: var(--color-text);
+    margin: 0 0 0.5rem 0;
   }
-  
-  .stat-label {
-    display: block;
-    font-size: 0.875rem;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  
-  .bio {
-    margin-bottom: 4rem;
-    padding-bottom: 3rem;
-    border-bottom: 1px solid #e5e7eb;
+  .subtitle {
     font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .bio {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 1rem;
     line-height: 1.8;
   }
   .bio p {
-    margin-bottom: 1.75rem;
-    text-align: justify;
-    text-justify: inter-word;
+    margin-bottom: 1.5rem;
   }
   .bio p:last-child { margin-bottom: 0; }
   .bio a {
-    color: #2563eb;
+    color: var(--color-link);
     text-decoration: underline;
-    text-underline-offset: 0.25em;
-    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.2em;
   }
-  .bio a:hover { color: #1e40af; }
-  .bio em { font-style: italic; color: #374151; font-weight: 500; }
-  .bio strong { font-weight: 700; color: #1e40af; }
-  
-  .section { 
-    margin-bottom: 4rem; 
-    padding-bottom: 3rem; 
-    border-bottom: 1px solid #e5e7eb; 
+  .bio a:hover { color: var(--color-link-hover); }
+  .bio em { font-style: italic; }
+  .bio strong { font-weight: 600; }
+
+  .section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
   }
-  .section:last-child { border-bottom: none; }
-  
-  .section-header { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: baseline; 
-    margin-bottom: 2rem; 
+  .section:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
   }
-  .section-header h2 { 
-    font-family: 'Paperozi', 'Merriweather', serif; 
-    font-size: 2rem; 
-    font-weight: 400; 
-    margin: 0; 
-    color: #1e40af;
+  .section-header h2 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-text);
   }
-  .section-link { 
-    font-size: 0.875rem; 
-    color: #6b7280; 
-    text-decoration: none; 
-    text-transform: uppercase; 
-    letter-spacing: 0.05em; 
+  .section-link {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
   }
-  .section-link:hover { color: #2563eb; }
-  
+  .section-link:hover { color: var(--color-link); }
+
   /* Code & Data Section */
   .code-data-list {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
-  
+
   .code-link {
     text-decoration: none;
     display: block;
-    padding: 1.5rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.75rem;
-    transition: all 0.2s;
-    background: white;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    transition: border-color 0.2s;
+    background: var(--color-bg);
   }
-  
+
   .code-link:hover {
-    border-color: #2563eb;
-    background: #eff6ff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    border-color: var(--color-accent);
   }
-  
+
   .code-header {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
   }
 
   .code-title {
-    font-family: 'Paperozi', 'Inter', sans-serif;
-    font-size: 1.25rem;
+    font-family: var(--font-primary);
+    font-size: 1.125rem;
     font-weight: 600;
-    color: #1f2937;
+    color: var(--color-text);
     line-height: 1.4;
-    border-left: 3px solid #2563eb;
-    padding-left: 1rem;
+    margin: 0;
   }
-  
+
   .code-description {
-    color: #4b5563;
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
     line-height: 1.6;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
-  
+
   .code-meta {
     display: flex;
-    gap: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-  
+
   .code-tag {
-    background: #f3f4f6;
-    color: #4b5563;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
     font-size: 0.75rem;
     font-weight: 500;
   }
-  
+
   /* Publications */
-  .publication-list { display: flex; flex-direction: column; gap: 1.5rem; }
-  .publication-item { }
-  .pub-link { 
-    text-decoration: none; 
+  .publication-list { display: flex; flex-direction: column; gap: 1rem; }
+  .pub-link {
+    text-decoration: none;
     display: block;
-    padding: 1.5rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.75rem;
-    transition: all 0.2s;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    transition: border-color 0.2s;
   }
   .pub-link:hover {
-    border-color: #2563eb;
-    background: #eff6ff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    border-color: var(--color-accent);
   }
-  .pub-title { 
-    font-family: 'Paperozi', 'Inter', sans-serif; 
-    font-size: 1.25rem; 
-    font-weight: 500; 
-    margin-bottom: 0.75rem; 
-    line-height: 1.4; 
-    color: #1f2937;
+  .pub-title {
+    font-family: var(--font-primary);
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.4;
+    color: var(--color-text);
   }
-  .pub-meta { 
-    font-size: 0.875rem; 
-    color: #6b7280; 
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 0.5rem; 
+  .pub-meta {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-  .separator { color: #d1d5db; }
+  .separator { color: var(--color-border); }
   .pub-if { font-weight: 600; color: #059669; }
   .pub-citations { font-weight: 600; color: #7c3aed; }
-  
+
   /* Projects */
-  .project-list { display: grid; gap: 1.5rem; }
-  .project-item { }
+  .project-list { display: flex; flex-direction: column; gap: 1rem; }
   .project-link {
     text-decoration: none;
     display: block;
-    padding: 1.5rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.75rem;
-    transition: all 0.2s;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    transition: border-color 0.2s;
   }
   .project-link:hover {
-    border-color: #2563eb;
-    background: #eff6ff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    border-color: var(--color-accent);
   }
   .project-header {
     display: flex;
     justify-content: space-between;
     align-items: start;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    gap: 1rem;
   }
   .project-title {
-    font-family: 'Paperozi', 'Inter', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: #1f2937;
+    font-family: var(--font-primary);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
     line-height: 1.4;
     flex: 1;
+    margin: 0;
   }
   .project-category {
     font-size: 0.75rem;
-    color: #2563eb;
-    background: #eff6ff;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
+    color: var(--color-accent);
+    background: var(--color-bg-secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
     font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    white-space: nowrap;
   }
   .project-description {
-    color: #4b5563;
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
     line-height: 1.6;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
   .project-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 0.875rem;
-    color: #6b7280;
+    color: var(--color-text-secondary);
   }
   .project-tags {
     display: flex;
     gap: 0.5rem;
   }
   .tag {
-    background: #f3f4f6;
+    background: var(--color-bg-secondary);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.75rem;
   }
-  
+
   /* Blog */
-  .blog-list { display: flex; flex-direction: column; gap: 1.5rem; }
-  .blog-item { }
+  .blog-list { display: flex; flex-direction: column; gap: 1rem; }
   .blog-link {
     text-decoration: none;
     display: block;
-    padding: 1.5rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.75rem;
-    transition: all 0.2s;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    transition: border-color 0.2s;
   }
   .blog-link:hover {
-    border-color: #2563eb;
-    background: #eff6ff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    border-color: var(--color-accent);
   }
   .blog-meta {
     font-size: 0.875rem;
-    color: #6b7280;
+    color: var(--color-text-secondary);
     margin-bottom: 0.5rem;
   }
   .blog-category {
     font-weight: 600;
-    color: #2563eb;
+    color: var(--color-accent);
   }
   .blog-title {
-    font-family: 'Paperozi', 'Inter', sans-serif;
-    font-size: 1.25rem;
-    color: #1f2937;
-    font-weight: 500;
+    font-family: var(--font-primary);
+    font-size: 1.125rem;
+    color: var(--color-text);
+    font-weight: 600;
     line-height: 1.4;
-    margin-bottom: 0.5rem;
+    margin: 0 0 0.5rem 0;
   }
   .blog-excerpt {
-    color: #4b5563;
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
     line-height: 1.6;
+    margin: 0;
   }
-  
+
   /* Links */
   .links {
     display: grid;
-    gap: 1rem;
+    gap: 0.75rem;
     grid-template-columns: repeat(2, 1fr);
   }
   .link-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.125rem 1.5rem;
-    border: 2px solid #e5e7eb;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-border);
     border-radius: 0.5rem;
     text-decoration: none;
-    color: #1f2937;
-    transition: all 0.2s;
-    background: white;
+    color: var(--color-text);
+    transition: border-color 0.2s;
+    background: var(--color-bg);
   }
   .link-item:hover {
-    border-color: #2563eb;
-    background-color: #eff6ff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    border-color: var(--color-accent);
   }
   .link-title {
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 500;
+    font-size: 0.9375rem;
   }
   .link-arrow {
-    color: #2563eb;
-    font-weight: 600;
-    font-size: 1.25rem;
-  }
-  
-  /* Tablet */
-  @media (max-width: 1024px) {
-    .homepage { padding: 3rem 1.5rem; }
-    .name { font-size: 2.5rem; }
+    color: var(--color-accent);
+    font-weight: 500;
   }
 
   /* Mobile */
   @media (max-width: 768px) {
-    .homepage { padding: 2.5rem 1rem; }
-
-    .hero { margin-bottom: 3rem; }
-    .name {
-      font-size: 1.75rem;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-    }
-    .subtitle {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      max-width: 100%;
-    }
-
-    .bio {
-      font-size: 1rem;
-      line-height: 1.9;
-      margin-bottom: 3rem;
-      padding-bottom: 2.5rem;
-    }
-    .bio p {
-      margin-bottom: 2rem;
-      text-align: left;
-    }
-
-    .section {
-      margin-bottom: 3rem;
-      padding-bottom: 2.5rem;
-    }
+    .homepage { padding: 0 1rem; }
+    .name { font-size: 2rem; }
+    .subtitle { font-size: 1rem; }
 
     .section-header {
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.5rem;
       align-items: start;
-      margin-bottom: 1.75rem;
-    }
-    .section-header h2 {
-      font-size: 1.5rem;
-    }
-    .section-link {
-      font-size: 0.8125rem;
     }
 
-    .stats {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      padding: 1.5rem;
-    }
-    .stat-number { font-size: 1.75rem; }
-
-    /* Cards */
-    .code-link,
-    .pub-link,
-    .project-link,
-    .blog-link {
-      padding: 1.25rem;
-    }
-
-    .code-title,
-    .pub-title,
-    .project-title,
-    .blog-title {
-      font-size: 1.125rem;
-      line-height: 1.5;
-    }
-
-    .code-description,
-    .project-description,
-    .blog-excerpt {
-      font-size: 0.9375rem;
-      line-height: 1.7;
-    }
-
-    /* Links */
     .links {
       grid-template-columns: 1fr;
     }
-    .link-item {
-      padding: 1.25rem 1.5rem;
-    }
   }
 
-  /* Small Mobile */
   @media (max-width: 640px) {
-    .homepage { padding: 2rem 1rem; }
-
-    .hero { margin-bottom: 2.5rem; }
-    .name {
-      font-size: 1.5rem;
-      letter-spacing: -0.01em;
-    }
-    .subtitle {
-      font-size: 0.875rem;
-      line-height: 1.7;
-    }
-
-    .bio {
-      font-size: 0.9375rem;
-      line-height: 2;
-      margin-bottom: 2.5rem;
-    }
-    .bio p {
-      margin-bottom: 2.25rem;
-    }
-
-    .section {
-      margin-bottom: 2.5rem;
-      padding-bottom: 2rem;
-    }
-
-    .section-header {
-      margin-bottom: 1.5rem;
-    }
-    .section-header h2 {
-      font-size: 1.375rem;
-    }
-
-    .stats {
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-      padding: 1.25rem;
-    }
-    .stat-number { font-size: 1.5rem; }
-    .stat-label { font-size: 0.8125rem; }
+    .name { font-size: 1.75rem; }
+    .section-header h2 { font-size: 1.25rem; }
 
     .code-link,
     .pub-link,
@@ -724,15 +523,7 @@ const ssciPapers = publications.filter(p => p.data.type === 'ssci').length;
     .pub-title,
     .project-title,
     .blog-title {
-      font-size: 1.0625rem;
-    }
-
-    /* Links */
-    .links {
-      grid-template-columns: 1fr;
-    }
-    .link-item {
-      padding: 1.125rem 1.25rem;
+      font-size: 1rem;
     }
   }
 </style>

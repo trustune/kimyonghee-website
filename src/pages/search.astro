@@ -9,32 +9,22 @@ import Search from '../components/Search.astro';
 >
   <div class="search-page">
     <header class="page-header">
-      <h1 data-lang="en">Search</h1>
-      <h1 data-lang="ko">검색</h1>
-      <p class="page-description" data-lang="en">
+      <h1>Search</h1>
+      <p class="page-description">
         Search across all content including research papers, blog posts, and teaching materials.
-      </p>
-      <p class="page-description" data-lang="ko">
-        논문, 블로그, 강의 자료 등 모든 콘텐츠를 검색할 수 있습니다.
       </p>
     </header>
 
-    <!-- 검색 컴포넌트 -->
     <div class="search-container">
       <Search />
     </div>
 
-    <!-- 검색 팁 -->
     <section class="search-tips">
-      <h2 data-lang="en">Search Tips</h2>
-      <h2 data-lang="ko">검색 팁</h2>
+      <h2>Search Tips</h2>
       <ul>
-        <li data-lang="en">Use multiple keywords for more precise results</li>
-        <li data-lang="ko">여러 키워드를 사용하여 더 정확한 결과를 얻으세요</li>
-        <li data-lang="en">Click on search results to navigate to the page</li>
-        <li data-lang="ko">검색 결과를 클릭하면 해당 페이지로 이동합니다</li>
-        <li data-lang="en">Search works in both light and dark modes</li>
-        <li data-lang="ko">라이트/다크 모드 모두에서 검색이 가능합니다</li>
+        <li>Use multiple keywords for more precise results</li>
+        <li>Click on search results to navigate to the page</li>
+        <li>Search covers titles, descriptions, and tags</li>
       </ul>
     </section>
   </div>
@@ -42,53 +32,47 @@ import Search from '../components/Search.astro';
 
 <style>
   .search-page {
-    max-width: 1200px;
+    max-width: var(--max-width);
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 0 2rem;
   }
 
-  /* Page Header */
   .page-header {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 
   .page-header h1 {
-    font-family: 'Paperozi', 'Merriweather', serif;
-    font-size: 3rem;
-    font-weight: 400;
-    color: #1e40af;
-    margin-bottom: 1rem;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 0.75rem 0;
   }
 
   .page-description {
-    font-size: 1.125rem;
-    color: #6b7280;
-    line-height: 1.7;
-    max-width: 65ch;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
   }
 
-  /* Search Container */
   .search-container {
-    max-width: 900px;
-    margin: 0 auto 4rem;
+    margin-bottom: 2rem;
   }
 
-  /* Search Tips */
   .search-tips {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    padding: 1.5rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
   }
 
   .search-tips h2 {
-    font-family: 'Paperozi', 'Merriweather', serif;
-    font-size: 1.25rem;
+    font-family: var(--font-primary);
+    font-size: 1rem;
     font-weight: 600;
-    color: #1e40af;
-    margin-bottom: 1rem;
+    color: var(--color-text);
+    margin: 0 0 1rem 0;
   }
 
   .search-tips ul {
@@ -98,42 +82,32 @@ import Search from '../components/Search.astro';
   }
 
   .search-tips li {
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
+    padding: 0.375rem 0;
+    padding-left: 1.25rem;
     position: relative;
     line-height: 1.6;
-    color: #4b5563;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
   }
 
   .search-tips li::before {
     content: "•";
     position: absolute;
     left: 0;
-    color: #1e40af;
-    font-weight: bold;
-    font-size: 1.2em;
+    color: var(--color-accent);
   }
 
-  /* 반응형 */
   @media (max-width: 768px) {
     .search-page {
-      padding: 2rem 1rem;
+      padding: 0 1rem;
     }
 
     .page-header h1 {
-      font-size: 2rem;
-    }
-
-    .page-description {
-      font-size: 1rem;
+      font-size: 1.75rem;
     }
 
     .search-tips {
-      padding: 1.5rem;
-    }
-
-    .search-tips h2 {
-      font-size: 1.125rem;
+      padding: 1.25rem;
     }
   }
 </style>

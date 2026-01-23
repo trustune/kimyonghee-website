@@ -1,7 +1,5 @@
 ---
 import Analytics from "../components/Analytics.astro";
-import DarkModeToggle from "../components/DarkModeToggle.astro";
-import LanguageSwitcher from "../components/LanguageSwitcher.astro";
 
 interface Props {
   title: string;
@@ -45,7 +43,7 @@ const currentPath = Astro.url.pathname;
       )
     }
     <meta property="og:site_name" content="Yonghee Kim" />
-    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta
@@ -67,75 +65,11 @@ const currentPath = Astro.url.pathname;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@300;400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@400;700&display=swap"
       rel="stylesheet"
     />
 
     <style is:global>
-      /* Paperozi Korean Font */
-      @font-face {
-        font-family: "Paperozi";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2")
-          format("woff2");
-        font-weight: 100;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Paperozi";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2")
-          format("woff2");
-        font-weight: 200;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Paperozi";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2")
-          format("woff2");
-        font-weight: 300;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Paperozi";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2")
-          format("woff2");
-        font-weight: 400;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Paperozi";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2")
-          format("woff2");
-        font-weight: 500;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Paperozi";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2")
-          format("woff2");
-        font-weight: 600;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Paperozi";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2")
-          format("woff2");
-        font-weight: 700;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Paperozi";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2")
-          format("woff2");
-        font-weight: 800;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Paperozi";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2")
-          format("woff2");
-        font-weight: 900;
-        font-display: swap;
-      }
       * {
         margin: 0;
         padding: 0;
@@ -143,22 +77,26 @@ const currentPath = Astro.url.pathname;
       }
 
       :root {
-        /* Academic Monochrome Palette */
+        /* Design Tokens */
+        --font-primary: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-heading: "Merriweather", Georgia, serif;
+
+        /* Colors - Clean Academic Palette */
         --color-text: #1a1a1a;
-        --color-text-secondary: #4a4a4a;
-        --color-link: #2c5282;
-        --color-link-hover: #1a365d;
-        --color-border: #e0e0e0;
-        --color-bg: #fefefe;
-        --color-bg-secondary: #f8f8f8;
+        --color-text-secondary: #525252;
+        --color-link: #1e40af;
+        --color-link-hover: #1e3a8a;
+        --color-border: #d4d4d4;
+        --color-bg: #ffffff;
+        --color-bg-secondary: #fafafa;
+        --color-accent: #1e40af;
 
         /* Layout */
         --max-width: 720px;
-        --header-height: auto;
       }
 
       html {
-        font-family: "Paperozi", "Inter", sans-serif;
+        font-family: var(--font-primary);
         font-size: 18px;
         line-height: 1.8;
         color: var(--color-text);
@@ -179,8 +117,8 @@ const currentPath = Astro.url.pathname;
       h4,
       h5,
       h6 {
-        font-family: "Paperozi", "Inter", sans-serif;
-        font-weight: 600;
+        font-family: var(--font-heading);
+        font-weight: 700;
         line-height: 1.3;
         color: var(--color-text);
         margin-top: 2rem;
@@ -191,7 +129,7 @@ const currentPath = Astro.url.pathname;
         font-size: 2.5rem;
       }
       h2 {
-        font-size: 2rem;
+        font-size: 1.75rem;
       }
       h3 {
         font-size: 1.5rem;
@@ -221,76 +159,6 @@ const currentPath = Astro.url.pathname;
       a:hover {
         color: var(--color-link-hover);
         text-decoration-color: var(--color-link-hover);
-      }
-
-      /* Dark mode - minimal changes for readability */
-      .dark {
-        --color-text: #e8e8e8;
-        --color-text-secondary: #b8b8b8;
-        --color-link: #6b9bd1;
-        --color-link-hover: #9ec5f0;
-        --color-border: #3a3a3a;
-        --color-bg: #1a1a1a;
-        --color-bg-secondary: #242424;
-      }
-      .dark body {
-        background: #111827;
-        color: #f3f4f6;
-      }
-
-      .dark h1,
-      .dark h2,
-      .dark h3,
-      .dark h4,
-      .dark h5,
-      .dark h6 {
-        color: #fbbf24 !important;
-      }
-
-      .dark .site-header {
-        background: #1f2937;
-        border-color: #374151;
-      }
-
-      .dark .site-footer {
-        background: #1f2937;
-        border-color: #374151;
-      }
-
-      /* Language switching - Global */
-      [data-lang="en"] {
-        display: none;
-      }
-
-      [data-lang="ko"] {
-        display: none;
-      }
-
-      html[data-language="en"] [data-lang="en"] {
-        display: inline;
-      }
-
-      html[data-language="ko"] [data-lang="ko"] {
-        display: inline;
-      }
-
-      /* Block-level elements */
-      html[data-language="en"] h1[data-lang="en"],
-      html[data-language="en"] h2[data-lang="en"],
-      html[data-language="en"] h3[data-lang="en"],
-      html[data-language="en"] p[data-lang="en"],
-      html[data-language="en"] div[data-lang="en"],
-      html[data-language="en"] li[data-lang="en"] {
-        display: block;
-      }
-
-      html[data-language="ko"] h1[data-lang="ko"],
-      html[data-language="ko"] h2[data-lang="ko"],
-      html[data-language="ko"] h3[data-lang="ko"],
-      html[data-language="ko"] p[data-lang="ko"],
-      html[data-language="ko"] div[data-lang="ko"],
-      html[data-language="ko"] li[data-lang="ko"] {
-        display: block;
       }
     </style>
     <Analytics />
@@ -341,10 +209,6 @@ const currentPath = Astro.url.pathname;
             <a href="/search" class={currentPath === "/search" ? "active" : ""}
               >Search</a
             >
-            <div class="nav-controls">
-              <LanguageSwitcher />
-              <DarkModeToggle />
-            </div>
           </div>
         </nav>
       </div>
@@ -380,11 +244,6 @@ const currentPath = Astro.url.pathname;
         border-bottom: 1px solid var(--color-border);
       }
 
-      .dark .site-header {
-        background: transparent;
-        border-color: var(--color-border);
-      }
-
       .container {
         max-width: var(--max-width);
         margin: 0 auto;
@@ -399,7 +258,7 @@ const currentPath = Astro.url.pathname;
       }
 
       .logo {
-        font-family: "Paperozi", "Inter", sans-serif;
+        font-family: var(--font-heading);
         font-size: 1.25rem;
         font-weight: 700;
         text-decoration: none;
@@ -460,12 +319,6 @@ const currentPath = Astro.url.pathname;
         color: var(--color-text);
       }
 
-      .nav-controls {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-      }
-
       .site-main {
         flex: 1;
         width: 100%;
@@ -478,11 +331,6 @@ const currentPath = Astro.url.pathname;
         margin-top: 4rem;
         background: transparent;
         font-size: 0.9rem;
-      }
-
-      .dark .site-footer {
-        background: transparent;
-        border-color: var(--color-border);
       }
 
       .footer-content {
@@ -568,18 +416,9 @@ const currentPath = Astro.url.pathname;
 
         .nav-links a:hover,
         .nav-links a.active {
-          border-bottom-color: var(--color-primary);
-          background: rgba(37, 99, 235, 0.05);
+          border-bottom-color: var(--color-accent);
+          background: rgba(30, 64, 175, 0.05);
           padding-left: 1rem;
-        }
-
-        .nav-controls {
-          width: 100%;
-          padding-top: 1rem;
-          margin-top: 1rem;
-          border-top: 2px solid var(--color-border);
-          justify-content: center;
-          gap: 1.5rem;
         }
 
         .footer-content {

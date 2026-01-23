@@ -7,23 +7,18 @@ const courses = coursesData.courses;
 
 <BaseLayout title="Teaching" description="Courses taught by Yonghee Kim">
   <div class="teaching-page">
-    <!-- Header -->
     <header class="page-header">
-      <h1 data-lang="en">Teaching</h1>
-      <h1 data-lang="ko">강의</h1>
-      <p class="subtitle" data-lang="en">Courses on Media Policy, Data Analytics, and Business Information Systems</p>
-      <p class="subtitle" data-lang="ko">미디어 정책, 데이터 분석, 경영정보시스템 강의</p>
+      <h1>Teaching</h1>
+      <p class="subtitle">Courses on Media Policy, Data Analytics, and Business Information Systems</p>
     </header>
 
-    <!-- Courses -->
     {courses.length > 0 && (
       <section class="section">
         <div class="courses-grid">
           {courses.map(course => (
             <a href={`/courses/${course.code}`} class="course-card">
               <div class="course-header">
-                <h3 data-lang="en">{course.title}</h3>
-                <h3 data-lang="ko">{course.title_ko}</h3>
+                <h3>{course.title}</h3>
               </div>
               <div class="course-meta">
                 <span class="meta-item">
@@ -33,30 +28,25 @@ const courses = coursesData.courses;
                     <line x1="8" y1="2" x2="8" y2="6"></line>
                     <line x1="3" y1="10" x2="21" y2="10"></line>
                   </svg>
-                  <span data-lang="en">{course.schedule}</span>
-                  <span data-lang="ko">{course.schedule_ko}</span>
+                  {course.schedule}
                 </span>
                 <span class="meta-item">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                   </svg>
-                  <span data-lang="en">Year {course.year}</span>
-                  <span data-lang="ko">{course.year}학년</span>
+                  Year {course.year}
                 </span>
                 <span class="meta-item">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                   </svg>
-                  <span data-lang="en">{course.credits} Credits</span>
-                  <span data-lang="ko">{course.credits}학점</span>
+                  {course.credits} Credits
                 </span>
               </div>
-              <p class="course-description" data-lang="en">{course.description}</p>
-              <p class="course-description" data-lang="ko">{course.description_ko}</p>
-              <div class="course-code" data-lang="en">Course Code: {course.code}</div>
-              <div class="course-code" data-lang="ko">과목 코드: {course.code}</div>
+              <p class="course-description">{course.description}</p>
+              <div class="course-code">Course Code: {course.code}</div>
             </a>
           ))}
         </div>
@@ -67,27 +57,29 @@ const courses = coursesData.courses;
 
 <style>
   .teaching-page {
-    max-width: 1200px;
+    max-width: var(--max-width);
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 0 2rem;
   }
 
   .page-header {
-    margin-bottom: 4rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid #1e40af;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .page-header h1 {
-    font-size: 3rem;
-    color: #1e40af;
-    margin-bottom: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 0.5rem 0;
   }
 
   .subtitle {
-    font-size: 1.25rem;
-    color: #6b7280;
-    font-weight: 300;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin: 0;
   }
 
   .section {
@@ -95,99 +87,89 @@ const courses = coursesData.courses;
   }
 
   .courses-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .course-card {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.75rem;
-    background: #ffffff;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: var(--color-bg);
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s;
   }
 
   .course-card:hover {
-    border-color: #2563eb;
-    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12);
-    transform: translateY(-4px);
+    border-color: var(--color-accent);
   }
 
   .course-header {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
   }
 
   .course-header h3 {
-    font-size: 1.25rem;
-    color: #1f2937;
-    margin-bottom: 0.5rem;
+    font-family: var(--font-primary);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
     line-height: 1.4;
-  }
-
-  .title-en {
-    font-size: 1rem;
-    color: #2563eb;
-    font-weight: 500;
   }
 
   .course-meta {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 1.25rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #f3f4f6;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-bg-secondary);
   }
 
   .meta-item {
     display: flex;
     align-items: center;
     gap: 0.375rem;
-    font-size: 0.875rem;
-    color: #6b7280;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
   }
 
   .meta-item svg {
     flex-shrink: 0;
-    color: #9ca3af;
+    color: var(--color-text-secondary);
   }
 
   .course-description {
-    font-size: 0.9375rem;
-    color: #4b5563;
-    line-height: 1.7;
-    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0 0 0.75rem 0;
     flex-grow: 1;
   }
 
   .course-code {
-    font-size: 0.8125rem;
-    color: #9ca3af;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.025em;
   }
 
   @media (max-width: 768px) {
     .teaching-page {
-      padding: 2rem 1rem;
+      padding: 0 1rem;
     }
 
     .page-header h1 {
-      font-size: 2rem;
+      font-size: 1.75rem;
     }
 
     .subtitle {
-      font-size: 1rem;
-    }
-
-    .courses-grid {
-      grid-template-columns: 1fr;
+      font-size: 0.9375rem;
     }
   }
 </style>
