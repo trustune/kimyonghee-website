@@ -92,8 +92,8 @@ const currentPath = Astro.url.pathname;
         --color-accent: #1e40af;
 
         /* Layout - Responsive max-width */
-        --max-width: min(720px, 90vw);
-        --max-width-wide: min(960px, 90vw);
+        --max-width: min(900px, 90vw);
+        --max-width-wide: min(1100px, 90vw);
 
         /* Responsive Typography with clamp() */
         --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
@@ -287,6 +287,8 @@ const currentPath = Astro.url.pathname;
         text-decoration: none;
         color: var(--color-text);
         z-index: 102;
+        white-space: nowrap;
+        flex-shrink: 0;
       }
 
       /* Mobile Menu Toggle */
