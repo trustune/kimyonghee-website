@@ -1,17 +1,17 @@
 ---
-import { getCollection, render } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
-  const publications = await getCollection("publications");
-  return publications.map((pub) => ({
-    params: { id: pub.id },
+  const publications = await getCollection('publications');
+  return publications.map(pub => ({
+    params: { id: pub.slug },
     props: { publication: pub },
   }));
 }
 
 const { publication } = Astro.props;
-const { Content } = await render(publication);
+const { Content } = await publication.render();
 const { data } = publication;
 ---
 
@@ -22,16 +22,14 @@ const { data } = publication;
   <article class="publication-detail">
     <header class="pub-header">
       <div class="pub-meta-top">
-        <span class="status-badge" data-status={data.status}
-          >{data.status.replace("-", " ").toUpperCase()}</span
-        >
+        <span class="status-badge" data-status={data.status}>{data.status.replace('-', ' ').toUpperCase()}</span>
         <span class="category-badge">{data.category}</span>
       </div>
 
       <h1 class="pub-title">{data.title}</h1>
 
       <div class="pub-authors">
-        {data.authors.join(", ")}
+        {data.authors.join(', ')}
       </div>
 
       <div class="pub-journal-info">
@@ -42,45 +40,37 @@ const { data } = publication;
         {data.pages && <span class="pub-pages">: {data.pages}</span>}
       </div>
 
-      {
-        (data.impact_factor || data.quartile || data.citations > 0) && (
-          <div class="pub-metrics">
-            {data.impact_factor && (
-              <div class="metric">
-                <span class="metric-label">Impact Factor</span>
-                <span class="metric-value">{data.impact_factor}</span>
-              </div>
-            )}
-            {data.quartile && (
-              <div class="metric">
-                <span class="metric-label">Quartile</span>
-                <span class="metric-value">{data.quartile}</span>
-              </div>
-            )}
-            {data.citations > 0 && (
-              <div class="metric">
-                <span class="metric-label">Citations</span>
-                <span class="metric-value">{data.citations}</span>
-              </div>
-            )}
-          </div>
-        )
-      }
+      {(data.impact_factor || data.quartile || data.citations > 0) && (
+        <div class="pub-metrics">
+          {data.impact_factor && (
+            <div class="metric">
+              <span class="metric-label">Impact Factor</span>
+              <span class="metric-value">{data.impact_factor}</span>
+            </div>
+          )}
+          {data.quartile && (
+            <div class="metric">
+              <span class="metric-label">Quartile</span>
+              <span class="metric-value">{data.quartile}</span>
+            </div>
+          )}
+          {data.citations > 0 && (
+            <div class="metric">
+              <span class="metric-label">Citations</span>
+              <span class="metric-value">{data.citations}</span>
+            </div>
+          )}
+        </div>
+      )}
 
-      {
-        data.doi && (
-          <div class="pub-doi">
-            <span class="doi-label">DOI:</span>
-            <a
-              href={`https://doi.org/${data.doi}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {data.doi}
-            </a>
-          </div>
-        )
-      }
+      {data.doi && (
+        <div class="pub-doi">
+          <span class="doi-label">DOI:</span>
+          <a href={`https://doi.org/${data.doi}`} target="_blank" rel="noopener noreferrer">
+            {data.doi}
+          </a>
+        </div>
+      )}
 
       <div class="pub-abstract">
         <h2>Abstract</h2>
@@ -94,15 +84,7 @@ const { data } = publication;
 
     <footer class="pub-footer">
       <a href="/research/publications" class="back-link">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>

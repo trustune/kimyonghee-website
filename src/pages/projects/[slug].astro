@@ -1,17 +1,20 @@
 ---
-import { getCollection, render } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LineChart from '../../components/LineChart.astro';
+import PieChart from '../../components/PieChart.astro';
+import SocialShare from '../../components/SocialShare.astro';
 
 export async function getStaticPaths() {
-  const projects = await getCollection("projects");
-  return projects.map((project) => ({
-    params: { slug: project.id },
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.slug },
     props: { project },
   }));
 }
 
 const { project } = Astro.props;
-const { Content } = await render(project);
+const { Content } = await project.render();
 const { data } = project;
 const showCharts = project.slug === 'broadcasting-revenue-2015-2024';
 
@@ -71,7 +74,7 @@ const summaryText = data.summary || '';
 const keyFindings = data.key_findings || [];
 ---
 
-<BaseLayout title={data.title_en || data.title}>
+<BaseLayout title={data.title}>
   <article class="project-detail">
     <header class="project-header">
       <div class="header-content">
@@ -88,24 +91,11 @@ const keyFindings = data.key_findings || [];
           )}
         </div>
 
-      <div class="meta-info">
-        <time datetime={data.date instanceof Date ? data.date.toISOString() : data.date}>
-          {
-            new Date(data.date).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })
-          }
-        </time>
-        {
-          (data.conference_en || data.conference) && (
-            <>
-              <span class="meta-separator">·</span>
-              <span>{data.conference_en || data.conference}</span>
-            </>
-          )
-        }
+        <div class="tags">
+          {data.tags.map((tag: string) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
       </div>
     </header>
 
@@ -157,37 +147,32 @@ const keyFindings = data.key_findings || [];
       )}
     </div>
 
-    {
-      data.methodology && data.methodology.length > 0 && (
-        <section class="methodology-section">
-          <h2>Methodology</h2>
-          <ul>
-            {data.methodology.map((method: string) => (
-              <li>{method}</li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {data.methodology && data.methodology.length > 0 && (
+      <section class="methodology-section">
+        <h2>Methodology</h2>
+        <div class="methodology-tags">
+          {data.methodology.map((method: string) => (
+            <span class="method-tag">{method}</span>
+          ))}
+        </div>
+      </section>
+    )}
 
-    {
-      data.data_sources && data.data_sources.length > 0 && (
-        <section class="sources-section">
-          <h2>Data Sources</h2>
-          <ul>
-            {data.data_sources.map((source: { name: string; type: string }) => (
-              <li>
-                {source.name} <em>({source.type})</em>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {data.data_sources && data.data_sources.length > 0 && (
+      <section class="sources-section">
+        <h2>Data Sources</h2>
+        <ul class="sources-list">
+          {data.data_sources.map((source: { name: string; type: string }) => (
+            <li>
+              <span class="source-name">{source.name}</span>
+              <span class={`source-type ${source.type}`}>{source.type}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
-    <footer class="project-footer">
-      <a href="/projects" class="back-link">← Back to Projects</a>
-    </footer>
+    <SocialShare title={data.title} />
   </article>
 </BaseLayout>
 
@@ -367,17 +352,8 @@ const keyFindings = data.key_findings || [];
     color: var(--color-text-secondary);
   }
 
-  .project-content ul,
-  .project-content ol {
-    margin: 1.5rem 0;
-    padding-left: 2rem;
-  }
-
-  .project-content li {
-    margin-bottom: 0.5rem;
-  }
-
-  .project-content table {
+  /* Table with horizontal scroll wrapper */
+  .project-content :global(table) {
     width: 100%;
     border-collapse: collapse;
     margin: var(--space-8) 0;
@@ -398,7 +374,7 @@ const keyFindings = data.key_findings || [];
     padding: var(--space-3) var(--space-4);
     border: 1px solid var(--color-border);
     text-align: left;
-    font-size: 0.8125rem;
+    min-width: 120px;
   }
 
   .project-content :global(th) {

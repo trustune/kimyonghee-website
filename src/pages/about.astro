@@ -5,6 +5,7 @@ import awards from '../data/awards.json';
 
 <BaseLayout title="About" description="About Yonghee Kim">
   <div class="about-page">
+    <!-- Header -->
     <header class="page-header">
       <div class="header-content">
         <div class="profile-image-container">
@@ -17,6 +18,7 @@ import awards from '../data/awards.json';
       </div>
     </header>
 
+    <!-- Current Position -->
     <section class="section">
       <h2>Current Position</h2>
       <div class="position-list">
@@ -33,6 +35,7 @@ import awards from '../data/awards.json';
       </div>
     </section>
 
+    <!-- Research Interests -->
     <section class="section">
       <h2>Research Interests</h2>
       <div class="interests">
@@ -65,6 +68,7 @@ import awards from '../data/awards.json';
       </div>
     </section>
 
+    <!-- Education -->
     <section class="section">
       <h2>Education</h2>
       <div class="education-list">
@@ -86,6 +90,7 @@ import awards from '../data/awards.json';
       </div>
     </section>
 
+    <!-- Professional Experience -->
     <section class="section">
       <h2>Professional Experience</h2>
       <div class="experience-list">
@@ -116,6 +121,7 @@ import awards from '../data/awards.json';
       </div>
     </section>
 
+    <!-- Awards & Honors -->
     <section class="section">
       <h2>Awards & Honors</h2>
       <div class="awards-list">
@@ -131,6 +137,7 @@ import awards from '../data/awards.json';
       </div>
     </section>
 
+    <!-- Certifications -->
     <section class="section">
       <h2>Professional Certifications</h2>
       <div class="cert-list">
@@ -236,9 +243,8 @@ import awards from '../data/awards.json';
     margin-bottom: var(--space-8);
   }
 
-  .position-list,
-  .education-list,
-  .experience-list {
+  /* Position */
+  .position-list {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
@@ -256,6 +262,7 @@ import awards from '../data/awards.json';
     font-size: 0.875rem;
   }
 
+  /* Research Interests */
   .interests {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -272,7 +279,6 @@ import awards from '../data/awards.json';
   .interest-category ul {
     list-style: none;
     padding: 0;
-    margin: 0;
   }
 
   .interest-category li {
@@ -286,7 +292,9 @@ import awards from '../data/awards.json';
     border-bottom: none;
   }
 
-  .awards-list {
+  /* Education */
+  .education-list,
+  .experience-list {
     display: flex;
     flex-direction: column;
     gap: var(--space-8);
@@ -355,51 +363,6 @@ import awards from '../data/awards.json';
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
-  }
-
-  .award-item {
-    padding: 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: 0.5rem;
-  }
-
-  .award-header h3 {
-    font-family: var(--font-primary);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin: 0 0 0.25rem 0;
-  }
-
-  .award-subtitle {
-    color: var(--color-text-secondary);
-    font-size: 0.875rem;
-    margin: 0 0 0.5rem 0;
-  }
-
-  .award-org {
-    color: var(--color-link);
-    font-weight: 500;
-    margin: 0 0 0.25rem 0;
-    font-size: 0.875rem;
-  }
-
-  .award-date {
-    color: var(--color-text-secondary);
-    font-size: 0.8125rem;
-    margin: 0;
-  }
-
-  .award-desc {
-    color: var(--color-text-secondary);
-    font-size: 0.875rem;
-    margin: 0.5rem 0 0 0;
-  }
-
-  .cert-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
   }
 
   .cert-item {

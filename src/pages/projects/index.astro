@@ -1,12 +1,12 @@
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const allProjects = await getCollection('projects');
 
 const projects = allProjects
-  .map((project) => ({
-    id: project.id,
+  .map(project => ({
+    id: project.slug,
     ...project.data,
   }))
   .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -15,10 +15,7 @@ const categories = [...new Set(projects.map(p => p.category))];
 const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].sort((a, b) => b - a);
 ---
 
-<BaseLayout
-  title="Projects - Yonghee Kim"
-  description="Research projects and data analysis work"
->
+<BaseLayout title="Projects - Yonghee Kim" description="Research projects and data analysis work">
   <div class="projects-container">
     <header class="page-header">
       <h1 class="page-title">Research Projects</h1>
@@ -117,6 +114,7 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
               <p class="project-subtitle">
                 {project.subtitle_en || project.subtitle}
               </p>
+            )}
 
             <p class="project-description">
               {project.description_en || project.description}
@@ -146,9 +144,9 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
                 </svg>
               </a>
             </div>
-          </article>
-        ))
-      }
+          </div>
+        </article>
+      ))}
     </div>
 
     <div id="noResults" class="no-results" style="display: none;">
@@ -263,7 +261,6 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
 
   .filter-select:hover,
   .filter-select:focus {
-    border-color: var(--color-accent);
     outline: none;
     border-color: var(--color-accent);
   }
@@ -342,6 +339,7 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     font-weight: 700;
     border-radius: var(--border-radius);
     text-transform: uppercase;
+    letter-spacing: 0.025em;
   }
 
   .project-date {
@@ -390,10 +388,14 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     padding: var(--space-2) var(--space-3);
     background: #fffbeb;
     border-left: 3px solid #f59e0b;
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     color: #78350f;
     margin-bottom: var(--space-4);
     border-radius: var(--border-radius);
+  }
+
+  .conference-info svg {
+    flex-shrink: 0;
   }
 
   .project-footer {
@@ -467,7 +469,7 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
   }
 
   .reset-link:hover {

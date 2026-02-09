@@ -7,11 +7,13 @@ const courses = coursesData.courses;
 
 <BaseLayout title="Teaching" description="Courses taught by Yonghee Kim">
   <div class="teaching-page">
+    <!-- Header -->
     <header class="page-header">
       <h1>Teaching</h1>
       <p class="subtitle">Courses on Media Policy, Data Analytics, and Business Information Systems</p>
     </header>
 
+    <!-- Courses -->
     {courses.length > 0 && (
       <section class="courses-section">
         {courses.map((course, index) => (
