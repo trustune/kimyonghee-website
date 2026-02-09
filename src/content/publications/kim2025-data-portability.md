@@ -1,76 +1,138 @@
 ---
-title: "Mandatory Data Portability and Innovation: How Regulatory Design Shapes Platform Investment"
+title: "Mandatory Data Portability, R&D Uncertainty, and Platform Innovation"
 authors: ["Kim, Y."]
-journal: "Work in Progress"
+journal: "International Review of Economics & Finance"
 year: 2025
-type: "work-in-progress"
-status: "work-in-progress"
+type: "working-paper"
+status: "working-paper"
 category: "Data Policy"
 citations: 0
-abstract: "Data portability mandates represent a new class of innovation policy that fundamentally alters appropriability regimes in digital markets. While intended to promote competition, these regulations may suppress the infrastructure investments that drive long-term innovation. This paper develops a framework linking regulatory design to investment outcomes, introducing the Data Portability Regulatory Index (DPRI) to measure regulatory intensity across four dimensions: scope, mandate structure, technical requirements, and entry barriers. Applying this framework to Korea's MyData initiative reveals that high-intensity mandates (DPRI = 0.925) may reduce platform investment by approximately 62 percent compared to the unregulated baseline, with welfare losses potentially exceeding those of the market power problem addressed."
-keywords: ["Data Portability", "Innovation Policy", "Platform Competition", "Appropriability", "Regulatory Design", "MyData", "GDPR", "Investment Incentives", "Digital Markets", "Korea"]
+abstract: "This paper develops a stochastic R&D model of platform investment under mandatory data portability. A Hotelling microfoundation disciplines the revenue-displacement channel. R&D uncertainty and portability are complementary distortions: regulation erodes appropriability while uncertainty reduces the probability of recouping investment, and together they depress investment more than either force alone. When portability is sufficiently strong, entrants substitute imitation for own innovation, producing a dual R&D loss. The paper constructs a Data Portability Regulatory Index and calibrates to Korea's MyData initiative in the financial sector. The calibration implies a welfare inversion: Korea's regime generates deadweight loss more than twice the unregulated monopoly benchmark, because consumer switching benefits only partially offset innovation losses. A more moderate regime resembling the EU's GDPR delivers higher welfare. Behavioral monitoring attains 90.5 percent of first-best welfare while preserving appropriability; structural mandates do neither."
+keywords: ["Data Portability", "Platform Innovation", "R&D Uncertainty", "Regulatory Design", "MyData", "DPRI", "GDPR", "Welfare Analysis", "Digital Markets", "Korea"]
 research_area: ["Data Policy", "Platform Economics", "Innovation Economics", "Regulatory Analysis"]
-methodology: ["Theoretical Modeling", "Calibrated Quantitative Theory", "Input-Output Analysis", "Cross-Jurisdictional Comparison", "Policy Simulation"]
-statistical_methods: ["Leontief Inverse Matrix", "Welfare Analysis", "Sensitivity Analysis"]
+methodology: ["Theoretical Modeling", "Calibrated Quantitative Theory", "Hotelling Spatial Competition", "Stochastic R&D Model", "Cross-Jurisdictional Comparison", "Policy Simulation"]
+statistical_methods: ["Welfare Analysis", "Sensitivity Analysis", "Calibration"]
 software_used: ["R", "LaTeX"]
 related_projects: ["mydata-right-transfer-policy-2025"]
 ---
 
-## Research Background
+## Research Overview
 
-Data portability mandates represent a new class of innovation policy that fundamentally alters appropriability regimes in digital markets. Regulators worldwide have embraced data portability requirements as tools to promote competition in platform markets, enabling users to transfer their data between services and reducing switching costs that might otherwise lock users into dominant platforms. The European Union's General Data Protection Regulation established data portability as a right, while jurisdictions from Korea to Australia have implemented sector-specific portability regimes in financial services and other domains.
+This paper examines how mandatory data portability regulations affect platform innovation incentives, developing a stochastic R&D model that links regulatory design choices to investment outcomes and welfare. The analysis is calibrated to Korea's MyData initiative---the most comprehensive portability regime implemented to date---and compared against the EU's GDPR framework.
 
-While these regulations aim to promote competition and consumer welfare, their effects on innovation incentives have received limited analytical attention. Platform investment depends critically on appropriability—the ability of firms to capture returns from their investments in data infrastructure, analytics capabilities, and service development. Mandatory data sharing requirements directly reduce appropriability by forcing platforms to make their investments available to competitors, potentially suppressing the very infrastructure investments that generate long-term innovation and consumer benefits.
+## Key Contributions
 
-This work-in-progress develops a theoretical framework linking regulatory design choices to platform investment outcomes. By introducing the Data Portability Regulatory Index (DPRI) as a measurement tool for regulatory intensity, the research enables systematic comparison across jurisdictions and quantitative analysis of how different regulatory configurations affect investment and welfare.
+### 1. Stochastic R&D Model with Hotelling Microfoundation
+- R&D outcomes are uncertain: investment generates quality with probability that depends on investment level
+- A Hotelling spatial competition model disciplines the revenue-displacement parameter
+- R&D uncertainty and portability interact multiplicatively, amplifying investment distortions beyond either force alone
+
+### 2. Dual R&D Loss Mechanism
+- **Supply side**: Incumbents reduce R&D because shared data erodes appropriability
+- **Demand side**: Entrants substitute imitation for own innovation when regulatory intensity exceeds a threshold
+- Above this threshold, both incumbent and entrant reduce R&D simultaneously (Corollary 1)
+
+### 3. Data Portability Regulatory Index (DPRI)
+A measurement framework enabling systematic cross-jurisdictional comparison across four dimensions:
+- **Scope (S)**: Breadth of data categories covered (user-provided to proprietary analytics)
+- **Mandate (M)**: Enforcement structure (voluntary standards to criminal sanctions)
+- **Technicality (T)**: Implementation requirements (format specifications to real-time API standards)
+- **Access (A)**: Entry barriers for intermediaries (high barriers to open access)
+
+### 4. Calibrated Welfare Analysis
+Using administrative data from Korea's Financial Services Commission and the Korea Institute of Finance:
+- Korea's DPRI = 0.925 (vs. EU GDPR = 0.375)
+- Korea's regime generates deadweight loss of 40.3% of first-best welfare (net of switching benefits)
+- Unregulated monopoly DWL: 17.5%---less than half of Korea's regulatory DWL
+- The welfare inversion holds across a wide range of parameter values
+
+### 5. Optimal Policy Design
+- Behavioral monitoring achieves 90.5% of first-best welfare while preserving appropriability
+- Optimal structural data sharing is zero when monitoring is available
+- The corner solution is robust to monitoring cost specifications
+
+## Core Findings
+
+### The Welfare Inversion
+
+| Regime | DPRI | Investment (% FB) | Welfare (% FB) | Switching Benefit | Net DWL |
+|--------|------|-------------------|----------------|-------------------|---------|
+| First-best | --- | 100% | 100% | --- | 0% |
+| Optimal monitoring | 0 | 83.3% | 90.5% | 0% | 9.5% |
+| Unregulated monopoly | 0 | 83.3% | 82.5% | 0% | 17.5% |
+| GDPR | 0.375 | 62.5% | 76.0% | +4.5% | 19.5% |
+| Korea (deterministic) | 0.925 | 27.5% | 55.2% | +11.1% | 33.7% |
+| Korea (stochastic) | 0.925 | 20.7% | 48.6% | +11.1% | 40.3% |
+
+### DPRI Cross-Jurisdictional Comparison
+
+| Dimension | Korea MyData | EU GDPR |
+|-----------|-------------|---------|
+| Scope (S) | 0.9 | 0.3 |
+| Mandate (M) | 1.0 | 0.6 |
+| Technical (T) | 1.0 | 0.4 |
+| Access (A) | 0.8 | 0.2 |
+| **Composite** | **0.925** | **0.375** |
+
+### The Appropriability Mechanism
+Mandatory sharing transforms platform R&D outputs into common-pool resources, reducing the marginal return on investment. R&D uncertainty amplifies this appropriability failure: both the payoff conditional on success and the probability of success decline simultaneously.
+
+### Korea's MyData Experience
+The regulation designed to promote competitive innovation instead promoted competitive imitation. Three technology platforms---Naver, Kakao, and Toss---captured 67% of total data transmission billings, creating a new oligopoly among aggregators. Official data document that 64% of surveyed financial institutions reduced foundational technology investment after implementation.
 
 ## Theoretical Framework
 
-The analysis builds on foundational insights from innovation economics regarding appropriability and innovation incentives. Teece's (1986) framework for profiting from technological innovation established that firms' ability to capture returns from innovation depends on the strength of appropriability mechanisms, complementary assets, and the dominant design paradigm. In digital platform markets, data represents a critical complementary asset whose appropriability directly influences investment incentives.
+### Model Structure
+- **Platform**: Invests in quality under appropriability conditions shaped by regulation
+- **Entrant**: Chooses between own R&D and imitation of shared data
+- **Consumer**: Hotelling spatial model with switching benefits from portability
+- **Regulator**: Chooses structural mandates and/or behavioral monitoring
 
-The theoretical model conceptualizes platform investment as a function of appropriability conditions shaped by regulatory design. Mandatory data sharing requirements reduce platforms' marginal return on investment because quality improvements generate revenue that must be shared with competitors accessing the shared data. Rational anticipation of this appropriability leakage depresses investment proportionally to regulatory intensity.
-
-The model generates quantitative predictions about how different regulatory configurations affect equilibrium investment and welfare. Higher regulatory intensity—measured through scope of data coverage, stringency of sharing mandates, technical requirements, and access conditions—produces greater reduction in platform investment. The welfare implications depend on the tradeoff between static competition benefits from data portability and dynamic efficiency losses from reduced investment.
-
-## The Data Portability Regulatory Index
-
-The DPRI provides a measurement framework enabling systematic cross-jurisdictional comparison of data portability regulations. The index aggregates regulatory intensity across four dimensions, each capturing distinct aspects of regulatory design.
-
-Scope measures the breadth of data categories covered by portability requirements. Regulations covering broader categories of data—including transactional data, usage patterns, derived analytics, and inferred information—impose greater appropriability costs than those limited to basic account information.
-
-Mandate structure captures the enforcement approach and legal obligations. Hard mandates requiring real-time access through standardized APIs create stronger appropriability reduction than soft requirements permitting delayed responses or manual data exports.
-
-Technical requirements specify implementation standards including API specifications, response times, and data formats. Stringent technical requirements increase compliance costs while potentially enhancing portability effectiveness.
-
-Access conditions determine who may request data transfers and under what circumstances. Low barriers to intermediary entry maximize competitive pressure but may also facilitate appropriation of platform investments by entities that contribute little to data production.
-
-## Calibrated Analysis of Korea's MyData
-
-Applying the DPRI framework to Korea's MyData initiative reveals one of the world's most intensive data portability regimes. Korea's DPRI score of 0.925 substantially exceeds the EU GDPR score of 0.375, reflecting broader data scope, harder mandate structure, more stringent technical requirements, and lower barriers to intermediary entry.
-
-The calibrated model predicts that Korea's regulatory intensity reduces platform investment by approximately 62 percent compared to an unregulated baseline. This investment reduction translates to predicted welfare achievement of 55.2 percent of the first-best outcome, substantially below the 82.5 percent achievable under unregulated monopoly. The welfare loss from investment suppression thus exceeds the market power distortion that data portability regulations seek to address.
-
-The MyData implementation reveals a policy paradox. The regime was designed to break bank monopolies over customer data and diffuse data concentration across a more competitive ecosystem. The actual outcome concentrated data traffic among three technology platforms—Naver, Kakao, and Toss—which captured 67 percent of data flows. Rather than dispersing market power, the regulation shifted concentration from the data production layer to the aggregation layer while depressing investment in the production layer.
+### Key Propositions
+1. **Investment Distortion**: Mandatory sharing reduces equilibrium investment below the social optimum
+2. **Uncertainty Amplification**: R&D uncertainty and portability are complementary distortions
+3. **Dual R&D Loss**: Above a threshold regulatory intensity, entrants substitute imitation for innovation
+4. **Welfare Inversion**: Korea's regime generates DWL exceeding unregulated monopoly
+5. **Optimal Regulation**: When monitoring is available, optimal structural sharing is zero
 
 ## Policy Implications
 
-The analysis distinguishes between structural and behavioral approaches to platform regulation. Structural mandates such as data sharing requirements directly alter market structure but sacrifice dynamic efficiency for static competition benefits. Behavioral monitoring approaches that maintain conduct oversight without mandatory sharing can achieve approximately 90 percent of first-best welfare while preserving investment incentives. Optimal policy design would minimize structural mandates while maximizing conduct monitoring.
+### Behavioral vs. Structural Regulation
+- **Structural mandates** (data sharing requirements) sacrifice dynamic efficiency for static competition benefits
+- **Behavioral monitoring** (conduct oversight) achieves 90.5% of first-best welfare while preserving investment incentives
+- Optimal policy: minimize structural mandates, maximize conduct monitoring
 
-For Korea specifically, the research suggests a phased reform approach. The first phase would restore appropriability by raising capital requirements for data intermediaries and protecting derived analytics as trade secrets. The second phase would substitute monitoring for mandates through algorithm audits and conduct oversight mechanisms. The third phase would transition to steady-state regulation with intensity comparable to the GDPR, balancing competition and innovation objectives.
+### Recommended Reforms for Korea
+1. **Phase 1**: Restore appropriability by raising intermediary capital requirements, protecting derived analytics
+2. **Phase 2**: Substitute monitoring for mandates through algorithm audits and conduct oversight
+3. **Phase 3**: Transition to steady-state monitoring-dominant regulation
 
-## Current Status
+## Empirical Setting
 
-The model development and calibration are complete. The paper targets submission to Research Policy following completion of additional robustness analyses and policy simulation refinements. The research complements the MyData Right to Transfer Policy project, providing deeper theoretical analysis and cross-jurisdictional perspectives on data portability regulation.
+- **Country**: Korea (Financial Sector)
+- **Regulation**: MyData Act (Credit Information Use and Protection Act, 2020)
+- **Data sources**: Korea Financial Services Commission, Korea Institute of Finance, Financial Telecommunications and Clearings Institute
+- **Key facts**: 60 licensed operators, 651 obligated institutions, KRW 1,293 billion sector construction costs
 
-## Publication Statistics
+## Limitations
 
-| Metric | Value |
-|--------|-------|
-| Framework | Data Portability Regulatory Index (DPRI) |
-| DPRI Dimensions | Scope, Mandate, Technicality, Access |
-| Korea MyData DPRI | 0.925 |
-| EU GDPR DPRI | 0.375 |
-| Predicted Investment Reduction | ~62% vs. unregulated baseline |
-| Predicted Welfare | 55.2% of first-best (Korea), 76.0% (EU) |
-| Status | Work in Progress |
-| Target Journal | Research Policy |
+- Calibrated quantitative theory rather than causal identification
+- Welfare estimates are model predictions conditional on the theoretical structure
+- Implementation period coincides with COVID-19 and macroeconomic turbulence
+- Abstracts from aggregation benefits, privacy costs, and consumer heterogeneity
+
+## References (Selected)
+
+- Acemoglu, D. et al. (2019). Too much data: Prices and inefficiencies in data markets. *AEJ: Microeconomics*.
+- Aghion, P. et al. (2005). Competition and innovation: An inverted-U relationship. *QJE*.
+- Cohen, W. M. & Levinthal, D. A. (1990). Absorptive capacity. *Administrative Science Quarterly*.
+- Hall, B. H., Mairesse, J., & Mohnen, P. (2010). Measuring the returns to R&D. *Handbook of the Economics of Innovation*.
+- Johnson, G. A., Shriver, S. K., & Goldberg, S. G. (2023). Privacy and market concentration. *Working Paper*.
+- Jones, C. I. & Tonetti, C. (2020). Nonrivalry and the economics of data. *AER*.
+- Teece, D. J. (1986). Profiting from technological innovation. *Research Policy*.
+
+## Status
+
+**Current Status**: Under Review
+**Target Journal**: International Review of Economics & Finance (IREF)
+**Submitted**: 2025

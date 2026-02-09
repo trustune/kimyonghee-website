@@ -2,16 +2,16 @@
   "publications": [
     {
       "id": "kim2025-data-portability",
-      "type": "work-in-progress",
-      "status": "work-in-progress",
-      "title": "Mandatory Data Portability and Innovation: How Regulatory Design Shapes Platform Investment",
+      "type": "working-paper",
+      "status": "working-paper",
+      "title": "Mandatory Data Portability, R&D Uncertainty, and Platform Innovation",
       "authors": [
         "Kim, Y."
       ],
-      "journal": "Work in Progress",
+      "journal": "International Review of Economics & Finance",
       "year": 2025,
       "category": "Data Policy",
-      "abstract": "Data portability mandates represent a new class of innovation policy that fundamentally alters appropriability regimes in digital markets. This paper develops a framework linking regulatory design to investment outcomes, introducing the Data Portability Regulatory Index (DPRI). Applying this framework to Korea's MyData initiative reveals that high-intensity mandates (DPRI = 0.925) may reduce platform investment by approximately 62 percent compared to the unregulated baseline.",
+      "abstract": "This paper develops a stochastic R&D model of platform investment under mandatory data portability. A Hotelling microfoundation disciplines the revenue-displacement channel. R&D uncertainty and portability are complementary distortions that together depress investment more than either force alone. Calibrating to Korea's MyData initiative, the model implies a welfare inversion: Korea's regime generates deadweight loss more than twice the unregulated monopoly benchmark. Behavioral monitoring attains 90.5 percent of first-best welfare while preserving appropriability.",
       "pdf": "",
       "citations": 0
     },
@@ -19,15 +19,15 @@
       "id": "kim2026-digital-divide",
       "type": "working-paper",
       "status": "working-paper",
-      "title": "Digital Inequality of Time: Analyzing Quality Gaps in Media Usage Across Income Strata",
+      "title": "Digital Access Paradox: How Expanded Connectivity Created New Time Inequalities",
       "authors": [
         "Kim, Y.",
         "Yu, J."
       ],
-      "journal": "Working Paper",
+      "journal": "Working Paper (Target: PNAS)",
       "year": 2025,
       "category": "Digital Inequality",
-      "abstract": "This paper examines the evolving nature of digital inequality, moving beyond device access to analyze qualitative differences in media usage time. Using Korea Media Panel data (2019-2024), we find that while first-generation digital divides have been resolved, stark differences persist in how different income groups allocate their media time between entertainment and productive activities.",
+      "abstract": "This paper introduces digital time fragmentation and documents a Digital Access Paradox using longitudinal data from 5,644 individuals in South Korea (2017-2024). As smartphone penetration approached saturation, low-SES individuals shifted from lower to higher digital fragmentation than high-SES counterparts, a reversal of 0.154 standard deviations. Low-SES individuals devoted 95% of digital time to passive consumption versus 74% for high-SES. Specification curve analysis across 324 specifications confirms robustness.",
       "pdf": "",
       "citations": 0
     },
@@ -42,7 +42,7 @@
       "journal": "Work in Progress",
       "year": 2025,
       "category": "Media Policy",
-      "abstract": "This study analyzes the structural crisis in Korea's media industry financing, examining the 44-year freeze on public broadcasting license fees and the 43.5% collapse in broadcast advertising revenue. We propose a comprehensive policy roadmap including license fee normalization, advertising deregulation, and platform contribution adjustments.",
+      "abstract": "This study analyzes the structural crisis in Korea's media industry financing and the unintended consequences of broadcasting reapproval investment requirements. Using panel fixed effects regression on 10 years of data (2015-2024) from major cable networks, we document a crowding-out effect where KRW 43.1 billion in fund contributions are associated with KRW 73.3-164 billion in investment reductions. We propose abolition of rigid investment mandates, revenue-linked alternatives, and license fee normalization.",
       "pdf": "",
       "citations": 0
     },

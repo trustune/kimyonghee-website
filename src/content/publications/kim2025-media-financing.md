@@ -7,72 +7,139 @@ type: "work-in-progress"
 status: "work-in-progress"
 category: "Media Policy"
 citations: 0
-abstract: "This study analyzes the structural crisis in Korea's media industry financing, examining the 44-year freeze on public broadcasting license fees and the 43.5% collapse in broadcast advertising revenue. We propose a comprehensive policy roadmap including license fee normalization, advertising deregulation, and platform contribution adjustments."
-keywords: ["Media Financing", "Public Broadcasting", "License Fee", "Advertising Revenue", "Platform Contribution", "Media Policy", "Sustainability", "Broadcasting Reform", "Korea", "Policy Roadmap"]
+abstract: "This study analyzes the structural crisis in Korea's media industry financing and the unintended consequences of broadcasting reapproval investment requirements. Using panel fixed effects regression on 10 years of financial data (2015-2024) from major cable networks, we document a significant crowding-out effect: government broadcasting development fund contributions of KRW 43.1 billion are associated with investment reductions of KRW 73.3-164 billion, representing a 1.7-3.8 times crowding-out multiplier. Investment ratio requirements reduce ROI significantly, while the 44-year freeze on public broadcasting license fees and 43.5% collapse in broadcast advertising revenue compound the financing crisis. We propose a comprehensive reform roadmap including abolition of rigid investment mandates, revenue-linked alternatives, and license fee normalization."
+keywords: ["Media Financing", "Broadcasting Reapproval", "Investment Regulation", "Crowding-out Effect", "Public Broadcasting", "License Fee", "Advertising Revenue", "Platform Contribution", "Media Policy", "Broadcasting Reform", "Korea"]
 research_area: ["Media Policy", "Broadcasting Economics", "Public Service Media", "Media Regulation"]
-methodology: ["Policy Analysis", "Time-series Analysis", "International Benchmarking", "Stakeholder Analysis"]
-statistical_methods: ["Revenue Analysis", "Comparative Analysis", "Policy Simulation"]
-software_used: ["R", "Excel"]
+methodology: ["Panel Fixed Effects Regression", "Policy Analysis", "Time-series Analysis", "International Benchmarking"]
+data_period:
+  start: "2015"
+  end: "2024"
+statistical_methods: ["Panel Fixed Effects", "Cluster-Robust Standard Errors", "Revenue Analysis", "Comparative Analysis", "Policy Simulation"]
+software_used: ["Python", "R", "Excel"]
 related_projects: ["broadcasting-revenue-2015-2024"]
 ---
 
-## Research Background
+## Research Overview
 
-Korea's media ecosystem faces a structural financing crisis that threatens the sustainability of public service broadcasting and quality content production. The crisis stems from the convergence of multiple adverse trends: a 44-year freeze on public broadcasting license fees that has eroded real funding by 82 percent, a 43.5 percent collapse in broadcast advertising revenue over the past decade as spending migrated to digital platforms, and growing platform contribution gaps as IPTV and OTT services expand without commensurate financial contribution to the content ecosystem.
+This study examines the financing crisis facing Korea's media ecosystem through two interconnected lenses: (1) the unintended consequences of broadcasting reapproval investment requirements on cable network performance, and (2) the broader structural crisis of media industry financing. Using panel data from major broadcasting companies (2015-2024), we provide empirical evidence that well-intentioned regulatory mandates can produce counterproductive outcomes.
 
-These financing pressures have materialized gradually but now demand urgent policy attention. Public broadcasters face constrained budgets that limit their ability to produce the high-quality news, cultural, and educational programming that constitutes their public service mandate. Commercial broadcasters struggle to maintain content investment as advertising revenues decline. Meanwhile, global streaming platforms that consume substantial audience attention and increasingly commission Korean content operate outside the regulatory and financial frameworks that govern domestic broadcasters.
+## Key Findings
 
-This work-in-progress analyzes the structural dimensions of the media financing crisis and proposes a comprehensive policy framework for restoring ecosystem sustainability. Drawing on international benchmarking and stakeholder analysis, the research develops a phased reform roadmap addressing license fee normalization, advertising regulation adjustment, and platform contribution requirements.
+### 1. Crowding-Out Effect of Investment Mandates
 
-## The License Fee Crisis
+Panel fixed effects analysis of four major cable networks (JTBC, TV Chosun, MBN, Channel A) reveals:
 
-Korea's public broadcasting license fee has remained frozen at 2,500 won per month since 1981, representing one of the longest periods of fee stagnation among developed democracies with public broadcasting systems. When adjusted for inflation, the real value of the license fee has declined by approximately 82 percent over this 44-year period. This erosion has progressively constrained public broadcasters' financial capacity while their programming and infrastructure costs have increased substantially.
+| Effect | Estimate | Significance |
+|--------|----------|-------------|
+| Investment ratio requirement on ROI | -1.018 | p < 0.001 |
+| Investment increase on operating margin | -0.60%p | p < 0.001 |
+| Government fund on investment | Not significant | p = 0.614 |
 
-International comparison reveals the anomaly of Korea's situation. OECD countries with significant public broadcasting systems have typically implemented regular fee adjustments to maintain real funding levels. Germany's license fee undergoes quadrennial review by an independent commission. The United Kingdom's BBC license fee, while politically contested, has received periodic adjustments. Japan's NHK receives fee levels substantially above Korea's in both absolute and per-capita terms. Korea's prolonged fee freeze places its public broadcasters at a significant disadvantage relative to international peers.
+- Government broadcasting development fund contributions: KRW 43.1 billion
+- Associated investment reduction: KRW 73.3-164 billion
+- **Crowding-out multiplier**: 1.7-3.8 times
 
-The political economy of license fee adjustment presents formidable challenges. Fee increases require legislative action and face public resistance given their visibility as household charges. Previous reform attempts have encountered opposition from both politicians wary of voter backlash and advocacy groups critical of public broadcaster performance. Breaking this political deadlock requires reframing the issue as ecosystem sustainability rather than public broadcaster funding alone.
+### 2. Three Structural Problems Identified
 
-## The Advertising Revenue Collapse
+#### Rigid Regulations in a Rapidly Changing Market
+- 5-year investment plans mandated in an unpredictable market environment
+- Broadcasting market conditions change faster than regulatory review cycles
+- Investment requirements set at reapproval become outdated within the compliance period
 
-Broadcast advertising revenue in Korea has declined by 43.5 percent over the decade from 2015 to 2024, representing a structural shift rather than cyclical fluctuation. This collapse reflects the migration of advertising spending from traditional broadcasting to digital platforms, particularly search and social media advertising that offer superior targeting and measurement capabilities. The trend shows no signs of reversal and is projected to continue as digital advertising technology advances.
+#### Crowding-Out of Productive Investment
+- Mandatory investment requirements redirect resources from commercially viable projects
+- Fund contributions reduce net available investment capital
+- Higher investment ratios are associated with lower profitability
 
-The advertising decline has differential impacts across broadcaster types. Commercial broadcasters dependent on advertising revenue face existential pressure, with some regional stations operating at loss. Public broadcasters that rely on advertising to supplement license fee income—unlike the BBC model of license-fee-only funding—face budget compression from both revenue sources simultaneously. The competitive dynamics of advertising markets mean that revenue shortfalls cannot be recovered through rate increases; reduced budgets translate directly into reduced content investment.
+#### Regulatory Persistence After Goal Achievement
+- Original investment promotion goals have been achieved over 15 years of compliance
+- Cable networks have established stable investment patterns
+- Continued mandates serve administrative rather than market-corrective functions
 
-Content quality erosion represents the most concerning consequence of advertising decline. Broadcasters respond to revenue pressure by reducing production budgets, limiting original programming, and increasing reliance on lower-cost formats. This degradation undermines the competitive position of Korean content domestically while potentially affecting the international reputation built through recent cultural exports. Breaking the cycle of revenue decline and quality erosion requires fundamental restructuring of media financing.
+### 3. Broader Media Financing Crisis
 
-## Platform Contribution Gaps
+#### License Fee Freeze
+- **Duration**: 44 years without adjustment (since 1981)
+- **Current Fee**: KRW 2,500 per month
+- **Real Value Loss**: 82% decline when adjusted for inflation
+- **International Gap**: Significantly below OECD standards
 
-The rapid growth of IPTV services and over-the-top streaming platforms has restructured Korean media consumption without corresponding adjustment to the financial relationships that support content production. IPTV operators have expanded substantially while their contributions to the broadcasting ecosystem—through retransmission fees, must-carry obligations, and public interest programming requirements—have not kept pace with their market presence.
+#### Advertising Revenue Collapse
+- **10-Year Decline**: 43.5% reduction in broadcast advertising (2015-2024)
+- **Structural Cause**: Irreversible migration to digital platforms
+- **Impact**: Severely reduced content production budgets
 
-OTT platforms present an even more significant policy challenge. Global streaming services such as Netflix and Disney+ now reach millions of Korean households and have become major commissioners of Korean content. However, they operate largely outside the regulatory and financial frameworks that govern domestic broadcasters. They pay no license fees, face limited local content requirements, and make no direct contribution to public service broadcasting. As their market share grows, the financial sustainability of the ecosystem they draw upon becomes increasingly precarious.
+#### Platform Contribution Gap
+- IPTV rapid expansion with limited ecosystem contribution
+- OTT platforms generating minimal financial contribution
+- Uneven burden distribution between legacy broadcasters and new platforms
 
-Addressing platform contribution gaps requires balancing multiple objectives: maintaining Korea's attractiveness as a content production location, ensuring fair competition between domestic and global platforms, and generating sustainable funding for public service content. Heavy-handed regulation risks driving production activity offshore, while insufficient action allows continued free-riding on ecosystem resources.
+## Data and Methodology
 
-## Proposed Policy Framework
+### Data Sources
+- Broadcasting company financial statements (2015-2024)
+- Korea Communications Commission regulatory reports
+- Broadcasting development fund contribution records
+- OECD media policy database
 
-The research proposes a three-phase reform approach spanning from 2025 to 2029 and beyond. The first phase, covering 2025 to 2026, focuses on emergency stabilization through immediate license fee adjustment to a minimum sustainable level, temporary relief from advertising regulations that constrain broadcaster competitiveness, and establishment of baseline platform contribution requirements.
+### Empirical Strategy
+- **Panel fixed effects regression** with cluster-robust standard errors
+- **Analysis subjects**: 4 major general programming cable networks
+- **Period**: 10 years (2015-2024)
+- **Key variables**: Investment ratio, operating margin, ROI, fund contributions, revenue
 
-The second phase, from 2027 to 2028, implements structural reform through comprehensive redesign of the media financing model. This includes multi-source funding diversification that reduces dependence on any single revenue stream, adoption of international best practices in license fee governance including independent review mechanisms, and technology-neutral regulatory frameworks that apply comparable obligations to comparable services regardless of delivery technology.
+## Policy Proposals
 
-The third phase, beginning in 2029, establishes long-term sustainability mechanisms including automatic fee adjustment indexed to inflation or broadcasting costs, comprehensive platform contribution requirements calibrated to market presence, and performance-based funding allocation that links public support to public service delivery.
+### Priority 1: Abolition of Rigid Investment Mandates
+- Remove fixed investment ratio requirements from reapproval conditions
+- Allow market-driven investment allocation
+- Reduce regulatory compliance burden
 
-## Current Status
+### Priority 2: Revenue-Linked Alternatives
+- Replace fixed targets with revenue-proportional benchmarks
+- Introduce automatic adjustment mechanisms tied to market conditions
+- Implement total amount management instead of ratio requirements
 
-The research is at the data analysis and policy design stage. Time-series analysis of revenue structures has been completed, and international benchmarking has identified relevant policy models. Stakeholder impact assessment is underway to understand how proposed reforms would affect different ecosystem participants. Policy simulation modeling will project outcomes under alternative reform scenarios.
+### Priority 3: License Fee Normalization
+- Adjust public broadcasting license fees to sustainable levels
+- Introduce inflation-indexed automatic adjustment mechanism
+- Benchmark against OECD peers
 
-The work targets completion in the second quarter of 2025 with planned submission to a media policy journal. The research complements the Broadcasting Revenue Structure Analysis (2015-2024) conference paper by providing deeper policy analysis and reform recommendations.
+### Priority 4: System-wide Reform
+- Extend reapproval validity from 5 to 7 years
+- Develop technology-neutral regulatory framework
+- Establish platform contribution baseline
 
-## Publication Statistics
+## Phased Reform Roadmap
 
-| Metric | Value |
-|--------|-------|
-| License Fee Freeze | 44 years (since 1981) |
-| Current Fee | 2,500 KRW/month |
-| Real Value Decline | 82% (inflation-adjusted) |
-| Advertising Decline | 43.5% (2015-2024) |
-| Policy Framework | Three-phase reform (2025-2029+) |
-| Phase 1 | Emergency Stabilization |
-| Phase 2 | Structural Reform |
-| Phase 3 | Long-term Sustainability |
-| Status | Work in Progress |
-| Target Completion | Q2 2025 |
+### Phase 1: Emergency Stabilization (2025-2026)
+- License fee adjustment to minimum sustainable level
+- Temporary advertising regulation relief
+- Platform contribution baseline establishment
+
+### Phase 2: Structural Reform (2027-2028)
+- Comprehensive financing model redesign
+- Multi-source funding diversification
+- International best practice adoption
+
+### Phase 3: Long-term Sustainability (2029+)
+- Automatic adjustment mechanisms
+- Technology-neutral regulatory framework
+- Performance-based funding allocation
+
+## Limitations
+
+- Panel analysis limited to 4 major cable networks due to data availability
+- Government fund coefficient not statistically significant on the small 4-company sample
+- Causal interpretation requires caution given potential endogeneity
+- License fee analysis is descriptive rather than formally modeled
+
+## Status
+
+**Current Status**: Data analysis and policy design complete
+**Target Completion**: 2025
+**Planned Submission**: Media policy journal
+
+## Related Work
+
+This research complements the "Broadcasting Revenue Structure Analysis (2015-2024)" project, providing deeper empirical analysis of investment mandates and broader policy perspectives on media ecosystem financing.
