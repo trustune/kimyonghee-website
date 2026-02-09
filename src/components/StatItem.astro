@@ -28,7 +28,7 @@ const {
   .stat-item {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: var(--space-1);
   }
 
   /* Alignment */
@@ -49,28 +49,28 @@ const {
 
   /* Value */
   .stat-item__value {
-    font-family: 'Paperozi', 'Merriweather', serif;
-    font-weight: 700;
-    color: #1e40af;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    color: var(--color-text);
     display: block;
   }
 
   .stat-item--small .stat-item__value {
-    font-size: 1.5rem;
+    font-size: var(--step-1);
   }
 
   .stat-item--medium .stat-item__value {
-    font-size: 2rem;
+    font-size: var(--step-2);
   }
 
   .stat-item--large .stat-item__value {
-    font-size: 2.5rem;
+    font-size: var(--step-3);
   }
 
   /* Label */
   .stat-item__label {
-    font-size: 0.875rem;
-    color: #64748b;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -78,6 +78,6 @@ const {
   /* Sublabel */
   .stat-item__sublabel {
     font-size: 0.75rem;
-    color: #94a3b8;
+    color: var(--color-text-muted);
   }
 </style>

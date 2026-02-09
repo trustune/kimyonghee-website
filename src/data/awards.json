@@ -2,36 +2,36 @@
   "awards": [
     {
       "id": "award2023-ktc",
-      "title": "방송통신위원장 표창장",
-      "subtitle": "미디어규제체계정비",
-      "organization": "방송통신위원회",
+      "title": "Korea Communications Commission Chairman's Commendation",
+      "subtitle": "Media Regulatory Framework Reform",
+      "organization": "Korea Communications Commission (KCC)",
       "date": "2023-12-20",
-      "description": "통합방송법(한국형 AVMSD) 및 방송통신발전기금관련 공로",
+      "description": "Contributions to the Integrated Broadcasting Act (Korean AVMSD) and Broadcasting and Communications Development Fund",
       "category": "Government"
     },
     {
       "id": "award2022-msit",
-      "title": "과학기술정보통신부장관 표창장",
-      "subtitle": "OTT정책 및 산업전략발굴, 핵심인재 양성",
-      "organization": "과학기술정보통신부",
+      "title": "Minister of Science and ICT Commendation",
+      "subtitle": "OTT Policy, Industry Strategy, and Talent Development",
+      "organization": "Ministry of Science and ICT (MSIT)",
       "date": "2022-12-15",
-      "description": "OTT 정책 및 산업전략, 인재양성 관련 공로",
+      "description": "Contributions to OTT policy, industry strategy, and talent development",
       "category": "Government"
     },
     {
       "id": "award2021-ksms",
-      "title": "우수논문발표상",
-      "organization": "한국서비스경영학회",
+      "title": "Best Paper Presentation Award",
+      "organization": "Korean Service Management Society",
       "date": "2021-11-19",
-      "description": "유료방송 및 OTT의 공적 규범 가치 제도화 방향",
+      "description": "Institutionalizing Public Norms for Pay-TV and OTT Services",
       "category": "Academic"
     },
     {
       "id": "award2019-ksms",
-      "title": "우수논문발표상",
-      "organization": "한국서비스경영학회",
+      "title": "Best Paper Presentation Award",
+      "organization": "Korean Service Management Society",
       "date": "2019-12-16",
-      "description": "소셜미디어 인플루언서와 팔로워 간의 파라소셜 관계가 구매의도에 미치는 영향",
+      "description": "Effects of Parasocial Relationships Between Social Media Influencers and Followers on Purchase Intention",
       "category": "Academic"
     },
     {
@@ -44,34 +44,34 @@
     },
     {
       "id": "award2016-ksqm",
-      "title": "우수논문상",
-      "organization": "한국품질경영학회",
+      "title": "Best Paper Award",
+      "organization": "Korean Society for Quality Management",
       "date": "2016-05-27",
-      "description": "어플라이언스 시스템의 혁신특성과 품질이 채택의도에 미치는 영향",
+      "description": "Effects of Innovation Characteristics and Quality of Appliance Systems on Adoption Intention",
       "category": "Academic"
     },
     {
       "id": "award2015-ksms-best",
-      "title": "최우수논문상",
-      "organization": "한국서비스경영학회",
+      "title": "Grand Best Paper Award",
+      "organization": "Korean Service Management Society",
       "date": "2015-05-23",
-      "description": "Social Network Game 이용자의 전환의도에 관한 연구",
+      "description": "Switching Intention of Social Network Game Users",
       "category": "Academic"
     },
     {
       "id": "award2015-ksqm-presentation",
       "title": "Best Presentation Award",
-      "organization": "한국품질경영학회",
+      "organization": "Korean Society for Quality Management",
       "date": "2015-11-13",
-      "description": "지각된 희생과 편익이 스마트 홈 수용의도에 미치는 영향에 관한 연구",
+      "description": "Effects of Perceived Sacrifice and Benefits on Smart Home Adoption Intention",
       "category": "Academic"
     },
     {
       "id": "award2014-ksqm",
-      "title": "우수연구논문상",
-      "organization": "한국품질경영학회",
+      "title": "Outstanding Research Paper Award",
+      "organization": "Korean Society for Quality Management",
       "date": "2014-10-31",
-      "description": "IOT서비스의 성공적 수용에 관한 연구",
+      "description": "Successful Adoption of IoT Services",
       "category": "Academic"
     },
     {

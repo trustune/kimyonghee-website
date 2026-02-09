@@ -163,92 +163,94 @@ const evalLabels = {
 
 <style>
   .course-page {
-    max-width: 1200px;
+    max-width: var(--container-max);
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: var(--space-12) var(--space-8);
   }
 
   /* Breadcrumb */
   .breadcrumb {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
   }
 
   .back-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    color: #2563eb;
+    gap: var(--space-2);
+    color: var(--color-accent);
     text-decoration: none;
-    font-size: 0.9375rem;
+    font-size: var(--step-0);
     font-weight: 500;
-    transition: color 0.2s;
+    transition: color var(--transition-fast);
   }
 
   .back-link:hover {
-    color: #1e40af;
+    color: var(--color-accent-hover);
   }
 
   /* Page Header */
   .page-header {
-    margin-bottom: 4rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid #1e40af;
+    margin-bottom: var(--space-16);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .page-header h1 {
-    font-size: 2.5rem;
-    color: #1e40af;
-    margin-bottom: 0.5rem;
+    font-family: var(--font-serif);
+    font-size: var(--step-3);
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
   }
 
   .title-en {
-    font-size: 1.5rem;
-    color: #6b7280;
+    font-size: var(--step-1);
+    color: var(--color-text-muted);
     font-weight: 300;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
   }
 
   .course-info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: #f9fafb;
-    border-radius: 0.5rem;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+    padding: var(--space-6);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--border-radius);
   }
 
   .info-item {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: var(--space-1);
   }
 
   .info-label {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #6b7280;
+    color: var(--color-text-muted);
     font-weight: 600;
   }
 
   .info-value {
-    font-size: 1rem;
-    color: #1f2937;
+    font-size: var(--step-0);
+    color: var(--color-text);
     font-weight: 500;
   }
 
   .contact-info {
-    padding: 1.5rem;
-    background: #eff6ff;
-    border-left: 3px solid #2563eb;
-    border-radius: 0.25rem;
+    padding: var(--space-6);
+    background: var(--color-surface);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--border-radius);
   }
 
   .contact-info p {
-    margin-bottom: 0.5rem;
-    color: #4b5563;
-    font-size: 0.9375rem;
+    margin-bottom: var(--space-2);
+    color: var(--color-text-secondary);
+    font-size: var(--step-0);
   }
 
   .contact-info p:last-child {
@@ -256,31 +258,34 @@ const evalLabels = {
   }
 
   .contact-info a {
-    color: #2563eb;
+    color: var(--color-accent);
     text-decoration: none;
   }
 
   .contact-info a:hover {
+    color: var(--color-accent-hover);
     text-decoration: underline;
   }
 
   /* Section */
   .section {
-    margin-bottom: 4rem;
+    margin-bottom: var(--space-16);
   }
 
   .section h2 {
-    font-size: 1.875rem;
-    color: #1f2937;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #e5e7eb;
+    font-family: var(--font-serif);
+    font-size: var(--step-2);
+    color: var(--color-text);
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .description {
-    font-size: 1.0625rem;
+    font-size: var(--step-0);
     line-height: 1.8;
-    color: #4b5563;
+    color: var(--color-text-secondary);
+    max-width: var(--measure);
   }
 
   /* Objectives */
@@ -290,21 +295,22 @@ const evalLabels = {
   }
 
   .objectives-list li {
-    padding: 1rem 1rem 1rem 2.5rem;
-    margin-bottom: 0.75rem;
-    background: #f9fafb;
-    border-left: 3px solid #2563eb;
-    border-radius: 0.25rem;
-    color: #4b5563;
+    padding: var(--space-4) var(--space-4) var(--space-4) var(--space-8);
+    margin-bottom: var(--space-3);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-light);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--border-radius);
+    color: var(--color-text-secondary);
     line-height: 1.7;
     position: relative;
   }
 
   .objectives-list li::before {
-    content: "→";
+    content: "\2192";
     position: absolute;
-    left: 1rem;
-    color: #2563eb;
+    left: var(--space-4);
+    color: var(--color-accent);
     font-weight: bold;
   }
 
@@ -312,64 +318,63 @@ const evalLabels = {
   .evaluation-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1.5rem;
+    gap: var(--space-6);
   }
 
   .eval-card {
-    padding: 1.5rem;
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-    border-radius: 0.75rem;
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
     text-align: center;
-    border: 1px solid #bae6fd;
-    transition: all 0.2s;
+    transition: border-color var(--transition-fast);
   }
 
   .eval-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    border-color: var(--color-accent);
   }
 
   .eval-label {
     font-size: 0.875rem;
-    color: #6b7280;
-    margin-bottom: 0.5rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
     font-weight: 500;
   }
 
   .eval-value {
-    font-size: 2.5rem;
-    color: #1e40af;
+    font-size: var(--step-3);
+    color: var(--color-accent);
     font-weight: 700;
   }
 
   .percent {
-    font-size: 1.25rem;
-    margin-left: 0.125rem;
+    font-size: var(--step-1);
+    margin-left: var(--space-1);
   }
 
   /* Schedule Table */
   .schedule-table-wrapper {
     overflow-x: auto;
-    border-radius: 0.5rem;
-    border: 1px solid #e5e7eb;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
   }
 
   .schedule-table {
     width: 100%;
     border-collapse: collapse;
-    background: #ffffff;
+    background: var(--color-bg);
   }
 
   .schedule-table thead {
-    background: #f9fafb;
+    background: var(--color-surface);
   }
 
   .schedule-table th {
-    padding: 1rem;
+    padding: var(--space-4);
     text-align: left;
     font-weight: 600;
-    color: #1f2937;
-    border-bottom: 2px solid #e5e7eb;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
     font-size: 0.875rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -388,101 +393,102 @@ const evalLabels = {
   }
 
   .schedule-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #f3f4f6;
-    color: #4b5563;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-border-light);
+    color: var(--color-text-secondary);
   }
 
   .schedule-table tbody tr:hover {
-    background: #f9fafb;
+    background: var(--color-surface);
   }
 
   .week-num {
     text-align: center;
     font-weight: 600;
-    color: #1f2937;
+    color: var(--color-text);
   }
 
   .topic {
     font-weight: 500;
-    color: #1f2937;
+    color: var(--color-text);
   }
 
   .details {
-    font-size: 0.9375rem;
-    color: #6b7280;
+    font-size: var(--step-0);
+    color: var(--color-text-muted);
   }
 
   .exam-row {
-    background: #fef3c7;
+    background: var(--color-accent-light);
   }
 
   .exam-row:hover {
-    background: #fde68a;
+    background: var(--color-accent-light);
   }
 
   .exam-row .topic {
-    color: #92400e;
+    color: var(--color-accent);
     font-weight: 600;
   }
 
   /* Textbook */
   .textbook-card {
-    padding: 2rem;
-    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-    border-left: 4px solid #f59e0b;
-    border-radius: 0.5rem;
+    padding: var(--space-8);
+    background: var(--color-surface);
+    border-left: 3px solid var(--color-border);
+    border-radius: var(--border-radius);
   }
 
   .textbook-title {
-    font-size: 1.25rem;
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
     font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 0.5rem;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
   }
 
   .textbook-author {
-    font-size: 1rem;
-    color: #6b7280;
-    margin-bottom: 0.25rem;
+    font-size: var(--step-0);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-1);
   }
 
   .textbook-publisher {
     font-size: 0.875rem;
-    color: #9ca3af;
+    color: var(--color-text-muted);
   }
 
   .textbook-simple {
-    padding: 1.5rem;
-    background: #f9fafb;
-    border-left: 3px solid #2563eb;
-    border-radius: 0.25rem;
+    padding: var(--space-6);
+    background: var(--color-surface);
+    border-left: 3px solid var(--color-border);
+    border-radius: var(--border-radius);
   }
 
   .textbook-simple p {
-    color: #4b5563;
+    color: var(--color-text-secondary);
     margin: 0;
   }
 
   /* Footer Nav */
   .footer-nav {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid #e5e7eb;
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
   }
 
   /* Responsive */
   @media (max-width: 768px) {
     .course-page {
-      padding: 2rem 1rem;
+      padding: var(--space-8) var(--space-4);
     }
 
     .page-header h1 {
-      font-size: 1.75rem;
+      font-size: var(--step-2);
     }
 
     .title-en {
-      font-size: 1.125rem;
+      font-size: var(--step-0);
     }
 
     .course-info-grid {
@@ -495,7 +501,7 @@ const evalLabels = {
 
     .schedule-table th,
     .schedule-table td {
-      padding: 0.75rem 0.5rem;
+      padding: var(--space-3) var(--space-2);
       font-size: 0.875rem;
     }
 

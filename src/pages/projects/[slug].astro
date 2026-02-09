@@ -67,17 +67,11 @@ const pieData = {
   }]
 };
 
-// Language support - get Korean versions if available
-const titleEn = data.title_en || data.title;
-const titleKo = data.title_ko || data.title;
-const subtitleEn = data.subtitle_en || data.subtitle || '';
-const subtitleKo = data.subtitle_ko || data.subtitle || '';
-const conferenceEn = data.conference_en || data.conference || '';
-const conferenceKo = data.conference_ko || data.conference || '';
-const summaryEn = data.summary || '';
-const summaryKo = data.summary_ko || data.summary || '';
-const keyFindingsEn = data.key_findings || [];
-const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
+const titleText = data.title_en || data.title;
+const subtitleText = data.subtitle_en || data.subtitle || '';
+const conferenceText = data.conference_en || data.conference || '';
+const summaryText = data.summary || '';
+const keyFindings = data.key_findings || [];
 ---
 
 <BaseLayout title={data.title}>
@@ -85,24 +79,15 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
     <header class="project-header">
       <div class="header-content">
         <span class="category-badge">{data.category}</span>
-        <h1>
-          <span class="lang-content" data-lang="en">{titleEn}</span>
-          <span class="lang-content" data-lang="ko">{titleKo}</span>
-        </h1>
-        {(subtitleEn || subtitleKo) && (
-          <p class="subtitle">
-            <span class="lang-content" data-lang="en">{subtitleEn}</span>
-            <span class="lang-content" data-lang="ko">{subtitleKo}</span>
-          </p>
+        <h1>{titleText}</h1>
+        {subtitleText && (
+          <p class="subtitle">{subtitleText}</p>
         )}
-        
+
         <div class="meta-info">
           <time datetime={data.date}>{new Date(data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-          {(conferenceEn || conferenceKo) && (
-            <span class="conference">
-              <span class="lang-content" data-lang="en">{conferenceEn}</span>
-              <span class="lang-content" data-lang="ko">{conferenceKo}</span>
-            </span>
+          {conferenceText && (
+            <span class="conference">{conferenceText}</span>
           )}
         </div>
 
@@ -115,33 +100,19 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
     </header>
 
     {/* Summary Box */}
-    {(summaryEn || summaryKo) && (
+    {summaryText && (
       <div class="summary-box">
-        <h3>
-          <span class="lang-content" data-lang="en">Executive Summary</span>
-          <span class="lang-content" data-lang="ko">핵심 요약</span>
-        </h3>
-        <p>
-          <span class="lang-content" data-lang="en">{summaryEn}</span>
-          <span class="lang-content" data-lang="ko">{summaryKo}</span>
-        </p>
+        <h3>Executive Summary</h3>
+        <p>{summaryText}</p>
       </div>
     )}
 
     {/* Key Findings Box */}
-    {(keyFindingsEn.length > 0 || keyFindingsKo.length > 0) && (
+    {keyFindings.length > 0 && (
       <div class="key-findings-box">
-        <h3>
-          <span class="lang-content" data-lang="en">Key Findings</span>
-          <span class="lang-content" data-lang="ko">주요 발견</span>
-        </h3>
-        <ul class="lang-content" data-lang="en">
-          {keyFindingsEn.map((finding: string) => (
-            <li>{finding}</li>
-          ))}
-        </ul>
-        <ul class="lang-content" data-lang="ko">
-          {keyFindingsKo.map((finding: string) => (
+        <h3>Key Findings</h3>
+        <ul>
+          {keyFindings.map((finding: string) => (
             <li>{finding}</li>
           ))}
         </ul>
@@ -152,22 +123,22 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
       <div class="project-content">
         <Content />
       </div>
-      
+
       {showCharts && (
         <aside class="charts-sidebar">
           <div class="chart-card">
             <h3>Revenue Trends (2015-2024)</h3>
-            <LineChart 
+            <LineChart
               id="revenueChart"
               labels={revenueLabels}
               datasets={revenueDatasets}
               yAxisLabel="Trillion KRW"
             />
           </div>
-          
+
           <div class="chart-card">
             <h3>Revenue Composition 2024</h3>
-            <PieChart 
+            <PieChart
               id="compositionChart"
               data={pieData}
             />
@@ -207,14 +178,14 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
 
 <style>
   .project-detail {
-    max-width: 1200px;
+    max-width: var(--container-max);
     margin: 0 auto;
-    padding: 2rem;
+    padding: var(--space-8);
   }
 
   .project-header {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
     border-bottom: 2px solid var(--color-border);
   }
 
@@ -224,145 +195,115 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
 
   .category-badge {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
-    background: var(--color-primary);
-    color: white;
-    border-radius: 20px;
+    padding: var(--space-1) var(--space-3);
+    background: transparent;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--border-radius);
     font-size: 0.875rem;
     font-weight: 500;
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-4);
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: var(--step-3);
     line-height: 1.2;
-    margin-bottom: 1rem;
-    color: var(--color-text-primary);
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+    font-family: var(--font-serif);
   }
 
   .subtitle {
-    font-size: 1.25rem;
+    font-size: var(--step-1);
     color: var(--color-text-secondary);
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
     line-height: 1.6;
   }
 
   .meta-info {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--color-text-tertiary);
+    gap: var(--space-6);
+    margin-bottom: var(--space-4);
+    color: var(--color-text-muted);
     font-size: 0.95rem;
   }
 
   .conference {
-    padding-left: 1.5rem;
+    padding-left: var(--space-6);
     border-left: 1px solid var(--color-border);
   }
 
   .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: var(--space-2);
   }
 
   .tag {
-    padding: 0.25rem 0.75rem;
-    background: var(--color-bg-secondary);
-    border-radius: 20px;
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-surface);
+    border-radius: var(--border-radius);
     font-size: 0.875rem;
     color: var(--color-text-secondary);
   }
 
   /* Summary Box */
   .summary-box {
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-    border: 1px solid #3b82f6;
-    border-radius: 12px;
-    padding: 1.5rem 2rem;
-    margin-bottom: 2rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--border-radius);
+    padding: var(--space-6) var(--space-8);
+    margin-bottom: var(--space-8);
   }
 
   .summary-box h3 {
-    color: #1e40af;
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+    font-size: var(--step-1);
   }
 
   .summary-box p {
-    color: #1e3a8a;
+    color: var(--color-text-secondary);
     line-height: 1.7;
     margin: 0;
   }
 
   /* Key Findings Box */
   .key-findings-box {
-    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-    border: 1px solid #10b981;
-    border-radius: 12px;
-    padding: 1.5rem 2rem;
-    margin-bottom: 2rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-left: 3px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: var(--space-6) var(--space-8);
+    margin-bottom: var(--space-8);
   }
 
   .key-findings-box h3 {
-    color: #065f46;
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+    font-size: var(--step-1);
   }
 
   .key-findings-box ul {
     margin: 0;
-    padding-left: 1.25rem;
+    padding-left: var(--space-6);
   }
 
   .key-findings-box li {
-    color: #064e3b;
+    color: var(--color-text-secondary);
     line-height: 1.6;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-2);
   }
 
   .key-findings-box li:last-child {
     margin-bottom: 0;
   }
 
-  /* Language switching */
-  .lang-content[data-lang="ko"] {
-    display: none;
-  }
-
-  .lang-content[data-lang="en"] {
-    display: inline;
-  }
-
-  ul.lang-content[data-lang="en"],
-  ul.lang-content[data-lang="ko"] {
-    display: none;
-  }
-
-  ul.lang-content[data-lang="en"] {
-    display: block;
-  }
-
-  :global([data-language="ko"]) .lang-content[data-lang="ko"] {
-    display: inline;
-  }
-
-  :global([data-language="ko"]) .lang-content[data-lang="en"] {
-    display: none;
-  }
-
-  :global([data-language="ko"]) ul.lang-content[data-lang="ko"] {
-    display: block;
-  }
-
-  :global([data-language="ko"]) ul.lang-content[data-lang="en"] {
-    display: none;
-  }
-
   .content-wrapper {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: var(--space-8);
   }
 
   @media (min-width: 1024px) {
@@ -373,40 +314,40 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
 
   .project-content {
     line-height: 1.8;
-    color: var(--color-text-primary);
+    color: var(--color-text);
   }
 
   .project-content :global(h2) {
-    font-size: 1.75rem;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
-    color: var(--color-text-primary);
+    font-size: var(--step-2);
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
   }
 
   .project-content :global(h3) {
-    font-size: 1.25rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    color: var(--color-text-primary);
+    font-size: var(--step-1);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+    color: var(--color-text);
   }
 
   .project-content :global(p) {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
   }
 
   .project-content :global(ul), .project-content :global(ol) {
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
+    margin-bottom: var(--space-6);
+    padding-left: var(--space-6);
   }
 
   .project-content :global(li) {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-2);
   }
 
   .project-content :global(blockquote) {
-    border-left: 4px solid var(--color-primary);
-    padding-left: 1.5rem;
-    margin: 2rem 0;
+    border-left: 4px solid var(--color-accent);
+    padding-left: var(--space-6);
+    margin: var(--space-8) 0;
     font-style: italic;
     color: var(--color-text-secondary);
   }
@@ -415,7 +356,7 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
   .project-content :global(table) {
     width: 100%;
     border-collapse: collapse;
-    margin: 2rem 0;
+    margin: var(--space-8) 0;
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -430,59 +371,59 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
   }
 
   .project-content :global(th), .project-content :global(td) {
-    padding: 0.75rem 1rem;
+    padding: var(--space-3) var(--space-4);
     border: 1px solid var(--color-border);
     text-align: left;
     min-width: 120px;
   }
 
   .project-content :global(th) {
-    background: var(--color-bg-secondary);
+    background: var(--color-surface);
     font-weight: 600;
   }
 
   .charts-sidebar {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: var(--space-8);
   }
 
   .chart-card {
-    background: var(--color-bg-primary);
+    background: var(--color-bg);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: var(--border-radius);
+    padding: var(--space-6);
   }
 
   .chart-card h3 {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    color: var(--color-text-primary);
+    font-size: var(--step-0);
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
   }
 
   .methodology-section, .sources-section {
-    margin-top: 3rem;
-    padding-top: 2rem;
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
     border-top: 1px solid var(--color-border);
   }
 
   .methodology-section h2, .sources-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: var(--step-2);
+    margin-bottom: var(--space-4);
   }
 
   .methodology-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: var(--space-2);
   }
 
   .method-tag {
-    padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-    color: white;
-    border-radius: 20px;
+    padding: var(--space-2) var(--space-4);
+    background: transparent;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--border-radius);
     font-size: 0.875rem;
   }
 
@@ -495,35 +436,37 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border-light);
   }
 
   .source-type {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--border-radius);
     font-size: 0.75rem;
     text-transform: uppercase;
   }
 
   .source-type.primary {
-    background: rgba(16, 185, 129, 0.1);
-    color: #059669;
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
   }
 
   .source-type.secondary {
-    background: rgba(59, 130, 246, 0.1);
-    color: #2563eb;
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
   }
 
   /* Tablet */
   @media (max-width: 1024px) {
     .project-detail {
-      padding: 1.5rem;
+      padding: var(--space-6);
     }
 
     h1 {
-      font-size: 2rem;
+      font-size: var(--step-2);
     }
 
     .content-wrapper.with-charts {
@@ -533,7 +476,7 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
     .charts-sidebar {
       flex-direction: row;
       overflow-x: auto;
-      gap: 1.5rem;
+      gap: var(--space-6);
     }
 
     .chart-card {
@@ -544,27 +487,27 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
   /* Mobile */
   @media (max-width: 768px) {
     .project-detail {
-      padding: 1rem;
+      padding: var(--space-4);
     }
 
     .project-header {
-      margin-bottom: 2rem;
-      padding-bottom: 1.5rem;
+      margin-bottom: var(--space-8);
+      padding-bottom: var(--space-6);
     }
 
     h1 {
-      font-size: 1.5rem;
+      font-size: var(--step-2);
       line-height: 1.3;
     }
 
     .subtitle {
-      font-size: 1rem;
+      font-size: var(--step-0);
       line-height: 1.5;
     }
 
     .meta-info {
       flex-direction: column;
-      gap: 0.5rem;
+      gap: var(--space-2);
       font-size: 0.875rem;
     }
 
@@ -575,28 +518,28 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
 
     .summary-box,
     .key-findings-box {
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1.5rem;
+      padding: var(--space-4) var(--space-6);
+      margin-bottom: var(--space-6);
     }
 
     .summary-box h3,
     .key-findings-box h3 {
-      font-size: 1rem;
+      font-size: var(--step-0);
     }
 
     .project-content :global(h2) {
-      font-size: 1.5rem;
-      margin-top: 2rem;
+      font-size: var(--step-2);
+      margin-top: var(--space-8);
     }
 
     .project-content :global(h3) {
-      font-size: 1.125rem;
-      margin-top: 1.5rem;
+      font-size: var(--step-1);
+      margin-top: var(--space-6);
     }
 
     .project-content :global(th),
     .project-content :global(td) {
-      padding: 0.5rem 0.75rem;
+      padding: var(--space-2) var(--space-3);
       font-size: 0.875rem;
       min-width: 100px;
     }
@@ -607,61 +550,40 @@ const keyFindingsKo = data.key_findings_ko || data.key_findings || [];
 
     .chart-card {
       min-width: auto;
-      padding: 1.25rem;
+      padding: var(--space-4);
     }
   }
 
   /* Small Mobile */
   @media (max-width: 640px) {
     .project-detail {
-      padding: 0.75rem;
+      padding: var(--space-3);
     }
 
     h1 {
-      font-size: 1.375rem;
+      font-size: var(--step-1);
     }
 
     .subtitle {
-      font-size: 0.9375rem;
+      font-size: var(--step-0);
     }
 
     .category-badge {
       font-size: 0.75rem;
-      padding: 0.2rem 0.625rem;
+      padding: var(--space-1) var(--space-2);
     }
 
     .summary-box,
     .key-findings-box {
-      padding: 1rem;
+      padding: var(--space-4);
     }
 
     .project-content :global(th),
     .project-content :global(td) {
-      padding: 0.4rem 0.5rem;
+      padding: var(--space-1) var(--space-2);
       font-size: 0.8125rem;
       min-width: 80px;
     }
   }
 </style>
 
-<script>
-  // Initialize language on page load
-  function initLanguage() {
-    const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-    document.documentElement.setAttribute('data-language', savedLang);
-  }
-
-  // Run on initial load
-  initLanguage();
-
-  // Listen for language changes
-  document.addEventListener('languagechange', (e: Event) => {
-    const customEvent = e as CustomEvent;
-    if (customEvent.detail && customEvent.detail.language) {
-      document.documentElement.setAttribute('data-language', customEvent.detail.language);
-    }
-  });
-
-  // Re-initialize on Astro page transitions
-  document.addEventListener('astro:page-load', initLanguage);
-</script>

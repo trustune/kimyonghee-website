@@ -21,38 +21,27 @@
 <style>
   .theme-toggle {
     position: relative;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 36px;
+    height: 36px;
     border: none;
-    background: #f3f4f6;
+    background: transparent;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s;
+    padding: 0;
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
   }
 
   .theme-toggle:hover {
-    background: #e5e7eb;
-  }
-
-  :global(.dark) .theme-toggle {
-    background: #374151;
-  }
-
-  :global(.dark) .theme-toggle:hover {
-    background: #4b5563;
+    color: var(--color-text);
   }
 
   .theme-toggle__icon {
     position: absolute;
-    transition: all 0.3s;
-    color: #6b7280;
-  }
-
-  :global(.dark) .theme-toggle__icon {
-    color: #f3f4f6;
+    transition: opacity var(--transition-base), transform var(--transition-base);
+    color: inherit;
   }
 
   .theme-toggle__icon--sun {
@@ -77,16 +66,40 @@
 </style>
 
 <script>
-  // Theme toggle logic
-  const themeToggle = document.getElementById('theme-toggle');
-  const htmlElement = document.documentElement;
+  function initThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
 
-  // Check for saved theme preference or default to 'light'
-  const currentTheme = localStorage.getItem('theme') || 'light';
-  htmlElement.classList.toggle('dark', currentTheme === 'dark');
+    // Determine theme: localStorage first, then system preference, fallback to light
+    const savedTheme = localStorage.getItem('theme');
+    let currentTheme: string;
 
-  themeToggle?.addEventListener('click', () => {
-    const isDark = htmlElement.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  });
+    if (savedTheme) {
+      currentTheme = savedTheme;
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      currentTheme = 'dark';
+    } else {
+      currentTheme = 'light';
+    }
+
+    htmlElement.classList.toggle('dark', currentTheme === 'dark');
+
+    themeToggle?.addEventListener('click', () => {
+      const isDark = htmlElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Listen for system theme changes when no explicit preference is saved
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        htmlElement.classList.toggle('dark', e.matches);
+      }
+    });
+  }
+
+  // Initialize on first load
+  initThemeToggle();
+
+  // Re-initialize on Astro view transitions page load
+  document.addEventListener('astro:page-load', initThemeToggle);
 </script>

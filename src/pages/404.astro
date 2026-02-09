@@ -2,12 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const popularPages = [
-  { title: 'Research & Publications', title_ko: '연구 및 논문', href: '/research/publications', description: 'View all research papers and publications', description_ko: '모든 연구 논문 및 출판물 보기' },
-  { title: 'Projects', title_ko: '프로젝트', href: '/projects', description: 'Explore research projects and analysis', description_ko: '연구 프로젝트 및 분석 탐색' },
-  { title: 'About', title_ko: '소개', href: '/about', description: 'Learn more about my background and experience', description_ko: '배경 및 경험에 대해 알아보기' },
-  { title: 'Blog', title_ko: '블로그', href: '/blog', description: 'Read latest posts and insights', description_ko: '최신 게시글 및 인사이트 읽기' },
-  { title: 'Teaching', title_ko: '강의', href: '/teaching', description: 'View courses and teaching materials', description_ko: '강의 및 교육 자료 보기' },
-  { title: 'Media', title_ko: '미디어', href: '/media', description: 'View opinion pieces and editorials', description_ko: '칼럼 및 기고문 보기' },
+  { title: 'Research & Publications', href: '/research/publications', description: 'View all research papers and publications' },
+  { title: 'Projects', href: '/projects', description: 'Explore research projects and analysis' },
+  { title: 'About', href: '/about', description: 'Learn more about my background and experience' },
+  { title: 'Writing', href: '/writing', description: 'Read latest posts and insights' },
+  { title: 'Teaching', href: '/teaching', description: 'View courses and teaching materials' },
+  { title: 'Search', href: '/search', description: 'Search across all content' },
 ];
 ---
 
@@ -16,26 +16,19 @@ const popularPages = [
     <div class="not-found-content">
       <div class="not-found-header">
         <h1 class="not-found-title">404</h1>
-        <h2 class="not-found-subtitle" data-lang="en">Page Not Found</h2>
-        <h2 class="not-found-subtitle" data-lang="ko">페이지를 찾을 수 없습니다</h2>
-        <p class="not-found-description" data-lang="en">
+        <h2 class="not-found-subtitle">Page Not Found</h2>
+        <p class="not-found-description">
           The page you're looking for doesn't exist or has been moved.
-        </p>
-        <p class="not-found-description" data-lang="ko">
-          찾으시는 페이지가 존재하지 않거나 이동되었습니다.
         </p>
       </div>
 
       <div class="not-found-search">
-        <h3 class="search-title" data-lang="en">Try searching:</h3>
-        <h3 class="search-title" data-lang="ko">검색해보세요:</h3>
+        <h3 class="search-title">Try searching:</h3>
         <div class="search-box">
           <input
             type="search"
             id="search-input"
             placeholder="Search for pages..."
-            data-placeholder-en="Search for pages..."
-            data-placeholder-ko="페이지 검색..."
             class="search-input"
           />
           <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -47,25 +40,20 @@ const popularPages = [
       </div>
 
       <div class="popular-pages">
-        <h3 class="popular-title" data-lang="en">Popular Pages</h3>
-        <h3 class="popular-title" data-lang="ko">인기 페이지</h3>
+        <h3 class="popular-title">Popular Pages</h3>
         <div class="popular-grid">
           {popularPages.map(page => (
             <a href={page.href} class="popular-card">
-              <h4 class="popular-card-title" data-lang="en">{page.title}</h4>
-              <h4 class="popular-card-title" data-lang="ko">{page.title_ko}</h4>
-              <p class="popular-card-description" data-lang="en">{page.description}</p>
-              <p class="popular-card-description" data-lang="ko">{page.description_ko}</p>
+              <h4 class="popular-card-title">{page.title}</h4>
+              <p class="popular-card-description">{page.description}</p>
             </a>
           ))}
         </div>
       </div>
 
       <div class="not-found-actions">
-        <a href="/" class="btn-primary" data-lang="en">Go to Homepage</a>
-        <a href="/" class="btn-primary" data-lang="ko">홈으로 가기</a>
-        <a href="/projects" class="btn-secondary" data-lang="en">View Projects</a>
-        <a href="/projects" class="btn-secondary" data-lang="ko">프로젝트 보기</a>
+        <a href="/" class="btn-primary">Go to Homepage</a>
+        <a href="/projects" class="btn-secondary">View Projects</a>
       </div>
     </div>
   </div>
@@ -77,55 +65,55 @@ const popularPages = [
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    padding: var(--space-8);
+    background: var(--color-bg);
   }
 
   .not-found-content {
-    max-width: 800px;
+    max-width: var(--container-max);
     width: 100%;
   }
 
   .not-found-header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: var(--space-12);
   }
 
   .not-found-title {
-    font-family: 'Paperozi', 'Merriweather', serif;
+    font-family: var(--font-serif);
     font-size: 8rem;
-    font-weight: 700;
-    color: #2563eb;
-    margin-bottom: 1rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
     line-height: 1;
   }
 
   .not-found-subtitle {
-    font-family: 'Paperozi', 'Inter', sans-serif;
-    font-size: 2rem;
-    font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 1rem;
+    font-family: var(--font-serif);
+    font-size: var(--step-3);
+    font-weight: 400;
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
   }
 
   .not-found-description {
-    font-size: 1.125rem;
-    color: #6b7280;
+    font-size: var(--step-0);
+    color: var(--color-text-secondary);
   }
 
   .not-found-search {
-    background: white;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    margin-bottom: 2rem;
+    background: var(--color-surface);
+    padding: var(--space-8);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    margin-bottom: var(--space-8);
   }
 
   .search-title {
-    font-size: 1rem;
+    font-size: var(--step-0);
     font-weight: 600;
-    color: #374151;
-    margin-bottom: 1rem;
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
   }
 
   .search-box {
@@ -134,145 +122,129 @@ const popularPages = [
 
   .search-input {
     width: 100%;
-    padding: 0.75rem 1rem 0.75rem 3rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    transition: all 0.2s;
+    padding: var(--space-3) var(--space-4) var(--space-3) var(--space-12);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-size: var(--step-0);
+    background: var(--color-bg);
+    color: var(--color-text);
+    transition: border-color var(--transition-fast);
   }
 
   .search-input:focus {
     outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    border-color: var(--color-accent);
   }
 
   .search-icon {
     position: absolute;
-    left: 1rem;
+    left: var(--space-4);
     top: 50%;
     transform: translateY(-50%);
-    color: #9ca3af;
+    color: var(--color-text-muted);
   }
 
   .search-results {
-    margin-top: 1rem;
+    margin-top: var(--space-4);
   }
 
   .search-result {
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    transition: background 0.2s;
+    padding: var(--space-3);
+    border-radius: var(--border-radius);
+    transition: background var(--transition-fast);
   }
 
   .search-result:hover {
-    background: #f3f4f6;
+    background: var(--color-border-light);
   }
 
   .search-result a {
-    color: #2563eb;
+    color: var(--color-accent);
     text-decoration: none;
     font-weight: 500;
   }
 
   .popular-pages {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
   }
 
   .popular-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 1rem;
+    font-size: var(--step-1);
+    font-weight: 400;
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
   }
 
   .popular-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
+    gap: var(--space-4);
   }
 
   .popular-card {
-    padding: 1.5rem;
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.75rem;
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
     text-decoration: none;
-    transition: all 0.2s;
+    transition: border-color var(--transition-fast);
   }
 
   .popular-card:hover {
-    border-color: #2563eb;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
+    border-color: var(--color-accent);
   }
 
   .popular-card-title {
-    font-size: 1.125rem;
+    font-size: var(--step-0);
     font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 0.5rem;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
   }
 
   .popular-card-description {
     font-size: 0.875rem;
-    color: #6b7280;
+    color: var(--color-text-secondary);
     margin: 0;
   }
 
   .not-found-actions {
     display: flex;
-    gap: 1rem;
+    gap: var(--space-4);
     justify-content: center;
   }
 
   .btn-primary, .btn-secondary {
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--border-radius);
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.2s;
+    transition: all var(--transition-fast);
+    font-size: 0.9375rem;
   }
 
   .btn-primary {
-    background: #2563eb;
-    color: white;
+    background: var(--color-accent);
+    color: #fff;
   }
 
   .btn-primary:hover {
-    background: #1e40af;
+    background: var(--color-accent-hover);
+    color: #fff;
   }
 
   .btn-secondary {
-    background: white;
-    color: #2563eb;
-    border: 2px solid #2563eb;
+    background: transparent;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
   }
 
   .btn-secondary:hover {
-    background: #eff6ff;
+    background: var(--color-accent-light);
+    color: var(--color-accent);
   }
 </style>
 
 <script>
-  // Update placeholder based on language
-  function updatePlaceholder() {
-    const searchInput = document.getElementById('search-input') as HTMLInputElement;
-    if (searchInput) {
-      const lang = document.documentElement.getAttribute('data-language') || 'en';
-      const placeholder = lang === 'ko' ?
-        searchInput.getAttribute('data-placeholder-ko') :
-        searchInput.getAttribute('data-placeholder-en');
-      searchInput.placeholder = placeholder || 'Search for pages...';
-    }
-  }
-
-  // Initialize placeholder
-  updatePlaceholder();
-
-  // Listen for language changes
-  window.addEventListener('languagechange', updatePlaceholder);
-
   // Simple search functionality
   const searchInput = document.getElementById('search-input') as HTMLInputElement;
   const searchResults = document.getElementById('search-results');
@@ -286,9 +258,8 @@ const popularPages = [
     { title: 'Netflix Korea Economic Impact', url: '/projects/netflix-korea-economic-impact-2024' },
     { title: 'Broadcasting Revenue Analysis', url: '/projects/broadcasting-revenue-2015-2024' },
     { title: 'MyData Policy', url: '/projects/mydata-right-transfer-policy-2025' },
-    { title: 'Blog', url: '/blog' },
+    { title: 'Writing', url: '/writing' },
     { title: 'Teaching', url: '/teaching' },
-    { title: 'Media Contributions', url: '/media' },
     { title: 'Search', url: '/search' },
   ];
 
@@ -311,9 +282,7 @@ const popularPages = [
         </div>
       `).join('');
     } else {
-      const lang = document.documentElement.getAttribute('data-language') || 'en';
-      const noResults = lang === 'ko' ? '검색 결과가 없습니다' : 'No results found';
-      searchResults.innerHTML = `<div class="search-result">${noResults}</div>`;
+      searchResults.innerHTML = `<div class="search-result">No results found</div>`;
     }
   });
 </script>

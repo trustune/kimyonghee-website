@@ -1,4 +1,4 @@
-﻿---
+---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SocialShare from '../../components/SocialShare.astro';
@@ -6,7 +6,7 @@ import SocialShare from '../../components/SocialShare.astro';
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
   return blogEntries.map(entry => ({
-    params: { slug: entry.slug }, 
+    params: { slug: entry.slug },
     props: { entry },
   }));
 }
@@ -15,171 +15,172 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 const { title, title_en, excerpt, excerpt_en, date, category, tags, image, author, enableShare } = entry.data;
 
-const formattedDateEn = new Date(date).toLocaleDateString('en-US', {
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
 });
 
-const formattedDateKo = new Date(date).toLocaleDateString('ko-KR', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-});
-
-const currentUrl = `https://kimyonghee.com/blog/${entry.slug}`;
+const currentUrl = `https://kimyonghee.com/writing/${entry.slug}`;
 const fullImageUrl = image ? `https://kimyonghee.com${image}` : '';
 ---
 
-<BaseLayout title={`${title} | Yonghee Kim`} description={excerpt} image={fullImageUrl} url={currentUrl}>
-  <article class="blog-post" style="max-width: 800px; margin: 0 auto; padding: 2rem 1rem;">
-    <header style="margin-bottom: 3rem;">
-      <div style="margin-bottom: 1.5rem;">
-        <a href="/blog" style="color: #2563eb; text-decoration: none; font-size: 0.95rem;" data-lang="en">
-          ← Back to Blog
-        </a>
-        <a href="/blog" style="color: #2563eb; text-decoration: none; font-size: 0.95rem;" data-lang="ko">
-          ← 블로그로 돌아가기
+<BaseLayout title={`${title_en || title} | Yonghee Kim`} description={excerpt_en || excerpt} image={fullImageUrl} url={currentUrl}>
+  <article class="blog-post">
+    <header class="post-header">
+      <div class="back-link-row">
+        <a href="/writing" class="back-link">
+          &larr; Back to Writing
         </a>
       </div>
 
       {image && (
         <img
           src={image}
-          alt={title}
-          style="width: 100%; height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 2rem;"
+          alt={title_en || title}
+          class="hero-image"
         />
       )}
 
-      <div style="display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem; color: #666;">
-        <span data-lang="en">{formattedDateEn}</span>
-        <span data-lang="ko">{formattedDateKo}</span>
-        <span>•</span>
+      <div class="post-meta">
+        <span>{formattedDate}</span>
+        <span>&middot;</span>
         <span>{category}</span>
-        <span>•</span>
-        <span data-lang="en">by {author}</span>
-        <span data-lang="ko">{author}</span>
+        <span>&middot;</span>
+        <span>by {author}</span>
       </div>
 
-      <h1 style="font-size: 2.5rem; line-height: 1.2; margin-bottom: 1.5rem; color: #1a1a1a;" data-lang="ko">
-        {title}
-      </h1>
-      <h1 style="font-size: 2.5rem; line-height: 1.2; margin-bottom: 1.5rem; color: #1a1a1a;" data-lang="en">
+      <h1 class="post-title">
         {title_en || title}
       </h1>
 
-      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem;">
+      <div class="post-tags">
         {tags.map((tag) => (
-          <span style="background: #f3f4f6; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.9rem; color: #4b5563;">
+          <span class="tag-badge">
             #{tag}
           </span>
         ))}
       </div>
     </header>
 
-    <div class="prose" style="line-height: 1.8; color: #374151;">
+    <div class="prose">
       <Content />
     </div>
 
     {enableShare && (
-      <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
-        <SocialShare 
-          title={title}
+      <div class="share-section">
+        <SocialShare
+          title={title_en || title}
           url={currentUrl}
-          excerpt={excerpt}
+          excerpt={excerpt_en || excerpt}
           image={fullImageUrl}
         />
       </div>
     )}
 
-    <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; text-align: center;">
-      <a href="/blog" style="color: #2563eb; text-decoration: none; font-weight: 500;" data-lang="en">
-        ← Back to all posts
-      </a>
-      <a href="/blog" style="color: #2563eb; text-decoration: none; font-weight: 500;" data-lang="ko">
-        ← 모든 글 보기
+    <footer class="post-footer">
+      <a href="/writing" class="back-link">
+        &larr; Back to all posts
       </a>
     </footer>
   </article>
 </BaseLayout>
 
-<style is:global>
-  .prose h2 {
-    font-size: 1.8rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    color: #1a1a1a;
-    font-weight: 600;
+<style>
+  .blog-post {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4);
   }
 
-  .prose h3 {
-    font-size: 1.4rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    color: #1a1a1a;
-    font-weight: 600;
+  .post-header {
+    margin-bottom: var(--space-12);
   }
 
-  .prose p {
-    margin-bottom: 1.5rem;
+  .back-link-row {
+    margin-bottom: var(--space-6);
   }
 
-  .prose ul, .prose ol {
-    margin: 1.5rem 0;
-    padding-left: 2rem;
+  .back-link {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color var(--transition-fast);
   }
 
-  .prose li {
-    margin-bottom: 0.5rem;
+  .back-link:hover {
+    color: var(--color-accent-hover);
   }
 
-  .prose a {
-    color: #2563eb;
-    text-decoration: underline;
-  }
-
-  .prose a:hover {
-    color: #1d4ed8;
-  }
-
-  .prose img {
+  .hero-image {
     width: 100%;
-    border-radius: 8px;
-    margin: 2rem 0;
+    height: 400px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    margin-bottom: var(--space-8);
   }
 
-  .prose strong {
-    font-weight: 600;
-    color: #1a1a1a;
+  .post-meta {
+    display: flex;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
   }
 
-  .prose code {
-    background: #f3f4f6;
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.9em;
-    font-family: 'Courier New', monospace;
+  .post-title {
+    font-family: var(--font-serif);
+    font-size: var(--step-4);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: var(--space-6);
+    color: var(--color-text);
   }
 
-  .prose pre {
-    background: #1f2937;
-    color: #f3f4f6;
-    padding: 1.5rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 2rem 0;
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-8);
   }
 
-  .prose pre code {
-    background: transparent;
-    padding: 0;
+  .tag-badge {
+    background: var(--color-surface);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
   }
 
-  .prose blockquote {
-    border-left: 4px solid #2563eb;
-    padding-left: 1.5rem;
-    margin: 2rem 0;
-    color: #4b5563;
-    font-style: italic;
+  .prose {
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+
+  .share-section {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .post-footer {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .blog-post {
+      padding: var(--space-6) var(--space-4);
+    }
+
+    .post-title {
+      font-size: var(--step-3);
+    }
+
+    .hero-image {
+      height: 250px;
+    }
   }
 </style>

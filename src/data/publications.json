@@ -111,7 +111,7 @@
       "category": "Efficiency Analysis",
       "abstract": "This paper evaluates operational efficiency of media companies using Data Envelopment Analysis and Malmquist productivity indices, providing insights into performance trends and competitive positioning in the media industry.",
       "pdf": "",
-      "citations": 5
+      "citations": 6
     },
     {
       "id": "kim2024-global",
@@ -131,7 +131,7 @@
       "doi": "10.3390/su16083282",
       "category": "ICT Policy",
       "citations": 1,
-      "abstract": "This study investigated the direct and indirect impacts of financial investment connectedness and Information and Communication Technology (ICT) on countries’ intellectual property (IP) strategies. By utilizing the panel logit model on longitudinal country-level data, we found that countries’ positions in the global financial investment network significantly affect their IP strategies.",
+      "abstract": "This study investigated the direct and indirect impacts of financial investment connectedness and Information and Communication Technology (ICT) on countries' intellectual property (IP) strategies. By utilizing the panel logit model on longitudinal country-level data, we found that countries' positions in the global financial investment network significantly affect their IP strategies.",
       "status": "published"
     },
     {
@@ -174,7 +174,7 @@
       "quartile": "Q1",
       "doi": "10.1080/14783363.2018.1487312",
       "category": "Public Service",
-      "citations": 19,
+      "citations": 20,
       "abstract": "This study aims to examine Gov. 3.0 (E-government) efficiency of 42 central administrative agencies in Republic of Korea and to identify the critical factors which can have an influence on the improvement of Gov.",
       "status": "published"
     },
@@ -215,8 +215,8 @@
       "quartile": "Q2",
       "doi": "10.3390/su10030872",
       "category": "Information Systems",
-      "citations": 18,
-      "abstract": "An information system (IS) upgrade is an essential way to enhance the competitiveness of an organization. Specifically, the decision making processes surrounding IS upgrades is one of the most important parts of an organization’s competitiveness in regard to business sustainability.",
+      "citations": 19,
+      "abstract": "An information system (IS) upgrade is an essential way to enhance the competitiveness of an organization. Specifically, the decision making processes surrounding IS upgrades is one of the most important parts of an organization's competitiveness in regard to business sustainability.",
       "status": "published"
     },
     {
@@ -258,7 +258,7 @@
       "quartile": "Q1",
       "doi": "10.1080/14783363.2017.1310708",
       "category": "IoT",
-      "citations": 487,
+      "citations": 495,
       "abstract": "This study aims to comprehensively examine the adoption of smart home service. A new model combining VAM (Value-based Adoption Model) and TAM (Technical Acceptance Model) was developed and analysed with a set of variables from Unified Theory of Acceptance and Use of Technology and Elaboration Likelihood Model.",
       "status": "published"
     },
@@ -326,7 +326,7 @@
     }
   ],
   "scholarStats": {
-    "citations": 1198,
+    "citations": 1223,
     "hIndex": 7,
     "i10Index": 6
   },
@@ -349,11 +349,11 @@
     },
     {
       "year": 2018,
-      "citations": 42
+      "citations": 43
     },
     {
       "year": 2019,
-      "citations": 110
+      "citations": 109
     },
     {
       "year": 2020,
@@ -361,23 +361,27 @@
     },
     {
       "year": 2021,
-      "citations": 172
+      "citations": 175
     },
     {
       "year": 2022,
-      "citations": 168
+      "citations": 170
     },
     {
       "year": 2023,
-      "citations": 181
+      "citations": 182
     },
     {
       "year": 2024,
-      "citations": 152
+      "citations": 153
     },
     {
       "year": 2025,
-      "citations": 141
+      "citations": 151
+    },
+    {
+      "year": 2026,
+      "citations": 9
     }
   ],
   "domestic_publications": [
@@ -385,14 +389,14 @@
       "id": "kim2019-iot-korean",
       "type": "kci",
       "status": "published",
-      "title": "IoT 서비스의 성공적 수용에 관한 연구: iBeacon과 Nearby를 중심으로",
+      "title": "A Study on the Successful Adoption of IoT Services: Focusing on iBeacon and Nearby",
       "title_en": "A Study on the Successful Adoption of IoT Services: Focusing on iBeacon and Nearby",
       "authors": [
         "Kim, Y.",
         "Park, Y.",
         "Choi, J."
       ],
-      "journal": "한국IT서비스학회지",
+      "journal": "Journal of Information Technology Services",
       "journal_en": "Journal of Information Technology Services",
       "year": 2019,
       "volume": 18,
@@ -400,19 +404,19 @@
       "pages": "89-102",
       "category": "IoT",
       "citations": 12,
-      "abstract": "본 연구는 IoT 서비스의 성공적 수용 요인을 iBeacon과 Nearby 기술을 중심으로 분석하였습니다."
+      "abstract": "This study analyzed the factors for the successful adoption of IoT services, focusing on iBeacon and Nearby technologies."
     },
     {
       "id": "kim2015-sng-korean",
       "type": "kci",
       "status": "published",
-      "title": "Social Network Game 이용자의 전환의도에 관한 연구: 카카오톡 플랫폼 기반 게임을 중심으로",
+      "title": "A Study on Switching Intentions of Social Network Game Users: Focusing on KakaoTalk Platform-Based Games",
       "title_en": "A Study on Switching Intentions of Social Network Game Users: Focusing on KakaoTalk Platform-Based Games",
       "authors": [
         "Kim, Y.",
         "Choi, J."
       ],
-      "journal": "한국게임학회 논문지",
+      "journal": "Journal of Korea Game Society",
       "journal_en": "Journal of Korea Game Society",
       "year": 2015,
       "volume": 15,
@@ -420,20 +424,20 @@
       "pages": "103-114",
       "category": "Game",
       "citations": 7,
-      "abstract": "본 연구는 소셜 네트워크 게임 이용자의 전환의도에 영향을 미치는 요인을 분석하였습니다."
+      "abstract": "This study analyzed the factors influencing switching intentions of social network game users."
     },
     {
       "id": "kim2015-app-korean",
       "type": "kci",
       "status": "published",
-      "title": "스마트폰 어플리케이션 서비스의 불만족이 고객 행동에 미치는 영향에 관한 연구",
+      "title": "A Study on the Impact of Smartphone Application Service Dissatisfaction on Customer Behavior",
       "title_en": "A Study on the Impact of Smartphone Application Service Dissatisfaction on Customer Behavior",
       "authors": [
         "Kim, Y.",
         "Park, Y.",
         "Choi, J."
       ],
-      "journal": "한국IT서비스학회지",
+      "journal": "Journal of Information Technology Services",
       "journal_en": "Journal of Information Technology Services",
       "year": 2015,
       "volume": 14,
@@ -441,20 +445,20 @@
       "pages": "205-222",
       "category": "Mobile Services",
       "citations": 6,
-      "abstract": "본 연구는 스마트폰 어플리케이션 서비스의 불만족 요인이 고객 행동에 미치는 영향을 실증 분석하였습니다."
+      "abstract": "This study empirically analyzed the impact of dissatisfaction factors in smartphone application services on customer behavior."
     },
     {
       "id": "kim2014-univ-korean",
       "type": "kci",
       "status": "published",
-      "title": "한국 대학의 운영 효율성 평가에 관한 연구: Bootstrap DEA와 Tobit Regression을 중심으로",
+      "title": "A Study on the Evaluation of Operational Efficiency of Korean Universities: Using Bootstrap DEA and Tobit Regression",
       "title_en": "A Study on the Evaluation of Operational Efficiency of Korean Universities: Using Bootstrap DEA and Tobit Regression",
       "authors": [
         "Kim, Y.",
         "Choi, J.",
         "Kim, Y. S."
       ],
-      "journal": "한국경영과학회지",
+      "journal": "Journal of the Korean Operations Research and Management Science Society",
       "journal_en": "Journal of the Korean Operations Research and Management Science Society",
       "year": 2014,
       "volume": 39,
@@ -462,7 +466,7 @@
       "pages": "19-33",
       "category": "Efficiency Analysis",
       "citations": 5,
-      "abstract": "본 연구는 Bootstrap DEA와 Tobit Regression을 활용하여 한국 대학의 운영 효율성을 평가하였습니다."
+      "abstract": "This study evaluated the operational efficiency of Korean universities using Bootstrap DEA and Tobit Regression."
     }
   ]
 }

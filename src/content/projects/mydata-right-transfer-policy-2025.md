@@ -1,12 +1,10 @@
 ---
-title: "본인전송요구권 확대가 가져올 사회적 문제와 대응 방안"
-title_en: "The Right to Data Transfer: Social Problems and Response Plans"
-subtitle: "개인정보보호법 시행령 개정안의 법적·정책적 문제점 검토"
-subtitle_en: "Critical Analysis of Personal Information Protection Act Enforcement Decree Amendment"
+title: "The Right to Data Transfer: Social Problems and Response Plans"
+subtitle: "Critical Analysis of Personal Information Protection Act Enforcement Decree Amendment"
 date: "2025-11-21"
 category: "Data Policy"
 tags: ["MyData", "Data Privacy", "Regulation", "Policy Analysis", "Startup Ecosystem", "GDPR"]
-keywords: ["MyData", "본인전송요구권", "개인정보보호법", "GDPR", "스타트업", "규제개혁", "데이터이동권", "Data Portability", "Privacy Regulation", "Startup Policy"]
+keywords: ["MyData", "GDPR", "Data Portability", "Privacy Regulation", "Startup Policy"]
 methodology: ["Policy Analysis", "Legal Review", "Comparative Study (GDPR)", "Stakeholder Analysis", "Cost-Benefit Analysis"]
 data_period:
   start: "2023-03"
@@ -15,10 +13,8 @@ related_publications: []
 related_projects: []
 conference: "MyData Policy Startup Seminar"
 venue: "Korea Startup Forum, D.CAMP, Gangnam, Seoul"
-description: "본인전송요구권 확대 개정안의 7가지 핵심 문제점 분석: 절차적 정당성 위반, 헌법적 문제, GDPR 불일치, 스타트업 생태계 위협"
-description_en: "In-depth analysis of the proposed expansion of the Right to Request Data Transfer, examining seven critical concerns including regulatory procedural violations, constitutional issues, GDPR non-compliance, and threats to the startup ecosystem."
-summary: "2025년 6월 개정안은 규제개혁위원회 권고(2024년 8월)를 무시하고, 헌법 원칙을 위반하며, GDPR 기준에 부합하지 않고, 전문기관에 대한 불공정 특혜를 통해 한국 스타트업 생태계를 파괴할 위험이 있음."
-summary_en: "The June 2025 amendment proposal ignores Regulatory Reform Committee recommendations (August 2024), violates constitutional principles, contradicts GDPR standards, and threatens to destroy Korea's startup ecosystem through unfair privileges to specialized agencies."
+description: "In-depth analysis of the proposed expansion of the Right to Request Data Transfer, examining seven critical concerns including regulatory procedural violations, constitutional issues, GDPR non-compliance, and threats to the startup ecosystem."
+summary: "The June 2025 amendment proposal ignores Regulatory Reform Committee recommendations (August 2024), violates constitutional principles, contradicts GDPR standards, and threatens to destroy Korea's startup ecosystem through unfair privileges to specialized agencies."
 key_findings:
   - "Procedural violation: Re-proposing rejected content only 4 months after Regulatory Reform Committee decision"
   - "Constitutional issue: Unconstitutional delegation of proxy rights via enforcement decree"
@@ -269,7 +265,7 @@ On **November 21, 2025**, I presented at the **MyData Policy Startup Seminar** h
 The amendment, which aims to expand the "Right to Request Data Transfer" to all industries, represents **a fundamental shift from data activation to data control**—one that threatens to undermine Korea's startup ecosystem while violating established regulatory principles and international norms.
 
 <div class="highlight-box danger">
-<h3>🚨 Critical Alert</h3>
+<h3>Critical Alert</h3>
 <strong>The June 2025 amendment proposal violates the Regulatory Reform Committee's August 2024 decision by re-proposing identical content only 4 months later.</strong> This procedural violation undermines administrative integrity and ignores legitimate industry concerns about security, costs, and trade secrets.
 </div>
 
@@ -319,7 +315,7 @@ The amendment, which aims to expand the "Right to Request Data Transfer" to all 
   <div class="timeline-item">
     <div class="timeline-date">2025-06-23</div>
     <div class="timeline-content critical">
-      <h4>⚠️ Controversial Amendment Proposed</h4>
+      <h4>Controversial Amendment Proposed</h4>
       <p><strong>Personal Information Protection Commission re-proposes expansion to ALL industries</strong></p>
       <ul>
         <li>Ignores Regulatory Reform Committee decision from just 4 months prior</li>
@@ -337,7 +333,7 @@ The amendment, which aims to expand the "Right to Request Data Transfer" to all 
 
 <div class="comparison-grid">
   <div class="comparison-card current">
-    <h3>✅ Current Enforcement Decree (Feb 2025)</h3>
+    <h3>Current Enforcement Decree (Feb 2025)</h3>
     <div class="metric-highlight">3 Sectors</div>
     <h4>Scope</h4>
     <ul>
@@ -347,15 +343,15 @@ The amendment, which aims to expand the "Right to Request Data Transfer" to all 
     </ul>
     <h4>Characteristics</h4>
     <ul>
-      <li>✓ Self-transfer = Third-party transfer scope</li>
-      <li>✓ Follows Regulatory Reform Committee guidance</li>
-      <li>✓ Gradual expansion principle</li>
-      <li>✓ Sufficient pilot period</li>
+      <li>Self-transfer = Third-party transfer scope</li>
+      <li>Follows Regulatory Reform Committee guidance</li>
+      <li>Gradual expansion principle</li>
+      <li>Sufficient pilot period</li>
     </ul>
   </div>
 
   <div class="comparison-card proposed">
-    <h3>❌ Proposed Amendment (June 2025)</h3>
+    <h3>Proposed Amendment (June 2025)</h3>
     <div class="metric-highlight">ALL Industries</div>
     <h4>Scope</h4>
     <p><strong>Any entity meeting:</strong></p>
@@ -367,16 +363,16 @@ The amendment, which aims to expand the "Right to Request Data Transfer" to all 
     </ul>
     <h4>Problems</h4>
     <ul>
-      <li>✗ Self-transfer ≠ Third-party transfer (inconsistent)</li>
-      <li>✗ Violates Regulatory Reform Committee decision</li>
-      <li>✗ Simultaneous expansion to all sectors</li>
-      <li>✗ Only 4 months after initial implementation</li>
+      <li>Self-transfer and third-party transfer scope inconsistent</li>
+      <li>Violates Regulatory Reform Committee decision</li>
+      <li>Simultaneous expansion to all sectors</li>
+      <li>Only 4 months after initial implementation</li>
     </ul>
   </div>
 </div>
 
 <div class="highlight-box warning">
-<h3>⚠️ What "Revenue 150B KRW & 1M Users" Really Means</h3>
+<h3>What "Revenue 150B KRW & 1M Users" Really Means</h3>
 <p>This threshold captures:</p>
 <ul>
   <li><strong>Major platforms:</strong> Naver, Kakao, Coupang, Baemin, 11st, Gmarket, Auction</li>
@@ -467,11 +463,11 @@ The amendment, which aims to expand the "Right to Request Data Transfer" to all 
   <div class="comparison-card current">
     <h3>GDPR Approach (Balanced)</h3>
     <ul style="line-height: 2;">
-      <li>✓ Protects data subject rights</li>
-      <li>✓ Respects business property rights</li>
-      <li>✓ Explicitly protects trade secrets</li>
-      <li>✓ Considers technical feasibility</li>
-      <li>✓ Balanced approach</li>
+      <li>Protects data subject rights</li>
+      <li>Respects business property rights</li>
+      <li>Explicitly protects trade secrets</li>
+      <li>Considers technical feasibility</li>
+      <li>Balanced approach</li>
     </ul>
     <div class="highlight-box info" style="margin-top: 1.5rem;">
       <strong>GDPR Article 20(4):</strong><br>
@@ -482,11 +478,11 @@ The amendment, which aims to expand the "Right to Request Data Transfer" to all 
   <div class="comparison-card proposed">
     <h3>Korean Amendment (Unbalanced)</h3>
     <ul style="line-height: 2;">
-      <li>✓ Protects data subject rights</li>
-      <li>✗ Ignores business property rights</li>
-      <li>✗ No trade secret protection</li>
-      <li>✗ Unconditional transfer obligation</li>
-      <li>✗ One-sided regulation</li>
+      <li>Protects data subject rights</li>
+      <li>Ignores business property rights</li>
+      <li>No trade secret protection</li>
+      <li>Unconditional transfer obligation</li>
+      <li>One-sided regulation</li>
     </ul>
     <div class="highlight-box danger" style="margin-top: 1.5rem;">
       <strong>Critical Flaw:</strong><br>
@@ -542,7 +538,7 @@ The EU's authoritative interpretation provides clear boundaries:
 ## The Financial Sector Paradox: Regulatory Self-Contradiction
 
 <div class="highlight-box danger">
-<h3>🔴 Financial Services Commission (2022): Screen Scraping Banned as Security Risk</h3>
+<h3>Financial Services Commission (2022): Screen Scraping Banned as Security Risk</h3>
 
 **Timeline:**
 - **August 5, 2020:** Credit Information Act amended - MyData legal framework established
@@ -590,7 +586,7 @@ The EU's authoritative interpretation provides clear boundaries:
 </div>
 
 <div class="highlight-box warning">
-<h3>🟡 Personal Information Protection Commission (2025): Allowing Scraping as "Automated Tool"</h3>
+<h3>Personal Information Protection Commission (2025): Allowing Scraping as "Automated Tool"</h3>
 
 **Justification:**
 - "Convenience for exercising rights"
@@ -603,7 +599,7 @@ The EU's authoritative interpretation provides clear boundaries:
 </div>
 
 <div class="highlight-box danger">
-<h3>⚠️ The Logical Contradiction</h3>
+<h3>The Logical Contradiction</h3>
 
 <strong>Regulatory Inconsistency:</strong>
 1. Financial information is important → scraping banned
@@ -685,7 +681,7 @@ The EU's authoritative interpretation provides clear boundaries:
 ## Single Point of Failure (SPOF): A National Security Risk
 
 <div class="highlight-box danger">
-<h3>🔴 From Distributed Risk to Concentrated Catastrophe</h3>
+<h3>From Distributed Risk to Concentrated Catastrophe</h3>
 
 **Current System (Distributed):**
 - Shopping site breach → Purchase history only
@@ -1040,8 +1036,11 @@ The EU's authoritative interpretation provides clear boundaries:
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  
+function initMyDataCharts() {
+
+  // Destroy existing charts to prevent canvas reuse errors
+  Chart.helpers.each(Chart.instances, function(instance) { instance.destroy(); });
+
   // 1. Seven Concerns Radar Chart
   const radarCtx = document.getElementById('sevenConcernsRadar');
   if (radarCtx) {
@@ -1169,7 +1168,7 @@ document.addEventListener('DOMContentLoaded', function() {
           title: { display: true, text: 'Sector Coverage: Current (3 Sectors) vs. Proposed (ALL Sectors)', font: { size: 18, weight: 'bold' }, padding: 20 }
         },
         scales: {
-          y: { beginAtZero: true, max: 1.2, ticks: { stepSize: 1, callback: function(value) { return value === 1 ? '✓ Included' : ''; } } }
+          y: { beginAtZero: true, max: 1.2, ticks: { stepSize: 1, callback: function(value) { return value === 1 ? 'Included' : ''; } } }
         }
       }
     });
@@ -1231,7 +1230,7 @@ document.addEventListener('DOMContentLoaded', function() {
     new Chart(growthCtx, {
       type: 'line',
       data: {
-        labels: ['0', '200K', '400K', '600K', '800K', '1M ⚠', '1.2M', '1.5M'],
+        labels: ['0', '200K', '400K', '600K', '800K', '1M', '1.2M', '1.5M'],
         datasets: [
           { label: 'Natural Growth Path', data: [0, 15, 35, 60, 85, 110, 140, 175], borderColor: 'rgb(16, 185, 129)', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 3, tension: 0.4, borderDash: [10, 5], pointRadius: 6 },
           { label: 'Actual Growth (Under Amendment)', data: [0, 15, 35, 60, 85, 95, 98, 100], borderColor: 'rgb(239, 68, 68)', backgroundColor: 'rgba(239, 68, 68, 0.1)', borderWidth: 3, tension: 0.4, pointRadius: 6, pointHoverRadius: 8 }
@@ -1249,5 +1248,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-});
+}
+document.addEventListener('DOMContentLoaded', initMyDataCharts);
+document.addEventListener('astro:page-load', initMyDataCharts);
 </script>

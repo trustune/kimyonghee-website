@@ -1,7 +1,8 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
 import Analytics from '../components/Analytics.astro';
 import DarkModeToggle from '../components/DarkModeToggle.astro';
-import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import '../styles/global.css';
 
 interface Props {
   title: string;
@@ -12,7 +13,7 @@ interface Props {
 
 const {
   title,
-  description = "Media Policy & Management Expert",
+  description = "Assistant Professor specializing in media policy, digital platforms, and AI governance",
   image,
   url = `https://kimyonghee.com${Astro.url.pathname}`
 } = Astro.props;
@@ -28,8 +29,13 @@ const currentPath = Astro.url.pathname;
   <meta name="description" content={description}>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="article">
+  <!-- Fonts: Inter (sans) + Source Serif 4 (serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
   <meta property="og:url" content={url}>
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>
@@ -43,7 +49,7 @@ const currentPath = Astro.url.pathname;
     </>
   )}
   <meta property="og:site_name" content="Yonghee Kim">
-  <meta property="og:locale" content="ko_KR">
+  <meta property="og:locale" content="en_US">
 
   <!-- Twitter -->
   <meta property="twitter:card" content={image ? "summary_large_image" : "summary"}>
@@ -52,192 +58,41 @@ const currentPath = Astro.url.pathname;
   <meta property="twitter:description" content={description}>
   {image && <meta property="twitter:image" content={image}>}
 
-  <link rel="alternate" type="application/rss+xml" title="Yonghee Kim Blog" href="/rss.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Yonghee Kim Writing" href="/rss.xml" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
-  
-  <style is:global>
-  /* Paperozi Korean Font */
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2');
-    font-weight: 100;
-    font-display: swap;
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66gy8lr8" crossorigin="anonymous">
+
+  <!-- Schema.org Person JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Yonghee Kim",
+    "jobTitle": "Assistant Professor",
+    "worksFor": { "@type": "Organization", "name": "Sunmoon University" },
+    "url": "https://kimyonghee.com",
+    "sameAs": [
+      "https://scholar.google.com/citations?user=semkeskAAAAJ",
+      "https://orcid.org/0000-0002-5643-2748",
+      "https://github.com/yhkim1981-svg"
+    ]
   }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2') format('woff2');
-    font-weight: 200;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2') format('woff2');
-    font-weight: 300;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
-    font-weight: 800;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Paperozi';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2');
-    font-weight: 900;
-    font-display: swap;
-  }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  </script>
 
-    :root {
-      --color-primary: #1e40af;
-      --color-secondary: #7c3aed;
-      --color-accent: #2563eb;
-      --color-text: #1f2937;
-      --color-text-light: #6b7280;
-      --color-border: #e5e7eb;
-      --color-bg: #ffffff;
-    }
-
-    html {
-      font-family: 'Paperozi', 'Inter', sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--color-text);
-      background: var(--color-bg);
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Paperozi', 'Merriweather', serif;
-      font-weight: 400;
-      line-height: 1.3;
-    }
-
-    a {
-      color: inherit;
-      transition: color 0.2s;
-    }
-
-    a:hover {
-      color: var(--color-accent);
-    }
-
-    /* Dark mode styles */
-    .dark {
-      --color-text: #f3f4f6;
-      --color-text-light: #d1d5db;
-      --color-border: #374151;
-      --color-bg: #111827;
-    }
-
-    .dark body {
-      background: #111827;
-      color: #f3f4f6;
-    }
-
-    .dark h1,
-    .dark h2,
-    .dark h3,
-    .dark h4,
-    .dark h5,
-    .dark h6 {
-      color: #fbbf24 !important;
-    }
-
-    .dark .site-header {
-      background: #1f2937;
-      border-color: #374151;
-    }
-
-    .dark .site-footer {
-      background: #1f2937;
-      border-color: #374151;
-    }
-
-    /* Language switching - Global */
-    [data-lang="en"] {
-      display: none;
-    }
-
-    [data-lang="ko"] {
-      display: none;
-    }
-
-    html[data-language="en"] [data-lang="en"] {
-      display: inline;
-    }
-
-    html[data-language="ko"] [data-lang="ko"] {
-      display: inline;
-    }
-
-    /* Block-level elements */
-    html[data-language="en"] h1[data-lang="en"],
-    html[data-language="en"] h2[data-lang="en"],
-    html[data-language="en"] h3[data-lang="en"],
-    html[data-language="en"] p[data-lang="en"],
-    html[data-language="en"] div[data-lang="en"],
-    html[data-language="en"] li[data-lang="en"] {
-      display: block;
-    }
-
-    html[data-language="ko"] h1[data-lang="ko"],
-    html[data-language="ko"] h2[data-lang="ko"],
-    html[data-language="ko"] h3[data-lang="ko"],
-    html[data-language="ko"] p[data-lang="ko"],
-    html[data-language="ko"] div[data-lang="ko"],
-    html[data-language="ko"] li[data-lang="ko"] {
-      display: block;
-    }
-  </style>
+  <ViewTransitions />
   <Analytics />
 </head>
 <body>
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
   <header class="site-header">
-    <div class="container">
-      <nav class="nav">
+    <div class="header-container">
+      <nav class="nav" role="navigation" aria-label="Main navigation">
         <a href="/" class="logo">Yonghee Kim</a>
 
         <!-- Mobile Menu Toggle -->
-        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
@@ -245,16 +100,32 @@ const currentPath = Astro.url.pathname;
 
         <!-- Desktop & Mobile Navigation -->
         <div class="nav-links">
-          <a href="/" class={currentPath === '/' ? 'active' : ''}>Home</a>
-          <a href="/research/publications" class={currentPath.startsWith('/research') ? 'active' : ''}>Research</a>
-          <a href="/projects" class={currentPath.startsWith('/projects') ? 'active' : ''}>Projects</a>
-          <a href="/blog" class={currentPath.startsWith('/blog') ? 'active' : ''}>Blog</a>
-          <a href="/media" class={currentPath === '/media' ? 'active' : ''}>Media</a>
-          <a href="/teaching" class={currentPath.startsWith('/teaching') || currentPath.startsWith('/courses') ? 'active' : ''}>Teaching</a>
-          <a href="/about" class={currentPath === '/about' ? 'active' : ''}>About</a>
-          <a href="/search" class={currentPath === '/search' ? 'active' : ''}>Search</a>
+          <a
+            href="/research/publications"
+            class={currentPath.startsWith('/research') ? 'active' : ''}
+            aria-current={currentPath.startsWith('/research') ? 'page' : undefined}
+          >Research</a>
+          <a
+            href="/writing"
+            class={currentPath.startsWith('/writing') ? 'active' : ''}
+            aria-current={currentPath.startsWith('/writing') ? 'page' : undefined}
+          >Writing</a>
+          <a
+            href="/projects"
+            class={currentPath.startsWith('/projects') ? 'active' : ''}
+            aria-current={currentPath.startsWith('/projects') ? 'page' : undefined}
+          >Projects</a>
+          <a
+            href="/teaching"
+            class={currentPath.startsWith('/teaching') || currentPath.startsWith('/courses') ? 'active' : ''}
+            aria-current={currentPath.startsWith('/teaching') || currentPath.startsWith('/courses') ? 'page' : undefined}
+          >Teaching</a>
+          <a
+            href="/about"
+            class={currentPath === '/about' ? 'active' : ''}
+            aria-current={currentPath === '/about' ? 'page' : undefined}
+          >About</a>
           <div class="nav-controls">
-            <LanguageSwitcher />
             <DarkModeToggle />
           </div>
         </div>
@@ -262,50 +133,68 @@ const currentPath = Astro.url.pathname;
     </div>
   </header>
 
-  <main class="site-main">
+  <main id="main-content" class="site-main">
     <slot />
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>Contact</h3>
-          <p>Sunmoon University</p>
-          <p>Email: <a href="mailto:yhkim1981@sunmoon.ac.kr">yhkim1981@sunmoon.ac.kr</a></p>
-        </div>
-        <div class="footer-section">
-          <h3>Links</h3>
-          <ul>
-            <li><a href="https://github.com/yhkim1981-svg">GitHub</a></li>
-            <li><a href="https://scholar.google.com">Google Scholar</a></li>
-            <li><a href="https://bsky.app/profile/hastara.bsky.social">Bluesky</a></li>
-            <li><a href="https://www.facebook.com/profile.php?id=61583103077881">Facebook</a></li>
-            <li><a href="/rss.xml" title="Blog RSS feed">RSS</a></li>
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3 class="footer-heading">Navigation</h3>
+          <ul class="footer-list">
+            <li><a href="/research/publications">Research</a></li>
+            <li><a href="/writing">Writing</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/teaching">Teaching</a></li>
+            <li><a href="/about">About</a></li>
           </ul>
         </div>
-        <div class="footer-section">
-          <p>&copy; 2025 Yonghee Kim. All rights reserved.</p>
-          <p class="built-with">Built with Astro | Deployed on Nginx</p>
+        <div class="footer-col">
+          <h3 class="footer-heading">External</h3>
+          <ul class="footer-list">
+            <li><a href="https://scholar.google.com/citations?user=semkeskAAAAJ" target="_blank" rel="noopener">Google Scholar</a></li>
+            <li><a href="https://orcid.org/0000-0002-5643-2748" target="_blank" rel="noopener">ORCID</a></li>
+            <li><a href="https://github.com/yhkim1981-svg" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="https://bsky.app/profile/hastara.bsky.social" target="_blank" rel="noopener">Bluesky</a></li>
+            <li><a href="/rss.xml">RSS</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-heading">Contact</h3>
+          <ul class="footer-list">
+            <li><a href="mailto:yhkim1981@sunmoon.ac.kr">yhkim1981@sunmoon.ac.kr</a></li>
+            <li>Sunmoon University</li>
+            <li>Asan, Chungnam, South Korea</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-heading">Credits</h3>
+          <ul class="footer-list">
+            <li>Built with Astro</li>
+            <li>Deployed on Nginx</li>
+            <li>&copy; {new Date().getFullYear()} Yonghee Kim</li>
+          </ul>
         </div>
       </div>
     </div>
   </footer>
 
   <style>
+    /* Header */
     .site-header {
-      border-bottom: 1px solid var(--color-border);
-      padding: 1.5rem 0;
-      background: var(--color-bg);
       position: sticky;
       top: 0;
       z-index: 100;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-4) 0;
     }
 
-    .container {
-      max-width: 1200px;
+    .header-container {
+      max-width: var(--container-max);
       margin: 0 auto;
-      padding: 0 2rem;
+      padding: 0 var(--space-8);
     }
 
     .nav {
@@ -316,23 +205,27 @@ const currentPath = Astro.url.pathname;
     }
 
     .logo {
-      font-family: 'Paperozi', 'Merriweather', serif;
-      font-size: 1.25rem;
-      font-weight: 700;
+      font-family: var(--font-serif);
+      font-size: var(--step-1);
+      font-weight: 500;
       text-decoration: none;
-      color: var(--color-primary);
+      color: var(--color-text);
       z-index: 102;
+    }
+
+    .logo:hover {
+      color: var(--color-text);
     }
 
     /* Mobile Menu Toggle */
     .mobile-menu-toggle {
       display: none;
       flex-direction: column;
-      gap: 0.375rem;
+      gap: var(--space-1);
       background: none;
       border: none;
       cursor: pointer;
-      padding: 0.5rem;
+      padding: var(--space-2);
       z-index: 102;
     }
 
@@ -340,11 +233,11 @@ const currentPath = Astro.url.pathname;
       width: 24px;
       height: 2px;
       background-color: var(--color-text);
-      transition: all 0.3s ease;
+      transition: all var(--transition-base);
     }
 
     .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px);
+      transform: rotate(45deg) translate(5px, 5px);
     }
 
     .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
@@ -352,127 +245,127 @@ const currentPath = Astro.url.pathname;
     }
 
     .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px);
+      transform: rotate(-45deg) translate(5px, -5px);
     }
 
     /* Navigation Links */
     .nav-links {
       display: flex;
-      gap: 2rem;
+      gap: var(--space-8);
       align-items: center;
     }
 
     .nav-links a {
       text-decoration: none;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--color-text-light);
-      padding: 0.625rem 0;
-      border-bottom: 2px solid transparent;
-      transition: all 0.2s;
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      padding: var(--space-2) 0;
+      transition: color var(--transition-fast);
       white-space: nowrap;
     }
 
-    .nav-links a:hover,
+    .nav-links a:hover {
+      color: var(--color-text);
+    }
+
     .nav-links a.active {
-      color: var(--color-primary);
-      border-bottom-color: var(--color-primary);
+      color: var(--color-text);
+      text-decoration: underline;
+      text-underline-offset: 0.4em;
+      text-decoration-thickness: 1.5px;
     }
 
     .nav-controls {
       display: flex;
-      gap: 1rem;
+      gap: var(--space-3);
       align-items: center;
     }
 
+    /* Main */
     .site-main {
       flex: 1;
       width: 100%;
     }
 
+    /* Footer */
     .site-footer {
       border-top: 1px solid var(--color-border);
-      padding: 3rem 0;
-      margin-top: 6rem;
-      background: #f9fafb;
+      padding: var(--space-16) 0 var(--space-12);
+      margin-top: var(--space-24);
     }
 
-    .footer-content {
+    .footer-container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 var(--space-8);
+    }
+
+    .footer-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-12);
     }
 
-    .footer-section h3 {
-      font-size: 0.875rem;
+    .footer-heading {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 1rem;
+      letter-spacing: 0.08em;
       color: var(--color-text);
+      margin-bottom: var(--space-4);
     }
 
-    .footer-section p,
-    .footer-section ul {
+    .footer-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-list li {
       font-size: 0.875rem;
-      color: var(--color-text-light);
+      color: var(--color-text-secondary);
       line-height: 1.8;
     }
 
-    .footer-section ul {
-      list-style: none;
-    }
-
-    .footer-section ul li {
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-section a {
+    .footer-list a {
       text-decoration: none;
-      color: var(--color-text-light);
+      color: var(--color-text-secondary);
+      transition: color var(--transition-fast);
     }
 
-    .footer-section a:hover {
-      color: var(--color-accent);
+    .footer-list a:hover {
+      color: var(--color-text);
     }
 
-    .built-with {
-      font-size: 0.75rem;
-      color: #9ca3af;
-      margin-top: 0.5rem;
-      opacity: 0.6;
-    }
-
-    /* Tablet & Mobile Responsive */
+    /* Tablet */
     @media (max-width: 1024px) {
-      .container {
-        padding: 0 1.5rem;
+      .header-container,
+      .footer-container {
+        padding: 0 var(--space-6);
       }
 
       .nav-links {
-        gap: 1.25rem;
-      }
-
-      .nav-links a {
-        font-size: 0.85rem;
+        gap: var(--space-6);
       }
     }
 
+    /* Mobile */
     @media (max-width: 768px) {
-      .container {
-        padding: 0 1rem;
+      .header-container,
+      .footer-container {
+        padding: 0 var(--space-4);
       }
 
       .site-header {
-        padding: 1rem 0;
+        padding: var(--space-3) 0;
       }
 
-      /* Show mobile menu toggle */
       .mobile-menu-toggle {
         display: flex;
       }
 
-      /* Mobile Navigation */
       .nav-links {
         position: fixed;
         top: 0;
@@ -482,9 +375,9 @@ const currentPath = Astro.url.pathname;
         background: var(--color-bg);
         flex-direction: column;
         gap: 0;
-        padding: 5rem 2rem 2rem;
+        padding: var(--space-24) var(--space-8) var(--space-8);
         box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
-        transition: right 0.3s ease;
+        transition: right var(--transition-base);
         z-index: 101;
         overflow-y: auto;
       }
@@ -495,80 +388,77 @@ const currentPath = Astro.url.pathname;
 
       .nav-links a {
         width: 100%;
-        padding: 1rem 0;
-        border-bottom: 1px solid var(--color-border);
+        padding: var(--space-4) 0;
+        border-bottom: 1px solid var(--color-border-light);
         font-size: 1rem;
       }
 
-      .nav-links a:hover,
       .nav-links a.active {
-        border-bottom-color: var(--color-primary);
-        background: rgba(37, 99, 235, 0.05);
-        padding-left: 1rem;
+        text-decoration: none;
+        font-weight: 500;
       }
 
       .nav-controls {
         width: 100%;
-        padding-top: 1rem;
-        margin-top: 1rem;
-        border-top: 2px solid var(--color-border);
+        padding-top: var(--space-4);
+        margin-top: var(--space-4);
+        border-top: 1px solid var(--color-border);
         justify-content: center;
-        gap: 1.5rem;
+        gap: var(--space-6);
       }
 
-      .footer-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-8);
       }
     }
 
-    @media (max-width: 640px) {
-      .container {
-        padding: 0 0.75rem;
-      }
-
+    @media (max-width: 480px) {
       .nav-links {
         width: 100%;
-        right: -100%;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
       }
     }
   </style>
 
   <script>
-    // Mobile Menu Toggle
-    document.addEventListener('DOMContentLoaded', () => {
+    function initMobileMenu() {
       const menuToggle = document.querySelector('.mobile-menu-toggle');
       const navLinks = document.querySelector('.nav-links');
 
-      if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', () => {
-          menuToggle.classList.toggle('active');
-          navLinks.classList.toggle('active');
+      if (!menuToggle || !navLinks) return;
 
-          // Prevent body scroll when menu is open
-          document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
-        });
-
-        // Close menu when clicking on a link
-        const links = navLinks.querySelectorAll('a');
-        links.forEach(link => {
-          link.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-            document.body.style.overflow = '';
-          });
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-          if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
-            menuToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-            document.body.style.overflow = '';
-          }
-        });
+      function closeMenu() {
+        menuToggle.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        navLinks.classList.remove('active');
+        document.body.style.overflow = '';
       }
-    });
+
+      menuToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMenu);
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+          closeMenu();
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initMobileMenu);
+    document.addEventListener('astro:page-load', initMobileMenu);
   </script>
 </body>
 </html>
