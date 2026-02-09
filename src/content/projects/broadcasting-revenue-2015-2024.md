@@ -1,8 +1,6 @@
 ---
-title: "지속가능한 미디어 생태계를 위한 통합 정책 로드맵"
-title_en: "Integrated Policy Roadmap for Sustainable Media Ecosystem"
-subtitle: "방송산업 순유입 재원 분석 및 정책 제언 (2015-2024)"
-subtitle_en: "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations (2015-2024)"
+title: "Integrated Policy Roadmap for Sustainable Media Ecosystem"
+subtitle: "Broadcasting Industry Net Inflow Revenue Analysis and Policy Recommendations (2015-2024)"
 date: "2025-11-08"
 category: "Broadcasting Policy"
 tags: ["Broadcasting", "Media Economics", "Data Analysis", "Policy Research", "Government Policy", "Digital Transformation"]
@@ -18,12 +16,9 @@ data_sources:
     type: "secondary"
 related_publications: []
 related_projects: ["broadcasting-reapproval-2024"]
-conference: "한국방송학회 2025 가을 정기학술대회"
-conference_en: "Korean Broadcasting Association 2025 Fall Conference"
-description: "방송산업 재원의 10년간 구조 변화(2015-2024) 실증 분석: 정부 재원 10.15%(OECD 최저), 광고 매출 34.52% 감소, KBS 수신료 44년 동결 등 위기 진단."
-description_en: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze."
-summary: "정부 재원 10.15%(OECD 최저), 방송 광고 10년간 -34.52% 감소, KBS 수신료 44년 동결 - 99.50% 검증 정확도로 위기 진단"
-summary_en: "Government funding 10.15% (OECD lowest), broadcasting advertising -34.52% decline over 10 years, KBS license fee frozen for 44 years - Crisis diagnosis with 99.50% verification accuracy"
+conference: "Korean Broadcasting Association 2025 Fall Conference"
+description: "Empirical analysis of 10-year structural changes in broadcasting industry revenue (2015-2024), diagnosing the crisis including 10.15% government funding (OECD lowest), 34.52% advertising decline, and 44-year KBS license fee freeze."
+summary: "Government funding 10.15% (OECD lowest), broadcasting advertising -34.52% decline over 10 years, KBS license fee frozen for 44 years - Crisis diagnosis with 99.50% verification accuracy"
 key_findings:
   - "Government funding: 10.15% (OECD lowest - KBS 9.36% + Fund 0.79%)"
   - "Broadcasting advertising: -34.52% decline (3.50T → 2.29T won)"
@@ -346,8 +341,7 @@ featured: true
 
 <div style="font-size: 1.125rem; line-height: 1.75; margin-top: 2rem;">
 
-<p data-lang="en"><strong>The Korean broadcasting industry has grown 25.90% nominally over the past decade, but real funding capacity has actually declined 6.4% from its 2019 peak.</strong> This represents "growth without prosperity" — internal transactions expanding while external revenue capacity structurally weakens. The industry is now paying the price for 44 years of frozen policy.</p>
-<p data-lang="ko"><strong>한국 방송산업은 지난 10년간 명목상 25.90% 성장했지만, 실질 자금조달 능력은 2019년 정점 대비 6.4% 감소했습니다.</strong> 이는 "번영 없는 성장"을 나타냅니다 — 내부 거래가 확대되는 동안 외부 수익 능력은 구조적으로 약화되고 있습니다. 산업은 이제 44년간의 동결된 정책에 대한 대가를 치르고 있습니다.</p>
+**The Korean broadcasting industry grew 25.90% nominally over the past decade, but real funding capacity declined 6.4% from its 2019 peak.** Internal transactions expanded while external revenue capacity structurally weakened -- a pattern better described as "growth without prosperity." Four decades of frozen policy have compounded the problem.
 
 <h3 data-lang="en">Three Critical Messages</h3>
 <h3 data-lang="ko">세 가지 핵심 메시지</h3>
@@ -469,8 +463,7 @@ featured: true
 </table>
 
 <div class="info-box">
-<p data-lang="en"><strong>Platform Consolidation Complete:</strong> IPTV now dominates approximately 80% of the pay-TV market, marking the completion of platform restructuring.</p>
-<p data-lang="ko"><strong>플랫폼 통합 완료:</strong> IPTV가 현재 유료방송 시장의 약 80%를 장악하며, 플랫폼 구조조정이 완료되었습니다.</p>
+<strong>Platform Consolidation:</strong> IPTV now accounts for approximately 80% of the pay-TV market. Platform restructuring is effectively complete.
 </div>
 
 <hr class="section-divider">
@@ -593,11 +586,8 @@ featured: true
 </table>
 
 <div class="warning-box">
-<p data-lang="en"><strong>Complete Paradigm Shift:</strong> The transition from advertising-based to subscription-based revenue model is now complete. This represents a fundamental transformation in the industry's revenue structure.</p>
-<p data-lang="ko"><strong>패러다임 전환 완료:</strong> 광고 기반에서 구독 기반 수익 모델로의 전환이 완료되었습니다. 이는 산업 재원 구조의 근본적인 변화를 의미합니다.</p>
+<strong>Paradigm Shift:</strong> The transition from advertising-based to subscription-based revenue is now complete.
 </div>
-
-<!-- CHART:revenueChart -->
 
 <hr class="section-divider">
 
@@ -660,8 +650,7 @@ featured: true
 </table>
 
 <div class="success-box">
-<p data-lang="en"><strong>High Reliability Achieved:</strong> The overall verification accuracy of 99.50% for total net inflow revenue establishes high credibility for this academic research.</p>
-<p data-lang="ko"><strong>높은 신뢰성 달성:</strong> 총 순유입 재원에 대한 99.50%의 전체 검증 정확도로 이 학술 연구의 높은 신뢰성을 확립했습니다.</p>
+<strong>High Reliability:</strong> Overall verification accuracy of 99.50% for total net inflow revenue.
 </div>
 
 <h3 data-lang="en">Verification Methodology</h3>
@@ -774,9 +763,8 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 </div>
 
 <div class="warning-box" style="border-left-color: #f59e0b; background: #fffbeb;">
-<h4 style="color: #92400e;"><span data-lang="en">The Structural Crisis Revealed</span><span data-lang="ko">드러난 구조적 위기</span></h4>
-<p data-lang="en" style="color: #78350f; margin: 0;">The industry peaked in 2019 at 9.49 trillion won and has declined 6.4% since. The "growth" narrative (2015-2024: +25.9%) conceals a structural crisis — <strong>the capacity to generate external revenue has been weakening for 6 consecutive years.</strong></p>
-<p data-lang="ko" style="color: #78350f; margin: 0;">산업은 2019년 9.49조원으로 정점을 찍은 후 6.4% 감소했습니다. "성장" 내러티브(2015-2024: +25.9%)는 구조적 위기를 가리고 있습니다 — <strong>외부 수익 창출 능력이 6년 연속 약화되고 있습니다.</strong></p>
+<h4 style="color: #92400e;">Structural Crisis</h4>
+<p style="color: #78350f; margin: 0;">The industry peaked in 2019 at 9.49 trillion won and has declined 6.4% since. The aggregate growth figure (2015-2024: +25.9%) masks a structural problem: <strong>external revenue capacity has weakened for six consecutive years.</strong></p>
 </div>
 
 <h3 data-lang="en">1.2 Three Critical Collapses</h3>
@@ -784,19 +772,17 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 
 <div class="crisis-grid">
   <div class="crisis-card crisis-1">
-    <h3><span data-lang="en">Advertising Market Structural Collapse</span><span data-lang="ko">광고시장 구조적 붕괴</span></h3>
+    <h3>Advertising Market Structural Collapse</h3>
     <div class="crisis-big-number">-34.52%</div>
     <div class="crisis-detail">
       <p><strong>3.50T won → 2.29T won</strong> (10 years)</p>
-      <p data-lang="en">While broadcasting advertising plummeted by 1.21 trillion won, digital advertising surged +275% (estimated), reaching 10.14 trillion won by 2024. The gap has widened to <strong>3.9×</strong> by 2023.</p>
-      <p data-lang="ko">방송광고가 1.21조원 급락하는 동안 디지털 광고는 +275%(추정) 급증하여 2024년 10.14조원에 달했습니다. 2023년 기준 격차가 <strong>3.9배</strong>로 확대되었습니다.</p>
-      <p data-lang="en" style="margin-top: 1rem; padding: 0.75rem; background: #fee2e2; border-radius: 4px; font-weight: 600;">This is not a cyclical downturn. It's a permanent structural shift.</p>
-      <p data-lang="ko" style="margin-top: 1rem; padding: 0.75rem; background: #fee2e2; border-radius: 4px; font-weight: 600;">이것은 순환적 하락이 아닙니다. 영구적인 구조적 전환입니다.</p>
+      <p>While broadcasting advertising plummeted by 1.21 trillion won, digital advertising surged +275% (estimated), reaching 10.14 trillion won by 2024. The gap has widened to <strong>3.9×</strong> by 2023.</p>
+      <p style="margin-top: 1rem; padding: 0.75rem; background: #fee2e2; border-radius: 4px; font-weight: 600;">The data indicate a permanent structural shift rather than a cyclical downturn.</p>
     </div>
   </div>
 
   <div class="crisis-card crisis-2">
-    <h3><span data-lang="en">The End of Cable Television</span><span data-lang="ko">케이블 TV의 종말</span></h3>
+    <h3>The End of Cable Television</h3>
     <div class="crisis-big-number">-39.1%</div>
     <div class="crisis-detail">
       <p><strong>Cable SO: 0.94T → 0.57T won</strong> (10 years)<br>
@@ -807,7 +793,7 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
   </div>
 
   <div class="crisis-card crisis-3">
-    <h3><span data-lang="en">Government Support: OECD's Lowest</span><span data-lang="ko">정부 지원: OECD 최저</span></h3>
+    <h3>Government Support: OECD's Lowest</h3>
     <div class="crisis-big-number">10.15%</div>
     <div class="crisis-detail">
       <p><strong>KBS + Fund = 807.6B won</strong> (<span data-lang="en">9.1% of net inflow</span><span data-lang="ko">순유입의 9.1%</span>)</p>
@@ -822,17 +808,12 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 <h3 data-lang="en">1.3 The 2019 Peak and Subsequent Decline</h3>
 <h3 data-lang="ko">1.3 2019년 정점과 이후 쇠퇴</h3>
 
-<p data-lang="en">The industry reached its zenith in 2019 at <strong>9.49 trillion won</strong> in net inflow revenue. Since then, it has lost 608 billion won (−6.4%), marking a clear turning point.</p>
-<p data-lang="ko">산업은 2019년 순유입 재원 <strong>9.49조원</strong>으로 정점에 도달했습니다. 이후 6,080억원(−6.4%)을 잃으며 명확한 전환점을 기록했습니다.</p>
-
-<!-- CHART:revenueChart -->
+Net inflow revenue peaked in 2019 at **9.49 trillion won** and has since lost 608 billion won (-6.4%), marking a clear turning point.
 
 <div class="warning-box" style="margin-top: 2rem;">
-<h4><span data-lang="en">Warning Sign</span><span data-lang="ko">경고 신호</span></h4>
-<p data-lang="en"><strong>6 consecutive years of decline since 2019 peak</strong></p>
-<p data-lang="ko"><strong>2019년 정점 이후 6년 연속 하락</strong></p>
-<p data-lang="en">This indicates a fundamental weakening of the industry's ability to attract external funding. Without policy intervention, this downward trajectory will accelerate.</p>
-<p data-lang="ko">이는 산업의 외부 자금 유치 능력의 근본적인 약화를 나타냅니다. 정책 개입 없이는 이 하락 궤도가 가속화될 것입니다.</p>
+<h4>Warning</h4>
+<p><strong>Six consecutive years of decline since the 2019 peak.</strong></p>
+<p>The industry's capacity to attract external funding has weakened steadily. Without policy intervention, this trajectory is likely to accelerate.</p>
 </div>
 
 <hr class="section-divider">
@@ -843,8 +824,7 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 <h3 data-lang="en">2.1 The 44-Year Freeze: Political Populism's Price</h3>
 <h3 data-lang="ko">2.1 44년간의 동결: 정치적 포퓰리즘의 대가</h3>
 
-<p data-lang="en">The KBS license fee was set at <strong>2,500 won in 1981</strong> and has remained unchanged for <strong>44 years</strong>. This represents one of the longest-running policy freezes in Korea's modern history.</p>
-<p data-lang="ko">KBS 수신료는 <strong>1981년 2,500원</strong>으로 책정된 이후 <strong>44년간</strong> 변함없이 유지되고 있습니다. 이는 한국 현대사에서 가장 오랜 정책 동결 사례 중 하나입니다.</p>
+The KBS license fee was set at **2,500 won in 1981** and has remained unchanged for **44 years** -- one of the longest-running policy freezes in Korea's modern history.
 
 <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 2.5rem; border-radius: 12px; margin: 2rem 0;">
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; text-align: center;">
@@ -897,25 +877,18 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 </table>
 
 <div class="warning-box">
-<p data-lang="en"><strong>Political Paralysis:</strong> No government has dared to adjust the fee for fear of public backlash. This populist paralysis has cost the broadcasting industry an estimated <strong>15 trillion won</strong> over 44 years — a staggering opportunity cost.</p>
-<p data-lang="ko"><strong>정치적 마비:</strong> 어떤 정부도 여론의 반발을 두려워해 수신료 조정을 감행하지 못했습니다. 이러한 포퓰리즘적 마비는 44년간 방송산업에 약 <strong>15조원</strong>의 손실을 초래했습니다 — 엄청난 기회비용입니다.</p>
+<strong>Political Paralysis:</strong> Successive governments have avoided adjusting the fee due to public backlash concerns. The cumulative opportunity cost to the broadcasting industry is estimated at <strong>15 trillion won</strong> over 44 years.
 </div>
 
 <h3 data-lang="en">2.2 Advertising Regulations: The Market We Lost</h3>
 <h3 data-lang="ko">2.2 광고 규제: 잃어버린 시장</h3>
 
-<p data-lang="en">While broadcasting advertising collapsed, digital advertising exploded. This divergence was not inevitable — it was driven by asymmetric regulation.</p>
-<p data-lang="ko">방송광고가 붕괴하는 동안 디지털 광고는 폭발적으로 성장했습니다. 이러한 괴리는 불가피한 것이 아니었습니다 — 비대칭적 규제가 원인이었습니다.</p>
-
-<!-- CHART:advertisingChart -->
+Broadcasting advertising declined sharply while digital advertising grew rapidly. The divergence was driven largely by asymmetric regulation.
 
 <h3 data-lang="en">2.3 Broadcasting Fund Imbalance: Telecommunications Dominance</h3>
 <h3 data-lang="ko">2.3 방송발전기금 불균형: 통신의 지배</h3>
 
-<p data-lang="en">The Broadcasting Communications Development Fund (총 1,347억원/134.7B won in 2024) is heavily skewed toward telecommunications, with broadcasting receiving only a fraction.</p>
-<p data-lang="ko">방송통신발전기금(2024년 총 1,347억원/134.7B won)은 통신 쪽으로 심하게 치우쳐 있으며, 방송은 일부분만 받고 있습니다.</p>
-
-<!-- CHART:fundPieChart -->
+The Broadcasting Communications Development Fund (134.7B won in 2024) is heavily skewed toward telecommunications, with broadcasting receiving only a fraction.
 
 <div style="background: #fef2f2; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ef4444; margin: 1.5rem 0;">
   <h4 style="color: #991b1b; margin-top: 0;"><span data-lang="en">Fund Distribution Breakdown</span><span data-lang="ko">기금 배분 내역</span></h4>
@@ -948,8 +921,7 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 </div>
 
 <div class="warning-box">
-<p data-lang="en"><strong>Severe Imbalance:</strong> Despite broadcasting industry revenue of 17.9 trillion won, it receives less than 9% of the Broadcasting Fund. The regulatory burden is 9.8 times higher than the support received — a structural imbalance that undermines industry sustainability.</p>
-<p data-lang="ko"><strong>심각한 불균형:</strong> 방송산업 매출이 17.9조원에 달하지만, 방송발전기금의 9% 미만만 받고 있습니다. 규제 부담이 지원의 9.8배에 달하며 — 산업 지속가능성을 훼손하는 구조적 불균형입니다.</p>
+<strong>Funding Imbalance:</strong> Despite broadcasting industry revenue of 17.9 trillion won, the sector receives less than 9% of the Broadcasting Fund. The regulatory burden is 9.8 times higher than the support received.
 </div>
 
 <h4 data-lang="en">Annual Trends</h4>
@@ -999,8 +971,7 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 </table>
 
 <div class="warning-box">
-<p data-lang="en"><strong>Irreversible Decline:</strong> Showing consistent decline since 2019 peak, with particularly sharp drops after 2022. This is not a temporary phenomenon but a structural transformation.</p>
-<p data-lang="ko"><strong>돌이킬 수 없는 하락:</strong> 2019년 정점 이후 지속적인 하락세를 보이며, 특히 2022년 이후 급격한 하락을 기록했습니다. 이것은 일시적 현상이 아니라 구조적 전환입니다.</p>
+<strong>Sustained Decline:</strong> Broadcasting advertising has declined consistently since the 2019 peak, with sharper drops after 2022, indicating a structural rather than cyclical shift.
 </div>
 
 <h4 data-lang="en">Migration to Digital Advertising</h4>
@@ -1061,7 +1032,6 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 <p data-lang="en">The contrast between IPTV and cable in the pay-TV platform market is stark.</p>
 <p data-lang="ko">유료방송 플랫폼 시장에서 IPTV와 케이블의 대조는 극명합니다.</p>
 
-<!-- CHART:platformChart -->
 
 <h4 data-lang="en">Platform Subscription Fee Trends</h4>
 <h4 data-lang="ko">플랫폼별 수신료 추이</h4>
@@ -1104,8 +1074,7 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 </table>
 
 <div class="info-box">
-<p data-lang="en"><strong>Decisive Victory:</strong> IPTV grew 99.1% over ten years while cable collapsed by 39.1%. Platform restructuring was effectively complete around 2018 when IPTV surpassed 70% market share.</p>
-<p data-lang="ko"><strong>결정적 승리:</strong> IPTV는 10년간 99.1% 성장한 반면 케이블은 39.1% 붕괴했습니다. 플랫폼 구조조정은 IPTV가 시장점유율 70%를 넘은 2018년경 사실상 완료되었습니다.</p>
+<strong>Platform Consolidation:</strong> IPTV grew 99.1% over ten years while cable declined 39.1%. Platform restructuring was effectively complete by 2018, when IPTV surpassed 70% market share.
 </div>
 
 <h3 data-lang="en">3. KBS License Fee: 44-Year Freeze</h3>
@@ -1161,15 +1130,13 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 </table>
 
 <div class="warning-box">
-<p data-lang="en"><strong>OECD Lowest:</strong> Korea's government funding ratio of 10.15% is the lowest among major OECD countries, highlighting severe underfunding of public broadcasting.</p>
-<p data-lang="ko"><strong>OECD 최저:</strong> 한국의 정부 재원 비율 10.15%는 주요 OECD 국가 중 가장 낮아, 공영방송에 대한 심각한 재원 부족을 보여줍니다.</p>
+<strong>OECD Lowest:</strong> Korea's government funding ratio of 10.15% is the lowest among major OECD countries.
 </div>
 
 <h3 data-lang="en">4. Rise of Home Shopping</h3>
 <h3 data-lang="ko">4. 홈쇼핑의 부상</h3>
 
-<p data-lang="en">Home shopping transmission fees first appeared at 2.44 trillion won in 2017 and reached 2.02 trillion won in 2024, becoming the third-largest revenue source. This has established itself as a new revenue stream for the broadcasting industry and is significant as pure external inflow without internal transactions.</p>
-<p data-lang="ko">홈쇼핑 송출수수료는 2017년 2.44조원으로 처음 등장하여 2024년 2.02조원에 도달, 3위 재원이 되었습니다. 이는 방송산업의 새로운 수익원으로 자리 잡았으며, 내부거래 없이 순수 외부 유입이라는 점에서 의미가 있습니다.</p>
+Home shopping transmission fees first appeared at 2.44 trillion won in 2017 and reached 2.02 trillion won in 2024, becoming the third-largest revenue source. As a pure external inflow with no internal transaction component, home shopping fees now constitute a significant and stable revenue stream.
 
 <h3 data-lang="en">5. Stagnation of Net Inflow Revenue</h3>
 <h3 data-lang="ko">5. 순유입 재원의 정체</h3>
@@ -1210,8 +1177,7 @@ Internal consistency of the 10-year time series data was reviewed, and causes we
 </table>
 
 <div class="warning-box">
-<p data-lang="en"><strong>Declining External Funding Capacity:</strong> Down 0.61 trillion won (6.4%) from 2019 peak, indicating weakening ability to generate external revenue.</p>
-<p data-lang="ko"><strong>외부 자금조달 능력 하락:</strong> 2019년 정점 대비 0.61조원(6.4%) 감소, 외부 수익 창출 능력의 약화를 나타냅니다.</p>
+<strong>Declining External Revenue:</strong> Down 0.61 trillion won (6.4%) from the 2019 peak.
 </div>
 
 <hr class="section-divider">
@@ -1373,8 +1339,8 @@ KBS 수신료 검증 및 최신 산업 현황 파악에 활용했습니다.</p>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
   <div style="padding: 2rem; background: #fee2e2; border-left: 4px solid #ef4444; border-radius: 8px;">
-    <h4 style="color: #991b1b; margin-top: 0;"><span data-lang="en">If Delayed Beyond 2026</span><span data-lang="ko">2026년 이후 지연 시</span></h4>
-    <ul data-lang="en" style="color: #7f1d1d; line-height: 1.8;">
+    <h4 style="color: #991b1b; margin-top: 0;">If Delayed Beyond 2026</h4>
+    <ul style="color: #7f1d1d; line-height: 1.8;">
       <li><strong>2027 Ad Deregulation:</strong> Too late → Minimal effect</li>
       <li><strong>2028 Integrated Law:</strong> Too late → After damage done</li>
       <li><strong>2029 Restructuring:</strong> Too late → Industry collapsed</li>
@@ -1387,8 +1353,8 @@ KBS 수신료 검증 및 최신 산업 현황 파악에 활용했습니다.</p>
   </div>
 
   <div style="padding: 2rem; background: #f0fdf4; border-left: 4px solid #10b981; border-radius: 8px;">
-    <h4 style="color: #065f46; margin-top: 0;"><span data-lang="en">If Implemented by 2026</span><span data-lang="ko">2026년까지 시행 시</span></h4>
-    <ul data-lang="en" style="color: #064e3b; line-height: 1.8;">
+    <h4 style="color: #065f46; margin-top: 0;">If Implemented by 2026</h4>
+    <ul style="color: #064e3b; line-height: 1.8;">
       <li><strong>Advertising Market:</strong> Recovery possible</li>
       <li><strong>Preemptive Restructuring:</strong> Controlled transition</li>
       <li><strong>Ecosystem Rebuild:</strong> Foundation preserved</li>
@@ -1402,9 +1368,9 @@ KBS 수신료 검증 및 최신 산업 현황 파악에 활용했습니다.</p>
 </div>
 
 <div class="warning-box" style="border-left-color: #f59e0b; background: #fffbeb;">
-<h4 style="color: #92400e;"><span data-lang="en">Time is Running Out</span><span data-lang="ko">시간이 흐르고 있습니다</span></h4>
-<p data-lang="en" style="color: #78350f; font-size: 1.125rem; font-weight: 600; margin: 0;">
-Policy delay = Industry neglect = Ecosystem collapse
+<h4 style="color: #92400e;">Narrow Window</h4>
+<p style="color: #78350f; font-size: 1.125rem; font-weight: 600; margin: 0;">
+Further policy delay risks irreversible damage to the broadcasting ecosystem.
 </p>
 <p data-lang="ko" style="color: #78350f; font-size: 1.125rem; font-weight: 600; margin: 0;">
 정책 지연 = 산업 방치 = 생태계 붕괴
@@ -1638,14 +1604,12 @@ Policy delay = Industry neglect = Ecosystem collapse
 <h3 data-lang="en">Theoretical Contributions</h3>
 <h3 data-lang="ko">이론적 기여</h3>
 
-<p data-lang="en">This research clearly establishes the concept of net inflow revenue, presenting an analytical framework that distinguishes between internal transactions and external inflows. Through 10-year longitudinal analysis, it identifies the timing of paradigm shifts and confirms Korea's broadcasting industry's relative position through systematic comparison with OECD countries.</p>
-<p data-lang="ko">본 연구는 순유입 재원 개념을 명확히 정립하여, 내부거래와 외부 유입을 구분하는 분석 프레임워크를 제시합니다. 10년간의 종단 분석을 통해 패러다임 전환의 시점을 파악하고, OECD 국가들과의 체계적 비교를 통해 한국 방송산업의 상대적 위치를 확인합니다.</p>
+The study introduces the net inflow revenue concept as an analytical framework that separates internal transactions from external inflows. A 10-year longitudinal analysis identifies the timing of key structural shifts, and systematic OECD comparison establishes Korea's relative position.
 
 <h3 data-lang="en">Empirical Contributions</h3>
 <h3 data-lang="ko">실증적 기여</h3>
 
-<p data-lang="en">Achieved 99.50% verification accuracy through cross-validation with original data, demonstrating academic credibility. Conducted complete population analysis of 3,126 records without sampling error, and made all data and code publicly available for independent verification.</p>
-<p data-lang="ko">원본 데이터와의 교차검증을 통해 99.50%의 검증 정확도를 달성하여 학술적 신뢰성을 입증했습니다. 표본오차 없이 3,126건의 전수 데이터 분석을 수행했으며, 독립적 검증을 위해 모든 데이터와 코드를 공개했습니다.</p>
+Cross-validation with original data yielded 99.50% verification accuracy. The analysis covers the full population of 3,126 records (zero sampling error), and all data and code are publicly available for independent verification.
 
 <h3 data-lang="en">Policy Implications</h3>
 <h3 data-lang="ko">정책적 함의</h3>

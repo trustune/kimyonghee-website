@@ -4,11 +4,13 @@ import Badge from './Badge.astro';
 interface Props {
   article: {
     title: string;
+    title_ko?: string;
     url: string;
     outlet: string;
     date: string;
     type?: string;
     category?: string;
+    description?: string;
   };
   variant?: 'full' | 'compact';
   showBadge?: boolean;
@@ -22,67 +24,54 @@ const {
 ---
 
 <article class={`article-card article-card--${variant}`}>
-  <a href={article.url} target="_blank" class="article-card__link">
+  <a href={article.url} target="_blank" rel="noopener" class="article-card__link">
     {variant === 'full' && (
       <div class="article-card__header">
+        <span class="article-card__meta">
+          {article.outlet}
+          <span class="article-card__separator"> · </span>
+          <time datetime={article.date}>
+            {new Date(article.date).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            })}
+          </time>
+        </span>
         {showBadge && article.category && (
-          <Badge
-            variant={article.type === 'opinion' ? 'opinion' : 'editorial'}
-            text={article.category}
-            rounded="full"
-          />
+          <Badge variant="category" text={article.category} size="small" />
         )}
-        <span class="article-card__outlet">{article.outlet}</span>
       </div>
     )}
 
-    <h3 class="article-card__title">{article.title}</h3>
+    <h3 class="article-card__title">
+      {article.title}
+      <span class="article-card__arrow"> ↗</span>
+    </h3>
 
-    <div class="article-card__meta">
-      {variant === 'compact' && (
-        <>
-          <span class="article-card__outlet">{article.outlet}</span>
-          <span class="separator">•</span>
-        </>
-      )}
-      <time datetime={article.date}>
-        {new Date(article.date).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: variant === 'full' ? 'long' : 'short',
-          day: 'numeric'
-        })}
-      </time>
-    </div>
+    {variant === 'compact' && (
+      <div class="article-card__meta">
+        <span>{article.outlet}</span>
+        <span class="article-card__separator"> · </span>
+        <time datetime={article.date}>
+          {new Date(article.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short'
+          })}
+        </time>
+      </div>
+    )}
   </a>
 </article>
 
 <style>
   .article-card {
-    transition: all 0.2s;
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--color-border-light);
   }
 
-  .article-card--full {
-    padding: 2rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.75rem;
-    background: white;
-  }
-
-  .article-card--full:hover {
-    border-color: #2563eb;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
-  }
-
-  .article-card--compact {
-    padding: 1.25rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-  }
-
-  .article-card--compact:hover {
-    border-color: #2563eb;
-    background: #eff6ff;
+  .article-card:last-child {
+    border-bottom: none;
   }
 
   .article-card__link {
@@ -93,45 +82,43 @@ const {
   .article-card__header {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .article-card__outlet {
-    color: #6b7280;
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-
-  .article-card--compact .article-card__outlet {
-    color: #2563eb;
-    font-weight: 600;
-  }
-
-  .article-card__title {
-    font-family: 'Paperozi', 'Inter', sans-serif;
-    font-size: 1.375rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
-    color: #1f2937;
-  }
-
-  .article-card--compact .article-card__title {
-    font-size: 1.125rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .article-card__link:hover .article-card__title {
-    color: #2563eb;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
   }
 
   .article-card__meta {
-    color: #6b7280;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .article-card__separator {
+    color: var(--color-border);
+  }
+
+  .article-card__title {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--color-text);
+    transition: color var(--transition-fast);
+  }
+
+  .article-card__link:hover .article-card__title {
+    color: var(--color-accent);
+  }
+
+  .article-card__arrow {
+    color: var(--color-text-muted);
     font-size: 0.875rem;
   }
 
-  .separator {
-    color: #d1d5db;
+  .article-card--compact {
+    padding: var(--space-4) 0;
+  }
+
+  .article-card--compact .article-card__title {
+    font-size: var(--step-0);
+    margin-bottom: var(--space-1);
   }
 </style>

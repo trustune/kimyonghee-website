@@ -12,7 +12,7 @@ pages: "1161-1184"
 doi: "10.1080/14783363.2018.1487312"
 impact_factor: 3.9
 quartile: "Q1"
-citations: 19
+citations: 20
 abstract: "This study aims to examine Gov. 3.0 (E-government) efficiency of 42 central administrative agencies in Republic of Korea and to identify the critical factors which can have an influence on the improvement of Gov."
 keywords: ["E-government", "Government 3.0", "DEA", "Public Service Efficiency", "Digital Government", "Administrative Agencies", "Tobit Regression", "Public Sector Innovation", "Korea", "Efficiency Assessment"]
 research_area: ["Public Administration", "E-government", "Public Service Management", "Digital Transformation"]

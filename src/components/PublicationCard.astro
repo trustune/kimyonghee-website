@@ -33,12 +33,18 @@ const {
   showBadges = true,
   showLinks = true
 } = Astro.props;
+
+const statusParts = [
+  pub.status === 'published' ? 'PUBLISHED' : pub.status?.toUpperCase(),
+  pub.year,
+  pub.type?.toUpperCase()
+].filter(Boolean);
 ---
 
 <article class={`publication-card publication-card--${variant}`}>
   {variant === 'full' && pub.status && (
     <div class="publication-status">
-      {pub.status === 'published' ? 'PUBLISHED' : pub.status.toUpperCase()} • {pub.year}
+      {statusParts.join(' \u00b7 ')}
     </div>
   )}
 
@@ -56,14 +62,14 @@ const {
 
   {pub.journal && (
     <div class="publication-journal">
-      {pub.journal}
+      <em>{pub.journal}</em>
       {pub.volume && `, Vol. ${pub.volume}`}
       {pub.issue && `(${pub.issue})`}
       {pub.pages && `, pp. ${pub.pages}`}
       {variant === 'compact' && (
         <>
-          {' • '}{pub.year}
-          {pub.impact_factor && ` • IF ${pub.impact_factor}`}
+          {' \u00b7 '}{pub.year}
+          {pub.impact_factor && ` \u00b7 IF ${pub.impact_factor}`}
         </>
       )}
     </div>
@@ -73,19 +79,13 @@ const {
     <p class="publication-abstract">{pub.abstract}</p>
   )}
 
-  {showBadges && (pub.type || pub.impact_factor || pub.quartile || pub.citations) && (
+  {showBadges && (pub.type || pub.quartile) && (
     <div class="publication-badges">
       {pub.type && (
-        <Badge variant={pub.type.toLowerCase()} text={pub.type.toUpperCase()} />
-      )}
-      {pub.impact_factor && (
-        <Badge variant="if" text={`IF ${pub.impact_factor}`} />
+        <Badge variant={pub.type.toLowerCase() as any} text={pub.type.toUpperCase()} size="small" />
       )}
       {pub.quartile && (
-        <Badge variant="if" text={pub.quartile} />
-      )}
-      {pub.citations && pub.citations > 0 && (
-        <Badge variant="citations" text={`${pub.citations} citations`} />
+        <Badge variant="default" text={pub.quartile} size="small" />
       )}
     </div>
   )}
@@ -93,13 +93,13 @@ const {
   {showLinks && (pub.doi || pub.pdf) && (
     <div class="publication-links">
       {pub.doi && (
-        <a href={`https://doi.org/${pub.doi}`} target="_blank" class="publication-link">
-          Publication →
+        <a href={`https://doi.org/${pub.doi}`} target="_blank" rel="noopener noreferrer" class="publication-link">
+          Publication &#x2197;
         </a>
       )}
       {pub.pdf && (
-        <a href={pub.pdf} target="_blank" class="publication-link">
-          PDF →
+        <a href={pub.pdf} target="_blank" rel="noopener noreferrer" class="publication-link">
+          PDF &#x2197;
         </a>
       )}
     </div>
@@ -108,11 +108,11 @@ const {
 
 <style>
   .publication-card {
-    padding: 1.25rem;
+    padding: var(--space-6);
     border: 1px solid var(--color-border);
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius);
     background: var(--color-bg);
-    transition: border-color 0.2s;
+    transition: border-color var(--transition-base);
   }
 
   .publication-card:hover {
@@ -120,27 +120,27 @@ const {
   }
 
   .publication-card--compact {
-    padding: 1rem;
+    padding: var(--space-4);
   }
 
   .publication-card--list {
-    padding: 1rem;
+    padding: var(--space-4);
   }
 
   .publication-status {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: var(--color-accent);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.025em;
-    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-3);
   }
 
   .publication-title {
-    font-family: var(--font-primary);
-    font-size: 1.125rem;
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
     font-weight: 600;
-    margin: 0 0 0.5rem 0;
+    margin-bottom: var(--space-3);
     line-height: 1.4;
   }
 
@@ -155,54 +155,56 @@ const {
   .publication-title a {
     color: var(--color-text);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color var(--transition-fast);
   }
 
   .publication-title a:hover {
-    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .publication-authors {
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     color: var(--color-text-secondary);
-    margin-bottom: 0.375rem;
+    margin-bottom: var(--space-2);
   }
 
   .publication-journal {
-    font-size: 0.8125rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
   }
 
   .publication-abstract {
-    font-size: 0.875rem;
+    font-size: var(--step-0);
     color: var(--color-text-secondary);
     line-height: 1.6;
-    margin: 0 0 0.75rem 0;
+    margin-bottom: var(--space-4);
   }
 
   .publication-badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.375rem;
-    margin-bottom: 0.75rem;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
   }
 
   .publication-links {
     display: flex;
-    gap: 1rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--color-bg-secondary);
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-light);
   }
 
   .publication-link {
-    color: var(--color-link);
+    color: var(--color-accent);
     text-decoration: none;
     font-size: 0.8125rem;
     font-weight: 500;
+    transition: color var(--transition-fast);
   }
 
   .publication-link:hover {
-    text-decoration: underline;
+    color: var(--color-accent-hover);
   }
 </style>

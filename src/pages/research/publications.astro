@@ -2,13 +2,10 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PublicationCard from '../../components/PublicationCard.astro';
-import StatItem from '../../components/StatItem.astro';
 import publicationsData from '../../data/publications.json';
 
-// Fetch markdown publications
 const allPublications = await getCollection('publications');
 
-// Get scholarStats and citationGraph from JSON
 const scholarStats = publicationsData.scholarStats || {
   citations: 0,
   hIndex: 0,
@@ -17,7 +14,7 @@ const scholarStats = publicationsData.scholarStats || {
 const citationGraph = publicationsData.citationGraph || [];
 const domesticPublications = publicationsData.domestic_publications || [];
 
-// Convert markdown publications to JSON format
+// Convert markdown publications to same format as JSON
 const publications = allPublications.map(pub => ({
   id: pub.id,
   ...pub.data,
@@ -36,7 +33,7 @@ const publishedPapers = publications
   .filter(p => p.status === 'published')
   .sort((a, b) => b.year - a.year);
 
-// Sort domestic papers by citations
+// Sort domestic publications by citations (descending)
 const domesticPapers = domesticPublications
   .sort((a, b) => b.citations - a.citations);
 
@@ -47,6 +44,275 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
 ---
 
 <BaseLayout title={pageTitle}>
+  <style>
+    .research-container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: var(--space-16) var(--space-8);
+      line-height: 1.625;
+    }
+
+    /* Header */
+    .page-header {
+      margin-bottom: var(--space-12);
+    }
+
+    .page-title {
+      font-family: var(--font-serif);
+      font-size: var(--step-3);
+      font-weight: 400;
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+    }
+
+    .page-description {
+      font-size: var(--step-0);
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Scholar Stats - compact inline */
+    .scholar-stats-line {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-8);
+      line-height: 1.6;
+    }
+
+    .scholar-stats-line a {
+      color: var(--color-accent);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .scholar-stats-line a:hover {
+      color: var(--color-accent-hover);
+      text-decoration: underline;
+    }
+
+    .stats-separator {
+      margin: 0 var(--space-2);
+      color: var(--color-border);
+    }
+
+    .stat-dot {
+      margin: 0 var(--space-1);
+      color: var(--color-text-muted);
+    }
+
+    /* Citation Graph */
+    .citation-graph {
+      margin-bottom: var(--space-12);
+    }
+
+    .graph-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-4);
+    }
+
+    #citationChart {
+      max-height: 200px;
+    }
+
+    .stat-updated {
+      font-size: 0.8125rem;
+      color: var(--color-text-muted);
+      margin-top: var(--space-3);
+    }
+
+    /* Section Divider */
+    hr {
+      border: none;
+      border-top: 1px solid var(--color-border-light);
+      margin: var(--space-12) 0;
+    }
+
+    /* Sort Controls */
+    .sort-controls {
+      display: flex;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .sort-label {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    .sort-button {
+      padding: var(--space-2) var(--space-4);
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      border-radius: var(--border-radius);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      color: var(--color-text-secondary);
+    }
+
+    .sort-button:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .sort-button.active {
+      background: var(--color-text);
+      color: var(--color-bg);
+      border-color: var(--color-text);
+    }
+
+    /* Section Styles */
+    .research-section {
+      margin-bottom: var(--space-12);
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: var(--step-2);
+      font-weight: 400;
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+    }
+
+    .section-description {
+      font-size: 0.9375rem;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-8);
+    }
+
+    .publication-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    /* Domestic Publications */
+    .domestic-pub-item {
+      padding-bottom: var(--space-6);
+      border-bottom: 1px solid var(--color-border-light);
+      margin-bottom: var(--space-2);
+    }
+
+    .domestic-pub-item:last-child {
+      border-bottom: none;
+    }
+
+    .pub-header {
+      margin-bottom: var(--space-3);
+    }
+
+    .pub-title-ko {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--space-1);
+      line-height: 1.5;
+    }
+
+    .pub-title-en {
+      font-size: 0.9375rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .pub-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-3);
+    }
+
+    .pub-authors {
+      font-weight: 500;
+    }
+
+    .pub-separator {
+      color: var(--color-text-muted);
+    }
+
+    .pub-journal-ko {
+      font-weight: 500;
+      color: var(--color-accent);
+    }
+
+    .pub-journal-en {
+      color: var(--color-text-muted);
+      font-size: 0.8125rem;
+    }
+
+    .pub-abstract {
+      background: var(--color-surface);
+      padding: var(--space-4);
+      border-left: 2px solid var(--color-border);
+      border-radius: var(--border-radius);
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-3);
+    }
+
+    .pub-footer {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .pub-badge {
+      display: inline-block;
+      padding: var(--space-1) var(--space-3);
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pub-badge-kci {
+      background: var(--color-accent-light);
+      color: var(--color-accent);
+    }
+
+    .pub-citations {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+
+    .pub-citations svg {
+      flex-shrink: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .research-container {
+        padding: var(--space-8) var(--space-4);
+      }
+
+      .pub-title-ko {
+        font-size: 1rem;
+      }
+
+      .pub-meta {
+        font-size: 0.8125rem;
+      }
+
+      .scholar-stats-line {
+        line-height: 1.8;
+      }
+    }
+  </style>
+
   <div class="research-container">
     <header class="page-header">
       <h1 class="page-title">Research</h1>
@@ -55,74 +321,30 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
       </p>
     </header>
 
-    <div class="profiles-grid">
-      <section class="scholar-section">
-        <div class="scholar-header">
-          <h2 class="scholar-title">Google Scholar</h2>
-          <a href="https://scholar.google.com/citations?user=semkeskAAAAJ" target="_blank" class="scholar-link">
-            View Profile →
-          </a>
-        </div>
-        <div class="scholar-stats">
-          <StatItem
-            value={scholarStats.citations}
-            label="Citations"
-            sublabel="All time"
-            align="center"
-          />
-          <StatItem
-            value={scholarStats.hIndex}
-            label="h-index"
-            sublabel="All time"
-            align="center"
-          />
-          <StatItem
-            value={scholarStats.i10Index}
-            label="i10-index"
-            sublabel="All time"
-            align="center"
-          />
-        </div>
-
-        {citationGraph.length > 0 && (
-          <div class="citation-graph">
-            <h3 class="graph-title">Citations by Year</h3>
-            <canvas id="citationChart"></canvas>
-          </div>
-        )}
-
-        <p class="stat-updated">Last updated: {currentDate}</p>
-      </section>
-
-      <section class="orcid-section">
-        <div class="scholar-header">
-          <h2 class="scholar-title">ORCID</h2>
-          <a href="https://orcid.org/0000-0002-5643-2748" target="_blank" class="scholar-link">
-            View Profile →
-          </a>
-        </div>
-
-        <div class="orcid-content">
-          <div class="orcid-id-display">
-            <div class="orcid-id-label">Verified Researcher ID</div>
-            <div class="orcid-id-value">0000-0002-5643-2748</div>
-          </div>
-
-          <div class="orcid-info">
-            <div class="orcid-info-item">
-              <div class="orcid-info-label">Official Registry</div>
-              <div class="orcid-info-text">Persistent digital identifier for researchers</div>
-            </div>
-            <div class="orcid-info-item">
-              <div class="orcid-info-label">ResearcherID</div>
-              <div class="orcid-info-text">G-5295-2018</div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <!-- Scholar Stats - compact single line -->
+    <div class="scholar-stats-line">
+      <span>
+        <a href="https://scholar.google.com/citations?user=semkeskAAAAJ" target="_blank">Google Scholar</a>:
+        {scholarStats.citations} citations
+        <span class="stat-dot">&middot;</span>
+        h-index: {scholarStats.hIndex}
+        <span class="stat-dot">&middot;</span>
+        i10-index: {scholarStats.i10Index}
+        <span class="stats-separator">|</span>
+        <a href="https://orcid.org/0000-0002-5643-2748" target="_blank">ORCID</a>: 0000-0002-5643-2748
+      </span>
     </div>
 
-    <hr class="section-divider" />
+    <!-- Citation Graph -->
+    {citationGraph.length > 0 && (
+      <div class="citation-graph">
+        <h3 class="graph-title">Citations by Year</h3>
+        <canvas id="citationChart"></canvas>
+        <p class="stat-updated">Last updated: {currentDate}</p>
+      </div>
+    )}
+
+    <hr />
 
     <section class="research-section">
       <h2 class="section-title">Published Papers</h2>
@@ -149,7 +371,7 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
       </div>
     </section>
 
-    <hr class="section-divider" />
+    <hr />
 
     {workInProgress.length > 0 && (
       <>
@@ -168,7 +390,7 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
             ))}
           </div>
         </section>
-        <hr class="section-divider" />
+        <hr />
       </>
     )}
 
@@ -189,7 +411,7 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
             ))}
           </div>
         </section>
-        <hr class="section-divider" />
+        <hr />
       </>
     )}
 
@@ -206,9 +428,10 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
               </div>
               <div class="pub-meta">
                 <span class="pub-authors">{pub.authors.join(', ')}</span>
-                <span class="pub-separator">•</span>
-                <span class="pub-journal">{pub.journal}</span>
-                <span class="pub-separator">•</span>
+                <span class="pub-separator">&middot;</span>
+                <span class="pub-journal-ko">{pub.journal}</span>
+                {pub.journal_en && <span class="pub-journal-en">({pub.journal_en})</span>}
+                <span class="pub-separator">&middot;</span>
                 <span class="pub-year">{pub.year}</span>
                 {pub.volume && <span class="pub-volume"> {pub.volume}({pub.issue})</span>}
                 {pub.pages && <span class="pub-pages">, {pub.pages}</span>}
@@ -232,67 +455,85 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
   <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 
   <script is:inline define:vars={{ citationGraph }}>
-    if (citationGraph && citationGraph.length > 0) {
-      const ctx = document.getElementById('citationChart');
-      if (ctx) {
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: citationGraph.map(d => d.year),
-            datasets: [{
-              label: 'Citations',
-              data: citationGraph.map(d => d.citations),
-              backgroundColor: 'rgba(30, 64, 175, 0.7)',
-              borderColor: 'rgba(30, 64, 175, 1)',
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-              legend: {
-                display: false
-              }
+    var _citationGraph = citationGraph;
+    var _citationChartInstance = null;
+
+    function initPublicationsPage() {
+      // Citation Graph
+      if (_citationGraph && _citationGraph.length > 0) {
+        var ctx = document.getElementById('citationChart');
+        if (ctx) {
+          if (_citationChartInstance) {
+            _citationChartInstance.destroy();
+          }
+          var rootStyles = getComputedStyle(document.documentElement);
+          var accentColor = rootStyles.getPropertyValue('--color-accent').trim() || '#0055aa';
+          var borderColor = rootStyles.getPropertyValue('--color-border').trim() || '#e0e0e0';
+          var textMuted = rootStyles.getPropertyValue('--color-text-muted').trim() || '#888888';
+
+          _citationChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: _citationGraph.map(function(d) { return d.year; }),
+              datasets: [{
+                label: 'Citations',
+                data: _citationGraph.map(function(d) { return d.citations; }),
+                backgroundColor: accentColor + '55',
+                borderColor: accentColor,
+                borderWidth: 1
+              }]
             },
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  precision: 0
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: { legend: { display: false } },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: { precision: 0, color: textMuted },
+                  grid: { color: borderColor }
+                },
+                x: {
+                  ticks: { color: textMuted },
+                  grid: { display: false }
                 }
               }
             }
-          }
+          });
+        }
+      }
+
+      // Sorting functionality
+      var sortButtons = document.querySelectorAll('.sort-button');
+      var publicationList = document.getElementById('publication-list');
+
+      if (publicationList) {
+        sortButtons.forEach(function(button) {
+          button.addEventListener('click', function() {
+            sortButtons.forEach(function(btn) { btn.classList.remove('active'); });
+            button.classList.add('active');
+
+            var sortType = button.dataset.sort;
+            var items = Array.from(publicationList.querySelectorAll('.publication-item'));
+
+            items.sort(function(a, b) {
+              if (sortType === 'year') {
+                return parseInt(b.dataset.year) - parseInt(a.dataset.year);
+              } else if (sortType === 'citations') {
+                return parseInt(b.dataset.citations) - parseInt(a.dataset.citations);
+              }
+              return 0;
+            });
+
+            items.forEach(function(item) {
+              publicationList.appendChild(item);
+            });
+          });
         });
       }
     }
 
-    const sortButtons = document.querySelectorAll('.sort-button');
-    const publicationList = document.getElementById('publication-list');
-
-    sortButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        sortButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        const sortType = button.dataset.sort;
-        const items = Array.from(publicationList.querySelectorAll('.publication-item'));
-
-        items.sort((a, b) => {
-          if (sortType === 'year') {
-            return parseInt(b.dataset.year) - parseInt(a.dataset.year);
-          } else if (sortType === 'citations') {
-            return parseInt(b.dataset.citations) - parseInt(a.dataset.citations);
-          }
-          return 0;
-        });
-
-        items.forEach(item => {
-          publicationList.appendChild(item);
-        });
-      });
-    });
+    document.addEventListener('astro:page-load', initPublicationsPage);
   </script>
 </BaseLayout>
 

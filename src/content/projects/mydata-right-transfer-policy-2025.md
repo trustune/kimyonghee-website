@@ -1,12 +1,10 @@
 ---
-title: "본인전송요구권 확대가 가져올 사회적 문제와 대응 방안"
-title_en: "The Right to Data Transfer: Social Problems and Response Plans"
-subtitle: "개인정보보호법 시행령 개정안의 법적·정책적 문제점 검토"
-subtitle_en: "Critical Analysis of Personal Information Protection Act Enforcement Decree Amendment"
+title: "The Right to Data Transfer: Social Problems and Response Plans"
+subtitle: "Critical Analysis of Personal Information Protection Act Enforcement Decree Amendment"
 date: "2025-11-21"
 category: "Data Policy"
 tags: ["MyData", "Data Privacy", "Regulation", "Policy Analysis", "Startup Ecosystem", "GDPR"]
-keywords: ["MyData", "본인전송요구권", "개인정보보호법", "GDPR", "스타트업", "규제개혁", "데이터이동권", "Data Portability", "Privacy Regulation", "Startup Policy"]
+keywords: ["MyData", "GDPR", "Data Portability", "Privacy Regulation", "Startup Policy"]
 methodology: ["Policy Analysis", "Legal Review", "Comparative Study (GDPR)", "Stakeholder Analysis", "Cost-Benefit Analysis"]
 data_period:
   start: "2023-03"
@@ -15,10 +13,8 @@ related_publications: []
 related_projects: []
 conference: "MyData Policy Startup Seminar"
 venue: "Korea Startup Forum, D.CAMP, Gangnam, Seoul"
-description: "본인전송요구권 확대 개정안의 7가지 핵심 문제점 분석: 절차적 정당성 위반, 헌법적 문제, GDPR 불일치, 스타트업 생태계 위협"
-description_en: "In-depth analysis of the proposed expansion of the Right to Request Data Transfer, examining seven critical concerns including regulatory procedural violations, constitutional issues, GDPR non-compliance, and threats to the startup ecosystem."
-summary: "2025년 6월 개정안은 규제개혁위원회 권고(2024년 8월)를 무시하고, 헌법 원칙을 위반하며, GDPR 기준에 부합하지 않고, 전문기관에 대한 불공정 특혜를 통해 한국 스타트업 생태계를 파괴할 위험이 있음."
-summary_en: "The June 2025 amendment proposal ignores Regulatory Reform Committee recommendations (August 2024), violates constitutional principles, contradicts GDPR standards, and threatens to destroy Korea's startup ecosystem through unfair privileges to specialized agencies."
+description: "In-depth analysis of the proposed expansion of the Right to Request Data Transfer, examining seven critical concerns including regulatory procedural violations, constitutional issues, GDPR non-compliance, and threats to the startup ecosystem."
+summary: "The June 2025 amendment proposal ignores Regulatory Reform Committee recommendations (August 2024), violates constitutional principles, contradicts GDPR standards, and threatens to destroy Korea's startup ecosystem through unfair privileges to specialized agencies."
 key_findings:
   - "Procedural violation: Re-proposing rejected content only 4 months after Regulatory Reform Committee decision"
   - "Constitutional issue: Unconstitutional delegation of proxy rights via enforcement decree"
@@ -272,10 +268,8 @@ image: "/images/blog/PS25112100891.jpg"
 <p data-lang="ko">"본인전송요구권"을 모든 산업으로 확대하려는 이 개정안은 <strong>데이터 활성화에서 데이터 통제로의 근본적 전환</strong>을 나타내며, 확립된 규제 원칙과 국제 규범을 위반하면서 한국 스타트업 생태계를 약화시킬 위험이 있습니다.</p>
 
 <div class="highlight-box danger">
-<h3 data-lang="en">Critical Alert</h3>
-<h3 data-lang="ko">긴급 경고</h3>
-<p data-lang="en"><strong>The June 2025 amendment proposal violates the Regulatory Reform Committee's August 2024 decision by re-proposing identical content only 4 months later.</strong> This procedural violation undermines administrative integrity and ignores legitimate industry concerns about security, costs, and trade secrets.</p>
-<p data-lang="ko"><strong>2025년 6월 개정안은 규제개혁위원회의 2024년 8월 결정에서 불과 4개월 후 동일한 내용을 재제안함으로써 위반하고 있습니다.</strong> 이러한 절차적 위반은 행정 무결성을 훼손하고 보안, 비용, 영업비밀에 대한 업계의 정당한 우려를 무시합니다.</p>
+<h3>Critical Alert</h3>
+<strong>The June 2025 amendment proposal violates the Regulatory Reform Committee's August 2024 decision by re-proposing identical content only 4 months later.</strong> This procedural violation undermines administrative integrity and ignores legitimate industry concerns about security, costs, and trade secrets.
 </div>
 
 ---
@@ -334,10 +328,9 @@ image: "/images/blog/PS25112100891.jpg"
   <div class="timeline-item">
     <div class="timeline-date">2025-06-23</div>
     <div class="timeline-content critical">
-      <h4><span data-lang="en">Controversial Amendment Proposed</span><span data-lang="ko">논란의 개정안 제안</span></h4>
-      <p data-lang="en"><strong>Personal Information Protection Commission re-proposes expansion to ALL industries</strong></p>
-      <p data-lang="ko"><strong>개인정보보호위원회가 전 산업으로의 확대를 재제안</strong></p>
-      <ul data-lang="en">
+      <h4>Controversial Amendment Proposed</h4>
+      <p><strong>Personal Information Protection Commission re-proposes expansion to ALL industries</strong></p>
+      <ul>
         <li>Ignores Regulatory Reform Committee decision from just 4 months prior</li>
         <li>Expands scope to: E-commerce, Platforms, Gaming, Education, Hospitality, Culture & Leisure</li>
         <li>Threshold: Revenue 150B KRW + 1M users</li>
@@ -360,72 +353,48 @@ image: "/images/blog/PS25112100891.jpg"
 
 <div class="comparison-grid">
   <div class="comparison-card current">
-    <h3><span data-lang="en">Current Enforcement Decree (Feb 2025)</span><span data-lang="ko">현행 시행령 (2025년 2월)</span></h3>
-    <div class="metric-highlight"><span data-lang="en">3 Sectors</span><span data-lang="ko">3개 분야</span></div>
-    <h4><span data-lang="en">Scope</span><span data-lang="ko">범위</span></h4>
-    <ul data-lang="en">
+    <h3>Current Enforcement Decree (Feb 2025)</h3>
+    <div class="metric-highlight">3 Sectors</div>
+    <h4>Scope</h4>
+    <ul>
       <li>Medical institutions</li>
       <li>Telecommunications carriers</li>
       <li>Energy providers</li>
     </ul>
-    <ul data-lang="ko">
-      <li>의료기관</li>
-      <li>통신사업자</li>
-      <li>에너지 공급자</li>
-    </ul>
-    <h4><span data-lang="en">Characteristics</span><span data-lang="ko">특징</span></h4>
-    <ul data-lang="en">
+    <h4>Characteristics</h4>
+    <ul>
       <li>Self-transfer = Third-party transfer scope</li>
       <li>Follows Regulatory Reform Committee guidance</li>
       <li>Gradual expansion principle</li>
       <li>Sufficient pilot period</li>
     </ul>
-    <ul data-lang="ko">
-      <li>본인전송 = 제3자 전송 범위</li>
-      <li>규제개혁위원회 지침 준수</li>
-      <li>점진적 확대 원칙</li>
-      <li>충분한 시범 기간</li>
-    </ul>
   </div>
 
   <div class="comparison-card proposed">
-    <h3><span data-lang="en">Proposed Amendment (June 2025)</span><span data-lang="ko">개정안 (2025년 6월)</span></h3>
-    <div class="metric-highlight"><span data-lang="en">ALL Industries</span><span data-lang="ko">전 산업</span></div>
-    <h4><span data-lang="en">Scope</span><span data-lang="ko">범위</span></h4>
-    <p><strong data-lang="en">Any entity meeting:</strong><strong data-lang="ko">다음 요건을 충족하는 모든 사업자:</strong></p>
-    <ul data-lang="en">
+    <h3>Proposed Amendment (June 2025)</h3>
+    <div class="metric-highlight">ALL Industries</div>
+    <h4>Scope</h4>
+    <p><strong>Any entity meeting:</strong></p>
+    <ul>
       <li>Annual revenue ≥ 150B KRW <strong>AND</strong></li>
       <li>User base ≥ 1M persons</li>
       <li>Plus: All elementary/secondary/higher education institutions</li>
       <li>Plus: Any entity designated by Commission</li>
     </ul>
-    <ul data-lang="ko">
-      <li>연매출 ≥ 1,500억원 <strong>AND</strong></li>
-      <li>이용자 ≥ 100만명</li>
-      <li>추가: 모든 초·중·고·대학 교육기관</li>
-      <li>추가: 위원회가 지정하는 모든 사업자</li>
-    </ul>
-    <h4><span data-lang="en">Problems</span><span data-lang="ko">문제점</span></h4>
-    <ul data-lang="en">
-      <li>Self-transfer ≠ Third-party transfer (inconsistent)</li>
+    <h4>Problems</h4>
+    <ul>
+      <li>Self-transfer and third-party transfer scope inconsistent</li>
       <li>Violates Regulatory Reform Committee decision</li>
       <li>Simultaneous expansion to all sectors</li>
       <li>Only 4 months after initial implementation</li>
-    </ul>
-    <ul data-lang="ko">
-      <li>본인전송 ≠ 제3자 전송 (불일치)</li>
-      <li>규제개혁위원회 결정 위반</li>
-      <li>전 분야 동시 확대</li>
-      <li>최초 시행 후 불과 4개월</li>
     </ul>
   </div>
 </div>
 
 <div class="highlight-box warning">
-<h3><span data-lang="en">What "Revenue 150B KRW & 1M Users" Really Means</span><span data-lang="ko">"매출 1,500억원 & 이용자 100만명"의 진정한 의미</span></h3>
-<p data-lang="en">This threshold captures:</p>
-<p data-lang="ko">이 기준에 해당하는 사업자:</p>
-<ul data-lang="en">
+<h3>What "Revenue 150B KRW & 1M Users" Really Means</h3>
+<p>This threshold captures:</p>
+<ul>
   <li><strong>Major platforms:</strong> Naver, Kakao, Coupang, Baemin, 11st, Gmarket, Auction</li>
   <li><strong>Growing startups:</strong> Any company reaching 1M users automatically included</li>
   <li><strong>Sectors affected:</strong> E-commerce, delivery, gaming, education, hospitality, culture & leisure</li>
@@ -518,20 +487,13 @@ image: "/images/blog/PS25112100891.jpg"
 
 <div class="comparison-grid">
   <div class="comparison-card current">
-    <h3><span data-lang="en">GDPR Approach (Balanced)</span><span data-lang="ko">GDPR 접근 (균형적)</span></h3>
-    <ul data-lang="en" style="line-height: 2;">
+    <h3>GDPR Approach (Balanced)</h3>
+    <ul style="line-height: 2;">
       <li>Protects data subject rights</li>
       <li>Respects business property rights</li>
       <li>Explicitly protects trade secrets</li>
       <li>Considers technical feasibility</li>
       <li>Balanced approach</li>
-    </ul>
-    <ul data-lang="ko" style="line-height: 2;">
-      <li>정보주체 권리 보호</li>
-      <li>사업자 재산권 존중</li>
-      <li>영업비밀 명시적 보호</li>
-      <li>기술적 실현 가능성 고려</li>
-      <li>균형 잡힌 접근</li>
     </ul>
     <div class="highlight-box info" style="margin-top: 1.5rem;">
       <strong>GDPR Article 20(4):</strong><br>
@@ -541,20 +503,13 @@ image: "/images/blog/PS25112100891.jpg"
   </div>
 
   <div class="comparison-card proposed">
-    <h3><span data-lang="en">Korean Amendment (Unbalanced)</span><span data-lang="ko">한국 개정안 (불균형)</span></h3>
-    <ul data-lang="en" style="line-height: 2;">
+    <h3>Korean Amendment (Unbalanced)</h3>
+    <ul style="line-height: 2;">
       <li>Protects data subject rights</li>
       <li>Ignores business property rights</li>
       <li>No trade secret protection</li>
       <li>Unconditional transfer obligation</li>
       <li>One-sided regulation</li>
-    </ul>
-    <ul data-lang="ko" style="line-height: 2;">
-      <li>정보주체 권리 보호</li>
-      <li>사업자 재산권 무시</li>
-      <li>영업비밀 보호 없음</li>
-      <li>무조건적 전송 의무</li>
-      <li>일방적 규제</li>
     </ul>
     <div class="highlight-box danger" style="margin-top: 1.5rem;">
       <strong data-lang="en">Critical Flaw:</strong><strong data-lang="ko">핵심 결함:</strong><br>
@@ -615,8 +570,7 @@ image: "/images/blog/PS25112100891.jpg"
 <h2 data-lang="ko">금융 분야 역설: 규제적 자기모순</h2>
 
 <div class="highlight-box danger">
-<h3 data-lang="en">🔴 Financial Services Commission (2022): Screen Scraping Banned as Security Risk</h3>
-<h3 data-lang="ko">🔴 금융위원회 (2022): 스크린 스크래핑을 보안 위험으로 금지</h3>
+<h3>Financial Services Commission (2022): Screen Scraping Banned as Security Risk</h3>
 
 <p><strong data-lang="en">Timeline:</strong><strong data-lang="ko">타임라인:</strong></p>
 <ul data-lang="en">
@@ -681,8 +635,7 @@ image: "/images/blog/PS25112100891.jpg"
 </div>
 
 <div class="highlight-box warning">
-<h3 data-lang="en">🟡 Personal Information Protection Commission (2025): Allowing Scraping as "Automated Tool"</h3>
-<h3 data-lang="ko">🟡 개인정보보호위원회 (2025): 스크래핑을 "자동화 도구"로 허용</h3>
+<h3>Personal Information Protection Commission (2025): Allowing Scraping as "Automated Tool"</h3>
 
 <p><strong data-lang="en">Justification:</strong><strong data-lang="ko">정당화 근거:</strong></p>
 <ul data-lang="en">
@@ -702,8 +655,7 @@ image: "/images/blog/PS25112100891.jpg"
 </div>
 
 <div class="highlight-box danger">
-<h3 data-lang="en">⚠️ The Logical Contradiction</h3>
-<h3 data-lang="ko">⚠️ 논리적 모순</h3>
+<h3>The Logical Contradiction</h3>
 
 <p><strong data-lang="en">Regulatory Inconsistency:</strong><strong data-lang="ko">규제 불일치:</strong></p>
 <ol data-lang="en">
@@ -818,8 +770,7 @@ image: "/images/blog/PS25112100891.jpg"
 <h2 data-lang="ko">단일장애점(SPOF): 국가 안보 위험</h2>
 
 <div class="highlight-box danger">
-<h3 data-lang="en">🔴 From Distributed Risk to Concentrated Catastrophe</h3>
-<h3 data-lang="ko">🔴 분산된 위험에서 집중된 재앙으로</h3>
+<h3>From Distributed Risk to Concentrated Catastrophe</h3>
 
 <p><strong data-lang="en">Current System (Distributed):</strong><strong data-lang="ko">현행 시스템 (분산형):</strong></p>
 <ul data-lang="en">
@@ -1292,8 +1243,11 @@ image: "/images/blog/PS25112100891.jpg"
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  
+function initMyDataCharts() {
+
+  // Destroy existing charts to prevent canvas reuse errors
+  Chart.helpers.each(Chart.instances, function(instance) { instance.destroy(); });
+
   // 1. Seven Concerns Radar Chart
   const radarCtx = document.getElementById('sevenConcernsRadar');
   if (radarCtx) {
@@ -1421,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', function() {
           title: { display: true, text: 'Sector Coverage: Current (3 Sectors) vs. Proposed (ALL Sectors)', font: { size: 18, weight: 'bold' }, padding: 20 }
         },
         scales: {
-          y: { beginAtZero: true, max: 1.2, ticks: { stepSize: 1, callback: function(value) { return value === 1 ? '✓ Included' : ''; } } }
+          y: { beginAtZero: true, max: 1.2, ticks: { stepSize: 1, callback: function(value) { return value === 1 ? 'Included' : ''; } } }
         }
       }
     });
@@ -1483,7 +1437,7 @@ document.addEventListener('DOMContentLoaded', function() {
     new Chart(growthCtx, {
       type: 'line',
       data: {
-        labels: ['0', '200K', '400K', '600K', '800K', '1M ⚠', '1.2M', '1.5M'],
+        labels: ['0', '200K', '400K', '600K', '800K', '1M', '1.2M', '1.5M'],
         datasets: [
           { label: 'Natural Growth Path', data: [0, 15, 35, 60, 85, 110, 140, 175], borderColor: 'rgb(16, 185, 129)', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 3, tension: 0.4, borderDash: [10, 5], pointRadius: 6 },
           { label: 'Actual Growth (Under Amendment)', data: [0, 15, 35, 60, 85, 95, 98, 100], borderColor: 'rgb(239, 68, 68)', backgroundColor: 'rgba(239, 68, 68, 0.1)', borderWidth: 3, tension: 0.4, pointRadius: 6, pointHoverRadius: 8 }
@@ -1501,5 +1455,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-});
+}
+document.addEventListener('DOMContentLoaded', initMyDataCharts);
+document.addEventListener('astro:page-load', initMyDataCharts);
 </script>

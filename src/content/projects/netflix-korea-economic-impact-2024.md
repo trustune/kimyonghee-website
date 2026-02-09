@@ -1,8 +1,6 @@
 ---
-title: "숨겨진 투자자: 넷플릭스 코리아의 K-콘텐츠 생태계 경제적 파급효과"
-title_en: "The Hidden Investor: Netflix Korea's Economic Impact on K-Content Ecosystem"
-subtitle: "3.3조원의 '보이지 않는 FDI'가 위기의 한국 창작산업을 지탱한 방법"
-subtitle_en: "How 3.3 Trillion Won of 'Invisible FDI' Sustained Korea's Creative Industry Through Crisis"
+title: "Netflix Korea's Economic Impact on K-Content Ecosystem"
+subtitle: "How 3.3 Trillion Won of 'Invisible FDI' Sustained Korea's Creative Industry Through Crisis"
 date: "2025-12-05"
 category: "Media Economics"
 tags: ["Netflix", "K-Content", "FDI", "Input-Output Analysis", "Economic Impact", "Employment", "COVID-19"]
@@ -25,11 +23,8 @@ data_sources:
 related_publications: []
 related_projects: ["broadcasting-revenue-2015-2024", "broadcasting-reapproval-2024"]
 conference: ""
-conference_en: ""
-description: "산업연관분석으로 밝힌 넷플릭스 코리아의 진정한 경제적 기여: 3.3조원의 '숨겨진 FDI'가 6.9조원의 생산을 유발하고 팬데믹 위기 동안 28,500개의 일자리를 유지했습니다."
-description_en: "Input-output analysis reveals Netflix Korea's true economic contribution: 3.3 trillion won in 'hidden FDI' generated 6.9 trillion won production and sustained 28,500 jobs during the pandemic crisis."
-summary: "재무제표에는 4,500억원만 보이지만, 콘텐츠 제작을 포함한 실제 투자액은 3.3조원(4년 누적)에 달합니다. 이 '숨겨진 FDI'는 반도체 산업 대비 10억원당 3.6배 더 많은 일자리를 창출했습니다."
-summary_en: "Financial statements show only 450 billion won, but actual investment including content production reached 3.3 trillion won (4-year cumulative). This 'hidden FDI' created 3.6x more jobs per billion won than semiconductor industry."
+description: "Using input-output analysis, this study measures Netflix Korea's economic contribution: 3.3 trillion won in content-related FDI generated 6.9 trillion won in production and sustained 28,500 jobs during the pandemic."
+summary: "Financial statements show only 450 billion won, but actual investment including content production reached 3.3 trillion won (4-year cumulative). This content-driven FDI created 3.6x more jobs per billion won than semiconductor industry."
 key_findings:
   - "Hidden FDI discovered: 3.3 trillion won total vs 450 billion won in financial statements"
   - "Global Capital Pipeline: Net inflow +487 billion won (2023) - more comes in than goes out"
@@ -39,15 +34,6 @@ key_findings:
   - "Counter-cyclical buffer: Filled 120.7% of broadcasting ad revenue gap"
   - "Human capital preservation: Sustained 8,777 jobs during 2020-2021 pandemic crisis"
   - "Hidden tax contribution: 143 billion won indirect taxes vs 3.6 billion corporate tax (40x)"
-key_findings_ko:
-  - "숨겨진 FDI 발견: 재무제표 4,500억원 vs 실제 투자 3.3조원"
-  - "글로벌 자본 파이프라인: 순유입 +4,868억원 (2023) - 나간 돈보다 들어온 돈이 더 많음"
-  - "생산유발효과: 4년간 6.9조원 (2.07배 승수)"
-  - "고용 효율성: 반도체 대비 3.6배 높은 일자리 창출"
-  - "국내 체류율: 투자금의 93.3%가 국내에서 순환"
-  - "경기역행적 완충: 방송광고 감소분의 120.7% 대체"
-  - "인적자본 보존: 2020-2021 팬데믹 위기 동안 8,777개 일자리 유지"
-  - "숨겨진 조세 기여: 법인세 36억 vs 간접세 1,431억 (40배)"
 policy_proposals:
   - "Recognize 'content FDI' employment efficiency in foreign investment policy"
   - "Account for hidden investment beyond financial statements in economic impact assessment"
@@ -406,11 +392,9 @@ featured: true
 }
 </style>
 
-<h2 data-lang="en">The Untold Story: What Financial Statements Don't Reveal</h2>
-<h2 data-lang="ko">숨겨진 이야기: 재무제표가 말해주지 않는 것들</h2>
+<h2>Beyond Financial Statements: Measuring Netflix Korea's Full Investment</h2>
 
-<p data-lang="en">When we evaluate Netflix Korea's economic contribution, most analyses focus on the company's reported revenue and profits. But this approach misses a crucial piece of the puzzle: <strong>the massive content production investments that flow directly from Netflix Inc. (US) to Korean production companies</strong> - bypassing Korean financial statements entirely.</p>
-<p data-lang="ko">넷플릭스 코리아의 경제적 기여를 평가할 때, 대부분의 분석은 회사의 보고된 매출과 이익에 초점을 맞춥니다. 하지만 이러한 접근은 퍼즐의 중요한 조각을 놓치고 있습니다: <strong>넷플릭스 본사(미국)에서 한국 제작사로 직접 유입되는 대규모 콘텐츠 제작 투자금</strong> - 한국 재무제표를 완전히 우회하는 자금입니다.</p>
+<p>Standard analyses of Netflix Korea's economic contribution focus on the company's reported revenue and profits. However, this approach omits <strong>content production investments that flow directly from Netflix Inc. (US) to Korean production companies</strong>, bypassing Korean financial statements entirely.</p>
 
 <div class="metric-cards">
   <div class="metric-card">
@@ -432,26 +416,21 @@ featured: true
 </div>
 
 <div class="insight-box">
-  <h4 data-lang="en">The Hidden FDI Discovery</h4>
-  <h4 data-lang="ko">숨겨진 FDI 발견</h4>
-  <p data-lang="en"><strong>Financial statements show:</strong> ~450 billion KRW (two subsidiaries' operating costs)<br/>
+  <h4>The Off-Balance-Sheet FDI</h4>
+  <p><strong>Financial statements show:</strong> ~450 billion KRW (two subsidiaries' operating costs)<br/>
   <strong>Actual investment:</strong> ~3.3 trillion KRW (including content production)<br/>
-  <strong>The gap:</strong> 2.9 trillion KRW of "invisible" foreign direct investment that bypasses Korean subsidiaries</p>
-  <p data-lang="ko"><strong>재무제표 상:</strong> ~4,500억원 (두 자회사의 운영비용)<br/>
-  <strong>실제 투자액:</strong> ~3.3조원 (콘텐츠 제작 포함)<br/>
-  <strong>차이:</strong> 한국 자회사를 우회하는 2.9조원의 "보이지 않는" 외국인 직접투자</p>
+  <strong>The gap:</strong> 2.9 trillion KRW of foreign direct investment that bypasses Korean subsidiaries</p>
 </div>
 
 <hr class="section-divider">
 
-<h2 data-lang="en">Part 1: The Global Capital Pipeline - More Comes In Than Goes Out</h2>
-<h2 data-lang="ko">Part 1: 글로벌 자본 파이프라인 - 나가는 것보다 들어오는 것이 더 많다</h2>
+<h2>Part 1: The Global Capital Pipeline - More Comes In Than Goes Out</h2>
 
-A common criticism is that Netflix "takes subscription fees to the US." But examining the actual money flow reveals a fundamentally different picture: **Netflix is not a drain on Korea's economy - it's a pipeline that channels global capital INTO Korea.**
+A common criticism is that Netflix extracts subscription fees to the US. However, the actual capital flow data show that **Netflix channels more global capital into Korea than it withdraws in fees.**
 
 <div class="pipeline-highlight">
   <h3>The Core Thesis: Capital U-Turn Model</h3>
-  <p>Netflix doesn't extract Korean capital - it <strong>adds</strong> global capital to Korea.</p>
+  <p>Netflix's content investment exceeds its fee withdrawals, resulting in net capital inflow to Korea.</p>
   <div class="big-number">+487B KRW</div>
   <p><strong>Net Inflow to Korea (2023)</strong><br/>
   Content investment (1.22T) minus fee outflow (732B) = +487B KRW</p>
@@ -504,17 +483,16 @@ A common criticism is that Netflix "takes subscription fees to the US." But exam
 
 <div class="insight-box green">
   <h4>Why Korea is a Production Base, Not a Cash Cow</h4>
-  <p><strong>Typical foreign company model:</strong> Earn in Korea --> Send profits home --> Zero reinvestment (True capital drain)<br/><br/>
-  <strong>Netflix model:</strong> Earn in Korea + Earn globally --> Reinvest MORE than Korean earnings --> Korea becomes net recipient<br/><br/>
-  <strong>Key insight:</strong> Korean subscription fees alone cannot fund productions like "Squid Game 2". Netflix brings <strong>global subscriber money from 190+ countries</strong> into Korea. Korea is Netflix's "Global Content R&D Center" - where investment flows IN, not out.</p>
+  <p><strong>Typical foreign company model:</strong> Earn in Korea --> Send profits home --> Zero reinvestment (capital drain)<br/><br/>
+  <strong>Netflix model:</strong> Earn in Korea + Earn globally --> Reinvest more than Korean earnings --> Korea becomes net recipient<br/><br/>
+  Korean subscription fees alone do not fund productions at the scale of "Squid Game 2." Netflix channels global subscriber revenue from 190+ countries into Korean production. Korea functions as Netflix's global content production base, where investment flows in rather than out.</p>
 </div>
 
 <p class="data-source">Source: DART Financial Statements (2023), Netflix Korea representative confirmation (Content Investment: USD 2.5B / 3 years for 2023-2025)</p>
 
 <hr class="section-divider">
 
-<h2 data-lang="en">Part 2: Investment Flow by Year</h2>
-<h2 data-lang="ko">Part 2: 연도별 투자 흐름</h2>
+<h2>Part 2: Investment Flow by Year</h2>
 
 <div class="chart-container">
   <div class="chart-title">Netflix Korea Investment Flow (2020-2023)</div>
@@ -574,8 +552,7 @@ A common criticism is that Netflix "takes subscription fees to the US." But exam
 
 <hr class="section-divider">
 
-<h2 data-lang="en">Part 3: Employment Efficiency - The 3.6x Advantage</h2>
-<h2 data-lang="ko">Part 3: 고용 효율성 - 3.6배의 우위</h2>
+<h2>Part 3: Employment Efficiency - The 3.6x Advantage</h2>
 
 When we compare job creation efficiency across industries, **content investment creates 3.6 times more jobs per 1 billion won than semiconductor manufacturing**.
 
@@ -642,10 +619,9 @@ When we compare job creation efficiency across industries, **content investment 
 
 <hr class="section-divider">
 
-<h2 data-lang="en">Part 4: The Counter-Cyclical Safety Net</h2>
-<h2 data-lang="ko">Part 4: 경기역행적 안전망</h2>
+<h2>Part 4: The Counter-Cyclical Safety Net</h2>
 
-**This is the most critical finding.** When COVID-19 devastated the traditional broadcasting industry in 2020, Netflix didn't retreat - it **doubled down** on Korean content investment.
+When COVID-19 contracted traditional broadcasting advertising revenue starting in 2020, Netflix increased its Korean content investment each year.
 
 ### Broadcasting Industry Context (Verified Data)
 
@@ -730,19 +706,18 @@ According to Korea Communications Commission data, Korean broadcasting advertisi
 <p class="data-source">Source: Korea Communications Commission Broadcasting Revenue Data (Ad Revenue), Netflix Official (Investment)</p>
 
 <div class="insight-box green">
-  <h4>Lender of Last Resort</h4>
+  <h4>Counter-Cyclical Revenue Substitution</h4>
   <p><strong>Broadcasting Ad Revenue Drop (2019-2024):</strong> -1.01 trillion KRW (-30.6%)<br/>
   <strong>Netflix Investment (2023):</strong> 1.22 trillion KRW<br/>
   <strong>Gap Coverage:</strong> 120.7% of ad revenue decline compensated<br/>
-  <strong>Role:</strong> Netflix served as the industry's "lender of last resort" during the crisis</p>
+  Netflix's content investment offset the structural decline in broadcasting advertising revenue during this period.</p>
 </div>
 
 <hr class="section-divider">
 
-<h2 data-lang="en">Part 5: Human Capital Preservation</h2>
-<h2 data-lang="ko">Part 5: 인적자본 보존</h2>
+<h2>Part 5: Human Capital Preservation</h2>
 
-The content industry's workforce is predominantly **freelance and project-based**. When projects stop, they immediately become unemployed. During COVID-19, Netflix's continued investment **prevented a mass exodus of skilled talent**.
+The content industry's workforce is predominantly freelance and project-based. When projects stop, workers immediately lose income. During COVID-19, Netflix's continued investment sustained employment for skilled production talent.
 
 <div class="chart-container">
   <div class="chart-title">Employment Induced by Netflix Investment (Persons)</div>
@@ -759,8 +734,7 @@ The content industry's workforce is predominantly **freelance and project-based*
 
 <hr class="section-divider">
 
-<h2 data-lang="en">Part 6: Four-Year Cumulative Impact Summary</h2>
-<h2 data-lang="ko">Part 6: 4년간 누적 영향 요약</h2>
+<h2>Part 6: Four-Year Cumulative Impact Summary</h2>
 
 <div class="chart-container">
   <div class="chart-title">Cumulative Economic Ripple Effects (2020-2023)</div>
@@ -843,11 +817,9 @@ The content industry's workforce is predominantly **freelance and project-based*
 
 <hr class="section-divider">
 
-<h2 data-lang="en">Part 7: The Hidden Tax Contribution</h2>
-<h2 data-lang="ko">Part 7: 숨겨진 조세 기여</h2>
+<h2>Part 7: The Indirect Tax Contribution</h2>
 
-<p data-lang="en">When evaluating Netflix's tax contribution, the conventional approach focuses solely on corporate income tax reported in financial statements. However, this perspective misses <strong>97.5% of Netflix's actual tax contribution to the Korean treasury</strong>. Input-output analysis reveals a massive "hidden" tax contribution through indirect taxes generated in the content production supply chain.</p>
-<p data-lang="ko">넷플릭스의 조세 기여를 평가할 때, 전통적인 접근법은 재무제표에 보고된 법인세에만 초점을 맞춥니다. 하지만 이러한 관점은 <strong>넷플릭스의 실제 한국 국고 기여의 97.5%를 놓치고 있습니다</strong>. 산업연관분석을 통해 콘텐츠 제작 공급망에서 발생하는 간접세를 통한 막대한 "숨겨진" 조세 기여가 드러납니다.</p>
+<p>Conventional assessments of Netflix's tax contribution focus solely on corporate income tax reported in financial statements. This perspective accounts for only 2.5% of Netflix's total tax contribution to the Korean treasury. Input-output analysis identifies substantial indirect tax revenue generated through the content production supply chain.</p>
 
 <div class="metric-cards">
   <div class="metric-card">
@@ -869,8 +841,7 @@ The content industry's workforce is predominantly **freelance and project-based*
 </div>
 
 <div class="chart-container">
-  <div class="chart-title" data-lang="en">Corporate Tax vs Indirect Tax Contribution (2020-2023)</div>
-  <div class="chart-title" data-lang="ko">법인세 vs 간접세 기여 (2020-2023)</div>
+  <div class="chart-title">Corporate Tax vs Indirect Tax Contribution (2020-2023)</div>
   <canvas id="taxContribution"></canvas>
 </div>
 
@@ -926,27 +897,19 @@ The content industry's workforce is predominantly **freelance and project-based*
 <p class="data-source">Source: DART (Corporate Tax), IO Analysis (Indirect Tax from 4-year cumulative production inducement)</p>
 
 <div class="insight-box orange">
-  <h4 data-lang="en">Why Indirect Taxes Matter More</h4>
-  <h4 data-lang="ko">간접세가 더 중요한 이유</h4>
-  <p data-lang="en"><strong>VAT, production taxes, and supply chain taxes are embedded in content production:</strong><br/><br/>
+  <h4>Why Indirect Taxes Matter More</h4>
+  <p><strong>VAT, production taxes, and supply chain taxes are embedded in content production:</strong><br/><br/>
   • When Netflix's Korean production partners purchase equipment, hire crews, rent studios, and buy materials, they pay VAT and production taxes<br/>
-  • These taxes are "invisible" in Netflix's financial statements but represent real contributions to the Korean treasury<br/>
+  • These taxes do not appear in Netflix's financial statements but represent real contributions to the Korean treasury<br/>
   • Unlike corporate tax which depends on profitability, indirect taxes are generated whenever production activity occurs<br/>
-  • The 40x multiplier (143B vs 3.6B) demonstrates that <strong>production activity generates far more tax revenue than corporate profits</strong></p>
-  <p data-lang="ko"><strong>부가가치세, 생산세, 공급망 세금이 콘텐츠 제작에 내재되어 있습니다:</strong><br/><br/>
-  • 넷플릭스의 한국 제작 파트너들이 장비를 구매하고, 스태프를 고용하고, 스튜디오를 임대하고, 자재를 구입할 때 부가가치세와 생산세를 납부합니다<br/>
-  • 이러한 세금은 넷플릭스의 재무제표에는 "보이지 않지만" 한국 국고에 대한 실질적인 기여를 나타냅니다<br/>
-  • 수익성에 따라 달라지는 법인세와 달리, 간접세는 생산 활동이 일어날 때마다 발생합니다<br/>
-  • 40배의 승수 (1,431억 vs 36억)는 <strong>생산 활동이 기업 이익보다 훨씬 더 많은 세수를 창출한다</strong>는 것을 보여줍니다</p>
+  • The 40x ratio (143B vs 3.6B) indicates that production activity generates far more tax revenue than corporate profits alone</p>
 </div>
 
-<p data-lang="en"><strong>Policy Implication:</strong> The current debate surrounding foreign digital platforms focuses almost exclusively on corporate income tax. However, input-output analysis reveals that Netflix's contribution through production-induced indirect taxes is <strong>40 times larger</strong> than its visible corporate tax. This finding suggests the need for a more holistic framework when evaluating digital platforms' economic and fiscal contributions - one that accounts for the entire value chain impact rather than just the platform's own profitability.</p>
-<p data-lang="ko"><strong>정책적 함의:</strong> 외국 디지털 플랫폼을 둘러싼 현재의 논쟁은 거의 전적으로 법인소득세에 초점을 맞추고 있습니다. 하지만 산업연관분석은 넷플릭스의 생산유발 간접세를 통한 기여가 가시적인 법인세보다 <strong>40배 더 크다</strong>는 것을 보여줍니다. 이러한 발견은 디지털 플랫폼의 경제적·재정적 기여를 평가할 때 플랫폼 자체의 수익성만이 아닌 전체 가치사슬의 영향을 고려하는 보다 종합적인 프레임워크의 필요성을 시사합니다.</p>
+<p><strong>Policy Implication:</strong> Current debate on foreign digital platforms focuses almost exclusively on corporate income tax. Input-output analysis shows that Netflix's contribution through production-induced indirect taxes is 40 times larger than its visible corporate tax. This suggests evaluating digital platforms' fiscal contributions requires accounting for the entire value chain, not just the platform's own profitability.</p>
 
 <hr class="section-divider">
 
-<h2 data-lang="en">Conclusion: Reframing the Debate</h2>
-<h2 data-lang="ko">결론: 논쟁의 재구성</h2>
+<h2>Conclusion: Reframing the Debate</h2>
 
 <table class="data-table">
   <thead>
@@ -977,8 +940,7 @@ The content industry's workforce is predominantly **freelance and project-based*
 
 <hr class="section-divider">
 
-<h2 data-lang="en">Methodology & Data Transparency</h2>
-<h2 data-lang="ko">방법론 및 데이터 투명성</h2>
+<h2>Methodology & Data Transparency</h2>
 
 **Analysis Framework**: Input-Output Analysis using Bank of Korea ECOS Tables
 
@@ -1009,232 +971,243 @@ The content industry's workforce is predominantly **freelance and project-based*
 ---
 
 <script>
-// 1. Investment Flow Chart
-const ctxInvestment = document.getElementById('investmentFlow');
-if (ctxInvestment) {
-  new Chart(ctxInvestment, {
-    type: 'bar',
-    data: {
-      labels: ['2020', '2021', '2022', '2023'],
-      datasets: [{
-        label: 'Operating Costs',
-        data: [61, 93, 104, 192],
-        backgroundColor: 'rgba(26, 26, 46, 0.8)',
-        borderColor: 'rgb(26, 26, 46)',
-        borderWidth: 1
-      }, {
-        label: 'Content Investment',
-        data: [330, 550, 800, 1219],
-        backgroundColor: 'rgba(229, 9, 20, 0.8)',
-        borderColor: 'rgb(229, 9, 20)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: 'bottom' }
+function initCharts() {
+  // Destroy existing chart instances to prevent duplicates on re-init
+  Chart.helpers.each(Chart.instances, function(instance) {
+    instance.destroy();
+  });
+
+  // 1. Investment Flow Chart
+  const ctxInvestment = document.getElementById('investmentFlow');
+  if (ctxInvestment) {
+    new Chart(ctxInvestment, {
+      type: 'bar',
+      data: {
+        labels: ['2020', '2021', '2022', '2023'],
+        datasets: [{
+          label: 'Operating Costs',
+          data: [61, 93, 104, 192],
+          backgroundColor: 'rgba(26, 26, 46, 0.8)',
+          borderColor: 'rgb(26, 26, 46)',
+          borderWidth: 1
+        }, {
+          label: 'Content Investment',
+          data: [330, 550, 800, 1219],
+          backgroundColor: 'rgba(229, 9, 20, 0.8)',
+          borderColor: 'rgb(229, 9, 20)',
+          borderWidth: 1
+        }]
       },
-      scales: {
-        x: { stacked: true },
-        y: { 
-          stacked: true,
-          title: { display: true, text: 'Billion KRW' }
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        },
+        scales: {
+          x: { stacked: true },
+          y: {
+            stacked: true,
+            title: { display: true, text: 'Billion KRW' }
+          }
         }
       }
-    }
-  });
+    });
+  }
+
+  // 2. Employment Comparison Chart
+  const ctxEmployment = document.getElementById('employmentComparison');
+  if (ctxEmployment) {
+    new Chart(ctxEmployment, {
+      type: 'bar',
+      data: {
+        labels: ['Accommodation\n& Food', 'Arts/Sports\n(Content)', 'ICT &\nBroadcasting', 'Construction', 'Semiconductor', 'Automobile'],
+        datasets: [{
+          label: 'Jobs per 1 Billion KRW',
+          data: [16.23, 8.44, 8.29, 6.54, 2.34, 2.23],
+          backgroundColor: [
+            'rgba(156, 163, 175, 0.8)',
+            'rgba(229, 9, 20, 0.8)',
+            'rgba(229, 9, 20, 0.8)',
+            'rgba(156, 163, 175, 0.8)',
+            'rgba(59, 130, 246, 0.8)',
+            'rgba(59, 130, 246, 0.8)'
+          ],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Jobs per 1 Billion KRW' }
+          }
+        }
+      }
+    });
+  }
+
+  // 3. Gap Filling Chart
+  const ctxGap = document.getElementById('gapFilling');
+  if (ctxGap) {
+    new Chart(ctxGap, {
+      type: 'line',
+      data: {
+        labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+        datasets: [{
+          label: 'Broadcasting Ad Revenue (Trillion KRW)',
+          data: [3.30, 2.88, 3.10, 2.88, 2.50, 2.29],
+          borderColor: 'rgb(220, 38, 38)',
+          backgroundColor: 'rgba(220, 38, 38, 0.1)',
+          fill: true,
+          tension: 0.3,
+          yAxisID: 'y'
+        }, {
+          label: 'Netflix Investment (Trillion KRW)',
+          data: [0, 0.33, 0.55, 0.80, 1.22, 1.22],
+          borderColor: 'rgb(229, 9, 20)',
+          backgroundColor: 'rgba(229, 9, 20, 0.3)',
+          fill: true,
+          tension: 0.3,
+          yAxisID: 'y'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' },
+          title: {
+            display: true,
+            text: 'Source: Korea Communications Commission (Ad), Netflix Official (Investment)',
+            font: { size: 11 }
+          }
+        },
+        scales: {
+          y: {
+            title: { display: true, text: 'Trillion KRW' },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  // 4. Employment Timeline
+  const ctxEmpTimeline = document.getElementById('employmentTimeline');
+  if (ctxEmpTimeline) {
+    new Chart(ctxEmpTimeline, {
+      type: 'bar',
+      data: {
+        labels: ['2020', '2021', '2022', '2023'],
+        datasets: [{
+          label: 'Employment Induced (Persons)',
+          data: [3562, 5215, 7290, 12434],
+          backgroundColor: [
+            'rgba(229, 9, 20, 0.9)',
+            'rgba(229, 9, 20, 0.9)',
+            'rgba(229, 9, 20, 0.7)',
+            'rgba(229, 9, 20, 0.5)'
+          ],
+          borderColor: 'rgb(229, 9, 20)',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Persons' }
+          }
+        }
+      }
+    });
+  }
+
+  // 5. Cumulative Effects Chart
+  const ctxCumulative = document.getElementById('cumulativeEffects');
+  if (ctxCumulative) {
+    new Chart(ctxCumulative, {
+      type: 'bar',
+      data: {
+        labels: ['Investment\nInput', 'Production\nInduced', 'Value Added\n(GDP)', 'Income\nInduced', 'Tax\nInduced'],
+        datasets: [{
+          label: 'Trillion KRW',
+          data: [3.35, 6.94, 3.65, 1.52, 0.21],
+          backgroundColor: [
+            'rgba(26, 26, 46, 0.8)',
+            'rgba(229, 9, 20, 0.8)',
+            'rgba(16, 185, 129, 0.8)',
+            'rgba(59, 130, 246, 0.8)',
+            'rgba(245, 158, 11, 0.8)'
+          ],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Trillion KRW' }
+          }
+        }
+      }
+    });
+  }
+
+  // 6. Tax Contribution Chart
+  const ctxTax = document.getElementById('taxContribution');
+  if (ctxTax) {
+    new Chart(ctxTax, {
+      type: 'bar',
+      data: {
+        labels: ['Corporate Tax\n(Visible)', 'Indirect Tax\n(Hidden)'],
+        datasets: [{
+          label: 'Billion KRW',
+          data: [3.6, 143],
+          backgroundColor: [
+            'rgba(229, 9, 20, 0.8)',
+            'rgba(16, 185, 129, 0.8)'
+          ],
+          borderColor: [
+            'rgb(229, 9, 20)',
+            'rgb(16, 185, 129)'
+          ],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: '40x difference: Production activity generates far more tax revenue',
+            font: { size: 12, weight: 'bold' }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Billion KRW' }
+          }
+        }
+      }
+    });
+  }
 }
 
-// 2. Employment Comparison Chart
-const ctxEmployment = document.getElementById('employmentComparison');
-if (ctxEmployment) {
-  new Chart(ctxEmployment, {
-    type: 'bar',
-    data: {
-      labels: ['Accommodation\n& Food', 'Arts/Sports\n(Content)', 'ICT &\nBroadcasting', 'Construction', 'Semiconductor', 'Automobile'],
-      datasets: [{
-        label: 'Jobs per 1 Billion KRW',
-        data: [16.23, 8.44, 8.29, 6.54, 2.34, 2.23],
-        backgroundColor: [
-          'rgba(156, 163, 175, 0.8)',
-          'rgba(229, 9, 20, 0.8)',
-          'rgba(229, 9, 20, 0.8)',
-          'rgba(156, 163, 175, 0.8)',
-          'rgba(59, 130, 246, 0.8)',
-          'rgba(59, 130, 246, 0.8)'
-        ],
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: 'Jobs per 1 Billion KRW' }
-        }
-      }
-    }
-  });
-}
-
-// 3. Gap Filling Chart
-const ctxGap = document.getElementById('gapFilling');
-if (ctxGap) {
-  new Chart(ctxGap, {
-    type: 'line',
-    data: {
-      labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
-      datasets: [{
-        label: 'Broadcasting Ad Revenue (Trillion KRW)',
-        data: [3.30, 2.88, 3.10, 2.88, 2.50, 2.29],
-        borderColor: 'rgb(220, 38, 38)',
-        backgroundColor: 'rgba(220, 38, 38, 0.1)',
-        fill: true,
-        tension: 0.3,
-        yAxisID: 'y'
-      }, {
-        label: 'Netflix Investment (Trillion KRW)',
-        data: [0, 0.33, 0.55, 0.80, 1.22, 1.22],
-        borderColor: 'rgb(229, 9, 20)',
-        backgroundColor: 'rgba(229, 9, 20, 0.3)',
-        fill: true,
-        tension: 0.3,
-        yAxisID: 'y'
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: 'bottom' },
-        title: {
-          display: true,
-          text: 'Source: Korea Communications Commission (Ad), Netflix Official (Investment)',
-          font: { size: 11 }
-        }
-      },
-      scales: {
-        y: {
-          title: { display: true, text: 'Trillion KRW' },
-          beginAtZero: true
-        }
-      }
-    }
-  });
-}
-
-// 4. Employment Timeline
-const ctxEmpTimeline = document.getElementById('employmentTimeline');
-if (ctxEmpTimeline) {
-  new Chart(ctxEmpTimeline, {
-    type: 'bar',
-    data: {
-      labels: ['2020', '2021', '2022', '2023'],
-      datasets: [{
-        label: 'Employment Induced (Persons)',
-        data: [3562, 5215, 7290, 12434],
-        backgroundColor: [
-          'rgba(229, 9, 20, 0.9)',
-          'rgba(229, 9, 20, 0.9)',
-          'rgba(229, 9, 20, 0.7)',
-          'rgba(229, 9, 20, 0.5)'
-        ],
-        borderColor: 'rgb(229, 9, 20)',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: 'Persons' }
-        }
-      }
-    }
-  });
-}
-
-// 5. Cumulative Effects Chart
-const ctxCumulative = document.getElementById('cumulativeEffects');
-if (ctxCumulative) {
-  new Chart(ctxCumulative, {
-    type: 'bar',
-    data: {
-      labels: ['Investment\nInput', 'Production\nInduced', 'Value Added\n(GDP)', 'Income\nInduced', 'Tax\nInduced'],
-      datasets: [{
-        label: 'Trillion KRW',
-        data: [3.35, 6.94, 3.65, 1.52, 0.21],
-        backgroundColor: [
-          'rgba(26, 26, 46, 0.8)',
-          'rgba(229, 9, 20, 0.8)',
-          'rgba(16, 185, 129, 0.8)',
-          'rgba(59, 130, 246, 0.8)',
-          'rgba(245, 158, 11, 0.8)'
-        ],
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: 'Trillion KRW' }
-        }
-      }
-    }
-  });
-}
-
-// 6. Tax Contribution Chart
-const ctxTax = document.getElementById('taxContribution');
-if (ctxTax) {
-  new Chart(ctxTax, {
-    type: 'bar',
-    data: {
-      labels: ['Corporate Tax\n(Visible)', 'Indirect Tax\n(Hidden)'],
-      datasets: [{
-        label: 'Billion KRW',
-        data: [3.6, 143],
-        backgroundColor: [
-          'rgba(229, 9, 20, 0.8)',
-          'rgba(16, 185, 129, 0.8)'
-        ],
-        borderColor: [
-          'rgb(229, 9, 20)',
-          'rgb(16, 185, 129)'
-        ],
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: {
-          display: true,
-          text: '40x difference: Production activity generates far more tax revenue',
-          font: { size: 12, weight: 'bold' }
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: 'Billion KRW' }
-        }
-      }
-    }
-  });
-}
+// Support both initial load and Astro view transitions
+document.addEventListener('DOMContentLoaded', initCharts);
+document.addEventListener('astro:page-load', initCharts);
 </script>

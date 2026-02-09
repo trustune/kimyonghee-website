@@ -1,8 +1,6 @@
 ---
-title: "투자 역설: 한국 방송 재승인 제도"
-title_en: "The Investment Paradox: Korea's Broadcasting Reapproval System"
-subtitle: "콘텐츠 투자 증가가 항상 실적 개선으로 이어지지 않는 이유"
-subtitle_en: "Why Higher Content Investment Doesn't Always Lead to Better Performance"
+title: "The Investment Paradox: Korea's Broadcasting Reapproval System"
+subtitle: "Why Higher Content Investment Doesn't Always Lead to Better Performance"
 date: "2025-10-11"
 category: "Broadcasting Policy"
 tags: ["Broadcasting", "Media Policy", "Regulation Reform", "Content Investment", "Data Analysis"]
@@ -18,12 +16,9 @@ data_sources:
     type: "primary"
 related_publications: []
 related_projects: ["broadcasting-revenue-2015-2024"]
-conference: "한국언론학회 2024 가을 정기학술대회"
-conference_en: "Korean Society for Journalism & Communication Studies 2024 Fall Conference"
-description: "한국 방송 재승인 제도에 대한 실증적 조사 결과, 투자 역설이 발견됨: 엄격한 콘텐츠 투자 요건이 재무 성과 악화와 상관관계를 보임."
-description_en: "An empirical investigation into Korea's broadcasting reapproval system reveals an investment paradox: stricter content investment requirements correlate with poorer financial performance."
-summary: "한국은 법정 최대 7년임에도 불구하고 실제로는 3-4년의 재승인 기간만 부여 - 전 세계적으로 가장 짧음. 10년간의 데이터 분석 결과, 높은 투자 비율이 낮은 수익성과 상관관계를 보임."
-summary_en: "Korea grants only 3-4 years reapproval period despite 7-year legal maximum - shortest globally. Analysis of 10 years of data reveals higher investment ratios correlate with lower profitability."
+conference: "Korean Society for Journalism & Communication Studies 2024 Fall Conference"
+description: "An empirical investigation into Korea's broadcasting reapproval system reveals an investment paradox: stricter content investment requirements correlate with poorer financial performance."
+summary: "Korea grants only 3-4 years reapproval period despite 7-year legal maximum - shortest globally. Analysis of 10 years of data reveals higher investment ratios correlate with lower profitability."
 key_findings:
   - "Korea grants 3-4 years actual reapproval (legal max: 7 years) - shortest globally"
   - "Investment paradox: 70% requirement shows negative correlation with profit margins"
@@ -177,8 +172,7 @@ featured: true
 <h2 data-lang="en">The Untold Story of Korea's Broadcasting Regulation</h2>
 <h2 data-lang="ko">한국 방송 규제의 숨겨진 이야기</h2>
 
-<p data-lang="en">In 2011, Korea introduced comprehensive programming channels (종편) as a bold experiment in media diversification. These channels were meant to compete with traditional terrestrial broadcasters, bringing fresh perspectives and innovative content to Korean viewers. But thirteen years later, the experiment faces a critical question: <strong>Has the regulatory framework kept pace with market realities?</strong></p>
-<p data-lang="ko">2011년, 한국은 미디어 다양화를 위한 대담한 실험으로 종합편성채널(종편)을 도입했습니다. 이 채널들은 지상파 방송사와 경쟁하며 한국 시청자들에게 새로운 관점과 혁신적인 콘텐츠를 제공하기 위해 만들어졌습니다. 하지만 13년이 지난 지금, 이 실험은 중요한 질문에 직면해 있습니다: <strong>규제 프레임워크가 시장 현실을 따라잡았는가?</strong></p>
+In 2011, Korea introduced comprehensive programming channels as an experiment in media diversification. These channels were meant to compete with traditional terrestrial broadcasters, bringing fresh perspectives and innovative content to Korean viewers. But thirteen years later, the experiment faces a critical question: **Has the regulatory framework kept pace with market realities?**
 
 <div class="metric-cards">
   <div class="metric-card">
@@ -471,7 +465,10 @@ Sunmoon University</p>
 ---
 
 <script>
-// Chart.js Configuration and Data
+function initBroadcastingCharts() {
+
+// Destroy existing charts to prevent canvas reuse errors
+Chart.helpers.each(Chart.instances, function(instance) { instance.destroy(); });
 
 // 1. International Comparison Chart
 const ctxInternational = document.getElementById('internationalComparison');
@@ -852,4 +849,8 @@ if (ctxProposed) {
     }
   });
 }
+
+}
+document.addEventListener('DOMContentLoaded', initBroadcastingCharts);
+document.addEventListener('astro:page-load', initBroadcastingCharts);
 </script>

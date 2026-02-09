@@ -13,13 +13,80 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 const { data } = project;
+const showCharts = project.slug === 'broadcasting-revenue-2015-2024';
+
+// Chart data
+const revenueLabels = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
+const revenueDatasets = [
+  {
+    label: 'Pay-TV Subscriptions',
+    data: [27.5, 28.3, 29.4, 31.2, 32.4, 33.5, 36.5, 37.1, 37.3, 37.6],
+    borderColor: 'rgba(102, 126, 234, 1)',
+    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+    borderWidth: 3,
+    fill: true,
+    tension: 0.4
+  },
+  {
+    label: 'Broadcasting Advertising',
+    data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
+    borderColor: 'rgba(239, 68, 68, 1)',
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    borderWidth: 3,
+    fill: true,
+    tension: 0.4
+  },
+  {
+    label: 'Home Shopping Fees',
+    data: [0, 0, 24.4, 24.0, 23.7, 23.5, 22.0, 21.5, 20.5, 20.2],
+    borderColor: 'rgba(245, 158, 11, 1)',
+    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    borderWidth: 3,
+    fill: true,
+    tension: 0.4
+  }
+];
+
+const pieData = {
+  labels: ['Pay-TV Subscriptions', 'Broadcasting Advertising', 'Home Shopping Fees', 'Program Sales', 'Government Subsidy', 'Other'],
+  datasets: [{
+    data: [37.6, 22.9, 20.2, 9.5, 2.8, 7.0],
+    backgroundColor: [
+      'rgba(102, 126, 234, 0.8)',
+      'rgba(239, 68, 68, 0.8)',
+      'rgba(245, 158, 11, 0.8)',
+      'rgba(16, 185, 129, 0.8)',
+      'rgba(139, 92, 246, 0.8)',
+      'rgba(107, 114, 128, 0.8)'
+    ],
+    borderColor: '#ffffff',
+    borderWidth: 2
+  }]
+};
+
+const titleText = data.title_en || data.title;
+const subtitleText = data.subtitle_en || data.subtitle || '';
+const conferenceText = data.conference_en || data.conference || '';
+const summaryText = data.summary || '';
+const keyFindings = data.key_findings || [];
 ---
 
 <BaseLayout title={data.title_en || data.title}>
   <article class="project-detail">
     <header class="project-header">
-      <h1>{data.title_en || data.title}</h1>
-      {(data.subtitle_en || data.subtitle) && <p class="subtitle">{data.subtitle_en || data.subtitle}</p>}
+      <div class="header-content">
+        <span class="category-badge">{data.category}</span>
+        <h1>{titleText}</h1>
+        {subtitleText && (
+          <p class="subtitle">{subtitleText}</p>
+        )}
+
+        <div class="meta-info">
+          <time datetime={data.date}>{new Date(data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+          {conferenceText && (
+            <span class="conference">{conferenceText}</span>
+          )}
+        </div>
 
       <div class="meta-info">
         <time datetime={data.date instanceof Date ? data.date.toISOString() : data.date}>
@@ -42,30 +109,52 @@ const { data } = project;
       </div>
     </header>
 
-    {
-      (data.summary_en || data.summary) && (
-        <section class="summary-section">
-          <h2>Summary</h2>
-          <p>{data.summary_en || data.summary}</p>
-        </section>
-      )
-    }
+    {/* Summary Box */}
+    {summaryText && (
+      <div class="summary-box">
+        <h3>Executive Summary</h3>
+        <p>{summaryText}</p>
+      </div>
+    )}
 
-    {
-      data.key_findings && data.key_findings.length > 0 && (
-        <section class="findings-section">
-          <h2>Key Findings</h2>
-          <ul>
-            {data.key_findings.map((finding: string) => (
-              <li>{finding}</li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {/* Key Findings Box */}
+    {keyFindings.length > 0 && (
+      <div class="key-findings-box">
+        <h3>Key Findings</h3>
+        <ul>
+          {keyFindings.map((finding: string) => (
+            <li>{finding}</li>
+          ))}
+        </ul>
+      </div>
+    )}
 
-    <div class="project-content">
-      <Content />
+    <div class="content-wrapper">
+      <div class="project-content">
+        <Content />
+      </div>
+
+      {showCharts && (
+        <aside class="charts-sidebar">
+          <div class="chart-card">
+            <h3>Revenue Trends (2015-2024)</h3>
+            <LineChart
+              id="revenueChart"
+              labels={revenueLabels}
+              datasets={revenueDatasets}
+              yAxisLabel="Trillion KRW"
+            />
+          </div>
+
+          <div class="chart-card">
+            <h3>Revenue Composition 2024</h3>
+            <PieChart
+              id="compositionChart"
+              data={pieData}
+            />
+          </div>
+        </aside>
+      )}
     </div>
 
     {
@@ -104,101 +193,178 @@ const { data } = project;
 
 <style>
   .project-detail {
-    max-width: var(--max-width);
+    max-width: var(--container-max);
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: var(--space-8);
   }
 
   .project-header {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 2px solid var(--color-border);
   }
 
-  .project-header h1 {
-    font-size: 1.625rem;
-    margin-bottom: 0.75rem;
-    margin-top: 0;
+  .header-content {
+    /* max-width removed - expands to container width */
+  }
+
+  .category-badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background: transparent;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: var(--space-4);
+  }
+
+  h1 {
+    font-size: var(--step-3);
+    line-height: 1.2;
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+    font-family: var(--font-serif);
   }
 
   .subtitle {
-    font-size: 0.875rem;
+    font-size: var(--step-1);
     color: var(--color-text-secondary);
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-6);
     line-height: 1.6;
   }
 
   .meta-info {
-    font-size: 0.75rem;
+    display: flex;
+    gap: var(--space-6);
+    margin-bottom: var(--space-4);
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .conference {
+    padding-left: var(--space-6);
+    border-left: 1px solid var(--color-border);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tag {
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-surface);
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
     color: var(--color-text-secondary);
   }
 
-  .meta-separator {
-    margin: 0 0.5rem;
+  /* Summary Box */
+  .summary-box {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--border-radius);
+    padding: var(--space-6) var(--space-8);
+    margin-bottom: var(--space-8);
   }
 
-  .summary-section,
-  .findings-section,
-  .methodology-section,
-  .sources-section {
-    margin-bottom: 3rem;
+  .summary-box h3 {
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+    font-size: var(--step-1);
   }
 
-  .summary-section h2,
-  .findings-section h2,
-  .methodology-section h2,
-  .sources-section h2 {
-    font-size: 1.125rem;
-    margin-bottom: 0.75rem;
+  .summary-box p {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin: 0;
   }
 
-  .summary-section p {
-    line-height: 1.8;
+  /* Key Findings Box */
+  .key-findings-box {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-left: 3px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: var(--space-6) var(--space-8);
+    margin-bottom: var(--space-8);
   }
 
-  .findings-section ul,
-  .methodology-section ul,
-  .sources-section ul {
-    list-style: disc;
-    padding-left: 2rem;
-    line-height: 1.8;
+  .key-findings-box h3 {
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+    font-size: var(--step-1);
   }
 
-  .findings-section li,
-  .methodology-section li,
-  .sources-section li {
-    margin-bottom: 0.75rem;
+  .key-findings-box ul {
+    margin: 0;
+    padding-left: var(--space-6);
+  }
+
+  .key-findings-box li {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-2);
+  }
+
+  .key-findings-box li:last-child {
+    margin-bottom: 0;
+  }
+
+  .content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 1024px) {
+    .content-wrapper.with-charts {
+      grid-template-columns: 1fr 400px;
+    }
   }
 
   .project-content {
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
+    line-height: 1.8;
+    color: var(--color-text);
   }
 
-  .project-content img {
-    max-width: 100%;
-    height: auto;
-    margin: 1.5rem 0;
-    border-radius: 4px;
+  .project-content :global(h2) {
+    font-size: var(--step-2);
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
   }
 
-  .project-content h2 {
-    font-size: 1.25rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
+  .project-content :global(h3) {
+    font-size: var(--step-1);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+    color: var(--color-text);
   }
 
-  .project-content h3 {
-    font-size: 1.0625rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
+  .project-content :global(p) {
+    margin-bottom: var(--space-6);
   }
 
-  .project-content p {
-    margin-bottom: 1.5rem;
+  .project-content :global(ul), .project-content :global(ol) {
+    margin-bottom: var(--space-6);
+    padding-left: var(--space-6);
+  }
+
+  .project-content :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .project-content :global(blockquote) {
+    border-left: 4px solid var(--color-accent);
+    padding-left: var(--space-6);
+    margin: var(--space-8) 0;
+    font-style: italic;
+    color: var(--color-text-secondary);
   }
 
   .project-content ul,
@@ -214,59 +380,234 @@ const { data } = project;
   .project-content table {
     width: 100%;
     border-collapse: collapse;
-    margin: 2rem 0;
+    margin: var(--space-8) 0;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .project-content th,
-  .project-content td {
-    padding: 0.5rem 0.75rem;
+  .project-content :global(thead),
+  .project-content :global(tbody),
+  .project-content :global(tr) {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .project-content :global(th), .project-content :global(td) {
+    padding: var(--space-3) var(--space-4);
     border: 1px solid var(--color-border);
     text-align: left;
     font-size: 0.8125rem;
   }
 
-  .project-content th {
-    background: var(--color-bg-secondary);
+  .project-content :global(th) {
+    background: var(--color-surface);
     font-weight: 600;
   }
 
-  .project-footer {
-    margin-top: 4rem;
-    padding-top: 2rem;
+  .charts-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .chart-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: var(--space-6);
+  }
+
+  .chart-card h3 {
+    font-size: var(--step-0);
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+  }
+
+  .methodology-section, .sources-section {
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
     border-top: 1px solid var(--color-border);
   }
 
-  .back-link {
-    color: var(--color-link);
-    text-decoration: none;
+  .methodology-section h2, .sources-section h2 {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-4);
   }
 
-  .back-link:hover {
-    text-decoration: underline;
+  .methodology-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
   }
 
-  /* Hide Korean-only content in project body */
-  .project-content [data-lang="ko"],
-  .project-content h2[data-lang="ko"],
-  .project-content h3[data-lang="ko"],
-  .project-content p[data-lang="ko"],
-  .project-content ul[data-lang="ko"],
-  .project-content li[data-lang="ko"],
-  .project-content blockquote[data-lang="ko"] {
-    display: none;
+  .method-tag {
+    padding: var(--space-2) var(--space-4);
+    background: transparent;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
   }
 
+  .sources-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .sources-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .source-type {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--border-radius);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .source-type.primary {
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  .source-type.secondary {
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Tablet */
+  @media (max-width: 1024px) {
+    .project-detail {
+      padding: var(--space-6);
+    }
+
+    h1 {
+      font-size: var(--step-2);
+    }
+
+    .content-wrapper.with-charts {
+      grid-template-columns: 1fr;
+    }
+
+    .charts-sidebar {
+      flex-direction: row;
+      overflow-x: auto;
+      gap: var(--space-6);
+    }
+
+    .chart-card {
+      min-width: 300px;
+    }
+  }
+
+  /* Mobile */
   @media (max-width: 768px) {
     .project-detail {
-      padding: 0 1rem;
+      padding: var(--space-4);
     }
 
-    .project-header h1 {
-      font-size: 1.375rem;
+    .project-header {
+      margin-bottom: var(--space-8);
+      padding-bottom: var(--space-6);
     }
 
-    .project-content {
+    h1 {
+      font-size: var(--step-2);
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      font-size: var(--step-0);
+      line-height: 1.5;
+    }
+
+    .meta-info {
+      flex-direction: column;
+      gap: var(--space-2);
       font-size: 0.875rem;
+    }
+
+    .conference {
+      padding-left: 0;
+      border-left: none;
+    }
+
+    .summary-box,
+    .key-findings-box {
+      padding: var(--space-4) var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+
+    .summary-box h3,
+    .key-findings-box h3 {
+      font-size: var(--step-0);
+    }
+
+    .project-content :global(h2) {
+      font-size: var(--step-2);
+      margin-top: var(--space-8);
+    }
+
+    .project-content :global(h3) {
+      font-size: var(--step-1);
+      margin-top: var(--space-6);
+    }
+
+    .project-content :global(th),
+    .project-content :global(td) {
+      padding: var(--space-2) var(--space-3);
+      font-size: 0.875rem;
+      min-width: 100px;
+    }
+
+    .charts-sidebar {
+      flex-direction: column;
+    }
+
+    .chart-card {
+      min-width: auto;
+      padding: var(--space-4);
+    }
+  }
+
+  /* Small Mobile */
+  @media (max-width: 640px) {
+    .project-detail {
+      padding: var(--space-3);
+    }
+
+    h1 {
+      font-size: var(--step-1);
+    }
+
+    .subtitle {
+      font-size: var(--step-0);
+    }
+
+    .category-badge {
+      font-size: 0.75rem;
+      padding: var(--space-1) var(--space-2);
+    }
+
+    .summary-box,
+    .key-findings-box {
+      padding: var(--space-4);
+    }
+
+    .project-content :global(th),
+    .project-content :global(td) {
+      padding: var(--space-1) var(--space-2);
+      font-size: 0.8125rem;
+      min-width: 80px;
     }
   }
 </style>
+

@@ -1,0 +1,390 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WritingCard from '../../components/WritingCard.astro';
+import media from '../../data/media.json';
+
+const allPosts = await getCollection('blog');
+
+const blogItems = allPosts.map(post => ({
+  title: post.data.title,
+  slug: post.slug,
+  date: post.data.date,
+  excerpt: post.data.excerpt,
+  category: post.data.category || 'Blog',
+  tags: post.data.tags || [],
+  source: 'blog' as const,
+}));
+
+const mediaItems = media.articles.map(article => ({
+  title: article.title,
+  slug: article.url,
+  date: article.date,
+  excerpt: article.description,
+  category: article.category || 'Opinion',
+  tags: [] as string[],
+  source: 'media' as const,
+  url: article.url,
+}));
+
+const allItems = [...blogItems, ...mediaItems]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const tagStats: Record<string, number> = {};
+allItems.forEach(item => {
+  item.tags?.forEach(tag => {
+    tagStats[tag] = (tagStats[tag] || 0) + 1;
+  });
+});
+const sortedTags = Object.entries(tagStats)
+  .sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="Writing | Yonghee Kim" description="Articles, opinion pieces, and blog posts on media policy, technology, and research.">
+  <div class="writing-page">
+    <header class="hero-header">
+      <h1 class="hero-title">Writing</h1>
+      <p class="hero-description">
+        Thoughts, analysis, and commentary on media policy, digital platforms, technology regulation, and academic research.
+      </p>
+      <div class="hero-accent"></div>
+    </header>
+
+    {allItems.length === 0 ? (
+      <div class="empty-state">
+        <p>No posts yet.</p>
+      </div>
+    ) : (
+      <div class="writing-content">
+        <aside class="sidebar">
+          <div class="search-section">
+            <h3 class="sidebar-heading">Search</h3>
+            <div class="search-box">
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Search posts..."
+                autocomplete="off"
+              />
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </div>
+          </div>
+
+          {sortedTags.length > 0 && (
+            <div class="tags-section">
+              <h3 class="sidebar-heading">Tags</h3>
+              <div class="tag-cloud">
+                <button class="tag-filter active" data-tag="all">
+                  All ({allItems.length})
+                </button>
+                {sortedTags.map(([tag, count]) => (
+                  <button class="tag-filter" data-tag={tag}>
+                    {tag} ({count})
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </aside>
+
+        <section class="posts-section">
+          <div id="postsContainer" class="posts-list">
+            {allItems.map((item) => (
+              <WritingCard
+                post={{
+                  title: item.title,
+                  slug: item.source === 'media' ? item.url || item.slug : item.slug,
+                  date: item.date,
+                  excerpt: item.excerpt,
+                  category: item.category,
+                  tags: item.tags,
+                  source: item.source,
+                }}
+              />
+            ))}
+          </div>
+          <div id="noResults" class="no-results" style="display: none;">
+            <p>No posts found matching your search.</p>
+          </div>
+        </section>
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  function initWritingSearch() {
+    var searchInput = document.getElementById('searchInput');
+    var postsContainer = document.getElementById('postsContainer');
+    var postCards = document.querySelectorAll('.writing-card');
+    var noResults = document.getElementById('noResults');
+    var tagFilters = document.querySelectorAll('.tag-filter');
+
+    if (!searchInput || !postsContainer) return;
+
+    var currentTag = 'all';
+    var currentSearch = '';
+
+    function filterPosts() {
+      var visibleCount = 0;
+
+      postCards.forEach(function(card) {
+        var title = (card.getAttribute('data-title') || '').toLowerCase();
+        var tags = (card.getAttribute('data-tags') || '').toLowerCase();
+        var tagList = card.getAttribute('data-tag-list') || '';
+
+        var searchMatch = currentSearch === '' ||
+          title.includes(currentSearch) ||
+          tags.includes(currentSearch);
+
+        var tagMatch = currentTag === 'all' ||
+          tagList.split(',').includes(currentTag);
+
+        if (searchMatch && tagMatch) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (visibleCount === 0) {
+        postsContainer.style.display = 'none';
+        noResults.style.display = 'block';
+      } else {
+        postsContainer.style.display = '';
+        noResults.style.display = 'none';
+      }
+    }
+
+    searchInput.addEventListener('input', function(e) {
+      currentSearch = e.target.value.toLowerCase();
+      filterPosts();
+    });
+
+    tagFilters.forEach(function(button) {
+      button.addEventListener('click', function() {
+        tagFilters.forEach(function(btn) { btn.classList.remove('active'); });
+        button.classList.add('active');
+        currentTag = button.getAttribute('data-tag') || 'all';
+        filterPosts();
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initWritingSearch);
+</script>
+
+<style>
+  .writing-page {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-16) var(--space-8);
+  }
+
+  /* Hero Header */
+  .hero-header {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-10);
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: var(--step-4);
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-description {
+    font-size: var(--step-1);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin: 0 0 var(--space-6) 0;
+    max-width: 640px;
+  }
+
+  .hero-accent {
+    width: 48px;
+    height: 2px;
+    background: var(--color-accent);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-16) var(--space-8);
+    color: var(--color-text-muted);
+    font-size: var(--step-0);
+  }
+
+  /* Content Layout */
+  .writing-content {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 100px;
+  }
+
+  .sidebar-heading {
+    font-family: var(--font-serif);
+    font-size: var(--step-0);
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 var(--space-3) 0;
+  }
+
+  /* Search */
+  .search-section {
+    margin-bottom: var(--space-8);
+  }
+
+  .search-box {
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    padding-right: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-text);
+    transition: border-color var(--transition-fast);
+  }
+
+  .search-box input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+
+  .search-box svg {
+    position: absolute;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  /* Tags */
+  .tags-section {
+    margin-bottom: var(--space-6);
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .tag-filter {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--border-radius);
+    font-size: 0.8125rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+  }
+
+  .tag-filter:hover {
+    color: var(--color-text);
+    background: var(--color-surface);
+  }
+
+  .tag-filter.active {
+    color: var(--color-accent);
+    background: var(--color-accent-light);
+    border-color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  /* Posts */
+  .posts-section {
+    min-width: 0;
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: var(--space-16) var(--space-8);
+    color: var(--color-text-muted);
+    font-size: var(--step-0);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius);
+  }
+
+  /* Responsive */
+  @media (max-width: 968px) {
+    .writing-content {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    .sidebar {
+      position: static;
+      padding: var(--space-6);
+      background: var(--color-surface);
+      border-radius: var(--border-radius);
+    }
+
+    .tag-cloud {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .tag-filter {
+      flex: 0 0 auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .writing-page {
+      padding: var(--space-8) var(--space-4);
+    }
+
+    .hero-header {
+      margin-bottom: var(--space-8);
+      padding-bottom: var(--space-6);
+    }
+
+    .hero-title {
+      font-size: var(--step-3);
+    }
+
+    .hero-description {
+      font-size: var(--step-0);
+    }
+
+    .sidebar {
+      padding: var(--space-4);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .writing-page {
+      padding: var(--space-6) var(--space-3);
+    }
+  }
+</style>

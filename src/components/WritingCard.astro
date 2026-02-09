@@ -1,0 +1,130 @@
+---
+import Badge from './Badge.astro';
+
+interface Props {
+  post: {
+    title: string;
+    title_en?: string;
+    slug: string;
+    date: string;
+    excerpt?: string;
+    excerpt_en?: string;
+    category?: string;
+    tags?: string[];
+    source?: 'blog' | 'media';
+  };
+  showExcerpt?: boolean;
+  showTags?: boolean;
+}
+
+const {
+  post,
+  showExcerpt = true,
+  showTags = true
+} = Astro.props;
+
+const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+});
+
+const href = post.source === 'media'
+  ? post.slug
+  : `/writing/${post.slug}`;
+
+const isExternal = post.source === 'media';
+const tagList = post.tags?.join(',') || '';
+---
+
+<article
+  class="writing-card"
+  data-title={post.title}
+  data-tags={tagList}
+  data-tag-list={tagList}
+>
+  <div class="writing-card__meta">
+    <time class="writing-card__date" datetime={post.date}>{formattedDate}</time>
+    {post.category && (
+      <Badge variant="category" text={post.category} size="small" rounded="full" />
+    )}
+  </div>
+
+  <h3 class="writing-card__title">
+    <a
+      href={href}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
+    >
+      {post.title_en || post.title}
+    </a>
+  </h3>
+
+  {showExcerpt && (post.excerpt || post.excerpt_en) && (
+    <p class="writing-card__excerpt">
+      {post.excerpt_en || post.excerpt}
+    </p>
+  )}
+
+  {showTags && post.tags && post.tags.length > 0 && (
+    <div class="writing-card__tags">
+      {post.tags.map((tag) => (
+        <Badge variant="tag" text={tag} size="small" rounded="full" />
+      ))}
+    </div>
+  )}
+</article>
+
+<style>
+  .writing-card {
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .writing-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .writing-card__date {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .writing-card__title {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: var(--space-2);
+  }
+
+  .writing-card__title a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .writing-card__title a:hover {
+    color: var(--color-accent);
+  }
+
+  .writing-card__excerpt {
+    font-size: var(--step-0);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-3);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .writing-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+</style>

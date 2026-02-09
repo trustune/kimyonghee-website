@@ -13,8 +13,8 @@ doi: "10.1016/j.telpol.2024.102737"
 impact_factor: 5.6
 quartile: "Q1"
 citations: 6
-abstract: "Almost all players of small and large sizes in the media industry spend enormous resources on content and expand their investment to retain global and regional content to win the battle of viewership. However, the efficiency of investments varies for media companies. This study uses longitudinal data about local and global media companies from 2019 to 2022, applying Data Envelopment Analysis (DEA) to identify which firms have effectively exploited their resources to achieve better firm performance. Additionally, with Malmquist Productivity Index analysis, we examine how efficiencies and productivity of content providers change along with the dynamics of the media industry. Our findings provide insights into performance measurement and competitive positioning in the media industry, particularly examining the significant changes in TV-watching behavior and productivity caused by the COVID-19 pandemic."
-keywords: ["Media Efficiency", "DEA", "Malmquist Index", "Productivity Analysis", "Broadcasting Companies", "Performance Measurement", "Technical Efficiency", "Total Factor Productivity", "Media Economics", "Benchmarking", "COVID-19", "OTT"]
+abstract: "This paper evaluates operational efficiency of media companies using Data Envelopment Analysis and Malmquist productivity indices, providing insights into performance trends and competitive positioning in the media industry."
+keywords: ["Media Efficiency", "DEA", "Malmquist Index", "Productivity Analysis", "Broadcasting Companies", "Performance Measurement", "Technical Efficiency", "Total Factor Productivity", "Media Economics", "Benchmarking"]
 research_area: ["Media Economics", "Efficiency Analysis", "Broadcasting Industry", "Performance Management"]
 methodology: ["Data Envelopment Analysis", "Malmquist Productivity Index", "Panel Data Analysis", "Efficiency Decomposition"]
 statistical_methods: ["DEA", "Malmquist Index", "Technical Efficiency", "Scale Efficiency", "Productivity Change"]

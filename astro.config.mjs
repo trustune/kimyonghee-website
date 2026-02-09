@@ -2,6 +2,10 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,23 +16,35 @@ export default defineConfig({
     sitemap(),
   ],
 
+  markdown: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [
+      rehypeKatex,
+      rehypeSlug,
+      [rehypeAutolinkHeadings, { behavior: 'wrap', properties: { class: 'heading-link' } }],
+    ],
+    shikiConfig: {
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+    },
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },
 
   image: {
-    // Sharp를 사용한 이미지 최적화
     service: {
       entrypoint: 'astro/assets/services/sharp',
       config: {
         limitInputPixels: false,
       }
     },
-    // 이미지 포맷 설정
     remotePatterns: [],
   },
 
-  // 빌드 최적화
   build: {
     inlineStylesheets: 'auto',
   },
