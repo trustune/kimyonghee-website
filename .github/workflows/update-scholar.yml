@@ -2,8 +2,8 @@
 
 on:
   schedule:
-    # Daily 10:00 KST (01:00 UTC)
-    - cron: '0 1 * * *'
+    # Daily 12:00 KST (03:00 UTC)
+    - cron: '0 3 * * *'
   workflow_dispatch:
 
 permissions:
