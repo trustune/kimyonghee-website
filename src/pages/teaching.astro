@@ -3,6 +3,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import coursesData from '../data/courses.json';
 
 const courses = coursesData.courses;
+const parseSemester = (semester) => {
+  const [yearStr, termStr] = String(semester || '').split('-');
+  return {
+    year: Number(yearStr) || 0,
+    term: Number(termStr) || 0,
+  };
+};
+
+const sortedCourses = [...courses].sort((a, b) => {
+  const aSemester = parseSemester(a.semester);
+  const bSemester = parseSemester(b.semester);
+
+  if (aSemester.year !== bSemester.year) return bSemester.year - aSemester.year;
+  if (aSemester.term !== bSemester.term) return bSemester.term - aSemester.term;
+
+  return String(a.code).localeCompare(String(b.code));
+});
 ---
 
 <BaseLayout title="Teaching" description="Courses taught by Yonghee Kim">
@@ -14,15 +31,17 @@ const courses = coursesData.courses;
     </header>
 
     <!-- Courses -->
-    {courses.length > 0 && (
+    {sortedCourses.length > 0 && (
       <section class="courses-section">
-        {courses.map((course, index) => (
+        {sortedCourses.map((course, index) => (
           <a href={`/courses/${course.id || course.code}`} class="course-item">
             <div class="course-top">
               <div class="course-info">
                 <h3 class="course-title">{course.title}</h3>
                 <div class="course-meta">
                   <span>{course.schedule}</span>
+                  <span class="meta-sep">&middot;</span>
+                  <span>Semester {course.semester}</span>
                   <span class="meta-sep">&middot;</span>
                   <span>Year {course.year}</span>
                   <span class="meta-sep">&middot;</span>
