@@ -50,28 +50,24 @@ const revenueDatasets = [
   }
 ];
 
-const pieData = {
-  labels: ['Pay-TV Subscriptions', 'Broadcasting Advertising', 'Home Shopping Fees', 'Program Sales', 'Government Subsidy', 'Other'],
-  datasets: [{
-    data: [37.6, 22.9, 20.2, 9.5, 2.8, 7.0],
-    backgroundColor: [
-      'rgba(102, 126, 234, 0.8)',
-      'rgba(239, 68, 68, 0.8)',
-      'rgba(245, 158, 11, 0.8)',
-      'rgba(16, 185, 129, 0.8)',
-      'rgba(139, 92, 246, 0.8)',
-      'rgba(107, 114, 128, 0.8)'
-    ],
-    borderColor: '#ffffff',
-    borderWidth: 2
-  }]
-};
+const pieLabels = ['Pay-TV Subscriptions', 'Broadcasting Advertising', 'Home Shopping Fees', 'Program Sales', 'Government Subsidy', 'Other'];
+const pieValues = [37.6, 22.9, 20.2, 9.5, 2.8, 7.0];
+const pieColors = [
+  'rgba(102, 126, 234, 0.8)',
+  'rgba(239, 68, 68, 0.8)',
+  'rgba(245, 158, 11, 0.8)',
+  'rgba(16, 185, 129, 0.8)',
+  'rgba(139, 92, 246, 0.8)',
+  'rgba(107, 114, 128, 0.8)'
+];
 
 const titleText = data.title_en || data.title;
 const subtitleText = data.subtitle_en || data.subtitle || '';
 const conferenceText = data.conference_en || data.conference || '';
 const summaryText = data.summary || '';
 const keyFindings = data.key_findings || [];
+const currentUrl = `https://kimyonghee.com/projects/${project.slug}`;
+const shareExcerpt = data.summary_en || data.summary || data.description_en || data.description || '';
 ---
 
 <BaseLayout title={data.title}>
@@ -119,7 +115,7 @@ const keyFindings = data.key_findings || [];
       </div>
     )}
 
-    <div class="content-wrapper">
+    <div class:list={['content-wrapper', { 'with-charts': showCharts }]}>
       <div class="project-content">
         <Content />
       </div>
@@ -129,7 +125,8 @@ const keyFindings = data.key_findings || [];
           <div class="chart-card">
             <h3>Revenue Trends (2015-2024)</h3>
             <LineChart
-              id="revenueChart"
+              chartId="revenueChart"
+              title="Revenue Trends (2015-2024)"
               labels={revenueLabels}
               datasets={revenueDatasets}
               yAxisLabel="Trillion KRW"
@@ -139,8 +136,11 @@ const keyFindings = data.key_findings || [];
           <div class="chart-card">
             <h3>Revenue Composition 2024</h3>
             <PieChart
-              id="compositionChart"
-              data={pieData}
+              chartId="compositionChart"
+              title="Revenue Composition 2024"
+              labels={pieLabels}
+              data={pieValues}
+              backgroundColors={pieColors}
             />
           </div>
         </aside>
@@ -172,7 +172,7 @@ const keyFindings = data.key_findings || [];
       </section>
     )}
 
-    <SocialShare title={data.title} />
+    <SocialShare title={titleText} url={currentUrl} excerpt={shareExcerpt} />
   </article>
 </BaseLayout>
 

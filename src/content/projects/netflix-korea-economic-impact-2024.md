@@ -976,9 +976,13 @@ The content industry's workforce is predominantly freelance and project-based. W
 <script>
 function initCharts() {
   // Destroy existing chart instances to prevent duplicates on re-init
-  Chart.helpers.each(Chart.instances, function(instance) {
-    instance.destroy();
-  });
+  if (typeof Chart !== 'undefined' && Chart.instances) {
+    Object.values(Chart.instances).forEach(function(instance) {
+      if (instance && typeof instance.destroy === 'function') {
+        instance.destroy();
+      }
+    });
+  }
 
   // 1. Investment Flow Chart
   const ctxInvestment = document.getElementById('investmentFlow');

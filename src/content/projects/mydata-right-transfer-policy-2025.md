@@ -1039,7 +1039,13 @@ The EU's authoritative interpretation provides clear boundaries:
 function initMyDataCharts() {
 
   // Destroy existing charts to prevent canvas reuse errors
-  Chart.helpers.each(Chart.instances, function(instance) { instance.destroy(); });
+  if (typeof Chart !== 'undefined' && Chart.instances) {
+    Object.values(Chart.instances).forEach(function(instance) {
+      if (instance && typeof instance.destroy === 'function') {
+        instance.destroy();
+      }
+    });
+  }
 
   // 1. Seven Concerns Radar Chart
   const radarCtx = document.getElementById('sevenConcernsRadar');
