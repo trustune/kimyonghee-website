@@ -93,4 +93,32 @@ test.describe('Key interactions', () => {
     await expect(revenueChart).toBeVisible();
     await expect(compositionChart).toBeVisible();
   });
+
+  test('theme toggle switches mode and persists after navigation', async ({ page }) => {
+    await visitAndAssertNoRuntimeErrors(page, '/');
+
+    const themeToggle = page.locator('#theme-toggle');
+    await expect(themeToggle).toBeVisible();
+
+    const initialDark = await page.evaluate(() => document.documentElement.classList.contains('dark'));
+    await themeToggle.click();
+    await page.waitForTimeout(150);
+
+    const afterClick = await page.evaluate(() => ({
+      dark: document.documentElement.classList.contains('dark'),
+      stored: localStorage.getItem('theme'),
+    }));
+
+    expect(afterClick.dark).toBe(!initialDark);
+    expect(afterClick.stored).toBe(!initialDark ? 'dark' : 'light');
+
+    await page.goto('/about', { waitUntil: 'networkidle' });
+    const afterNav = await page.evaluate(() => ({
+      dark: document.documentElement.classList.contains('dark'),
+      stored: localStorage.getItem('theme'),
+    }));
+
+    expect(afterNav.dark).toBe(afterClick.dark);
+    expect(afterNav.stored).toBe(afterClick.stored);
+  });
 });
