@@ -367,7 +367,13 @@ Sunmoon University
 function initBroadcastingCharts() {
 
 // Destroy existing charts to prevent canvas reuse errors
-Chart.helpers.each(Chart.instances, function(instance) { instance.destroy(); });
+if (typeof Chart !== 'undefined' && Chart.instances) {
+  Object.values(Chart.instances).forEach(function(instance) {
+    if (instance && typeof instance.destroy === 'function') {
+      instance.destroy();
+    }
+  });
+}
 
 // 1. International Comparison Chart
 const ctxInternational = document.getElementById('internationalComparison');

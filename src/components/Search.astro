@@ -1,33 +1,115 @@
 ---
 // Pagefind search component
+const isDev = import.meta.env.DEV;
 ---
-<div id="search" class="w-full max-w-3xl mx-auto"></div>
-<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
-<script is:inline src="/pagefind/pagefind-ui.js"></script>
+<div id="search" class="w-full max-w-3xl mx-auto" data-dev={isDev ? 'true' : 'false'}></div>
 <script is:inline>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    if (window.PagefindUI) {
-      new PagefindUI({
-        element: "#search",
-        showSubResults: true,
-        showImages: false,
-        excerptLength: 15,
-        translations: {
-          placeholder: "Search...",
-          clear_search: "Clear",
-          load_more: "Load more",
-          search_label: "Search",
-          filters_label: "Filters",
-          zero_results: "No results for [SEARCH_TERM]",
-          many_results: "[COUNT] results",
-          one_result: "1 result",
-          alt_search: "Search results for [SEARCH_TERM]",
-          search_suggestion: "Enter a search term to see results",
-          searching: "Searching..."
+  (() => {
+    const pagefindJs = '/pagefind/pagefind-ui.js';
+    const pagefindCss = '/pagefind/pagefind-ui.css';
+
+    async function assetExists(url) {
+      try {
+        const response = await fetch(url, { method: 'HEAD' });
+        return response.ok;
+      } catch {
+        return false;
+      }
+    }
+
+    function ensureStylesheet() {
+      if (document.querySelector('link[data-pagefind-ui]')) return;
+
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = pagefindCss;
+      link.setAttribute('data-pagefind-ui', 'true');
+      document.head.appendChild(link);
+    }
+
+    function loadPagefindScript() {
+      if (window.PagefindUI) return Promise.resolve();
+
+      return new Promise((resolve, reject) => {
+        const existingScript = document.querySelector('script[data-pagefind-ui]');
+        if (existingScript) {
+          existingScript.addEventListener('load', () => resolve(), { once: true });
+          existingScript.addEventListener('error', () => reject(new Error('Failed to load pagefind script')), { once: true });
+          return;
         }
+
+        const script = document.createElement('script');
+        script.src = pagefindJs;
+        script.async = true;
+        script.setAttribute('data-pagefind-ui', 'true');
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error('Failed to load pagefind script'));
+        document.head.appendChild(script);
       });
     }
-  });
+
+    function renderUnavailableMessage(container) {
+      if (!container || container.dataset.initialized === 'true') return;
+
+      container.innerHTML = '<p class="search-unavailable">Search index is available after running a production build.</p>';
+      container.dataset.initialized = 'true';
+    }
+
+    async function initSearch() {
+      const container = document.getElementById('search');
+      if (!container || container.dataset.initialized === 'true') return;
+
+      if (container.dataset.dev === 'true') {
+        renderUnavailableMessage(container);
+        return;
+      }
+
+      const [hasScript, hasStylesheet] = await Promise.all([
+        assetExists(pagefindJs),
+        assetExists(pagefindCss),
+      ]);
+
+      if (!hasScript || !hasStylesheet) {
+        renderUnavailableMessage(container);
+        return;
+      }
+
+      ensureStylesheet();
+
+      try {
+        await loadPagefindScript();
+        if (!window.PagefindUI) {
+          renderUnavailableMessage(container);
+          return;
+        }
+
+        new window.PagefindUI({
+          element: '#search',
+          showSubResults: true,
+          showImages: false,
+          excerptLength: 15,
+          translations: {
+            placeholder: 'Search...',
+            clear_search: 'Clear',
+            load_more: 'Load more',
+            search_label: 'Search',
+            filters_label: 'Filters',
+            zero_results: 'No results for [SEARCH_TERM]',
+            many_results: '[COUNT] results',
+            one_result: '1 result',
+            alt_search: 'Search results for [SEARCH_TERM]',
+            search_suggestion: 'Enter a search term to see results',
+            searching: 'Searching...',
+          },
+        });
+        container.dataset.initialized = 'true';
+      } catch {
+        renderUnavailableMessage(container);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', initSearch);
+    document.addEventListener('astro:page-load', initSearch);
+  })();
 </script>
 <style>
   /* Dark mode */
@@ -55,5 +137,15 @@
     --pagefind-ui-image-border-radius: 4px;
     --pagefind-ui-image-box-ratio: 3 / 2;
     --pagefind-ui-font: inherit;
+  }
+
+  #search :global(.search-unavailable) {
+    margin: 0;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    font-size: 0.95rem;
   }
 </style>

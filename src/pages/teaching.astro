@@ -17,7 +17,7 @@ const courses = coursesData.courses;
     {courses.length > 0 && (
       <section class="courses-section">
         {courses.map((course, index) => (
-          <a href={`/courses/${course.code}`} class="course-item">
+          <a href={`/courses/${course.id || course.code}`} class="course-item">
             <div class="course-top">
               <div class="course-info">
                 <h3 class="course-title">{course.title}</h3>
