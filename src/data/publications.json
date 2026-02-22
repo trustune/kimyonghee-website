@@ -66,7 +66,7 @@
       "category": "OTT Services",
       "abstract": "This study examines factors driving subscriber migration from traditional pay-TV to OTT services using the push-pull-mooring framework, analyzing switching behavior in the evolving media consumption landscape.",
       "pdf": "",
-      "citations": 1
+      "citations": 2
     },
     {
       "id": "kim2025-platform",
@@ -111,7 +111,7 @@
       "category": "Efficiency Analysis",
       "abstract": "This paper evaluates operational efficiency of media companies using Data Envelopment Analysis and Malmquist productivity indices, providing insights into performance trends and competitive positioning in the media industry.",
       "pdf": "",
-      "citations": 6
+      "citations": 7
     },
     {
       "id": "kim2024-global",
@@ -215,7 +215,7 @@
       "quartile": "Q2",
       "doi": "10.3390/su10030872",
       "category": "Information Systems",
-      "citations": 19,
+      "citations": 18,
       "abstract": "An information system (IS) upgrade is an essential way to enhance the competitiveness of an organization. Specifically, the decision making processes surrounding IS upgrades is one of the most important parts of an organization's competitiveness in regard to business sustainability.",
       "status": "published"
     },
@@ -258,7 +258,7 @@
       "quartile": "Q1",
       "doi": "10.1080/14783363.2017.1310708",
       "category": "IoT",
-      "citations": 495,
+      "citations": 497,
       "abstract": "This study aims to comprehensively examine the adoption of smart home service. A new model combining VAM (Value-based Adoption Model) and TAM (Technical Acceptance Model) was developed and analysed with a set of variables from Unified Theory of Acceptance and Use of Technology and Elaboration Likelihood Model.",
       "status": "published"
     },
@@ -281,7 +281,7 @@
       "category": "Fintech",
       "abstract": "This study examines factors affecting adoption of mobile payment services in the Fintech industry, analyzing user acceptance patterns and behavioral intentions toward mobile financial technology services.",
       "pdf": "",
-      "citations": 404
+      "citations": 410
     },
     {
       "id": "kim2015-portal",
@@ -320,13 +320,13 @@
       "pages": "2667",
       "publisher": "International Information Institute",
       "category": "Broadcasting",
-      "citations": 3,
+      "citations": 4,
       "abstract": "Terrestrial TV service operators have begun to represent an increasing share of content production in the media industry. However, despite its importance, there are relatively few studies about the efficiency of terrestrial TV operators.",
       "status": "published"
     }
   ],
   "scholarStats": {
-    "citations": 1223,
+    "citations": 1216,
     "hIndex": 7,
     "i10Index": 6
   },
@@ -349,11 +349,11 @@
     },
     {
       "year": 2018,
-      "citations": 43
+      "citations": 40
     },
     {
       "year": 2019,
-      "citations": 109
+      "citations": 108
     },
     {
       "year": 2020,
@@ -365,11 +365,11 @@
     },
     {
       "year": 2022,
-      "citations": 170
+      "citations": 172
     },
     {
       "year": 2023,
-      "citations": 182
+      "citations": 175
     },
     {
       "year": 2024,
@@ -377,11 +377,11 @@
     },
     {
       "year": 2025,
-      "citations": 151
+      "citations": 150
     },
     {
       "year": 2026,
-      "citations": 9
+      "citations": 14
     }
   ],
   "domestic_publications": [
