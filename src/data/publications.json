@@ -258,7 +258,7 @@
       "quartile": "Q1",
       "doi": "10.1080/14783363.2017.1310708",
       "category": "IoT",
-      "citations": 502,
+      "citations": 503,
       "abstract": "This study aims to comprehensively examine the adoption of smart home service. A new model combining VAM (Value-based Adoption Model) and TAM (Technical Acceptance Model) was developed and analysed with a set of variables from Unified Theory of Acceptance and Use of Technology and Elaboration Likelihood Model.",
       "status": "published"
     },
@@ -281,7 +281,7 @@
       "category": "Fintech",
       "abstract": "This study examines factors affecting adoption of mobile payment services in the Fintech industry, analyzing user acceptance patterns and behavioral intentions toward mobile financial technology services.",
       "pdf": "",
-      "citations": 413
+      "citations": 414
     },
     {
       "id": "kim2015-portal",
@@ -326,7 +326,7 @@
     }
   ],
   "scholarStats": {
-    "citations": 1270,
+    "citations": 1272,
     "hIndex": 7,
     "i10Index": 7
   },
@@ -377,11 +377,11 @@
     },
     {
       "year": 2025,
-      "citations": 155
+      "citations": 156
     },
     {
       "year": 2026,
-      "citations": 21
+      "citations": 23
     }
   ],
   "domestic_publications": [
