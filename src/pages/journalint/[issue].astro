@@ -1,0 +1,236 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+export function getStaticPaths() {
+  const archiveDir = path.join(process.cwd(), 'public/data/journalint/archive');
+  const paths: any[] = [];
+  try {
+    const files = fs.readdirSync(archiveDir).filter((f: string) => f.endsWith('.json'));
+    for (const f of files) {
+      const issue = f.replace('.json', '');
+      paths.push({ params: { issue } });
+    }
+  } catch {}
+  return paths;
+}
+
+const { issue } = Astro.params;
+const filePath = path.join(process.cwd(), 'public/data/journalint/archive', `${issue}.json`);
+let data: any = { stories: [], stats: {}, topTopics: [], timestamp: '' };
+try { data = JSON.parse(fs.readFileSync(filePath, 'utf-8')); } catch {}
+
+const stories = data.stories || [];
+const topTopics = data.topTopics || [];
+const stats = data.stats || {};
+const ts = (data.timestamp || '').slice(0, 10);
+const grades = stats.grades || [];
+const issueTitle = data.issue_title || issue;
+
+const topStory = stories.find((s: any) => s.type === 'top');
+const featured = stories.filter((s: any) => s.type === 'featured');
+const briefs = stories.filter((s: any) => s.type === 'brief');
+
+// Build archive list for navigation
+const archiveDir = path.join(process.cwd(), 'public/data/journalint/archive');
+let archive: any[] = [];
+try {
+  const files = fs.readdirSync(archiveDir).filter((f: string) => f.endsWith('.json')).sort().reverse();
+  for (const f of files) {
+    try {
+      const d = JSON.parse(fs.readFileSync(path.join(archiveDir, f), 'utf-8'));
+      archive.push({
+        issue: d.issue || f.replace('.json', ''),
+        date: (d.timestamp || '').slice(0, 10),
+        title: d.issue_title || d.issue || f.replace('.json', ''),
+        story_count: (d.stories || []).length,
+        current: f.replace('.json', '') === issue
+      });
+    } catch {}
+  }
+} catch {}
+
+function esc(s: string) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+const GC: Record<string,string> = { A:'#1a6bff', B:'#e67e22', C:'#95a5a6' };
+---
+
+<BaseLayout title={`JournalINT — ${issueTitle}`} description={`Journal Intelligence Terminal — ${issueTitle}`}>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css">
+
+<style>
+  .ji { font-family: 'Paperlogy', 'Inter', sans-serif; max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .ji-header { margin-bottom: 2rem; }
+  .ji-title { font-family: 'Paperlogy'; font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
+  .ji-title b { color: var(--color-accent, #1a6bff); }
+  .ji-sub { font-size: 0.85rem; color: var(--color-text-light, #888); margin-top: 0.25rem; }
+  .ji-back { display: inline-block; font-size: 0.8rem; color: var(--color-accent, #1a6bff); text-decoration: none; margin-bottom: 1rem; }
+  .ji-back:hover { text-decoration: underline; }
+
+  .ji-stats { display: flex; gap: 1.5rem; padding: 0.75rem 0; border-top: 2px solid var(--color-text, #111); border-bottom: 1px solid var(--color-border, #e5e5e5); flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .ji-st b { font-size: 1.15rem; color: var(--color-accent, #1a6bff); margin-right: 0.2rem; }
+  .ji-st span { font-size: 0.7rem; color: var(--color-text-light, #888); }
+
+  .ji-sec { font-size: 0.75rem; font-weight: 800; letter-spacing: 1.5px; color: var(--color-text-light, #888); margin: 2.5rem 0 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--color-text, #111); }
+  .ji-grade { font-size: 0.6rem; font-weight: 800; padding: 1px 5px; border-radius: 3px; color: #fff; display: inline-block; }
+
+  .ji-top { background: var(--color-surface, #fff); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 2rem; border-left: 4px solid var(--color-accent, #1a6bff); }
+  .ji-top h1 { font-family: 'Paperlogy'; font-size: 1.5rem; font-weight: 800; line-height: 1.4; margin: 0 0 1rem; color: var(--color-text, #111); }
+  .ji-top .lede { font-size: 0.95rem; color: var(--color-text-light, #444); line-height: 1.8; margin-bottom: 1rem; white-space: pre-line; }
+  .ji-top .kps { margin: 0 0 1rem 1.2rem; font-size: 0.85rem; color: var(--color-text-light, #555); line-height: 1.7; }
+  .ji-top .kps li { margin-bottom: 0.3rem; }
+  .ji-top .tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .ji-tag { font-size: 0.68rem; padding: 2px 8px; border-radius: 12px; background: #eef3ff; color: #1a6bff; font-weight: 600; }
+  .ji-srcbar { display: flex; gap: 0.5rem; flex-wrap: wrap; padding-top: 0.75rem; border-top: 1px solid var(--color-border, #e5e5e5); }
+  .ji-src { font-size: 0.72rem; color: var(--color-accent, #1a6bff); text-decoration: none; padding: 2px 8px; background: var(--color-bg, #f5f5f7); border-radius: 4px; }
+  .ji-src:hover { background: #eef3ff; }
+
+  .ji-cards { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+  .ji-card { background: var(--color-surface, #fff); border-radius: 10px; padding: 1.75rem; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
+  .ji-card h3 { font-family: 'Paperlogy'; font-size: 1.1rem; font-weight: 700; line-height: 1.4; margin: 0 0 0.75rem; }
+  .ji-card .syn { font-size: 0.85rem; color: var(--color-text-light, #444); line-height: 1.85; margin-bottom: 0.75rem; white-space: pre-line; }
+  .ji-card .kps { margin: 0 0 0.75rem 1rem; font-size: 0.8rem; color: var(--color-text-light, #555); line-height: 1.7; }
+  .ji-card .kps li { margin-bottom: 0.25rem; }
+
+  .ji-topics { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .ji-topic { font-size: 0.78rem; padding: 0.3rem 0.75rem; border-radius: 20px; background: var(--color-surface, #fff); border: 1px solid var(--color-border, #e5e5e5); color: var(--color-text, #333); box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .ji-topic b { color: var(--color-accent, #1a6bff); margin-left: 0.3rem; font-size: 0.7rem; }
+
+  .ji-briefs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .ji-brief { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.75rem; background: var(--color-surface, #fff); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .ji-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .ji-brief a { font-size: 0.8rem; font-weight: 600; color: var(--color-text, #111); text-decoration: none; line-height: 1.4; }
+  .ji-brief a:hover { color: var(--color-accent, #1a6bff); }
+  .ji-brief-m { font-size: 0.7rem; color: var(--color-text-light, #888); margin-top: 0.15rem; }
+
+  .ji-archive { display: flex; flex-direction: column; gap: 0.5rem; }
+  .ji-archive-item { display: flex; align-items: center; gap: 1rem; padding: 0.6rem 0.8rem; background: var(--color-surface, #fff); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); text-decoration: none; transition: box-shadow 0.2s; }
+  .ji-archive-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .ji-archive-item.current { border-left: 3px solid var(--color-accent, #1a6bff); background: #f8faff; }
+  .ji-archive-date { font-size: 0.75rem; font-weight: 700; color: var(--color-accent, #1a6bff); min-width: 90px; }
+  .ji-archive-title { font-size: 0.82rem; font-weight: 500; color: var(--color-text, #111); flex: 1; }
+  .ji-archive-cnt { font-size: 0.72rem; color: var(--color-text-light, #888); background: var(--color-bg, #f5f5f7); padding: 2px 8px; border-radius: 10px; }
+
+  .ji-footer { text-align: center; padding: 2rem; color: var(--color-text-light, #bbb); font-size: 0.7rem; margin-top: 2rem; }
+
+  @media (max-width: 768px) {
+    .ji-cards, .ji-briefs { grid-template-columns: 1fr; }
+    .ji-top h1 { font-size: 1.2rem; }
+  }
+</style>
+
+<div class="ji">
+  <a href="/journalint" class="ji-back">&larr; 최신호로 돌아가기</a>
+
+  <div class="ji-header">
+    <div class="ji-title">Journal<b>INT</b></div>
+    <div class="ji-sub">{issueTitle} &mdash; Archive</div>
+  </div>
+
+  <div class="ji-stats">
+    <div class="ji-st"><b>{stats.total_journals || 0}</b><span>추적 저널</span></div>
+    <div class="ji-st"><b>{Number(stats.total_papers || 0).toLocaleString()}</b><span>수집 논문</span></div>
+    <div class="ji-st"><b>{Number(stats.papers_2026 || 0).toLocaleString()}</b><span>2026년 논문</span></div>
+    <div class="ji-st"><b>{stats.total_calls || 0}</b><span>CFP/SI</span></div>
+  </div>
+
+  {topStory && (
+    <Fragment>
+      <div class="ji-sec">TOP STORY</div>
+      <article class="ji-top">
+        <div class="tags">
+          {(topStory.tags || []).map((t: string) => <span class="ji-tag">{t}</span>)}
+        </div>
+        <h1>{esc(topStory.title)}</h1>
+        <p class="lede">{esc(topStory.synthesis)}</p>
+        {topStory.key_points?.length > 0 && (
+          <ul class="kps">
+            {topStory.key_points.map((kp: string) => <li>{esc(kp)}</li>)}
+          </ul>
+        )}
+        <div class="ji-srcbar">
+          {(topStory.sources || []).map((s: any) => (
+            <a href={s.url} target="_blank" rel="noopener" class="ji-src">{s.name}</a>
+          ))}
+        </div>
+      </article>
+    </Fragment>
+  )}
+
+  {featured.length > 0 && (
+    <Fragment>
+      <div class="ji-sec">FEATURED STORIES</div>
+      <div class="ji-cards">
+        {featured.map((s: any) => (
+          <article class="ji-card">
+            <div class="tags" style="margin-bottom:0.5rem;">
+              {(s.tags || []).map((t: string) => <span class="ji-tag">{t}</span>)}
+            </div>
+            <h3>{esc(s.title)}</h3>
+            <p class="syn">{esc(s.synthesis)}</p>
+            {s.key_points?.length > 0 && (
+              <ul class="kps">
+                {s.key_points.map((kp: string) => <li>{esc(kp)}</li>)}
+              </ul>
+            )}
+            <div class="ji-srcbar" style="margin-top:0.75rem;">
+              {(s.sources || []).map((src: any) => (
+                <a href={src.url} target="_blank" rel="noopener" class="ji-src">{src.name}</a>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </Fragment>
+  )}
+
+  {topTopics.length > 0 && (
+    <Fragment>
+      <div class="ji-sec">HOT TOPICS</div>
+      <div class="ji-topics">
+        {topTopics.map((t: any) => (
+          <span class="ji-topic">{t.topic}<b>{Number(t.cnt).toLocaleString()}</b></span>
+        ))}
+      </div>
+    </Fragment>
+  )}
+
+  {briefs.length > 0 && (
+    <Fragment>
+      <div class="ji-sec">HEADLINES</div>
+      <div class="ji-briefs">
+        {briefs.map((b: any) => (
+          <div class="ji-brief">
+            <span class="ji-dot" style={`background:${GC[b.grade] || '#ccc'}`}></span>
+            <div>
+              <a href={b.url} target="_blank" rel="noopener">{esc(b.title)}</a>
+              <div class="ji-brief-m">{b.journal || ''}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Fragment>
+  )}
+
+  {archive.length > 0 && (
+    <Fragment>
+      <div class="ji-sec">ARCHIVE</div>
+      <div class="ji-archive">
+        {archive.map((a: any) => (
+          <a href={`/journalint/${a.issue}`} class={`ji-archive-item ${a.current ? 'current' : ''}`}>
+            <span class="ji-archive-date">{a.date}</span>
+            <span class="ji-archive-title">{a.title}{a.current ? ' (현재)' : ''}</span>
+            <span class="ji-archive-cnt">{a.story_count}건</span>
+          </a>
+        ))}
+      </div>
+    </Fragment>
+  )}
+
+  <div class="ji-footer">
+    JournalINT &middot; {issueTitle} &middot; Archive
+  </div>
+</div>
+
+</BaseLayout>

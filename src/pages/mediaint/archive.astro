@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const indexPath = path.join(process.cwd(), 'public/data/mediaint/index.json');
+let issues: any[] = [];
+try {
+  issues = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
+} catch (e) {}
+
+const CAT_COLORS: Record<string, string> = {
+  "OTT/Streaming": "#e53935", "Film/Cinema": "#8e24aa", "Music/Audio": "#2e7d32",
+  "Gaming/Esports": "#ef6c00", "K-Content": "#d81b60", "Media Business": "#1565c0",
+};
+---
+
+<BaseLayout title="MediaINT Archive" description="Media Intelligence Terminal - Weekly archive">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css">
+
+<style>
+  /* Same wrapper as index */
+  .mi { font-family: 'Paperlogy', var(--font-sans); max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .mi-header { margin-bottom: 1rem; }
+  .mi-title { font-family: 'Paperlogy'; font-size: 2rem; font-weight: 900; letter-spacing: -1px; }
+  .mi-title b { color: var(--color-accent, #1a6bff); }
+  .mi-sub { font-size: 0.85rem; color: var(--color-text-light, #888); margin-top: 0.25rem; }
+  .mi-nav { display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem; }
+  .mi-nav a { color: var(--color-text-light, #666); text-decoration: none; font-weight: 500; padding-bottom: 2px; border-bottom: 2px solid transparent; }
+  .mi-nav a:hover, .mi-nav a.active { color: var(--color-accent, #1a6bff); border-bottom-color: var(--color-accent, #1a6bff); font-weight: 600; }
+  .mi-sec { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--color-text-light, #888); margin: 1.5rem 0 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--color-text, #111); }
+
+  /* Issue cards */
+  .issue-list { display: flex; flex-direction: column; gap: 1rem; }
+  .issue-card { background: var(--color-surface, #fff); border-radius: 10px; padding: 1.25rem 1.5rem; box-shadow: 0 1px 6px rgba(0,0,0,0.05); transition: box-shadow 0.2s, transform 0.2s; }
+  .issue-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-1px); }
+  .issue-card a { text-decoration: none; color: inherit; display: block; }
+  .issue-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+  .issue-date { font-size: 1.1rem; font-weight: 700; color: var(--color-text, #111); }
+  .issue-stats { display: flex; gap: 1rem; font-size: 0.75rem; color: var(--color-text-light, #888); }
+  .issue-stats b { color: var(--color-accent, #1a6bff); }
+  .issue-headline { font-size: 1rem; font-weight: 600; color: var(--color-text, #111); margin-bottom: 0.5rem; line-height: 1.4; }
+  .issue-stories { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .issue-tag { font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; background: var(--color-bg, #f5f5f7); color: var(--color-text-light, #666); }
+  .issue-cats { display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
+  .cat-pill { font-size: 0.65rem; padding: 1px 6px; border-radius: 3px; color: #fff; font-weight: 600; }
+  .empty { text-align: center; padding: 4rem; color: var(--color-text-light, #aaa); }
+</style>
+
+<div class="mi">
+  <div class="mi-header">
+    <div class="mi-title">Media<b>INT</b></div>
+    <div class="mi-sub">Media Intelligence Terminal — Weekly Issues</div>
+  </div>
+
+  <div class="mi-nav">
+    <a href="/mediaint">Latest</a>
+    <a href="/mediaint/archive" class="active">Archive</a>
+  </div>
+
+  <div class="mi-sec">Past Issues</div>
+
+  {issues.length > 0 ? (
+    <div class="issue-list">
+      {issues.map(issue => (
+        <div class="issue-card">
+          <a href={`/mediaint/${issue.date}`}>
+            <div class="issue-top">
+              <span class="issue-date">{issue.date}</span>
+              <div class="issue-stats">
+                <span><b>{issue.total_articles}</b> articles</span>
+                <span><b>{issue.total_stories}</b> stories</span>
+              </div>
+            </div>
+            <div class="issue-headline">{issue.top_story}</div>
+            <div class="issue-stories">
+              {(issue.top_stories || []).slice(1, 4).map((s: any) => (
+                <span class="issue-tag">{s.title}</span>
+              ))}
+            </div>
+            <div class="issue-cats">
+              {Object.entries(issue.categories || {}).map(([cat, count]: [string, any]) => (
+                <span class="cat-pill" style={`background:${CAT_COLORS[cat] || '#666'}`}>{cat}: {count}</span>
+              ))}
+            </div>
+          </a>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div class="empty">No archived issues yet.</div>
+  )}
+</div>
+
+</BaseLayout>

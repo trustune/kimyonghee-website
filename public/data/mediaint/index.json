@@ -1,0 +1,49 @@
+[
+  {
+    "date": "2026-03-21",
+    "timestamp": "2026-03-21T21:22:43.686716",
+    "total_articles": 2128,
+    "total_stories": 195,
+    "top_story": "BTS, 4년 만의 완전체 컴백 공연 광화문에서 개최...넷플릭스 전 세계 생중계",
+    "top_stories": [
+      {
+        "title": "BTS, 4년 만의 완전체 컴백 공연 광화문에서 개최...넷플릭스 전 세계 생중계",
+        "entity": "BTS Comeback Concert",
+        "article_count": 112,
+        "category": "OTT/Streaming"
+      },
+      {
+        "title": "'프로젝트 헤일메리', 미국 박스오피스 7,100만 달러 오프닝으로 2026년 최고 개봉 기록",
+        "entity": "Project Hail Mary",
+        "article_count": 32,
+        "category": "Film/Cinema"
+      },
+      {
+        "title": "'왕과 사는 남자', 누적 관객 1,400만 돌파하며 역대 한국 영화 흥행 TOP5 진입",
+        "entity": "왕과 사는 남자",
+        "article_count": 36,
+        "category": "Film/Cinema"
+      },
+      {
+        "title": "'피키 블라인더스: 불멸의 남자', 넷플릭스에서 극장판 공개...킬리언 머피·배리 키오건 호흡",
+        "entity": "Peaky Blinders Movie",
+        "article_count": 12,
+        "category": "OTT/Streaming"
+      },
+      {
+        "title": "사우디 사비 게임즈, 바이트댄스로부터 모바일 레전드 개발사 문턴을 60억 달러에 인수",
+        "entity": "ByteDance Moonton Sale",
+        "article_count": 9,
+        "category": "Gaming/Esports"
+      }
+    ],
+    "categories": {
+      "OTT/Streaming": 695,
+      "Film/Cinema": 391,
+      "Music/Audio": 196,
+      "Gaming/Esports": 298,
+      "K-Content": 249,
+      "Media Business": 299
+    }
+  }
+]

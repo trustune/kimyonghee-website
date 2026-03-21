@@ -1,10 +1,43 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const publications = await getCollection('publications');
 const projects = await getCollection('projects');
 const blogPosts = await getCollection('blog');
+
+// Load JournalINT latest data
+let jiData: any = null;
+try {
+  const jiPath = path.join(process.cwd(), 'public/data/journalint/latest.json');
+  const raw = JSON.parse(fs.readFileSync(jiPath, 'utf-8'));
+  const stories = raw.stories || [];
+  jiData = {
+    issueTitle: raw.issue_title || '',
+    topStory: stories.find((s: any) => s.type === 'top'),
+    spotlight: stories.find((s: any) => s.type === 'spotlight'),
+    stats: raw.stats || {}
+  };
+} catch {}
+
+// Load MediaINT latest data
+let miData: any = null;
+try {
+  const miPath = path.join(process.cwd(), 'public/data/mediaint/latest.json');
+  const raw = JSON.parse(fs.readFileSync(miPath, 'utf-8'));
+  const clusters = raw.clusters || [];
+  const featured = clusters.filter((c: any) => (c.article_count || c.articles?.length || 0) >= 2).slice(0, 3);
+  const totalArts = clusters.reduce((s: number, c: any) => s + (c.article_count || c.articles?.length || 0), 0);
+  miData = {
+    timestamp: (raw.timestamp || '').slice(0, 10),
+    totalArticles: totalArts,
+    totalStories: featured.length,
+    topStory: featured[0] || null,
+    stories: featured.slice(1, 3),
+  };
+} catch {}
 
 const recentPubs = publications
   .filter(p => p.data.status === 'published')
@@ -92,6 +125,59 @@ const recentPosts = blogPosts
       </ul>
       <a href="/projects" class="view-all">View all projects &rarr;</a>
     </section>
+
+    {miData && miData.topStory && (
+      <Fragment>
+        <hr />
+        <section class="section">
+          <h2 class="section-title">Media Intelligence</h2>
+          <p class="ji-intro">AI-curated briefing on global media &amp; entertainment industry &mdash; {miData.totalArticles} articles aggregated from {miData.totalStories}+ multi-source stories.</p>
+
+          <div class="ji-card">
+            <div class="ji-label">Top Story &middot; {miData.topStory.article_count || 0} sources</div>
+            <a href="/mediaint" class="ji-card-title">{miData.topStory.synthesis_title || miData.topStory.headline}</a>
+            <p class="ji-card-body">{(miData.topStory.synthesis || '').slice(0, 250)}...</p>
+          </div>
+
+          {miData.stories.map((s: any) => (
+            <div class="ji-card">
+              <div class="ji-label">{s.primary_cat || 'Media'} &middot; {s.article_count || 0} sources</div>
+              <a href="/mediaint" class="ji-card-title">{s.synthesis_title || s.headline}</a>
+            </div>
+          ))}
+
+          <a href="/mediaint" class="view-all">Read full media briefing &rarr;</a>
+        </section>
+      </Fragment>
+    )}
+
+    {jiData && (jiData.topStory || jiData.spotlight) && (
+      <Fragment>
+        <hr />
+        <section class="section">
+          <h2 class="section-title">Journal Intelligence</h2>
+          <p class="ji-intro">Weekly briefing on 95 tracked academic journals &mdash; CFPs, editor changes, trending research, and notable papers.</p>
+
+          {jiData.topStory && (
+            <div class="ji-card">
+              <div class="ji-label">This Week</div>
+              <a href="/journalint" class="ji-card-title">{jiData.topStory.title_en || jiData.topStory.title}</a>
+              <p class="ji-card-body">{jiData.topStory.synthesis_en || (jiData.topStory.synthesis || '').slice(0, 200) + '...'}</p>
+            </div>
+          )}
+
+          {jiData.spotlight && (
+            <div class="ji-card">
+              <div class="ji-label">Research Spotlight</div>
+              <a href="/journalint" class="ji-card-title">{jiData.spotlight.title_en || jiData.spotlight.paper_title || jiData.spotlight.title}</a>
+              <p class="ji-card-body">{jiData.spotlight.journal} &middot; {jiData.spotlight.citations} citations</p>
+            </div>
+          )}
+
+          <a href="/journalint" class="view-all">Read full briefing &rarr;</a>
+        </section>
+      </Fragment>
+    )}
   </div>
 </BaseLayout>
 
@@ -228,6 +314,52 @@ const recentPosts = blogPosts
 
   .view-all:hover {
     color: var(--color-accent);
+  }
+
+  /* JournalINT section */
+  .ji-intro {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-6) 0;
+    line-height: 1.6;
+  }
+
+  .ji-card {
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .ji-card:last-of-type {
+    border-bottom: none;
+  }
+
+  .ji-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-1);
+  }
+
+  .ji-card-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    line-height: 1.5;
+    display: block;
+  }
+
+  .ji-card-title:hover {
+    color: var(--color-accent);
+  }
+
+  .ji-card-body {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: var(--space-2) 0 0 0;
+    line-height: 1.6;
   }
 
   /* Responsive */

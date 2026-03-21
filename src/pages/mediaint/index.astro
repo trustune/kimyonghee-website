@@ -1,0 +1,321 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const dataPath = path.join(process.cwd(), 'public/data/mediaint/latest.json');
+let data: any = { clusters: [], tmdb: {}, cat_counts: {}, timestamp: '', stats: {} };
+try { data = JSON.parse(fs.readFileSync(dataPath, 'utf-8')); } catch (e) {}
+
+const clusters = data.clusters || [];
+const tmdb = data.tmdb || {};
+const catCounts = data.cat_counts || {};
+const ts = (data.timestamp || '').slice(0, 10);
+const totalArts = clusters.reduce((s: number, c: any) => s + (c.article_count || c.articles?.length || 0), 0);
+
+const featured = clusters.filter((c: any) => (c.article_count || c.articles?.length || 0) >= 2).slice(0, 15);
+const topStory = featured[0];
+const cards = featured.slice(1);
+const singles = clusters
+  .filter((c: any) => (c.article_count || c.articles?.length || 0) === 1)
+  .slice(0, 20)
+  .map((c: any) => ({ ...c.articles?.[0], category: c.primary_cat || '' }));
+
+// Archive list from filesystem
+const archiveDir = path.join(process.cwd(), 'public/data/mediaint/archive');
+let archive: any[] = [];
+try {
+  const files = fs.readdirSync(archiveDir).filter((f: string) => f.endsWith('.json')).sort().reverse();
+  for (const f of files) {
+    try {
+      const d = JSON.parse(fs.readFileSync(path.join(archiveDir, f), 'utf-8'));
+      const cls = d.clusters || [];
+      const topCl = cls[0];
+      archive.push({
+        date: d.issue_date || f.replace('.json', ''),
+        top_story: topCl?.synthesis_title || topCl?.headline || '',
+        total: cls.reduce((s: number, c: any) => s + (c.article_count || c.articles?.length || 0), 0),
+        stories: cls.filter((c: any) => (c.article_count || c.articles?.length || 0) >= 2).length,
+      });
+    } catch {}
+  }
+} catch {}
+
+const CAT_COLORS: Record<string, string> = {
+  "OTT/Streaming": "#e53935", "Film/Cinema": "#8e24aa", "Music/Audio": "#2e7d32",
+  "Gaming/Esports": "#ef6c00", "K-Content": "#d81b60", "Media Business": "#1565c0",
+  "Regulation": "#455a64", "Other": "#607d8b"
+};
+
+function esc(s: string) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+---
+
+<BaseLayout title="MediaINT" description="Media Intelligence Terminal — 미디어 산업 뉴스 인텔리전스">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css">
+
+<style>
+  .mi { font-family: 'Paperlogy', 'Inter', sans-serif; max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .mi-header { margin-bottom: 2rem; }
+  .mi-title { font-family: 'Paperlogy'; font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
+  .mi-title b { color: var(--color-accent, #1a6bff); }
+  .mi-sub { font-size: 0.85rem; color: var(--color-text-light, #888); margin-top: 0.25rem; }
+
+  .mi-intelnav { display: flex; gap: 0; margin-top: 0.75rem; }
+  .mi-intelnav a { font-size: 0.82rem; font-weight: 500; color: var(--color-text-light, #888); text-decoration: none; padding: 0.4rem 1rem; border: 1px solid var(--color-border, #e0e0e0); background: var(--color-bg, #f5f5f7); }
+  .mi-intelnav a:first-child { border-radius: 6px 0 0 6px; }
+  .mi-intelnav a:last-child { border-radius: 0 6px 6px 0; border-left: none; }
+  .mi-intelnav a:hover { color: var(--color-accent, #1a6bff); }
+  .mi-intelnav a.active { background: var(--color-accent, #1a6bff); color: #fff; border-color: var(--color-accent, #1a6bff); font-weight: 700; }
+
+  .mi-stats { display: flex; gap: 1.5rem; padding: 0.75rem 0; border-top: 2px solid var(--color-text, #111); border-bottom: 1px solid var(--color-border, #e5e5e5); flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .mi-st b { font-size: 1.15rem; color: var(--color-accent, #1a6bff); margin-right: 0.2rem; }
+  .mi-st span { font-size: 0.7rem; color: var(--color-text-light, #888); }
+
+  .mi-sec { font-size: 0.75rem; font-weight: 800; letter-spacing: 1.5px; color: var(--color-text-light, #888); margin: 2.5rem 0 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--color-text, #111); }
+  .mi-tag { font-size: 0.68rem; padding: 2px 8px; border-radius: 12px; background: #eef3ff; color: #1a6bff; font-weight: 600; }
+
+  /* Top Story */
+  .mi-top { background: var(--color-surface, #fff); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 2rem; display: grid; grid-template-columns: 1fr 1fr; border-left: 4px solid var(--color-accent, #1a6bff); }
+  .mi-top-img { background-size: cover; background-position: center; min-height: 320px; }
+  .mi-top-body { padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+  .mi-top h1 { font-family: 'Paperlogy'; font-size: 1.5rem; font-weight: 800; line-height: 1.4; margin: 0 0 1rem; color: var(--color-text, #111); }
+  .mi-top .lede { font-size: 0.95rem; color: var(--color-text-light, #444); line-height: 1.8; margin-bottom: 1rem; }
+  .mi-top .kps { margin: 0 0 1rem 1.2rem; font-size: 0.85rem; color: var(--color-text-light, #555); line-height: 1.7; }
+  .mi-top .kps li { margin-bottom: 0.3rem; }
+  .mi-top .tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .mi-srcbar { display: flex; gap: 0.5rem; flex-wrap: wrap; padding-top: 0.75rem; border-top: 1px solid var(--color-border, #e5e5e5); }
+  .mi-src { font-size: 0.72rem; color: var(--color-accent, #1a6bff); text-decoration: none; padding: 2px 8px; background: var(--color-bg, #f5f5f7); border-radius: 4px; }
+  .mi-src:hover { background: #eef3ff; }
+
+  /* Editor Pick */
+  .mi-editor { background: var(--color-surface, #fff); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 2rem; display: grid; grid-template-columns: 1fr 1fr; border-left: 4px solid #e53935; }
+  .mi-editor-img { background-size: cover; background-position: center; min-height: 280px; }
+  .mi-editor-body { padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+  .mi-editor h2 { font-family: 'Paperlogy'; font-size: 1.3rem; font-weight: 800; line-height: 1.4; margin: 0 0 0.75rem; color: var(--color-text, #111); }
+  .mi-editor .lede { font-size: 0.9rem; color: var(--color-text-light, #444); line-height: 1.8; margin-bottom: 0.75rem; }
+  .mi-editor .kps { margin: 0 0 0.75rem 1.2rem; font-size: 0.82rem; color: var(--color-text-light, #555); line-height: 1.7; }
+  .mi-editor .kps li { margin-bottom: 0.25rem; }
+  .mi-editor-badge { font-size: 0.68rem; padding: 2px 10px; border-radius: 12px; background: #e53935; color: #fff; font-weight: 700; }
+
+  /* Featured cards */
+  .mi-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .mi-card { background: var(--color-surface, #fff); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; transition: box-shadow 0.2s, transform 0.2s; }
+  .mi-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .mi-card-img { width: 100%; height: 170px; object-fit: cover; }
+  .mi-card-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+  .mi-card h3 { font-family: 'Paperlogy'; font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin: 0.3rem 0 0.5rem; }
+  .mi-card .syn { font-size: 0.8rem; color: var(--color-text-light, #444); line-height: 1.7; margin-bottom: 0.5rem; flex: 1; }
+  .mi-card .kps { margin: 0 0 0.5rem 1rem; font-size: 0.75rem; color: var(--color-text-light, #555); line-height: 1.6; }
+  .mi-card .kps li { margin-bottom: 0.2rem; }
+  .mi-card .tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+
+  /* Briefs */
+  .mi-briefs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .mi-brief { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.75rem; background: var(--color-surface, #fff); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .mi-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .mi-brief a { font-size: 0.8rem; font-weight: 600; color: var(--color-text, #111); text-decoration: none; line-height: 1.4; }
+  .mi-brief a:hover { color: var(--color-accent, #1a6bff); }
+  .mi-brief-m { font-size: 0.7rem; color: var(--color-text-light, #888); margin-top: 0.15rem; }
+
+  /* Entertainment */
+  .mi-ent { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .mi-ent-box { background: var(--color-surface, #fff); border-radius: 10px; padding: 1.25rem; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
+  .mi-ent-box h3 { font-family: 'Paperlogy'; font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; }
+  .mi-posters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .mi-poster { text-align: center; }
+  .mi-poster img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .mi-poster-t { font-size: 0.75rem; font-weight: 600; margin-top: 0.4rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .mi-poster-v { font-size: 0.7rem; color: var(--color-text-light, #888); }
+
+  /* Archive */
+  .mi-archive { display: flex; flex-direction: column; gap: 0.5rem; }
+  .mi-archive-item { display: flex; align-items: center; gap: 1rem; padding: 0.6rem 0.8rem; background: var(--color-surface, #fff); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); text-decoration: none; transition: box-shadow 0.2s; }
+  .mi-archive-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .mi-archive-date { font-size: 0.75rem; font-weight: 700; color: var(--color-accent, #1a6bff); min-width: 90px; }
+  .mi-archive-title { font-size: 0.82rem; font-weight: 500; color: var(--color-text, #111); flex: 1; }
+  .mi-archive-cnt { font-size: 0.72rem; color: var(--color-text-light, #888); background: var(--color-bg, #f5f5f7); padding: 2px 8px; border-radius: 10px; }
+
+  .mi-footer { text-align: center; padding: 2rem; color: var(--color-text-light, #bbb); font-size: 0.7rem; margin-top: 2rem; }
+
+  @media (max-width: 768px) {
+    .mi-top, .mi-editor { grid-template-columns: 1fr; }
+    .mi-top-img, .mi-editor-img { min-height: 200px; }
+    .mi-cards, .mi-briefs, .mi-ent { grid-template-columns: 1fr; }
+    .mi-top h1 { font-size: 1.2rem; }
+  }
+</style>
+
+<div class="mi">
+  <div class="mi-header">
+    <div class="mi-title">Media<b>INT</b></div>
+    <div class="mi-sub">Media Intelligence Terminal &mdash; {ts} &mdash; {totalArts} articles &middot; {featured.length} stories</div>
+    <div class="mi-intelnav">
+      <a href="/mediaint" class="active">MediaINT</a>
+      <a href="/journalint">JournalINT</a>
+    </div>
+  </div>
+
+  <div class="mi-stats">
+    <div class="mi-st"><b>{totalArts}</b><span>Articles</span></div>
+    <div class="mi-st"><b>{featured.length}</b><span>Stories</span></div>
+    <div class="mi-st"><b>{tmdb.movies?.length || 0}</b><span>Movies</span></div>
+    <div class="mi-st"><b>{tmdb.tv?.length || 0}</b><span>TV</span></div>
+    {Object.entries(catCounts).sort((a: any, b: any) => b[1] - a[1]).slice(0, 5).map(([cat, cnt]: [string, any]) => (
+      <div class="mi-st"><b style={`color:${CAT_COLORS[cat] || '#666'}`}>{cnt}</b><span>{cat}</span></div>
+    ))}
+  </div>
+
+  {/* Top Story */}
+  {topStory && (
+    <Fragment>
+      <div class="mi-sec">TOP STORY</div>
+      <article class="mi-top">
+        {topStory.image && <div class="mi-top-img" style={`background-image:url("${topStory.image}")`}></div>}
+        <div class="mi-top-body">
+        <div class="tags">
+          <span class="mi-tag" style={`background:${CAT_COLORS[topStory.primary_cat] || '#eef3ff'}20;color:${CAT_COLORS[topStory.primary_cat] || '#1a6bff'}`}>{topStory.primary_cat}</span>
+          <span class="mi-tag">{topStory.article_count} sources</span>
+        </div>
+        <h1>{esc(topStory.synthesis_title || topStory.headline)}</h1>
+        <p class="lede">{esc(topStory.synthesis || '')}</p>
+        {topStory.key_points?.length > 0 && (
+          <ul class="kps">
+            {topStory.key_points.map((kp: string) => <li>{esc(kp)}</li>)}
+          </ul>
+        )}
+        <div class="mi-srcbar">
+          {topStory.articles?.slice(0, 8).reduce((acc: any[], a: any) => {
+            if (a.domain && !acc.find((x: any) => x.domain === a.domain)) acc.push({domain: a.domain, url: a.url});
+            return acc;
+          }, []).map((s: any) => <a href={s.url} target="_blank" rel="noopener" class="mi-src">{s.domain}</a>)}
+        </div>
+        </div>
+      </article>
+    </Fragment>
+  )}
+
+  {/* Editor's Pick */}
+  <div class="mi-sec">EDITOR'S PICK</div>
+  <article class="mi-editor">
+    <div class="mi-editor-img" style='background-image:url("https://www.ddaily.co.kr/photos/2026/03/21/2026032119370854556_l.png")'></div>
+    <div class="mi-editor-body">
+    <div class="tags">
+      <span class="mi-editor-badge">Editor's Pick</span>
+      <span class="mi-tag">OTT/Streaming</span>
+    </div>
+    <h2><a href="https://www.ddaily.co.kr/page/view/2026032119210671271" target="_blank" style="color:inherit;text-decoration:none;">[넷플릭스xBTS] "퀸 라이브에이드 공연처럼"…슈퍼 IP 탄생 신호탄</a></h2>
+    <p class="lede">넷플릭스가 BTS 컴백 콘서트를 전 세계 동시 생중계하는 것은 단순한 라이브 스트리밍이 아닌 콘텐츠 유통의 패러다임 전환이다. 전 세계 1,000개 이상 ISP와 연결된 넷플릭스 자체 CDN 'Open Connect'가 수억 명의 동시 시청을 기술적으로 뒷받침하며, 라이브 콘텐츠는 실시간 시청 데이터를 통해 콘텐츠 기획과 마케팅 의사결정에 활용된다.</p>
+    <ul class="kps">
+      <li>넷플릭스 자체 CDN 'Open Connect'로 수억 명 동시 시청 지원</li>
+      <li>라이브와 VOD 사이의 '이벤트형 소비' 시장 창출</li>
+      <li>구독 모델을 넘어선 독립적 수익원 확보 가능성</li>
+    </ul>
+    <div class="mi-srcbar">
+      <a href="https://www.ddaily.co.kr/page/view/2026032119210671271" target="_blank" class="mi-src">디지털데일리 · 강소현 기자</a>
+    </div>
+    </div>
+  </article>
+
+  {/* Featured Stories */}
+  {cards.length > 0 && (
+    <Fragment>
+      <div class="mi-sec">FEATURED STORIES</div>
+      <div class="mi-cards">
+        {cards.map(cl => (
+          <article class="mi-card">
+            {cl.image && <img src={cl.image} alt="" class="mi-card-img" loading="lazy" onerror="this.remove()" />}
+            <div class="mi-card-body">
+            <div class="tags">
+              <span class="mi-tag" style={`background:${CAT_COLORS[cl.primary_cat] || '#eef3ff'}20;color:${CAT_COLORS[cl.primary_cat] || '#1a6bff'}`}>{cl.primary_cat}</span>
+              <span class="mi-tag">{cl.article_count || cl.articles?.length || 0} sources</span>
+            </div>
+            <h3>{esc(cl.synthesis_title || cl.headline)}</h3>
+            <p class="syn">{esc(cl.synthesis || '')}</p>
+            {cl.key_points?.length > 0 && (
+              <ul class="kps">
+                {cl.key_points.slice(0, 2).map((kp: string) => <li>{esc(kp)}</li>)}
+              </ul>
+            )}
+            <div class="mi-srcbar" style="margin-top:auto;">
+              {(cl.articles || []).reduce((acc: any[], a: any) => {
+                if (a.domain && !acc.find((x: any) => x.domain === a.domain) && acc.length < 4) acc.push({domain: a.domain, url: a.url});
+                return acc;
+              }, []).map((s: any) => <a href={s.url} target="_blank" rel="noopener" class="mi-src">{s.domain}</a>)}
+            </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </Fragment>
+  )}
+
+  {/* Headlines */}
+  {singles.length > 0 && (
+    <Fragment>
+      <div class="mi-sec">HEADLINES</div>
+      <div class="mi-briefs">
+        {singles.map(a => (
+          <div class="mi-brief">
+            <span class="mi-dot" style={`background:${CAT_COLORS[a.category] || '#ccc'}`}></span>
+            <div>
+              <a href={a.url} target="_blank">{esc(a.title || '')}</a>
+              <div class="mi-brief-m">{a.domain || ''}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Fragment>
+  )}
+
+  {/* Trending Entertainment */}
+  <div class="mi-sec">TRENDING ENTERTAINMENT</div>
+  <div class="mi-ent">
+    <div class="mi-ent-box">
+      <h3>Trending Movies</h3>
+      <div class="mi-posters">
+        {(tmdb.movies || []).slice(0, 6).map((m: any) => (
+          <div class="mi-poster">
+            {m.poster_path && <img src={`https://image.tmdb.org/t/p/w185${m.poster_path}`} alt={m.title} loading="lazy" />}
+            <div class="mi-poster-t">{m.title}</div>
+            <div class="mi-poster-v">&#9733; {(m.vote_average || 0).toFixed(1)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="mi-ent-box">
+      <h3>Trending TV</h3>
+      <div class="mi-posters">
+        {(tmdb.tv || []).slice(0, 6).map((s: any) => (
+          <div class="mi-poster">
+            {s.poster_path && <img src={`https://image.tmdb.org/t/p/w185${s.poster_path}`} alt={s.name} loading="lazy" />}
+            <div class="mi-poster-t">{s.name}</div>
+            <div class="mi-poster-v">&#9733; {(s.vote_average || 0).toFixed(1)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  {/* Archive */}
+  {archive.length > 0 && (
+    <Fragment>
+      <div class="mi-sec">ARCHIVE</div>
+      <div class="mi-archive">
+        {archive.map(a => (
+          <a href={`/mediaint/${a.date}`} class="mi-archive-item">
+            <span class="mi-archive-date">{a.date}</span>
+            <span class="mi-archive-title">{a.top_story}</span>
+            <span class="mi-archive-cnt">{a.total}건</span>
+          </a>
+        ))}
+      </div>
+    </Fragment>
+  )}
+
+  <div class="mi-footer">
+    MediaINT v3 &middot; 미디어 산업 인텔리전스 &middot; Google News RSS + TMDb + Claude Agent Sweep &middot; {ts}
+  </div>
+</div>
+
+</BaseLayout>
