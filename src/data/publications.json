@@ -467,6 +467,26 @@
       "category": "Efficiency Analysis",
       "citations": 5,
       "abstract": "This study evaluated the operational efficiency of Korean universities using Bootstrap DEA and Tobit Regression."
+    },
+    {
+      "id": "kim2026-regulatory-sandwich",
+      "type": "kci",
+      "status": "published",
+      "title": "규제 샌드위치 효과: 플랫폼 규제 논의에 대한 기업 규모별 시장 반응",
+      "title_en": "The Regulatory Sandwich Effect: Size-Based Heterogeneity in Market Reaction to Platform Regulation",
+      "authors": [
+        "Kim, Y.",
+        "Yoo, S."
+      ],
+      "journal": "대한경영학회지",
+      "journal_en": "Korean Academy of Management Journal",
+      "year": 2026,
+      "volume": 39,
+      "issue": 2,
+      "pages": "401-420",
+      "category": "Platform Regulation",
+      "citations": 0,
+      "abstract": "본 연구는 방송통신발전기금 부담금 확대 논의가 플랫폼 기업의 주가에 미치는 영향을 사건연구 방법론을 통해 실증 분석하였다. 2024년 3월부터 2025년 1월까지 발생한 4개 주요 정책 이벤트를 대상으로 플랫폼 기업 11개사와 IT서비스 기업 6개사의 주가 반응을 비교 분석하였으며, 플랫폼 기업은 IT서비스 기업보다 유의하게 큰 부정적 반응을 보였다. 특히 기업 규모에 따라 이질적 반응이 관찰되었는데, 대형 플랫폼은 제한적 반응을 보인 반면 중형 플랫폼이 가장 큰 부정적 영향을 받았다. 본 연구는 이러한 현상을 규제 샌드위치 효과(Regulatory Sandwich Effect)로 명명하였다."
     }
   ]
 }
