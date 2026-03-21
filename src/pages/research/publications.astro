@@ -33,9 +33,9 @@ const publishedPapers = publications
   .filter(p => p.status === 'published')
   .sort((a, b) => b.year - a.year);
 
-// Sort domestic publications by citations (descending)
+// Sort domestic publications by year (newest first), then citations
 const domesticPapers = domesticPublications
-  .sort((a, b) => b.citations - a.citations);
+  .sort((a, b) => b.year - a.year || b.citations - a.citations);
 
 const pageTitle = "Research - Yonghee Kim";
 
@@ -428,8 +428,8 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
           {domesticPapers.map((pub) => (
             <div class="domestic-pub-item">
               <div class="pub-header">
-                <h3 class="pub-title-ko">{pub.title}</h3>
-                {pub.title_en && <p class="pub-title-en">{pub.title_en}</p>}
+                <h3 class="pub-title-ko">{pub.title_en || pub.title}</h3>
+                {pub.title_en && pub.title !== pub.title_en && <p class="pub-title-en">{pub.title}</p>}
               </div>
               <div class="pub-meta">
                 <span class="pub-authors">{pub.authors.join(', ')}</span>
