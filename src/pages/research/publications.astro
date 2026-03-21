@@ -441,8 +441,8 @@ const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mo
                 {pub.volume && <span class="pub-volume"> {pub.volume}({pub.issue})</span>}
                 {pub.pages && <span class="pub-pages">, {pub.pages}</span>}
               </div>
-              {pub.abstract && (
-                <div class="pub-abstract">{pub.abstract}</div>
+              {(pub.abstract_en || pub.abstract) && (
+                <div class="pub-abstract">{pub.abstract_en || pub.abstract}</div>
               )}
               <div class="pub-footer">
                 <span class="pub-badge pub-badge-kci">KCI</span>
