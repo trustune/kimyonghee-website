@@ -10,7 +10,7 @@ volume: 18
 issue: "6B"
 pages: "2667"
 publisher: "International Information Institute"
-citations: 4
+citations: 5
 abstract: "Terrestrial TV service operators have begun to represent an increasing share of content production in the media industry. However, despite its importance, there are relatively few studies about the efficiency of terrestrial TV operators."
 keywords: ["Terrestrial TV", "Broadcasting Efficiency", "Bootstrapped DEA", "Tobit Regression", "International Comparison", "TV Operators", "Media Economics", "Performance Analysis", "Public Broadcasting"]
 research_area: ["Broadcasting Economics", "Efficiency Analysis", "Media Studies", "Comparative Analysis"]
