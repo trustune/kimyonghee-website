@@ -7,6 +7,7 @@ Type=simple
 User=root
 WorkingDirectory=/home/projects/kimyonghee-website/services/newsletter
 EnvironmentFile=/etc/mediaint/env
+# Note: Resend API disabled. Mail feature removed. Subscribe API only.
 ExecStart=/usr/bin/python3 manage.py server --port 5100
 Restart=on-failure
 RestartSec=5

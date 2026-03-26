@@ -114,21 +114,12 @@ output:
   headlines: 20
   font: "Paperlogy"
 
-# 뉴스레터 메일링 설정
-mail:
-  provider: "resend"             # resend (추천), smtp, ses
-  api_key: "${RESEND_API_KEY}"  # 서버 환경변수에서 로드
-  from: "onboarding@resend.dev"
-  test_email: "yh.kim@openroute.kr"
-  subscribers:
-    - reporter1@media.com
-    - reporter2@news.com
-  # SMTP (Gmail 등) 사용 시:
-  # provider: "smtp"
-  # smtp_host: "smtp.gmail.com"
-  # smtp_port: 587
-  # smtp_user: "your@gmail.com"
-  # smtp_pass: "앱 비밀번호"
+# 뉴스레터 메일링 설정 (비활성화 — 메일 시스템 미정)
+# mail:
+#   provider: "resend"
+#   api_key: "${RESEND_API_KEY}"
+#   from: "mediaint@kimyonghee.com"
+#   test_email: "yh.kim@openroute.kr"
 
 # LLM 설정
 llm:
