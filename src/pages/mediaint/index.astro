@@ -53,9 +53,11 @@ function esc(s: string) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt
 
 <BaseLayout title="MediaINT" description="Media Intelligence Terminal — 미디어 산업 뉴스 인텔리전스" image={featured[0]?.image || ''}>
 
+<link rel="preload" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css" as="style">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css">
+<meta name="astro-transition-scope" content="mediaint">
 
-<style>
+<style is:global>
   .mi { font-family: 'Paperlogy', 'Inter', sans-serif; max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
   .mi-header { margin-bottom: 2rem; }
   .mi-title { font-family: 'Paperlogy'; font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
