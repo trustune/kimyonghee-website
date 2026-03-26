@@ -15,7 +15,8 @@ const totalArts = clusters.reduce((s: number, c: any) => s + (c.article_count ||
 
 const featured = clusters.filter((c: any) => (c.article_count || c.articles?.length || 0) >= 2).slice(0, 15);
 const topStory = featured[0];
-const cards = featured.slice(1);
+const editorPick = featured[1];
+const cards = featured.slice(2, 9);
 const singles = clusters
   .filter((c: any) => (c.article_count || c.articles?.length || 0) === 1)
   .slice(0, 20)
@@ -195,27 +196,34 @@ function esc(s: string) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt
     </Fragment>
   )}
 
-  {/* Editor's Pick */}
-  <div class="mi-sec">EDITOR'S PICK</div>
-  <article class="mi-editor">
-    <div class="mi-editor-img" style='background-image:url("https://www.ddaily.co.kr/photos/2026/03/21/2026032119370854556_l.png")'></div>
-    <div class="mi-editor-body">
-    <div class="tags">
-      <span class="mi-editor-badge">Editor's Pick</span>
-      <span class="mi-tag">OTT/Streaming</span>
-    </div>
-    <h2><a href="https://www.ddaily.co.kr/page/view/2026032119210671271" target="_blank" style="color:inherit;text-decoration:none;">[넷플릭스xBTS] "퀸 라이브에이드 공연처럼"…슈퍼 IP 탄생 신호탄</a></h2>
-    <p class="lede">넷플릭스가 BTS 컴백 콘서트를 전 세계 동시 생중계하는 것은 단순한 라이브 스트리밍이 아닌 콘텐츠 유통의 패러다임 전환이다. 전 세계 1,000개 이상 ISP와 연결된 넷플릭스 자체 CDN 'Open Connect'가 수억 명의 동시 시청을 기술적으로 뒷받침하며, 라이브 콘텐츠는 실시간 시청 데이터를 통해 콘텐츠 기획과 마케팅 의사결정에 활용된다.</p>
-    <ul class="kps">
-      <li>넷플릭스 자체 CDN 'Open Connect'로 수억 명 동시 시청 지원</li>
-      <li>라이브와 VOD 사이의 '이벤트형 소비' 시장 창출</li>
-      <li>구독 모델을 넘어선 독립적 수익원 확보 가능성</li>
-    </ul>
-    <div class="mi-srcbar">
-      <a href="https://www.ddaily.co.kr/page/view/2026032119210671271" target="_blank" class="mi-src">디지털데일리 · 강소현 기자</a>
-    </div>
-    </div>
-  </article>
+  {/* Editor's Pick - dynamically from 2nd cluster */}
+  {editorPick && (
+    <Fragment>
+      <div class="mi-sec">EDITOR'S PICK</div>
+      <article class="mi-editor">
+        {editorPick.image && <div class="mi-editor-img" style={`background-image:url("${editorPick.image}")`}></div>}
+        <div class="mi-editor-body">
+        <div class="tags">
+          <span class="mi-editor-badge">Editor's Pick</span>
+          <span class="mi-tag" style={`color:${CAT_COLORS[editorPick.primary_cat] || '#1a6bff'}`}>{editorPick.primary_cat}</span>
+        </div>
+        <h2><a href={editorPick.headline_url || '#'} target="_blank" style="color:inherit;text-decoration:none;">{esc(editorPick.synthesis_title || editorPick.headline)}</a></h2>
+        <p class="lede">{esc(editorPick.synthesis || '')}</p>
+        {editorPick.key_points?.length > 0 && (
+          <ul class="kps">
+            {editorPick.key_points.slice(0, 3).map((kp: string) => <li>{esc(kp)}</li>)}
+          </ul>
+        )}
+        <div class="mi-srcbar">
+          {(editorPick.articles || []).reduce((acc: any[], a: any) => {
+            if (a.domain && !acc.find((x: any) => x.domain === a.domain) && acc.length < 4) acc.push({domain: a.domain, url: a.url});
+            return acc;
+          }, []).map((s: any) => <a href={s.url} target="_blank" rel="noopener" class="mi-src">{s.domain}</a>)}
+        </div>
+        </div>
+      </article>
+    </Fragment>
+  )}
 
   {/* Featured Stories */}
   {cards.length > 0 && (
