@@ -137,6 +137,15 @@ function esc(s: string) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt
   .mi-archive-title { font-size: 0.82rem; font-weight: 500; color: var(--color-text, #111); flex: 1; }
   .mi-archive-cnt { font-size: 0.72rem; color: var(--color-text-light, #888); background: var(--color-bg, #f5f5f7); padding: 2px 8px; border-radius: 10px; }
 
+  .mi-subscribe { background: var(--color-surface, #fff); border-radius: 10px; padding: 2rem; text-align: center; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
+  .mi-subscribe p { font-size: 0.85rem; color: var(--color-text-light, #444); margin-bottom: 1rem; }
+  .mi-sub-form { display: flex; gap: 0.5rem; max-width: 420px; margin: 0 auto; }
+  .mi-sub-form input { flex: 1; padding: 0.6rem 1rem; border: 1px solid var(--color-border, #e5e5e5); border-radius: 8px; font-size: 0.85rem; outline: none; background: var(--color-bg, #f5f5f7); color: var(--color-text, #111); }
+  .mi-sub-form input:focus { border-color: var(--color-accent, #1a6bff); }
+  .mi-sub-form button { padding: 0.6rem 1.5rem; background: var(--color-accent, #1a6bff); color: #fff; border: none; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+  .mi-sub-form button:hover { opacity: 0.9; }
+  .mi-sub-msg { font-size: 0.82rem; margin-top: 0.75rem; min-height: 1.2em; }
+
   .mi-footer { text-align: center; padding: 2rem; color: var(--color-text-light, #bbb); font-size: 0.7rem; margin-top: 2rem; }
 
   @media (max-width: 768px) {
@@ -304,6 +313,41 @@ function esc(s: string) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt
       </div>
     </div>
   </div>
+
+  {/* Subscribe */}
+  <div class="mi-sec">SUBSCRIBE</div>
+  <div class="mi-subscribe">
+    <p>미디어 산업 인텔리전스를 매주 이메일로 받아보세요.</p>
+    <form class="mi-sub-form" id="subForm">
+      <input type="email" name="email" placeholder="이메일 주소" required />
+      <button type="submit">구독</button>
+    </form>
+    <div class="mi-sub-msg" id="subMsg"></div>
+  </div>
+  <script>
+    document.getElementById('subForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target as HTMLFormElement;
+      const email = (form.elements.namedItem('email') as HTMLInputElement).value;
+      try {
+        const r = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const msg = document.getElementById('subMsg');
+        if (r.ok) {
+          if (msg) { msg.textContent = '구독 완료! 감사합니다.'; msg.style.color = '#2e7d32'; }
+          form.reset();
+        } else {
+          if (msg) { msg.textContent = '오류가 발생했습니다. 다시 시도해주세요.'; msg.style.color = '#e53935'; }
+        }
+      } catch {
+        const msg = document.getElementById('subMsg');
+        if (msg) { msg.textContent = '서버에 연결할 수 없습니다.'; msg.style.color = '#e53935'; }
+      }
+    });
+  </script>
 
   {/* Archive */}
   {archive.length > 0 && (
