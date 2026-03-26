@@ -1,0 +1,137 @@
+# ═══════════════════════════════════════
+# MediaINT Configuration
+# 이 파일만 수정하면 아무 분야나 적용 가능
+# ═══════════════════════════════════════
+
+# 대시보드 이름
+name: "MediaINT"
+subtitle: "Media Intelligence Terminal"
+
+# GDELT 검색 카테고리 & 키워드
+# 분야를 바꾸려면 이 부분만 수정하세요
+categories:
+  OTT/Streaming:
+    color: "#e53935"
+    queries:
+      - "netflix"
+      - '"disney plus"'
+      - '"amazon prime" OR "prime video"'
+      - '"streaming service" OR "streaming platform"'
+      - 'hulu OR "apple tv"'
+
+  Film/Cinema:
+    color: "#8e24aa"
+    queries:
+      - '"box office"'
+      - '"film industry" OR "movie industry"'
+      - '"movie release" OR "film release"'
+
+  Music/Audio:
+    color: "#2e7d32"
+    queries:
+      - 'spotify OR "apple music"'
+      - '"music streaming" OR "music industry"'
+      - 'kpop OR "k-pop"'
+
+  Gaming/Esports:
+    color: "#ef6c00"
+    queries:
+      - '"video game" OR "gaming industry"'
+      - 'esports OR "e-sports"'
+      - 'playstation OR xbox OR nintendo'
+
+  K-Content:
+    color: "#d81b60"
+    queries:
+      - '"korean drama" OR kdrama'
+      - 'hallyu OR "korean wave"'
+      - 'webtoon OR "k-content"'
+
+  Media Business:
+    color: "#1565c0"
+    queries:
+      - '"media industry" OR "entertainment industry"'
+      - '"ad revenue" OR "media company"'
+      - '"content creation" OR "creator economy"'
+
+# 엔티티 자동 감지 규칙
+# 같은 이벤트/주제의 기사를 하나로 묶는 패턴
+entities:
+  - name: "BTS Comeback Concert"
+    category: "K-Content"
+    is_event: true  # true면 서브클러스터링 안 함
+    patterns:
+      - '\bbts\b.*(?:comeback|return|concert|live)'
+      - '\bbts\b.*netflix'
+      - '방탄소년단'
+
+  - name: "Netflix"
+    category: "OTT/Streaming"
+    patterns: ['\bnetflix\b']
+
+  - name: "Disney+"
+    category: "OTT/Streaming"
+    patterns: ['\bdisney\s*\+?\b', '\bdisney\s*plus\b']
+
+  - name: "Spotify"
+    category: "Music/Audio"
+    patterns: ['\bspotify\b']
+
+  - name: "K-Drama"
+    category: "K-Content"
+    patterns: ['k-?drama', 'korean\s*drama']
+
+  - name: "K-Pop"
+    category: "Music/Audio"
+    patterns: ['k-?pop', '케이팝']
+
+  - name: "Box Office"
+    category: "Film/Cinema"
+    patterns: ['box\s*office', '박스오피스']
+
+# GDELT 수집 설정
+gdelt:
+  timespan: "168h"       # 수집 기간 (7일 = 주간 리포트)
+  max_records: 250       # 쿼리당 최대 기사 수
+  rate_limit_sec: 6      # 요청 간 대기 시간
+
+# 클러스터링 설정
+clustering:
+  threshold: 0.55        # 유사도 임계값 (낮을수록 엄격)
+  min_cluster_size: 2    # 최소 클러스터 크기
+
+# TMDb (영화/TV 트렌딩)
+tmdb:
+  enabled: true
+  language: "ko-KR"
+  region: "KR"
+  # TMDb API 토큰 (무료 발급: https://www.themoviedb.org/settings/api)
+  token: "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxODk1M2NiODhmN2I2ZmM0MmU2NzcyNzFlNjU0YmJlMiIsIm5iZiI6MTc0OTY0NTYwNi4xOTUwMDAyLCJzdWIiOiI2ODQ5NzkyNjg3ZGUxYzBmZDhkZTdkNmYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.3h3NSE9Wo82zyAaxS4Sih3YqVAvEpJhxKoc7C1b-e6k"
+
+# 출력 설정
+output:
+  top_stories: 10
+  headlines: 20
+  font: "Paperlogy"
+
+# 뉴스레터 메일링 설정
+mail:
+  provider: "resend"             # resend (추천), smtp, ses
+  api_key: "${RESEND_API_KEY}"  # 서버 환경변수에서 로드
+  from: "onboarding@resend.dev"
+  test_email: "yh.kim@openroute.kr"
+  subscribers:
+    - reporter1@media.com
+    - reporter2@news.com
+  # SMTP (Gmail 등) 사용 시:
+  # provider: "smtp"
+  # smtp_host: "smtp.gmail.com"
+  # smtp_port: 587
+  # smtp_user: "your@gmail.com"
+  # smtp_pass: "앱 비밀번호"
+
+# LLM 설정
+llm:
+  provider: "ollama"             # ollama, openai, anthropic
+  model: "deepseek-v3"           # DGX Spark: deepseek-v3 or llama3.1:405b
+  temperature: 0.3
