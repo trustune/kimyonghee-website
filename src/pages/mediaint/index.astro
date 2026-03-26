@@ -51,7 +51,7 @@ const CAT_COLORS: Record<string, string> = {
 function esc(s: string) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 ---
 
-<BaseLayout title="MediaINT" description="Media Intelligence Terminal — 미디어 산업 뉴스 인텔리전스">
+<BaseLayout title="MediaINT" description="Media Intelligence Terminal — 미디어 산업 뉴스 인텔리전스" image={featured[0]?.image || ''}>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css">
 
