@@ -1,0 +1,103 @@
+name: MediaINT Weekly Collection
+
+on:
+  schedule:
+    # 매주 토요일 KST 09:00 (UTC 00:00)
+    - cron: '0 0 * * 6'
+  workflow_dispatch:
+    inputs:
+      auto_deploy:
+        description: 'Auto-deploy after collection (skip review)'
+        type: boolean
+        default: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        pip install requests feedparser psycopg2-binary pyyaml numpy scikit-learn
+
+    - name: Run collection on server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: 2222
+        script: |
+          cd /home/projects/kimyonghee-website
+          git pull origin main
+
+          # Run collector
+          export PG_HOST=localhost PG_PORT=5432 PG_DATABASE=mediaint_db PG_USER=postgres
+          python3 scripts/collect_mediaint.py \
+            --source all \
+            --timespan 168h \
+            --cluster \
+            --export public/data/mediaint/latest.json
+
+          # Archive
+          DATE=$(date +%Y-%m-%d)
+          cp public/data/mediaint/latest.json "public/data/mediaint/archive/${DATE}.json"
+
+          # Update index.json
+          python3 -c "
+          import json
+          from datetime import datetime
+          idx_path = 'public/data/mediaint/index.json'
+          with open(idx_path, 'r') as f: idx = json.load(f)
+          with open('public/data/mediaint/latest.json', 'r') as f: data = json.load(f)
+          clusters = data.get('clusters', [])
+          top = clusters[0] if clusters else {}
+          new_entry = {
+              'date': '${DATE}',
+              'timestamp': datetime.now().isoformat(),
+              'total_articles': data.get('stats', {}).get('total_articles', 0),
+              'total_stories': data.get('stats', {}).get('multi', 0),
+              'top_story': top.get('synthesis_title', '') or top.get('headline', ''),
+          }
+          idx.insert(0, new_entry)
+          with open(idx_path, 'w') as f: json.dump(idx, f, ensure_ascii=False, indent=2)
+          print(f'Index updated: {new_entry[\"date\"]} - {new_entry[\"total_articles\"]} articles')
+          "
+
+          echo "✅ Collection completed at $(date)"
+
+    - name: Notify (create issue)
+      if: ${{ !inputs.auto_deploy }}
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const date = new Date().toISOString().slice(0, 10);
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: `MediaINT Weekly ${date} — 수집 완료, 큐레이션 검토 필요`,
+            body: `## 주간 수집 완료\n\n- 날짜: ${date}\n- 수집 소스: GDELT + Google News RSS + 한국 전문지\n\n## 다음 단계\n1. 서버에서 \`python3 scripts/curate_mediaint.py\` 실행하여 초안 생성\n2. 초안 검토/수정\n3. \`python3 scripts/curate_mediaint.py --approve\` 로 확정\n4. \`git push\` 로 배포\n\n또는 Claude Agent에게 큐레이션 요청`,
+            labels: ['mediaint', 'weekly']
+          });
+
+    - name: Auto-deploy (if requested)
+      if: ${{ inputs.auto_deploy }}
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: 2222
+        script: |
+          cd /home/projects/kimyonghee-website
+          npm install
+          npm run build
+          rsync -avz --delete dist/ /var/www/kimyonghee.com/public/
+          echo "✅ Auto-deployed at $(date)"
