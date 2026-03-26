@@ -402,6 +402,47 @@
       ]
     },
     {
+      "entity": "휴민트 Netflix",
+      "headline": "류승완 휴민트, 4월 1일 넷플릭스 글로벌 공개 확정",
+      "headline_url": "https://www.ytn.co.kr/_ln/0117_202603251121511956",
+      "synthesis_title": "류승완 휴민트, 4월 1일 넷플릭스 글로벌 공개 확정",
+      "synthesis": "류승완 감독의 첩보 액션 영화 휴민트가 4월 1일 넷플릭스를 통해 전 세계에 공개된다. 조인성, 박정민, 박해준, 신세경 등이 출연한 이 작품은 2월 극장 개봉 약 2개월 만에 넷플릭스 글로벌 공개가 확정되었다. 33개 언어 자막과 21개 언어 더빙이 지원되며, K-영화의 글로벌 유통 속도가 한층 빨라지고 있음을 보여주는 사례로 평가된다.",
+      "key_points": [
+        "3월 25일 공식 발표, 4월 1일 넷플릭스 글로벌 공개 확정",
+        "조인성 박정민 신세경 출연, 류승완 감독 14번째 장편",
+        "33개 언어 자막 21개 언어 더빙 지원"
+      ],
+      "image": "https://image.ytn.co.kr/general/jpg/2026/0325/202603251121511956_k.jpg",
+      "article_count": 8,
+      "score": 90,
+      "primary_cat": "K-Content",
+      "hours_ago": 1,
+      "countries": {},
+      "domains": {},
+      "articles": [
+        {
+          "title": "YTN",
+          "url": "https://www.ytn.co.kr/_ln/0117_202603251121511956",
+          "domain": "YTN",
+          "category": "K-Content",
+          "sourcecountry": "",
+          "language": "",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "일간스포츠",
+          "url": "https://isplus.com/article/view/isp202603250012",
+          "domain": "일간스포츠",
+          "category": "K-Content",
+          "sourcecountry": "",
+          "language": "",
+          "seendate": "",
+          "socialimage": ""
+        }
+      ]
+    },
+    {
       "entity": "BTS Comeback Concert",
       "headline": "BTS Shatters Netflix Records : 18 . 4 Million Fans Tune In for Historic Reunion",
       "headline_url": "https://www.b987.com/2026/03/26/bts-shatters-netflix-records-18-4-million-fans-tune-in-for-historic-reunion/",
