@@ -1,5 +1,40 @@
 [
   {
+    "date": "2026-04-05",
+    "timestamp": "2026-04-05T08:30:00",
+    "total_articles": 263,
+    "total_stories": 75,
+    "top_story": "'슈퍼 마리오 갤럭시 무비', 글로벌 $3.7억 오프닝…2026년 최대 개봉작 등극",
+    "top_stories": [
+      {
+        "title": "'슈퍼 마리오 갤럭시 무비', 글로벌 $3.7억 오프닝…2026년 최대 개봉작 등극",
+        "entity": "Super Mario Galaxy Movie",
+        "article_count": 38,
+        "category": "Film/Cinema"
+      },
+      {
+        "title": "파라마운트-WBD 합병, 4/23 주주투표 확정…DOJ '정치적 속도조절 않겠다'",
+        "entity": "Paramount-WBD Merger",
+        "article_count": 30,
+        "category": "Media Business"
+      },
+      {
+        "title": "'프로젝트 헤일메리', 글로벌 $3.4억 돌파…아마존 MGM 역대 최대 흥행작",
+        "entity": "Project Hail Mary",
+        "article_count": 25,
+        "category": "Film/Cinema"
+      }
+    ],
+    "categories": {
+      "OTT/Streaming": 85,
+      "Film/Cinema": 75,
+      "K-Content": 23,
+      "Media Business": 44,
+      "Music/Audio": 8,
+      "Gaming/Esports": 10
+    }
+  },
+  {
     "date": "2026-03-26",
     "timestamp": "2026-03-26T22:38:00",
     "total_articles": 586,
