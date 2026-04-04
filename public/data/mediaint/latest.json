@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-05T08:34:53.894534",
+  "timestamp": "2026-04-05T08:46:09.183413",
   "name": "MediaINT",
   "subtitle": "Media Intelligence Terminal",
   "clusters": [
@@ -65,6 +65,118 @@
       ]
     },
     {
+      "entity": "[ET시론] BTS 생중계가 증명한 K-소프트파워의 경제학…1일 266억, 비용 대비 300배",
+      "headline": "[ET시론] BTS 생중계가 증명한 K-소프트파워의 경제학…1일 266억, 비용 대비 300배",
+      "headline_url": "https://www.etnews.com/20260403000120",
+      "synthesis_title": "[ET시론] BTS 생중계가 증명한 K-소프트파워의 경제학…1일 266억, 비용 대비 300배",
+      "synthesis": "3월 21일 광화문 BTS 공연이 단순 문화행사를 넘어 국가 브랜드 제고와 경제 활성화를 이끈 메커니��을 산업연관표 기반으로 분석한 시론이다. 블룸버그 추산 1일 경제효과 266억원은 공공비용 약 9억원의 300배에 달한다. 편의점 매출 전주 대비 최대 270% 급증, 롯데백화점 외국인 매출 2.4배, 신세계면세점 영국인 3배·미��인 2.7배 증가했다. 넷플릭스 생중계 1,840만 동시접속(80개국 톱10, 77개국 1위), 소셜 언급량 26.2억건으로 넷플릭스 라이브 역대 최고를 기록했다. 3월 방한 외래 관광객은 전년 동기 대비 31% 증가한 200만명(역대 최고)을 달성했고, 경복궁 관람객 60%, 외국인 숙소 예약 103% 증가했다. 구글 트렌드에서 BTS 검색은 군복무 평균(29)에서 공연 당일 100으로 196% 상승해 테일러 스위프트를 역전했다. 한국은행 산업��관표 분석 결과 공연 가중 생산유발계수는 2.17로 전 산업 평균(1.85)을 상회하며, 유통(3.10)·교통(2.62)·방송(2.12) 순으로 파급효과가 컸다. K팝 전용 공연 인프라 부재(건립 시 6~7년)와 관광 수요의 체계적 상품화가 향후 과제로 제시되었다.",
+      "key_points": [
+        "1일 경제효과 266억원(공공��용 9억의 300배), 편의점 270%·면세점 외국인 2.4배 매출 급증",
+        "넷플릭스 1,840만 동시접속, 소셜 26.2억건, 3월 방한 관광객 200만명 역대 최고",
+        "산업연관표 생산유발계수 2.17(전 산업 1.85 상회), 유통 3.10·교통 2.62·방송 2.12"
+      ],
+      "image": "",
+      "article_count": 5,
+      "score": 98,
+      "primary_cat": "K-Content",
+      "hours_ago": 1,
+      "countries": {},
+      "domains": {},
+      "articles": [
+        {
+          "title": "전자신문 ET시론 (4/3)",
+          "url": "https://www.etnews.com/20260403000120",
+          "domain": "전자신문 ET시론 (4/3)",
+          "category": "K-Content",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Bloomberg (경제효과)",
+          "url": "https://www.bloomberg.com/",
+          "domain": "Bloomberg (경제효과)",
+          "category": "K-Content",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "한국은행 산업연관표",
+          "url": "https://www.bok.or.kr/",
+          "domain": "한국은행 산업연관표",
+          "category": "K-Content",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
+      ]
+    },
+    {
+      "entity": "🔍 FOCUS ON: 英 Ofcom Tier 1 VOD 규제 4/1 발효…��플릭스·디즈니+ 방송 수준 규제 시대",
+      "headline": "🔍 FOCUS ON: 英 Ofcom Tier 1 VOD 규제 4/1 발효…��플릭스·디즈니+ 방송 수준 규제 시대",
+      "headline_url": "https://variety.com/2026/tv/global/netflix-streamers-uk-ofcom-enhanced-regulation-investigation-1236671023/",
+      "synthesis_title": "🔍 FOCUS ON: 英 Ofcom Tier 1 VOD 규제 4/1 발효…��플릭스·디즈니+ 방송 수준 규제 시대",
+      "synthesis": "4월 1일 영국 미디어법(Media Act 2024)에 따른 Tier 1 VOD 규제��� 공식 발효되었다. 월간 50만 사용자 이상의 스트리밍 플랫폼이 대상으로, Netflix, Amazon Prime Video, Disney+, ITVX 등 20개 이상의 서비스가 포함된다. 핵심은 지상파 방송에 준하는 콘텐츠 기준 코드(정확성·공정성·유해 콘텐츠 보호) 적용과 접근성 의무(자막 80%, 오디오 설명 10%, 수어 5%)이다. 위반 시 최대 25만 파운드(약 4.5억원) 또는 매출의 5% 과징금이 부과된다. Ofcom은 발효 후 대상 서비스를 확정하고 1년간 기준 코드를 마련할 예정이다. OTT가 역사적으로 자율 규제 영역이었던 만큼, 방송 수준 규제가 적용되는 글로벌 최초 사례로서 EU·한국 등의 OTT 규제 논의에도 영향을 미칠 전망이다.",
+      "key_points": [
+        "4/1 발효, 월 50만 사용자 이상 스트리밍 플랫폼(20+개) 대상 Tier 1 ��정",
+        "방송 코드 수준 콘텐츠 규제 + 접근성 의무(자막 80%, 오디오 10%, 수어 5%)",
+        "위반 시 최대 £25만 또는 매출 5% 과징금, EU·한국 OTT 규제 논의에 영향 전망"
+      ],
+      "image": "",
+      "article_count": 12,
+      "score": 97,
+      "primary_cat": "Regulation",
+      "hours_ago": 1,
+      "countries": {},
+      "domains": {},
+      "articles": [
+        {
+          "title": "Variety (2/24)",
+          "url": "https://variety.com/2026/tv/global/netflix-streamers-uk-ofcom-enhanced-regulation-investigation-1236671023/",
+          "domain": "Variety (2/24)",
+          "category": "Regulation",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Hollywood Reporter",
+          "url": "https://www.hollywoodreporter.com/business/business-news/netflix-amazon-disney-plus-enhanced-uk-regulation-ofcom-1236513415/",
+          "domain": "Hollywood Reporter",
+          "category": "Regulation",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "UK GOV.UK (공식)",
+          "url": "https://www.gov.uk/guidance/statement-on-designation-of-tier-1-video-on-demand-vod-services",
+          "domain": "UK GOV.UK (공식)",
+          "category": "Regulation",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Wiggin LLP",
+          "url": "https://www.wiggin.co.uk/insight/new-tier-1-vod-regulations-bring-major-streaming-services-under-enhanced-ofcom-oversight/",
+          "domain": "Wiggin LLP",
+          "category": "Regulation",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
+      ]
+    },
+    {
       "entity": "파라마운트-WBD 합병, 4/23 주주투표 확정…DOJ '정치적 속도조절 않겠다'",
       "headline": "파라마운트-WBD 합병, 4/23 주주투표 확정…DOJ '정치적 속도조절 않겠다'",
       "headline_url": "https://variety.com/2026/tv/news/warner-bros-discovery-shareholder-vote-paramount-merger-date-1236700451/",
@@ -77,7 +189,7 @@
       ],
       "image": "",
       "article_count": 30,
-      "score": 98,
+      "score": 96,
       "primary_cat": "Media Business",
       "hours_ago": 1,
       "countries": {},
@@ -138,7 +250,7 @@
       ],
       "image": "",
       "article_count": 25,
-      "score": 97,
+      "score": 95,
       "primary_cat": "Film/Cinema",
       "hours_ago": 1,
       "countries": {},
@@ -199,7 +311,7 @@
       ],
       "image": "",
       "article_count": 18,
-      "score": 96,
+      "score": 94,
       "primary_cat": "OTT/Streaming",
       "hours_ago": 1,
       "countries": {},
@@ -260,7 +372,7 @@
       ],
       "image": "",
       "article_count": 15,
-      "score": 95,
+      "score": 93,
       "primary_cat": "K-Content",
       "hours_ago": 1,
       "countries": {},
@@ -321,7 +433,7 @@
       ],
       "image": "",
       "article_count": 14,
-      "score": 94,
+      "score": 92,
       "primary_cat": "Media Business",
       "hours_ago": 1,
       "countries": {},
@@ -382,7 +494,7 @@
       ],
       "image": "",
       "article_count": 12,
-      "score": 93,
+      "score": 91,
       "primary_cat": "Film/Cinema",
       "hours_ago": 1,
       "countries": {},
@@ -443,7 +555,7 @@
       ],
       "image": "",
       "article_count": 10,
-      "score": 92,
+      "score": 90,
       "primary_cat": "Gaming/Esports",
       "hours_ago": 1,
       "countries": {},
@@ -504,7 +616,7 @@
       ],
       "image": "",
       "article_count": 8,
-      "score": 91,
+      "score": 89,
       "primary_cat": "Music/Audio",
       "hours_ago": 1,
       "countries": {},
@@ -543,49 +655,49 @@
       ]
     },
     {
-      "entity": "'XO, 키티' 시즌3 넷플릭스 4/2 공개…한국 배경 스핀오프 성공 모델 확립",
-      "headline": "'XO, 키티' 시즌3 넷플릭스 4/2 공개…한국 배경 스핀오프 성공 모델 확립",
-      "headline_url": "https://discussingfilm.net/2026/04/01/new-on-netflix-april-2026/",
-      "synthesis_title": "'XO, 키티' 시즌3 넷플릭스 4/2 공개…한국 배경 스핀오프 성공 모델 확립",
-      "synthesis": "넷플릭스 오리지널 'XO, 키티' 시즌3가 4월 2일 공개되었다. '내가 사랑했던 모든 남자에게' 영화 시리즈의 스핀오프로, 안나 캐스카트가 한국 유학생 캐서린 '키티' 송-코비를 연기한다. 한국 고등학교를 배경으로 한 이 시리즈는 K-컬처와 할리우드의 크로스오버 성공 사례로 자리잡았으며, 시즌3까지 이어지며 넷플릭스의 한국 배경 영어 콘텐츠 전략이 유효함을 입증했다. 4월 넷플릭스에는 블러드하운드 시즌2에 이어 다양한 K-콘텐츠가 연속 공개되며 한국 소재의 글로벌 콘텐츠 파이프라인이 더욱 두터워지고 있다.",
+      "entity": "티빙-웨이브 합병, 웨이브 신임 대표에 이양기 선임…KT 박윤영號 변수",
+      "headline": "티빙-웨이브 합병, 웨이브 신임 대표에 이양기 선임…KT 박윤영號 변수",
+      "headline_url": "https://heraldk.com/2026/04/01/%EC%9B%A8%EC%9D%B4%EB%B8%8C-%EC%8B%A0%EC%9E%84-%EB%8C%80%ED%91%9C%EC%97%90-%EC%9D%B4%EC%96%91%EA%B8%B0-%EC%84%A0%EC%9E%84%E2%80%A6%ED%8B%B0%EB%B9%99-%ED%95%A9%EB%B3%91-%EC%8B%9C%EB%84%88%EC%A7%80/",
+      "synthesis_title": "티빙-웨이브 합병, 웨이브 신임 대표에 이양기 선임…KT 박윤영號 변수",
+      "synthesis": "콘텐츠웨이브가 4월 1일 이사회를 열고 이양기 CJ ENM OTT경쟁력강화TF장을 신임 대표이사로 선임했다. 이양기 대표는 티빙 CFO를 거쳐 2025년부터 웨이브 CFO로 근무하며 CJ ENM 콘텐츠 공급, 티빙-웨이브 결합상품·AVOD 출시, 프로골프 중계권 확보 등을 이끈 미디어·재무 전략 전문가다. 한편 3월 취임한 KT 신임 대표 박윤영은 미디어 부문을 독립 사업에서 소비자사업 산하로 통합하며 '돈 안 되는 사업 정리' 신호를 보내고 있다. 2025년 6월 공정위 조건부 승인(2026년말까지 요금 인상 금지)은 확보했으나, 티빙 2대주주 KT스튜디오지니(13.54%)의 최종 동의가 합병의 마지막 관건이다.",
       "key_points": [
-        "4/2 넷플릭스 시즌3 공개, '내가 사랑했던 모든 남자에게' 스핀오프 시리즈",
-        "한국 고등학교 배경 영어 콘텐츠로 K-컬처×할리우드 크로스오버 성공 모델",
-        "블러드하운드2·XO 키티3 등 4월 넷플릭스 K-콘텐츠 파이프라인 강화"
+        "4/1 웨이브 신임 대표에 이양기(전 티빙 CFO) 선임, 합병 시너지 가속화 포석",
+        "KT 박윤영 대표 미디어 부문 소비자사업 통합, '효율화' 기조로 합병 동의 가능성 주목",
+        "공정위 조건부 승인 완료, KT스튜디오지니(13.54%) 최종 동의만 남은 상황"
       ],
       "image": "",
       "article_count": 8,
-      "score": 90,
-      "primary_cat": "K-Content",
+      "score": 88,
+      "primary_cat": "OTT/Streaming",
       "hours_ago": 1,
       "countries": {},
       "domains": {},
       "articles": [
         {
-          "title": "DiscussingFilm (4/1)",
-          "url": "https://discussingfilm.net/2026/04/01/new-on-netflix-april-2026/",
-          "domain": "DiscussingFilm (4/1)",
-          "category": "K-Content",
+          "title": "헤럴드경제 (4/1)",
+          "url": "https://heraldk.com/2026/04/01/%EC%9B%A8%EC%9D%B4%EB%B8%8C-%EC%8B%A0%EC%9E%84-%EB%8C%80%ED%91%9C%EC%97%90-%EC%9D%B4%EC%96%91%EA%B8%B0-%EC%84%A0%EC%9E%84%E2%80%A6%ED%8B%B0%EB%B9%99-%ED%95%A9%EB%B3%91-%EC%8B%9C%EB%84%88%EC%A7%80/",
+          "domain": "헤럴드경제 (4/1)",
+          "category": "OTT/Streaming",
           "sourcecountry": "",
           "language": "Korean",
           "seendate": "",
           "socialimage": ""
         },
         {
-          "title": "Sortiraparis",
-          "url": "https://www.sortiraparis.com/en/what-to-do-in-paris/cinema-series/guides/234556-streaming-premieres-april-2026-must-watch-films-and-series-on-netflix-disney-and-prime-video",
-          "domain": "Sortiraparis",
-          "category": "K-Content",
+          "title": "파이낸셜뉴스 (4/4)",
+          "url": "https://www.fnnews.com/news/202604041059470719",
+          "domain": "파이낸셜뉴스 (4/4)",
+          "category": "OTT/Streaming",
           "sourcecountry": "",
           "language": "Korean",
           "seendate": "",
           "socialimage": ""
         },
         {
-          "title": "Boston.com (4/1)",
-          "url": "https://www.boston.com/culture/streaming/2026/04/01/new-movies-tv-streaming-april-2026/",
-          "domain": "Boston.com (4/1)",
-          "category": "K-Content",
+          "title": "미디어오늘",
+          "url": "https://www.mediatoday.co.kr/news/articleView.html?idxno=326880",
+          "domain": "미디어오늘",
+          "category": "OTT/Streaming",
           "sourcecountry": "",
           "language": "Korean",
           "seendate": "",
@@ -3379,8 +3491,8 @@
     "Media Business": "#1565c0"
   },
   "stats": {
-    "total_articles": 263,
-    "total_clusters": 75,
-    "multi": 18
+    "total_articles": 280,
+    "total_clusters": 77,
+    "multi": 20
   }
 }
