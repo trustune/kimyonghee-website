@@ -16,7 +16,8 @@ const totalArts = clusters.reduce((s: number, c: any) => s + (c.article_count ||
 const featured = clusters.filter((c: any) => (c.article_count || c.articles?.length || 0) >= 2).slice(0, 15);
 const topStory = featured[0];
 const editorPick = featured[1];
-const cards = featured.slice(2, 9);
+const focusOn = featured[2];
+const cards = featured.slice(3, 10);
 const singles = clusters
   .filter((c: any) => (c.article_count || c.articles?.length || 0) === 1)
   .slice(0, 20)
@@ -224,6 +225,35 @@ function esc(s: string) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt
         )}
         <div class="mi-srcbar">
           {(editorPick.articles || []).reduce((acc: any[], a: any) => {
+            if (a.domain && !acc.find((x: any) => x.domain === a.domain) && acc.length < 4) acc.push({domain: a.domain, url: a.url});
+            return acc;
+          }, []).map((s: any) => <a href={s.url} target="_blank" rel="noopener" class="mi-src">{s.domain}</a>)}
+        </div>
+        </div>
+      </article>
+    </Fragment>
+  )}
+
+  {/* Focus On - same layout as Editor's Pick */}
+  {focusOn && (
+    <Fragment>
+      <div class="mi-sec">FOCUS ON</div>
+      <article class="mi-editor" style={`border-left-color:${CAT_COLORS[focusOn.primary_cat] || '#ff6f00'}`}>
+        {focusOn.image && <div class="mi-editor-img" style={`background-image:url("${focusOn.image}")`}></div>}
+        <div class="mi-editor-body">
+        <div class="tags">
+          <span class="mi-editor-badge" style={`background:${CAT_COLORS[focusOn.primary_cat] || '#ff6f00'}`}>Focus On</span>
+          <span class="mi-tag" style={`color:${CAT_COLORS[focusOn.primary_cat] || '#ff6f00'}`}>{focusOn.primary_cat}</span>
+        </div>
+        <h2><a href={focusOn.headline_url || '#'} target="_blank" style="color:inherit;text-decoration:none;">{esc(focusOn.synthesis_title || focusOn.headline)}</a></h2>
+        <p class="lede">{esc(focusOn.synthesis || '')}</p>
+        {focusOn.key_points?.length > 0 && (
+          <ul class="kps">
+            {focusOn.key_points.slice(0, 3).map((kp: string) => <li>{esc(kp)}</li>)}
+          </ul>
+        )}
+        <div class="mi-srcbar">
+          {(focusOn.articles || []).reduce((acc: any[], a: any) => {
             if (a.domain && !acc.find((x: any) => x.domain === a.domain) && acc.length < 4) acc.push({domain: a.domain, url: a.url});
             return acc;
           }, []).map((s: any) => <a href={s.url} target="_blank" rel="noopener" class="mi-src">{s.domain}</a>)}
