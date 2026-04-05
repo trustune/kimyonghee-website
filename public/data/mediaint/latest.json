@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-05T08:46:09.183413",
+  "timestamp": "2026-04-05T09:22:25.305978",
   "name": "MediaINT",
   "subtitle": "Media Intelligence Terminal",
   "clusters": [
@@ -14,7 +14,7 @@
         "북미 5일 $1.885억, 개봉 첫날(수) $3,450만으로 4월 역대 최고 기록",
         "2026년 북미 누적 $20억 돌파, 전년 동기 대비 약 30% 성장 견인"
       ],
-      "image": "",
+      "image": "https://image.tmdb.org/t/p/w500/knaXOBDBecVBWZVup3zXaOoy23v.jpg",
       "article_count": 38,
       "score": 99,
       "primary_cat": "Film/Cinema",
@@ -75,7 +75,7 @@
         "넷플릭스 1,840만 동시접속, 소셜 26.2억건, 3월 방한 관광객 200만명 역대 최고",
         "산업연관표 생산유발계수 2.17(전 산업 1.85 상회), 유통 3.10·교통 2.62·방송 2.12"
       ],
-      "image": "",
+      "image": "https://dnm.nflximg.net/api/v6/BvVbc2Wxr2w6QuoANoSpJKEIWjQ/AAAAQaefV-1USGIxOOstlJzpNR3fB6kQnglV7qVpXI85GkbZbWqaInafomENEfJ6Eq6wJG_6FuSTYyEziFYZn8uHRY1lVgieQmyLIaCHhStj_A8bLfqefzIjoDhnZLyQjPvud2WZ6bZ_QTUmyfzHGAeP1xd0.jpg?r=d10",
       "article_count": 5,
       "score": 98,
       "primary_cat": "K-Content",
@@ -116,10 +116,10 @@
       ]
     },
     {
-      "entity": "🔍 FOCUS ON: 英 Ofcom Tier 1 VOD 규제 4/1 발효…��플릭스·디즈니+ 방송 수준 규제 시대",
-      "headline": "🔍 FOCUS ON: 英 Ofcom Tier 1 VOD 규제 4/1 발효…��플릭스·디즈니+ 방송 수준 규제 시대",
+      "entity": "FOCUS ON: 영국 Ofcom Tier 1 VOD 규제 4/1 발효, 넷플릭스-디즈니+ 방송 수준 규제 시대",
+      "headline": "FOCUS ON: 영국 Ofcom Tier 1 VOD 규제 4/1 발효, 넷플릭스-디즈니+ 방송 수준 규제 시대",
       "headline_url": "https://variety.com/2026/tv/global/netflix-streamers-uk-ofcom-enhanced-regulation-investigation-1236671023/",
-      "synthesis_title": "🔍 FOCUS ON: 英 Ofcom Tier 1 VOD 규제 4/1 발효…��플릭스·디즈니+ 방송 수준 규제 시대",
+      "synthesis_title": "FOCUS ON: 영국 Ofcom Tier 1 VOD 규제 4/1 발효, 넷플릭스-디즈니+ 방송 수준 규제 시대",
       "synthesis": "4월 1일 영국 미디어법(Media Act 2024)에 따른 Tier 1 VOD 규제��� 공식 발효되었다. 월간 50만 사용자 이상의 스트리밍 플랫폼이 대상으로, Netflix, Amazon Prime Video, Disney+, ITVX 등 20개 이상의 서비스가 포함된다. 핵심은 지상파 방송에 준하는 콘텐츠 기준 코드(정확성·공정성·유해 콘텐츠 보호) 적용과 접근성 의무(자막 80%, 오디오 설명 10%, 수어 5%)이다. 위반 시 최대 25만 파운드(약 4.5억원) 또는 매출의 5% 과징금이 부과된다. Ofcom은 발효 후 대상 서비스를 확정하고 1년간 기준 코드를 마련할 예정이다. OTT가 역사적으로 자율 규제 영역이었던 만큼, 방송 수준 규제가 적용되는 글로벌 최초 사례로서 EU·한국 등의 OTT 규제 논의에도 영향을 미칠 전망이다.",
       "key_points": [
         "4/1 발효, 월 50만 사용자 이상 스트리밍 플랫폼(20+개) 대상 Tier 1 ��정",
@@ -187,7 +187,7 @@
         "넷플릭스 WBD 인수 철수 후 위약금 $28억 확보, 프랜차이즈 IP 확보 전략 재편",
         "합병 완료 시 CBS Sports-TNT Sports 통합 및 Paramount+-HBO Max 통합 추진"
       ],
-      "image": "",
+      "image": "https://media-cldnry.s-nbcnews.com/image/upload/t_social_share_1024x768_scale,f_auto,q_auto:best/rockcms/2025-09/250904-paramount-studios-ew-315p-532e5d.jpg",
       "article_count": 30,
       "score": 96,
       "primary_cat": "Media Business",
@@ -248,7 +248,7 @@
         "슈퍼 마리오 갤럭시 무비 개봉 주에도 북미 2위 유지, 비프랜차이즈 이례적 롱런",
         "CNBC '아마존 MGM이 기다려온 극장 배급 입증 사례' 평가"
       ],
-      "image": "",
+      "image": "https://editorial.rottentomatoes.com/wp-content/uploads/2026/03/Project_Hail_Mary_BO2-Rep.jpg",
       "article_count": 25,
       "score": 95,
       "primary_cat": "Film/Cinema",
@@ -309,7 +309,7 @@
         "시즌1 프리미어 전 시즌2 선 발표, 디즈니+ 장기 시리즈 전략 본격화",
         "샘 위트워(마울), 와그너 모우라, 리처드 아요아데 출연의 전 10화 구성"
       ],
-      "image": "",
+      "image": "https://static0.colliderimages.com/wordpress/wp-content/uploads/2025/11/starwars-logo.jpg",
       "article_count": 18,
       "score": 94,
       "primary_cat": "OTT/Streaming",
@@ -370,7 +370,7 @@
         "시즌1 사채업 → 시즌2 글로벌 언더그라운드 복싱 리그로 스케일업",
         "4월 퍼펙트 크라운(IU·변우석), 유미의 세포들3 등 K-드라마 대형 라인업"
       ],
-      "image": "",
+      "image": "https://dnm.nflximg.net/api/v6/BvVbc2Wxr2w6QuoANoSpJKEIWjQ/AAAAQYmZRhG71Psre0_IkEQgZQ8yH2-DMxWOevCbZTnlwqiUITejgDR1iygyLGaRKrIGgpQu2GkVeqeMIaY3wVn9EY6pdAhQBvng025_GuGL-vjffglvh7mSq22vc0TyKmssnMrKuGHqk3pq7yS798wbwKzp.jpg?r=29d",
       "article_count": 15,
       "score": 93,
       "primary_cat": "K-Content",
@@ -431,7 +431,7 @@
         "디렉TV 반독점 소송 + 8개 주 법무장관 별도 소송, FCC 39% 가구도달 상한 면제 논란",
         "합병 후 259개 방송국으로 미국 TV 가구 80% 도달, 로컬 TV 최대 그룹 탄생"
       ],
-      "image": "",
+      "image": "https://static0.srcdn.com/wordpress/wp-content/uploads/2026/04/zendaya-and-robert-pattinson-smiling-at-the-rome-premiere-of-the-drama.jpg",
       "article_count": 14,
       "score": 92,
       "primary_cat": "Media Business",
