@@ -37,7 +37,11 @@ DB_CONFIG = {
 }
 
 GDELT_API = "https://api.gdeltproject.org/api/v2/doc/doc"
-TMDB_TOKEN = CFG.get('tmdb', {}).get('token', '')
+_tmdb_token_cfg = CFG.get('tmdb', {}).get('token', '')
+# Load from env if placeholder or empty
+if not _tmdb_token_cfg or _tmdb_token_cfg.startswith('${'):
+    _tmdb_token_cfg = os.environ.get('TMDB_TOKEN', '')
+TMDB_TOKEN = _tmdb_token_cfg
 TMDB_LANG = CFG.get('tmdb', {}).get('language', 'ko-KR')
 
 # ── Category mapping ──

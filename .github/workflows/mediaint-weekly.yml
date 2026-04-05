@@ -29,17 +29,21 @@ jobs:
 
     - name: Run collection on server
       uses: appleboy/ssh-action@v1.0.3
+      env:
+        TMDB_TOKEN: ${{ secrets.TMDB_TOKEN }}
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         port: 2222
+        envs: TMDB_TOKEN
         script: |
           cd /home/projects/kimyonghee-website
           git pull origin main
 
           # Run collector
           export PG_HOST=localhost PG_PORT=5432 PG_DATABASE=mediaint_db PG_USER=postgres
+          export TMDB_TOKEN="$TMDB_TOKEN"
           python3 scripts/collect_mediaint.py \
             --source all \
             --timespan 168h \

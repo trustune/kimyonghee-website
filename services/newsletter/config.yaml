@@ -106,7 +106,8 @@ tmdb:
   language: "ko-KR"
   region: "KR"
   # TMDb API 토큰 (무료 발급: https://www.themoviedb.org/settings/api)
-  token: "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxODk1M2NiODhmN2I2ZmM0MmU2NzcyNzFlNjU0YmJlMiIsIm5iZiI6MTc0OTY0NTYwNi4xOTUwMDAyLCJzdWIiOiI2ODQ5NzkyNjg3ZGUxYzBmZDhkZTdkNmYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.3h3NSE9Wo82zyAaxS4Sih3YqVAvEpJhxKoc7C1b-e6k"
+  # 서버 환경변수 TMDB_TOKEN 에서 로드
+  token: "${TMDB_TOKEN}"
 
 # 출력 설정
 output:
