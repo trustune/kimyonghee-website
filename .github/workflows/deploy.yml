@@ -32,6 +32,8 @@ jobs:
         port: 2222
         script: |
           cd /home/projects/kimyonghee-website
+          git checkout -- .
+          git clean -fd
           git pull origin main
           npm install
           npm run build
