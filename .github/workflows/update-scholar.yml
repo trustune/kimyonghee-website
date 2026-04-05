@@ -2,8 +2,8 @@
 
 on:
   schedule:
-    # Daily 12:00 KST (03:00 UTC)
-    - cron: '0 3 * * *'
+    # Weekly on Sunday 12:00 KST (03:00 UTC)
+    - cron: '0 3 * * 0'
   workflow_dispatch:
 
 permissions:
@@ -35,12 +35,14 @@ jobs:
           pip install scholarly
 
       - name: Run Scholar update script
+        id: scholar_update
+        continue-on-error: true
         run: |
           python scripts/update_scholar_data.py
         env:
           PYTHONIOENCODING: utf-8
           SCHOLAR_AUTHOR_ID: semkeskAAAAJ
-          SCHOLAR_MAX_RETRIES: '3'
+          SCHOLAR_MAX_RETRIES: '1'
           SCHOLAR_RETRY_DELAY_SECONDS: '20'
           SCHOLAR_REQUEST_DELAY_SECONDS: '2'
 
