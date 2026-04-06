@@ -128,12 +128,6 @@ header p{opacity:.85;font-size:1.05rem;margin-top:4px}
 </head>
 <body>
 
-<div id="load-overlay" style="position:fixed;inset:0;background:rgba(255,255,255,.95);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
-  <div style="width:48px;height:48px;border:4px solid #e2e8f0;border-top-color:#2563eb;border-radius:50%;animation:spin 1s linear infinite"></div>
-  <div style="font-size:1.1rem;font-weight:700;color:#1e293b" id="load-text">동행복권에서 실제 로또 데이터를 불러오는 중...</div>
-  <div style="font-size:.85rem;color:#64748b" id="load-sub">1회차부터 최신 회차까지 전체 당첨번호를 가져옵니다</div>
-</div>
-<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
 <header>
   <h1>로또로 배우는 확률론과 데이터 사이언스</h1>
@@ -698,7 +692,6 @@ function resetBattle2(){['bt-markov','bt-random','bt-diff'].forEach(id=>document
 initFreqGrid();updateFreqChart();initLLN();buildNumSelect();
 document.getElementById('banner-part2').style.display='none';
 genData(500);
-document.getElementById('load-overlay').style.display='none';
 </script>
 
 <footer style="text-align:center;padding:24px;color:#64748b;font-size:.85rem;border-top:1px solid #e2e8f0;margin-top:32px">
