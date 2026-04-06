@@ -697,7 +697,8 @@ function resetBattle2(){['bt-markov','bt-random','bt-diff'].forEach(id=>document
 // ==================== INIT ====================
 initFreqGrid();updateFreqChart();initLLN();buildNumSelect();
 document.getElementById('banner-part2').style.display='none';
-autoLoadData();
+genData(500);
+document.getElementById('load-overlay').style.display='none';
 </script>
 
 <footer style="text-align:center;padding:24px;color:#64748b;font-size:.85rem;border-top:1px solid #e2e8f0;margin-top:32px">
