@@ -110,6 +110,13 @@ header p{opacity:.85;font-size:1.05rem;margin-top:4px}
 </head>
 <body>
 
+<div id="load-overlay" style="position:fixed;inset:0;background:rgba(255,255,255,.95);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+  <div style="width:48px;height:48px;border:4px solid #e2e8f0;border-top-color:#2563eb;border-radius:50%;animation:spin 1s linear infinite"></div>
+  <div style="font-size:1.1rem;font-weight:700;color:#1e293b" id="load-text">동행복권에서 실제 로또 데이터를 불러오는 중...</div>
+  <div style="font-size:.85rem;color:#64748b" id="load-sub">1회차부터 최신 회차까지 전체 당첨번호를 가져옵니다</div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
 <header>
   <h1>로또로 배우는 확률론과 데이터 사이언스</h1>
   <p>확률 기초부터 가설 검증까지 — 로또 6/45로 체험하는 데이터 사이언스 전체 워크플로우</p>
@@ -642,9 +649,12 @@ function resetBattle1(){['hot','cold','pattern','random'].forEach(k=>{document.g
 // ==================== PART II: SHARED DATA ====================
 let draws=[],dataSource='sim';
 function genData(n=500){draws=[];for(let i=0;i<n;i++)draws.push(rng(6,45));dataSource='sim';updateDataUI();}
-function updateDataUI(){const b=document.getElementById('data-badge');b.textContent=dataSource==='sim'?`시뮬레이션 (${draws.length}회 랜덤 추첨)`:`실제 로또 데이터 (${draws.length}회)`;b.className='badge '+(dataSource==='sim'?'badge-sim':'badge-real');document.getElementById('d-total').textContent=draws.length;const tr=Math.floor(draws.length*.8);document.getElementById('d-train').textContent=tr;document.getElementById('d-test').textContent=draws.length-tr;const tb=document.getElementById('data-tbody');tb.innerHTML='';const show=[...draws.slice(0,5),null,...draws.slice(-5)];show.forEach((d,i)=>{if(!d){tb.insertAdjacentHTML('beforeend','<tr><td colspan="7" style="color:var(--g600)">...</td></tr>');return;}const idx=i<5?i+1:draws.length-4+(i-6);tb.insertAdjacentHTML('beforeend',`<tr><td>${idx}</td>${d.map(n=>`<td><span class="mini-ball ${ballClass(n)}">${n}</span></td>`).join('')}</tr>`);});}
+function updateDataUI(){const b=document.getElementById('data-badge');b.textContent=dataSource==='sim'?`시뮬레이션 (${draws.length}회 랜덤 추첨)`:`실제 로또 데이터 (1회~${draws.length}회차)`;b.className='badge '+(dataSource==='sim'?'badge-sim':'badge-real');document.getElementById('d-total').textContent=draws.length;const tr=Math.floor(draws.length*.8);document.getElementById('d-train').textContent=tr;document.getElementById('d-test').textContent=draws.length-tr;const tb=document.getElementById('data-tbody');tb.innerHTML='';const show=[...draws.slice(0,5),null,...draws.slice(-5)];show.forEach((d,i)=>{if(!d){tb.insertAdjacentHTML('beforeend','<tr><td colspan="7" style="color:var(--g600)">...</td></tr>');return;}const idx=i<5?i+1:draws.length-4+(i-6);tb.insertAdjacentHTML('beforeend',`<tr><td>${idx}</td>${d.map(n=>`<td><span class="mini-ball ${ballClass(n)}">${n}</span></td>`).join('')}</tr>`);});}
 function regenData(){genData(500);}
-async function loadReal(){const msg=document.getElementById('loading-msg');msg.style.display='block';try{let latest=1170;for(let t=1175;t>=1160;t--){try{const r=await fetch(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${t}`);const d=await r.json();if(d.returnValue==='success'){latest=d.drwNo;break;}}catch(e){}}const count=200,start=Math.max(1,latest-count+1),promises=[];for(let i=start;i<=latest;i++)promises.push(fetch(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${i}`).then(r=>r.json()));const results=await Promise.all(promises);const valid=results.filter(d=>d.returnValue==='success').map(d=>[d.drwtNo1,d.drwtNo2,d.drwtNo3,d.drwtNo4,d.drwtNo5,d.drwtNo6].sort((a,b)=>a-b));if(valid.length>50){draws=valid;dataSource='real';updateDataUI();msg.style.display='none';return;}}catch(e){}msg.style.display='none';alert('실제 데이터 로딩 실패 (CORS 제한). 시뮬레이션 데이터를 사용합니다.\n\n팁: 웹 서버에서 호스팅하면 실제 데���터를 불러올 수 있습니다.');}
+async function findLatestDraw(){const tries=[];for(let i=1250;i>=1100;i-=10)tries.push(i);const res=await Promise.allSettled(tries.map(n=>fetch(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${n}`).then(r=>r.json()).then(d=>d.returnValue==='success'?d.drwNo:null)));const valid=res.filter(r=>r.status==='fulfilled'&&r.value).map(r=>r.value);if(!valid.length)return null;let best=Math.max(...valid);const refine=[];for(let i=best+1;i<=best+10;i++)refine.push(i);const r2=await Promise.allSettled(refine.map(n=>fetch(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${n}`).then(r=>r.json()).then(d=>d.returnValue==='success'?d.drwNo:null)));r2.forEach(r=>{if(r.status==='fulfilled'&&r.value&&r.value>best)best=r.value;});return best;}
+async function loadReal(showAlert=true){const msg=document.getElementById('loading-msg');if(msg)msg.style.display='block';const lt=document.getElementById('load-text');try{const latest=await findLatestDraw();if(!latest)throw new Error('x');const all=[];const bs=50;for(let s=1;s<=latest;s+=bs){const e=Math.min(s+bs-1,latest),pr=[];for(let i=s;i<=e;i++)pr.push(fetch(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${i}`).then(r=>r.json()).catch(()=>null));const batch=await Promise.all(pr);all.push(...batch);if(lt)lt.textContent=`실제 데이터 로딩 중... (${Math.min(e,latest)}/${latest}회차)`;}const valid=all.filter(d=>d&&d.returnValue==='success').sort((a,b)=>a.drwNo-b.drwNo).map(d=>[d.drwtNo1,d.drwtNo2,d.drwtNo3,d.drwtNo4,d.drwtNo5,d.drwtNo6].sort((a,b)=>a-b));if(valid.length>50){draws=valid;dataSource='real';updateDataUI();if(msg)msg.style.display='none';return true;}}catch(e){}if(msg)msg.style.display='none';if(showAlert)alert('실제 데이터 로딩 실패.
+kimyonghee.com/lotto 에서 접속하면 실제 데이터가 자동 로딩됩니다.');return false;}
+async function autoLoadData(){const overlay=document.getElementById('load-overlay');const ok=await loadReal(false);if(!ok){const lt=document.getElementById('load-text'),ls=document.getElementById('load-sub');if(lt)lt.textContent='API 연결 실�� - 시뮬레이션 데이터로 시작합니다';if(ls)ls.textContent='kimyonghee.com/lotto 에서 접속하면 실제 데이터가 자동 로딩됩니다';genData(500);await new Promise(r=>setTimeout(r,1500));}if(overlay)overlay.style.display='none';}
 
 // ==================== TAB 6: CONDITIONAL ====================
 let condChart=null,explorerChart=null;
@@ -667,8 +677,9 @@ async function runBattle2(){const split=Math.floor(draws.length*.8),train=draws.
 function resetBattle2(){['bt-markov','bt-random','bt-diff'].forEach(id=>document.getElementById(id).textContent='-');document.getElementById('bt-stats').style.display='none';document.getElementById('perm-card').style.display='none';document.getElementById('bt-pb').style.display='none';if(permChart){permChart.destroy();permChart=null;}}
 
 // ==================== INIT ====================
-initFreqGrid();updateFreqChart();initLLN();genData(500);buildNumSelect();
+initFreqGrid();updateFreqChart();initLLN();buildNumSelect();
 document.getElementById('banner-part2').style.display='none';
+autoLoadData();
 </script>
 
 <footer style="text-align:center;padding:24px;color:#64748b;font-size:.85rem;border-top:1px solid #e2e8f0;margin-top:32px">
