@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>로또로 배우는 확률��과 데이터 사이언스</title>
+<title>로또로 배우는 확률론과 데이터 사이언스</title>
 <meta name="description" content="로또 6/45를 통해 확률, 독립시행, 큰 수의 법칙, 마르코프 체인, 가설 검증을 체험하는 인터랙티브 교육 도구">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@latest/Paperlogyfont.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -133,7 +133,7 @@ header p{opacity:.85;font-size:1.05rem;margin-top:4px}
   <button class="tab-btn" onclick="showTab(4)">5. 가설 전환</button>
   <button class="tab-btn" onclick="showTab(5)">6. 조건부 확률</button>
   <button class="tab-btn" onclick="showTab(6)">7. 자기상관</button>
-  <button class="tab-btn" onclick="showTab(7)">8. 마르코��� 대결</button>
+  <button class="tab-btn" onclick="showTab(7)">8. 마르코프 대결</button>
   <button class="tab-btn" onclick="showTab(8)">9. 최종 결론</button>
 </nav>
 
@@ -201,7 +201,7 @@ header p{opacity:.85;font-size:1.05rem;margin-top:4px}
     </div>
     <div class="explain">
       <strong>놀라운 사실:</strong> 벼락에 맞을 확률이 로또 1등보다 8배나 높습니다!
-      우리가 벼락 걱정을 거의 안 하는 것처럼, 로또 1등 당첨도 사실상 일어나�� 않는 사건이라고 볼 수 있습니다.
+      우리가 벼락 걱정을 거의 안 하는 것처럼, 로또 1등 당첨도 사실상 일어나지 않는 사건이라고 볼 수 있습니다.
     </div>
     <h3>매주 1장씩 산다면?</h3>
     <div class="stat-row">
@@ -214,7 +214,7 @@ header p{opacity:.85;font-size:1.05rem;margin-top:4px}
 <!-- TAB 2 -->
 <div id="tab-1" class="tc">
   <div class="card">
-    <h2>번호별 출�� 빈도 분석</h2>
+    <h2>번호별 출현 빈도 분석</h2>
     <div class="explain">
       <strong>이 실험의 목적:</strong> "특정 번호가 더 잘 나올까?"를 확인하는 것입니다.<br><br>
       주사위를 6번 던진다고 1부터 6이 한 번씩 나오지는 않습니다.
@@ -468,9 +468,9 @@ header p{opacity:.85;font-size:1.05rem;margin-top:4px}
     </div>
   </div>
   <div class="card" id="all-acf-card" style="display:none">
-    <h2>전체 45��� 번호 Ljung-Box 검정 결과</h2>
+    <h2>전체 45개 번호 Ljung-Box 검정 결과</h2>
     <div class="explain">
-      <strong>다중검정 문제:</strong> 45개 번호를 동시에 검정하면, 우연히 2~3개가 "유의하다"고 나올 수 있���니다 (45 x 0.05 = 2.25).
+      <strong>다중검정 문제:</strong> 45개 번호를 동시에 검정하면, 우연히 2~3개가 "유의하다"고 나올 수 있습니다 (45 x 0.05 = 2.25).
       이것은 진짜 패턴이 아니라 <strong>통계적 노이즈</strong>입니다. 시험을 100번 보면 5번 정도는 찍어서 맞추는 것처럼요!
     </div>
     <div class="stat-row">
@@ -525,7 +525,7 @@ header p{opacity:.85;font-size:1.05rem;margin-top:4px}
     <div class="chart-box" style="height:300px"><canvas id="perm-chart"></canvas></div>
     <div class="explain">
       <strong>히스토그램 보는 법:</strong> 파란 막대들은 500번 셔플한 모델들의 성능 분포입니다.
-      빨간 막대는 원��(시간 순서를 유지한) 모델의 성능 위치입니다.
+      빨간 막대는 원래(시간 순서를 유지한) 모델의 성능 위치입니다.
       빨간 막대가 파란 분포 한가운데에 있으면 → 원래 모델이 셔플 모델과 다를 바 없음 → 패턴 없음!
     </div>
     <div class="stat-row">
@@ -543,7 +543,7 @@ header p{opacity:.85;font-size:1.05rem;margin-top:4px}
     <h2>우리가 한 것: 데이터 사이언스 전체 워크플로우</h2>
     <div class="explain">
       축하합니다! 여러분은 방금 데이터 사이언스의 핵심 과정을 처음부터 끝까지 경험했습니다.
-      아래 8단계가 바로 전문 데이터 과학자들이 실제로 하는 일의 흐��입니다.
+      아래 8단계가 바로 전문 데이터 과학자들이 실제로 하는 일의 흐름입니다.
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0">
       <div style="background:var(--primary-light);padding:16px;border-radius:var(--radius);text-align:center"><div style="font-size:1.8rem;font-weight:800">1</div><strong>확률 계산</strong><br><span style="font-size:.82rem">경우의 수, 기대값</span></div>
@@ -651,16 +651,16 @@ let draws=[],dataSource='sim';
 function genData(n=500){draws=[];for(let i=0;i<n;i++)draws.push(rng(6,45));dataSource='sim';updateDataUI();}
 function updateDataUI(){const b=document.getElementById('data-badge');b.textContent=dataSource==='sim'?`시뮬레이션 (${draws.length}회 랜덤 추첨)`:`실제 로또 데이터 (1회~${draws.length}회차)`;b.className='badge '+(dataSource==='sim'?'badge-sim':'badge-real');document.getElementById('d-total').textContent=draws.length;const tr=Math.floor(draws.length*.8);document.getElementById('d-train').textContent=tr;document.getElementById('d-test').textContent=draws.length-tr;const tb=document.getElementById('data-tbody');tb.innerHTML='';const show=[...draws.slice(0,5),null,...draws.slice(-5)];show.forEach((d,i)=>{if(!d){tb.insertAdjacentHTML('beforeend','<tr><td colspan="7" style="color:var(--g600)">...</td></tr>');return;}const idx=i<5?i+1:draws.length-4+(i-6);tb.insertAdjacentHTML('beforeend',`<tr><td>${idx}</td>${d.map(n=>`<td><span class="mini-ball ${ballClass(n)}">${n}</span></td>`).join('')}</tr>`);});}
 function regenData(){genData(500);}
-async function findLatestDraw(){const tries=[];for(let i=1250;i>=1100;i-=10)tries.push(i);const res=await Promise.allSettled(tries.map(n=>fetch(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${n}`).then(r=>r.json()).then(d=>d.returnValue==='success'?d.drwNo:null)));const valid=res.filter(r=>r.status==='fulfilled'&&r.value).map(r=>r.value);if(!valid.length)return null;let best=Math.max(...valid);const refine=[];for(let i=best+1;i<=best+10;i++)refine.push(i);const r2=await Promise.allSettled(refine.map(n=>fetch(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${n}`).then(r=>r.json()).then(d=>d.returnValue==='success'?d.drwNo:null)));r2.forEach(r=>{if(r.status==='fulfilled'&&r.value&&r.value>best)best=r.value;});return best;}
-async function loadReal(showAlert=true){const msg=document.getElementById('loading-msg');if(msg)msg.style.display='block';const lt=document.getElementById('load-text');try{const latest=await findLatestDraw();if(!latest)throw new Error('x');const all=[];const bs=50;for(let s=1;s<=latest;s+=bs){const e=Math.min(s+bs-1,latest),pr=[];for(let i=s;i<=e;i++)pr.push(fetch(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${i}`).then(r=>r.json()).catch(()=>null));const batch=await Promise.all(pr);all.push(...batch);if(lt)lt.textContent=`실제 데이터 로딩 중... (${Math.min(e,latest)}/${latest}회차)`;}const valid=all.filter(d=>d&&d.returnValue==='success').sort((a,b)=>a.drwNo-b.drwNo).map(d=>[d.drwtNo1,d.drwtNo2,d.drwtNo3,d.drwtNo4,d.drwtNo5,d.drwtNo6].sort((a,b)=>a-b));if(valid.length>50){draws=valid;dataSource='real';updateDataUI();if(msg)msg.style.display='none';return true;}}catch(e){}if(msg)msg.style.display='none';if(showAlert)alert('실제 데이터 로딩 실패.
+async function findLatestDraw(){const tries=[];for(let i=1250;i>=1100;i-=10)tries.push(i);const res=await Promise.allSettled(tries.map(n=>fetch(`/api/lotto?method=getLottoNumber&drwNo=${n}`).then(r=>r.json()).then(d=>d.returnValue==='success'?d.drwNo:null)));const valid=res.filter(r=>r.status==='fulfilled'&&r.value).map(r=>r.value);if(!valid.length)return null;let best=Math.max(...valid);const refine=[];for(let i=best+1;i<=best+10;i++)refine.push(i);const r2=await Promise.allSettled(refine.map(n=>fetch(`/api/lotto?method=getLottoNumber&drwNo=${n}`).then(r=>r.json()).then(d=>d.returnValue==='success'?d.drwNo:null)));r2.forEach(r=>{if(r.status==='fulfilled'&&r.value&&r.value>best)best=r.value;});return best;}
+async function loadReal(showAlert=true){const msg=document.getElementById('loading-msg');if(msg)msg.style.display='block';const lt=document.getElementById('load-text');try{const latest=await findLatestDraw();if(!latest)throw new Error('x');const all=[];const bs=50;for(let s=1;s<=latest;s+=bs){const e=Math.min(s+bs-1,latest),pr=[];for(let i=s;i<=e;i++)pr.push(fetch(`/api/lotto?method=getLottoNumber&drwNo=${i}`).then(r=>r.json()).catch(()=>null));const batch=await Promise.all(pr);all.push(...batch);if(lt)lt.textContent=`실제 데이터 로딩 중... (${Math.min(e,latest)}/${latest}회차)`;}const valid=all.filter(d=>d&&d.returnValue==='success').sort((a,b)=>a.drwNo-b.drwNo).map(d=>[d.drwtNo1,d.drwtNo2,d.drwtNo3,d.drwtNo4,d.drwtNo5,d.drwtNo6].sort((a,b)=>a-b));if(valid.length>50){draws=valid;dataSource='real';updateDataUI();if(msg)msg.style.display='none';return true;}}catch(e){}if(msg)msg.style.display='none';if(showAlert)alert('실제 데이터 로딩 실패.
 kimyonghee.com/lotto 에서 접속하면 실제 데이터가 자동 로딩됩니다.');return false;}
-async function autoLoadData(){const overlay=document.getElementById('load-overlay');const ok=await loadReal(false);if(!ok){const lt=document.getElementById('load-text'),ls=document.getElementById('load-sub');if(lt)lt.textContent='API 연결 실�� - 시뮬레이션 데이터로 시작합니다';if(ls)ls.textContent='kimyonghee.com/lotto 에서 접속하면 실제 데이터가 자동 로딩됩니다';genData(500);await new Promise(r=>setTimeout(r,1500));}if(overlay)overlay.style.display='none';}
+async function autoLoadData(){const overlay=document.getElementById('load-overlay');const ok=await loadReal(false);if(!ok){const lt=document.getElementById('load-text'),ls=document.getElementById('load-sub');if(lt)lt.textContent='API 연결 실패 - 시뮬레이션 데이터로 시작합니다';if(ls)ls.textContent='kimyonghee.com/lotto 에서 접속하면 실제 데이터가 자동 로딩됩니다';genData(500);await new Promise(r=>setTimeout(r,1500));}if(overlay)overlay.style.display='none';}
 
 // ==================== TAB 6: CONDITIONAL ====================
 let condChart=null,explorerChart=null;
 function buildNumSelect(){const c=document.getElementById('num-select');for(let i=1;i<=45;i++){const b=document.createElement('button');b.className='num-btn';b.textContent=i;b.onclick=()=>{c.querySelectorAll('.num-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');runExplorer(i);};c.appendChild(b);}}
 function runConditional(){const res=[];for(let n=1;n<=MAX;n++){let ah=0,hc=0,ac=0,cc=0;for(let t=1;t<draws.length;t++){const ip=draws[t-1].includes(n),ic=draws[t].includes(n);if(ip){hc++;if(ic)ah++;}else{cc++;if(ic)ac++;}}res.push({n,hot:hc?ah/hc:0,cold:cc?ac/cc:0,marginal:draws.reduce((a,d)=>a+(d.includes(n)?1:0),0)/draws.length});}if(condChart)condChart.destroy();condChart=new Chart(document.getElementById('cond-chart'),{type:'scatter',data:{datasets:[{label:'Hot: P(n|n 나옴)',data:res.map(r=>({x:r.marginal*100,y:r.hot*100})),backgroundColor:'rgba(239,68,68,.7)',pointRadius:6},{label:'Cold: P(n|n 안나옴)',data:res.map(r=>({x:r.marginal*100,y:r.cold*100})),backgroundColor:'rgba(37,99,235,.7)',pointRadius:6,pointStyle:'rectRot'},{label:'독립선 (y=x)',data:[{x:8,y:8},{x:18,y:18}],type:'line',borderColor:'#000',borderDash:[6,4],borderWidth:2,pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:{callbacks:{label:ctx=>`번호 ${res[ctx.dataIndex]?.n}: ${ctx.parsed.y.toFixed(1)}%`}}},scales:{x:{title:{display:true,text:'무조건부 출현율 (%)'},min:6,max:22},y:{title:{display:true,text:'조건부 출현율 (%)'},min:6,max:22}}}});const avgH=(res.reduce((a,r)=>a+r.hot,0)/MAX*100).toFixed(2),avgC=(res.reduce((a,r)=>a+r.cold,0)/MAX*100).toFixed(2),diff=Math.abs(avgH-avgC).toFixed(2);document.getElementById('cond-hot').textContent=avgH+'%';document.getElementById('cond-cold').textContent=avgC+'%';document.getElementById('cond-diff').textContent=diff+'%p';document.getElementById('cond-diff').style.color=diff<1?'var(--success)':'var(--danger)';document.getElementById('cond-stats').style.display='';const ins=document.getElementById('cond-insight');ins.style.display='';ins.innerHTML=diff<2?`<strong>결과:</strong> Hot과 Cold의 차이가 <strong>${diff}%p</strong>로 매우 작습니다. 산점도에서 점들이 대각선 주위에 고르게 분포합니다. → <strong>종속성 증거 없음!</strong>`:`<strong>결과:</strong> 차이가 ${diff}%p이지만, 이는 표본 변동(우연)으로 설명 가능합니다. "새로 생성" 버튼을 눌러 데이터를 바꿔보면 매번 다른 값이 나옵니다.`;}
-function runExplorer(num){const counts=new Array(MAX).fill(0);let total=0;for(let t=0;t<draws.length-1;t++){if(draws[t].includes(num)){total++;draws[t+1].forEach(n=>counts[n-1]++);}}const freq=counts.map(c=>total?c/total*100:0);if(explorerChart)explorerChart.destroy();explorerChart=new Chart(document.getElementById('explorer-chart'),{type:'bar',data:{labels:Array.from({length:MAX},(_,i)=>i+1),datasets:[{label:`��호 ${num} 다음 회차 출현율 (%)`,data:freq,backgroundColor:Array.from({length:MAX},(_,i)=>ballColor(i+1)),borderRadius:2},{label:'이론값 (13.33%)',data:new Array(MAX).fill(THEO*100),type:'line',borderColor:'#000',borderDash:[6,4],borderWidth:2,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,title:{display:true,text:'출현율 (%)'}},x:{title:{display:true,text:'번호'}}}}});const ins=document.getElementById('explorer-insight');ins.style.display='';const sorted=freq.map((f,i)=>({n:i+1,f})).sort((a,b)=>b.f-a.f);ins.innerHTML=`<strong>번호 ${num}</strong>이 나온 뒤 가장 많이 나온 번호: <strong>${sorted.slice(0,5).map(x=>`${x.n}(${x.f.toFixed(1)}%)`).join(', ')}</strong><br>하지만 이론값(13.33%)과 크게 다르지 않습니다. 표본 크기(${total}회)가 작아서 변동이 클 뿐입니다.`;}
+function runExplorer(num){const counts=new Array(MAX).fill(0);let total=0;for(let t=0;t<draws.length-1;t++){if(draws[t].includes(num)){total++;draws[t+1].forEach(n=>counts[n-1]++);}}const freq=counts.map(c=>total?c/total*100:0);if(explorerChart)explorerChart.destroy();explorerChart=new Chart(document.getElementById('explorer-chart'),{type:'bar',data:{labels:Array.from({length:MAX},(_,i)=>i+1),datasets:[{label:`번호 ${num} 다음 회차 출현율 (%)`,data:freq,backgroundColor:Array.from({length:MAX},(_,i)=>ballColor(i+1)),borderRadius:2},{label:'이론값 (13.33%)',data:new Array(MAX).fill(THEO*100),type:'line',borderColor:'#000',borderDash:[6,4],borderWidth:2,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,title:{display:true,text:'출현율 (%)'}},x:{title:{display:true,text:'번호'}}}}});const ins=document.getElementById('explorer-insight');ins.style.display='';const sorted=freq.map((f,i)=>({n:i+1,f})).sort((a,b)=>b.f-a.f);ins.innerHTML=`<strong>번호 ${num}</strong>이 나온 뒤 가장 많이 나온 번호: <strong>${sorted.slice(0,5).map(x=>`${x.n}(${x.f.toFixed(1)}%)`).join(', ')}</strong><br>하지만 이론값(13.33%)과 크게 다르지 않습니다. 표본 크기(${total}회)가 작아서 변동이 클 뿐입니다.`;}
 
 // ==================== TAB 7: ACF ====================
 let acfChart=null,allAcfChart=null;

@@ -54,4 +54,11 @@ jobs:
             echo "✅ Nginx subscribe proxy configured"
           fi
 
+          # Nginx reverse proxy for /api/lotto -> dhlottery.co.kr (CORS bypass)
+          if [ -n "$NGINX_CONF" ] && ! grep -q "nginx-lotto-proxy" "$NGINX_CONF" 2>/dev/null; then
+            sed -i '/server_name.*kimyonghee/a\    include /home/projects/kimyonghee-website/services/lotto/nginx-lotto-proxy.conf;' "$NGINX_CONF"
+            nginx -t && systemctl reload nginx
+            echo "✅ Nginx lotto proxy configured"
+          fi
+
           echo "✅ Deployment completed at $(date)"
