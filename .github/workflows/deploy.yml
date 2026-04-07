@@ -61,4 +61,20 @@ jobs:
             echo "✅ Nginx lotto proxy configured"
           fi
 
+          # Diagnose and fix nginx
+          echo "=== Nginx config test ==="
+          nginx -t 2>&1 || true
+
+          echo "=== Check web root ==="
+          ls -la /var/www/kimyonghee.com/public/ | head -20
+          ls -la /var/www/kimyonghee.com/public/textbook/ 2>/dev/null | head -5
+
+          echo "=== Nginx site config ==="
+          NGINX_CONF=$(find /etc/nginx -name "kimyonghee*" -type f 2>/dev/null | head -1)
+          echo "Config file: $NGINX_CONF"
+          cat "$NGINX_CONF" 2>/dev/null || true
+
+          echo "=== Reload nginx ==="
+          systemctl reload nginx 2>&1 || systemctl restart nginx 2>&1 || true
+
           echo "✅ Deployment completed at $(date)"
