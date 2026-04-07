@@ -1,0 +1,14 @@
+---
+interface Props {
+  id: string;
+  height?: string;
+  class?: string;
+}
+const { id, height, class: className } = Astro.props;
+---
+<div
+  class={`tb-chart-box ${className || ''}`}
+  style={height ? `height: ${height}` : undefined}
+>
+  <canvas id={id}></canvas>
+</div>

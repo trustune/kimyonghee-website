@@ -1,0 +1,159 @@
+---
+/**
+ * TEXTBOOK CHAPTER TEMPLATE
+ * =========================
+ * Copy this file to create a new chapter:
+ *   cp _template.astro XX-chapter-slug.astro
+ *
+ * Then:
+ * 1. Update the TextbookLayout props below
+ * 2. Add the chapter to src/data/textbook-chapters.json
+ * 3. Write your content using the components below
+ * 4. Add interactive JS in the <script> block at the bottom
+ */
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+
+// Content box components
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+
+// Interactive components
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="챕터 제목을 여기에"
+  subtitle="부제목을 여기에"
+  chapterNum={0}
+  part={0}
+>
+  <!-- ========== ACT 1: HOOK ========== -->
+  <div class="tb-card">
+    <h2>이야기로 시작하기</h2>
+    <p>
+      여기에 실제 비즈니스 스토리나 도발적 질문을 넣습니다.
+      수식이나 전문 용어 없이, 호기심만 자극하세요.
+    </p>
+  </div>
+
+  <!-- ========== ACT 2: SANDBOX ========== -->
+  <div class="tb-card">
+    <h2>직접 해보기</h2>
+
+    <ExplainBox>
+      아래 슬라이더를 움직여서 변화를 관찰해보세요.
+    </ExplainBox>
+
+    <SimControls>
+      <label>횟수:</label>
+      <select id="sim-count">
+        <option value="100">100회</option>
+        <option value="500">500회</option>
+        <option value="1000" selected>1,000회</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" onclick="runSimulation()">실행</button>
+      <button class="tb-btn tb-btn-danger" onclick="resetSimulation()">초기화</button>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="결과 A" id="stat-a" />
+      <StatBox label="결과 B" id="stat-b" />
+      <StatBox label="차이" id="stat-diff" sub="설명 텍스트" />
+    </div>
+
+    <ChartContainer id="main-chart" />
+
+    <InsightBox>
+      <strong>발견!</strong> 시뮬레이션 결과에서 나타난 패턴을 설명합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ========== ACT 3: CONCEPT ========== -->
+  <div class="tb-card">
+    <h2>개념 이해하기</h2>
+
+    <p>여기에 공식적인 이론 설명을 넣습니다.</p>
+
+    <FormulaBox>
+      P(A) = <span class="hl">유리한 경우의 수</span> / 전체 경우의 수 = <span class="res">0.5</span>
+    </FormulaBox>
+
+    <ExplainBox title="쉽게 말하면">
+      수식을 일상 언어로 풀어서 설명합니다.
+      경영학 전공 학생이 바로 이해할 수 있도록 비유를 사용하세요.
+    </ExplainBox>
+
+    <WarningBox title="주의">
+      흔히 범하는 실수나 오해를 경고합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ========== ACT 4: CHALLENGE ========== -->
+  <div class="tb-card">
+    <h2>연습 문제</h2>
+
+    <ExerciseBox title="직접 확인해보세요">
+      시뮬레이션 파라미터를 바꿔서 결과를 예측해보세요.
+      예측이 맞았나요?
+    </ExerciseBox>
+
+    <BusinessBox title="비즈니스 적용">
+      이 개념이 실제 비즈니스에서 어떻게 활용되는지 사례를 보여줍니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ========== ACT 5: BRIDGE ========== -->
+  <ConclusionBox title="핵심 정리">
+    <ul>
+      <li>핵심 포인트 1</li>
+      <li>핵심 포인트 2</li>
+      <li>핵심 포인트 3</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 다음 장에서는 이 개념을 확장하여...
+    </p>
+  </ConclusionBox>
+</TextbookLayout>
+
+<script>
+  // ==================== CHAPTER-SPECIFIC JAVASCRIPT ====================
+  // Import shared utilities as needed:
+  // import { mean, stdDev, chiSquaredTest } from '../../textbook/lib/stats';
+  // import { sampleWithoutReplacement } from '../../textbook/lib/random';
+  // import { PALETTE, defaultChartOptions } from '../../textbook/lib/chart-helpers';
+
+  // Mark this chapter as visited
+  import { markVisited } from '../../textbook/lib/progress';
+  markVisited('XX-chapter-slug');  // Change to this chapter's slug
+
+  // Load Chart.js dynamically
+  async function initCharts() {
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+    Chart.register(...registerables);
+
+    // Initialize your charts here
+  }
+
+  // Simulation functions (referenced by onclick handlers above)
+  function runSimulation() {
+    // Implement simulation logic
+  }
+
+  function resetSimulation() {
+    // Reset state and charts
+  }
+
+  // Make functions available to inline onclick handlers
+  (window as any).runSimulation = runSimulation;
+  (window as any).resetSimulation = resetSimulation;
+
+  // Initialize
+  initCharts();
+</script>

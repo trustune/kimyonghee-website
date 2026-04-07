@@ -1,0 +1,18 @@
+---
+interface Props {
+  label: string;
+  value?: string;
+  sub?: string;
+  id?: string;
+  borderColor?: string;
+}
+const { label, value = '-', sub, id, borderColor } = Astro.props;
+---
+<div
+  class="tb-stat-box"
+  style={borderColor ? `border-top: 3px solid ${borderColor}` : undefined}
+>
+  <div class="label">{label}</div>
+  <div class="value" id={id}>{value}</div>
+  {sub && <div class="sub" id={id ? `${id}-label` : undefined}>{sub}</div>}
+</div>

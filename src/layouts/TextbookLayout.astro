@@ -1,0 +1,72 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ChapterNav from '../components/textbook/ChapterNav.astro';
+import chaptersData from '../data/textbook-chapters.json';
+import '../styles/textbook.css';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  chapterNum: number;
+  part: number;
+  description?: string;
+  image?: string;
+  /** Set to true to hide the default header (for custom headers) */
+  noHeader?: boolean;
+  /** Set to true to hide the bottom chapter navigation */
+  noNav?: boolean;
+}
+
+const {
+  title,
+  subtitle,
+  chapterNum,
+  part,
+  description,
+  image,
+  noHeader = false,
+  noNav = false,
+} = Astro.props;
+
+const chapters = chaptersData.chapters;
+const currentIdx = chapters.findIndex(c => c.num === chapterNum);
+const prevChapter = currentIdx > 0 ? chapters[currentIdx - 1] : null;
+const nextChapter = currentIdx < chapters.length - 1 ? chapters[currentIdx + 1] : null;
+const partInfo = chaptersData.parts.find(p => p.id === part);
+---
+
+<BaseLayout
+  title={`${chapterNum}장. ${title}`}
+  description={description || subtitle || title}
+  image={image}
+>
+  <div class="textbook-page" data-part={part} data-pagefind-body>
+    {!noHeader && (
+      <header class="tb-header" style={`background: linear-gradient(135deg, ${partInfo?.color || '#2563eb'}, var(--tb-purple))`}>
+        <div class="tb-chapter-num">
+          PART {part} &middot; {chapterNum}장
+        </div>
+        <h1>{title}</h1>
+        {subtitle && <p>{subtitle}</p>}
+      </header>
+    )}
+
+    <div class="tb-container">
+      <slot />
+
+      {!noNav && (
+        <ChapterNav
+          prev={prevChapter ? { slug: prevChapter.slug, num: prevChapter.num, title: prevChapter.title } : undefined}
+          next={nextChapter ? { slug: nextChapter.slug, num: nextChapter.num, title: nextChapter.title } : undefined}
+        />
+      )}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Override BaseLayout's container constraint for wider textbook content */
+  .textbook-page :global(.site-main) {
+    max-width: none;
+  }
+</style>

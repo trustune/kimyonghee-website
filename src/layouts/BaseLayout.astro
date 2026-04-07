@@ -123,6 +123,11 @@ const currentPath = Astro.url.pathname;
             aria-current={currentPath.startsWith('/teaching') || currentPath.startsWith('/courses') ? 'page' : undefined}
           >Teaching</a>
           <a
+            href="/textbook"
+            class={currentPath.startsWith('/textbook') ? 'active' : ''}
+            aria-current={currentPath.startsWith('/textbook') ? 'page' : undefined}
+          >Textbook</a>
+          <a
             href="/mediaint"
             class={currentPath.startsWith('/mediaint') || currentPath.startsWith('/journalint') ? 'active' : ''}
             aria-current={currentPath.startsWith('/mediaint') || currentPath.startsWith('/journalint') ? 'page' : undefined}

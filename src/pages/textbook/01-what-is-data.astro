@@ -1,0 +1,1080 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="데이터란 무엇인가?"
+  subtitle="숫자 뒤에 숨은 이야기를 읽는 법"
+  chapterNum={1}
+  part={0}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>매출이 올랐는데 왜 적자인가?</h2>
+    <p>
+      2024년, 한 중소기업 대표가 회의에서 말합니다.
+      "올해 매출이 15% 올랐습니다." 직원들이 환호합니다.
+      하지만 재무팀장이 조용히 덧붙입니다.
+      "원자재비가 40% 올랐습니다. 영업이익률은 -3%입니다."
+    </p>
+    <p style="margin-top: 12px;">
+      같은 회사, 같은 시기인데 숫자 하나에 따라 결론이 정반대가 됩니다.
+      <strong>데이터를 읽는 능력</strong>은 숫자 자체가 아니라,
+      어떤 숫자를 어떤 맥락에서 보는지에 달려 있습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 데이터의 기본 구조를 이해하고,
+      직접 데이터를 분류하고 조작하면서 "데이터 리터러시"의 첫 걸음을 뗍니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 데이터의 구조 — 행과 열 ===== -->
+  <div class="tb-card">
+    <h2>데이터의 구조: 행과 열</h2>
+    <p>
+      데이터 분석에서 가장 먼저 만나는 것은 <strong>표(table)</strong>입니다.
+      통계학에서는 이것을 <strong>데이터셋(dataset)</strong>이라 부릅니다.
+    </p>
+
+    <ExplainBox>
+      <strong>행(row)</strong>은 하나의 관측치(observation)입니다. 설문조사라면 응답자 한 명, 판매 데이터라면 거래 한 건.
+      <strong>열(column)</strong>은 하나의 변수(variable)입니다. 이름, 나이, 매출액 같은 측정 항목.
+    </ExplainBox>
+
+    <p style="margin: 14px 0; font-weight: 700;">아래 표를 직접 살펴보세요. 행과 열의 의미를 확인합니다.</p>
+
+    <div class="tb-data-table-wrap">
+      <table class="tb-data-table" id="sample-table">
+        <thead>
+          <tr>
+            <th>직원번호</th>
+            <th>부서</th>
+            <th>직급</th>
+            <th>근속연수</th>
+            <th>연봉(만원)</th>
+            <th>만족도(1-5)</th>
+            <th>이직의향</th>
+          </tr>
+        </thead>
+        <tbody id="sample-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="관측치 수 (행)" id="stat-rows" />
+      <StatBox label="변수 수 (열)" id="stat-cols" />
+      <StatBox label="결측값" id="stat-missing" />
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-gen-data">새 데이터 생성</button>
+      <label>직원 수:</label>
+      <select id="data-size">
+        <option value="10">10명</option>
+        <option value="30" selected>30명</option>
+        <option value="100">100명</option>
+        <option value="500">500명</option>
+      </select>
+      <label>결측률:</label>
+      <select id="missing-rate">
+        <option value="0">0%</option>
+        <option value="5" selected>5%</option>
+        <option value="15">15%</option>
+        <option value="30">30%</option>
+      </select>
+    </SimControls>
+
+    <InsightBox>
+      <strong>직접 확인:</strong>
+      직원 수와 결측률을 바꿔서 "새 데이터 생성"을 눌러보세요.
+      현실 데이터에는 항상 빈 칸(결측값)이 있습니다.
+      결측률 30%로 설정하면 분석이 얼마나 어려워지는지 체감할 수 있습니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 3: 변수의 유형 분류 실습 ===== -->
+  <div class="tb-card">
+    <h2>변수의 유형: 범주형 vs 수치형</h2>
+    <p>
+      모든 변수는 크게 두 가지로 나뉩니다.
+      이 구분을 정확히 하는 것이 올바른 분석 방법을 선택하는 출발점입니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 8px;">범주형 (Categorical)</h3>
+        <p style="font-size: .9rem;">분류나 그룹을 나타내는 변수. 숫자로 코딩해도 산술 연산이 무의미.</p>
+        <p style="font-size: .85rem; color: var(--tb-g600); margin-top: 8px;">
+          <strong>명목(Nominal):</strong> 순서 없음 — 성별, 부서, 혈액형<br>
+          <strong>서열(Ordinal):</strong> 순서 있음 — 직급, 만족도 등급, 학력
+        </p>
+      </div>
+      <div style="background: #f0fdf4; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-success); margin-bottom: 8px;">수치형 (Numerical)</h3>
+        <p style="font-size: .9rem;">크기와 거리가 의미 있는 변수. 산술 연산 가능.</p>
+        <p style="font-size: .85rem; color: var(--tb-g600); margin-top: 8px;">
+          <strong>이산(Discrete):</strong> 셀 수 있음 — 자녀 수, 불량품 수<br>
+          <strong>연속(Continuous):</strong> 측정값 — 키, 체중, 매출액, 온도
+        </p>
+      </div>
+    </div>
+
+    <ExerciseBox>
+      <strong>분류 실습:</strong>
+      위 표의 7개 변수를 직접 분류해보세요.
+      각 변수 카드를 올바른 영역으로 드래그하세요.
+    </ExerciseBox>
+
+    <div id="classify-exercise" style="margin: 14px 0;">
+      <!-- 드래그 소스 -->
+      <div id="classify-source" style="display: flex; flex-wrap: wrap; gap: 8px; padding: 14px; background: var(--tb-g100); border-radius: var(--tb-radius); min-height: 50px;">
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+        <!-- 범주형 드롭존 -->
+        <div>
+          <div style="font-weight: 700; font-size: .9rem; margin-bottom: 8px; color: var(--tb-primary);">범주형 (여기에 놓기)</div>
+          <div id="drop-categorical" class="drop-zone" style="min-height: 80px; padding: 12px; border: 2px dashed var(--tb-primary); border-radius: var(--tb-radius); display: flex; flex-wrap: wrap; gap: 6px;">
+          </div>
+        </div>
+        <!-- 수치형 드롭존 -->
+        <div>
+          <div style="font-weight: 700; font-size: .9rem; margin-bottom: 8px; color: var(--tb-success);">수치형 (여기에 놓기)</div>
+          <div id="drop-numerical" class="drop-zone" style="min-height: 80px; padding: 12px; border: 2px dashed var(--tb-success); border-radius: var(--tb-radius); display: flex; flex-wrap: wrap; gap: 6px;">
+          </div>
+        </div>
+      </div>
+
+      <SimControls>
+        <button class="tb-btn tb-btn-primary" id="btn-check-classify">정답 확인</button>
+        <button class="tb-btn tb-btn-danger" id="btn-reset-classify">다시 하기</button>
+      </SimControls>
+      <div id="classify-result" style="display: none;"></div>
+    </div>
+
+    <WarningBox>
+      <strong>흔한 함정:</strong>
+      "만족도(1-5)"는 숫자지만 <strong>서열 범주형</strong>입니다.
+      1과 2의 차이가 4와 5의 차이와 같다고 보장할 수 없기 때문입니다.
+      하지만 실무에서는 편의상 수치형으로 취급하기도 합니다 -- 이 판단이 분석 결과를 바꿀 수 있습니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 4: 측정 척도 ===== -->
+  <div class="tb-card">
+    <h2>측정 척도: 같은 숫자, 다른 의미</h2>
+    <p>
+      Stevens(1946)는 측정 척도를 네 단계로 구분했습니다.
+      각 척도에서 허용되는 연산이 다릅니다.
+    </p>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr>
+            <th>척도</th>
+            <th>특성</th>
+            <th>허용 연산</th>
+            <th>예시</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>명목</strong></td><td>분류만 가능</td><td>= , !=</td><td>성별, 부서, 우편번호</td></tr>
+          <tr><td><strong>서열</strong></td><td>순서 있음</td><td>= , != , &lt; , &gt;</td><td>직급, 학력, 만족도 등급</td></tr>
+          <tr><td><strong>등간</strong></td><td>간격 동일</td><td>+ , - (차이 의미)</td><td>온도(섭씨), 연도, IQ</td></tr>
+          <tr><td><strong>비율</strong></td><td>절대 영점</td><td>x , / (비율 의미)</td><td>키, 무게, 매출액, 나이</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ExerciseBox>
+      <strong>척도 퀴즈:</strong>
+      아래 변수들의 측정 척도를 맞춰보세요. 변수를 클릭하면 선택지가 나타납니다.
+    </ExerciseBox>
+
+    <div id="scale-quiz" style="margin: 14px 0;"></div>
+
+    <div class="tb-stat-row" id="quiz-score" style="display: none;">
+      <StatBox label="정답" id="quiz-correct" borderColor="var(--tb-success)" />
+      <StatBox label="오답" id="quiz-wrong" borderColor="var(--tb-danger)" />
+      <StatBox label="정답률" id="quiz-rate" />
+    </div>
+
+    <ExplainBox>
+      <strong>왜 중요한가:</strong>
+      명목 척도 변수에 평균을 구하면 무의미한 숫자가 나옵니다.
+      "부서 코드 평균 = 2.3"은 아무 의미가 없습니다.
+      하지만 현실에서 이런 실수가 빈번합니다.
+      올바른 분석법은 변수의 척도에서 출발합니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 5: 데이터 시각화 첫걸음 ===== -->
+  <div class="tb-card">
+    <h2>데이터를 눈으로 보기: 변수 유형별 시각화</h2>
+    <p>
+      변수의 유형에 따라 적절한 그래프가 다릅니다.
+      아래에서 변수를 선택하면 자동으로 적합한 차트가 그려집니다.
+    </p>
+
+    <SimControls>
+      <label>변수 선택:</label>
+      <select id="viz-variable">
+        <option value="dept">부서 (명목)</option>
+        <option value="rank">직급 (서열)</option>
+        <option value="years">근속연수 (비율)</option>
+        <option value="salary">연봉 (비율)</option>
+        <option value="satisfaction">만족도 (서열)</option>
+        <option value="turnover">이직의향 (명목)</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-viz">차트 그리기</button>
+    </SimControls>
+
+    <div id="viz-type-label" style="font-size: .85rem; color: var(--tb-g600); margin: 8px 0;"></div>
+    <ChartContainer id="viz-chart" />
+
+    <div class="tb-stat-row" id="viz-stats" style="display: none;">
+      <StatBox label="관측치" id="viz-n" />
+      <StatBox label="대표값" id="viz-center" sub="평균 또는 최빈값" />
+      <StatBox label="퍼짐" id="viz-spread" sub="표준편차 또는 범주 수" />
+    </div>
+
+    <InsightBox>
+      <strong>패턴 읽기:</strong>
+      범주형 변수(부서, 이직의향)에는 막대 그래프가,
+      수치형 변수(연봉, 근속연수)에는 히스토그램이 자동으로 선택됩니다.
+      서열 변수(직급, 만족도)는 순서가 보존된 막대 그래프로 표현됩니다.
+      변수를 바꿔가며 분포의 모양을 비교해보세요.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 6: 두 변수의 관계 맛보기 ===== -->
+  <div class="tb-card">
+    <h2>두 변수를 동시에 보기</h2>
+    <p>
+      하나의 변수만 보면 놓치는 이야기가 있습니다.
+      두 변수를 동시에 놓고 보면 관계(relationship)가 드러납니다.
+    </p>
+
+    <SimControls>
+      <label>X축:</label>
+      <select id="scatter-x">
+        <option value="years">근속연수</option>
+        <option value="salary" selected>연봉</option>
+      </select>
+      <label>Y축:</label>
+      <select id="scatter-y">
+        <option value="years" selected>근속연수</option>
+        <option value="salary">연봉</option>
+        <option value="satisfaction">만족도</option>
+      </select>
+      <label>색상 구분:</label>
+      <select id="scatter-color">
+        <option value="none">없음</option>
+        <option value="dept">부서별</option>
+        <option value="turnover" selected>이직의향별</option>
+        <option value="rank">직급별</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-scatter">산점도 그리기</button>
+    </SimControls>
+
+    <ChartContainer id="scatter-chart" />
+
+    <div class="tb-stat-row" id="scatter-stats" style="display: none;">
+      <StatBox label="상관계수 (r)" id="scatter-r" sub="수치형끼리만 계산" />
+      <StatBox label="데이터 수" id="scatter-n" />
+    </div>
+
+    <BusinessBox>
+      <strong>비즈니스 질문:</strong>
+      "연봉이 높은 직원이 덜 이직하는가?" --
+      이직의향별로 색을 구분한 산점도를 보세요.
+      이런 질문에 답하려면 단순 평균 비교가 아니라 데이터의 분포 전체를 봐야 합니다.
+      이것이 통계를 배우는 이유입니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 7: 데이터 품질 실습 ===== -->
+  <div class="tb-card">
+    <h2>데이터 품질: 쓰레기가 들어가면 쓰레기가 나온다</h2>
+    <p>
+      현실의 데이터에는 결측값, 이상치, 입력 오류가 항상 존재합니다.
+      "Garbage In, Garbage Out" -- 아무리 정교한 분석 기법도 나쁜 데이터 앞에서는 무력합니다.
+    </p>
+
+    <ExplainBox>
+      <strong>결측값(Missing Value):</strong> 비어 있는 칸. 설문 무응답, 시스템 오류, 수집 실패 등.<br>
+      <strong>이상치(Outlier):</strong> 나머지 데이터와 극단적으로 다른 값. 입력 오류일 수도, 진짜 특이한 사례일 수도.<br>
+      <strong>입력 오류:</strong> "연봉 5000만원"을 "50000만원"으로 잘못 입력한 경우.
+    </ExplainBox>
+
+    <p style="margin: 14px 0; font-weight: 700;">
+      아래 데이터에 의도적으로 문제를 심었습니다. 몇 개를 찾을 수 있나요?
+    </p>
+
+    <div class="tb-data-table-wrap">
+      <table class="tb-data-table" id="dirty-table">
+        <thead>
+          <tr>
+            <th>직원</th>
+            <th>부서</th>
+            <th>근속연수</th>
+            <th>연봉(만원)</th>
+            <th>만족도</th>
+            <th>이직의향</th>
+          </tr>
+        </thead>
+        <tbody id="dirty-tbody"></tbody>
+      </table>
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-find-issues">문제점 찾기 (정답 보기)</button>
+      <button class="tb-btn tb-btn-danger" id="btn-new-dirty">새 문제 데이터 생성</button>
+    </SimControls>
+
+    <div id="dirty-result" style="display: none;"></div>
+
+    <div class="tb-stat-row" id="dirty-stats" style="display: none;">
+      <StatBox label="결측값" id="dirty-missing" borderColor="var(--tb-warning)" />
+      <StatBox label="이상치" id="dirty-outliers" borderColor="var(--tb-danger)" />
+      <StatBox label="입력 오류" id="dirty-errors" borderColor="var(--tb-purple)" />
+    </div>
+  </div>
+
+  <!-- ===== SECTION 8: 기술통계 한눈에 ===== -->
+  <div class="tb-card">
+    <h2>종합 실습: 기술통계 요약 생성기</h2>
+    <p>
+      현재 생성된 데이터의 기술통계를 자동으로 요약합니다.
+      데이터를 다시 생성(첫 번째 섹션)하면 여기도 자동으로 갱신됩니다.
+    </p>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-summary">기술통계 생성</button>
+    </SimControls>
+
+    <div id="summary-output" style="display: none;">
+      <h3>수치형 변수 요약</h3>
+      <div class="tb-data-table-wrap" style="max-height: none;">
+        <table class="tb-data-table" id="summary-numeric">
+          <thead>
+            <tr><th>변수</th><th>N</th><th>결측</th><th>평균</th><th>중앙값</th><th>표준편차</th><th>최소</th><th>최대</th></tr>
+          </thead>
+          <tbody id="summary-numeric-body"></tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top: 18px;">범주형 변수 요약</h3>
+      <div class="tb-data-table-wrap" style="max-height: none;">
+        <table class="tb-data-table" id="summary-categorical">
+          <thead>
+            <tr><th>변수</th><th>N</th><th>결측</th><th>범주 수</th><th>최빈값</th><th>최빈값 비율</th></tr>
+          </thead>
+          <tbody id="summary-cat-body"></tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top: 18px;">전체 변수 분포</h3>
+      <ChartContainer id="summary-chart" height="400px" />
+    </div>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>데이터는 행(관측치)과 열(변수)로 이루어진 표이다.</li>
+      <li>변수는 범주형(명목/서열)과 수치형(이산/연속)으로 나뉜다.</li>
+      <li>측정 척도(명목-서열-등간-비율)에 따라 허용되는 분석이 달라진다.</li>
+      <li>변수 유형에 맞는 시각화를 선택해야 패턴이 보인다.</li>
+      <li>현실 데이터에는 결측값, 이상치, 오류가 항상 존재하며, 분석 전에 반드시 확인해야 한다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 데이터의 구조를 이해했으니,
+      다음은 이 교과서 전체의 로드맵을 살펴봅니다.
+      기초 통계에서 머신러닝, 딥러닝까지 어떤 여정이 기다리고 있는지 한눈에 확인합니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== DATA GENERATION ====================
+const DEPTS = ['영업', '마케팅', '인사', 'IT', '재무'];
+const RANKS = ['사원', '주임', '대리', '과장', '차장', '부장'];
+const TURNOVER = ['있음', '없음'];
+
+let currentData = [];
+
+function generateData() {
+  const n = parseInt(document.getElementById('data-size').value);
+  const missingRate = parseInt(document.getElementById('missing-rate').value) / 100;
+  const data = [];
+
+  for (let i = 0; i < n; i++) {
+    const years = Math.max(0, Math.round(Math.random() * 20 + Math.random() * 5));
+    const rankIdx = Math.min(RANKS.length - 1, Math.floor(years / 4));
+    const baseSalary = 2800 + rankIdx * 800 + Math.round((Math.random() - 0.5) * 1200);
+    const satisfaction = Math.min(5, Math.max(1, Math.round(3 + (Math.random() - 0.5) * 3)));
+    const turnoverProb = satisfaction <= 2 ? 0.6 : satisfaction <= 3 ? 0.3 : 0.1;
+
+    const row = {
+      id: 1000 + i + 1,
+      dept: DEPTS[Math.floor(Math.random() * DEPTS.length)],
+      rank: RANKS[Math.min(rankIdx + Math.floor(Math.random() * 2), RANKS.length - 1)],
+      years: years,
+      salary: baseSalary,
+      satisfaction: satisfaction,
+      turnover: Math.random() < turnoverProb ? '있음' : '없음',
+    };
+
+    // Apply missing values
+    if (missingRate > 0) {
+      const fields = ['dept', 'rank', 'years', 'salary', 'satisfaction', 'turnover'];
+      fields.forEach(f => {
+        if (Math.random() < missingRate) row[f] = null;
+      });
+    }
+
+    data.push(row);
+  }
+
+  currentData = data;
+  return data;
+}
+
+// ==================== TABLE RENDERING ====================
+function renderTable(data, tbodyId, maxRows = 15) {
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  const show = data.length <= maxRows ? data :
+    [...data.slice(0, 7), null, ...data.slice(-7)];
+
+  show.forEach((row, i) => {
+    if (!row) {
+      tbody.insertAdjacentHTML('beforeend',
+        '<tr><td colspan="7" style="color:var(--tb-g600);font-style:italic">... (중략) ...</td></tr>');
+      return;
+    }
+    const cell = v => v === null || v === undefined
+      ? '<td style="background:#fef2f2;color:var(--tb-danger);font-style:italic">결측</td>'
+      : `<td>${typeof v === 'number' ? v.toLocaleString() : v}</td>`;
+
+    tbody.insertAdjacentHTML('beforeend', `<tr>
+      ${cell(row.id)}${cell(row.dept)}${cell(row.rank)}
+      ${cell(row.years)}${cell(row.salary)}${cell(row.satisfaction)}${cell(row.turnover)}
+    </tr>`);
+  });
+}
+
+function updateStats() {
+  document.getElementById('stat-rows').textContent = currentData.length;
+  document.getElementById('stat-cols').textContent = '7';
+  let missing = 0;
+  currentData.forEach(r => {
+    ['dept','rank','years','salary','satisfaction','turnover'].forEach(f => {
+      if (r[f] === null || r[f] === undefined) missing++;
+    });
+  });
+  document.getElementById('stat-missing').textContent = missing;
+}
+
+// ==================== CLASSIFY EXERCISE ====================
+const VARIABLES = [
+  { name: '직원번호', type: 'categorical', detail: '명목' },
+  { name: '부서', type: 'categorical', detail: '명목' },
+  { name: '직급', type: 'categorical', detail: '서열' },
+  { name: '근속연수', type: 'numerical', detail: '비율' },
+  { name: '연봉', type: 'numerical', detail: '비율' },
+  { name: '만족도(1-5)', type: 'categorical', detail: '서열' },
+  { name: '이직의향', type: 'categorical', detail: '명목' },
+];
+
+function initClassifyExercise() {
+  const source = document.getElementById('classify-source');
+  source.innerHTML = '';
+  document.getElementById('drop-categorical').innerHTML = '';
+  document.getElementById('drop-numerical').innerHTML = '';
+  document.getElementById('classify-result').style.display = 'none';
+
+  // Shuffle
+  const shuffled = [...VARIABLES].sort(() => Math.random() - 0.5);
+  shuffled.forEach(v => {
+    const chip = document.createElement('div');
+    chip.className = 'var-chip';
+    chip.textContent = v.name;
+    chip.draggable = true;
+    chip.dataset.name = v.name;
+    chip.dataset.type = v.type;
+    chip.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', v.name);
+    });
+    // Touch support: click to move
+    chip.addEventListener('click', () => {
+      const parent = chip.parentElement;
+      if (parent.id === 'classify-source') {
+        document.getElementById('drop-categorical').appendChild(chip);
+      } else if (parent.id === 'drop-categorical') {
+        document.getElementById('drop-numerical').appendChild(chip);
+      } else {
+        document.getElementById('classify-source').appendChild(chip);
+      }
+    });
+    source.appendChild(chip);
+  });
+}
+
+function checkClassify() {
+  const catZone = document.getElementById('drop-categorical');
+  const numZone = document.getElementById('drop-numerical');
+  let correct = 0, total = VARIABLES.length;
+
+  [catZone, numZone].forEach(zone => {
+    zone.querySelectorAll('.var-chip').forEach(chip => {
+      const expected = VARIABLES.find(v => v.name === chip.dataset.name);
+      const isCorrect = (zone.id === 'drop-categorical' && expected.type === 'categorical') ||
+                        (zone.id === 'drop-numerical' && expected.type === 'numerical');
+      chip.style.background = isCorrect ? '#dcfce7' : '#fee2e2';
+      chip.style.borderColor = isCorrect ? 'var(--tb-success)' : 'var(--tb-danger)';
+      if (isCorrect) correct++;
+    });
+  });
+
+  const unplaced = document.getElementById('classify-source').querySelectorAll('.var-chip').length;
+  const resultDiv = document.getElementById('classify-result');
+  resultDiv.style.display = '';
+
+  if (unplaced > 0) {
+    resultDiv.innerHTML = `<div class="tb-warning-box"><strong>${unplaced}개 변수</strong>가 아직 분류되지 않았습니다. 모두 드래그(또는 클릭)해주세요.</div>`;
+  } else if (correct === total) {
+    resultDiv.innerHTML = `<div class="tb-insight"><strong>정답입니다!</strong> 7개 변수를 모두 올바르게 분류했습니다. 특히 "만족도(1-5)"를 범주형으로 분류한 것이 중요합니다.</div>`;
+  } else {
+    resultDiv.innerHTML = `<div class="tb-warning-box"><strong>${correct}/${total} 정답.</strong> 빨간색 칩을 확인하세요. 클릭하면 위치가 이동합니다.</div>`;
+  }
+}
+
+// Drop zone handlers
+function setupDropZones() {
+  ['drop-categorical', 'drop-numerical', 'classify-source'].forEach(id => {
+    const zone = document.getElementById(id);
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.background = '#f0f9ff'; });
+    zone.addEventListener('dragleave', () => { zone.style.background = ''; });
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.style.background = '';
+      const name = e.dataTransfer.getData('text/plain');
+      const chip = document.querySelector(`.var-chip[data-name="${name}"]`);
+      if (chip) zone.appendChild(chip);
+    });
+  });
+}
+
+// ==================== SCALE QUIZ ====================
+const SCALE_QUESTIONS = [
+  { variable: '우편번호', answer: '명목', hint: '숫자지만 크기 비교가 무의미' },
+  { variable: '군대 계급', answer: '서열', hint: '순서는 있지만 간격이 동일하지 않음' },
+  { variable: '섭씨 온도', answer: '등간', hint: '0도가 "온도 없음"을 뜻하지 않음' },
+  { variable: '연매출(억원)', answer: '비율', hint: '0원은 진짜 매출 없음. 비율 비교 가능' },
+  { variable: '학점(A/B/C/D/F)', answer: '서열', hint: 'A > B이지만 차이가 균일하지 않음' },
+  { variable: '체중(kg)', answer: '비율', hint: '0kg = 무게 없음. 80kg은 40kg의 2배' },
+  { variable: '출생연도', answer: '등간', hint: '연도 0은 "시간 없음"이 아님' },
+  { variable: '제품 카테고리', answer: '명목', hint: '전자제품, 식품, 의류 — 순서 없음' },
+  { variable: '고객 만족도 별점(1-5)', answer: '서열', hint: '순서는 있지만 3점과 4점의 차이 = 1점과 2점의 차이?' },
+  { variable: '월 소득(만원)', answer: '비율', hint: '절대 영점 존재. 비율 비교 가능' },
+];
+
+function initScaleQuiz() {
+  const container = document.getElementById('scale-quiz');
+  container.innerHTML = '';
+  const shuffled = [...SCALE_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 8);
+
+  shuffled.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--tb-g200)';
+    div.innerHTML = `
+      <span style="min-width:160px;font-weight:600">${q.variable}</span>
+      <select class="scale-select" data-answer="${q.answer}" data-idx="${i}" style="padding:6px 10px;border:2px solid var(--tb-g300);border-radius:8px;font-size:.9rem;font-family:var(--tb-font)">
+        <option value="">선택하세요</option>
+        <option value="명목">명목</option>
+        <option value="서열">서열</option>
+        <option value="등간">등간</option>
+        <option value="비율">비율</option>
+      </select>
+      <span class="scale-feedback" data-idx="${i}" style="font-size:.85rem;min-width:200px"></span>
+    `;
+    container.appendChild(div);
+  });
+
+  // Auto-check on change
+  container.querySelectorAll('.scale-select').forEach(sel => {
+    sel.addEventListener('change', () => {
+      const fb = container.querySelector(`.scale-feedback[data-idx="${sel.dataset.idx}"]`);
+      const q = shuffled[parseInt(sel.dataset.idx)];
+      if (sel.value === q.answer) {
+        sel.style.borderColor = 'var(--tb-success)';
+        fb.textContent = '-- 정답';
+        fb.style.color = 'var(--tb-success)';
+      } else if (sel.value) {
+        sel.style.borderColor = 'var(--tb-danger)';
+        fb.textContent = q.hint;
+        fb.style.color = 'var(--tb-danger)';
+      }
+      updateQuizScore();
+    });
+  });
+}
+
+function updateQuizScore() {
+  const selects = document.querySelectorAll('.scale-select');
+  let correct = 0, wrong = 0;
+  selects.forEach(s => {
+    if (!s.value) return;
+    if (s.value === s.dataset.answer) correct++;
+    else wrong++;
+  });
+  if (correct + wrong === 0) return;
+
+  document.getElementById('quiz-score').style.display = '';
+  document.getElementById('quiz-correct').textContent = correct;
+  document.getElementById('quiz-wrong').textContent = wrong;
+  document.getElementById('quiz-rate').textContent =
+    Math.round(correct / (correct + wrong) * 100) + '%';
+}
+
+// ==================== VISUALIZATION ====================
+let vizChart = null;
+
+async function initVizChart() {
+  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  Chart.register(...registerables);
+  return Chart;
+}
+
+let ChartJS = null;
+
+async function drawViz() {
+  if (!ChartJS) ChartJS = await initVizChart();
+
+  const varName = document.getElementById('viz-variable').value;
+  const canvas = document.getElementById('viz-chart');
+  if (vizChart) { vizChart.destroy(); vizChart = null; }
+
+  const valid = currentData.filter(r => r[varName] !== null && r[varName] !== undefined);
+  const n = valid.length;
+
+  let config;
+
+  if (['dept', 'rank', 'turnover', 'satisfaction'].includes(varName)) {
+    // Categorical: bar chart
+    const counts = {};
+    let order;
+    if (varName === 'rank') order = RANKS;
+    else if (varName === 'satisfaction') order = ['1','2','3','4','5'];
+    else order = null;
+
+    valid.forEach(r => {
+      const k = String(r[varName]);
+      counts[k] = (counts[k] || 0) + 1;
+    });
+
+    const labels = order ? order.filter(k => counts[k]) : Object.keys(counts).sort();
+    const data = labels.map(k => counts[k] || 0);
+    const colors = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899','#64748b'];
+
+    document.getElementById('viz-type-label').textContent =
+      `범주형 변수 → 막대 그래프 (${varName === 'rank' || varName === 'satisfaction' ? '서열 순서 보존' : '명목'})`;
+
+    config = {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: '빈도',
+          data,
+          backgroundColor: labels.map((_, i) => colors[i % colors.length]),
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: '빈도' } },
+          x: { title: { display: true, text: varName } }
+        }
+      }
+    };
+
+    const mode = labels.reduce((a, k) => counts[k] > (counts[a]||0) ? k : a, labels[0]);
+    document.getElementById('viz-center').textContent = mode;
+    document.getElementById('viz-spread').textContent = labels.length + '개 범주';
+    document.getElementById('viz-center').parentElement.querySelector('.sub').textContent = '최빈값';
+    document.getElementById('viz-spread').parentElement.querySelector('.sub').textContent = '범주 수';
+
+  } else {
+    // Numerical: histogram
+    const values = valid.map(r => r[varName]);
+    const min = Math.min(...values), max = Math.max(...values);
+    const bins = Math.min(20, Math.ceil(Math.sqrt(n)));
+    const binWidth = (max - min) / bins || 1;
+    const hist = new Array(bins).fill(0);
+    values.forEach(v => {
+      const idx = Math.min(bins - 1, Math.floor((v - min) / binWidth));
+      hist[idx]++;
+    });
+    const labels = hist.map((_, i) => Math.round(min + i * binWidth + binWidth/2));
+
+    document.getElementById('viz-type-label').textContent = '수치형 변수 → 히스토그램';
+
+    config = {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: '빈도',
+          data: hist,
+          backgroundColor: '#2563eb88',
+          borderColor: '#2563eb',
+          borderWidth: 1,
+          borderRadius: 2,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: '빈도' } },
+          x: { title: { display: true, text: varName === 'salary' ? '연봉(만원)' : '근속연수' } }
+        }
+      }
+    };
+
+    const avg = values.reduce((a,b) => a+b, 0) / n;
+    const sd = Math.sqrt(values.reduce((a,v) => a + (v - avg)**2, 0) / n);
+    document.getElementById('viz-center').textContent = Math.round(avg).toLocaleString();
+    document.getElementById('viz-spread').textContent = Math.round(sd).toLocaleString();
+    document.getElementById('viz-center').parentElement.querySelector('.sub').textContent = '평균';
+    document.getElementById('viz-spread').parentElement.querySelector('.sub').textContent = '표준편차';
+  }
+
+  document.getElementById('viz-n').textContent = n;
+  document.getElementById('viz-stats').style.display = '';
+  vizChart = new ChartJS(canvas, config);
+}
+
+// ==================== SCATTER PLOT ====================
+let scatterChart = null;
+
+async function drawScatter() {
+  if (!ChartJS) ChartJS = await initVizChart();
+  const canvas = document.getElementById('scatter-chart');
+  if (scatterChart) { scatterChart.destroy(); scatterChart = null; }
+
+  const xVar = document.getElementById('scatter-x').value;
+  const yVar = document.getElementById('scatter-y').value;
+  const colorVar = document.getElementById('scatter-color').value;
+
+  const valid = currentData.filter(r =>
+    r[xVar] !== null && r[yVar] !== null && r[xVar] !== undefined && r[yVar] !== undefined
+  );
+
+  const palette = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4'];
+
+  let datasets;
+  if (colorVar === 'none') {
+    datasets = [{
+      label: '전체',
+      data: valid.map(r => ({ x: r[xVar], y: r[yVar] })),
+      backgroundColor: '#2563eb88',
+      pointRadius: 5,
+    }];
+  } else {
+    const groups = {};
+    valid.forEach(r => {
+      const key = r[colorVar] === null ? '결측' : String(r[colorVar]);
+      if (!groups[key]) groups[key] = [];
+      groups[key].push({ x: r[xVar], y: r[yVar] });
+    });
+    datasets = Object.entries(groups).map(([key, data], i) => ({
+      label: key,
+      data,
+      backgroundColor: palette[i % palette.length] + '99',
+      pointRadius: 5,
+    }));
+  }
+
+  const xLabel = xVar === 'salary' ? '연봉(만원)' : xVar === 'years' ? '근속연수' : '만족도';
+  const yLabel = yVar === 'salary' ? '연봉(만원)' : yVar === 'years' ? '근속연수' : '만족도';
+
+  scatterChart = new ChartJS(canvas, {
+    type: 'scatter',
+    data: { datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { position: 'top' } },
+      scales: {
+        x: { title: { display: true, text: xLabel } },
+        y: { title: { display: true, text: yLabel } },
+      }
+    }
+  });
+
+  // Correlation (numeric only)
+  const xVals = valid.map(r => r[xVar]);
+  const yVals = valid.map(r => r[yVar]);
+  if (typeof xVals[0] === 'number' && typeof yVals[0] === 'number') {
+    const mx = xVals.reduce((a,b)=>a+b,0)/xVals.length;
+    const my = yVals.reduce((a,b)=>a+b,0)/yVals.length;
+    let num=0,dx=0,dy=0;
+    for(let i=0;i<xVals.length;i++){
+      num+=(xVals[i]-mx)*(yVals[i]-my);
+      dx+=(xVals[i]-mx)**2;
+      dy+=(yVals[i]-my)**2;
+    }
+    const r = dx&&dy ? num/Math.sqrt(dx*dy) : 0;
+    document.getElementById('scatter-r').textContent = r.toFixed(3);
+  } else {
+    document.getElementById('scatter-r').textContent = 'N/A';
+  }
+  document.getElementById('scatter-n').textContent = valid.length;
+  document.getElementById('scatter-stats').style.display = '';
+}
+
+// ==================== DIRTY DATA ====================
+let dirtyIssues = [];
+
+function generateDirtyData() {
+  dirtyIssues = [];
+  const data = [];
+  for (let i = 0; i < 12; i++) {
+    const row = {
+      id: `직원${i+1}`,
+      dept: DEPTS[Math.floor(Math.random()*DEPTS.length)],
+      years: Math.round(Math.random()*15),
+      salary: 2500 + Math.round(Math.random()*4000),
+      satisfaction: Math.min(5, Math.max(1, Math.round(3 + (Math.random()-0.5)*3))),
+      turnover: Math.random() > 0.7 ? '있음' : '없음',
+    };
+
+    // Inject issues
+    if (i === 2) { row.salary = null; dirtyIssues.push({row:i,col:'연봉',type:'결측',desc:'연봉이 비어있음'}); }
+    if (i === 4) { row.satisfaction = 8; dirtyIssues.push({row:i,col:'만족도',type:'입력오류',desc:'만족도는 1-5인데 8이 입력됨'}); }
+    if (i === 6) { row.years = -3; dirtyIssues.push({row:i,col:'근속연수',type:'입력오류',desc:'근속연수가 음수(-3)'}); }
+    if (i === 8) { row.salary = 98000; dirtyIssues.push({row:i,col:'연봉',type:'이상치',desc:'연봉 98,000만원 — 다른 직원의 20배 이상'}); }
+    if (i === 10) { row.turnover = null; dirtyIssues.push({row:i,col:'이직의향',type:'결측',desc:'이직의향이 비어있음'}); }
+    if (i === 11) { row.dept = '마케팅부'; dirtyIssues.push({row:i,col:'부서',type:'입력오류',desc:'"마케팅"이 아닌 "마케팅부" — 같은 부서인데 다른 이름'}); }
+
+    data.push(row);
+  }
+
+  const tbody = document.getElementById('dirty-tbody');
+  tbody.innerHTML = '';
+  data.forEach(r => {
+    const cell = (v, col) => {
+      if (v === null) return `<td style="background:#fef2f2;color:var(--tb-danger);font-style:italic">결측</td>`;
+      return `<td>${typeof v === 'number' ? v.toLocaleString() : v}</td>`;
+    };
+    tbody.insertAdjacentHTML('beforeend', `<tr>
+      ${cell(r.id)}${cell(r.dept)}${cell(r.years)}${cell(r.salary)}${cell(r.satisfaction)}${cell(r.turnover)}
+    </tr>`);
+  });
+
+  document.getElementById('dirty-result').style.display = 'none';
+  document.getElementById('dirty-stats').style.display = 'none';
+}
+
+function showDirtyIssues() {
+  const div = document.getElementById('dirty-result');
+  div.style.display = '';
+  const missing = dirtyIssues.filter(i => i.type === '결측').length;
+  const outliers = dirtyIssues.filter(i => i.type === '이상치').length;
+  const errors = dirtyIssues.filter(i => i.type === '입력오류').length;
+
+  div.innerHTML = `<div class="tb-explain" style="margin-top:14px;">
+    <strong>발견된 문제점 (${dirtyIssues.length}개):</strong>
+    <ul style="margin-top:8px;padding-left:20px;">
+      ${dirtyIssues.map(i =>
+        `<li><strong>${i.id || '직원'} — ${i.col}:</strong> ${i.desc} <span style="font-size:.8rem;color:var(--tb-g600)">[${i.type}]</span></li>`
+      ).join('')}
+    </ul>
+  </div>`;
+
+  document.getElementById('dirty-stats').style.display = '';
+  document.getElementById('dirty-missing').textContent = missing;
+  document.getElementById('dirty-outliers').textContent = outliers;
+  document.getElementById('dirty-errors').textContent = errors;
+}
+
+// ==================== SUMMARY GENERATOR ====================
+let summaryChart = null;
+
+async function generateSummary() {
+  if (!ChartJS) ChartJS = await initVizChart();
+  document.getElementById('summary-output').style.display = '';
+
+  // Numeric summary
+  const numVars = [
+    { key: 'years', label: '근속연수' },
+    { key: 'salary', label: '연봉(만원)' },
+  ];
+
+  const numBody = document.getElementById('summary-numeric-body');
+  numBody.innerHTML = '';
+  numVars.forEach(v => {
+    const vals = currentData.filter(r => r[v.key] !== null && r[v.key] !== undefined).map(r => r[v.key]);
+    const miss = currentData.length - vals.length;
+    if (vals.length === 0) {
+      numBody.insertAdjacentHTML('beforeend', `<tr><td>${v.label}</td><td>0</td><td>${miss}</td><td colspan="5">-</td></tr>`);
+      return;
+    }
+    const sorted = [...vals].sort((a,b) => a-b);
+    const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+    const med = sorted.length%2 ? sorted[Math.floor(sorted.length/2)] : (sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
+    const sd = Math.sqrt(vals.reduce((a,x)=>a+(x-avg)**2,0)/vals.length);
+    numBody.insertAdjacentHTML('beforeend', `<tr>
+      <td>${v.label}</td><td>${vals.length}</td><td>${miss}</td>
+      <td>${Math.round(avg).toLocaleString()}</td><td>${Math.round(med).toLocaleString()}</td>
+      <td>${Math.round(sd).toLocaleString()}</td>
+      <td>${sorted[0].toLocaleString()}</td><td>${sorted[sorted.length-1].toLocaleString()}</td>
+    </tr>`);
+  });
+
+  // Categorical summary
+  const catVars = [
+    { key: 'dept', label: '부서' },
+    { key: 'rank', label: '직급' },
+    { key: 'satisfaction', label: '만족도' },
+    { key: 'turnover', label: '이직의향' },
+  ];
+
+  const catBody = document.getElementById('summary-cat-body');
+  catBody.innerHTML = '';
+  catVars.forEach(v => {
+    const vals = currentData.filter(r => r[v.key] !== null && r[v.key] !== undefined).map(r => String(r[v.key]));
+    const miss = currentData.length - vals.length;
+    const counts = {};
+    vals.forEach(x => counts[x] = (counts[x]||0)+1);
+    const cats = Object.keys(counts);
+    const mode = cats.reduce((a,b) => counts[b]>counts[a]?b:a, cats[0]||'-');
+    catBody.insertAdjacentHTML('beforeend', `<tr>
+      <td>${v.label}</td><td>${vals.length}</td><td>${miss}</td>
+      <td>${cats.length}</td><td>${mode}</td><td>${vals.length ? Math.round(counts[mode]/vals.length*100)+'%':'-'}</td>
+    </tr>`);
+  });
+
+  // Summary chart: salary distribution
+  const canvas = document.getElementById('summary-chart');
+  if (summaryChart) { summaryChart.destroy(); summaryChart = null; }
+
+  const salaries = currentData.filter(r => r.salary !== null).map(r => r.salary);
+  if (salaries.length > 0) {
+    const min = Math.min(...salaries), max = Math.max(...salaries);
+    const bins = 15;
+    const bw = (max-min)/bins || 1;
+    const hist = new Array(bins).fill(0);
+    salaries.forEach(v => { hist[Math.min(bins-1, Math.floor((v-min)/bw))]++; });
+    const labels = hist.map((_,i) => Math.round(min+i*bw));
+
+    summaryChart = new ChartJS(canvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: '연봉 분포',
+          data: hist,
+          backgroundColor: '#2563eb66',
+          borderColor: '#2563eb',
+          borderWidth: 1,
+          borderRadius: 2,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '연봉 분포 히스토그램', font: { size: 14, family: "'Paperlogy'" } },
+        },
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: '빈도' } },
+          x: { title: { display: true, text: '연봉(만원)' } },
+        }
+      }
+    });
+  }
+}
+
+// ==================== INIT & EVENT BINDING ====================
+function init() {
+  // Mark visited
+  import('../../textbook/lib/progress').then(m => m.markVisited('01-what-is-data'));
+
+  // Generate initial data
+  generateData();
+  renderTable(currentData, 'sample-tbody');
+  updateStats();
+
+  // Init exercises
+  initClassifyExercise();
+  setupDropZones();
+  initScaleQuiz();
+  generateDirtyData();
+
+  // Event listeners
+  document.getElementById('btn-gen-data').addEventListener('click', () => {
+    generateData();
+    renderTable(currentData, 'sample-tbody');
+    updateStats();
+  });
+
+  document.getElementById('btn-check-classify').addEventListener('click', checkClassify);
+  document.getElementById('btn-reset-classify').addEventListener('click', initClassifyExercise);
+  document.getElementById('btn-viz').addEventListener('click', drawViz);
+  document.getElementById('btn-scatter').addEventListener('click', drawScatter);
+  document.getElementById('btn-find-issues').addEventListener('click', showDirtyIssues);
+  document.getElementById('btn-new-dirty').addEventListener('click', generateDirtyData);
+  document.getElementById('btn-summary').addEventListener('click', generateSummary);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .var-chip {
+    padding: 8px 16px;
+    background: #fff;
+    border: 2px solid var(--tb-g300);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: grab;
+    user-select: none;
+    transition: 0.15s;
+    font-family: var(--tb-font);
+  }
+  .var-chip:hover {
+    border-color: var(--tb-primary);
+    box-shadow: var(--tb-shadow);
+  }
+  .var-chip:active {
+    cursor: grabbing;
+  }
+
+  .drop-zone {
+    transition: background 0.15s;
+  }
+</style>
