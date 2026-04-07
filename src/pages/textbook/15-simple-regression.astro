@@ -1,0 +1,1161 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="단순선형회귀"
+  subtitle="최적의 직선 찾기"
+  chapterNum={15}
+  part={3}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>광고비를 늘리면 매출이 얼마나 오를까?</h2>
+    <p>
+      마케팅 팀장이 묻습니다. "광고비를 100만원 더 쓰면 매출이 얼마나 오르나요?"
+      이 질문에 "대략 올라갑니다"가 아니라 "약 350만원 증가합니다"라고 답하려면,
+      데이터에서 두 변수의 관계를 <strong>수학적으로 표현하는 도구</strong>가 필요합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      상관분석은 "관계가 있다/없다"를 알려주지만, <strong>얼마나 변하는지</strong>는 알려주지 않습니다.
+      회귀분석은 한 걸음 더 나아가, 관계의 크기와 방향을 하나의 직선 방정식으로 요약합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 산점도 위에 직선을 직접 그어보고, "가장 잘 맞는 직선"이 무엇인지 체험합니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 회귀의 아이디어 ===== -->
+  <div class="tb-card">
+    <h2>산점도 위의 직선: 회귀의 기본 아이디어</h2>
+    <p>
+      두 변수 X(원인)와 Y(결과)가 있을 때, 산점도를 그리면 점들이 흩어져 있습니다.
+      이 점들 사이를 관통하는 직선을 하나 그을 수 있다면,
+      "X가 1 증가하면 Y가 대략 얼마나 변하는가"를 읽어낼 수 있습니다.
+    </p>
+
+    <ExplainBox>
+      <strong>회귀 직선의 방정식:</strong>
+      Y = b0 + b1 * X. 여기서 b0은 절편(intercept)으로 X가 0일 때 Y의 예측값,
+      b1은 기울기(slope)로 X가 1 증가할 때 Y의 변화량입니다.
+      일상 비유로 말하면, b0은 "기본 매출"이고 b1은 "광고 1원당 매출 효과"입니다.
+    </ExplainBox>
+
+    <p style="margin-top: 12px;">
+      그런데 직선은 무한히 많이 그을 수 있습니다. 어떤 직선이 "가장 좋은" 직선일까요?
+      여기서 <strong>최소제곱법(OLS, Ordinary Least Squares)</strong>이 등장합니다.
+    </p>
+
+    <FormulaBox>
+      <span class="hl">SSE</span> = Sum of (yi - y-hat_i)^2 = Sum of (잔차)^2 --> <span class="res">최소화!</span>
+    </FormulaBox>
+
+    <p style="margin-top: 12px;">
+      각 데이터 점에서 직선까지의 수직 거리를 <strong>잔차(residual)</strong>라고 합니다.
+      잔차를 제곱해서 모두 더한 것이 SSE(Sum of Squared Errors).
+      OLS는 이 SSE를 가장 작게 만드는 b0, b1을 찾습니다.
+      왜 제곱할까요? 양수와 음수 잔차가 서로 상쇄되지 않게 하기 위해서입니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 3: INTERACTIVE — 드래그 회귀 직선 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 직접 직선을 그어보세요</h2>
+
+    <ExerciseBox>
+      <strong>드래그 회귀 실습:</strong>
+      아래 산점도에 광고비(X)와 매출(Y) 데이터가 있습니다.
+      슬라이더로 절편(b0)과 기울기(b1)를 조절하여 점들에 가장 잘 맞는 직선을 찾아보세요.
+      잔차의 제곱이 색칠된 정사각형으로 표시됩니다. SSE가 최소가 되도록 도전해보세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>절편 (b0):</label>
+      <input type="range" id="reg-b0" min="-200" max="800" value="300" step="10">
+      <span class="tb-speed-label" id="reg-b0-val">300</span>
+      <label>기울기 (b1):</label>
+      <input type="range" id="reg-b1" min="-5" max="15" value="3" step="0.1">
+      <span class="tb-speed-label" id="reg-b1-val">3.0</span>
+    </SimControls>
+
+    <canvas id="reg-canvas" width="800" height="500" style="width:100%; max-width:800px; display:block; margin:0 auto; border:1px solid var(--tb-g200); border-radius:var(--tb-radius); cursor:crosshair;"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="현재 SSE" id="reg-sse-user" borderColor="var(--tb-danger)" />
+      <StatBox label="최적 SSE" id="reg-sse-ols" borderColor="var(--tb-success)" />
+      <StatBox label="차이" id="reg-sse-diff" sub="작을수록 좋음" />
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-show-ols">OLS 최적 직선 보기</button>
+      <button class="tb-btn tb-btn-danger" id="btn-new-reg-data">새 데이터 생성</button>
+      <label>데이터 수:</label>
+      <select id="reg-n-select">
+        <option value="12">12개</option>
+        <option value="20" selected>20개</option>
+        <option value="40">40개</option>
+      </select>
+    </SimControls>
+
+    <InsightBox>
+      <strong>체험 포인트:</strong>
+      직접 슬라이더를 움직여보면, 기울기를 조금만 바꿔도 SSE가 크게 변하는 것을 느낄 수 있습니다.
+      OLS 최적 직선은 수학적으로 유일하게 결정되며, 어떤 다른 직선보다 SSE가 작습니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 4: 잔차 해부 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 잔차 해부하기</h2>
+    <p>
+      잔차(residual)는 실제값과 예측값의 차이입니다. 즉 "직선이 예측한 값"과 "실제 데이터"가 얼마나 벗어나 있는지를 나타냅니다.
+    </p>
+
+    <ExplainBox>
+      <strong>잔차 = 실제값(yi) - 예측값(y-hat_i)</strong><br>
+      잔차 > 0: 실제값이 직선 위에 있음 (과소예측)<br>
+      잔차 &lt; 0: 실제값이 직선 아래에 있음 (과대예측)<br>
+      잔차 = 0: 직선 위에 정확히 놓임
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>잔차 탐색:</strong>
+      아래 산점도에서 점을 클릭하면 해당 점의 잔차가 강조 표시됩니다.
+      잔차의 부호, 크기, 제곱값을 확인해보세요.
+    </ExerciseBox>
+
+    <canvas id="resid-canvas" width="800" height="450" style="width:100%; max-width:800px; display:block; margin:0 auto; border:1px solid var(--tb-g200); border-radius:var(--tb-radius); cursor:pointer;"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="선택된 점의 실제값" id="resid-actual" />
+      <StatBox label="예측값" id="resid-predicted" />
+      <StatBox label="잔차" id="resid-value" />
+      <StatBox label="잔차 제곱" id="resid-squared" />
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-show-all-resid">모든 잔차 표시</button>
+      <button class="tb-btn tb-btn-warning" id="btn-hide-resid">잔차 숨기기</button>
+    </SimControls>
+
+    <WarningBox>
+      <strong>잔차의 합은 항상 0:</strong>
+      OLS 회귀에서 잔차를 모두 더하면 정확히 0이 됩니다.
+      양수 잔차와 음수 잔차가 완벽하게 상쇄됩니다.
+      이것이 "제곱합"을 기준으로 삼는 이유 중 하나입니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 5: OLS 공식 ===== -->
+  <div class="tb-card">
+    <h2>OLS 추정량의 공식</h2>
+    <p>
+      미분을 이용하면 SSE를 최소화하는 b0, b1을 정확히 구할 수 있습니다.
+      수학적 유도 과정보다 결과의 의미를 이해하는 것이 더 중요합니다.
+    </p>
+
+    <FormulaBox>
+      <span class="hl">b1</span> = Sum[(xi - x-bar)(yi - y-bar)] / Sum[(xi - x-bar)^2]<br>
+      <span class="hl">b0</span> = y-bar - b1 * x-bar
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>공식의 의미:</strong>
+      b1(기울기)은 X와 Y의 공분산을 X의 분산으로 나눈 것입니다.
+      "X가 퍼진 만큼 Y가 함께 움직이는 정도"를 측정합니다.
+      b0(절편)은 회귀 직선이 반드시 (x-bar, y-bar), 즉 두 변수의 평균점을 지나도록 보장합니다.
+    </ExplainBox>
+
+    <BusinessBox>
+      <strong>실무 해석 예시:</strong>
+      b1 = 3.5, b0 = 200이라면 "광고비를 1만원 늘릴 때마다 매출이 약 3.5만원 증가하며,
+      광고를 전혀 하지 않아도 기본 매출 200만원이 예상된다"고 해석합니다.
+      단, 데이터 범위 밖으로 외삽(extrapolation)하면 위험합니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 6: R-squared 탐색기 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 결정계수 R-squared 탐색기</h2>
+    <p>
+      직선이 데이터를 얼마나 잘 설명하는지를 하나의 숫자로 요약한 것이
+      <strong>결정계수(R-squared)</strong>입니다.
+    </p>
+
+    <FormulaBox>
+      R-squared = 1 - (SSE / SST) = <span class="hl">설명된 변동</span> / <span class="hl">총 변동</span>
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>SST (총 변동):</strong> Y의 전체 흩어짐 = Sum(yi - y-bar)^2<br>
+      <strong>SSE (잔차 변동):</strong> 직선으로 설명 못 한 부분<br>
+      <strong>SSR (회귀 변동):</strong> 직선이 설명한 부분 = SST - SSE<br>
+      R-squared = 1이면 모든 점이 직선 위에 있고, R-squared = 0이면 직선이 전혀 설명하지 못합니다.
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>노이즈 조절 실습:</strong>
+      슬라이더로 데이터의 노이즈(산포)를 조절해보세요.
+      노이즈가 줄면 점들이 직선에 가까워지고 R-squared가 1에 가까워집니다.
+      노이즈가 커지면 점들이 흩어지고 R-squared가 0에 가까워집니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>노이즈 수준:</label>
+      <input type="range" id="r2-noise" min="0" max="100" value="30" step="5">
+      <span class="tb-speed-label" id="r2-noise-val">30</span>
+      <label>데이터 수:</label>
+      <select id="r2-n-select">
+        <option value="15">15</option>
+        <option value="30" selected>30</option>
+        <option value="60">60</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-r2-gen">생성</button>
+    </SimControls>
+
+    <canvas id="r2-canvas" width="800" height="450" style="width:100%; max-width:800px; display:block; margin:0 auto; border:1px solid var(--tb-g200); border-radius:var(--tb-radius);"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="SST (총 변동)" id="r2-sst" borderColor="var(--tb-g600)" />
+      <StatBox label="SSR (설명된 변동)" id="r2-ssr" borderColor="var(--tb-primary)" />
+      <StatBox label="SSE (잔차 변동)" id="r2-sse" borderColor="var(--tb-danger)" />
+      <StatBox label="R-squared" id="r2-value" borderColor="var(--tb-success)" />
+    </div>
+
+    <InsightBox>
+      <strong>시각적 이해:</strong>
+      차트에서 파란 영역은 회귀로 설명된 변동(SSR), 빨간 영역은 설명하지 못한 변동(SSE)입니다.
+      R-squared는 전체 변동 중 파란 영역의 비율입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 7: 가정 진단 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 회귀 가정 진단</h2>
+    <p>
+      회귀분석의 결과를 신뢰하려면, 데이터가 몇 가지 가정을 만족해야 합니다.
+      가정이 위반되면 추정치가 편향되거나 신뢰구간이 무의미해질 수 있습니다.
+    </p>
+
+    <ExplainBox>
+      <strong>회귀의 4가지 가정 (LINE):</strong><br>
+      <strong>L</strong>inearity: X와 Y의 관계가 직선적<br>
+      <strong>I</strong>ndependence: 잔차가 서로 독립<br>
+      <strong>N</strong>ormality: 잔차가 정규분포<br>
+      <strong>E</strong>qual variance: 잔차의 분산이 일정 (등분산성)
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>진단 실습:</strong>
+      아래에서 데이터 유형을 선택하면, 회귀 적합 후 4가지 진단 플롯이 그려집니다.
+      각 플롯에서 "무엇을 봐야 하는지" 가이드를 읽고, 가정 위반 여부를 판단해보세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>데이터 유형:</label>
+      <select id="diag-type">
+        <option value="good">정상 (가정 만족)</option>
+        <option value="heteroscedastic">이분산성 (등분산 위반)</option>
+        <option value="nonlinear">비선형 관계</option>
+        <option value="outliers">이상치 존재</option>
+        <option value="nonnormal">비정규 잔차</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-diag-gen">진단 플롯 생성</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+      <div>
+        <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 6px; color: var(--tb-g600);">1. 잔차 vs 적합값</div>
+        <canvas id="diag-resid-fit" width="400" height="300" style="width:100%; border:1px solid var(--tb-g200); border-radius:8px;"></canvas>
+        <div class="diag-tooltip" style="font-size: 0.82rem; color: var(--tb-g600); margin-top: 4px;">
+          패턴 없이 랜덤하게 흩어져야 정상. U자형이면 비선형, 깔때기형이면 이분산.
+        </div>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 6px; color: var(--tb-g600);">2. Q-Q 플롯 (정규성)</div>
+        <canvas id="diag-qq" width="400" height="300" style="width:100%; border:1px solid var(--tb-g200); border-radius:8px;"></canvas>
+        <div class="diag-tooltip" style="font-size: 0.82rem; color: var(--tb-g600); margin-top: 4px;">
+          점들이 대각선 위에 놓이면 정규분포. 양끝이 휘면 꼬리가 두텁거나 비대칭.
+        </div>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 6px; color: var(--tb-g600);">3. 척도-위치 플롯</div>
+        <canvas id="diag-scale" width="400" height="300" style="width:100%; border:1px solid var(--tb-g200); border-radius:8px;"></canvas>
+        <div class="diag-tooltip" style="font-size: 0.82rem; color: var(--tb-g600); margin-top: 4px;">
+          수평 추세선이면 등분산. 우상향이면 X가 클수록 잔차가 커짐 (이분산).
+        </div>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 6px; color: var(--tb-g600);">4. 레버리지 플롯</div>
+        <canvas id="diag-leverage" width="400" height="300" style="width:100%; border:1px solid var(--tb-g200); border-radius:8px;"></canvas>
+        <div class="diag-tooltip" style="font-size: 0.82rem; color: var(--tb-g600); margin-top: 4px;">
+          Cook's distance가 큰 점(빨간 점선 바깥)은 회귀선에 과도한 영향을 미침.
+        </div>
+      </div>
+    </div>
+
+    <div id="diag-verdict" style="margin-top: 14px;"></div>
+
+    <WarningBox>
+      <strong>가정 위반 시 대처:</strong>
+      비선형이면 변수를 변환(로그 등)하거나 다항 회귀를 고려합니다.
+      이분산이면 가중 최소제곱(WLS)이나 로버스트 표준오차를 사용합니다.
+      이상치가 있으면 해당 데이터의 원인을 조사한 후 제거 여부를 판단합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 8: 해석 가이드 ===== -->
+  <div class="tb-card">
+    <h2>회귀 결과 읽기: 실무 가이드</h2>
+    <p>
+      통계 소프트웨어가 출력하는 회귀 결과표를 읽는 방법을 정리합니다.
+    </p>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table" id="reg-output-table">
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>추정치</th>
+            <th>표준오차</th>
+            <th>t값</th>
+            <th>p값</th>
+            <th>해석</th>
+          </tr>
+        </thead>
+        <tbody id="reg-output-body"></tbody>
+      </table>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="R-squared" id="output-r2" />
+      <StatBox label="Adj R-squared" id="output-adj-r2" />
+      <StatBox label="F-statistic" id="output-f" />
+      <StatBox label="p-value (F)" id="output-f-p" />
+    </div>
+
+    <ExplainBox>
+      <strong>핵심 읽기 순서:</strong><br>
+      1단계: R-squared로 모형의 전반적 설명력 확인<br>
+      2단계: F검정 p값으로 모형 전체의 유의성 확인<br>
+      3단계: 각 계수의 p값으로 개별 변수의 유의성 확인<br>
+      4단계: 계수값(b1)으로 효과의 크기와 방향 해석
+    </ExplainBox>
+
+    <BusinessBox>
+      <strong>주의 -- 인과관계가 아닙니다:</strong>
+      회귀분석은 "X가 변할 때 Y가 어떻게 변하는가"의 연관(association)을 보여줄 뿐입니다.
+      "광고비가 매출을 증가시킨다"는 인과적 주장은 실험 설계(무작위 배정)가 뒷받침되어야 합니다.
+      관측 데이터만으로는 "아이스크림 판매가 늘면 익사 사고도 늘어난다"와 같은 혼동 변수 문제가 생깁니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>단순선형회귀는 두 변수의 관계를 Y = b0 + b1*X 직선으로 요약한다.</li>
+      <li>OLS는 잔차 제곱합(SSE)을 최소화하여 최적의 b0, b1을 구한다.</li>
+      <li>잔차는 실제값과 예측값의 차이이며, 잔차의 합은 항상 0이다.</li>
+      <li>R-squared는 회귀선이 Y의 변동을 얼마나 설명하는지의 비율이다.</li>
+      <li>회귀 결과를 신뢰하려면 LINE 가정(선형성, 독립성, 정규성, 등분산성)을 확인해야 한다.</li>
+      <li>회귀분석은 연관을 보여줄 뿐, 인과관계의 증거는 아니다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 변수 하나로는 부족합니다.
+      아파트 가격은 면적뿐 아니라 층수, 역세권, 학군 등 여러 요인이 동시에 영향을 미칩니다.
+      다음 장에서는 다중회귀분석으로 여러 변수를 동시에 다루는 방법을 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITY FUNCTIONS ====================
+function randNorm(mu = 0, sigma = 1) {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return mu + sigma * Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
+function olsRegression(xArr, yArr) {
+  const n = xArr.length;
+  const mx = xArr.reduce((a, b) => a + b, 0) / n;
+  const my = yArr.reduce((a, b) => a + b, 0) / n;
+  let num = 0, den = 0;
+  for (let i = 0; i < n; i++) {
+    num += (xArr[i] - mx) * (yArr[i] - my);
+    den += (xArr[i] - mx) ** 2;
+  }
+  const b1 = den !== 0 ? num / den : 0;
+  const b0 = my - b1 * mx;
+  return { b0, b1, mx, my };
+}
+
+function computeSSE(xArr, yArr, b0, b1) {
+  return yArr.reduce((s, y, i) => s + (y - (b0 + b1 * xArr[i])) ** 2, 0);
+}
+
+function computeSST(yArr) {
+  const my = yArr.reduce((a, b) => a + b, 0) / yArr.length;
+  return yArr.reduce((s, y) => s + (y - my) ** 2, 0);
+}
+
+// ==================== DATA GENERATION ====================
+let regData = { x: [], y: [] };
+let r2Data = { x: [], y: [] };
+let diagData = { x: [], y: [] };
+let showAllResiduals = false;
+let selectedPoint = -1;
+
+function generateRegData() {
+  const n = parseInt(document.getElementById('reg-n-select').value);
+  const x = [], y = [];
+  const trueB0 = 150 + Math.random() * 200;
+  const trueB1 = 2 + Math.random() * 5;
+  for (let i = 0; i < n; i++) {
+    const xi = 20 + Math.random() * 180;
+    const yi = trueB0 + trueB1 * xi + randNorm(0, 80);
+    x.push(xi);
+    y.push(yi);
+  }
+  regData = { x, y };
+  return regData;
+}
+
+// ==================== INTERACTIVE REGRESSION (Exercise 1) ====================
+function drawRegCanvas() {
+  const canvas = document.getElementById('reg-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 70, r: 30, t: 30, b: 50 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  if (regData.x.length === 0) return;
+
+  const xMin = Math.min(...regData.x) - 10;
+  const xMax = Math.max(...regData.x) + 10;
+  const yMin = Math.min(...regData.y) - 50;
+  const yMax = Math.max(...regData.y) + 50;
+
+  const sx = (v) => pad.l + (v - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
+
+  // Grid
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 5; i++) {
+    const gy = pad.t + i * (H - pad.t - pad.b) / 5;
+    ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(W - pad.r, gy); ctx.stroke();
+  }
+
+  // Axes labels
+  ctx.fillStyle = '#475569';
+  ctx.font = '13px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('광고비 (만원)', W / 2, H - 8);
+  ctx.save();
+  ctx.translate(16, H / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('매출 (만원)', 0, 0);
+  ctx.restore();
+
+  // Current user line
+  const b0 = parseFloat(document.getElementById('reg-b0').value);
+  const b1 = parseFloat(document.getElementById('reg-b1').value);
+
+  // Draw residual squares
+  regData.x.forEach((xi, i) => {
+    const yi = regData.y[i];
+    const yhat = b0 + b1 * xi;
+    const residual = yi - yhat;
+    const pxX = sx(xi);
+    const pxYactual = sy(yi);
+    const pxYhat = sy(yhat);
+    const sideLen = Math.abs(pxYactual - pxYhat);
+
+    if (sideLen > 2) {
+      ctx.fillStyle = residual > 0 ? 'rgba(239,68,68,0.12)' : 'rgba(37,99,235,0.12)';
+      ctx.strokeStyle = residual > 0 ? 'rgba(239,68,68,0.3)' : 'rgba(37,99,235,0.3)';
+      ctx.lineWidth = 1;
+      const sqTop = Math.min(pxYactual, pxYhat);
+      ctx.fillRect(pxX, sqTop, sideLen, sideLen);
+      ctx.strokeRect(pxX, sqTop, sideLen, sideLen);
+    }
+  });
+
+  // Draw user line
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 2.5;
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  ctx.moveTo(sx(xMin), sy(b0 + b1 * xMin));
+  ctx.lineTo(sx(xMax), sy(b0 + b1 * xMax));
+  ctx.stroke();
+
+  // Draw data points
+  regData.x.forEach((xi, i) => {
+    ctx.fillStyle = '#2563eb';
+    ctx.beginPath();
+    ctx.arc(sx(xi), sy(regData.y[i]), 5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Axis ticks
+  ctx.fillStyle = '#475569';
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  for (let i = 0; i <= 5; i++) {
+    const v = xMin + i * (xMax - xMin) / 5;
+    ctx.fillText(Math.round(v).toString(), sx(v), H - pad.b + 18);
+  }
+  ctx.textAlign = 'right';
+  for (let i = 0; i <= 5; i++) {
+    const v = yMin + i * (yMax - yMin) / 5;
+    ctx.fillText(Math.round(v).toString(), pad.l - 8, sy(v) + 4);
+  }
+
+  // Update SSE stats
+  const userSSE = computeSSE(regData.x, regData.y, b0, b1);
+  const ols = olsRegression(regData.x, regData.y);
+  const olsSSE = computeSSE(regData.x, regData.y, ols.b0, ols.b1);
+
+  document.getElementById('reg-sse-user').textContent = Math.round(userSSE).toLocaleString();
+  document.getElementById('reg-sse-ols').textContent = Math.round(olsSSE).toLocaleString();
+  document.getElementById('reg-sse-diff').textContent = Math.round(userSSE - olsSSE).toLocaleString();
+}
+
+function showOLS() {
+  const ols = olsRegression(regData.x, regData.y);
+  document.getElementById('reg-b0').value = Math.round(ols.b0);
+  document.getElementById('reg-b1').value = (ols.b1).toFixed(1);
+  document.getElementById('reg-b0-val').textContent = Math.round(ols.b0);
+  document.getElementById('reg-b1-val').textContent = ols.b1.toFixed(1);
+  drawRegCanvas();
+}
+
+// ==================== RESIDUAL ANATOMY (Exercise 2) ====================
+function drawResidCanvas() {
+  const canvas = document.getElementById('resid-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 70, r: 30, t: 30, b: 50 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  if (regData.x.length === 0) return;
+
+  const ols = olsRegression(regData.x, regData.y);
+  const xMin = Math.min(...regData.x) - 10;
+  const xMax = Math.max(...regData.x) + 10;
+  const yMin = Math.min(...regData.y) - 50;
+  const yMax = Math.max(...regData.y) + 50;
+
+  const sx = (v) => pad.l + (v - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
+
+  // Grid
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 5; i++) {
+    const gy = pad.t + i * (H - pad.t - pad.b) / 5;
+    ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(W - pad.r, gy); ctx.stroke();
+  }
+
+  // Regression line
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  ctx.moveTo(sx(xMin), sy(ols.b0 + ols.b1 * xMin));
+  ctx.lineTo(sx(xMax), sy(ols.b0 + ols.b1 * xMax));
+  ctx.stroke();
+
+  // Draw residuals
+  regData.x.forEach((xi, i) => {
+    const yi = regData.y[i];
+    const yhat = ols.b0 + ols.b1 * xi;
+    const isSelected = i === selectedPoint;
+    const showResid = showAllResiduals || isSelected;
+
+    if (showResid) {
+      const residual = yi - yhat;
+      ctx.strokeStyle = residual > 0 ? '#ef4444' : '#2563eb';
+      ctx.lineWidth = isSelected ? 3 : 1.5;
+      ctx.setLineDash(isSelected ? [] : [4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(sx(xi), sy(yi));
+      ctx.lineTo(sx(xi), sy(yhat));
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // Points
+    ctx.fillStyle = i === selectedPoint ? '#ef4444' : '#2563eb';
+    ctx.beginPath();
+    ctx.arc(sx(xi), sy(yi), i === selectedPoint ? 7 : 5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Axis labels
+  ctx.fillStyle = '#475569';
+  ctx.font = '13px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('광고비 (만원)', W / 2, H - 8);
+
+  // Update stats for selected point
+  if (selectedPoint >= 0 && selectedPoint < regData.x.length) {
+    const xi = regData.x[selectedPoint];
+    const yi = regData.y[selectedPoint];
+    const yhat = ols.b0 + ols.b1 * xi;
+    const resid = yi - yhat;
+    document.getElementById('resid-actual').textContent = Math.round(yi).toLocaleString();
+    document.getElementById('resid-predicted').textContent = Math.round(yhat).toLocaleString();
+    document.getElementById('resid-value').textContent = resid.toFixed(1);
+    document.getElementById('resid-squared').textContent = Math.round(resid ** 2).toLocaleString();
+  }
+}
+
+function handleResidClick(e) {
+  const canvas = document.getElementById('resid-canvas');
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const clickX = (e.clientX - rect.left) * scaleX;
+  const clickY = (e.clientY - rect.top) * scaleY;
+
+  const pad = { l: 70, r: 30, t: 30, b: 50 };
+  const W = canvas.width, H = canvas.height;
+  const xMin = Math.min(...regData.x) - 10;
+  const xMax = Math.max(...regData.x) + 10;
+  const yMin = Math.min(...regData.y) - 50;
+  const yMax = Math.max(...regData.y) + 50;
+
+  const sx = (v) => pad.l + (v - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
+
+  let closest = -1, minDist = Infinity;
+  regData.x.forEach((xi, i) => {
+    const d = Math.hypot(sx(xi) - clickX, sy(regData.y[i]) - clickY);
+    if (d < minDist && d < 20) { minDist = d; closest = i; }
+  });
+
+  selectedPoint = closest;
+  drawResidCanvas();
+}
+
+// ==================== R-SQUARED EXPLORER (Exercise 3) ====================
+function generateR2Data() {
+  const n = parseInt(document.getElementById('r2-n-select').value);
+  const noise = parseInt(document.getElementById('r2-noise').value);
+  const x = [], y = [];
+  const trueB0 = 100, trueB1 = 4;
+  for (let i = 0; i < n; i++) {
+    const xi = 10 + Math.random() * 90;
+    const yi = trueB0 + trueB1 * xi + randNorm(0, noise * 2.5);
+    x.push(xi);
+    y.push(yi);
+  }
+  r2Data = { x, y };
+  drawR2Canvas();
+}
+
+function drawR2Canvas() {
+  const canvas = document.getElementById('r2-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 70, r: 30, t: 30, b: 50 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  if (r2Data.x.length === 0) return;
+
+  const ols = olsRegression(r2Data.x, r2Data.y);
+  const my = r2Data.y.reduce((a, b) => a + b, 0) / r2Data.y.length;
+  const xMin = Math.min(...r2Data.x) - 5;
+  const xMax = Math.max(...r2Data.x) + 5;
+  const yMin = Math.min(...r2Data.y, my) - 30;
+  const yMax = Math.max(...r2Data.y, my) + 30;
+
+  const sx = (v) => pad.l + (v - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
+
+  // Mean line (dashed gray)
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(pad.l, sy(my));
+  ctx.lineTo(W - pad.r, sy(my));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('y-bar = ' + Math.round(my), W - pad.r - 80, sy(my) - 6);
+
+  // Show explained (blue) vs unexplained (red) for each point
+  r2Data.x.forEach((xi, i) => {
+    const yi = r2Data.y[i];
+    const yhat = ols.b0 + ols.b1 * xi;
+
+    // Explained portion: from mean to yhat (blue)
+    ctx.strokeStyle = 'rgba(37,99,235,0.5)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(sx(xi) - 3, sy(my));
+    ctx.lineTo(sx(xi) - 3, sy(yhat));
+    ctx.stroke();
+
+    // Unexplained portion: from yhat to yi (red)
+    ctx.strokeStyle = 'rgba(239,68,68,0.5)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(sx(xi) + 3, sy(yhat));
+    ctx.lineTo(sx(xi) + 3, sy(yi));
+    ctx.stroke();
+  });
+
+  // Regression line
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(sx(xMin), sy(ols.b0 + ols.b1 * xMin));
+  ctx.lineTo(sx(xMax), sy(ols.b0 + ols.b1 * xMax));
+  ctx.stroke();
+
+  // Points
+  r2Data.x.forEach((xi, i) => {
+    ctx.fillStyle = '#1e293b';
+    ctx.beginPath();
+    ctx.arc(sx(xi), sy(r2Data.y[i]), 4, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Legend
+  ctx.font = '12px Paperlogy, sans-serif';
+  ctx.fillStyle = '#2563eb';
+  ctx.fillRect(pad.l + 10, pad.t + 5, 14, 3);
+  ctx.fillText('설명된 변동 (SSR)', pad.l + 30, pad.t + 12);
+  ctx.fillStyle = '#ef4444';
+  ctx.fillRect(pad.l + 10, pad.t + 22, 14, 3);
+  ctx.fillText('잔차 변동 (SSE)', pad.l + 30, pad.t + 29);
+
+  // Stats
+  const sst = computeSST(r2Data.y);
+  const sse = computeSSE(r2Data.x, r2Data.y, ols.b0, ols.b1);
+  const ssr = sst - sse;
+  const r2 = sst > 0 ? 1 - sse / sst : 0;
+
+  document.getElementById('r2-sst').textContent = Math.round(sst).toLocaleString();
+  document.getElementById('r2-ssr').textContent = Math.round(ssr).toLocaleString();
+  document.getElementById('r2-sse').textContent = Math.round(sse).toLocaleString();
+  document.getElementById('r2-value').textContent = r2.toFixed(4);
+}
+
+// ==================== DIAGNOSTIC PLOTS (Exercise 4) ====================
+function generateDiagData() {
+  const type = document.getElementById('diag-type').value;
+  const n = 50;
+  const x = [], y = [];
+
+  for (let i = 0; i < n; i++) {
+    const xi = 5 + Math.random() * 95;
+    let yi;
+    switch (type) {
+      case 'good':
+        yi = 50 + 3 * xi + randNorm(0, 30);
+        break;
+      case 'heteroscedastic':
+        yi = 50 + 3 * xi + randNorm(0, xi * 0.8);
+        break;
+      case 'nonlinear':
+        yi = 50 + 0.05 * xi * xi + randNorm(0, 20);
+        break;
+      case 'outliers':
+        yi = 50 + 3 * xi + randNorm(0, 25);
+        if (i < 3) yi += 200 + Math.random() * 150;
+        break;
+      case 'nonnormal':
+        yi = 50 + 3 * xi + Math.abs(randNorm(0, 40)) * (Math.random() > 0.5 ? 1 : -0.3);
+        break;
+      default:
+        yi = 50 + 3 * xi + randNorm(0, 30);
+    }
+    x.push(xi);
+    y.push(yi);
+  }
+
+  diagData = { x, y };
+  drawDiagPlots();
+}
+
+function drawDiagPlots() {
+  if (diagData.x.length === 0) return;
+
+  const ols = olsRegression(diagData.x, diagData.y);
+  const n = diagData.x.length;
+  const residuals = diagData.y.map((yi, i) => yi - (ols.b0 + ols.b1 * diagData.x[i]));
+  const fitted = diagData.x.map(xi => ols.b0 + ols.b1 * xi);
+  const residStd = Math.sqrt(residuals.reduce((s, r) => s + r * r, 0) / (n - 2));
+  const stdResiduals = residuals.map(r => r / residStd);
+
+  // 1. Residuals vs Fitted
+  drawScatterPlot('diag-resid-fit', fitted, residuals, 'Fitted', 'Residuals', '#2563eb', true);
+
+  // 2. QQ Plot
+  drawQQPlot('diag-qq', stdResiduals);
+
+  // 3. Scale-Location
+  const sqrtAbsStdResid = stdResiduals.map(r => Math.sqrt(Math.abs(r)));
+  drawScatterPlot('diag-scale', fitted, sqrtAbsStdResid, 'Fitted', 'sqrt(|Std Residuals|)', '#059669', false);
+
+  // 4. Leverage (simplified Cook's D)
+  const mx = diagData.x.reduce((a, b) => a + b, 0) / n;
+  const sxx = diagData.x.reduce((s, xi) => s + (xi - mx) ** 2, 0);
+  const leverages = diagData.x.map(xi => 1 / n + (xi - mx) ** 2 / sxx);
+  const cooksD = stdResiduals.map((r, i) => (r ** 2 * leverages[i]) / (2 * (1 - leverages[i]) ** 2));
+  drawLeveragePlot('diag-leverage', leverages, stdResiduals, cooksD);
+
+  // Verdict
+  const type = document.getElementById('diag-type').value;
+  const verdictDiv = document.getElementById('diag-verdict');
+  const verdicts = {
+    good: '<div class="tb-insight"><strong>정상:</strong> 잔차가 랜덤하게 흩어져 있고, QQ 플롯이 대각선에 가깝습니다. 회귀 가정이 대체로 만족됩니다.</div>',
+    heteroscedastic: '<div class="tb-warning-box"><strong>이분산성 감지:</strong> 잔차 vs 적합값 플롯에서 깔때기 모양이 보입니다. X가 커질수록 잔차의 퍼짐이 증가합니다. 가중 최소제곱(WLS)이나 로버스트 표준오차 사용을 고려하세요.</div>',
+    nonlinear: '<div class="tb-warning-box"><strong>비선형 관계 감지:</strong> 잔차 vs 적합값 플롯에서 U자형 패턴이 보입니다. 직선이 아닌 곡선 관계입니다. 2차항 추가나 변수 변환을 고려하세요.</div>',
+    outliers: '<div class="tb-warning-box"><strong>이상치 감지:</strong> 레버리지 플롯에서 Cook\'s distance가 큰 점이 있습니다. 이 점들이 회귀선을 크게 왜곡할 수 있으므로 원인을 조사해야 합니다.</div>',
+    nonnormal: '<div class="tb-warning-box"><strong>비정규 잔차 감지:</strong> QQ 플롯에서 점들이 대각선에서 벗어나 있습니다. 잔차의 분포가 비대칭(skewed)입니다. 표본이 충분히 크면 중심극한정리에 의해 큰 문제가 되지 않을 수 있습니다.</div>',
+  };
+  verdictDiv.innerHTML = verdicts[type] || '';
+}
+
+function drawScatterPlot(canvasId, xArr, yArr, xLabel, yLabel, color, showZero) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 55, r: 15, t: 15, b: 35 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  const xMin = Math.min(...xArr) - (Math.max(...xArr) - Math.min(...xArr)) * 0.05;
+  const xMax = Math.max(...xArr) + (Math.max(...xArr) - Math.min(...xArr)) * 0.05;
+  const yMinRaw = Math.min(...yArr);
+  const yMaxRaw = Math.max(...yArr);
+  const yRange = yMaxRaw - yMinRaw || 1;
+  const yMin = showZero ? Math.min(yMinRaw, -yRange * 0.1) - yRange * 0.05 : yMinRaw - yRange * 0.1;
+  const yMax = showZero ? Math.max(yMaxRaw, yRange * 0.1) + yRange * 0.05 : yMaxRaw + yRange * 0.1;
+
+  const sx = (v) => pad.l + (v - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
+
+  // Zero line
+  if (showZero) {
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(pad.l, sy(0));
+    ctx.lineTo(W - pad.r, sy(0));
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Points
+  xArr.forEach((xi, i) => {
+    ctx.fillStyle = color + 'aa';
+    ctx.beginPath();
+    ctx.arc(sx(xi), sy(yArr[i]), 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // LOESS-like smoothed line (simple moving average)
+  const sorted = xArr.map((xi, i) => [xi, yArr[i]]).sort((a, b) => a[0] - b[0]);
+  const windowSize = Math.max(5, Math.floor(sorted.length / 5));
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  let first = true;
+  for (let i = 0; i < sorted.length; i++) {
+    const start = Math.max(0, i - Math.floor(windowSize / 2));
+    const end = Math.min(sorted.length, i + Math.floor(windowSize / 2) + 1);
+    const avgY = sorted.slice(start, end).reduce((s, p) => s + p[1], 0) / (end - start);
+    if (first) { ctx.moveTo(sx(sorted[i][0]), sy(avgY)); first = false; }
+    else ctx.lineTo(sx(sorted[i][0]), sy(avgY));
+  }
+  ctx.stroke();
+}
+
+function drawQQPlot(canvasId, stdResiduals) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 55, r: 15, t: 15, b: 35 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  const sorted = [...stdResiduals].sort((a, b) => a - b);
+  const n = sorted.length;
+  const theoretical = sorted.map((_, i) => {
+    const p = (i + 0.5) / n;
+    // Approximate inverse normal (Beasley-Springer-Moro)
+    const t = p < 0.5 ? Math.sqrt(-2 * Math.log(p)) : Math.sqrt(-2 * Math.log(1 - p));
+    const approx = t - (2.515517 + 0.802853 * t + 0.010328 * t * t) /
+      (1 + 1.432788 * t + 0.189269 * t * t + 0.001308 * t * t * t);
+    return p < 0.5 ? -approx : approx;
+  });
+
+  const allVals = [...theoretical, ...sorted];
+  const vMin = Math.min(...allVals) - 0.3;
+  const vMax = Math.max(...allVals) + 0.3;
+
+  const sx = (v) => pad.l + (v - vMin) / (vMax - vMin) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v - vMin) / (vMax - vMin) * (H - pad.t - pad.b);
+
+  // Diagonal line
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(sx(vMin), sy(vMin));
+  ctx.lineTo(sx(vMax), sy(vMax));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Points
+  theoretical.forEach((th, i) => {
+    ctx.fillStyle = '#7c3aedaa';
+    ctx.beginPath();
+    ctx.arc(sx(th), sy(sorted[i]), 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
+
+function drawLeveragePlot(canvasId, leverages, stdResiduals, cooksD) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 55, r: 15, t: 15, b: 35 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  const xMin = 0;
+  const xMax = Math.max(...leverages) * 1.2;
+  const yAll = stdResiduals;
+  const yMin = Math.min(...yAll) - 0.5;
+  const yMax = Math.max(...yAll) + 0.5;
+
+  const sx = (v) => pad.l + (v - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
+
+  // Zero line
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(pad.l, sy(0));
+  ctx.lineTo(W - pad.r, sy(0));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Cook's D threshold lines (0.5 and 1.0 contours, simplified)
+  ctx.strokeStyle = '#ef444466';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 3]);
+  const cookThresh = 4 / leverages.length;
+  // Just draw a horizontal at +/-2 as rough std resid guideline
+  [2, -2].forEach(v => {
+    ctx.beginPath();
+    ctx.moveTo(pad.l, sy(v));
+    ctx.lineTo(W - pad.r, sy(v));
+    ctx.stroke();
+  });
+  ctx.setLineDash([]);
+
+  // Points colored by Cook's D
+  leverages.forEach((h, i) => {
+    const isInfluential = cooksD[i] > cookThresh;
+    ctx.fillStyle = isInfluential ? '#ef4444' : '#059669aa';
+    ctx.beginPath();
+    ctx.arc(sx(h), sy(stdResiduals[i]), isInfluential ? 5 : 3.5, 0, Math.PI * 2);
+    ctx.fill();
+    if (isInfluential) {
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  });
+}
+
+// ==================== REGRESSION OUTPUT TABLE ====================
+function updateOutputTable() {
+  if (regData.x.length === 0) return;
+
+  const ols = olsRegression(regData.x, regData.y);
+  const n = regData.x.length;
+  const residuals = regData.y.map((yi, i) => yi - (ols.b0 + ols.b1 * regData.x[i]));
+  const mse = residuals.reduce((s, r) => s + r * r, 0) / (n - 2);
+  const mx = regData.x.reduce((a, b) => a + b, 0) / n;
+  const sxx = regData.x.reduce((s, xi) => s + (xi - mx) ** 2, 0);
+
+  const seB1 = Math.sqrt(mse / sxx);
+  const seB0 = Math.sqrt(mse * (1 / n + mx * mx / sxx));
+  const tB1 = ols.b1 / seB1;
+  const tB0 = ols.b0 / seB0;
+
+  // Approximate p-values (using rough t-distribution approximation)
+  function approxPval(t, df) {
+    const x = df / (df + t * t);
+    if (Math.abs(t) < 0.001) return 1;
+    return Math.min(1, Math.max(0.0001, Math.exp(-0.7 * Math.abs(t) + 0.5) * 2));
+  }
+
+  const pB0 = approxPval(tB0, n - 2);
+  const pB1 = approxPval(tB1, n - 2);
+
+  const sst = computeSST(regData.y);
+  const sse = computeSSE(regData.x, regData.y, ols.b0, ols.b1);
+  const r2 = sst > 0 ? 1 - sse / sst : 0;
+  const adjR2 = 1 - (1 - r2) * (n - 1) / (n - 2);
+  const fStat = ((sst - sse) / 1) / (sse / (n - 2));
+  const fP = approxPval(Math.sqrt(fStat), n - 2);
+
+  const body = document.getElementById('reg-output-body');
+  body.innerHTML = `
+    <tr>
+      <td><strong>절편 (b0)</strong></td>
+      <td>${ols.b0.toFixed(2)}</td>
+      <td>${seB0.toFixed(2)}</td>
+      <td>${tB0.toFixed(3)}</td>
+      <td>${pB0.toFixed(4)}</td>
+      <td style="font-size:.82rem;text-align:left">X=0일 때 Y의 기대값</td>
+    </tr>
+    <tr>
+      <td><strong>기울기 (b1)</strong></td>
+      <td>${ols.b1.toFixed(4)}</td>
+      <td>${seB1.toFixed(4)}</td>
+      <td>${tB1.toFixed(3)}</td>
+      <td>${pB1.toFixed(4)}</td>
+      <td style="font-size:.82rem;text-align:left">X가 1 증가 시 Y 변화량</td>
+    </tr>
+  `;
+
+  document.getElementById('output-r2').textContent = r2.toFixed(4);
+  document.getElementById('output-adj-r2').textContent = adjR2.toFixed(4);
+  document.getElementById('output-f').textContent = fStat.toFixed(2);
+  document.getElementById('output-f-p').textContent = fP.toFixed(4);
+}
+
+// ==================== INITIALIZATION ====================
+function init() {
+  try {
+    import('../../textbook/lib/progress').then(m => m.markVisited('15-simple-regression')).catch(() => {});
+  } catch(e) {}
+
+  // Generate initial data
+  generateRegData();
+  drawRegCanvas();
+  drawResidCanvas();
+  generateR2Data();
+  updateOutputTable();
+
+  // Slider events
+  const b0Slider = document.getElementById('reg-b0');
+  const b1Slider = document.getElementById('reg-b1');
+
+  b0Slider.addEventListener('input', () => {
+    document.getElementById('reg-b0-val').textContent = b0Slider.value;
+    drawRegCanvas();
+  });
+
+  b1Slider.addEventListener('input', () => {
+    document.getElementById('reg-b1-val').textContent = parseFloat(b1Slider.value).toFixed(1);
+    drawRegCanvas();
+  });
+
+  document.getElementById('btn-show-ols').addEventListener('click', showOLS);
+
+  document.getElementById('btn-new-reg-data').addEventListener('click', () => {
+    generateRegData();
+    drawRegCanvas();
+    drawResidCanvas();
+    selectedPoint = -1;
+    showAllResiduals = false;
+    updateOutputTable();
+  });
+
+  // Residual canvas click
+  document.getElementById('resid-canvas').addEventListener('click', handleResidClick);
+
+  document.getElementById('btn-show-all-resid').addEventListener('click', () => {
+    showAllResiduals = true;
+    drawResidCanvas();
+  });
+
+  document.getElementById('btn-hide-resid').addEventListener('click', () => {
+    showAllResiduals = false;
+    selectedPoint = -1;
+    drawResidCanvas();
+  });
+
+  // R-squared
+  const noiseSlider = document.getElementById('r2-noise');
+  noiseSlider.addEventListener('input', () => {
+    document.getElementById('r2-noise-val').textContent = noiseSlider.value;
+  });
+
+  document.getElementById('btn-r2-gen').addEventListener('click', generateR2Data);
+
+  // Diagnostics
+  document.getElementById('btn-diag-gen').addEventListener('click', generateDiagData);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  canvas {
+    background: #f8fafc;
+  }
+  .diag-tooltip {
+    line-height: 1.5;
+  }
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

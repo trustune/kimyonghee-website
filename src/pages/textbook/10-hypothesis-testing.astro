@@ -1,0 +1,1265 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="가설검정의 논리"
+  subtitle="p-value는 무엇을 말하는가?"
+  chapterNum={10}
+  part={2}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>신약이 효과가 있는지 어떻게 증명하는가?</h2>
+    <p>
+      제약회사가 새로운 두통약을 개발했습니다.
+      임상시험에서 약을 먹은 그룹은 평균 30분 만에 두통이 사라졌고,
+      위약(가짜 약)을 먹은 그룹은 평균 45분이 걸렸습니다.
+      이 15분의 차이는 "진짜 효과"인가, 아니면 "우연"인가?
+    </p>
+    <p style="margin-top: 12px;">
+      직관적으로는 "효과가 있다"고 증명하면 될 것 같습니다.
+      하지만 통계학은 다른 접근을 택합니다 --
+      <strong>"효과가 없다"고 가정하고, 이 가정이 데이터와 모순되는지를 검증합니다.</strong>
+      이것이 가설검정(hypothesis testing)의 핵심 논리입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>재판 비유:</strong>
+      법정에서 피고인은 <strong>무죄로 추정</strong>됩니다 (영가설 H0: 효과 없음).
+      검사(연구자)는 충분한 증거(데이터)를 제시하여 유죄(H0 기각)를 입증해야 합니다.
+      증거가 압도적이면 유죄 선고(H0 기각, 효과 있음).
+      증거가 부족하면 무죄 방면(H0 기각 실패) -- 이것은 "무죄(효과 없음이 확실)"가 아니라
+      <strong>"유죄를 증명하지 못함(효과 없음을 부정할 수 없음)"</strong>입니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 2: 가설검정의 구조 ===== -->
+  <div class="tb-card">
+    <h2>가설검정의 5단계</h2>
+
+    <div style="display: grid; grid-template-columns: 60px 1fr; gap: 12px; margin: 14px 0;">
+      <div style="background: var(--tb-primary); color: #fff; border-radius: var(--tb-radius); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem;">1</div>
+      <div style="background: var(--tb-primary-light); padding: 14px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin: 0 0 4px;">가설 설정</h3>
+        <p style="font-size: .9rem;">
+          <strong>H0 (영가설):</strong> "효과가 없다", "차이가 없다" -- 현재 상태 유지<br>
+          <strong>H1 (대립가설):</strong> "효과가 있다", "차이가 있다" -- 증명하고 싶은 것
+        </p>
+      </div>
+
+      <div style="background: var(--tb-primary); color: #fff; border-radius: var(--tb-radius); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem;">2</div>
+      <div style="background: var(--tb-primary-light); padding: 14px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin: 0 0 4px;">유의수준 결정</h3>
+        <p style="font-size: .9rem;">
+          alpha = 0.05가 관례입니다. "무고한 사람을 유죄로 판결할 위험"을 5% 이하로 통제하겠다는 뜻입니다.
+        </p>
+      </div>
+
+      <div style="background: var(--tb-primary); color: #fff; border-radius: var(--tb-radius); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem;">3</div>
+      <div style="background: var(--tb-primary-light); padding: 14px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin: 0 0 4px;">검정 통계량 계산</h3>
+        <p style="font-size: .9rem;">
+          데이터를 하나의 숫자(검정통계량)로 요약합니다. 예: z-통계량, t-통계량.
+        </p>
+      </div>
+
+      <div style="background: var(--tb-primary); color: #fff; border-radius: var(--tb-radius); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem;">4</div>
+      <div style="background: var(--tb-primary-light); padding: 14px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin: 0 0 4px;">p-value 계산</h3>
+        <p style="font-size: .9rem;">
+          "H0이 참이라면, 이 데이터(또는 더 극단적인 데이터)를 관찰할 확률"이 p-value입니다.
+        </p>
+      </div>
+
+      <div style="background: var(--tb-primary); color: #fff; border-radius: var(--tb-radius); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem;">5</div>
+      <div style="background: var(--tb-primary-light); padding: 14px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin: 0 0 4px;">결론</h3>
+        <p style="font-size: .9rem;">
+          p-value &lt; alpha이면 H0 기각 ("통계적으로 유의한 차이가 있다").<br>
+          p-value &gt;= alpha이면 H0 기각 실패 ("유의한 차이를 발견하지 못했다").
+        </p>
+      </div>
+    </div>
+
+    <FormulaBox>
+      p-value = P(현재 데이터 또는 더 극단적인 데이터 | <span class="hl">H0이 참</span>)
+    </FormulaBox>
+
+    <WarningBox>
+      <strong>"p-value가 작다 = 효과가 크다"는 틀린 해석입니다.</strong>
+      p-value는 효과의 크기가 아니라, H0 하에서 데이터의 "놀라움 정도"를 측정합니다.
+      표본이 매우 크면 아주 작은 차이도 유의하게 나올 수 있습니다.
+      통계적 유의성과 실질적 중요성은 별개입니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 3: 동전 공정성 검정 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 동전 공정성 검정기</h2>
+    <p>
+      동전을 반복해서 던집니다. 동전이 공정하다면(H0: p = 0.5),
+      앞면 비율은 0.5 근처에 있어야 합니다.
+      던질수록 p-value가 어떻게 변하는지 관찰하세요.
+      때로는 공정한 동전도 우연히 p &lt; 0.05가 되기도 합니다!
+    </p>
+
+    <ExerciseBox>
+      <strong>실험 계획:</strong>
+      (1) "공정한 동전"으로 50번 던져보세요. p-value가 0.05 아래로 내려가는 순간이 있나요?
+      (2) "편향 동전(60%)"으로 바꿔보세요. 몇 번 던져야 편향이 "발각"되나요?
+      (3) "100번 실험" 버튼으로 공정한 동전을 100번 실험해보세요. 몇 번이나 p &lt; 0.05가 되나요?
+    </ExerciseBox>
+
+    <SimControls>
+      <label>동전 종류:</label>
+      <select id="coin-type">
+        <option value="0.5">공정한 동전 (p=0.5)</option>
+        <option value="0.6">약간 편향 (p=0.6)</option>
+        <option value="0.7">많이 편향 (p=0.7)</option>
+        <option value="0.8">매우 편향 (p=0.8)</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-flip-1">1번 던지기</button>
+      <button class="tb-btn tb-btn-primary" id="btn-flip-10">10번 던지기</button>
+      <button class="tb-btn tb-btn-warning" id="btn-flip-100exp">100번 실험 반복</button>
+      <button class="tb-btn tb-btn-danger" id="btn-flip-reset">초기화</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div>
+        <div style="font-weight: 700; font-size: .9rem; margin-bottom: 8px;">동전 던지기 결과</div>
+        <div id="coin-results" style="min-height: 100px; padding: 12px; background: var(--tb-g100); border-radius: var(--tb-radius); font-family: monospace; font-size: .85rem; word-break: break-all; max-height: 180px; overflow-y: auto;">
+          아직 던지지 않았습니다.
+        </div>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: .9rem; margin-bottom: 8px;">p-value 변화 추이</div>
+        <ChartContainer id="pvalue-chart" height="180px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="총 던진 횟수" id="coin-total" value="0" />
+      <StatBox label="앞면 횟수" id="coin-heads" value="0" />
+      <StatBox label="앞면 비율" id="coin-prop" value="-" />
+      <StatBox label="p-value" id="coin-pvalue" value="-" sub="H0: p=0.5" />
+    </div>
+
+    <div id="coin-exp-result" style="display: none; margin-top: 14px;"></div>
+
+    <InsightBox>
+      <strong>Type I 오류 체험:</strong>
+      공정한 동전을 100번 실험하면, 약 5번은 p &lt; 0.05가 됩니다.
+      이것이 <strong>제1종 오류(Type I Error)</strong>입니다 --
+      실제로 H0이 참인데 기각해버리는 것.
+      유의수준 alpha = 0.05는 바로 이 오류율의 상한입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 4: Type I / Type II 트레이드오프 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 제1종 오류와 제2종 오류의 트레이드오프</h2>
+    <p>
+      가설검정에서는 두 가지 종류의 실수가 가능합니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: #fef2f2; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-danger); margin-bottom: 6px;">제1종 오류 (alpha)</h3>
+        <p style="font-size: .85rem;">
+          H0이 참인데 기각하는 것.<br>
+          재판 비유: 무고한 사람에게 유죄 선고.<br>
+          확률 = alpha (보통 0.05)
+        </p>
+      </div>
+      <div style="background: #fef3c7; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: #92400e; margin-bottom: 6px;">제2종 오류 (beta)</h3>
+        <p style="font-size: .85rem;">
+          H0이 거짓인데 기각하지 못하는 것.<br>
+          재판 비유: 범인을 무죄 방면.<br>
+          확률 = beta. 검정력(Power) = 1 - beta
+        </p>
+      </div>
+    </div>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th style="color: var(--tb-success);">H0 참 (무고)</th>
+            <th style="color: var(--tb-danger);">H0 거짓 (범인)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>H0 기각 (유죄)</strong></td>
+            <td style="background: #fee2e2;">제1종 오류 (alpha)</td>
+            <td style="background: #dcfce7;">올바른 결정 (Power)</td>
+          </tr>
+          <tr>
+            <td><strong>H0 기각 실패 (무죄)</strong></td>
+            <td style="background: #dcfce7;">올바른 결정</td>
+            <td style="background: #fef3c7;">제2종 오류 (beta)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ExerciseBox>
+      <strong>시각적 탐색:</strong>
+      아래에서 alpha 기준선을 조절하고 효과 크기를 바꿔보세요.
+      alpha를 줄이면(기준을 엄격하게) beta가 늘어나고(진짜 효과를 놓칠 확률 증가),
+      효과 크기가 클수록 검정력(Power)이 올라갑니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>유의수준 (alpha):</label>
+      <select id="error-alpha">
+        <option value="0.01">0.01 (매우 엄격)</option>
+        <option value="0.05" selected>0.05 (표준)</option>
+        <option value="0.10">0.10 (관대)</option>
+      </select>
+      <label>효과 크기 (d):</label>
+      <input type="range" id="error-effect" min="0" max="3" value="1.5" step="0.1" />
+      <span class="tb-speed-label" id="error-effect-label">d=1.5</span>
+      <label>표본 크기:</label>
+      <select id="error-n">
+        <option value="10">n=10</option>
+        <option value="25" selected>n=25</option>
+        <option value="50">n=50</option>
+        <option value="100">n=100</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-error-draw">시각화</button>
+    </SimControls>
+
+    <div style="margin: 14px 0;">
+      <canvas id="error-canvas" width="800" height="350" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="alpha (Type I)" id="error-alpha-val" value="-" borderColor="var(--tb-danger)" />
+      <StatBox label="beta (Type II)" id="error-beta-val" value="-" borderColor="var(--tb-warning)" />
+      <StatBox label="검정력 (Power)" id="error-power-val" value="-" borderColor="var(--tb-success)" />
+      <StatBox label="효과 크기" id="error-d-val" value="-" />
+    </div>
+
+    <InsightBox>
+      <strong>실무적 교훈:</strong>
+      alpha와 beta는 시소 관계입니다. 둘 다 줄이려면 표본 크기(n)를 늘려야 합니다.
+      제약회사가 비싼 임상시험에서 큰 표본을 쓰는 이유가 여기에 있습니다 --
+      효과가 있는 약을 "효과 없다"고 판정하는 실수(Type II)를 줄이기 위해서입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 5: p-hacking 시뮬레이터 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: p-해킹 시뮬레이터</h2>
+    <p>
+      20개의 완전히 무작위인 변수가 있습니다 (어떤 것도 결과에 영향을 주지 않습니다).
+      각 변수에 대해 t-검정을 실시하면, 과연 "유의한 결과(p &lt; 0.05)"가 나올까요?
+    </p>
+
+    <WarningBox>
+      <strong>p-해킹(p-hacking)이란:</strong>
+      여러 분석을 시도한 후, 유의한 결과만 골라서 보고하는 것입니다.
+      20개 변수를 검정하면, 모두 무작위라 하더라도 평균 1개는 p &lt; 0.05가 됩니다.
+      (20 * 0.05 = 1). 이것은 과학계의 심각한 문제입니다.
+    </WarningBox>
+
+    <ExerciseBox>
+      <strong>직접 체험:</strong>
+      "분석 실행" 버튼을 누르세요.
+      20개 변수 중 p &lt; 0.05인 것이 있나요?
+      여러 번 반복하면 거의 매번 하나 이상 "유의한" 결과가 나옵니다.
+      이것이 전부 거짓 양성(false positive)입니다!
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-phack-run">분석 실행 (20개 변수 검정)</button>
+      <button class="tb-btn tb-btn-warning" id="btn-phack-repeat">50번 반복 실험</button>
+      <button class="tb-btn tb-btn-danger" id="btn-phack-reset">초기화</button>
+    </SimControls>
+
+    <div style="margin: 14px 0;">
+      <canvas id="phack-canvas" width="800" height="300" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="검정된 변수" id="phack-tested" value="0" />
+      <StatBox label="유의한 결과" id="phack-sig" value="0" borderColor="var(--tb-danger)" />
+      <StatBox label="거짓 발견률" id="phack-fdr" value="-" sub="모두 무작위인데 유의!" />
+    </div>
+
+    <div id="phack-repeat-result" style="display: none; margin-top: 14px;"></div>
+
+    <ExplainBox>
+      <strong>대안: 다중 검정 보정</strong><br>
+      여러 검정을 동시에 수행할 때는 <strong>본페로니 보정(Bonferroni correction)</strong>을 적용합니다.
+      20개 검정이면 alpha를 0.05/20 = 0.0025로 낮춥니다.
+      이렇게 하면 거짓 양성을 대폭 줄일 수 있습니다.
+      또한 사전에 연구 계획을 등록(pre-registration)하여 p-해킹을 방지합니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 6: 단계별 가설검정 실습 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 단계별 가설검정 가이드</h2>
+    <p>
+      실제 시나리오를 선택하고, 가설검정의 5단계를 직접 밟아가며 결론을 내려보세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>시나리오를 선택한 후 "검정 실행"을 누르세요.</strong>
+      각 단계가 순서대로 나타나며, 검정통계량과 p-value를 시각적으로 확인합니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>시나리오:</label>
+      <select id="guided-scenario">
+        <option value="salary">직장인 평균 연봉이 4,000만원과 다른가?</option>
+        <option value="defect">제품 불량률이 3%를 초과하는가?</option>
+        <option value="score">새 교육법이 시험 성적을 높이는가?</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-guided-run">검정 실행</button>
+      <button class="tb-btn tb-btn-danger" id="btn-guided-reset">초기화</button>
+    </SimControls>
+
+    <div id="guided-output" style="margin: 14px 0;"></div>
+
+    <div style="margin: 14px 0;">
+      <canvas id="guided-canvas" width="800" height="300" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+    </div>
+
+    <div class="tb-stat-row" id="guided-stats" style="display: none;">
+      <StatBox label="검정통계량" id="guided-tstat" value="-" />
+      <StatBox label="p-value" id="guided-pval" value="-" />
+      <StatBox label="유의수준" id="guided-alpha" value="0.05" />
+      <StatBox label="결론" id="guided-conclusion" value="-" />
+    </div>
+
+    <BusinessBox>
+      <strong>실무 활용:</strong>
+      가설검정은 경영학에서 널리 쓰입니다.
+      "새 마케팅 전략이 매출을 높였는가?", "교육 프로그램이 직원 생산성을 개선했는가?",
+      "제품 A와 B의 고객 만족도에 차이가 있는가?" --
+      모두 가설검정으로 답할 수 있는 질문입니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 7: 통계적 유의성의 한계 ===== -->
+  <div class="tb-card">
+    <h2>p-value가 전부가 아니다</h2>
+    <p>
+      p &lt; 0.05가 나왔다고 해서 연구가 끝난 것이 아닙니다.
+      통계적 유의성에는 중요한 한계가 있습니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: #fef2f2; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-danger); margin-bottom: 6px;">통계적 유의성 != 실질적 중요성</h3>
+        <p style="font-size: .85rem;">
+          n=100,000이면 체중 0.1kg 차이도 p &lt; 0.05가 됩니다.
+          하지만 0.1kg이 의학적으로 의미가 있나요?
+          효과 크기(effect size)를 반드시 함께 보고해야 합니다.
+        </p>
+      </div>
+      <div style="background: #fef3c7; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: #92400e; margin-bottom: 6px;">유의하지 않음 != 효과 없음</h3>
+        <p style="font-size: .85rem;">
+          p = 0.08이면 "유의하지 않다"이지만, 효과가 없다는 증거가 아닙니다.
+          표본이 작아서 효과를 탐지하지 못했을 수 있습니다.
+          부재의 증거(evidence of absence)가 아닙니다.
+        </p>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>현대 통계학의 추세:</strong>
+      미국통계학회(ASA, 2016)는 p-value에 대한 성명서를 발표했습니다.
+      핵심 메시지: (1) p-value만으로 결론 내리지 말 것,
+      (2) 효과 크기와 신뢰구간을 함께 보고할 것,
+      (3) p = 0.049와 p = 0.051은 본질적으로 다르지 않다.
+      연구의 질은 p-value의 크기가 아니라 설계의 엄밀함에 달려 있습니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>가설검정은 "효과 없다(H0)"를 가정하고, 데이터로 이를 반박하는 논리이다.</li>
+      <li>p-value는 "H0이 참일 때, 현재 데이터 이상으로 극단적인 결과를 관찰할 확률"이다.</li>
+      <li>p &lt; alpha이면 H0 기각, p &gt;= alpha이면 H0 기각 실패 (효과 없음의 증명이 아님).</li>
+      <li>제1종 오류(alpha)와 제2종 오류(beta)는 트레이드오프 관계이며, 표본을 늘려야 둘 다 줄일 수 있다.</li>
+      <li>다중 검정은 거짓 양성을 유발하므로 보정이 필요하다 (p-해킹 주의).</li>
+      <li>통계적 유의성과 실질적 중요성은 별개이며, 효과 크기와 신뢰구간을 함께 보고해야 한다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong>
+      8-10장에서 배운 표본추출, 신뢰구간, 가설검정을 종합하여
+      실제 데이터에 적용하는 캡스톤 프로젝트가 기다리고 있습니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== COIN FAIRNESS TESTER ====================
+let coinFlips = [];
+let pvalueHistory = [];
+let ChartJS = null;
+let pvalueChart = null;
+
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  Chart.register(...registerables);
+  ChartJS = Chart;
+  return Chart;
+}
+
+function binomialPValue(heads, total) {
+  // Two-sided binomial test approximation using normal approximation
+  if (total === 0) return 1;
+  const p0 = 0.5;
+  const phat = heads / total;
+  const se = Math.sqrt(p0 * (1 - p0) / total);
+  if (se === 0) return 1;
+  const z = Math.abs(phat - p0) / se;
+  // Approximate normal CDF
+  const t = 1 / (1 + 0.2316419 * z);
+  const d = 0.3989422804 * Math.exp(-z * z / 2);
+  const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+  return Math.min(1, 2 * p); // two-sided
+}
+
+function flipCoins(count) {
+  const trueP = parseFloat(document.getElementById('coin-type').value);
+  for (let i = 0; i < count; i++) {
+    coinFlips.push(Math.random() < trueP ? 'H' : 'T');
+  }
+
+  const heads = coinFlips.filter(f => f === 'H').length;
+  const total = coinFlips.length;
+  const pval = binomialPValue(heads, total);
+  pvalueHistory.push({ n: total, pval });
+
+  // Update display
+  const resultsDiv = document.getElementById('coin-results');
+  resultsDiv.innerHTML = coinFlips.map(f =>
+    `<span style="color: ${f === 'H' ? 'var(--tb-primary)' : 'var(--tb-danger)'}; font-weight: 700;">${f}</span>`
+  ).join(' ');
+  resultsDiv.scrollTop = resultsDiv.scrollHeight;
+
+  document.getElementById('coin-total').textContent = total;
+  document.getElementById('coin-heads').textContent = heads;
+  document.getElementById('coin-prop').textContent = (heads / total).toFixed(3);
+  document.getElementById('coin-pvalue').textContent = pval.toFixed(4);
+
+  // Color p-value
+  const pvalEl = document.getElementById('coin-pvalue');
+  pvalEl.style.color = pval < 0.05 ? 'var(--tb-danger)' : 'var(--tb-success)';
+
+  updatePvalueChart();
+}
+
+async function updatePvalueChart() {
+  await loadChart();
+  const canvas = document.getElementById('pvalue-chart');
+  if (pvalueChart) { pvalueChart.destroy(); pvalueChart = null; }
+
+  const labels = pvalueHistory.map(h => h.n);
+  const data = pvalueHistory.map(h => h.pval);
+
+  pvalueChart = new ChartJS(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'p-value',
+        data,
+        borderColor: '#7c3aed',
+        backgroundColor: '#7c3aed22',
+        borderWidth: 2,
+        pointRadius: 2,
+        fill: false,
+        tension: 0.1,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        annotation: undefined,
+      },
+      scales: {
+        y: {
+          beginAtZero: true, max: 1,
+          title: { display: true, text: 'p-value' },
+        },
+        x: { title: { display: true, text: '던진 횟수' } }
+      }
+    },
+    plugins: [{
+      id: 'alphaLine',
+      afterDraw(chart) {
+        const yScale = chart.scales.y;
+        const xScale = chart.scales.x;
+        const y = yScale.getPixelForValue(0.05);
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6, 4]);
+        ctx.beginPath();
+        ctx.moveTo(xScale.left, y);
+        ctx.lineTo(xScale.right, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#ef4444';
+        ctx.font = '10px sans-serif';
+        ctx.fillText('alpha=0.05', xScale.right - 55, y - 4);
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+async function run100Experiments() {
+  const trueP = parseFloat(document.getElementById('coin-type').value);
+  const n = 50; // each experiment flips 50 times
+  let sigCount = 0;
+
+  for (let exp = 0; exp < 100; exp++) {
+    let heads = 0;
+    for (let i = 0; i < n; i++) {
+      if (Math.random() < trueP) heads++;
+    }
+    const pval = binomialPValue(heads, n);
+    if (pval < 0.05) sigCount++;
+  }
+
+  const resultDiv = document.getElementById('coin-exp-result');
+  resultDiv.style.display = '';
+
+  if (trueP === 0.5) {
+    resultDiv.innerHTML = `<div class="tb-warning-box">
+      <strong>100번 실험 결과 (공정한 동전, 각 50회 던지기):</strong><br>
+      p &lt; 0.05인 실험: <strong>${sigCount}번</strong> / 100번<br>
+      동전이 완전히 공정한데도 ${sigCount}번이나 "편향"이라고 잘못 판단했습니다.
+      이것이 <strong>제1종 오류</strong>이며, 이론적으로 약 5번 발생해야 합니다.
+    </div>`;
+  } else {
+    resultDiv.innerHTML = `<div class="tb-insight">
+      <strong>100번 실험 결과 (p=${trueP}, 각 50회 던지기):</strong><br>
+      p &lt; 0.05인 실험: <strong>${sigCount}번</strong> / 100번<br>
+      이것이 이 검정의 <strong>검정력(Power)</strong>입니다: ${sigCount}%.
+      ${sigCount < 80 ? '검정력이 80% 미만입니다. 표본(50회)이 부족하여 편향을 자주 놓칩니다.' :
+        '검정력이 충분합니다. 대부분의 경우 편향을 발견했습니다.'}
+    </div>`;
+  }
+}
+
+function resetCoin() {
+  coinFlips = [];
+  pvalueHistory = [];
+  document.getElementById('coin-results').innerHTML = '아직 던지지 않았습니다.';
+  document.getElementById('coin-total').textContent = '0';
+  document.getElementById('coin-heads').textContent = '0';
+  document.getElementById('coin-prop').textContent = '-';
+  document.getElementById('coin-pvalue').textContent = '-';
+  document.getElementById('coin-pvalue').style.color = '';
+  document.getElementById('coin-exp-result').style.display = 'none';
+  if (pvalueChart) { pvalueChart.destroy(); pvalueChart = null; }
+}
+
+// ==================== TYPE I / TYPE II VISUALIZATION ====================
+function normalPDF(x, mu, sigma) {
+  const z = (x - mu) / sigma;
+  return Math.exp(-0.5 * z * z) / (sigma * Math.sqrt(2 * Math.PI));
+}
+
+function normalCDF(x, mu, sigma) {
+  const z = (x - mu) / sigma;
+  const t = 1 / (1 + 0.2316419 * Math.abs(z));
+  const d = 0.3989422804 * Math.exp(-z * z / 2);
+  let p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+  if (z > 0) p = 1 - p;
+  return p;
+}
+
+function inverseNormalCDF(p) {
+  // Rational approximation for the inverse normal CDF
+  if (p <= 0) return -Infinity;
+  if (p >= 1) return Infinity;
+  if (p < 0.5) return -inverseNormalCDF(1 - p);
+  const t = Math.sqrt(-2 * Math.log(1 - p));
+  return t - (2.515517 + 0.802853 * t + 0.010328 * t * t) /
+             (1 + 1.432788 * t + 0.189269 * t * t + 0.001308 * t * t * t);
+}
+
+function drawErrorTradeoff() {
+  const alpha = parseFloat(document.getElementById('error-alpha').value);
+  const d = parseFloat(document.getElementById('error-effect').value);
+  const n = parseInt(document.getElementById('error-n').value);
+
+  document.getElementById('error-effect-label').textContent = 'd=' + d.toFixed(1);
+
+  const canvas = document.getElementById('error-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const mu0 = 0;
+  const sigma = 1 / Math.sqrt(n);
+  const mu1 = d * sigma * Math.sqrt(n) * sigma; // effect in terms of the sampling distribution
+  const effectShift = d / Math.sqrt(n); // shift of sampling distribution under H1
+
+  // For visualization, H0: N(0, sigma), H1: N(effectShift, sigma) where sigma = 1/sqrt(n)
+  const se = 1 / Math.sqrt(n);
+  const h1Mean = d * (1 / Math.sqrt(n)); // d = (mu1 - mu0)/sigma_pop, and SE = sigma_pop/sqrt(n)
+  // Simplify: just use d as the shift in SE units = d*sqrt(n) ... no
+  // Let's think simply: population sigma = 1, SE = 1/sqrt(n), effect = d (in population SD units)
+  // So H0: xbar ~ N(0, SE), H1: xbar ~ N(d, SE)
+  // But d might be quite large relative to SE for large n. Let's use:
+  const h0mu = 0;
+  const h1mu = d; // in SD units, but drawing in standardized space
+  const drawSE = 1; // standardized
+
+  // Determine range
+  const xMin = Math.min(h0mu, h1mu) - 4 * drawSE;
+  const xMax = Math.max(h0mu, h1mu) + 4 * drawSE;
+
+  const padL = 60, padR = 40, padT = 30, padB = 50;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+  const toX = v => padL + ((v - xMin) / (xMax - xMin)) * plotW;
+  const toY = v => padT + plotH - v * plotH;
+
+  // Critical value
+  const zCrit = inverseNormalCDF(1 - alpha / 2);
+
+  // Draw H0 distribution
+  const steps = 200;
+  const dx = (xMax - xMin) / steps;
+
+  // Normalize height
+  const maxPDF = normalPDF(h0mu, h0mu, drawSE);
+  const scale = 0.85 / maxPDF;
+
+  // H0 curve
+  ctx.beginPath();
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 2;
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    const y = normalPDF(x, h0mu, drawSE) * scale;
+    if (i === 0) ctx.moveTo(toX(x), toY(y));
+    else ctx.lineTo(toX(x), toY(y));
+  }
+  ctx.stroke();
+
+  // Alpha region (two-tailed)
+  ctx.fillStyle = 'rgba(239, 68, 68, 0.3)';
+  ctx.beginPath();
+  ctx.moveTo(toX(h0mu + zCrit * drawSE), toY(0));
+  for (let x = h0mu + zCrit * drawSE; x <= xMax; x += dx) {
+    ctx.lineTo(toX(x), toY(normalPDF(x, h0mu, drawSE) * scale));
+  }
+  ctx.lineTo(toX(xMax), toY(0));
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(toX(h0mu - zCrit * drawSE), toY(0));
+  for (let x = h0mu - zCrit * drawSE; x >= xMin; x -= dx) {
+    ctx.lineTo(toX(x), toY(normalPDF(x, h0mu, drawSE) * scale));
+  }
+  ctx.lineTo(toX(xMin), toY(0));
+  ctx.closePath();
+  ctx.fill();
+
+  // H1 curve (if d > 0)
+  if (d > 0) {
+    ctx.beginPath();
+    ctx.strokeStyle = '#22c55e';
+    ctx.lineWidth = 2;
+    for (let i = 0; i <= steps; i++) {
+      const x = xMin + i * dx;
+      const y = normalPDF(x, h1mu, drawSE) * scale;
+      if (i === 0) ctx.moveTo(toX(x), toY(y));
+      else ctx.lineTo(toX(x), toY(y));
+    }
+    ctx.stroke();
+
+    // Beta region (fail to reject under H1)
+    ctx.fillStyle = 'rgba(245, 158, 11, 0.25)';
+    ctx.beginPath();
+    const leftCrit = h0mu - zCrit * drawSE;
+    const rightCrit = h0mu + zCrit * drawSE;
+    ctx.moveTo(toX(leftCrit), toY(0));
+    for (let x = leftCrit; x <= rightCrit; x += dx) {
+      ctx.lineTo(toX(x), toY(normalPDF(x, h1mu, drawSE) * scale));
+    }
+    ctx.lineTo(toX(rightCrit), toY(0));
+    ctx.closePath();
+    ctx.fill();
+
+    // Power region
+    ctx.fillStyle = 'rgba(34, 197, 94, 0.2)';
+    ctx.beginPath();
+    ctx.moveTo(toX(rightCrit), toY(0));
+    for (let x = rightCrit; x <= xMax; x += dx) {
+      ctx.lineTo(toX(x), toY(normalPDF(x, h1mu, drawSE) * scale));
+    }
+    ctx.lineTo(toX(xMax), toY(0));
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // Critical value lines
+  ctx.strokeStyle = '#64748b';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 4]);
+  [h0mu - zCrit * drawSE, h0mu + zCrit * drawSE].forEach(cv => {
+    ctx.beginPath();
+    ctx.moveTo(toX(cv), padT);
+    ctx.lineTo(toX(cv), padT + plotH);
+    ctx.stroke();
+  });
+  ctx.setLineDash([]);
+
+  // X-axis
+  ctx.strokeStyle = '#1e293b';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT + plotH);
+  ctx.lineTo(W - padR, padT + plotH);
+  ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('H0', toX(h0mu), padT + plotH + 20);
+  if (d > 0) {
+    ctx.fillStyle = '#166534';
+    ctx.fillText('H1', toX(h1mu), padT + plotH + 20);
+  }
+
+  // Legend
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'left';
+  const legY = 15;
+  ctx.fillStyle = 'rgba(239, 68, 68, 0.5)';
+  ctx.fillRect(padL, legY, 12, 12);
+  ctx.fillStyle = '#1e293b';
+  ctx.fillText('alpha (Type I)', padL + 16, legY + 10);
+
+  if (d > 0) {
+    ctx.fillStyle = 'rgba(245, 158, 11, 0.4)';
+    ctx.fillRect(padL + 120, legY, 12, 12);
+    ctx.fillStyle = '#1e293b';
+    ctx.fillText('beta (Type II)', padL + 136, legY + 10);
+
+    ctx.fillStyle = 'rgba(34, 197, 94, 0.3)';
+    ctx.fillRect(padL + 240, legY, 12, 12);
+    ctx.fillStyle = '#1e293b';
+    ctx.fillText('Power (1-beta)', padL + 256, legY + 10);
+  }
+
+  // Calculate beta and power
+  const rightCritical = zCrit; // in SE units from H0
+  const leftCritical = -zCrit;
+  // Under H1, z for right critical = (rightCritical*drawSE - h1mu)/drawSE = rightCritical - h1mu/drawSE
+  const z1Right = (h0mu + zCrit * drawSE - h1mu) / drawSE;
+  const z1Left = (h0mu - zCrit * drawSE - h1mu) / drawSE;
+  const beta = normalCDF(z1Right, 0, 1) - normalCDF(z1Left, 0, 1);
+  const power = 1 - beta;
+
+  document.getElementById('error-alpha-val').textContent = alpha.toFixed(2);
+  document.getElementById('error-beta-val').textContent = d > 0 ? beta.toFixed(3) : '-';
+  document.getElementById('error-power-val').textContent = d > 0 ? (power * 100).toFixed(1) + '%' : '-';
+  document.getElementById('error-d-val').textContent = d.toFixed(1);
+}
+
+// ==================== P-HACKING SIMULATOR ====================
+function runPHack() {
+  const nObs = 30; // observations per group
+  const nVars = 20;
+  const results = [];
+
+  for (let v = 0; v < nVars; v++) {
+    // Generate two random groups (no real effect)
+    const g1 = [], g2 = [];
+    for (let i = 0; i < nObs; i++) {
+      g1.push(randn());
+      g2.push(randn());
+    }
+    // Two-sample t-test
+    const m1 = g1.reduce((a, b) => a + b) / nObs;
+    const m2 = g2.reduce((a, b) => a + b) / nObs;
+    const s1 = Math.sqrt(g1.reduce((a, v) => a + (v - m1) ** 2, 0) / (nObs - 1));
+    const s2 = Math.sqrt(g2.reduce((a, v) => a + (v - m2) ** 2, 0) / (nObs - 1));
+    const se = Math.sqrt(s1 * s1 / nObs + s2 * s2 / nObs);
+    const t = (m1 - m2) / se;
+    const df = nObs * 2 - 2;
+    // Approximate p-value using normal for simplicity (df >= 30 is close)
+    const z = Math.abs(t);
+    const tt = 1 / (1 + 0.2316419 * z);
+    const dd = 0.3989422804 * Math.exp(-z * z / 2);
+    const p = 2 * dd * tt * (0.3193815 + tt * (-0.3565638 + tt * (1.781478 + tt * (-1.821256 + tt * 1.330274))));
+
+    results.push({ varIdx: v + 1, t: t, p: Math.min(1, p), sig: p < 0.05 });
+  }
+
+  // Draw
+  const canvas = document.getElementById('phack-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const padL = 60, padR = 20, padT = 20, padB = 50;
+  const barW = (W - padL - padR) / nVars - 4;
+
+  // Find max p
+  const maxP = 1;
+  const toY = p => padT + (1 - p / maxP) * (H - padT - padB);
+
+  // Alpha line
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  const alphaY = toY(0.05);
+  ctx.beginPath();
+  ctx.moveTo(padL, alphaY);
+  ctx.lineTo(W - padR, alphaY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#ef4444';
+  ctx.font = '10px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('alpha = 0.05', W - padR - 65, alphaY - 4);
+
+  // Draw bars
+  results.forEach((r, i) => {
+    const x = padL + i * ((W - padL - padR) / nVars) + 2;
+    const barH = H - padB - toY(r.p);
+    const y = toY(r.p);
+
+    ctx.fillStyle = r.sig ? '#ef4444' : '#2563eb88';
+    ctx.fillRect(x, y, barW, barH);
+
+    // Label
+    ctx.fillStyle = '#64748b';
+    ctx.font = '9px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('X' + r.varIdx, x + barW / 2, H - padB + 14);
+
+    if (r.sig) {
+      ctx.fillStyle = '#ef4444';
+      ctx.font = 'bold 9px sans-serif';
+      ctx.fillText('p=' + r.p.toFixed(3), x + barW / 2, y - 4);
+    }
+  });
+
+  // Y-axis
+  ctx.strokeStyle = '#1e293b';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT);
+  ctx.lineTo(padL, H - padB);
+  ctx.lineTo(W - padR, H - padB);
+  ctx.stroke();
+
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '10px sans-serif';
+  ctx.textAlign = 'right';
+  for (let p = 0; p <= 1; p += 0.2) {
+    const y = toY(p);
+    ctx.fillText(p.toFixed(1), padL - 5, y + 3);
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+  }
+
+  ctx.save();
+  ctx.translate(15, H / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('p-value', 0, 0);
+  ctx.restore();
+
+  const sigCount = results.filter(r => r.sig).length;
+  document.getElementById('phack-tested').textContent = nVars;
+  document.getElementById('phack-sig').textContent = sigCount;
+  document.getElementById('phack-fdr').textContent = sigCount > 0 ?
+    '100% (모두 거짓)' : '0개 발견';
+}
+
+function runPHackRepeat() {
+  const nTrials = 50;
+  const nVars = 20;
+  const nObs = 30;
+  let totalFalsePositives = 0;
+  let trialsWithFP = 0;
+
+  for (let trial = 0; trial < nTrials; trial++) {
+    let hasFP = false;
+    for (let v = 0; v < nVars; v++) {
+      const g1 = [], g2 = [];
+      for (let i = 0; i < nObs; i++) { g1.push(randn()); g2.push(randn()); }
+      const m1 = g1.reduce((a, b) => a + b) / nObs;
+      const m2 = g2.reduce((a, b) => a + b) / nObs;
+      const s1 = Math.sqrt(g1.reduce((a, v) => a + (v - m1) ** 2, 0) / (nObs - 1));
+      const s2 = Math.sqrt(g2.reduce((a, v) => a + (v - m2) ** 2, 0) / (nObs - 1));
+      const se = Math.sqrt(s1 * s1 / nObs + s2 * s2 / nObs);
+      const t = Math.abs((m1 - m2) / se);
+      const tt = 1 / (1 + 0.2316419 * t);
+      const dd = 0.3989422804 * Math.exp(-t * t / 2);
+      const p = 2 * dd * tt * (0.3193815 + tt * (-0.3565638 + tt * (1.781478 + tt * (-1.821256 + tt * 1.330274))));
+      if (p < 0.05) { totalFalsePositives++; hasFP = true; }
+    }
+    if (hasFP) trialsWithFP++;
+  }
+
+  const resultDiv = document.getElementById('phack-repeat-result');
+  resultDiv.style.display = '';
+  const expectedFP = nTrials * nVars * 0.05;
+  const probAtLeastOne = 1 - Math.pow(0.95, nVars);
+
+  resultDiv.innerHTML = `<div class="tb-warning-box">
+    <strong>50번 반복 실험 결과 (매번 20개 변수 검정, 모두 무작위):</strong><br>
+    총 거짓 양성 수: <strong>${totalFalsePositives}개</strong> / ${nTrials * nVars}회 검정
+    (기대값: ${Math.round(expectedFP)}개)<br>
+    "유의한 결과"가 1개 이상 나온 실험: <strong>${trialsWithFP}번</strong> / ${nTrials}번
+    (이론적 확률: ${(probAtLeastOne * 100).toFixed(0)}%)<br><br>
+    20개 변수를 동시에 검정하면, 실험의 약 ${(probAtLeastOne * 100).toFixed(0)}%에서
+    적어도 1개의 거짓 양성이 발생합니다.
+    연구자가 "유의한 것만 보고"하면 이것이 진짜 발견처럼 보이게 됩니다.
+    이것이 <strong>p-해킹</strong>의 메커니즘입니다.
+  </div>`;
+}
+
+// ==================== GUIDED HYPOTHESIS TEST ====================
+const SCENARIOS = {
+  salary: {
+    title: '직장인 평균 연봉 검정',
+    h0: 'H0: mu = 4000만원 (평균 연봉은 4,000만원이다)',
+    h1: 'H1: mu != 4000만원 (평균 연봉은 4,000만원이 아니다)',
+    mu0: 4000,
+    generate() {
+      const n = 36;
+      const trueMu = 4250;
+      const sigma = 800;
+      const data = [];
+      for (let i = 0; i < n; i++) data.push(trueMu + sigma * randn());
+      return { data, n, sigma, mu0: this.mu0 };
+    }
+  },
+  defect: {
+    title: '제품 불량률 검정',
+    h0: 'H0: p = 0.03 (불량률은 3%이다)',
+    h1: 'H1: p > 0.03 (불량률이 3%를 초과한다)',
+    mu0: 0.03,
+    generate() {
+      const n = 200;
+      const trueP = 0.055;
+      let defects = 0;
+      for (let i = 0; i < n; i++) { if (Math.random() < trueP) defects++; }
+      return { defects, n, p0: 0.03, phat: defects / n };
+    }
+  },
+  score: {
+    title: '새 교육법 효과 검정',
+    h0: 'H0: mu_diff = 0 (새 교육법은 효과가 없다)',
+    h1: 'H1: mu_diff > 0 (새 교육법이 성적을 높인다)',
+    mu0: 0,
+    generate() {
+      const n = 25;
+      const trueDiff = 8;
+      const sigma = 15;
+      const diffs = [];
+      for (let i = 0; i < n; i++) diffs.push(trueDiff + sigma * randn());
+      return { data: diffs, n, sigma };
+    }
+  }
+};
+
+function runGuidedTest() {
+  const scenarioKey = document.getElementById('guided-scenario').value;
+  const scenario = SCENARIOS[scenarioKey];
+  const output = document.getElementById('guided-output');
+
+  let html = '';
+  let tStat, pval, conclusion;
+
+  html += `<div class="tb-explain"><strong>시나리오: ${scenario.title}</strong></div>`;
+
+  // Step 1: Hypotheses
+  html += `<div style="background: var(--tb-primary-light); padding: 14px; border-radius: var(--tb-radius); margin: 8px 0;">
+    <strong>1단계: 가설 설정</strong><br>
+    ${scenario.h0}<br>${scenario.h1}
+  </div>`;
+
+  // Step 2: Significance level
+  html += `<div style="background: #fef3c7; padding: 14px; border-radius: var(--tb-radius); margin: 8px 0;">
+    <strong>2단계: 유의수준</strong><br>
+    alpha = 0.05 (양측검정)
+  </div>`;
+
+  if (scenarioKey === 'salary') {
+    const gen = scenario.generate();
+    const mean = gen.data.reduce((a, b) => a + b) / gen.n;
+    const sd = Math.sqrt(gen.data.reduce((a, v) => a + (v - mean) ** 2, 0) / (gen.n - 1));
+    const se = sd / Math.sqrt(gen.n);
+    tStat = (mean - gen.mu0) / se;
+    // Two-sided p-value
+    const absT = Math.abs(tStat);
+    const tt = 1 / (1 + 0.2316419 * absT);
+    const dd = 0.3989422804 * Math.exp(-absT * absT / 2);
+    pval = 2 * dd * tt * (0.3193815 + tt * (-0.3565638 + tt * (1.781478 + tt * (-1.821256 + tt * 1.330274))));
+
+    html += `<div style="background: #f0fdf4; padding: 14px; border-radius: var(--tb-radius); margin: 8px 0;">
+      <strong>3단계: 데이터 및 검정통계량</strong><br>
+      표본 크기: n = ${gen.n}<br>
+      표본 평균: ${mean.toFixed(0)}만원<br>
+      표본 표준편차: ${sd.toFixed(0)}만원<br>
+      표준오차: SE = ${sd.toFixed(0)} / sqrt(${gen.n}) = ${se.toFixed(1)}<br>
+      t = (${mean.toFixed(0)} - ${gen.mu0}) / ${se.toFixed(1)} = <strong>${tStat.toFixed(3)}</strong>
+    </div>`;
+  } else if (scenarioKey === 'defect') {
+    const gen = scenario.generate();
+    const se = Math.sqrt(gen.p0 * (1 - gen.p0) / gen.n);
+    tStat = (gen.phat - gen.p0) / se;
+    // One-sided p-value
+    const absZ = Math.abs(tStat);
+    const tt = 1 / (1 + 0.2316419 * absZ);
+    const dd = 0.3989422804 * Math.exp(-absZ * absZ / 2);
+    pval = tStat > 0 ? dd * tt * (0.3193815 + tt * (-0.3565638 + tt * (1.781478 + tt * (-1.821256 + tt * 1.330274)))) : 1;
+
+    html += `<div style="background: #f0fdf4; padding: 14px; border-radius: var(--tb-radius); margin: 8px 0;">
+      <strong>3단계: 데이터 및 검정통계량</strong><br>
+      표본 크기: n = ${gen.n}<br>
+      불량품 수: ${gen.defects}개<br>
+      표본 불량률: p-hat = ${(gen.phat * 100).toFixed(1)}%<br>
+      SE = sqrt(0.03 * 0.97 / ${gen.n}) = ${se.toFixed(4)}<br>
+      z = (${gen.phat.toFixed(3)} - 0.03) / ${se.toFixed(4)} = <strong>${tStat.toFixed(3)}</strong>
+    </div>`;
+  } else {
+    const gen = scenario.generate();
+    const mean = gen.data.reduce((a, b) => a + b) / gen.n;
+    const sd = Math.sqrt(gen.data.reduce((a, v) => a + (v - mean) ** 2, 0) / (gen.n - 1));
+    const se = sd / Math.sqrt(gen.n);
+    tStat = mean / se; // testing if mean diff > 0
+    // One-sided p-value
+    const absT = Math.abs(tStat);
+    const tt = 1 / (1 + 0.2316419 * absT);
+    const dd = 0.3989422804 * Math.exp(-absT * absT / 2);
+    pval = tStat > 0 ? dd * tt * (0.3193815 + tt * (-0.3565638 + tt * (1.781478 + tt * (-1.821256 + tt * 1.330274)))) : 1;
+
+    html += `<div style="background: #f0fdf4; padding: 14px; border-radius: var(--tb-radius); margin: 8px 0;">
+      <strong>3단계: 데이터 및 검정통계량</strong><br>
+      표본 크기: n = ${gen.n} (전후 차이 점수)<br>
+      평균 차이: ${mean.toFixed(1)}점<br>
+      차이의 표준편차: ${sd.toFixed(1)}점<br>
+      SE = ${sd.toFixed(1)} / sqrt(${gen.n}) = ${se.toFixed(2)}<br>
+      t = ${mean.toFixed(1)} / ${se.toFixed(2)} = <strong>${tStat.toFixed(3)}</strong>
+    </div>`;
+  }
+
+  // Step 4: p-value
+  html += `<div style="background: ${pval < 0.05 ? '#dcfce7' : '#fef2f2'}; padding: 14px; border-radius: var(--tb-radius); margin: 8px 0;">
+    <strong>4단계: p-value = ${pval.toFixed(4)}</strong><br>
+    ${pval < 0.05 ?
+      'p-value < 0.05이므로 유의수준 하에서 H0을 기각합니다.' :
+      'p-value >= 0.05이므로 H0을 기각하지 못합니다.'}
+  </div>`;
+
+  // Step 5: Conclusion
+  conclusion = pval < 0.05 ? 'H0 기각' : 'H0 기각 실패';
+  html += `<div style="background: var(--tb-primary-light); padding: 14px; border-radius: var(--tb-radius); margin: 8px 0;">
+    <strong>5단계: 결론</strong><br>
+    ${pval < 0.05 ?
+      '통계적으로 유의한 결과입니다. 귀무가설을 기각합니다.' :
+      '통계적으로 유의하지 않은 결과입니다. 귀무가설을 기각하지 못합니다. (이것은 H0이 참이라는 증명이 아닙니다.)'}
+  </div>`;
+
+  output.innerHTML = html;
+
+  // Draw the distribution with shaded regions
+  drawGuidedChart(tStat, pval, scenarioKey !== 'salary');
+
+  document.getElementById('guided-stats').style.display = '';
+  document.getElementById('guided-tstat').textContent = tStat.toFixed(3);
+  document.getElementById('guided-pval').textContent = pval.toFixed(4);
+  document.getElementById('guided-conclusion').textContent = conclusion;
+  document.getElementById('guided-conclusion').style.color = pval < 0.05 ? 'var(--tb-danger)' : 'var(--tb-success)';
+}
+
+function drawGuidedChart(tStat, pval, oneSided) {
+  const canvas = document.getElementById('guided-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const padL = 60, padR = 40, padT = 30, padB = 50;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+
+  const xMin = -4, xMax = 4;
+  const toX = v => padL + ((v - xMin) / (xMax - xMin)) * plotW;
+  const maxPDF = normalPDF(0, 0, 1);
+  const toY = v => padT + plotH - (v / maxPDF) * plotH * 0.9;
+
+  // Draw curve
+  ctx.beginPath();
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 2;
+  const steps = 200;
+  const dx = (xMax - xMin) / steps;
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    const y = normalPDF(x, 0, 1);
+    if (i === 0) ctx.moveTo(toX(x), toY(y));
+    else ctx.lineTo(toX(x), toY(y));
+  }
+  ctx.stroke();
+
+  // Shade rejection region
+  ctx.fillStyle = 'rgba(239, 68, 68, 0.3)';
+  if (oneSided) {
+    // Right tail from 1.645
+    const critZ = 1.645;
+    ctx.beginPath();
+    ctx.moveTo(toX(critZ), toY(0));
+    for (let x = critZ; x <= xMax; x += dx) {
+      ctx.lineTo(toX(x), toY(normalPDF(x, 0, 1)));
+    }
+    ctx.lineTo(toX(xMax), toY(0));
+    ctx.closePath();
+    ctx.fill();
+  } else {
+    // Two tails from +-1.96
+    const critZ = 1.96;
+    ctx.beginPath();
+    ctx.moveTo(toX(critZ), toY(0));
+    for (let x = critZ; x <= xMax; x += dx) {
+      ctx.lineTo(toX(x), toY(normalPDF(x, 0, 1)));
+    }
+    ctx.lineTo(toX(xMax), toY(0));
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(toX(-critZ), toY(0));
+    for (let x = -critZ; x >= xMin; x -= dx) {
+      ctx.lineTo(toX(x), toY(normalPDF(x, 0, 1)));
+    }
+    ctx.lineTo(toX(xMin), toY(0));
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // Test statistic marker
+  const clampedT = Math.max(xMin, Math.min(xMax, tStat));
+  ctx.strokeStyle = '#7c3aed';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(toX(clampedT), padT);
+  ctx.lineTo(toX(clampedT), padT + plotH);
+  ctx.stroke();
+
+  ctx.fillStyle = '#7c3aed';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('t = ' + tStat.toFixed(2), toX(clampedT), padT - 5);
+
+  // X-axis
+  ctx.strokeStyle = '#1e293b';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT + plotH);
+  ctx.lineTo(W - padR, padT + plotH);
+  ctx.stroke();
+
+  ctx.fillStyle = '#64748b';
+  ctx.font = '10px sans-serif';
+  for (let v = -4; v <= 4; v++) {
+    ctx.textAlign = 'center';
+    ctx.fillText(v.toString(), toX(v), padT + plotH + 15);
+  }
+
+  // Labels
+  ctx.fillStyle = '#ef4444';
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('기각 영역', W - padR - 5, padT + 15);
+}
+
+// ==================== UTILITIES ====================
+function randn() {
+  const u1 = Math.random(), u2 = Math.random();
+  return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+}
+
+// ==================== INITIALIZATION ====================
+document.addEventListener('DOMContentLoaded', () => {
+  // Coin flipper
+  document.getElementById('btn-flip-1').addEventListener('click', () => flipCoins(1));
+  document.getElementById('btn-flip-10').addEventListener('click', () => flipCoins(10));
+  document.getElementById('btn-flip-100exp').addEventListener('click', run100Experiments);
+  document.getElementById('btn-flip-reset').addEventListener('click', resetCoin);
+
+  // Type I / Type II
+  document.getElementById('btn-error-draw').addEventListener('click', drawErrorTradeoff);
+  document.getElementById('error-effect').addEventListener('input', () => {
+    document.getElementById('error-effect-label').textContent =
+      'd=' + parseFloat(document.getElementById('error-effect').value).toFixed(1);
+  });
+  drawErrorTradeoff(); // initial draw
+
+  // p-hacking
+  document.getElementById('btn-phack-run').addEventListener('click', runPHack);
+  document.getElementById('btn-phack-repeat').addEventListener('click', runPHackRepeat);
+  document.getElementById('btn-phack-reset').addEventListener('click', () => {
+    const ctx = document.getElementById('phack-canvas').getContext('2d');
+    ctx.clearRect(0, 0, 800, 300);
+    document.getElementById('phack-tested').textContent = '0';
+    document.getElementById('phack-sig').textContent = '0';
+    document.getElementById('phack-fdr').textContent = '-';
+    document.getElementById('phack-repeat-result').style.display = 'none';
+  });
+
+  // Guided test
+  document.getElementById('btn-guided-run').addEventListener('click', runGuidedTest);
+  document.getElementById('btn-guided-reset').addEventListener('click', () => {
+    document.getElementById('guided-output').innerHTML = '';
+    document.getElementById('guided-stats').style.display = 'none';
+    const ctx = document.getElementById('guided-canvas').getContext('2d');
+    ctx.clearRect(0, 0, 800, 300);
+  });
+});
+</script>
+
+<style>
+  #error-canvas, #phack-canvas, #guided-canvas {
+    image-rendering: auto;
+  }
+</style>

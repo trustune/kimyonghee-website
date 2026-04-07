@@ -1,0 +1,780 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="신뢰구간"
+  subtitle="'95% 확신'의 진짜 의미"
+  chapterNum={9}
+  part={2}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>여론조사의 "오차범위 +-3.1%p" -- 정확히 무엇을 뜻하는가?</h2>
+    <p>
+      뉴스에서 흔히 듣는 표현입니다:
+      "A 후보 지지율 48%, B 후보 45%, 오차범위 +-3.1%p, 신뢰수준 95%."
+      그런데 이 문장을 정확히 이해하는 사람은 의외로 적습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      "95% 확신"이란 무엇일까요? 이것을 이해하려면 <strong>낚시 비유</strong>가 도움이 됩니다.
+    </p>
+
+    <ExplainBox>
+      <strong>낚시 비유:</strong>
+      호수에 물고기가 딱 한 마리 있습니다 (모수 = 진짜 지지율).
+      물고기의 정확한 위치는 모릅니다.
+      우리가 할 수 있는 것은 <strong>그물(신뢰구간)</strong>을 던지는 것입니다.
+      그물을 100번 던지면, 약 95번은 물고기를 잡습니다.
+      즉, 95%는 <strong>그물(구간)이 물고기(모수)를 포함할 확률</strong>이지,
+      물고기가 그물 안에 있을 확률이 아닙니다.
+      물고기는 항상 같은 자리에 있고, 움직이는 것은 그물입니다.
+    </ExplainBox>
+
+    <p style="margin-top: 12px;">
+      이 미묘한 차이가 신뢰구간의 핵심입니다.
+      이 장에서는 시뮬레이션으로 이 개념을 체험하고,
+      실제 여론조사를 해석하는 방법까지 배웁니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 신뢰구간의 공식 ===== -->
+  <div class="tb-card">
+    <h2>신뢰구간 만들기: 공식의 직관적 이해</h2>
+
+    <p>
+      8장에서 배운 표본 평균은 모집단 평균 근처에 있지만, 정확히 같지는 않습니다.
+      신뢰구간은 "모수가 이 범위 안에 있을 것이다"라는 구간 추정(interval estimation)입니다.
+    </p>
+
+    <FormulaBox>
+      신뢰구간 = <span class="hl">표본평균</span> +- <span class="hl">z</span> * (<span class="hl">sigma</span> / sqrt(<span class="hl">n</span>))
+    </FormulaBox>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 6px;">중심: 표본평균</h3>
+        <p style="font-size: .85rem;">우리가 가진 최선의 추정값입니다. 구간의 한가운데에 위치합니다.</p>
+      </div>
+      <div style="background: #fef3c7; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: #92400e; margin-bottom: 6px;">오차한계: z * SE</h3>
+        <p style="font-size: .85rem;">구간의 폭을 결정합니다. 신뢰수준이 높을수록(z가 클수록), 표본이 작을수록(SE가 클수록) 구간이 넓어집니다.</p>
+      </div>
+    </div>
+
+    <ExplainBox>
+      <strong>z-값의 의미:</strong><br>
+      90% 신뢰구간: z = 1.645 (좁은 그물, 놓칠 확률 10%)<br>
+      95% 신뢰구간: z = 1.960 (표준적 그물, 놓칠 확률 5%)<br>
+      99% 신뢰구간: z = 2.576 (넓은 그물, 놓칠 확률 1%)<br><br>
+      신뢰수준을 높이면 "더 많이 잡을 수 있지만" 그물이 커서 정보가 부정확해집니다.
+      99% 신뢰구간이 "A 후보 지지율 30%-70%"라면 맞긴 하지만 쓸모가 없습니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 3: 100개 신뢰구간 시뮬레이션 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 100개의 신뢰구간 -- 핵심 시각화</h2>
+    <p>
+      이것이 이 장에서 가장 중요한 시뮬레이션입니다.
+      알려진 모집단(평균 = 500, 표준편차 = 100)에서 표본을 100번 뽑아
+      각각의 신뢰구간을 그립니다. 진짜 모수(500)를 포함하는 구간은 몇 개일까요?
+    </p>
+
+    <ExerciseBox>
+      <strong>핵심 실험:</strong>
+      (1) 95% 신뢰수준으로 실행하고, 모수를 포함하지 못한 구간(빨간색)이 약 5개인지 확인하세요.
+      (2) 90%로 바꾸면? 80%로 바꾸면? 놓치는 구간이 더 많아지는 것을 관찰하세요.
+      (3) 표본 크기를 바꿔보세요. 구간 폭이 어떻게 변하나요?
+    </ExerciseBox>
+
+    <SimControls>
+      <label>신뢰수준:</label>
+      <select id="ci-level">
+        <option value="0.80">80%</option>
+        <option value="0.90">90%</option>
+        <option value="0.95" selected>95%</option>
+        <option value="0.99">99%</option>
+      </select>
+      <label>표본 크기:</label>
+      <select id="ci-n">
+        <option value="10">10</option>
+        <option value="25" selected>25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-run-ci">100개 CI 생성</button>
+    </SimControls>
+
+    <div style="margin: 14px 0;">
+      <canvas id="ci-canvas" width="800" height="520" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="생성된 CI" id="ci-total" value="0" />
+      <StatBox label="모수 포함 (파란색)" id="ci-hit" value="0" borderColor="var(--tb-primary)" />
+      <StatBox label="모수 미포함 (빨간색)" id="ci-miss" value="0" borderColor="var(--tb-danger)" />
+      <StatBox label="적중률" id="ci-rate" value="-" sub="이론값에 가까운가?" />
+    </div>
+
+    <InsightBox>
+      <strong>핵심 통찰:</strong>
+      95% 신뢰수준이면 약 95개의 구간이 모수를 포함합니다.
+      하지만 "정확히 95개"는 아닙니다 -- 92개일 수도, 97개일 수도 있습니다.
+      "95%"는 <strong>장기적으로</strong> 이 방법을 반복하면 95%의 구간이 모수를 포함한다는 뜻입니다.
+      한 번 만든 특정 구간이 모수를 포함할 "확률"이 95%라는 뜻이 아닙니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 4: CI 폭 탐색기 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 신뢰구간 폭 탐색기</h2>
+    <p>
+      신뢰구간의 폭은 세 가지 요소에 의해 결정됩니다.
+      아래 슬라이더로 각 요소를 바꿔보며 구간 폭의 변화를 직접 확인하세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>확인해볼 것:</strong>
+      (1) 표본 크기(n)를 늘리면 구간이 좁아진다.
+      (2) 신뢰수준을 높이면 구간이 넓어진다.
+      (3) 모집단 표준편차가 클수록 구간이 넓어진다.
+      세 가지 요소 중 어떤 것이 가장 큰 영향을 미치는지 비교해보세요.
+    </ExerciseBox>
+
+    <div style="background: var(--tb-g100); padding: 20px; border-radius: var(--tb-radius); margin: 14px 0;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+        <div>
+          <label style="font-weight: 700; font-size: .85rem; display: block; margin-bottom: 6px;">
+            표본 크기 (n): <span id="width-n-label">50</span>
+          </label>
+          <input type="range" id="width-n" min="10" max="500" value="50" step="5" style="width: 100%;" />
+        </div>
+        <div>
+          <label style="font-weight: 700; font-size: .85rem; display: block; margin-bottom: 6px;">
+            신뢰수준: <span id="width-conf-label">95%</span>
+          </label>
+          <input type="range" id="width-conf" min="80" max="99" value="95" step="1" style="width: 100%;" />
+        </div>
+        <div>
+          <label style="font-weight: 700; font-size: .85rem; display: block; margin-bottom: 6px;">
+            모집단 SD: <span id="width-sd-label">100</span>
+          </label>
+          <input type="range" id="width-sd" min="20" max="300" value="100" step="10" style="width: 100%;" />
+        </div>
+      </div>
+    </div>
+
+    <div style="margin: 14px 0;">
+      <canvas id="width-canvas" width="800" height="200" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="오차한계 (ME)" id="width-me" value="-" />
+      <StatBox label="CI 하한" id="width-lower" value="-" />
+      <StatBox label="CI 상한" id="width-upper" value="-" />
+      <StatBox label="CI 폭" id="width-total" value="-" sub="상한 - 하한" />
+    </div>
+
+    <InsightBox>
+      <strong>실무적 딜레마:</strong>
+      신뢰수준을 높이면 "더 안전하지만" 구간이 넓어져 정보가 부정확해집니다.
+      표본을 늘리면 구간이 좁아지지만 비용이 증가합니다.
+      이 사이에서 적절한 균형을 찾는 것이 통계적 의사결정의 핵심입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 5: 여론조사 해석기 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 여론조사 해석기</h2>
+    <p>
+      실제 여론조사 결과를 입력하면 각 후보의 신뢰구간을 시각적으로 보여줍니다.
+      두 후보의 구간이 겹치면 "통계적으로 유의미한 차이가 없다" -- 즉, 접전입니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>시나리오:</strong>
+      (1) A=48%, B=45%, n=1000 -- 오차범위 안에 있는 접전인가?
+      (2) A=52%, B=40%, n=1000 -- 이것은 확실한 우세인가?
+      (3) 같은 결과에서 n=200으로 줄이면 해석이 어떻게 달라지는가?
+    </ExerciseBox>
+
+    <div style="background: var(--tb-g100); padding: 20px; border-radius: var(--tb-radius); margin: 14px 0;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+        <div>
+          <label style="font-weight: 700; font-size: .85rem; display: block; margin-bottom: 6px;">A 후보 지지율 (%)</label>
+          <input type="number" id="poll-a" value="48" min="0" max="100" style="width: 100%; padding: 8px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: var(--tb-font);" />
+        </div>
+        <div>
+          <label style="font-weight: 700; font-size: .85rem; display: block; margin-bottom: 6px;">B 후보 지지율 (%)</label>
+          <input type="number" id="poll-b" value="45" min="0" max="100" style="width: 100%; padding: 8px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: var(--tb-font);" />
+        </div>
+        <div>
+          <label style="font-weight: 700; font-size: .85rem; display: block; margin-bottom: 6px;">표본 크기 (n)</label>
+          <input type="number" id="poll-n" value="1000" min="30" max="10000" style="width: 100%; padding: 8px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: var(--tb-font);" />
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 16px;">
+        <button class="tb-btn tb-btn-primary" id="btn-poll-analyze">분석하기</button>
+      </div>
+    </div>
+
+    <div style="margin: 14px 0;">
+      <canvas id="poll-canvas" width="800" height="200" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+    </div>
+
+    <div id="poll-result" style="display: none;"></div>
+
+    <div class="tb-stat-row" id="poll-stats" style="display: none;">
+      <StatBox label="A 후보 CI" id="poll-ci-a" value="-" borderColor="#2563eb" />
+      <StatBox label="B 후보 CI" id="poll-ci-b" value="-" borderColor="#ef4444" />
+      <StatBox label="오차범위" id="poll-moe" value="-" />
+      <StatBox label="판정" id="poll-verdict" value="-" />
+    </div>
+
+    <BusinessBox>
+      <strong>언론 보도 읽기:</strong>
+      "A 후보가 3%p 앞선다"는 제목만 보면 A가 유리해 보입니다.
+      하지만 오차범위가 +-3.1%p라면, 실제로는 B가 앞서고 있을 가능성도 배제할 수 없습니다.
+      신뢰구간이 겹치는지 확인하는 습관이 데이터 리터러시의 핵심입니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 6: 오해 퀴즈 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 신뢰구간 오해 퀴즈</h2>
+    <p>
+      신뢰구간은 통계학에서 가장 오해가 많은 개념 중 하나입니다.
+      아래 5개 문장이 맞는지 틀린지 판단해보세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>각 문장을 읽고 O(맞다) 또는 X(틀리다)를 선택하세요.</strong>
+      직관적으로 맞아 보이는 문장도 틀릴 수 있습니다.
+    </ExerciseBox>
+
+    <div id="misconception-quiz" style="margin: 14px 0;"></div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-check-quiz">정답 확인</button>
+      <button class="tb-btn tb-btn-danger" id="btn-reset-quiz">다시 풀기</button>
+    </SimControls>
+
+    <div class="tb-stat-row" id="quiz-score-row" style="display: none;">
+      <StatBox label="정답" id="quiz-correct" value="0" borderColor="var(--tb-success)" />
+      <StatBox label="오답" id="quiz-wrong" value="0" borderColor="var(--tb-danger)" />
+      <StatBox label="점수" id="quiz-score" value="-" />
+    </div>
+
+    <WarningBox>
+      <strong>가장 흔한 오해:</strong>
+      "95% 신뢰구간"은 "모수가 이 구간 안에 있을 확률이 95%"라는 뜻이 <strong>아닙니다</strong>.
+      모수는 고정된 값입니다 -- 구간 안에 있거나 없거나, 둘 중 하나입니다.
+      95%는 이 <strong>방법(절차)</strong>을 반복하면 장기적으로 95%가 모수를 포함한다는 뜻입니다.
+      구간은 무작위이고, 모수는 고정입니다. 낚시 비유를 떠올려보세요.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 7: 비율의 신뢰구간 ===== -->
+  <div class="tb-card">
+    <h2>비율의 신뢰구간</h2>
+    <p>
+      여론조사처럼 비율(proportion)을 추정할 때의 신뢰구간은 약간 다른 공식을 씁니다.
+      표준편차 대신 비율의 표준오차를 사용합니다.
+    </p>
+
+    <FormulaBox>
+      비율의 CI = <span class="hl">p-hat</span> +- <span class="hl">z</span> * sqrt(<span class="hl">p-hat</span>(1 - <span class="hl">p-hat</span>) / <span class="hl">n</span>)
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>p-hat</strong>은 표본 비율(예: 1000명 중 480명이 A 후보를 지지하면 p-hat = 0.48)입니다.
+      이 공식은 정규근사가 적절한 경우(np-hat >= 10이고 n(1-p-hat) >= 10)에만 사용합니다.
+    </ExplainBox>
+
+    <InsightBox>
+      <strong>오차범위의 비밀:</strong>
+      뉴스에서 말하는 "오차범위 +-3.1%p"는 바로 z * sqrt(p-hat(1-p-hat)/n) 부분입니다.
+      95% 신뢰수준에서 p-hat = 0.5, n = 1000이면:
+      1.96 * sqrt(0.5 * 0.5 / 1000) = 1.96 * 0.0158 = 0.031, 즉 +-3.1%p입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>신뢰구간 = 표본평균 +- z * SE로, 모수가 있을 법한 범위를 나타낸다.</li>
+      <li>95% 신뢰구간은 "이 방법을 반복하면 95%의 구간이 모수를 포함한다"는 뜻이다.</li>
+      <li>표본이 클수록 구간이 좁아지고, 신뢰수준이 높을수록 구간이 넓어진다.</li>
+      <li>두 그룹의 신뢰구간이 겹치면 통계적으로 의미 있는 차이라고 단정하기 어렵다.</li>
+      <li>"95% 확률로 모수가 이 안에 있다"는 엄밀히 틀린 해석이다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong>
+      신뢰구간이 "범위"를 제시한다면, 가설검정은 "예/아니오"로 결론을 내립니다.
+      10장에서는 p-value의 진짜 의미와 가설검정의 논리를 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== 100 CONFIDENCE INTERVALS ====================
+const TRUE_MEAN = 500;
+const POP_SD = 100;
+
+function getZ(level) {
+  const table = { 0.80: 1.282, 0.90: 1.645, 0.95: 1.960, 0.99: 2.576 };
+  return table[level] || 1.96;
+}
+
+function run100CIs() {
+  const level = parseFloat(document.getElementById('ci-level').value);
+  const n = parseInt(document.getElementById('ci-n').value);
+  const z = getZ(level);
+  const se = POP_SD / Math.sqrt(n);
+
+  const canvas = document.getElementById('ci-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Scale: x from TRUE_MEAN - 4*se*z to TRUE_MEAN + 4*se*z (but at least +-80)
+  const range = Math.max(80, z * se * 3);
+  const xMin = TRUE_MEAN - range;
+  const xMax = TRUE_MEAN + range;
+  const toX = v => ((v - xMin) / (xMax - xMin)) * (W - 80) + 40;
+
+  // Draw true mean vertical line
+  const trueX = toX(TRUE_MEAN);
+  ctx.strokeStyle = '#22c55e';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(trueX, 20);
+  ctx.lineTo(trueX, H - 40);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#22c55e';
+  ctx.font = '12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('True mean = ' + TRUE_MEAN, trueX, 15);
+
+  // Draw x-axis
+  ctx.strokeStyle = '#cbd5e1';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(40, H - 35);
+  ctx.lineTo(W - 40, H - 35);
+  ctx.stroke();
+
+  // Axis ticks
+  ctx.fillStyle = '#64748b';
+  ctx.font = '10px sans-serif';
+  for (let v = Math.ceil(xMin / 20) * 20; v <= xMax; v += 20) {
+    const x = toX(v);
+    ctx.beginPath(); ctx.moveTo(x, H - 35); ctx.lineTo(x, H - 30); ctx.stroke();
+    ctx.fillText(v.toString(), x, H - 20);
+  }
+
+  let hit = 0;
+  let miss = 0;
+  const barH = Math.min(4, (H - 80) / 100);
+  const gap = (H - 80) / 100;
+
+  for (let i = 0; i < 100; i++) {
+    // Generate sample
+    let sum = 0;
+    for (let j = 0; j < n; j++) {
+      const u1 = Math.random(), u2 = Math.random();
+      const zz = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+      sum += TRUE_MEAN + POP_SD * zz;
+    }
+    const xbar = sum / n;
+    const lower = xbar - z * se;
+    const upper = xbar + z * se;
+    const containsMean = lower <= TRUE_MEAN && TRUE_MEAN <= upper;
+
+    if (containsMean) hit++; else miss++;
+
+    const y = 25 + i * gap;
+    const color = containsMean ? '#2563eb' : '#ef4444';
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = barH;
+    ctx.beginPath();
+    ctx.moveTo(toX(lower), y);
+    ctx.lineTo(toX(upper), y);
+    ctx.stroke();
+
+    // Sample mean dot
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(toX(xbar), y, barH + 0.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  document.getElementById('ci-total').textContent = '100';
+  document.getElementById('ci-hit').textContent = hit;
+  document.getElementById('ci-miss').textContent = miss;
+  document.getElementById('ci-rate').textContent = hit + '%';
+}
+
+// ==================== CI WIDTH EXPLORER ====================
+function updateCIWidth() {
+  const n = parseInt(document.getElementById('width-n').value);
+  const confLevel = parseInt(document.getElementById('width-conf').value);
+  const sd = parseInt(document.getElementById('width-sd').value);
+
+  document.getElementById('width-n-label').textContent = n;
+  document.getElementById('width-conf-label').textContent = confLevel + '%';
+  document.getElementById('width-sd-label').textContent = sd;
+
+  // Approximate z for arbitrary confidence level
+  // Use inverse normal approximation
+  const alpha = 1 - confLevel / 100;
+  let z;
+  if (confLevel === 80) z = 1.282;
+  else if (confLevel === 85) z = 1.440;
+  else if (confLevel === 90) z = 1.645;
+  else if (confLevel === 95) z = 1.960;
+  else if (confLevel === 99) z = 2.576;
+  else {
+    // Rough approximation using Beasley-Springer-Moro
+    const p = 1 - alpha / 2;
+    const t = Math.sqrt(-2 * Math.log(1 - p));
+    z = t - (2.515517 + 0.802853 * t + 0.010328 * t * t) /
+            (1 + 1.432788 * t + 0.189269 * t * t + 0.001308 * t * t * t);
+  }
+
+  const se = sd / Math.sqrt(n);
+  const me = z * se;
+  const sampleMean = 500; // fixed for illustration
+  const lower = sampleMean - me;
+  const upper = sampleMean + me;
+
+  // Draw
+  const canvas = document.getElementById('width-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const displayRange = Math.max(me * 2, 60);
+  const xMin = sampleMean - displayRange;
+  const xMax = sampleMean + displayRange;
+  const toX = v => ((v - xMin) / (xMax - xMin)) * (W - 80) + 40;
+
+  // True mean line
+  const midX = toX(sampleMean);
+  ctx.strokeStyle = '#22c55e';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(midX, 30);
+  ctx.lineTo(midX, H - 50);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // CI bar
+  const barY = H / 2 - 10;
+  ctx.fillStyle = '#2563eb22';
+  ctx.fillRect(toX(lower), barY - 15, toX(upper) - toX(lower), 30);
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(toX(lower), barY);
+  ctx.lineTo(toX(upper), barY);
+  ctx.stroke();
+
+  // Endpoints
+  [lower, upper].forEach(v => {
+    ctx.beginPath();
+    ctx.moveTo(toX(v), barY - 12);
+    ctx.lineTo(toX(v), barY + 12);
+    ctx.stroke();
+  });
+
+  // Center dot
+  ctx.fillStyle = '#2563eb';
+  ctx.beginPath();
+  ctx.arc(midX, barY, 5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Labels
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(Math.round(lower).toString(), toX(lower), barY + 28);
+  ctx.fillText(Math.round(upper).toString(), toX(upper), barY + 28);
+  ctx.fillText(sampleMean.toString(), midX, barY - 22);
+
+  // ME arrow annotation
+  ctx.fillStyle = '#64748b';
+  ctx.font = '11px sans-serif';
+  ctx.fillText('ME = ' + me.toFixed(1), midX + (toX(upper) - midX) / 2, barY - 22);
+
+  document.getElementById('width-me').textContent = me.toFixed(1);
+  document.getElementById('width-lower').textContent = Math.round(lower);
+  document.getElementById('width-upper').textContent = Math.round(upper);
+  document.getElementById('width-total').textContent = (me * 2).toFixed(1);
+}
+
+// ==================== ELECTION POLL INTERPRETER ====================
+function analyzePoll() {
+  const pA = parseFloat(document.getElementById('poll-a').value) / 100;
+  const pB = parseFloat(document.getElementById('poll-b').value) / 100;
+  const n = parseInt(document.getElementById('poll-n').value);
+  const z = 1.96; // 95%
+
+  const seA = Math.sqrt(pA * (1 - pA) / n);
+  const seB = Math.sqrt(pB * (1 - pB) / n);
+  const meA = z * seA;
+  const meB = z * seB;
+
+  const ciA = [pA - meA, pA + meA];
+  const ciB = [pB - meB, pB + meB];
+
+  // Check overlap
+  const overlap = ciA[0] <= ciB[1] && ciB[0] <= ciA[1];
+
+  // Draw
+  const canvas = document.getElementById('poll-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const allVals = [ciA[0], ciA[1], ciB[0], ciB[1]];
+  const xMin = Math.min(...allVals) - 0.03;
+  const xMax = Math.max(...allVals) + 0.03;
+  const toX = v => ((v - xMin) / (xMax - xMin)) * (W - 80) + 40;
+
+  // A candidate
+  const yA = 60;
+  ctx.fillStyle = '#2563eb22';
+  ctx.fillRect(toX(ciA[0]), yA - 12, toX(ciA[1]) - toX(ciA[0]), 24);
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(toX(ciA[0]), yA); ctx.lineTo(toX(ciA[1]), yA); ctx.stroke();
+  [ciA[0], ciA[1]].forEach(v => {
+    ctx.beginPath(); ctx.moveTo(toX(v), yA - 10); ctx.lineTo(toX(v), yA + 10); ctx.stroke();
+  });
+  ctx.fillStyle = '#2563eb';
+  ctx.beginPath(); ctx.arc(toX(pA), yA, 5, 0, Math.PI * 2); ctx.fill();
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('A: ' + (pA * 100).toFixed(1) + '%', 10, yA + 5);
+
+  // B candidate
+  const yB = 130;
+  ctx.fillStyle = '#ef444422';
+  ctx.fillRect(toX(ciB[0]), yB - 12, toX(ciB[1]) - toX(ciB[0]), 24);
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(toX(ciB[0]), yB); ctx.lineTo(toX(ciB[1]), yB); ctx.stroke();
+  [ciB[0], ciB[1]].forEach(v => {
+    ctx.beginPath(); ctx.moveTo(toX(v), yB - 10); ctx.lineTo(toX(v), yB + 10); ctx.stroke();
+  });
+  ctx.fillStyle = '#ef4444';
+  ctx.beginPath(); ctx.arc(toX(pB), yB, 5, 0, Math.PI * 2); ctx.fill();
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('B: ' + (pB * 100).toFixed(1) + '%', 10, yB + 5);
+
+  // Overlap zone
+  if (overlap) {
+    const overlapLeft = Math.max(ciA[0], ciB[0]);
+    const overlapRight = Math.min(ciA[1], ciB[1]);
+    ctx.fillStyle = 'rgba(239, 68, 68, 0.1)';
+    ctx.fillRect(toX(overlapLeft), 40, toX(overlapRight) - toX(overlapLeft), 110);
+    ctx.fillStyle = '#64748b';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('겹침 구간', (toX(overlapLeft) + toX(overlapRight)) / 2, H - 20);
+  }
+
+  // Axis
+  ctx.strokeStyle = '#cbd5e1';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(40, H - 35); ctx.lineTo(W - 40, H - 35); ctx.stroke();
+  ctx.fillStyle = '#64748b';
+  ctx.font = '10px sans-serif';
+  ctx.textAlign = 'center';
+  for (let v = Math.ceil(xMin * 100) / 100; v <= xMax; v += 0.02) {
+    const x = toX(v);
+    ctx.beginPath(); ctx.moveTo(x, H - 35); ctx.lineTo(x, H - 30); ctx.stroke();
+    ctx.fillText((v * 100).toFixed(0) + '%', x, H - 22);
+  }
+
+  // Stats
+  document.getElementById('poll-stats').style.display = '';
+  document.getElementById('poll-ci-a').textContent =
+    (ciA[0] * 100).toFixed(1) + '% ~ ' + (ciA[1] * 100).toFixed(1) + '%';
+  document.getElementById('poll-ci-b').textContent =
+    (ciB[0] * 100).toFixed(1) + '% ~ ' + (ciB[1] * 100).toFixed(1) + '%';
+  document.getElementById('poll-moe').textContent =
+    '+-' + (Math.max(meA, meB) * 100).toFixed(1) + '%p';
+  document.getElementById('poll-verdict').textContent = overlap ? '접전 (겹침)' : '유의미한 차이';
+
+  const resultDiv = document.getElementById('poll-result');
+  resultDiv.style.display = '';
+  if (overlap) {
+    resultDiv.innerHTML = `<div class="tb-warning-box">
+      <strong>판정: 오차범위 내 접전</strong><br>
+      두 후보의 95% 신뢰구간이 겹칩니다.
+      A 후보가 ${((pA - pB) * 100).toFixed(1)}%p 앞서고 있지만,
+      표본오차를 고려하면 실제로 B 후보가 앞서고 있을 가능성도 배제할 수 없습니다.
+      "A 후보 우세"라고 단정하기 어렵습니다.
+    </div>`;
+  } else {
+    const leader = pA > pB ? 'A' : 'B';
+    resultDiv.innerHTML = `<div class="tb-insight">
+      <strong>판정: 통계적으로 유의미한 차이</strong><br>
+      두 후보의 95% 신뢰구간이 겹치지 않습니다.
+      ${leader} 후보가 통계적으로 유의미하게 앞서고 있다고 해석할 수 있습니다.
+      (단, 이것은 여론조사 시점의 스냅샷이며, 선거일까지 변할 수 있습니다.)
+    </div>`;
+  }
+}
+
+// ==================== MISCONCEPTION QUIZ ====================
+const QUIZ_ITEMS = [
+  {
+    statement: '"95% 신뢰구간 [480, 520]"이란, 모수가 이 구간 안에 있을 확률이 95%라는 뜻이다.',
+    answer: false,
+    explanation: '틀립니다. 모수는 고정된 값이며, 구간 안에 있거나 없거나 둘 중 하나입니다. 95%는 이 "방법"을 반복하면 95%의 구간이 모수를 포함한다는 뜻입니다.'
+  },
+  {
+    statement: '신뢰수준을 99%로 높이면 추정이 더 정밀해진다.',
+    answer: false,
+    explanation: '틀립니다. 신뢰수준을 높이면 구간이 더 넓어져서 오히려 정밀도(precision)는 떨어집니다. 정밀도를 높이려면 표본 크기를 늘려야 합니다.'
+  },
+  {
+    statement: '표본 크기를 4배로 늘리면 신뢰구간의 폭은 절반으로 줄어든다.',
+    answer: true,
+    explanation: '맞습니다. SE = sigma/sqrt(n)이므로, n이 4배가 되면 SE는 1/2이 되고, 구간 폭(2 * z * SE)도 절반이 됩니다.'
+  },
+  {
+    statement: '같은 데이터에서 95% 신뢰구간은 항상 90% 신뢰구간보다 좁다.',
+    answer: false,
+    explanation: '틀립니다. 95% 신뢰구간은 90%보다 항상 넓습니다. 더 높은 신뢰를 원하면 더 넓은 그물을 던져야 합니다.'
+  },
+  {
+    statement: '신뢰구간이 0을 포함하지 않는다면, 효과가 통계적으로 유의하다고 해석할 수 있다.',
+    answer: true,
+    explanation: '맞습니다. 예를 들어 두 그룹 평균 차이의 95% CI가 [2.1, 8.3]이면, 0을 포함하지 않으므로 차이가 유의합니다. 이것은 가설검정의 결론과 일치합니다 (10장에서 자세히 배웁니다).'
+  }
+];
+
+function initQuiz() {
+  const container = document.getElementById('misconception-quiz');
+  container.innerHTML = '';
+
+  QUIZ_ITEMS.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'padding: 14px; border-bottom: 1px solid var(--tb-g200);';
+    div.innerHTML = `
+      <p style="font-weight: 600; margin-bottom: 8px;">${i + 1}. ${q.statement}</p>
+      <div style="display: flex; gap: 12px;">
+        <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+          <input type="radio" name="quiz-${i}" value="true" style="cursor: pointer;" /> O (맞다)
+        </label>
+        <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+          <input type="radio" name="quiz-${i}" value="false" style="cursor: pointer;" /> X (틀리다)
+        </label>
+      </div>
+      <div class="quiz-feedback" data-idx="${i}" style="display: none; margin-top: 8px; font-size: .9rem; padding: 8px 12px; border-radius: 8px;"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function checkQuiz() {
+  let correct = 0;
+  let wrong = 0;
+
+  QUIZ_ITEMS.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="quiz-${i}"]:checked`);
+    const fb = document.querySelector(`.quiz-feedback[data-idx="${i}"]`);
+    fb.style.display = '';
+
+    if (!selected) {
+      fb.textContent = '답을 선택해주세요.';
+      fb.style.background = '#fef3c7';
+      fb.style.color = '#92400e';
+      return;
+    }
+
+    const userAnswer = selected.value === 'true';
+    if (userAnswer === q.answer) {
+      correct++;
+      fb.innerHTML = '<strong>정답!</strong> ' + q.explanation;
+      fb.style.background = '#dcfce7';
+      fb.style.color = '#166534';
+    } else {
+      wrong++;
+      fb.innerHTML = '<strong>오답.</strong> ' + q.explanation;
+      fb.style.background = '#fee2e2';
+      fb.style.color = '#991b1b';
+    }
+  });
+
+  document.getElementById('quiz-score-row').style.display = '';
+  document.getElementById('quiz-correct').textContent = correct;
+  document.getElementById('quiz-wrong').textContent = wrong;
+  document.getElementById('quiz-score').textContent = correct + '/' + QUIZ_ITEMS.length;
+}
+
+function resetQuiz() {
+  QUIZ_ITEMS.forEach((_, i) => {
+    const radios = document.querySelectorAll(`input[name="quiz-${i}"]`);
+    radios.forEach(r => r.checked = false);
+    const fb = document.querySelector(`.quiz-feedback[data-idx="${i}"]`);
+    if (fb) fb.style.display = 'none';
+  });
+  document.getElementById('quiz-score-row').style.display = 'none';
+}
+
+// ==================== INITIALIZATION ====================
+document.addEventListener('DOMContentLoaded', () => {
+  // 100 CIs
+  document.getElementById('btn-run-ci').addEventListener('click', run100CIs);
+
+  // CI Width explorer
+  ['width-n', 'width-conf', 'width-sd'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateCIWidth);
+  });
+  updateCIWidth();
+
+  // Poll analyzer
+  document.getElementById('btn-poll-analyze').addEventListener('click', analyzePoll);
+
+  // Quiz
+  initQuiz();
+  document.getElementById('btn-check-quiz').addEventListener('click', checkQuiz);
+  document.getElementById('btn-reset-quiz').addEventListener('click', resetQuiz);
+});
+</script>
+
+<style>
+  #ci-canvas, #width-canvas, #poll-canvas {
+    image-rendering: auto;
+  }
+  @media (max-width: 768px) {
+    #ci-canvas { height: 400px; }
+  }
+</style>

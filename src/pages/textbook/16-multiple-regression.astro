@@ -1,0 +1,1213 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="다중회귀분석"
+  subtitle="변수를 추가하면 무엇이 달라지나?"
+  chapterNum={16}
+  part={3}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>아파트 가격은 면적만으로 결정되지 않는다</h2>
+    <p>
+      서울에서 아파트를 구할 때, 면적만 보고 가격을 예측한다면 어떨까요?
+      같은 85m2라도 강남과 노원은 가격이 두 배 이상 차이 납니다.
+      층수, 역세권 여부, 학군, 건축연도 -- 여러 요인이 동시에 가격에 영향을 미칩니다.
+    </p>
+    <p style="margin-top: 12px;">
+      단순회귀(Chapter 15)에서는 X 하나로 Y를 예측했습니다.
+      이제 <strong>여러 개의 X를 동시에</strong> 모형에 넣어봅시다.
+      이것이 <strong>다중회귀분석(Multiple Regression)</strong>입니다.
+    </p>
+    <p style="margin-top: 12px;">
+      핵심 질문은 이렇습니다: "다른 조건이 모두 같을 때, 이 변수 하나가 바뀌면 결과가 얼마나 달라지는가?"
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 다중회귀의 구조 ===== -->
+  <div class="tb-card">
+    <h2>단순회귀에서 다중회귀로</h2>
+    <p>
+      단순회귀가 2차원 산점도 위의 직선이라면,
+      다중회귀는 <strong>다차원 공간의 평면(또는 초평면)</strong>입니다.
+      변수가 2개면 3차원 공간에서 평면을, 3개 이상이면 시각화할 수 없는 고차원 초평면을 적합합니다.
+    </p>
+
+    <FormulaBox>
+      Y = <span class="hl">b0</span> + <span class="hl">b1</span>*X1 + <span class="hl">b2</span>*X2 + ... + <span class="hl">bp</span>*Xp + e
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>각 계수의 의미:</strong>
+      b1은 "X2, X3, ..., Xp를 모두 고정한 상태에서 X1이 1 증가할 때 Y의 변화량"입니다.
+      이것을 편회귀계수(partial regression coefficient)라고 합니다.<br><br>
+      일상 비유: 아파트 가격 모형에서 b_면적 = 120이라면,
+      "층수, 역세권, 학군 등 다른 조건이 동일할 때, 면적이 1m2 넓어지면 가격이 약 120만원 상승"이라는 뜻입니다.
+    </ExplainBox>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 8px;">단순회귀</h3>
+        <p style="font-size: .9rem;">Y = b0 + b1*X</p>
+        <p style="font-size: .85rem; color: var(--tb-g600); margin-top: 6px;">
+          2차원: 직선 한 개<br>
+          "X가 변하면 Y가 변한다"
+        </p>
+      </div>
+      <div style="background: #f0fdf4; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-success); margin-bottom: 8px;">다중회귀</h3>
+        <p style="font-size: .9rem;">Y = b0 + b1*X1 + b2*X2 + ...</p>
+        <p style="font-size: .85rem; color: var(--tb-g600); margin-top: 6px;">
+          다차원: 평면 또는 초평면<br>
+          "다른 변수를 통제한 후 X1의 순수 효과"
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: 변수 추가 실습 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 변수 추가기 -- R-squared는 항상 올라간다?</h2>
+
+    <ExerciseBox>
+      <strong>변수 추가 실습:</strong>
+      아파트 데이터에서 "가격"을 예측하는 모형에 변수를 하나씩 추가해보세요.
+      사이드바에서 변수를 클릭하면 모형에 추가되고, R-squared와 Adjusted R-squared가 갱신됩니다.
+      핵심 발견: R-squared는 항상 올라가지만, Adjusted R-squared는 내려갈 수도 있습니다.
+    </ExerciseBox>
+
+    <div style="display: grid; grid-template-columns: 220px 1fr; gap: 16px; margin: 14px 0;">
+      <!-- Sidebar: available variables -->
+      <div>
+        <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; color: var(--tb-g600);">사용 가능한 변수</div>
+        <div id="var-pool" style="display: flex; flex-direction: column; gap: 6px;"></div>
+        <div style="margin-top: 16px;">
+          <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; color: var(--tb-primary);">모형에 포함된 변수</div>
+          <div id="var-model" style="display: flex; flex-direction: column; gap: 6px; min-height: 40px; padding: 8px; background: var(--tb-primary-light); border-radius: var(--tb-radius);"></div>
+        </div>
+        <SimControls>
+          <button class="tb-btn tb-btn-danger" id="btn-reset-vars" style="margin-top: 8px; width: 100%;">초기화</button>
+        </SimControls>
+      </div>
+
+      <!-- Main: coefficients and chart -->
+      <div>
+        <div class="tb-data-table-wrap" style="max-height: none;">
+          <table class="tb-data-table" id="multi-coef-table">
+            <thead>
+              <tr>
+                <th>변수</th>
+                <th>계수 (b)</th>
+                <th>표준오차</th>
+                <th>t값</th>
+                <th>p값</th>
+              </tr>
+            </thead>
+            <tbody id="multi-coef-body">
+              <tr><td colspan="5" style="color: var(--tb-g600); font-style: italic;">변수를 추가하세요</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tb-stat-row" style="margin-top: 14px;">
+          <StatBox label="R-squared" id="multi-r2" borderColor="var(--tb-primary)" />
+          <StatBox label="Adj R-squared" id="multi-adj-r2" borderColor="var(--tb-success)" />
+          <StatBox label="변수 수" id="multi-p" />
+          <StatBox label="AIC" id="multi-aic" sub="작을수록 좋음" />
+        </div>
+
+        <div style="font-weight: 700; font-size: 0.88rem; margin: 14px 0 8px; color: var(--tb-g600);">R-squared 변화 추이</div>
+        <canvas id="r2-progression" width="600" height="200" style="width:100%; max-width:600px; display:block; border:1px solid var(--tb-g200); border-radius:8px;"></canvas>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>Adjusted R-squared의 역할:</strong>
+      R-squared는 변수를 추가하면 무조건 증가합니다. 심지어 무관한 변수를 넣어도 올라갑니다.
+      Adjusted R-squared는 변수 수에 대한 벌칙(penalty)을 부과하여,
+      불필요한 변수를 추가했을 때 오히려 감소합니다.
+      따라서 모형 비교에는 Adjusted R-squared를 사용해야 합니다.
+    </InsightBox>
+
+    <FormulaBox>
+      Adj R-squared = 1 - (1 - R-squared) * <span class="hl">(n - 1) / (n - p - 1)</span>
+    </FormulaBox>
+  </div>
+
+  <!-- ===== SECTION 4: 다중공선성 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 다중공선성 탐지기</h2>
+    <p>
+      독립변수들끼리 서로 강하게 상관되어 있으면, 각 변수의 개별 효과를 분리하기 어려워집니다.
+      이 현상을 <strong>다중공선성(Multicollinearity)</strong>이라고 합니다.
+    </p>
+
+    <ExplainBox>
+      <strong>다중공선성의 증상:</strong><br>
+      - 계수의 부호가 직관과 반대로 나옴 (면적이 넓을수록 가격이 낮다?)<br>
+      - 표준오차가 비정상적으로 커짐<br>
+      - 변수 하나를 빼면 다른 변수의 계수가 급변<br>
+      - 개별 변수는 유의하지 않은데 모형 전체는 유의함
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>다중공선성 체험:</strong>
+      아래에서 "면적(m2)"과 "면적(평)"을 동시에 모형에 넣어보세요.
+      이 두 변수는 사실상 같은 정보(1평 = 3.3m2)이므로 완벽한 다중공선성이 발생합니다.
+      계수와 표준오차, VIF가 어떻게 변하는지 관찰하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>시나리오:</label>
+      <select id="collin-scenario">
+        <option value="normal">정상 (상관 낮음)</option>
+        <option value="moderate">보통 공선성 (r=0.7)</option>
+        <option value="high">높은 공선성 (r=0.95)</option>
+        <option value="perfect">면적m2 + 면적평 (거의 완벽)</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-collin-run">분석 실행</button>
+    </SimControls>
+
+    <div class="tb-data-table-wrap" style="max-height: none; margin-top: 14px;">
+      <table class="tb-data-table" id="collin-table">
+        <thead>
+          <tr>
+            <th>변수</th>
+            <th>계수</th>
+            <th>표준오차</th>
+            <th>VIF</th>
+            <th>상태</th>
+          </tr>
+        </thead>
+        <tbody id="collin-body">
+          <tr><td colspan="5" style="color: var(--tb-g600); font-style: italic;">시나리오를 선택하고 실행하세요</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="collin-corr-matrix" style="margin-top: 14px;"></div>
+
+    <WarningBox>
+      <strong>VIF (Variance Inflation Factor):</strong>
+      VIF가 1이면 공선성 없음, 5 이상이면 경고, 10 이상이면 심각합니다.
+      VIF = 1 / (1 - R2_j)로 계산하며, R2_j는 Xj를 나머지 X들로 회귀했을 때의 R-squared입니다.
+      공선성이 심하면 두 변수 중 하나를 제거하거나, 주성분(PCA)으로 합치는 방법을 고려합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 5: 계수 해석 퀴즈 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 계수 해석 퀴즈</h2>
+    <p>
+      다중회귀의 계수를 올바르게 해석하는 것은 가장 중요하면서도 가장 흔히 실수하는 부분입니다.
+      핵심 문구는 <strong>"다른 변수를 고정했을 때(holding other variables constant)"</strong>입니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>해석 퀴즈:</strong>
+      아래 회귀 결과를 보고, 각 문항의 올바른 해석을 선택하세요.
+    </ExerciseBox>
+
+    <div class="tb-explain" style="font-family: 'Courier New', monospace; font-size: 0.88rem; line-height: 2;">
+      아파트가격(만원) = -5,200 + <span style="color: var(--tb-primary); font-weight: 700;">120</span> * 면적(m2) + <span style="color: var(--tb-danger); font-weight: 700;">850</span> * 역세권(0/1) + <span style="color: var(--tb-success); font-weight: 700;">45</span> * 층수
+    </div>
+
+    <div id="interpret-quiz" style="margin: 14px 0;"></div>
+
+    <div class="tb-stat-row" id="interpret-score-row" style="display: none;">
+      <StatBox label="정답" id="interpret-correct" borderColor="var(--tb-success)" />
+      <StatBox label="오답" id="interpret-wrong" borderColor="var(--tb-danger)" />
+    </div>
+
+    <BusinessBox>
+      <strong>실무에서의 함정:</strong>
+      "면적 계수가 120"이라고 해서 "면적이 가격에 가장 큰 영향을 미친다"고 말할 수 없습니다.
+      변수의 단위(스케일)가 다르기 때문입니다.
+      영향력을 비교하려면 표준화 계수(Beta coefficient)를 사용해야 합니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 6: 3D 회귀 표면 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 3D 회귀 표면</h2>
+    <p>
+      변수가 2개인 다중회귀(Y = b0 + b1*X1 + b2*X2)는 3차원 공간에서 시각화할 수 있습니다.
+      아래 캔버스에서 마우스로 회전하며 회귀 평면과 데이터 점의 관계를 탐색해보세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>3D 탐색:</strong>
+      캔버스를 마우스로 드래그하면 시점이 회전합니다.
+      데이터 점(구)이 평면 위에 있으면 과소예측, 아래에 있으면 과대예측입니다.
+      평면까지의 수직 거리가 잔차입니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-3d-gen">새 데이터 생성</button>
+      <label>노이즈:</label>
+      <input type="range" id="noise-3d" min="5" max="80" value="25" step="5">
+      <span class="tb-speed-label" id="noise-3d-val">25</span>
+      <label>
+        <input type="checkbox" id="show-3d-resid" style="margin-left: 12px;">
+        잔차 표시
+      </label>
+    </SimControls>
+
+    <canvas id="canvas-3d" width="700" height="500" style="width:100%; max-width:700px; display:block; margin:0 auto; border:1px solid var(--tb-g200); border-radius:var(--tb-radius); cursor:grab;"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="b0 (절편)" id="coef-3d-b0" />
+      <StatBox label="b1 (면적)" id="coef-3d-b1" />
+      <StatBox label="b2 (층수)" id="coef-3d-b2" />
+      <StatBox label="R-squared" id="r2-3d" borderColor="var(--tb-success)" />
+    </div>
+
+    <InsightBox>
+      <strong>시각적 통찰:</strong>
+      단순회귀의 직선이 3차원으로 확장되면 평면이 됩니다.
+      변수가 3개 이상이면 시각화는 불가능하지만, 수학적으로는 동일한 원리로 초평면을 적합합니다.
+      컴퓨터가 다차원을 자연스럽게 다루기에, 우리는 해석에만 집중하면 됩니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 7: 모형 선택 ===== -->
+  <div class="tb-card">
+    <h2>어떤 변수를 넣을 것인가: 모형 선택</h2>
+    <p>
+      사용 가능한 변수가 10개라면, 가능한 모형 조합은 2의 10제곱 = 1,024가지입니다.
+      모든 조합을 시도할 수도 있지만, 효율적인 전략이 필요합니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 6px; font-size: 0.95rem;">전진 선택법</h3>
+        <p style="font-size: .85rem;">빈 모형에서 시작하여, 가장 유의한 변수를 하나씩 추가. 더 이상 유의한 변수가 없으면 중단.</p>
+      </div>
+      <div style="background: #fef3c7; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: #92400e; margin-bottom: 6px; font-size: 0.95rem;">후진 제거법</h3>
+        <p style="font-size: .85rem;">모든 변수를 넣고 시작하여, 가장 유의하지 않은 변수를 하나씩 제거. 모두 유의하면 중단.</p>
+      </div>
+      <div style="background: #f0fdf4; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-success); margin-bottom: 6px; font-size: 0.95rem;">단계적 선택법</h3>
+        <p style="font-size: .85rem;">전진+후진 결합. 변수를 추가한 뒤, 기존 변수 중 유의하지 않은 것이 있으면 제거.</p>
+      </div>
+    </div>
+
+    <ExplainBox>
+      <strong>정보 기준 (AIC, BIC):</strong>
+      모형의 적합도와 복잡성을 동시에 고려합니다.
+      AIC = n * ln(SSE/n) + 2p (p = 변수 수).
+      AIC가 낮을수록 좋은 모형입니다.
+      BIC는 변수 수에 더 강한 벌칙을 주어 더 간결한 모형을 선호합니다.
+    </ExplainBox>
+
+    <WarningBox>
+      <strong>과적합(Overfitting) 주의:</strong>
+      변수를 많이 넣을수록 훈련 데이터에는 잘 맞지만(R-squared 상승),
+      새로운 데이터에는 오히려 예측이 나빠질 수 있습니다.
+      이것을 과적합이라 합니다. Adjusted R-squared, AIC, 교차검증으로 방지합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 8: F검정과 t검정 ===== -->
+  <div class="tb-card">
+    <h2>검정: 모형 전체와 개별 변수</h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 8px;">F검정 (전체 모형)</h3>
+        <p style="font-size: .9rem;">
+          H0: 모든 계수 = 0 (모형이 쓸모없다)<br>
+          H1: 하나 이상의 계수가 0이 아니다<br>
+          F = (SSR/p) / (SSE/(n-p-1))
+        </p>
+        <p style="font-size: .85rem; color: var(--tb-g600); margin-top: 6px;">
+          p값이 0.05 미만이면 "이 모형은 Y를 설명하는 데 유용하다"
+        </p>
+      </div>
+      <div style="background: #f0fdf4; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-success); margin-bottom: 8px;">t검정 (개별 변수)</h3>
+        <p style="font-size: .9rem;">
+          H0: bj = 0 (이 변수는 불필요하다)<br>
+          H1: bj가 0이 아니다<br>
+          t = bj / SE(bj)
+        </p>
+        <p style="font-size: .85rem; color: var(--tb-g600); margin-top: 6px;">
+          p값이 0.05 미만이면 "다른 변수가 있는 상태에서 이 변수는 추가 설명력을 가진다"
+        </p>
+      </div>
+    </div>
+
+    <BusinessBox>
+      <strong>실무 의사결정:</strong>
+      F검정이 유의하지 않으면 모형 전체를 재설계해야 합니다.
+      F검정은 유의하지만 개별 t검정이 모두 유의하지 않으면,
+      다중공선성이 의심됩니다. VIF를 확인하세요.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>다중회귀는 Y = b0 + b1*X1 + b2*X2 + ... 형태로 여러 예측 변수를 동시에 사용한다.</li>
+      <li>각 계수 bj는 "다른 변수를 고정했을 때"의 Xj 효과(편회귀계수)이다.</li>
+      <li>R-squared는 변수를 추가하면 항상 증가하므로, Adjusted R-squared로 비교해야 한다.</li>
+      <li>다중공선성은 계수를 불안정하게 만들며, VIF로 진단한다.</li>
+      <li>모형 선택(전진/후진/단계적)과 정보 기준(AIC, BIC)으로 적절한 변수 조합을 찾는다.</li>
+      <li>F검정은 모형 전체, t검정은 개별 변수의 유의성을 판단한다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 지금까지의 회귀는 Y가 연속 숫자(가격, 매출)인 경우였습니다.
+      그런데 Y가 "예/아니오" -- 이탈 여부, 합격 여부, 부도 여부 -- 라면 어떻게 할까요?
+      다음 장에서는 확률을 예측하는 <strong>로지스틱 회귀</strong>를 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITY ====================
+function randNorm(mu = 0, sigma = 1) {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return mu + sigma * Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
+// ==================== APARTMENT DATA ====================
+const VAR_DEFS = [
+  { key: 'area', label: '면적(m2)', gen: () => 40 + Math.random() * 100 },
+  { key: 'floor', label: '층수', gen: () => 1 + Math.floor(Math.random() * 25) },
+  { key: 'station', label: '역세권(0/1)', gen: () => Math.random() > 0.5 ? 1 : 0 },
+  { key: 'age', label: '건축연수', gen: () => 1 + Math.floor(Math.random() * 30) },
+  { key: 'school', label: '학군점수(1-10)', gen: () => 1 + Math.floor(Math.random() * 10) },
+  { key: 'park', label: '공원거리(m)', gen: () => 50 + Math.random() * 2000 },
+  { key: 'noise', label: '소음도(dB)', gen: () => 30 + Math.random() * 40, isNoise: true },
+  { key: 'random', label: '랜덤숫자', gen: () => Math.random() * 100, isNoise: true },
+];
+
+const TRUE_COEFS = {
+  intercept: -3000,
+  area: 120,
+  floor: 45,
+  station: 850,
+  age: -35,
+  school: 200,
+  park: -0.3,
+  noise: 0,
+  random: 0,
+};
+
+let aptData = [];
+let modelVars = [];
+let r2History = [];
+
+function generateAptData(n = 100) {
+  aptData = [];
+  for (let i = 0; i < n; i++) {
+    const row = {};
+    VAR_DEFS.forEach(v => { row[v.key] = v.gen(); });
+    // Generate price
+    let price = TRUE_COEFS.intercept;
+    Object.keys(TRUE_COEFS).forEach(k => {
+      if (k !== 'intercept' && row[k] !== undefined) {
+        price += TRUE_COEFS[k] * row[k];
+      }
+    });
+    price += randNorm(0, 500);
+    row.price = Math.max(1000, Math.round(price));
+    aptData.push(row);
+  }
+}
+
+// ==================== SIMPLE OLS (matrix-free, sequential addition) ====================
+function multiOLS(data, yKey, xKeys) {
+  const n = data.length;
+  const p = xKeys.length;
+  if (p === 0 || n <= p + 1) {
+    return { coeffs: {}, r2: 0, adjR2: 0, aic: Infinity, details: [] };
+  }
+
+  // Simple approach: use normal equations via manual computation
+  // For up to 8 variables this is fine
+  const X = data.map(row => [1, ...xKeys.map(k => row[k])]);
+  const Y = data.map(row => row[yKey]);
+
+  // X'X
+  const cols = p + 1;
+  const XtX = Array.from({ length: cols }, () => new Array(cols).fill(0));
+  const XtY = new Array(cols).fill(0);
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < cols; j++) {
+      XtY[j] += X[i][j] * Y[i];
+      for (let k = 0; k < cols; k++) {
+        XtX[j][k] += X[i][j] * X[i][k];
+      }
+    }
+  }
+
+  // Solve via Gauss-Jordan
+  const aug = XtX.map((row, i) => [...row, XtY[i]]);
+  for (let i = 0; i < cols; i++) {
+    let maxRow = i;
+    for (let j = i + 1; j < cols; j++) {
+      if (Math.abs(aug[j][i]) > Math.abs(aug[maxRow][i])) maxRow = j;
+    }
+    [aug[i], aug[maxRow]] = [aug[maxRow], aug[i]];
+    if (Math.abs(aug[i][i]) < 1e-12) continue;
+    const pivot = aug[i][i];
+    for (let j = 0; j <= cols; j++) aug[i][j] /= pivot;
+    for (let j = 0; j < cols; j++) {
+      if (j === i) continue;
+      const factor = aug[j][i];
+      for (let k = 0; k <= cols; k++) aug[j][k] -= factor * aug[i][k];
+    }
+  }
+
+  const beta = aug.map(row => row[cols]);
+
+  // Compute fitted, residuals, SSE, SST
+  const yMean = Y.reduce((a, b) => a + b, 0) / n;
+  let sse = 0, sst = 0;
+  const residuals = [];
+  for (let i = 0; i < n; i++) {
+    let yhat = 0;
+    for (let j = 0; j < cols; j++) yhat += beta[j] * X[i][j];
+    const resid = Y[i] - yhat;
+    residuals.push(resid);
+    sse += resid * resid;
+    sst += (Y[i] - yMean) ** 2;
+  }
+
+  const r2 = sst > 0 ? 1 - sse / sst : 0;
+  const adjR2 = 1 - (1 - r2) * (n - 1) / (n - p - 1);
+  const aic = n * Math.log(sse / n) + 2 * (p + 1);
+
+  // Standard errors
+  const mse = sse / (n - p - 1);
+  // Invert XtX for SE (diagonal of (X'X)^-1 * mse)
+  const XtXinv = Array.from({ length: cols }, () => new Array(cols).fill(0));
+  // Re-solve for each column of identity
+  for (let c = 0; c < cols; c++) {
+    const rhs = new Array(cols).fill(0);
+    rhs[c] = 1;
+    const a2 = XtX.map((row, i) => [...row, rhs[i]]);
+    for (let i = 0; i < cols; i++) {
+      let mr = i;
+      for (let j = i + 1; j < cols; j++) {
+        if (Math.abs(a2[j][i]) > Math.abs(a2[mr][i])) mr = j;
+      }
+      [a2[i], a2[mr]] = [a2[mr], a2[i]];
+      if (Math.abs(a2[i][i]) < 1e-12) continue;
+      const pv = a2[i][i];
+      for (let j = 0; j <= cols; j++) a2[i][j] /= pv;
+      for (let j = 0; j < cols; j++) {
+        if (j === i) continue;
+        const f = a2[j][i];
+        for (let k = 0; k <= cols; k++) a2[j][k] -= f * a2[i][k];
+      }
+    }
+    for (let i = 0; i < cols; i++) XtXinv[i][c] = a2[i][cols];
+  }
+
+  const details = [];
+  const names = ['절편', ...xKeys.map(k => VAR_DEFS.find(v => v.key === k)?.label || k)];
+  for (let j = 0; j < cols; j++) {
+    const se = Math.sqrt(Math.max(0, XtXinv[j][j] * mse));
+    const t = se > 0 ? beta[j] / se : 0;
+    details.push({ name: names[j], coef: beta[j], se, t, p: approxPval(t) });
+  }
+
+  const coeffs = {};
+  coeffs['intercept'] = beta[0];
+  xKeys.forEach((k, i) => { coeffs[k] = beta[i + 1]; });
+
+  return { coeffs, r2, adjR2, aic, details, residuals };
+}
+
+function approxPval(t) {
+  const at = Math.abs(t);
+  if (at < 0.001) return 1;
+  // Rough approximation
+  return Math.min(1, Math.max(0.0001, 2 * Math.exp(-0.6 * at * at / (1 + 0.15 * at))));
+}
+
+// ==================== VARIABLE ADDER (Exercise 1) ====================
+function initVarPool() {
+  const pool = document.getElementById('var-pool');
+  const model = document.getElementById('var-model');
+  pool.innerHTML = '';
+  model.innerHTML = '';
+  modelVars = [];
+  r2History = [];
+
+  VAR_DEFS.forEach(v => {
+    const chip = document.createElement('div');
+    chip.className = 'var-chip-multi';
+    chip.dataset.key = v.key;
+    chip.textContent = v.label;
+    chip.title = v.isNoise ? '(무관한 변수)' : '';
+    chip.addEventListener('click', () => toggleVar(v.key));
+    pool.appendChild(chip);
+  });
+
+  updateMultiModel();
+}
+
+function toggleVar(key) {
+  const idx = modelVars.indexOf(key);
+  if (idx >= 0) {
+    modelVars.splice(idx, 1);
+  } else {
+    modelVars.push(key);
+  }
+  updateMultiModel();
+}
+
+function updateMultiModel() {
+  // Update chip positions
+  const pool = document.getElementById('var-pool');
+  const model = document.getElementById('var-model');
+  pool.innerHTML = '';
+  model.innerHTML = '';
+
+  VAR_DEFS.forEach(v => {
+    const chip = document.createElement('div');
+    chip.className = 'var-chip-multi';
+    chip.dataset.key = v.key;
+    chip.textContent = v.label;
+    chip.addEventListener('click', () => toggleVar(v.key));
+
+    if (modelVars.includes(v.key)) {
+      chip.classList.add('active');
+      model.appendChild(chip);
+    } else {
+      pool.appendChild(chip);
+    }
+  });
+
+  // Run regression
+  const body = document.getElementById('multi-coef-body');
+  if (modelVars.length === 0) {
+    body.innerHTML = '<tr><td colspan="5" style="color: var(--tb-g600); font-style: italic;">변수를 추가하세요</td></tr>';
+    document.getElementById('multi-r2').textContent = '-';
+    document.getElementById('multi-adj-r2').textContent = '-';
+    document.getElementById('multi-p').textContent = '0';
+    document.getElementById('multi-aic').textContent = '-';
+    r2History = [];
+    drawR2Progression();
+    return;
+  }
+
+  const result = multiOLS(aptData, 'price', modelVars);
+
+  body.innerHTML = result.details.map(d => `
+    <tr>
+      <td><strong>${d.name}</strong></td>
+      <td>${d.coef.toFixed(2)}</td>
+      <td>${d.se.toFixed(2)}</td>
+      <td>${d.t.toFixed(3)}</td>
+      <td style="color: ${d.p < 0.05 ? 'var(--tb-success)' : 'var(--tb-danger)'}; font-weight: 600;">
+        ${d.p < 0.0001 ? '<0.0001' : d.p.toFixed(4)}
+      </td>
+    </tr>
+  `).join('');
+
+  document.getElementById('multi-r2').textContent = result.r2.toFixed(4);
+  document.getElementById('multi-adj-r2').textContent = result.adjR2.toFixed(4);
+  document.getElementById('multi-p').textContent = modelVars.length.toString();
+  document.getElementById('multi-aic').textContent = result.aic.toFixed(1);
+
+  // R2 history
+  r2History.push({ vars: modelVars.length, r2: result.r2, adjR2: result.adjR2 });
+  drawR2Progression();
+}
+
+function drawR2Progression() {
+  const canvas = document.getElementById('r2-progression');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 50, r: 20, t: 15, b: 30 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  if (r2History.length === 0) return;
+
+  const maxSteps = r2History.length;
+  const sx = (i) => pad.l + (i / Math.max(1, maxSteps - 1)) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - v * (H - pad.t - pad.b);
+
+  // Grid
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 1;
+  [0, 0.25, 0.5, 0.75, 1].forEach(v => {
+    ctx.beginPath(); ctx.moveTo(pad.l, sy(v)); ctx.lineTo(W - pad.r, sy(v)); ctx.stroke();
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '10px Paperlogy, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(v.toFixed(2), pad.l - 6, sy(v) + 3);
+  });
+
+  // R2 line
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  r2History.forEach((h, i) => {
+    const px = sx(i), py = sy(h.r2);
+    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  });
+  ctx.stroke();
+
+  // Adj R2 line
+  ctx.strokeStyle = '#22c55e';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([5, 3]);
+  ctx.beginPath();
+  r2History.forEach((h, i) => {
+    const px = sx(i), py = sy(Math.max(0, h.adjR2));
+    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  });
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Points
+  r2History.forEach((h, i) => {
+    ctx.fillStyle = '#2563eb';
+    ctx.beginPath(); ctx.arc(sx(i), sy(h.r2), 4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#22c55e';
+    ctx.beginPath(); ctx.arc(sx(i), sy(Math.max(0, h.adjR2)), 4, 0, Math.PI * 2); ctx.fill();
+  });
+
+  // Legend
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.fillStyle = '#2563eb';
+  ctx.fillText('R-squared', W - pad.r - 120, pad.t + 12);
+  ctx.fillStyle = '#22c55e';
+  ctx.fillText('Adj R-squared', W - pad.r - 120, pad.t + 26);
+}
+
+// ==================== MULTICOLLINEARITY (Exercise 2) ====================
+function runCollinearityDemo() {
+  const scenario = document.getElementById('collin-scenario').value;
+  const n = 80;
+  const data = [];
+
+  for (let i = 0; i < n; i++) {
+    const x1 = 40 + Math.random() * 100; // area m2
+    let x2;
+    switch (scenario) {
+      case 'normal':
+        x2 = 1 + Math.floor(Math.random() * 25); // floor (uncorrelated)
+        break;
+      case 'moderate':
+        x2 = x1 * 0.7 + randNorm(0, 30); // moderately correlated
+        break;
+      case 'high':
+        x2 = x1 * 0.95 + randNorm(0, 8); // highly correlated
+        break;
+      case 'perfect':
+        x2 = x1 / 3.3 + randNorm(0, 0.5); // area in pyeong
+        break;
+      default:
+        x2 = Math.random() * 100;
+    }
+    const y = -2000 + 120 * x1 + 45 * x2 + randNorm(0, 500);
+    data.push({ x1, x2, y });
+  }
+
+  // OLS with both variables
+  const result = multiOLS(
+    data.map(d => ({ price: d.y, v1: d.x1, v2: d.x2 })),
+    'price',
+    ['v1', 'v2']
+  );
+
+  // Compute correlation
+  const mx1 = data.reduce((s, d) => s + d.x1, 0) / n;
+  const mx2 = data.reduce((s, d) => s + d.x2, 0) / n;
+  let cov = 0, s1 = 0, s2 = 0;
+  data.forEach(d => {
+    cov += (d.x1 - mx1) * (d.x2 - mx2);
+    s1 += (d.x1 - mx1) ** 2;
+    s2 += (d.x2 - mx2) ** 2;
+  });
+  const corr = s1 && s2 ? cov / Math.sqrt(s1 * s2) : 0;
+  const vif = 1 / (1 - corr * corr);
+
+  const labels = {
+    normal: ['면적(m2)', '층수'],
+    moderate: ['면적(m2)', '면적관련변수'],
+    high: ['면적(m2)', '유사면적변수'],
+    perfect: ['면적(m2)', '면적(평)'],
+  };
+
+  const varNames = labels[scenario] || ['X1', 'X2'];
+
+  const body = document.getElementById('collin-body');
+  const rows = result.details || [];
+
+  function vifColor(v) {
+    if (v < 5) return 'var(--tb-success)';
+    if (v < 10) return 'var(--tb-warning)';
+    return 'var(--tb-danger)';
+  }
+
+  function vifStatus(v) {
+    if (v < 5) return '양호';
+    if (v < 10) return '주의';
+    return '심각';
+  }
+
+  body.innerHTML = `
+    <tr>
+      <td><strong>절편</strong></td>
+      <td>${rows[0] ? rows[0].coef.toFixed(2) : '-'}</td>
+      <td>${rows[0] ? rows[0].se.toFixed(2) : '-'}</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><strong>${varNames[0]}</strong></td>
+      <td>${rows[1] ? rows[1].coef.toFixed(2) : '-'}</td>
+      <td>${rows[1] ? rows[1].se.toFixed(2) : '-'}</td>
+      <td style="color: ${vifColor(vif)}; font-weight: 700;">${vif.toFixed(2)}</td>
+      <td style="color: ${vifColor(vif)}; font-weight: 700;">${vifStatus(vif)}</td>
+    </tr>
+    <tr>
+      <td><strong>${varNames[1]}</strong></td>
+      <td>${rows[2] ? rows[2].coef.toFixed(2) : '-'}</td>
+      <td>${rows[2] ? rows[2].se.toFixed(2) : '-'}</td>
+      <td style="color: ${vifColor(vif)}; font-weight: 700;">${vif.toFixed(2)}</td>
+      <td style="color: ${vifColor(vif)}; font-weight: 700;">${vifStatus(vif)}</td>
+    </tr>
+  `;
+
+  // Correlation matrix display
+  const corrDiv = document.getElementById('collin-corr-matrix');
+  corrDiv.innerHTML = `
+    <div class="tb-explain">
+      <strong>상관계수 (${varNames[0]} vs ${varNames[1]}):</strong> r = ${corr.toFixed(4)}
+      &nbsp; | &nbsp;
+      <strong>VIF:</strong> ${vif.toFixed(2)}
+      ${vif > 10 ? ' -- 심각한 다중공선성! 계수를 신뢰할 수 없습니다.' :
+        vif > 5 ? ' -- 주의가 필요합니다.' :
+        ' -- 양호합니다.'}
+    </div>
+  `;
+}
+
+// ==================== COEFFICIENT QUIZ (Exercise 3) ====================
+const QUIZ_QUESTIONS = [
+  {
+    q: 'b_면적 = 120의 의미는?',
+    options: [
+      { text: '면적이 1m2 넓을수록 가격이 120만원 높다', correct: false, fb: '부분적으로 맞지만, "다른 변수를 고정했을 때"가 빠져 있습니다.' },
+      { text: '층수, 역세권 등 다른 조건이 같을 때, 면적이 1m2 넓으면 가격이 약 120만원 높다', correct: true, fb: '정답! 편회귀계수의 올바른 해석입니다.' },
+      { text: '면적이 가격의 120%를 설명한다', correct: false, fb: '계수는 백분율이 아니라 Y의 변화량입니다.' },
+      { text: '면적과 가격의 상관계수가 0.120이다', correct: false, fb: '회귀계수와 상관계수는 전혀 다른 개념입니다.' },
+    ],
+  },
+  {
+    q: 'b_역세권 = 850의 의미는?',
+    options: [
+      { text: '역세권 아파트는 비역세권보다 무조건 850만원 비싸다', correct: false, fb: '"무조건"이 아니라 "다른 조건이 같을 때 평균적으로"입니다.' },
+      { text: '면적, 층수 등 다른 조건이 같을 때, 역세권이면 비역세권보다 약 850만원 높다', correct: true, fb: '정답! 더미변수(0/1)의 계수는 두 범주 간 차이를 의미합니다.' },
+      { text: '역세권까지의 거리가 850m이다', correct: false, fb: '계수는 거리가 아니라 가격 차이(만원)입니다.' },
+      { text: '역세권 변수의 표준편차가 850이다', correct: false, fb: '계수와 표준편차는 다른 통계량입니다.' },
+    ],
+  },
+  {
+    q: 'b_층수 = 45일 때, 10층에서 15층으로 올라가면?',
+    options: [
+      { text: '가격이 45만원 증가한다', correct: false, fb: '45는 1층 차이의 효과입니다. 5층 차이이므로 5 * 45 = 225만원입니다.' },
+      { text: '다른 조건이 같을 때, 가격이 약 225만원 증가한다', correct: true, fb: '정답! 5층 차이 * 45만원/층 = 225만원입니다.' },
+      { text: '가격이 45% 증가한다', correct: false, fb: '계수의 단위는 만원이지, 백분율이 아닙니다.' },
+      { text: '예측할 수 없다', correct: false, fb: '선형 모형이므로 계수와 변화량의 곱으로 예측할 수 있습니다.' },
+    ],
+  },
+  {
+    q: '절편 b0 = -5,200의 의미는?',
+    options: [
+      { text: '아파트 가격이 최소 -5,200만원이다', correct: false, fb: '절편은 최솟값이 아닙니다.' },
+      { text: '모든 X가 0일 때의 예측값이지만, 현실적으로 면적=0인 아파트는 없으므로 해석에 주의가 필요하다', correct: true, fb: '정답! 절편은 수학적 기준점이며, 데이터 범위 밖에서의 해석은 무의미할 수 있습니다.' },
+      { text: '모형의 오차가 -5,200이다', correct: false, fb: '절편은 오차가 아니라 기준점(baseline)입니다.' },
+      { text: '가격이 5,200만원 하락한다는 뜻이다', correct: false, fb: '절편은 X들이 모두 0일 때의 Y 예측값입니다. 하락이 아닙니다.' },
+    ],
+  },
+];
+
+function initQuiz() {
+  const container = document.getElementById('interpret-quiz');
+  container.innerHTML = '';
+
+  QUIZ_QUESTIONS.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'margin-bottom: 16px; padding: 14px; background: var(--tb-g100); border-radius: var(--tb-radius);';
+    div.innerHTML = `
+      <div style="font-weight: 700; margin-bottom: 8px; font-size: 0.93rem;">Q${qi + 1}. ${q.q}</div>
+      <div class="quiz-options" data-qi="${qi}">
+        ${q.options.map((opt, oi) => `
+          <label style="display: block; padding: 8px 12px; margin: 4px 0; cursor: pointer; border: 2px solid var(--tb-g200); border-radius: 8px; font-size: 0.88rem; transition: 0.15s;" class="quiz-opt" data-qi="${qi}" data-oi="${oi}" data-correct="${opt.correct}">
+            <input type="radio" name="quiz-${qi}" value="${oi}" style="margin-right: 8px;">
+            ${opt.text}
+          </label>
+        `).join('')}
+      </div>
+      <div class="quiz-fb" data-qi="${qi}" style="display: none; margin-top: 8px; font-size: 0.85rem; padding: 8px 12px; border-radius: 8px;"></div>
+    `;
+    container.appendChild(div);
+  });
+
+  container.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      const qi = parseInt(e.target.closest('.quiz-options').dataset.qi);
+      const oi = parseInt(e.target.value);
+      const q = QUIZ_QUESTIONS[qi];
+      const opt = q.options[oi];
+      const fb = container.querySelector(`.quiz-fb[data-qi="${qi}"]`);
+      fb.style.display = '';
+      fb.textContent = opt.fb;
+
+      // Highlight
+      container.querySelectorAll(`.quiz-opt[data-qi="${qi}"]`).forEach(label => {
+        label.style.borderColor = 'var(--tb-g200)';
+        label.style.background = '';
+      });
+
+      const selectedLabel = container.querySelector(`.quiz-opt[data-qi="${qi}"][data-oi="${oi}"]`);
+      if (opt.correct) {
+        selectedLabel.style.borderColor = 'var(--tb-success)';
+        selectedLabel.style.background = '#f0fdf4';
+        fb.style.background = '#f0fdf4';
+        fb.style.color = 'var(--tb-success)';
+      } else {
+        selectedLabel.style.borderColor = 'var(--tb-danger)';
+        selectedLabel.style.background = '#fef2f2';
+        fb.style.background = '#fef2f2';
+        fb.style.color = 'var(--tb-danger)';
+        // Also highlight the correct one
+        container.querySelectorAll(`.quiz-opt[data-qi="${qi}"]`).forEach(l => {
+          if (l.dataset.correct === 'true') {
+            l.style.borderColor = 'var(--tb-success)';
+            l.style.background = '#f0fdf4';
+          }
+        });
+      }
+
+      updateQuizScore();
+    });
+  });
+}
+
+function updateQuizScore() {
+  let correct = 0, wrong = 0;
+  QUIZ_QUESTIONS.forEach((q, qi) => {
+    const checked = document.querySelector(`input[name="quiz-${qi}"]:checked`);
+    if (!checked) return;
+    const oi = parseInt(checked.value);
+    if (q.options[oi].correct) correct++;
+    else wrong++;
+  });
+  if (correct + wrong > 0) {
+    document.getElementById('interpret-score-row').style.display = '';
+    document.getElementById('interpret-correct').textContent = correct;
+    document.getElementById('interpret-wrong').textContent = wrong;
+  }
+}
+
+// ==================== 3D REGRESSION SURFACE (Exercise 4) ====================
+let data3D = [];
+let ols3D = { b0: 0, b1: 0, b2: 0 };
+let rotX = -0.5, rotY = 0.5;
+let isDragging3D = false, lastMX = 0, lastMY = 0;
+
+function generate3DData() {
+  const noise = parseInt(document.getElementById('noise-3d').value);
+  const n = 40;
+  data3D = [];
+  for (let i = 0; i < n; i++) {
+    const x1 = 30 + Math.random() * 100; // area
+    const x2 = 1 + Math.floor(Math.random() * 25); // floor
+    const y = -2000 + 80 * x1 + 50 * x2 + randNorm(0, noise * 15);
+    data3D.push({ x1, x2, y });
+  }
+
+  // Fit OLS
+  const result = multiOLS(
+    data3D.map(d => ({ price: d.y, area: d.x1, floor: d.x2 })),
+    'price',
+    ['area', 'floor']
+  );
+
+  ols3D = {
+    b0: result.coeffs.intercept || 0,
+    b1: result.coeffs.area || 0,
+    b2: result.coeffs.floor || 0,
+  };
+
+  document.getElementById('coef-3d-b0').textContent = ols3D.b0.toFixed(1);
+  document.getElementById('coef-3d-b1').textContent = ols3D.b1.toFixed(2);
+  document.getElementById('coef-3d-b2').textContent = ols3D.b2.toFixed(2);
+  document.getElementById('r2-3d').textContent = result.r2.toFixed(4);
+
+  draw3D();
+}
+
+function project3D(x, y, z, W, H) {
+  // Normalize to [-1, 1]
+  const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+  const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+
+  // Rotate around Y axis
+  let x2 = x * cosY - z * sinY;
+  let z2 = x * sinY + z * cosY;
+
+  // Rotate around X axis
+  let y2 = y * cosX - z2 * sinX;
+  let z3 = y * sinX + z2 * cosX;
+
+  // Simple perspective
+  const scale = 200 / (3 + z3 * 0.5);
+  return {
+    px: W / 2 + x2 * scale,
+    py: H / 2 - y2 * scale,
+    depth: z3,
+  };
+}
+
+function draw3D() {
+  const canvas = document.getElementById('canvas-3d');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  if (data3D.length === 0) return;
+
+  // Normalize data to [-1.5, 1.5]
+  const x1s = data3D.map(d => d.x1);
+  const x2s = data3D.map(d => d.x2);
+  const ys = data3D.map(d => d.y);
+  const x1Min = Math.min(...x1s), x1Max = Math.max(...x1s);
+  const x2Min = Math.min(...x2s), x2Max = Math.max(...x2s);
+  const yMin = Math.min(...ys), yMax = Math.max(...ys);
+
+  const norm = (v, min, max) => ((v - min) / (max - min || 1) - 0.5) * 3;
+  const normY = (v) => norm(v, yMin, yMax);
+  const normX1 = (v) => norm(v, x1Min, x1Max);
+  const normX2 = (v) => norm(v, x2Min, x2Max);
+
+  const showResid = document.getElementById('show-3d-resid').checked;
+
+  // Draw regression surface (grid)
+  const gridN = 8;
+  ctx.strokeStyle = 'rgba(37, 99, 235, 0.2)';
+  ctx.lineWidth = 1;
+
+  for (let i = 0; i <= gridN; i++) {
+    const u = i / gridN;
+    // Lines along x1
+    ctx.beginPath();
+    let first = true;
+    for (let j = 0; j <= gridN; j++) {
+      const v = j / gridN;
+      const gx1 = x1Min + u * (x1Max - x1Min);
+      const gx2 = x2Min + v * (x2Max - x2Min);
+      const gy = ols3D.b0 + ols3D.b1 * gx1 + ols3D.b2 * gx2;
+      const p = project3D(normX1(gx1), normY(gy), normX2(gx2), W, H);
+      if (first) { ctx.moveTo(p.px, p.py); first = false; }
+      else ctx.lineTo(p.px, p.py);
+    }
+    ctx.stroke();
+
+    // Lines along x2
+    ctx.beginPath();
+    first = true;
+    for (let j = 0; j <= gridN; j++) {
+      const v = j / gridN;
+      const gx1 = x1Min + v * (x1Max - x1Min);
+      const gx2 = x2Min + u * (x2Max - x2Min);
+      const gy = ols3D.b0 + ols3D.b1 * gx1 + ols3D.b2 * gx2;
+      const p = project3D(normX1(gx1), normY(gy), normX2(gx2), W, H);
+      if (first) { ctx.moveTo(p.px, p.py); first = false; }
+      else ctx.lineTo(p.px, p.py);
+    }
+    ctx.stroke();
+  }
+
+  // Fill surface with transparent color
+  ctx.fillStyle = 'rgba(37, 99, 235, 0.06)';
+  ctx.beginPath();
+  const corners = [
+    [x1Min, x2Min], [x1Max, x2Min], [x1Max, x2Max], [x1Min, x2Max],
+  ];
+  corners.forEach(([gx1, gx2], ci) => {
+    const gy = ols3D.b0 + ols3D.b1 * gx1 + ols3D.b2 * gx2;
+    const p = project3D(normX1(gx1), normY(gy), normX2(gx2), W, H);
+    if (ci === 0) ctx.moveTo(p.px, p.py); else ctx.lineTo(p.px, p.py);
+  });
+  ctx.closePath();
+  ctx.fill();
+
+  // Draw data points (sorted by depth for painter's algorithm)
+  const projPoints = data3D.map((d, i) => {
+    const p = project3D(normX1(d.x1), normY(d.y), normX2(d.x2), W, H);
+    return { ...d, ...p, idx: i };
+  }).sort((a, b) => b.depth - a.depth);
+
+  projPoints.forEach(d => {
+    const yhat = ols3D.b0 + ols3D.b1 * d.x1 + ols3D.b2 * d.x2;
+
+    // Residual line
+    if (showResid) {
+      const pHat = project3D(normX1(d.x1), normY(yhat), normX2(d.x2), W, H);
+      ctx.strokeStyle = d.y > yhat ? 'rgba(239,68,68,0.5)' : 'rgba(37,99,235,0.5)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(d.px, d.py);
+      ctx.lineTo(pHat.px, pHat.py);
+      ctx.stroke();
+    }
+
+    // Point
+    const r = Math.max(3, 6 - d.depth * 0.8);
+    ctx.fillStyle = d.y > yhat ? '#ef4444' : '#2563eb';
+    ctx.globalAlpha = 0.85;
+    ctx.beginPath();
+    ctx.arc(d.px, d.py, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  });
+
+  // Axis labels
+  ctx.font = '12px Paperlogy, sans-serif';
+  ctx.fillStyle = '#475569';
+  const axX = project3D(1.8, -1.7, 0, W, H);
+  ctx.fillText('면적(m2)', axX.px, axX.py);
+  const axZ = project3D(0, -1.7, 1.8, W, H);
+  ctx.fillText('층수', axZ.px, axZ.py);
+  const axY = project3D(-1.7, 1.5, 0, W, H);
+  ctx.fillText('가격', axY.px, axY.py);
+}
+
+// ==================== INITIALIZATION ====================
+function init() {
+  try {
+    import('../../textbook/lib/progress').then(m => m.markVisited('16-multiple-regression')).catch(() => {});
+  } catch(e) {}
+
+  // Generate data
+  generateAptData(100);
+  initVarPool();
+  initQuiz();
+  generate3DData();
+
+  // Events
+  document.getElementById('btn-reset-vars').addEventListener('click', () => {
+    modelVars = [];
+    r2History = [];
+    initVarPool();
+  });
+
+  document.getElementById('btn-collin-run').addEventListener('click', runCollinearityDemo);
+
+  // 3D canvas
+  const noise3d = document.getElementById('noise-3d');
+  noise3d.addEventListener('input', () => {
+    document.getElementById('noise-3d-val').textContent = noise3d.value;
+  });
+
+  document.getElementById('btn-3d-gen').addEventListener('click', generate3DData);
+  document.getElementById('show-3d-resid').addEventListener('change', draw3D);
+
+  const canvas3d = document.getElementById('canvas-3d');
+  canvas3d.addEventListener('mousedown', (e) => {
+    isDragging3D = true;
+    lastMX = e.clientX;
+    lastMY = e.clientY;
+    canvas3d.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging3D) return;
+    const dx = e.clientX - lastMX;
+    const dy = e.clientY - lastMY;
+    rotY += dx * 0.01;
+    rotX += dy * 0.01;
+    rotX = Math.max(-1.2, Math.min(1.2, rotX));
+    lastMX = e.clientX;
+    lastMY = e.clientY;
+    draw3D();
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging3D = false;
+    const c = document.getElementById('canvas-3d');
+    if (c) c.style.cursor = 'grab';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .var-chip-multi {
+    padding: 8px 14px;
+    background: #fff;
+    border: 2px solid var(--tb-g300);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.15s;
+    font-family: var(--tb-font);
+    text-align: center;
+  }
+  .var-chip-multi:hover {
+    border-color: var(--tb-primary);
+    box-shadow: var(--tb-shadow);
+  }
+  .var-chip-multi.active {
+    background: var(--tb-primary);
+    color: #fff;
+    border-color: var(--tb-primary);
+  }
+  .quiz-opt {
+    transition: 0.15s;
+  }
+  .quiz-opt:hover {
+    border-color: var(--tb-primary) !important;
+    background: var(--tb-primary-light);
+  }
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 220px"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="grid-template-columns: 1fr 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

@@ -1,0 +1,1188 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="로지스틱 회귀"
+  subtitle="확률을 예측하는 회귀"
+  chapterNum={17}
+  part={3}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>예 또는 아니오 -- 결과가 둘 중 하나라면</h2>
+    <p>
+      고객이 이탈할 것인가, 남을 것인가?
+      대출 신청자가 상환할 것인가, 부도낼 것인가?
+      환자가 회복할 것인가, 악화될 것인가?
+    </p>
+    <p style="margin-top: 12px;">
+      이런 문제의 공통점은 <strong>결과(Y)가 0 또는 1</strong>이라는 것입니다.
+      지금까지 배운 선형회귀(Y = b0 + b1*X)를 그대로 적용하면 어떻게 될까요?
+      예측값이 -0.3이나 1.5처럼 <strong>확률 범위(0~1)를 벗어나는</strong> 문제가 생깁니다.
+    </p>
+    <p style="margin-top: 12px;">
+      로지스틱 회귀는 이 문제를 우아하게 해결합니다.
+      <strong>시그모이드 함수</strong>가 어떤 값이든 0과 1 사이로 눌러줍니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 왜 선형회귀가 안 되는가 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 왜 선형회귀는 안 되는가?</h2>
+
+    <ExerciseBox>
+      <strong>직접 비교:</strong>
+      아래에서 이진(0/1) 데이터에 선형회귀를 적합한 결과와 로지스틱 회귀를 적합한 결과를 나란히 봅니다.
+      선형회귀의 직선이 0 아래와 1 위로 튀어나가는 것을 확인하세요.
+      그다음 "로지스틱 전환" 버튼을 눌러 시그모이드 곡선으로 바뀌는 모습을 관찰하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-danger" id="btn-show-linear">선형회귀 적합</button>
+      <button class="tb-btn tb-btn-primary" id="btn-show-logistic">로지스틱 전환</button>
+      <button class="tb-btn tb-btn-warning" id="btn-why-new-data">새 데이터</button>
+    </SimControls>
+
+    <canvas id="why-canvas" width="800" height="400" style="width:100%; max-width:800px; display:block; margin:0 auto; border:1px solid var(--tb-g200); border-radius:var(--tb-radius);"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="모형" id="why-model" />
+      <StatBox label="0 미만 예측" id="why-below" sub="확률이 음수?" borderColor="var(--tb-danger)" />
+      <StatBox label="1 초과 예측" id="why-above" sub="확률이 100% 초과?" borderColor="var(--tb-danger)" />
+    </div>
+
+    <WarningBox>
+      <strong>선형확률모형(LPM)의 한계:</strong>
+      이진 결과에 선형회귀를 적용하는 것을 선형확률모형이라 합니다.
+      간단하지만 예측값이 [0,1] 범위를 벗어나고, 이분산성이 내재하며,
+      X와 확률의 관계가 항상 직선이라는 비현실적 가정을 합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 3: 시그모이드 함수 ===== -->
+  <div class="tb-card">
+    <h2>시그모이드 함수: 모든 것을 0과 1 사이로</h2>
+    <p>
+      로지스틱 회귀의 핵심은 <strong>시그모이드(logistic) 함수</strong>입니다.
+      어떤 실수 z를 넣어도, 출력은 반드시 0과 1 사이입니다.
+    </p>
+
+    <FormulaBox>
+      p(Y=1) = 1 / (1 + e^(-z)) &nbsp; where &nbsp; z = <span class="hl">b0 + b1*X</span>
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>시그모이드의 직관:</strong><br>
+      - z가 매우 크면 (양의 무한대) -> p는 1에 수렴<br>
+      - z가 매우 작으면 (음의 무한대) -> p는 0에 수렴<br>
+      - z = 0이면 -> p = 0.5 (반반)<br><br>
+      이것을 "S자 곡선"이라고도 부릅니다.
+      중간 영역에서 급격히 변하고, 양 끝에서 완만해집니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 4: 시그모이드 탐색기 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 시그모이드 탐색기</h2>
+
+    <ExerciseBox>
+      <strong>매개변수 조절 실습:</strong>
+      b0(절편)과 b1(기울기)을 슬라이더로 조절하면서 시그모이드 곡선의 변화를 관찰하세요.
+      b0은 곡선을 좌우로 이동시키고, b1은 곡선의 가파르기를 조절합니다.
+      데이터 점(0과 1)이 곡선에 잘 맞도록 조절해보세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>b0 (절편):</label>
+      <input type="range" id="sig-b0" min="-8" max="8" value="-2" step="0.2">
+      <span class="tb-speed-label" id="sig-b0-val">-2.0</span>
+      <label>b1 (기울기):</label>
+      <input type="range" id="sig-b1" min="-3" max="3" value="0.5" step="0.05">
+      <span class="tb-speed-label" id="sig-b1-val">0.50</span>
+    </SimControls>
+
+    <canvas id="sig-canvas" width="800" height="420" style="width:100%; max-width:800px; display:block; margin:0 auto; border:1px solid var(--tb-g200); border-radius:var(--tb-radius);"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="결정경계 (X값)" id="sig-boundary" sub="p=0.5인 점" borderColor="var(--tb-primary)" />
+      <StatBox label="Log-Likelihood" id="sig-ll" sub="클수록 좋은 적합" />
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-sig-fit">MLE 최적 적합</button>
+      <button class="tb-btn tb-btn-warning" id="btn-sig-new-data">새 데이터</button>
+    </SimControls>
+
+    <InsightBox>
+      <strong>최대우도추정(MLE):</strong>
+      OLS처럼 잔차 제곱합을 최소화하는 대신, 로지스틱 회귀는 우도(likelihood)를 최대화합니다.
+      "관찰된 데이터가 나올 확률이 가장 높은 b0, b1을 찾는다"는 것이 MLE의 원리입니다.
+      "MLE 최적 적합" 버튼을 눌러 비교해보세요.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 5: 로짓과 오즈 ===== -->
+  <div class="tb-card">
+    <h2>로짓, 오즈, 그리고 오즈비</h2>
+    <p>
+      로지스틱 회귀를 깊이 이해하려면 세 가지 개념의 관계를 알아야 합니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 6px; font-size: 0.95rem;">확률 (p)</h3>
+        <p style="font-size: .85rem;">사건이 일어날 가능성. 0에서 1 사이.</p>
+        <p style="font-size: .82rem; color: var(--tb-g600); margin-top: 4px;">예: 이탈 확률 = 0.7 (70%)</p>
+      </div>
+      <div style="background: #fef3c7; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: #92400e; margin-bottom: 6px; font-size: 0.95rem;">오즈 (Odds)</h3>
+        <p style="font-size: .85rem;">p / (1-p). 실패 대비 성공의 비율. 0에서 무한대.</p>
+        <p style="font-size: .82rem; color: var(--tb-g600); margin-top: 4px;">예: 0.7 / 0.3 = 2.33 ("이탈이 잔류의 2.33배")</p>
+      </div>
+      <div style="background: #f0fdf4; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-success); margin-bottom: 6px; font-size: 0.95rem;">로짓 (Logit)</h3>
+        <p style="font-size: .85rem;">log(Odds). 음의 무한대에서 양의 무한대.</p>
+        <p style="font-size: .82rem; color: var(--tb-g600); margin-top: 4px;">예: log(2.33) = 0.847</p>
+      </div>
+    </div>
+
+    <FormulaBox>
+      logit(p) = log(p / (1-p)) = <span class="hl">b0 + b1*X1 + b2*X2 + ...</span>
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>핵심 연결 고리:</strong>
+      로지스틱 회귀는 사실 로짓(log-odds)을 X의 선형 함수로 모형화합니다.
+      시그모이드 함수는 이 로짓을 다시 확률로 변환하는 역할을 합니다.
+      따라서 계수 b1은 "X가 1 증가하면 로짓이 b1만큼 변한다"고 해석합니다.
+    </ExplainBox>
+
+    <BusinessBox>
+      <strong>오즈비(Odds Ratio)의 실무 해석:</strong>
+      e^b1 = 오즈비(OR). b1 = 0.83이면 OR = e^0.83 = 2.3.
+      "X가 1 증가하면 오즈가 2.3배가 된다" = "성공 확률이 실패 확률 대비 2.3배로 늘어난다."
+      의학, 마케팅, 금융에서 가장 많이 쓰이는 해석 방식입니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 6: ROC 커브 빌더 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: ROC 커브와 분류 성능</h2>
+    <p>
+      로지스틱 회귀는 확률을 출력합니다. 이 확률을 "예/아니오"로 바꾸려면
+      <strong>임계값(threshold)</strong>을 정해야 합니다.
+      "확률이 0.5 이상이면 이탈로 분류"가 흔한 기본값이지만, 최적은 아닐 수 있습니다.
+    </p>
+
+    <ExplainBox>
+      <strong>혼동행렬(Confusion Matrix)의 4가지 칸:</strong><br>
+      <strong>TP (True Positive):</strong> 실제 1을 1로 맞춤<br>
+      <strong>FP (False Positive):</strong> 실제 0을 1로 잘못 분류 (거짓 경보)<br>
+      <strong>TN (True Negative):</strong> 실제 0을 0으로 맞춤<br>
+      <strong>FN (False Negative):</strong> 실제 1을 0으로 놓침 (놓침 오류)
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>임계값 조절 실습:</strong>
+      슬라이더로 분류 임계값을 0에서 1까지 움직여보세요.
+      혼동행렬의 값이 변하고, 민감도(Sensitivity)와 특이도(Specificity)가 업데이트됩니다.
+      ROC 곡선 위의 점이 이동하는 것을 관찰하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>분류 임계값:</label>
+      <input type="range" id="roc-threshold" min="0" max="1" value="0.5" step="0.01">
+      <span class="tb-speed-label" id="roc-thresh-val">0.50</span>
+      <button class="tb-btn tb-btn-warning" id="btn-roc-new-data">새 데이터</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <!-- Confusion Matrix -->
+      <div>
+        <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; color: var(--tb-g600);">혼동행렬</div>
+        <div style="display: grid; grid-template-columns: auto 1fr 1fr; gap: 0; border: 2px solid var(--tb-g200); border-radius: 8px; overflow: hidden;">
+          <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; font-size: 0.8rem;"></div>
+          <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; font-size: 0.8rem; text-align: center;">예측: 0</div>
+          <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; font-size: 0.8rem; text-align: center;">예측: 1</div>
+          <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; font-size: 0.8rem;">실제: 0</div>
+          <div id="cm-tn" style="padding: 14px; text-align: center; font-size: 1.3rem; font-weight: 800; background: #dcfce7; color: var(--tb-success);">-</div>
+          <div id="cm-fp" style="padding: 14px; text-align: center; font-size: 1.3rem; font-weight: 800; background: #fee2e2; color: var(--tb-danger);">-</div>
+          <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; font-size: 0.8rem;">실제: 1</div>
+          <div id="cm-fn" style="padding: 14px; text-align: center; font-size: 1.3rem; font-weight: 800; background: #fef3c7; color: #92400e;">-</div>
+          <div id="cm-tp" style="padding: 14px; text-align: center; font-size: 1.3rem; font-weight: 800; background: #dbeafe; color: var(--tb-primary);">-</div>
+        </div>
+        <div class="tb-stat-row" style="margin-top: 10px;">
+          <StatBox label="정확도" id="roc-accuracy" />
+          <StatBox label="민감도" id="roc-sensitivity" sub="TP / (TP+FN)" />
+          <StatBox label="특이도" id="roc-specificity" sub="TN / (TN+FP)" />
+        </div>
+      </div>
+
+      <!-- ROC Curve -->
+      <div>
+        <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; color: var(--tb-g600);">ROC 곡선</div>
+        <canvas id="roc-canvas" width="400" height="380" style="width:100%; max-width:400px; display:block; border:1px solid var(--tb-g200); border-radius:8px;"></canvas>
+        <div class="tb-stat-row" style="margin-top: 10px;">
+          <StatBox label="AUC" id="roc-auc" sub="1에 가까울수록 우수" borderColor="var(--tb-success)" />
+        </div>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>AUC (Area Under the Curve):</strong>
+      ROC 곡선 아래 면적. 0.5이면 동전 던지기 수준(무작위), 1이면 완벽한 분류.
+      일반적으로 AUC > 0.8이면 양호, > 0.9이면 우수한 모형으로 봅니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 7: 오즈비 해석 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 오즈비 해석기</h2>
+    <p>
+      직원 이탈 데이터에 로지스틱 회귀를 적합한 결과를 해석해봅니다.
+      각 변수의 오즈비(OR)가 무엇을 의미하는지, 예측 변수 값을 변경하면
+      예측 확률이 어떻게 변하는지 체험합니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>오즈비 탐색:</strong>
+      아래 계수 테이블에서 오즈비를 확인하세요.
+      슬라이더로 각 변수의 값을 바꾸면 예측 이탈 확률이 실시간으로 변합니다.
+    </ExerciseBox>
+
+    <div class="tb-data-table-wrap" style="max-height: none; margin-top: 14px;">
+      <table class="tb-data-table" id="or-table">
+        <thead>
+          <tr>
+            <th>변수</th>
+            <th>계수 (b)</th>
+            <th>오즈비 (e^b)</th>
+            <th>95% CI</th>
+            <th>해석</th>
+          </tr>
+        </thead>
+        <tbody id="or-body"></tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 18px; padding: 18px; background: var(--tb-g100); border-radius: var(--tb-radius);">
+      <h3 style="margin-bottom: 12px; font-size: 0.95rem;">예측 시뮬레이터: 이 직원은 이탈할까?</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <label style="font-weight: 600; font-size: 0.85rem;">야근 여부:</label>
+          <select id="pred-overtime" style="padding: 6px 10px; border: 2px solid var(--tb-g300); border-radius: 8px; font-size: 0.88rem; width: 100%;">
+            <option value="0">아니오</option>
+            <option value="1">예</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-weight: 600; font-size: 0.85rem;">월소득 (만원):</label>
+          <input type="range" id="pred-income" min="200" max="800" value="400" step="10" style="width: 100%;">
+          <span class="tb-speed-label" id="pred-income-val">400</span>
+        </div>
+        <div>
+          <label style="font-weight: 600; font-size: 0.85rem;">근속연수:</label>
+          <input type="range" id="pred-years" min="0" max="25" value="5" step="1" style="width: 100%;">
+          <span class="tb-speed-label" id="pred-years-val">5</span>
+        </div>
+        <div>
+          <label style="font-weight: 600; font-size: 0.85rem;">직무만족도 (1-4):</label>
+          <input type="range" id="pred-satisfaction" min="1" max="4" value="3" step="1" style="width: 100%;">
+          <span class="tb-speed-label" id="pred-sat-val">3</span>
+        </div>
+      </div>
+      <div style="margin-top: 16px; text-align: center;">
+        <div style="font-size: 0.85rem; color: var(--tb-g600);">예측 이탈 확률</div>
+        <div id="pred-prob" style="font-size: 2.5rem; font-weight: 800; color: var(--tb-primary);">-</div>
+        <div id="pred-verdict" style="font-size: 0.9rem; font-weight: 600; margin-top: 4px;">-</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 8: 임계값 최적화 ===== -->
+  <div class="tb-card">
+    <h2>실습 5: 비용 기반 임계값 최적화</h2>
+    <p>
+      분류 오류의 비용이 대칭이 아닌 경우가 대부분입니다.
+      암 진단에서 놓침(FN)은 치명적이지만 거짓 경보(FP)는 추가 검사 정도입니다.
+      고객 이탈에서도 마찬가지입니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>비용 최적화 실습:</strong>
+      고객 이탈 시나리오를 가정합니다.
+      FN(이탈 고객을 놓침)의 비용과 FP(잔류 고객에게 불필요한 혜택 제공)의 비용을 설정하면,
+      총비용을 최소화하는 최적 임계값이 계산됩니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>FN 비용 (놓침):</label>
+      <input type="range" id="cost-fn" min="10" max="1000" value="500" step="10">
+      <span class="tb-speed-label" id="cost-fn-val">500만원</span>
+      <label>FP 비용 (거짓 경보):</label>
+      <input type="range" id="cost-fp" min="10" max="500" value="50" step="10">
+      <span class="tb-speed-label" id="cost-fp-val">50만원</span>
+    </SimControls>
+
+    <canvas id="cost-canvas" width="800" height="350" style="width:100%; max-width:800px; display:block; margin:0 auto; border:1px solid var(--tb-g200); border-radius:var(--tb-radius);"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="최적 임계값" id="cost-optimal-thresh" borderColor="var(--tb-primary)" />
+      <StatBox label="최소 총비용" id="cost-min-cost" sub="만원" borderColor="var(--tb-success)" />
+      <StatBox label="기본(0.5) 총비용" id="cost-default" sub="만원" borderColor="var(--tb-warning)" />
+      <StatBox label="절감액" id="cost-savings" sub="최적화 효과" borderColor="var(--tb-purple)" />
+    </div>
+
+    <BusinessBox>
+      <strong>비즈니스 시나리오:</strong>
+      이탈 고객을 놓치면 고객 생애가치(CLV) 500만원을 잃습니다.
+      하지만 잔류 고객에게 불필요한 할인 쿠폰을 보내면 50만원 비용이 듭니다.
+      놓침이 거짓 경보보다 10배 비싸므로, 임계값을 0.5보다 낮춰서
+      "의심스러우면 일단 이탈 위험으로 분류"하는 전략이 유리합니다.
+    </BusinessBox>
+
+    <InsightBox>
+      <strong>FN:FP 비용 비율의 영향:</strong>
+      FN 비용이 FP보다 훨씬 크면 임계값이 낮아집니다 (더 많이 양성으로 분류).
+      반대로 FP 비용이 더 크면 임계값이 올라갑니다 (확실한 경우만 양성으로 분류).
+      슬라이더를 극단적으로 조정해보며 이 관계를 확인하세요.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 9: 요약 가이드 ===== -->
+  <div class="tb-card">
+    <h2>로지스틱 회귀 결과 읽기</h2>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>선형회귀</th>
+            <th>로지스틱 회귀</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>종속변수 Y</strong></td><td>연속형 (가격, 매출)</td><td>이진형 (0 또는 1)</td></tr>
+          <tr><td><strong>예측값</strong></td><td>Y 자체 (실수)</td><td>P(Y=1) 확률 (0~1)</td></tr>
+          <tr><td><strong>함수 형태</strong></td><td>직선</td><td>시그모이드(S자) 곡선</td></tr>
+          <tr><td><strong>추정 방법</strong></td><td>OLS (잔차 제곱합 최소)</td><td>MLE (우도 최대화)</td></tr>
+          <tr><td><strong>적합도</strong></td><td>R-squared</td><td>AUC, Log-Likelihood, Pseudo R-squared</td></tr>
+          <tr><td><strong>계수 해석</strong></td><td>Y의 변화량</td><td>로짓(log-odds)의 변화량, 또는 오즈비</td></tr>
+          <tr><td><strong>가정</strong></td><td>LINE (선형, 독립, 정규, 등분산)</td><td>독립, 선형적 로짓, 다중공선성 없음</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ExplainBox>
+      <strong>Pseudo R-squared:</strong>
+      로지스틱 회귀에는 전통적 R-squared가 없습니다.
+      대신 McFadden R-squared = 1 - (Log-Likelihood_model / Log-Likelihood_null)을 사용합니다.
+      0.2~0.4 정도면 양호한 적합으로 봅니다 (선형회귀의 0.7~0.9에 해당).
+    </ExplainBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>이진 결과(0/1)에 선형회귀를 적용하면 예측이 [0,1] 범위를 벗어난다.</li>
+      <li>로지스틱 회귀는 시그모이드 함수로 출력을 0~1 확률로 변환한다.</li>
+      <li>계수 b는 로짓(log-odds)의 변화량이며, e^b = 오즈비(OR)로 해석한다.</li>
+      <li>분류 임계값에 따라 혼동행렬이 달라지고, ROC 곡선과 AUC로 전체 성능을 평가한다.</li>
+      <li>임계값은 비용 구조(FN vs FP 비용)에 따라 최적화해야 한다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 지금까지 배운 회귀 기법들은 "지도학습"의 핵심 도구입니다.
+      다음 장에서는 이들을 종합하여 실제 데이터셋에 적용하는 캡스톤 프로젝트를 진행합니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITY ====================
+function randNorm(mu = 0, sigma = 1) {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return mu + sigma * Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
+function sigmoid(z) {
+  return 1 / (1 + Math.exp(-z));
+}
+
+// ==================== DATA GENERATION ====================
+let whyData = { x: [], y: [] };
+let sigData = { x: [], y: [] };
+let rocData = { actual: [], probs: [] };
+let churnCoefs = { b0: 0, overtime: 0, income: 0, years: 0, satisfaction: 0 };
+
+function generateWhyData(n = 50) {
+  const x = [], y = [];
+  const trueB0 = -3, trueB1 = 0.6;
+  for (let i = 0; i < n; i++) {
+    const xi = 1 + Math.random() * 10;
+    const p = sigmoid(trueB0 + trueB1 * xi);
+    const yi = Math.random() < p ? 1 : 0;
+    x.push(xi);
+    y.push(yi);
+  }
+  whyData = { x, y };
+}
+
+function generateSigData(n = 40) {
+  const x = [], y = [];
+  const trueB0 = -2, trueB1 = 0.5;
+  for (let i = 0; i < n; i++) {
+    const xi = Math.random() * 12;
+    const p = sigmoid(trueB0 + trueB1 * xi);
+    const yi = Math.random() < p ? 1 : 0;
+    x.push(xi);
+    y.push(yi);
+  }
+  sigData = { x, y };
+}
+
+function generateROCData(n = 150) {
+  const actual = [], probs = [];
+  // Simulate employee churn
+  const trueCoefs = { b0: -1.2, overtime: 0.85, income: -0.004, years: -0.08, satisfaction: -0.5 };
+  churnCoefs = trueCoefs;
+
+  for (let i = 0; i < n; i++) {
+    const overtime = Math.random() > 0.6 ? 1 : 0;
+    const income = 200 + Math.random() * 600;
+    const years = Math.floor(Math.random() * 20);
+    const satisfaction = 1 + Math.floor(Math.random() * 4);
+
+    const z = trueCoefs.b0 + trueCoefs.overtime * overtime +
+              trueCoefs.income * income + trueCoefs.years * years +
+              trueCoefs.satisfaction * satisfaction;
+    const p = sigmoid(z);
+    const y = Math.random() < p ? 1 : 0;
+    actual.push(y);
+    probs.push(p + randNorm(0, 0.05)); // Add some noise to probs
+  }
+
+  // Clamp probs to [0.001, 0.999]
+  for (let i = 0; i < probs.length; i++) {
+    probs[i] = Math.max(0.001, Math.min(0.999, probs[i]));
+  }
+
+  rocData = { actual, probs };
+}
+
+// ==================== WHY NOT LINEAR (Exercise 1) ====================
+let whyMode = 'none';
+
+function drawWhyCanvas() {
+  const canvas = document.getElementById('why-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 60, r: 30, t: 20, b: 40 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  if (whyData.x.length === 0) return;
+
+  const xMin = Math.min(...whyData.x) - 1;
+  const xMax = Math.max(...whyData.x) + 1;
+  const yMin = -0.3;
+  const yMax = 1.3;
+
+  const sx = (v) => pad.l + (v - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
+
+  // Grid lines at y=0, 0.5, 1
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 1;
+  [0, 0.5, 1].forEach(v => {
+    ctx.beginPath(); ctx.moveTo(pad.l, sy(v)); ctx.lineTo(W - pad.r, sy(v)); ctx.stroke();
+  });
+
+  // Danger zones: y < 0 and y > 1
+  ctx.fillStyle = 'rgba(239, 68, 68, 0.06)';
+  ctx.fillRect(pad.l, sy(yMax), W - pad.l - pad.r, sy(1) - sy(yMax));
+  ctx.fillRect(pad.l, sy(0), W - pad.l - pad.r, sy(yMin) - sy(0));
+
+  ctx.fillStyle = '#ef444466';
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('확률 > 1 (불가능)', pad.l + 8, sy(1.15));
+  ctx.fillText('확률 < 0 (불가능)', pad.l + 8, sy(-0.15));
+
+  // y = 0 and y = 1 reference lines
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  [0, 1].forEach(v => {
+    ctx.beginPath(); ctx.moveTo(pad.l, sy(v)); ctx.lineTo(W - pad.r, sy(v)); ctx.stroke();
+  });
+  ctx.setLineDash([]);
+
+  // Linear regression fit
+  if (whyMode === 'linear' || whyMode === 'logistic') {
+    const n = whyData.x.length;
+    const mx = whyData.x.reduce((a, b) => a + b, 0) / n;
+    const my = whyData.y.reduce((a, b) => a + b, 0) / n;
+    let num = 0, den = 0;
+    for (let i = 0; i < n; i++) {
+      num += (whyData.x[i] - mx) * (whyData.y[i] - my);
+      den += (whyData.x[i] - mx) ** 2;
+    }
+    const b1lin = den !== 0 ? num / den : 0;
+    const b0lin = my - b1lin * mx;
+
+    // Draw linear line
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(sx(xMin), sy(b0lin + b1lin * xMin));
+    ctx.lineTo(sx(xMax), sy(b0lin + b1lin * xMax));
+    ctx.stroke();
+
+    // Count violations
+    let below = 0, above = 0;
+    for (let xi = xMin; xi <= xMax; xi += 0.1) {
+      const pred = b0lin + b1lin * xi;
+      if (pred < 0) below++;
+      if (pred > 1) above++;
+    }
+
+    document.getElementById('why-below').textContent = below > 0 ? 'O' : '-';
+    document.getElementById('why-above').textContent = above > 0 ? 'O' : '-';
+  }
+
+  // Logistic fit
+  if (whyMode === 'logistic') {
+    // Simple gradient descent for MLE
+    const fitResult = fitLogistic(whyData.x, whyData.y);
+
+    ctx.strokeStyle = '#2563eb';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    let first = true;
+    for (let xi = xMin; xi <= xMax; xi += 0.05) {
+      const p = sigmoid(fitResult.b0 + fitResult.b1 * xi);
+      const py = sy(p);
+      if (first) { ctx.moveTo(sx(xi), py); first = false; }
+      else ctx.lineTo(sx(xi), py);
+    }
+    ctx.stroke();
+
+    document.getElementById('why-below').textContent = '-';
+    document.getElementById('why-above').textContent = '-';
+  }
+
+  // Data points
+  whyData.x.forEach((xi, i) => {
+    const yi = whyData.y[i];
+    ctx.fillStyle = yi === 1 ? '#2563eb' : '#ef4444';
+    ctx.beginPath();
+    ctx.arc(sx(xi), sy(yi), 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  });
+
+  // Labels
+  ctx.fillStyle = '#475569';
+  ctx.font = '12px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('X', W / 2, H - 6);
+  ctx.textAlign = 'right';
+  ctx.fillText('0', pad.l - 8, sy(0) + 4);
+  ctx.fillText('1', pad.l - 8, sy(1) + 4);
+
+  // Model label
+  const labels = { none: '(모형 없음)', linear: '선형회귀 (LPM)', logistic: '선형 + 로지스틱' };
+  document.getElementById('why-model').textContent = labels[whyMode] || '';
+}
+
+// ==================== LOGISTIC FIT (Gradient Descent) ====================
+function fitLogistic(xArr, yArr, maxIter = 200) {
+  let b0 = 0, b1 = 0;
+  const n = xArr.length;
+  const lr = 0.01;
+
+  for (let iter = 0; iter < maxIter; iter++) {
+    let gb0 = 0, gb1 = 0;
+    for (let i = 0; i < n; i++) {
+      const p = sigmoid(b0 + b1 * xArr[i]);
+      const err = yArr[i] - p;
+      gb0 += err;
+      gb1 += err * xArr[i];
+    }
+    b0 += lr * gb0 / n;
+    b1 += lr * gb1 / n;
+  }
+
+  return { b0, b1 };
+}
+
+function logLikelihood(xArr, yArr, b0, b1) {
+  let ll = 0;
+  for (let i = 0; i < xArr.length; i++) {
+    const p = sigmoid(b0 + b1 * xArr[i]);
+    const pc = Math.max(1e-10, Math.min(1 - 1e-10, p));
+    ll += yArr[i] * Math.log(pc) + (1 - yArr[i]) * Math.log(1 - pc);
+  }
+  return ll;
+}
+
+// ==================== SIGMOID EXPLORER (Exercise 2) ====================
+function drawSigCanvas() {
+  const canvas = document.getElementById('sig-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 60, r: 30, t: 20, b: 40 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  const b0 = parseFloat(document.getElementById('sig-b0').value);
+  const b1 = parseFloat(document.getElementById('sig-b1').value);
+
+  const xMin = -1, xMax = 13;
+  const yMin = -0.1, yMax = 1.1;
+
+  const sx = (v) => pad.l + (v - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
+
+  // Grid
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 1;
+  [0, 0.25, 0.5, 0.75, 1].forEach(v => {
+    ctx.beginPath(); ctx.moveTo(pad.l, sy(v)); ctx.lineTo(W - pad.r, sy(v)); ctx.stroke();
+  });
+
+  // p = 0.5 line (dashed)
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(pad.l, sy(0.5));
+  ctx.lineTo(W - pad.r, sy(0.5));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Decision boundary vertical line
+  if (Math.abs(b1) > 0.001) {
+    const boundary = -b0 / b1;
+    if (boundary >= xMin && boundary <= xMax) {
+      ctx.strokeStyle = '#7c3aed66';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath();
+      ctx.moveTo(sx(boundary), sy(yMin));
+      ctx.lineTo(sx(boundary), sy(yMax));
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#7c3aed';
+      ctx.font = '11px Paperlogy, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('p=0.5', sx(boundary), sy(yMax) + 12);
+    }
+    document.getElementById('sig-boundary').textContent = (-b0 / b1).toFixed(2);
+  } else {
+    document.getElementById('sig-boundary').textContent = '-';
+  }
+
+  // Sigmoid curve
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  let first = true;
+  for (let xi = xMin; xi <= xMax; xi += 0.05) {
+    const p = sigmoid(b0 + b1 * xi);
+    if (first) { ctx.moveTo(sx(xi), sy(p)); first = false; }
+    else ctx.lineTo(sx(xi), sy(p));
+  }
+  ctx.stroke();
+
+  // Data points
+  if (sigData.x.length > 0) {
+    sigData.x.forEach((xi, i) => {
+      const yi = sigData.y[i];
+      ctx.fillStyle = yi === 1 ? '#2563eb' : '#ef4444';
+      ctx.globalAlpha = 0.7;
+      ctx.beginPath();
+      ctx.arc(sx(xi), sy(yi), 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+  }
+
+  // Axis labels
+  ctx.fillStyle = '#475569';
+  ctx.font = '12px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('X', W / 2, H - 6);
+  ctx.textAlign = 'right';
+  [0, 0.25, 0.5, 0.75, 1].forEach(v => {
+    ctx.fillText(v.toFixed(2), pad.l - 8, sy(v) + 4);
+  });
+
+  // Log-likelihood
+  if (sigData.x.length > 0) {
+    const ll = logLikelihood(sigData.x, sigData.y, b0, b1);
+    document.getElementById('sig-ll').textContent = ll.toFixed(2);
+  }
+}
+
+// ==================== ROC CURVE (Exercise 3) ====================
+function computeROCPoints() {
+  const thresholds = [];
+  for (let t = 0; t <= 1.001; t += 0.01) thresholds.push(t);
+
+  const points = thresholds.map(t => {
+    let tp = 0, fp = 0, tn = 0, fn = 0;
+    for (let i = 0; i < rocData.actual.length; i++) {
+      const pred = rocData.probs[i] >= t ? 1 : 0;
+      if (rocData.actual[i] === 1 && pred === 1) tp++;
+      else if (rocData.actual[i] === 0 && pred === 1) fp++;
+      else if (rocData.actual[i] === 0 && pred === 0) tn++;
+      else fn++;
+    }
+    const tpr = (tp + fn) > 0 ? tp / (tp + fn) : 0; // sensitivity
+    const fpr = (fp + tn) > 0 ? fp / (fp + tn) : 0; // 1 - specificity
+    return { t, tp, fp, tn, fn, tpr, fpr };
+  });
+
+  return points;
+}
+
+function drawROCCanvas(rocPoints, currentThreshold) {
+  const canvas = document.getElementById('roc-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 50, r: 20, t: 20, b: 40 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  const sx = (v) => pad.l + v * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - v * (H - pad.t - pad.b);
+
+  // Diagonal (random classifier)
+  ctx.strokeStyle = '#cbd5e1';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(sx(0), sy(0));
+  ctx.lineTo(sx(1), sy(1));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // AUC fill
+  ctx.fillStyle = 'rgba(37, 99, 235, 0.1)';
+  ctx.beginPath();
+  ctx.moveTo(sx(0), sy(0));
+  rocPoints.forEach(p => ctx.lineTo(sx(p.fpr), sy(p.tpr)));
+  ctx.lineTo(sx(1), sy(0));
+  ctx.closePath();
+  ctx.fill();
+
+  // ROC curve
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  let first = true;
+  rocPoints.forEach(p => {
+    if (first) { ctx.moveTo(sx(p.fpr), sy(p.tpr)); first = false; }
+    else ctx.lineTo(sx(p.fpr), sy(p.tpr));
+  });
+  ctx.stroke();
+
+  // Current threshold point
+  const closest = rocPoints.reduce((best, p) =>
+    Math.abs(p.t - currentThreshold) < Math.abs(best.t - currentThreshold) ? p : best
+  );
+
+  ctx.fillStyle = '#ef4444';
+  ctx.beginPath();
+  ctx.arc(sx(closest.fpr), sy(closest.tpr), 7, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Label
+  ctx.fillStyle = '#ef4444';
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(`t=${currentThreshold.toFixed(2)}`, sx(closest.fpr) + 10, sy(closest.tpr) - 5);
+
+  // Axes
+  ctx.fillStyle = '#475569';
+  ctx.font = '12px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('FPR (1 - 특이도)', W / 2, H - 6);
+  ctx.save();
+  ctx.translate(14, H / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('TPR (민감도)', 0, 0);
+  ctx.restore();
+
+  // AUC calculation (trapezoidal)
+  let auc = 0;
+  for (let i = 1; i < rocPoints.length; i++) {
+    const dx = Math.abs(rocPoints[i].fpr - rocPoints[i - 1].fpr);
+    const avgY = (rocPoints[i].tpr + rocPoints[i - 1].tpr) / 2;
+    auc += dx * avgY;
+  }
+  document.getElementById('roc-auc').textContent = Math.abs(auc).toFixed(4);
+
+  return closest;
+}
+
+function updateROC() {
+  const threshold = parseFloat(document.getElementById('roc-threshold').value);
+  document.getElementById('roc-thresh-val').textContent = threshold.toFixed(2);
+
+  const rocPoints = computeROCPoints();
+  const closest = drawROCCanvas(rocPoints, threshold);
+
+  // Update confusion matrix
+  document.getElementById('cm-tp').textContent = closest.tp;
+  document.getElementById('cm-fp').textContent = closest.fp;
+  document.getElementById('cm-tn').textContent = closest.tn;
+  document.getElementById('cm-fn').textContent = closest.fn;
+
+  const total = closest.tp + closest.fp + closest.tn + closest.fn;
+  const accuracy = total > 0 ? (closest.tp + closest.tn) / total : 0;
+  const sensitivity = (closest.tp + closest.fn) > 0 ? closest.tp / (closest.tp + closest.fn) : 0;
+  const specificity = (closest.tn + closest.fp) > 0 ? closest.tn / (closest.tn + closest.fp) : 0;
+
+  document.getElementById('roc-accuracy').textContent = (accuracy * 100).toFixed(1) + '%';
+  document.getElementById('roc-sensitivity').textContent = (sensitivity * 100).toFixed(1) + '%';
+  document.getElementById('roc-specificity').textContent = (specificity * 100).toFixed(1) + '%';
+}
+
+// ==================== ODDS RATIO TABLE (Exercise 4) ====================
+function buildORTable() {
+  const vars = [
+    { name: '야근(overtime)', coef: 0.85, se: 0.18 },
+    { name: '월소득(만원)', coef: -0.004, se: 0.001 },
+    { name: '근속연수', coef: -0.08, se: 0.025 },
+    { name: '직무만족도(1-4)', coef: -0.50, se: 0.12 },
+  ];
+
+  churnCoefs = { b0: -1.2, overtime: 0.85, income: -0.004, years: -0.08, satisfaction: -0.50 };
+
+  const body = document.getElementById('or-body');
+  body.innerHTML = `
+    <tr>
+      <td><strong>절편</strong></td>
+      <td>-1.200</td>
+      <td>-</td>
+      <td>-</td>
+      <td style="font-size:.82rem;text-align:left">기준점</td>
+    </tr>
+  `;
+
+  vars.forEach(v => {
+    const or = Math.exp(v.coef);
+    const ciLow = Math.exp(v.coef - 1.96 * v.se);
+    const ciHigh = Math.exp(v.coef + 1.96 * v.se);
+
+    let interp = '';
+    if (or > 1) {
+      interp = `1 단위 증가 시 이탈 오즈가 ${or.toFixed(2)}배`;
+    } else {
+      interp = `1 단위 증가 시 이탈 오즈가 ${(1/or).toFixed(2)}분의 1로 감소`;
+    }
+
+    body.innerHTML += `
+      <tr>
+        <td><strong>${v.name}</strong></td>
+        <td>${v.coef.toFixed(3)}</td>
+        <td style="color: ${or > 1 ? 'var(--tb-danger)' : 'var(--tb-success)'}; font-weight: 700;">${or.toFixed(3)}</td>
+        <td style="font-size:.85rem;">[${ciLow.toFixed(3)}, ${ciHigh.toFixed(3)}]</td>
+        <td style="font-size:.82rem;text-align:left">${interp}</td>
+      </tr>
+    `;
+  });
+}
+
+function updatePrediction() {
+  const overtime = parseInt(document.getElementById('pred-overtime').value);
+  const income = parseInt(document.getElementById('pred-income').value);
+  const years = parseInt(document.getElementById('pred-years').value);
+  const satisfaction = parseInt(document.getElementById('pred-satisfaction').value);
+
+  document.getElementById('pred-income-val').textContent = income;
+  document.getElementById('pred-years-val').textContent = years;
+  document.getElementById('pred-sat-val').textContent = satisfaction;
+
+  const z = churnCoefs.b0 +
+            churnCoefs.overtime * overtime +
+            churnCoefs.income * income +
+            churnCoefs.years * years +
+            churnCoefs.satisfaction * satisfaction;
+
+  const p = sigmoid(z);
+  const probEl = document.getElementById('pred-prob');
+  const verdictEl = document.getElementById('pred-verdict');
+
+  probEl.textContent = (p * 100).toFixed(1) + '%';
+  probEl.style.color = p > 0.5 ? 'var(--tb-danger)' : 'var(--tb-success)';
+
+  if (p > 0.7) {
+    verdictEl.textContent = '높은 이탈 위험 -- 즉각적인 관리가 필요합니다';
+    verdictEl.style.color = 'var(--tb-danger)';
+  } else if (p > 0.5) {
+    verdictEl.textContent = '이탈 가능성이 있음 -- 모니터링 대상';
+    verdictEl.style.color = 'var(--tb-warning)';
+  } else if (p > 0.3) {
+    verdictEl.textContent = '보통 수준 -- 정기적 관리';
+    verdictEl.style.color = 'var(--tb-g600)';
+  } else {
+    verdictEl.textContent = '이탈 위험 낮음 -- 안정적';
+    verdictEl.style.color = 'var(--tb-success)';
+  }
+}
+
+// ==================== COST OPTIMIZATION (Exercise 5) ====================
+function drawCostCanvas() {
+  const canvas = document.getElementById('cost-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 70, r: 30, t: 20, b: 40 };
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, W, H);
+
+  const costFN = parseInt(document.getElementById('cost-fn').value);
+  const costFP = parseInt(document.getElementById('cost-fp').value);
+
+  document.getElementById('cost-fn-val').textContent = costFN + '만원';
+  document.getElementById('cost-fp-val').textContent = costFP + '만원';
+
+  // Compute total cost for each threshold
+  const thresholds = [];
+  const costs = [];
+  let minCost = Infinity, optimalThresh = 0.5;
+  let defaultCost = 0;
+
+  for (let t = 0.01; t <= 0.99; t += 0.01) {
+    let tp = 0, fp = 0, tn = 0, fn = 0;
+    for (let i = 0; i < rocData.actual.length; i++) {
+      const pred = rocData.probs[i] >= t ? 1 : 0;
+      if (rocData.actual[i] === 1 && pred === 1) tp++;
+      else if (rocData.actual[i] === 0 && pred === 1) fp++;
+      else if (rocData.actual[i] === 0 && pred === 0) tn++;
+      else fn++;
+    }
+    const totalCost = fn * costFN + fp * costFP;
+    thresholds.push(t);
+    costs.push(totalCost);
+
+    if (totalCost < minCost) {
+      minCost = totalCost;
+      optimalThresh = t;
+    }
+    if (Math.abs(t - 0.5) < 0.006) {
+      defaultCost = totalCost;
+    }
+  }
+
+  const costMax = Math.max(...costs) * 1.1;
+
+  const sx = (v) => pad.l + (v - 0) / 1 * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v / costMax) * (H - pad.t - pad.b);
+
+  // Grid
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const v = costMax * i / 4;
+    ctx.beginPath(); ctx.moveTo(pad.l, sy(v)); ctx.lineTo(W - pad.r, sy(v)); ctx.stroke();
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '10px Paperlogy, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(Math.round(v).toLocaleString(), pad.l - 6, sy(v) + 3);
+  }
+
+  // Cost curve
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  thresholds.forEach((t, i) => {
+    const px = sx(t), py = sy(costs[i]);
+    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  });
+  ctx.stroke();
+
+  // Default threshold (0.5) marker
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(sx(0.5), sy(0));
+  ctx.lineTo(sx(0.5), sy(costMax));
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('기본 (0.5)', sx(0.5), sy(costMax) + 12);
+
+  // Optimal threshold marker
+  ctx.strokeStyle = '#22c55e';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(sx(optimalThresh), sy(0));
+  ctx.lineTo(sx(optimalThresh), sy(costMax));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = '#22c55e';
+  ctx.beginPath();
+  ctx.arc(sx(optimalThresh), sy(minCost), 6, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#22c55e';
+  ctx.font = '12px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('최적: ' + optimalThresh.toFixed(2), sx(optimalThresh), sy(minCost) - 12);
+
+  // Axis label
+  ctx.fillStyle = '#475569';
+  ctx.font = '12px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('분류 임계값', W / 2, H - 6);
+  ctx.save();
+  ctx.translate(16, H / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('총비용 (만원)', 0, 0);
+  ctx.restore();
+
+  // Stats
+  document.getElementById('cost-optimal-thresh').textContent = optimalThresh.toFixed(2);
+  document.getElementById('cost-min-cost').textContent = Math.round(minCost).toLocaleString();
+  document.getElementById('cost-default').textContent = Math.round(defaultCost).toLocaleString();
+  document.getElementById('cost-savings').textContent = Math.round(defaultCost - minCost).toLocaleString();
+}
+
+// ==================== INITIALIZATION ====================
+function init() {
+  try {
+    import('../../textbook/lib/progress').then(m => m.markVisited('17-logistic-regression')).catch(() => {});
+  } catch(e) {}
+
+  // Generate data
+  generateWhyData();
+  generateSigData();
+  generateROCData();
+
+  // Draw initial states
+  drawWhyCanvas();
+  drawSigCanvas();
+  updateROC();
+  buildORTable();
+  updatePrediction();
+  drawCostCanvas();
+
+  // Exercise 1: Why not linear
+  document.getElementById('btn-show-linear').addEventListener('click', () => {
+    whyMode = 'linear';
+    drawWhyCanvas();
+  });
+  document.getElementById('btn-show-logistic').addEventListener('click', () => {
+    whyMode = 'logistic';
+    drawWhyCanvas();
+  });
+  document.getElementById('btn-why-new-data').addEventListener('click', () => {
+    generateWhyData();
+    whyMode = 'none';
+    drawWhyCanvas();
+  });
+
+  // Exercise 2: Sigmoid explorer
+  const sigB0 = document.getElementById('sig-b0');
+  const sigB1 = document.getElementById('sig-b1');
+  sigB0.addEventListener('input', () => {
+    document.getElementById('sig-b0-val').textContent = parseFloat(sigB0.value).toFixed(1);
+    drawSigCanvas();
+  });
+  sigB1.addEventListener('input', () => {
+    document.getElementById('sig-b1-val').textContent = parseFloat(sigB1.value).toFixed(2);
+    drawSigCanvas();
+  });
+
+  document.getElementById('btn-sig-fit').addEventListener('click', () => {
+    if (sigData.x.length === 0) return;
+    const fit = fitLogistic(sigData.x, sigData.y);
+    sigB0.value = fit.b0.toFixed(1);
+    sigB1.value = fit.b1.toFixed(2);
+    document.getElementById('sig-b0-val').textContent = fit.b0.toFixed(1);
+    document.getElementById('sig-b1-val').textContent = fit.b1.toFixed(2);
+    drawSigCanvas();
+  });
+
+  document.getElementById('btn-sig-new-data').addEventListener('click', () => {
+    generateSigData();
+    drawSigCanvas();
+  });
+
+  // Exercise 3: ROC
+  document.getElementById('roc-threshold').addEventListener('input', updateROC);
+  document.getElementById('btn-roc-new-data').addEventListener('click', () => {
+    generateROCData();
+    updateROC();
+    drawCostCanvas();
+  });
+
+  // Exercise 4: Prediction
+  ['pred-overtime', 'pred-income', 'pred-years', 'pred-satisfaction'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updatePrediction);
+  });
+
+  // Exercise 5: Cost optimization
+  document.getElementById('cost-fn').addEventListener('input', drawCostCanvas);
+  document.getElementById('cost-fp').addEventListener('input', drawCostCanvas);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  canvas {
+    background: #f8fafc;
+  }
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="grid-template-columns: 1fr 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

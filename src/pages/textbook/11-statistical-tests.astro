@@ -1,0 +1,1264 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="주요 검정법"
+  subtitle="어떤 검정을 써야 하나?"
+  chapterNum={11}
+  part={2}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>검정법이 수십 가지인데, 뭘 써야 하나?</h2>
+    <p>
+      마케팅 A/B 테스트, 직원 만족도 비교, 제품 불량률 검사 --
+      모두 '검정'이 필요하다. 하지만 검정법이 수십 가지인데,
+      어떤 것을 선택해야 하는가?
+    </p>
+    <p style="margin-top: 12px;">
+      요리를 할 때 재료에 맞는 도구를 선택하듯,
+      통계 검정도 <strong>데이터의 종류</strong>에 따라 적합한 방법이 달라진다.
+      스테이크를 젓가락으로 먹을 수 없고, 국을 포크로 먹을 수 없듯이,
+      연속형 데이터에 카이제곱 검정을 쓰거나, 범주형 데이터에 t-검정을 쓰면 잘못된 결론에 이른다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 가장 자주 쓰이는 검정법 네 가지를 직접 계산하고 시각화하면서,
+      <strong>"내 데이터에는 어떤 검정이 맞는가?"</strong>라는 질문에 스스로 답할 수 있게 된다.
+    </p>
+
+    <ExplainBox>
+      <strong>핵심 아이디어:</strong>
+      검정 선택의 90%는 딱 세 가지 질문으로 결정된다.
+      (1) 결과변수가 연속형인가, 범주형인가?
+      (2) 비교 그룹이 몇 개인가?
+      (3) 그룹이 독립적인가, 대응(짝지어진)인가?
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 2: TEST SELECTOR DECISION TREE ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 검정 선택 의사결정 나무</h2>
+    <p>
+      아래 흐름도에서 각 질문에 답하면 적합한 검정법이 자동으로 추천된다.
+      각 노드를 클릭하여 분기해 보자.
+    </p>
+
+    <ExerciseBox>
+      <strong>의사결정 나무:</strong>
+      첫 번째 질문부터 시작하여 클릭으로 답을 선택하면,
+      최종적으로 추천 검정법이 하이라이트된다.
+      다시 시작하려면 "초기화" 버튼을 누르면 된다.
+    </ExerciseBox>
+
+    <div id="decision-tree" style="margin: 20px 0;">
+      <div id="tree-question" style="text-align: center; padding: 20px; background: var(--tb-primary-light); border-radius: var(--tb-radius); margin-bottom: 16px;">
+        <p id="tree-q-text" style="font-size: 1.1rem; font-weight: 700; color: var(--tb-primary); margin-bottom: 14px;"></p>
+        <div id="tree-buttons" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;"></div>
+      </div>
+      <div id="tree-path" style="font-size: 0.88rem; color: var(--tb-g600); margin-bottom: 12px;"></div>
+      <div id="tree-result" style="display: none; padding: 20px; border-radius: var(--tb-radius); text-align: center;"></div>
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-danger" id="btn-tree-reset">초기화</button>
+    </SimControls>
+
+    <!-- Test Comparison Reference Table -->
+    <h3 style="margin-top: 24px;">검정법 비교 참조표</h3>
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table" id="test-ref-table">
+        <thead>
+          <tr>
+            <th>검정법</th>
+            <th>결과변수</th>
+            <th>그룹 수</th>
+            <th>독립/대응</th>
+            <th>주요 가정</th>
+            <th>사용 예시</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>일표본 t-검정</strong></td>
+            <td>연속형</td>
+            <td>1</td>
+            <td>-</td>
+            <td>정규성</td>
+            <td>우리 회사 평균 급여가 업계 평균과 다른가?</td>
+          </tr>
+          <tr>
+            <td><strong>독립표본 t-검정</strong></td>
+            <td>연속형</td>
+            <td>2</td>
+            <td>독립</td>
+            <td>정규성, 등분산</td>
+            <td>A팀과 B팀의 성과 차이가 있는가?</td>
+          </tr>
+          <tr>
+            <td><strong>대응표본 t-검정</strong></td>
+            <td>연속형</td>
+            <td>2</td>
+            <td>대응</td>
+            <td>차이의 정규성</td>
+            <td>교육 전후 성적이 달라졌는가?</td>
+          </tr>
+          <tr>
+            <td><strong>일원배치 ANOVA</strong></td>
+            <td>연속형</td>
+            <td>3+</td>
+            <td>독립</td>
+            <td>정규성, 등분산</td>
+            <td>3개 부서의 만족도 차이가 있는가?</td>
+          </tr>
+          <tr>
+            <td><strong>카이제곱 독립성 검정</strong></td>
+            <td>범주형</td>
+            <td>2+</td>
+            <td>독립</td>
+            <td>기대빈도 >= 5</td>
+            <td>성별에 따라 제품 선호가 다른가?</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <InsightBox>
+      <strong>실무 팁:</strong>
+      의사결정 나무를 통해 검정법을 선택한 뒤에도,
+      해당 검정의 가정(정규성, 등분산 등)이 충족되는지 반드시 확인해야 한다.
+      가정이 심하게 위반되면 비모수 검정(Mann-Whitney, Kruskal-Wallis 등)을 고려한다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 3: T-TEST CALCULATOR ===== -->
+  <div class="tb-card">
+    <h2>실습 2: t-검정 계산기</h2>
+    <p>
+      t-검정은 평균을 비교하는 가장 기본적인 도구이다.
+      "우리 회사 직원의 평균 급여가 업계 평균(3,500만원)보다 높은가?"라는 질문에는 <strong>일표본 t-검정</strong>을,
+      "A팀과 B팀의 성과가 다른가?"라는 질문에는 <strong>독립표본 t-검정</strong>을 쓴다.
+    </p>
+
+    <FormulaBox>
+      <span class="hl">일표본 t</span> = (x&#772; - &#956;&#8320;) / (s / &#8730;n)<br>
+      <span class="hl">독립표본 t</span> = (x&#772;&#8321; - x&#772;&#8322;) / &#8730;(s&#8321;&#178;/n&#8321; + s&#8322;&#178;/n&#8322;)
+    </FormulaBox>
+
+    <ExerciseBox>
+      <strong>시나리오를 선택하고 직접 검정해 보자.</strong>
+      프리셋 시나리오를 선택하거나, 직접 데이터를 입력할 수 있다.
+      "검정 실행" 버튼을 누르면 t-통계량, 자유도, p-값이 계산되고,
+      t-분포 위에 기각역이 시각화된다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>검정 유형:</label>
+      <select id="ttest-type">
+        <option value="one">일표본 t-검정</option>
+        <option value="two">독립표본 t-검정</option>
+      </select>
+      <label>시나리오:</label>
+      <select id="ttest-scenario">
+        <option value="salary">급여 vs 업계평균</option>
+        <option value="team">A팀 vs B팀 성과</option>
+        <option value="custom">직접 입력</option>
+      </select>
+      <label>유의수준:</label>
+      <select id="ttest-alpha">
+        <option value="0.01">0.01</option>
+        <option value="0.05" selected>0.05</option>
+        <option value="0.10">0.10</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-ttest">검정 실행</button>
+    </SimControls>
+
+    <div id="ttest-custom-inputs" style="display: none; margin: 14px 0; padding: 16px; background: var(--tb-g100); border-radius: var(--tb-radius);">
+      <div id="ttest-one-inputs">
+        <div class="tb-controls">
+          <label>표본 데이터 (쉼표 구분):</label>
+          <input type="text" id="ttest-one-data" style="flex:1; padding:8px 12px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font);" placeholder="예: 3200, 3800, 4100, 2900, 3600" value="3200, 3800, 4100, 2900, 3600, 3400, 4200, 3100, 3700, 3900">
+        </div>
+        <div class="tb-controls">
+          <label>귀무가설 평균 (&#956;&#8320;):</label>
+          <input type="number" id="ttest-mu0" value="3500" style="width:100px;">
+        </div>
+      </div>
+      <div id="ttest-two-inputs" style="display:none;">
+        <div class="tb-controls">
+          <label>그룹 1 데이터:</label>
+          <input type="text" id="ttest-g1-data" style="flex:1; padding:8px 12px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font);" placeholder="예: 78, 85, 92, 71, 88" value="78, 85, 92, 71, 88, 95, 82, 79, 90, 86">
+        </div>
+        <div class="tb-controls">
+          <label>그룹 2 데이터:</label>
+          <input type="text" id="ttest-g2-data" style="flex:1; padding:8px 12px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font);" placeholder="예: 65, 72, 68, 80, 75" value="65, 72, 68, 80, 75, 70, 77, 63, 69, 74">
+        </div>
+      </div>
+    </div>
+
+    <div id="ttest-output" style="display: none; margin: 14px 0;">
+      <div class="tb-stat-row">
+        <StatBox label="t-통계량" id="ttest-t" />
+        <StatBox label="자유도 (df)" id="ttest-df" />
+        <StatBox label="p-값" id="ttest-p" />
+        <StatBox label="판정" id="ttest-verdict" />
+      </div>
+      <ChartContainer id="ttest-chart" />
+      <div id="ttest-interpretation" style="margin-top: 14px;"></div>
+    </div>
+
+    <WarningBox>
+      <strong>주의:</strong>
+      t-검정은 데이터가 정규분포를 따른다고 가정한다.
+      표본 크기가 30 이상이면 중심극한정리에 의해 이 가정이 대체로 충족되지만,
+      소표본에서는 정규성 검정(Shapiro-Wilk 등)을 먼저 수행하는 것이 바람직하다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 4: CHI-SQUARED TEST ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 카이제곱 독립성 검정</h2>
+    <p>
+      두 <strong>범주형</strong> 변수 사이에 관련이 있는지를 검정하는 방법이다.
+      예를 들어, "성별에 따라 제품 선호도가 다른가?"라는 질문에 답할 수 있다.
+      핵심 아이디어는 단순하다: 두 변수가 독립이라면 관측빈도와 기대빈도가 비슷해야 한다.
+    </p>
+
+    <FormulaBox>
+      <span class="hl">&#967;&#178;</span> = &#931; (O&#7522; - E&#7522;)&#178; / E&#7522;<br>
+      <span style="font-size:0.85rem; color:#94a3b8;">O = 관측빈도, E = 기대빈도 = (행합계 x 열합계) / 전체합계</span>
+    </FormulaBox>
+
+    <ExerciseBox>
+      <strong>분할표를 직접 만들거나 프리셋을 사용하여 검정해 보자.</strong>
+      관측빈도표 아래에 기대빈도가 자동으로 계산되고,
+      히트맵으로 관측값과 기대값의 차이를 시각적으로 비교할 수 있다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>시나리오:</label>
+      <select id="chi-scenario">
+        <option value="gender-product">성별 x 제품선호</option>
+        <option value="dept-turnover">부서 x 이직의향</option>
+        <option value="random">무작위 생성</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-chi">검정 실행</button>
+      <button class="tb-btn tb-btn-warning" id="btn-chi-random">새 데이터</button>
+    </SimControls>
+
+    <div id="chi-tables" style="margin: 14px 0;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div>
+          <h3>관측빈도 (Observed)</h3>
+          <div class="tb-data-table-wrap" style="max-height: none;">
+            <table class="tb-data-table" id="chi-observed">
+              <thead id="chi-obs-head"></thead>
+              <tbody id="chi-obs-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h3>기대빈도 (Expected)</h3>
+          <div class="tb-data-table-wrap" style="max-height: none;">
+            <table class="tb-data-table" id="chi-expected">
+              <thead id="chi-exp-head"></thead>
+              <tbody id="chi-exp-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="chi-output" style="display: none; margin: 14px 0;">
+      <div class="tb-stat-row">
+        <StatBox label="카이제곱 통계량" id="chi-stat" />
+        <StatBox label="자유도 (df)" id="chi-df" />
+        <StatBox label="p-값" id="chi-p" />
+        <StatBox label="판정" id="chi-verdict" />
+      </div>
+      <h3 style="margin-top: 18px;">관측 vs 기대 차이 히트맵</h3>
+      <ChartContainer id="chi-chart" />
+      <div id="chi-interpretation" style="margin-top: 14px;"></div>
+    </div>
+
+    <InsightBox>
+      <strong>기대빈도 규칙:</strong>
+      카이제곱 검정이 유효하려면 모든 셀의 기대빈도가 5 이상이어야 한다.
+      기대빈도가 5 미만인 셀이 전체의 20%를 넘으면, Fisher의 정확 검정을 대신 사용한다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 5: ONE-WAY ANOVA ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 일원배치 분산분석 (ANOVA)</h2>
+    <p>
+      세 개 이상의 그룹 평균을 동시에 비교할 때 ANOVA를 사용한다.
+      "영업, 마케팅, IT 세 부서의 만족도에 차이가 있는가?"처럼
+      t-검정을 반복하면 발생하는 <strong>다중비교 문제</strong>를 ANOVA가 해결한다.
+    </p>
+
+    <ExplainBox>
+      <strong>왜 t-검정을 반복하면 안 되나?</strong>
+      3개 그룹을 비교하려면 t-검정 3번이 필요하다 (A-B, A-C, B-C).
+      유의수준 0.05를 3번 적용하면, 적어도 하나에서 우연히 유의해질 확률이
+      1 - 0.95&#179; = 14.3%로 급증한다. ANOVA는 이를 한 번의 검정으로 처리한다.
+    </ExplainBox>
+
+    <FormulaBox>
+      <span class="hl">F</span> = 집단 간 분산(MS<sub>between</sub>) / 집단 내 분산(MS<sub>within</sub>)<br>
+      <span style="font-size:0.85rem; color:#94a3b8;">F가 크면 = 그룹 간 차이가 그룹 내 변동에 비해 크다 = 그룹 효과 있음</span>
+    </FormulaBox>
+
+    <ExerciseBox>
+      <strong>부서별 만족도 데이터를 생성하고 ANOVA를 수행해 보자.</strong>
+      그룹 수와 효과 크기를 조절하면서 F-통계량과 p-값이 어떻게 변하는지 관찰하자.
+      유의하면 사후검정(post-hoc)으로 어떤 쌍이 다른지 확인할 수 있다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>그룹 수:</label>
+      <select id="anova-groups">
+        <option value="3" selected>3개 부서</option>
+        <option value="4">4개 부서</option>
+        <option value="5">5개 부서</option>
+      </select>
+      <label>그룹당 인원:</label>
+      <select id="anova-n">
+        <option value="10">10명</option>
+        <option value="20" selected>20명</option>
+        <option value="50">50명</option>
+      </select>
+      <label>효과 크기:</label>
+      <select id="anova-effect">
+        <option value="0">없음 (H0 참)</option>
+        <option value="0.3">작음 (d=0.3)</option>
+        <option value="0.6" selected>보통 (d=0.6)</option>
+        <option value="1.0">큼 (d=1.0)</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-anova">ANOVA 실행</button>
+    </SimControls>
+
+    <div id="anova-output" style="display: none; margin: 14px 0;">
+      <div class="tb-stat-row">
+        <StatBox label="F-통계량" id="anova-f" />
+        <StatBox label="자유도" id="anova-df" />
+        <StatBox label="p-값" id="anova-p" />
+        <StatBox label="판정" id="anova-verdict" />
+      </div>
+
+      <h3 style="margin-top: 18px;">그룹별 평균과 오차 막대</h3>
+      <ChartContainer id="anova-chart" />
+
+      <h3 style="margin-top: 18px;">사후검정 (Bonferroni 보정 t-검정)</h3>
+      <div class="tb-data-table-wrap" style="max-height: none;">
+        <table class="tb-data-table" id="posthoc-table">
+          <thead>
+            <tr><th>비교 쌍</th><th>평균 차이</th><th>t-통계량</th><th>p-값</th><th>보정 p-값</th><th>유의 여부</th></tr>
+          </thead>
+          <tbody id="posthoc-body"></tbody>
+        </table>
+      </div>
+      <div id="anova-interpretation" style="margin-top: 14px;"></div>
+    </div>
+
+    <BusinessBox>
+      <strong>비즈니스 활용:</strong>
+      "어떤 부서의 만족도가 가장 낮은가?" -- ANOVA로 전체 차이를 확인한 뒤,
+      사후검정으로 구체적으로 어떤 부서 간에 차이가 있는지 파악한다.
+      이는 인사 정책의 우선순위를 결정하는 데 직접적으로 활용된다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 6: INTERACTIVE REFERENCE CARD ===== -->
+  <div class="tb-card">
+    <h2>실습 5: 검정법 빠른 참조 카드</h2>
+    <p>
+      아래에서 연구 상황의 조건을 선택하면 적합한 검정법과 함께
+      해당 검정의 가정, 공식, 사용 예시가 자동으로 표시된다.
+      실제 분석에서 참조 카드처럼 활용할 수 있다.
+    </p>
+
+    <SimControls>
+      <label>결과변수:</label>
+      <select id="ref-outcome">
+        <option value="continuous">연속형 (평균 비교)</option>
+        <option value="categorical">범주형 (빈도 비교)</option>
+      </select>
+      <label>그룹 수:</label>
+      <select id="ref-groups">
+        <option value="1">1개 (기준값과 비교)</option>
+        <option value="2">2개</option>
+        <option value="3">3개 이상</option>
+      </select>
+      <label>설계:</label>
+      <select id="ref-design">
+        <option value="independent">독립</option>
+        <option value="paired">대응 (반복측정)</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-ref-lookup">검정법 찾기</button>
+    </SimControls>
+
+    <div id="ref-result" style="display: none; margin: 14px 0; padding: 20px; background: var(--tb-primary-light); border-radius: var(--tb-radius);">
+      <h3 id="ref-test-name" style="color: var(--tb-primary); font-size: 1.2rem; margin-bottom: 12px;"></h3>
+      <div id="ref-test-detail" style="font-size: 0.93rem; line-height: 1.8;"></div>
+    </div>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>검정 선택은 결과변수 유형, 그룹 수, 독립/대응 여부의 세 가지로 결정된다.</li>
+      <li>t-검정은 평균을 비교하는 가장 기본적인 도구이다 (1표본, 독립표본, 대응표본).</li>
+      <li>카이제곱 검정은 두 범주형 변수의 독립성을 검정한다.</li>
+      <li>ANOVA는 3개 이상 그룹의 평균을 동시에 비교하며, 유의하면 사후검정으로 쌍별 차이를 확인한다.</li>
+      <li>모든 검정에는 가정이 있으며, 가정 위반 시 비모수 대안을 고려해야 한다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> p-값이 유의하다고 해서 반드시 중요한 발견은 아니다.
+      효과크기와 재현성 위기를 통해 "통계적 유의성"의 한계를 살펴본다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  Chart.register(...registerables);
+  ChartJS = Chart;
+  return Chart;
+}
+
+// ==================== STATISTICAL HELPER FUNCTIONS ====================
+function mean(arr) { return arr.reduce((a, b) => a + b, 0) / arr.length; }
+function variance(arr) { const m = mean(arr); return arr.reduce((a, v) => a + (v - m) ** 2, 0) / (arr.length - 1); }
+function stdev(arr) { return Math.sqrt(variance(arr)); }
+
+function tCDF(t, df) {
+  // Approximation of Student's t CDF using regularized incomplete beta function
+  const x = df / (df + t * t);
+  const a = df / 2;
+  const b = 0.5;
+  let ibeta = regIncBeta(x, a, b);
+  return t >= 0 ? 1 - 0.5 * ibeta : 0.5 * ibeta;
+}
+
+function regIncBeta(x, a, b) {
+  // Continued fraction approximation for regularized incomplete beta
+  if (x < 0 || x > 1) return 0;
+  if (x === 0 || x === 1) return x;
+  const lnBeta = lnGamma(a) + lnGamma(b) - lnGamma(a + b);
+  const front = Math.exp(Math.log(x) * a + Math.log(1 - x) * b - lnBeta);
+  if (x < (a + 1) / (a + b + 2)) {
+    return front * cfBeta(x, a, b) / a;
+  } else {
+    return 1 - front * cfBeta(1 - x, b, a) / b;
+  }
+}
+
+function cfBeta(x, a, b) {
+  const maxIter = 200;
+  const eps = 1e-10;
+  let am = 1, bm = 1, az = 1;
+  let qab = a + b, qap = a + 1, qam = a - 1;
+  let bz = 1 - qab * x / qap;
+  for (let i = 1; i <= maxIter; i++) {
+    let em = i;
+    let tem = em + em;
+    let d = em * (b - em) * x / ((qam + tem) * (a + tem));
+    let ap = az + d * am;
+    let bp = bz + d * bm;
+    d = -(a + em) * (qab + em) * x / ((a + tem) * (qap + tem));
+    let app = ap + d * az;
+    let bpp = bp + d * bz;
+    let aold = az;
+    am = ap / bpp;
+    bm = bp / bpp;
+    az = app / bpp;
+    bz = 1;
+    if (Math.abs(az - aold) < eps * Math.abs(az)) break;
+  }
+  return az;
+}
+
+function lnGamma(z) {
+  const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
+    -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+  let x = z, y = z, tmp = x + 5.5;
+  tmp -= (x + 0.5) * Math.log(tmp);
+  let ser = 1.000000000190015;
+  for (let j = 0; j < 6; j++) ser += c[j] / ++y;
+  return -tmp + Math.log(2.5066282746310005 * ser / x);
+}
+
+function tPValue(t, df, twoTailed = true) {
+  const p = 1 - tCDF(Math.abs(t), df);
+  return twoTailed ? 2 * p : p;
+}
+
+function chiCDF(x, df) {
+  // Approximate chi-squared CDF using regularized incomplete gamma
+  if (x <= 0) return 0;
+  return regGammaP(df / 2, x / 2);
+}
+
+function regGammaP(a, x) {
+  if (x < a + 1) {
+    let sum = 1 / a, term = 1 / a;
+    for (let n = 1; n < 200; n++) {
+      term *= x / (a + n);
+      sum += term;
+      if (Math.abs(term) < 1e-10) break;
+    }
+    return sum * Math.exp(-x + a * Math.log(x) - lnGamma(a));
+  } else {
+    let f = 1e-30, c = 1e-30, d = 0;
+    for (let i = 1; i < 200; i++) {
+      let an = -i * (i - a);
+      let bn = 2 * i + 1 - a + x;
+      d = bn + an * d; if (Math.abs(d) < 1e-30) d = 1e-30;
+      c = bn + an / c; if (Math.abs(c) < 1e-30) c = 1e-30;
+      d = 1 / d;
+      let delta = c * d;
+      f *= delta;
+      if (Math.abs(delta - 1) < 1e-10) break;
+    }
+    return 1 - f * Math.exp(-x + a * Math.log(x) - lnGamma(a));
+  }
+}
+
+function fCDF(f, df1, df2) {
+  if (f <= 0) return 0;
+  const x = df1 * f / (df1 * f + df2);
+  return regIncBeta(x, df1 / 2, df2 / 2) > 1 ? 1 : regIncBeta(x, df1 / 2, df2 / 2);
+}
+
+function fPValue(f, df1, df2) { return 1 - fCDF(f, df1, df2); }
+
+function tPDF(t, df) {
+  const coeff = Math.exp(lnGamma((df + 1) / 2) - lnGamma(df / 2)) / Math.sqrt(df * Math.PI);
+  return coeff * Math.pow(1 + t * t / df, -(df + 1) / 2);
+}
+
+function normalRandom() {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+// ==================== DECISION TREE ====================
+const TREE_NODES = {
+  start: {
+    question: '결과변수(종속변수)의 유형은?',
+    options: [
+      { label: '연속형 (숫자, 측정값)', next: 'continuous' },
+      { label: '범주형 (분류, 빈도)', next: 'categorical' }
+    ]
+  },
+  continuous: {
+    question: '비교할 그룹이 몇 개인가?',
+    options: [
+      { label: '1개 (기준값과 비교)', next: 'one_sample' },
+      { label: '2개', next: 'two_groups' },
+      { label: '3개 이상', next: 'three_plus' }
+    ]
+  },
+  categorical: {
+    question: '분석 목적은?',
+    options: [
+      { label: '두 변수 간 독립성 검정', next: 'result_chi' },
+      { label: '비율이 기대값과 같은지 (적합도)', next: 'result_chi_gof' }
+    ]
+  },
+  one_sample: {
+    question: '',
+    result: true,
+    name: '일표본 t-검정 (One-sample t-test)',
+    desc: '하나의 표본 평균이 알려진 기준값(모집단 평균)과 다른지를 검정한다.',
+    example: '우리 회사 직원의 평균 급여가 업계 평균 3,500만원과 다른가?',
+    color: '#2563eb'
+  },
+  two_groups: {
+    question: '두 그룹의 관계는?',
+    options: [
+      { label: '독립 (서로 다른 대상)', next: 'result_indep_t' },
+      { label: '대응 (같은 대상, 전-후)', next: 'result_paired_t' }
+    ]
+  },
+  three_plus: {
+    question: '',
+    result: true,
+    name: '일원배치 분산분석 (One-way ANOVA)',
+    desc: '세 개 이상 독립 그룹의 평균이 모두 같은지를 한 번에 검정한다. F-통계량을 사용한다.',
+    example: '영업부, 마케팅부, IT부의 직무만족도에 차이가 있는가?',
+    color: '#7c3aed'
+  },
+  result_indep_t: {
+    result: true,
+    name: '독립표본 t-검정 (Independent t-test)',
+    desc: '서로 다른 두 그룹의 평균 차이가 통계적으로 유의한지를 검정한다.',
+    example: 'A팀과 B팀의 프로젝트 완료 시간에 차이가 있는가?',
+    color: '#22c55e'
+  },
+  result_paired_t: {
+    result: true,
+    name: '대응표본 t-검정 (Paired t-test)',
+    desc: '같은 대상의 처리 전-후 차이가 유의한지를 검정한다.',
+    example: '교육 프로그램 전후의 성적 차이가 유의한가?',
+    color: '#f59e0b'
+  },
+  result_chi: {
+    result: true,
+    name: '카이제곱 독립성 검정 (Chi-squared test)',
+    desc: '두 범주형 변수가 독립인지(서로 관련이 없는지)를 검정한다.',
+    example: '성별에 따라 선호 제품이 다른가?',
+    color: '#ef4444'
+  },
+  result_chi_gof: {
+    result: true,
+    name: '카이제곱 적합도 검정 (Goodness-of-fit)',
+    desc: '관측된 빈도가 이론적으로 기대되는 빈도와 일치하는지를 검정한다.',
+    example: '주사위가 공정한가? (각 면의 빈도가 1/6과 같은가?)',
+    color: '#06b6d4'
+  }
+};
+
+let treePath = [];
+
+function renderTreeNode(nodeId) {
+  const node = TREE_NODES[nodeId];
+  const qText = document.getElementById('tree-q-text');
+  const btns = document.getElementById('tree-buttons');
+  const resultDiv = document.getElementById('tree-result');
+  const pathDiv = document.getElementById('tree-path');
+
+  if (node.result) {
+    document.getElementById('tree-question').style.display = 'none';
+    resultDiv.style.display = '';
+    resultDiv.style.background = node.color + '15';
+    resultDiv.style.border = '2px solid ' + node.color;
+    resultDiv.innerHTML = `
+      <div style="font-size:1.3rem;font-weight:800;color:${node.color};margin-bottom:10px;">${node.name}</div>
+      <p style="font-size:0.95rem;margin-bottom:8px;">${node.desc}</p>
+      <p style="font-size:0.88rem;color:var(--tb-g600);"><strong>예시:</strong> ${node.example}</p>
+    `;
+    pathDiv.innerHTML = '<strong>경로:</strong> ' + treePath.join(' → ');
+    return;
+  }
+
+  document.getElementById('tree-question').style.display = '';
+  resultDiv.style.display = 'none';
+  qText.textContent = node.question;
+  btns.innerHTML = '';
+  node.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'tb-btn tb-btn-primary';
+    btn.textContent = opt.label;
+    btn.addEventListener('click', () => {
+      treePath.push(opt.label);
+      renderTreeNode(opt.next);
+    });
+    btns.appendChild(btn);
+  });
+  pathDiv.innerHTML = treePath.length > 0
+    ? '<strong>경로:</strong> ' + treePath.join(' → ')
+    : '';
+}
+
+// ==================== T-TEST ====================
+let ttestChart = null;
+
+function runTTest() {
+  const type = document.getElementById('ttest-type').value;
+  const scenario = document.getElementById('ttest-scenario').value;
+  const alpha = parseFloat(document.getElementById('ttest-alpha').value);
+
+  let t, df, pVal, sampleInfo;
+
+  if (type === 'one') {
+    let data, mu0;
+    if (scenario === 'custom') {
+      data = document.getElementById('ttest-one-data').value.split(',').map(Number).filter(v => !isNaN(v));
+      mu0 = parseFloat(document.getElementById('ttest-mu0').value);
+    } else if (scenario === 'salary') {
+      data = Array.from({length: 15}, () => Math.round(3500 + normalRandom() * 400));
+      mu0 = 3500;
+    } else {
+      data = Array.from({length: 12}, () => Math.round(80 + normalRandom() * 10));
+      mu0 = 75;
+    }
+    const n = data.length;
+    const m = mean(data);
+    const s = stdev(data);
+    t = (m - mu0) / (s / Math.sqrt(n));
+    df = n - 1;
+    pVal = tPValue(t, df);
+    sampleInfo = `표본 평균 = ${m.toFixed(1)}, 표본 표준편차 = ${s.toFixed(1)}, n = ${n}, 귀무가설 평균 = ${mu0}`;
+  } else {
+    let g1, g2;
+    if (scenario === 'custom') {
+      g1 = document.getElementById('ttest-g1-data').value.split(',').map(Number).filter(v => !isNaN(v));
+      g2 = document.getElementById('ttest-g2-data').value.split(',').map(Number).filter(v => !isNaN(v));
+    } else if (scenario === 'team') {
+      g1 = Array.from({length: 15}, () => Math.round(82 + normalRandom() * 8));
+      g2 = Array.from({length: 15}, () => Math.round(75 + normalRandom() * 10));
+    } else {
+      g1 = Array.from({length: 12}, () => Math.round(3800 + normalRandom() * 500));
+      g2 = Array.from({length: 12}, () => Math.round(3400 + normalRandom() * 500));
+    }
+    const m1 = mean(g1), m2 = mean(g2);
+    const s1 = stdev(g1), s2 = stdev(g2);
+    const n1 = g1.length, n2 = g2.length;
+    const se = Math.sqrt(s1*s1/n1 + s2*s2/n2);
+    t = (m1 - m2) / se;
+    // Welch's df
+    const num = (s1*s1/n1 + s2*s2/n2)**2;
+    const den = (s1*s1/n1)**2/(n1-1) + (s2*s2/n2)**2/(n2-1);
+    df = Math.floor(num / den);
+    pVal = tPValue(t, df);
+    sampleInfo = `그룹1: 평균=${m1.toFixed(1)}, SD=${s1.toFixed(1)}, n=${n1} | 그룹2: 평균=${m2.toFixed(1)}, SD=${s2.toFixed(1)}, n=${n2}`;
+  }
+
+  // Display results
+  document.getElementById('ttest-output').style.display = '';
+  document.getElementById('ttest-t').textContent = t.toFixed(3);
+  document.getElementById('ttest-df').textContent = df;
+  document.getElementById('ttest-p').textContent = pVal < 0.001 ? '< 0.001' : pVal.toFixed(4);
+
+  const reject = pVal < alpha;
+  const verdictEl = document.getElementById('ttest-verdict');
+  verdictEl.textContent = reject ? '귀무가설 기각' : '기각 실패';
+  verdictEl.style.color = reject ? 'var(--tb-danger)' : 'var(--tb-success)';
+
+  const interpDiv = document.getElementById('ttest-interpretation');
+  interpDiv.innerHTML = `<div class="${reject ? 'tb-warning-box' : 'tb-insight'}">
+    <strong>${sampleInfo}</strong><br>
+    t(${df}) = ${t.toFixed(3)}, p = ${pVal < 0.001 ? '< 0.001' : pVal.toFixed(4)}<br>
+    유의수준 ${alpha}에서 ${reject ? '귀무가설을 기각한다. 통계적으로 유의한 차이가 존재한다.' : '귀무가설을 기각하지 못한다. 유의한 차이를 발견하지 못했다.'}
+  </div>`;
+
+  drawTDistribution(t, df, alpha);
+}
+
+async function drawTDistribution(tStat, df, alpha) {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('ttest-chart');
+  if (ttestChart) { ttestChart.destroy(); ttestChart = null; }
+
+  const xMin = -4, xMax = 4, step = 0.05;
+  const xs = [];
+  const ys = [];
+  for (let x = xMin; x <= xMax; x += step) {
+    xs.push(x.toFixed(2));
+    ys.push(tPDF(x, df));
+  }
+
+  // Critical values
+  // Approximate: use 1.96 for df>30, else iterate
+  const tCrit = findTCritical(alpha / 2, df);
+
+  const bgColors = xs.map(x => {
+    const xn = parseFloat(x);
+    return (xn <= -tCrit || xn >= tCrit) ? 'rgba(239,68,68,0.4)' : 'rgba(37,99,235,0.2)';
+  });
+
+  ttestChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: xs,
+      datasets: [{
+        label: 't-분포',
+        data: ys,
+        backgroundColor: bgColors,
+        borderColor: bgColors.map(c => c.replace('0.4', '0.8').replace('0.2', '0.5')),
+        borderWidth: 1,
+        barPercentage: 1,
+        categoryPercentage: 1,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: `t-분포 (df=${df}), 기각역(빨간색): |t| > ${tCrit.toFixed(3)}`, font: { size: 13, family: "'Paperlogy'" } },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 't' },
+          ticks: { maxTicksLimit: 15, callback: function(val, idx) { return idx % 10 === 0 ? this.getLabelForValue(val) : ''; } }
+        },
+        y: { title: { display: true, text: '밀도' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function findTCritical(pTail, df) {
+  // Simple bisection to find t such that P(T > t) = pTail
+  let lo = 0, hi = 10;
+  for (let i = 0; i < 100; i++) {
+    const mid = (lo + hi) / 2;
+    const p = 1 - tCDF(mid, df);
+    if (p > pTail) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
+// ==================== CHI-SQUARED TEST ====================
+let chiChart = null;
+
+const CHI_SCENARIOS = {
+  'gender-product': {
+    rowLabels: ['남성', '여성'],
+    colLabels: ['전자제품', '의류', '식품'],
+    data: [[45, 30, 25], [30, 50, 20]]
+  },
+  'dept-turnover': {
+    rowLabels: ['영업', '마케팅', 'IT', '인사'],
+    colLabels: ['이직의향 있음', '이직의향 없음'],
+    data: [[18, 32], [12, 38], [8, 42], [22, 28]]
+  }
+};
+
+function getChiData(scenario) {
+  if (scenario === 'random') {
+    const rows = 2 + Math.floor(Math.random() * 3);
+    const cols = 2 + Math.floor(Math.random() * 2);
+    const rowLabels = Array.from({length: rows}, (_, i) => '행' + (i + 1));
+    const colLabels = Array.from({length: cols}, (_, i) => '열' + (i + 1));
+    const data = Array.from({length: rows}, () =>
+      Array.from({length: cols}, () => 5 + Math.floor(Math.random() * 50))
+    );
+    return { rowLabels, colLabels, data };
+  }
+  return CHI_SCENARIOS[scenario];
+}
+
+function runChiSquared() {
+  const scenario = document.getElementById('chi-scenario').value;
+  const info = getChiData(scenario);
+  const { rowLabels, colLabels, data } = info;
+
+  const nRows = data.length, nCols = data[0].length;
+  const rowSums = data.map(r => r.reduce((a, b) => a + b, 0));
+  const colSums = colLabels.map((_, j) => data.reduce((a, r) => a + r[j], 0));
+  const total = rowSums.reduce((a, b) => a + b, 0);
+
+  // Expected frequencies
+  const expected = data.map((row, i) => row.map((_, j) => (rowSums[i] * colSums[j]) / total));
+
+  // Render observed table
+  const obsHead = document.getElementById('chi-obs-head');
+  obsHead.innerHTML = '<tr><th></th>' + colLabels.map(c => '<th>' + c + '</th>').join('') + '<th>합계</th></tr>';
+  const obsBody = document.getElementById('chi-obs-body');
+  obsBody.innerHTML = data.map((row, i) =>
+    '<tr><td><strong>' + rowLabels[i] + '</strong></td>' + row.map(v => '<td>' + v + '</td>').join('') + '<td><strong>' + rowSums[i] + '</strong></td></tr>'
+  ).join('') + '<tr><td><strong>합계</strong></td>' + colSums.map(v => '<td><strong>' + v + '</strong></td>').join('') + '<td><strong>' + total + '</strong></td></tr>';
+
+  // Render expected table
+  const expHead = document.getElementById('chi-exp-head');
+  expHead.innerHTML = '<tr><th></th>' + colLabels.map(c => '<th>' + c + '</th>').join('') + '</tr>';
+  const expBody = document.getElementById('chi-exp-body');
+  expBody.innerHTML = expected.map((row, i) =>
+    '<tr><td><strong>' + rowLabels[i] + '</strong></td>' + row.map(v => '<td>' + v.toFixed(1) + '</td>').join('') + '</tr>'
+  ).join('');
+
+  // Chi-squared statistic
+  let chi2 = 0;
+  for (let i = 0; i < nRows; i++) {
+    for (let j = 0; j < nCols; j++) {
+      chi2 += (data[i][j] - expected[i][j]) ** 2 / expected[i][j];
+    }
+  }
+  const df = (nRows - 1) * (nCols - 1);
+  const pVal = 1 - chiCDF(chi2, df);
+
+  document.getElementById('chi-output').style.display = '';
+  document.getElementById('chi-stat').textContent = chi2.toFixed(3);
+  document.getElementById('chi-df').textContent = df;
+  document.getElementById('chi-p').textContent = pVal < 0.001 ? '< 0.001' : pVal.toFixed(4);
+  const reject = pVal < 0.05;
+  const chiVerdict = document.getElementById('chi-verdict');
+  chiVerdict.textContent = reject ? '독립성 기각' : '독립성 유지';
+  chiVerdict.style.color = reject ? 'var(--tb-danger)' : 'var(--tb-success)';
+
+  const interpDiv = document.getElementById('chi-interpretation');
+  interpDiv.innerHTML = `<div class="${reject ? 'tb-warning-box' : 'tb-insight'}">
+    <strong>카이제곱(${df}) = ${chi2.toFixed(3)}, p = ${pVal < 0.001 ? '< 0.001' : pVal.toFixed(4)}</strong><br>
+    ${reject
+      ? '두 변수는 통계적으로 유의한 관련이 있다. 즉, 행 변수와 열 변수는 독립이 아니다.'
+      : '두 변수 사이에 통계적으로 유의한 관련을 발견하지 못했다. 독립이라는 귀무가설을 기각하지 못한다.'}
+  </div>`;
+
+  drawChiHeatmap(rowLabels, colLabels, data, expected);
+}
+
+async function drawChiHeatmap(rowLabels, colLabels, observed, expected) {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('chi-chart');
+  if (chiChart) { chiChart.destroy(); chiChart = null; }
+
+  // Compute (O - E) for each cell and create grouped bar chart
+  const datasets = rowLabels.map((rl, i) => ({
+    label: rl,
+    data: colLabels.map((_, j) => observed[i][j] - expected[i][j]),
+    backgroundColor: ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed'][i % 5] + '88',
+    borderColor: ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed'][i % 5],
+    borderWidth: 1,
+    borderRadius: 4,
+  }));
+
+  chiChart = new Chart(canvas, {
+    type: 'bar',
+    data: { labels: colLabels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        title: { display: true, text: '관측빈도 - 기대빈도 (양수 = 기대보다 많음)', font: { size: 13, family: "'Paperlogy'" } },
+        legend: { position: 'top' }
+      },
+      scales: {
+        y: { title: { display: true, text: 'O - E' } },
+        x: { title: { display: true, text: '열 범주' } }
+      }
+    }
+  });
+}
+
+// ==================== ONE-WAY ANOVA ====================
+let anovaChart = null;
+
+function runANOVA() {
+  const nGroups = parseInt(document.getElementById('anova-groups').value);
+  const nPerGroup = parseInt(document.getElementById('anova-n').value);
+  const effect = parseFloat(document.getElementById('anova-effect').value);
+  const groupNames = ['영업부', '마케팅부', 'IT부', '인사부', '재무부'].slice(0, nGroups);
+
+  // Generate data
+  const groups = [];
+  const baseMean = 3.5;
+  const sd = 0.8;
+  for (let g = 0; g < nGroups; g++) {
+    const shift = effect * (g - Math.floor(nGroups / 2)) * 0.5;
+    const data = Array.from({length: nPerGroup}, () => baseMean + shift + normalRandom() * sd);
+    groups.push(data);
+  }
+
+  // ANOVA calculation
+  const allValues = groups.flat();
+  const grandMean = mean(allValues);
+  const N = allValues.length;
+
+  let SSB = 0; // Between groups
+  groups.forEach(g => {
+    const gm = mean(g);
+    SSB += g.length * (gm - grandMean) ** 2;
+  });
+
+  let SSW = 0; // Within groups
+  groups.forEach(g => {
+    const gm = mean(g);
+    g.forEach(v => SSW += (v - gm) ** 2);
+  });
+
+  const dfB = nGroups - 1;
+  const dfW = N - nGroups;
+  const MSB = SSB / dfB;
+  const MSW = SSW / dfW;
+  const F = MSB / MSW;
+  const pVal = fPValue(F, dfB, dfW);
+
+  // Display results
+  document.getElementById('anova-output').style.display = '';
+  document.getElementById('anova-f').textContent = F.toFixed(3);
+  document.getElementById('anova-df').textContent = `${dfB}, ${dfW}`;
+  document.getElementById('anova-p').textContent = pVal < 0.001 ? '< 0.001' : pVal.toFixed(4);
+  const reject = pVal < 0.05;
+  const anovaVerdict = document.getElementById('anova-verdict');
+  anovaVerdict.textContent = reject ? '귀무가설 기각' : '기각 실패';
+  anovaVerdict.style.color = reject ? 'var(--tb-danger)' : 'var(--tb-success)';
+
+  // Post-hoc tests (Bonferroni)
+  const nComparisons = nGroups * (nGroups - 1) / 2;
+  const posthocBody = document.getElementById('posthoc-body');
+  posthocBody.innerHTML = '';
+  for (let i = 0; i < nGroups; i++) {
+    for (let j = i + 1; j < nGroups; j++) {
+      const m1 = mean(groups[i]), m2 = mean(groups[j]);
+      const s1 = stdev(groups[i]), s2 = stdev(groups[j]);
+      const n1 = groups[i].length, n2 = groups[j].length;
+      const se = Math.sqrt(s1*s1/n1 + s2*s2/n2);
+      const tVal = (m1 - m2) / se;
+      const phDf = Math.floor((s1*s1/n1 + s2*s2/n2)**2 / ((s1*s1/n1)**2/(n1-1) + (s2*s2/n2)**2/(n2-1)));
+      const phP = tPValue(tVal, phDf);
+      const bonP = Math.min(1, phP * nComparisons);
+      const sig = bonP < 0.05;
+      posthocBody.insertAdjacentHTML('beforeend', `<tr style="${sig ? 'background:#fef2f2;' : ''}">
+        <td>${groupNames[i]} vs ${groupNames[j]}</td>
+        <td>${(m1 - m2).toFixed(3)}</td>
+        <td>${tVal.toFixed(3)}</td>
+        <td>${phP < 0.001 ? '< 0.001' : phP.toFixed(4)}</td>
+        <td>${bonP < 0.001 ? '< 0.001' : bonP.toFixed(4)}</td>
+        <td style="color:${sig ? 'var(--tb-danger)' : 'var(--tb-success)'}; font-weight:700;">${sig ? '유의함' : '유의하지 않음'}</td>
+      </tr>`);
+    }
+  }
+
+  // Interpretation
+  const interpDiv = document.getElementById('anova-interpretation');
+  interpDiv.innerHTML = `<div class="${reject ? 'tb-warning-box' : 'tb-insight'}">
+    <strong>F(${dfB}, ${dfW}) = ${F.toFixed(3)}, p = ${pVal < 0.001 ? '< 0.001' : pVal.toFixed(4)}</strong><br>
+    ${reject
+      ? '적어도 하나의 그룹 평균이 다른 그룹과 유의하게 다르다. 위 사후검정 결과에서 구체적으로 어떤 쌍이 다른지 확인하라.'
+      : '그룹 간 평균에 통계적으로 유의한 차이를 발견하지 못했다. 모든 그룹의 평균이 같다는 귀무가설을 기각하지 못한다.'}
+  </div>`;
+
+  drawAnovaChart(groups, groupNames);
+}
+
+async function drawAnovaChart(groups, groupNames) {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('anova-chart');
+  if (anovaChart) { anovaChart.destroy(); anovaChart = null; }
+
+  const means = groups.map(g => mean(g));
+  const sds = groups.map(g => stdev(g));
+  const ns = groups.map(g => g.length);
+  const ses = sds.map((s, i) => s / Math.sqrt(ns[i]));
+  const colors = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed'];
+
+  anovaChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: groupNames,
+      datasets: [{
+        label: '그룹 평균',
+        data: means,
+        backgroundColor: groupNames.map((_, i) => colors[i % colors.length] + '66'),
+        borderColor: groupNames.map((_, i) => colors[i % colors.length]),
+        borderWidth: 2,
+        borderRadius: 6,
+        errorBars: ses,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '그룹별 평균 (오차 막대 = 표준오차)', font: { size: 13, family: "'Paperlogy'" } },
+      },
+      scales: {
+        y: { title: { display: true, text: '점수' } },
+        x: { title: { display: true, text: '그룹' } }
+      }
+    },
+    plugins: [{
+      id: 'errorBars',
+      afterDraw(chart) {
+        const ctx = chart.ctx;
+        const meta = chart.getDatasetMeta(0);
+        meta.data.forEach((bar, i) => {
+          const se = ses[i];
+          const yCenter = bar.y;
+          const yTop = chart.scales.y.getPixelForValue(means[i] + se);
+          const yBot = chart.scales.y.getPixelForValue(means[i] - se);
+          const x = bar.x;
+          ctx.save();
+          ctx.strokeStyle = colors[i % colors.length];
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(x, yTop);
+          ctx.lineTo(x, yBot);
+          ctx.moveTo(x - 6, yTop);
+          ctx.lineTo(x + 6, yTop);
+          ctx.moveTo(x - 6, yBot);
+          ctx.lineTo(x + 6, yBot);
+          ctx.stroke();
+          ctx.restore();
+        });
+      }
+    }]
+  });
+}
+
+// ==================== REFERENCE CARD LOOKUP ====================
+const REF_DATA = {
+  'continuous-1-independent': {
+    name: '일표본 t-검정 (One-sample t-test)',
+    when: '하나의 표본 평균이 알려진 모집단 평균과 다른지 검정할 때',
+    assumptions: '(1) 데이터가 정규분포를 따르거나 n >= 30, (2) 독립적인 관측',
+    formula: 't = (x-bar - mu0) / (s / sqrt(n))',
+    example: '우리 회사 직원의 평균 연봉이 업계 평균 3,500만원과 다른가?',
+    nonparam: '부호 검정 (Sign test), Wilcoxon 부호순위 검정'
+  },
+  'continuous-2-independent': {
+    name: '독립표본 t-검정 (Independent two-sample t-test)',
+    when: '서로 다른 두 그룹의 평균을 비교할 때',
+    assumptions: '(1) 각 그룹 정규성, (2) 등분산 (Welch 검정은 완화), (3) 독립 관측',
+    formula: 't = (x1-bar - x2-bar) / sqrt(s1^2/n1 + s2^2/n2)',
+    example: 'A팀과 B팀의 프로젝트 완료 시간에 차이가 있는가?',
+    nonparam: 'Mann-Whitney U 검정'
+  },
+  'continuous-2-paired': {
+    name: '대응표본 t-검정 (Paired t-test)',
+    when: '같은 대상을 두 번 측정하여 전-후 차이를 검정할 때',
+    assumptions: '(1) 차이값(d)이 정규분포, (2) 짝지어진(paired) 관측',
+    formula: 't = d-bar / (s_d / sqrt(n))',
+    example: '교육 전후의 직무만족도가 달라졌는가?',
+    nonparam: 'Wilcoxon 부호순위 검정'
+  },
+  'continuous-3-independent': {
+    name: '일원배치 분산분석 (One-way ANOVA)',
+    when: '3개 이상 독립 그룹의 평균을 동시에 비교할 때',
+    assumptions: '(1) 각 그룹 정규성, (2) 등분산 (Levene 검정), (3) 독립 관측',
+    formula: 'F = MS_between / MS_within',
+    example: '영업부, 마케팅부, IT부의 만족도에 차이가 있는가?',
+    nonparam: 'Kruskal-Wallis H 검정'
+  },
+  'continuous-3-paired': {
+    name: '반복측정 분산분석 (Repeated measures ANOVA)',
+    when: '같은 대상을 3회 이상 측정하여 시점 간 차이를 검정할 때',
+    assumptions: '(1) 정규성, (2) 구형성 (Mauchly 검정)',
+    formula: 'F = MS_time / MS_error',
+    example: '약물 투여 전, 1주 후, 4주 후의 혈압이 다른가?',
+    nonparam: 'Friedman 검정'
+  },
+  'categorical-1-independent': {
+    name: '카이제곱 적합도 검정 (Chi-squared goodness-of-fit)',
+    when: '관측 빈도가 이론적 기대 빈도와 일치하는지 검정할 때',
+    assumptions: '(1) 기대빈도 >= 5, (2) 독립 관측',
+    formula: 'chi2 = sum((O - E)^2 / E)',
+    example: '주사위가 공정한가? (6면의 빈도가 균등한가?)',
+    nonparam: '정확 다항 검정 (Exact multinomial test)'
+  },
+  'categorical-2-independent': {
+    name: '카이제곱 독립성 검정 (Chi-squared test of independence)',
+    when: '두 범주형 변수가 독립인지 검정할 때',
+    assumptions: '(1) 기대빈도 >= 5 (80% 이상의 셀), (2) 독립 관측',
+    formula: 'chi2 = sum((O - E)^2 / E), E = rowSum * colSum / total',
+    example: '성별에 따라 선호 제품이 다른가?',
+    nonparam: 'Fisher 정확 검정 (2x2 표인 경우)'
+  },
+  'categorical-3-independent': {
+    name: '카이제곱 독립성 검정 (확장)',
+    when: '여러 범주형 변수의 독립성을 검정할 때',
+    assumptions: '(1) 기대빈도 >= 5 (80% 이상의 셀), (2) 독립 관측',
+    formula: 'chi2 = sum((O - E)^2 / E)',
+    example: '직급, 부서, 이직의향 간에 관련이 있는가?',
+    nonparam: 'Fisher-Freeman-Halton 검정'
+  },
+  'categorical-2-paired': {
+    name: 'McNemar 검정',
+    when: '대응된 이분형 범주 데이터의 변화를 검정할 때',
+    assumptions: '(1) 짝지어진(paired) 관측, (2) 이분형 결과',
+    formula: 'chi2 = (b - c)^2 / (b + c)',
+    example: '캠페인 전-후 구매의향(예/아니오)이 변했는가?',
+    nonparam: '정확 McNemar 검정'
+  },
+  'categorical-3-paired': {
+    name: 'Cochran Q 검정',
+    when: '같은 대상을 3회 이상 이분형으로 측정했을 때',
+    assumptions: '(1) 짝지어진 관측, (2) 이분형 결과',
+    formula: 'Q 통계량 (chi-squared 근사)',
+    example: '3개 광고안에 대한 클릭 여부(예/아니오)가 다른가?',
+    nonparam: '-'
+  }
+};
+
+function lookupRef() {
+  const outcome = document.getElementById('ref-outcome').value;
+  const groups = document.getElementById('ref-groups').value;
+  const design = document.getElementById('ref-design').value;
+  const key = outcome + '-' + groups + '-' + design;
+  const ref = REF_DATA[key];
+
+  const resultDiv = document.getElementById('ref-result');
+  if (!ref) {
+    resultDiv.style.display = '';
+    resultDiv.innerHTML = '<p>해당 조합에 대한 검정법을 찾을 수 없습니다. 조건을 다시 확인해 주세요.</p>';
+    document.getElementById('ref-test-name').textContent = '';
+    return;
+  }
+
+  resultDiv.style.display = '';
+  document.getElementById('ref-test-name').textContent = ref.name;
+  document.getElementById('ref-test-detail').innerHTML = `
+    <p><strong>사용 시점:</strong> ${ref.when}</p>
+    <p style="margin-top:8px;"><strong>주요 가정:</strong> ${ref.assumptions}</p>
+    <p style="margin-top:8px;"><strong>공식:</strong> <code style="background:var(--tb-g100);padding:2px 8px;border-radius:4px;">${ref.formula}</code></p>
+    <p style="margin-top:8px;"><strong>예시:</strong> ${ref.example}</p>
+    <p style="margin-top:8px;"><strong>비모수 대안:</strong> ${ref.nonparam}</p>
+  `;
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('11-statistical-tests')).catch(() => {});
+
+  // Decision tree
+  renderTreeNode('start');
+  document.getElementById('btn-tree-reset').addEventListener('click', () => {
+    treePath = [];
+    renderTreeNode('start');
+  });
+
+  // T-test
+  document.getElementById('ttest-type').addEventListener('change', function() {
+    const isOne = this.value === 'one';
+    document.getElementById('ttest-one-inputs').style.display = isOne ? '' : 'none';
+    document.getElementById('ttest-two-inputs').style.display = isOne ? 'none' : '';
+  });
+
+  document.getElementById('ttest-scenario').addEventListener('change', function() {
+    document.getElementById('ttest-custom-inputs').style.display =
+      this.value === 'custom' ? '' : 'none';
+  });
+
+  document.getElementById('btn-ttest').addEventListener('click', runTTest);
+
+  // Chi-squared
+  document.getElementById('btn-chi').addEventListener('click', runChiSquared);
+  document.getElementById('btn-chi-random').addEventListener('click', () => {
+    document.getElementById('chi-scenario').value = 'random';
+    runChiSquared();
+  });
+
+  // ANOVA
+  document.getElementById('btn-anova').addEventListener('click', runANOVA);
+
+  // Reference card
+  document.getElementById('btn-ref-lookup').addEventListener('click', lookupRef);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  #decision-tree button {
+    font-family: var(--tb-font);
+  }
+  #ref-result code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+  }
+</style>

@@ -149,7 +149,7 @@
       "prerequisites": [
         5
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 9,
@@ -162,7 +162,7 @@
         5,
         8
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 10,
@@ -175,7 +175,7 @@
         8,
         9
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 11,
@@ -187,7 +187,7 @@
       "prerequisites": [
         10
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 12,
@@ -200,7 +200,7 @@
         10,
         11
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 13,
@@ -231,7 +231,7 @@
         13
       ],
       "capstone": true,
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 15,
@@ -243,7 +243,7 @@
       "prerequisites": [
         6
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 16,
@@ -255,7 +255,7 @@
       "prerequisites": [
         15
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 17,
@@ -268,7 +268,7 @@
         15,
         10
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 18,

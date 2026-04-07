@@ -1,0 +1,1181 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="캡스톤 II: 설문조사 분석 종합실습"
+  subtitle="CSV에서 완전한 분석 보고서까지"
+  chapterNum={14}
+  part={2}
+>
+
+  <!-- ===== SECTION 1: INTRODUCTION ===== -->
+  <div class="tb-card">
+    <h2>실제 분석의 전 과정을 체험한다</h2>
+    <p>
+      이 캡스톤은 8~13장에서 배운 모든 것을 하나의 분석 파이프라인으로 통합한다.
+      가상의 한국 기업 직원 만족도 설문조사 데이터(500명, 15개 변수)를 이용하여,
+      데이터 탐색부터 가설검정, 효과크기 보고, 최종 분석 보고서 생성까지
+      완전한 분석 워크플로를 경험한다.
+    </p>
+
+    <ExplainBox>
+      <strong>분석 파이프라인:</strong>
+      (1) 데이터 탐색 (변수 확인, 결측치, 분포) -->
+      (2) 기술통계 (평균, 빈도, 시각화) -->
+      (3) 가설검정 (t-검정, ANOVA, 카이제곱) -->
+      (4) 하위집단 비교 (부서별, 성별, 근속별) -->
+      (5) 보고서 생성
+    </ExplainBox>
+
+    <p style="margin-top: 14px;">
+      아래 "데이터 생성" 버튼을 누르면 설문조사 데이터가 자동으로 생성된다.
+      현실감을 높이기 위해 결측값, 부서별 차이, 성별 차이, 근속연수 효과가 반영되어 있다.
+    </p>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-generate">데이터 생성 (500명)</button>
+      <button class="tb-btn tb-btn-warning" id="btn-regenerate">새 데이터 재생성</button>
+    </SimControls>
+
+    <div id="gen-status" style="display:none; margin-top:12px;"></div>
+  </div>
+
+  <!-- ===== SECTION 2: DATASET OVERVIEW ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 데이터 개요</h2>
+    <p>
+      생성된 데이터셋의 변수 구성, 결측치 현황, 데이터 유형을 한눈에 파악한다.
+      분석의 첫 단계는 항상 "데이터를 이해하는 것"이다.
+    </p>
+
+    <ExerciseBox>
+      <strong>변수 요약 테이블:</strong>
+      각 변수의 유형, 유효 관측치 수, 결측 수, 고유값 수가 표시된다.
+      수치형 변수는 평균과 표준편차가, 범주형 변수는 최빈값이 함께 나타난다.
+    </ExerciseBox>
+
+    <div id="overview-section" style="display: none;">
+      <div class="tb-stat-row">
+        <StatBox label="관측치 (행)" id="ov-rows" />
+        <StatBox label="변수 (열)" id="ov-cols" />
+        <StatBox label="총 결측 셀" id="ov-missing" />
+        <StatBox label="결측률" id="ov-miss-rate" sub="전체 대비 %" />
+      </div>
+
+      <h3 style="margin-top: 18px;">변수 요약</h3>
+      <div class="tb-data-table-wrap" style="max-height: 400px;">
+        <table class="tb-data-table" id="var-summary-table">
+          <thead>
+            <tr>
+              <th>변수명</th>
+              <th>유형</th>
+              <th>유효 N</th>
+              <th>결측</th>
+              <th>고유값</th>
+              <th>대표값</th>
+              <th>퍼짐/범주</th>
+            </tr>
+          </thead>
+          <tbody id="var-summary-body"></tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top: 18px;">데이터 미리보기 (처음 10행)</h3>
+      <div class="tb-data-table-wrap" style="max-height: 320px; overflow-x: auto;">
+        <table class="tb-data-table" id="preview-table">
+          <thead id="preview-head"></thead>
+          <tbody id="preview-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: DESCRIPTIVE STATS DASHBOARD ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 기술통계 대시보드</h2>
+    <p>
+      변수를 선택하면 분포 차트와 요약 통계가 자동으로 표시된다.
+      두 변수를 동시에 선택하면 교차표 또는 그룹별 비교 차트가 나타난다.
+    </p>
+
+    <ExerciseBox>
+      <strong>단일 변수 탐색과 이변량 탐색을 모두 시도해 보라.</strong>
+      수치형 변수를 선택하면 히스토그램과 요약 통계가,
+      범주형 변수를 선택하면 막대 그래프와 빈도표가 표시된다.
+      두 번째 변수를 추가로 선택하면 교차분석이 수행된다.
+    </ExerciseBox>
+
+    <div id="desc-section" style="display: none;">
+      <SimControls>
+        <label>변수 1:</label>
+        <select id="desc-var1"></select>
+        <label>변수 2 (선택사항):</label>
+        <select id="desc-var2"><option value="">없음</option></select>
+        <button class="tb-btn tb-btn-primary" id="btn-desc">차트 그리기</button>
+      </SimControls>
+
+      <div id="desc-output" style="display: none; margin: 14px 0;">
+        <div class="tb-stat-row" id="desc-stats"></div>
+        <ChartContainer id="desc-chart" />
+        <div id="desc-cross-table" style="margin-top: 14px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: HYPOTHESIS TEST WORKBENCH ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 가설검정 워크벤치</h2>
+    <p>
+      검정 유형을 선택하고 변수를 지정하면,
+      가설 설정부터 검정 통계량, p-값, 효과크기, 신뢰구간, 해석까지
+      단계별로 출력된다.
+    </p>
+
+    <ExerciseBox>
+      <strong>다양한 검정을 시도해 보라.</strong>
+      같은 데이터에 대해 서로 다른 검정을 적용하면 어떤 결과가 나오는지,
+      변수 조합을 바꾸면 효과크기가 어떻게 달라지는지 관찰하라.
+    </ExerciseBox>
+
+    <div id="test-section" style="display: none;">
+      <SimControls>
+        <label>검정 유형:</label>
+        <select id="test-type">
+          <option value="one-t">일표본 t-검정</option>
+          <option value="two-t">독립표본 t-검정</option>
+          <option value="anova">일원배치 ANOVA</option>
+          <option value="chi">카이제곱 독립성 검정</option>
+        </select>
+        <label>결과변수:</label>
+        <select id="test-dv"></select>
+        <label>그룹변수:</label>
+        <select id="test-iv"></select>
+        <button class="tb-btn tb-btn-primary" id="btn-test">검정 실행</button>
+      </SimControls>
+
+      <div id="test-mu0-row" class="tb-controls" style="display:none;">
+        <label>귀무가설 평균 (mu0):</label>
+        <input type="number" id="test-mu0" value="3.0" step="0.1" style="width:100px;">
+      </div>
+
+      <div id="test-output" style="display: none; margin: 14px 0;">
+        <div id="test-hypotheses" class="tb-explain" style="margin-bottom: 14px;"></div>
+        <div class="tb-stat-row" id="test-stats-row"></div>
+        <ChartContainer id="test-chart" />
+        <div id="test-conclusion" style="margin-top: 14px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 5: SUBGROUP COMPARISON ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 하위집단 비교</h2>
+    <p>
+      "부서별로 만족도가 다른가?", "성별에 따라 급여 차이가 있는가?",
+      "근속 기간에 따라 이직의향이 달라지는가?" --
+      이런 질문에 답하기 위해 하위집단을 비교한다.
+      적절한 검정(t-검정 또는 ANOVA)이 자동으로 선택되며,
+      효과크기가 포레스트 플롯으로 시각화된다.
+    </p>
+
+    <ExerciseBox>
+      <strong>비교하고 싶은 결과변수와 그룹변수를 선택하라.</strong>
+      그룹이 2개이면 t-검정이, 3개 이상이면 ANOVA가 자동으로 수행된다.
+    </ExerciseBox>
+
+    <div id="subgroup-section" style="display: none;">
+      <SimControls>
+        <label>결과변수 (수치형):</label>
+        <select id="sub-dv"></select>
+        <label>그룹변수 (범주형):</label>
+        <select id="sub-iv"></select>
+        <button class="tb-btn tb-btn-primary" id="btn-subgroup">비교 실행</button>
+      </SimControls>
+
+      <div id="sub-output" style="display: none; margin: 14px 0;">
+        <div class="tb-stat-row" id="sub-stats-row"></div>
+        <h3 style="margin-top: 14px;">그룹별 평균 비교</h3>
+        <ChartContainer id="sub-chart" />
+        <h3 style="margin-top: 18px;">효과크기 포레스트 플롯</h3>
+        <ChartContainer id="sub-forest" />
+        <div id="sub-conclusion" style="margin-top: 14px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 6: REPORT GENERATOR ===== -->
+  <div class="tb-card">
+    <h2>실습 5: 분석 보고서 생성기</h2>
+    <p>
+      지금까지의 분석 결과를 종합하여 구조화된 보고서를 자동으로 생성한다.
+      연구 질문, 사용한 분석 방법, 주요 발견, 한계점이 포함된다.
+    </p>
+
+    <ExerciseBox>
+      <strong>"보고서 생성" 버튼을 누르면</strong>
+      현재까지 수행한 분석(기술통계, 가설검정, 하위집단 비교)이
+      텍스트 보고서 형태로 정리된다. 다운로드도 가능하다.
+    </ExerciseBox>
+
+    <div id="report-section" style="display: none;">
+      <SimControls>
+        <button class="tb-btn tb-btn-primary" id="btn-report">보고서 생성</button>
+        <button class="tb-btn tb-btn-success" id="btn-download" style="display:none;">텍스트 다운로드</button>
+      </SimControls>
+
+      <div id="report-output" style="display: none; margin: 14px 0; padding: 24px; background: #fff; border: 2px solid var(--tb-g200); border-radius: var(--tb-radius); font-size: 0.93rem; line-height: 1.9; white-space: pre-wrap; font-family: var(--tb-font);"></div>
+    </div>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>캡스톤 II 정리</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>데이터 분석은 탐색 -> 기술통계 -> 가설검정 -> 해석 -> 보고의 단계를 따른다.</li>
+      <li>변수의 유형에 따라 적절한 시각화와 검정 방법이 달라진다.</li>
+      <li>가설검정 결과를 보고할 때는 검정 통계량, p-값, 효과크기, 신뢰구간을 모두 포함해야 한다.</li>
+      <li>하위집단 비교 시 다중비교 문제에 주의하고, 실질적 의미를 항상 고려해야 한다.</li>
+      <li>최종 보고서에는 연구 질문, 방법, 결과, 한계점이 명확히 기술되어야 한다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 파트 예고:</strong> Part 3에서는 회귀분석과 예측의 세계로 넘어간다.
+      단순선형회귀부터 시작하여, 변수 간의 관계를 수식으로 표현하고
+      미래를 예측하는 방법을 배운다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  Chart.register(...registerables);
+  ChartJS = Chart;
+  return Chart;
+}
+
+// ==================== STATISTICAL HELPERS ====================
+function mean(arr) { return arr.reduce((a, b) => a + b, 0) / arr.length; }
+function variance(arr) { const m = mean(arr); return arr.reduce((a, v) => a + (v - m) ** 2, 0) / (arr.length - 1); }
+function stdev(arr) { return Math.sqrt(variance(arr)); }
+function median(arr) { const s = [...arr].sort((a,b)=>a-b); const mid = Math.floor(s.length/2); return s.length%2 ? s[mid] : (s[mid-1]+s[mid])/2; }
+
+function normalRandom() {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+function normalCDF(x) {
+  const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+  const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+  const sign = x < 0 ? -1 : 1;
+  const z = Math.abs(x) / Math.sqrt(2);
+  const t = 1.0 / (1.0 + p * z);
+  const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-z * z);
+  return 0.5 * (1.0 + sign * y);
+}
+
+function lnGamma(z) {
+  const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
+    -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+  let x = z, y = z, tmp = x + 5.5;
+  tmp -= (x + 0.5) * Math.log(tmp);
+  let ser = 1.000000000190015;
+  for (let j = 0; j < 6; j++) ser += c[j] / ++y;
+  return -tmp + Math.log(2.5066282746310005 * ser / x);
+}
+
+function regIncBeta(x, a, b) {
+  if (x <= 0) return 0;
+  if (x >= 1) return 1;
+  const lnBeta = lnGamma(a) + lnGamma(b) - lnGamma(a + b);
+  const front = Math.exp(Math.log(x) * a + Math.log(1 - x) * b - lnBeta);
+  if (x < (a + 1) / (a + b + 2)) return front * cfBeta(x, a, b) / a;
+  return 1 - front * cfBeta(1 - x, b, a) / b;
+}
+
+function cfBeta(x, a, b) {
+  const maxIter = 200, eps = 1e-10;
+  let am = 1, bm = 1, az = 1;
+  let qab = a + b, qap = a + 1, qam = a - 1;
+  let bz = 1 - qab * x / qap;
+  for (let i = 1; i <= maxIter; i++) {
+    let em = i, tem = em + em;
+    let d = em * (b - em) * x / ((qam + tem) * (a + tem));
+    let ap = az + d * am, bp = bz + d * bm;
+    d = -(a + em) * (qab + em) * x / ((a + tem) * (qap + tem));
+    let app = ap + d * az, bpp = bp + d * bz;
+    am = ap / bpp; bm = bp / bpp; az = app / bpp; bz = 1;
+    if (Math.abs(az - app/bpp) < eps) break;
+  }
+  return az;
+}
+
+function tCDF(t, df) {
+  const x = df / (df + t * t);
+  let ibeta = regIncBeta(x, df / 2, 0.5);
+  return t >= 0 ? 1 - 0.5 * ibeta : 0.5 * ibeta;
+}
+
+function tPValue(t, df) { return 2 * (1 - tCDF(Math.abs(t), df)); }
+
+function regGammaP(a, x) {
+  if (x < a + 1) {
+    let sum = 1/a, term = 1/a;
+    for (let n = 1; n < 200; n++) { term *= x/(a+n); sum += term; if (Math.abs(term) < 1e-10) break; }
+    return sum * Math.exp(-x + a * Math.log(x) - lnGamma(a));
+  }
+  let f = 1e-30, c = 1e-30, d = 0;
+  for (let i = 1; i < 200; i++) {
+    let an = -i*(i-a), bn = 2*i+1-a+x;
+    d = bn+an*d; if (Math.abs(d)<1e-30) d=1e-30;
+    c = bn+an/c; if (Math.abs(c)<1e-30) c=1e-30;
+    d = 1/d; f *= c*d;
+    if (Math.abs(c*d-1)<1e-10) break;
+  }
+  return 1 - f * Math.exp(-x + a * Math.log(x) - lnGamma(a));
+}
+
+function chiCDF(x, df) { return x <= 0 ? 0 : regGammaP(df/2, x/2); }
+function fCDF(f, df1, df2) { return f <= 0 ? 0 : regIncBeta(df1*f/(df1*f+df2), df1/2, df2/2); }
+function fPValue(f, df1, df2) { return 1 - fCDF(f, df1, df2); }
+
+// ==================== DATA GENERATION ====================
+const DEPTS = ['영업부', '마케팅부', 'IT부', '인사부', '재무부'];
+const GENDERS = ['남성', '여성'];
+const POSITIONS = ['사원', '주임', '대리', '과장', '차장', '부장'];
+const EDUCATION = ['고졸', '전문학사', '학사', '석사', '박사'];
+const EMPLOYMENT = ['정규직', '계약직'];
+const TURNOVER_YN = ['있음', '없음'];
+const REGIONS = ['서울', '경기', '인천', '부산', '대전', '대구', '기타'];
+
+const VAR_META = [
+  { key: 'id', label: '직원번호', type: 'id' },
+  { key: 'dept', label: '부서', type: 'categorical' },
+  { key: 'gender', label: '성별', type: 'categorical' },
+  { key: 'age', label: '나이', type: 'continuous' },
+  { key: 'position', label: '직급', type: 'ordinal' },
+  { key: 'education', label: '학력', type: 'ordinal' },
+  { key: 'employment', label: '고용형태', type: 'categorical' },
+  { key: 'tenure', label: '근속연수', type: 'continuous' },
+  { key: 'salary', label: '연봉(만원)', type: 'continuous' },
+  { key: 'satisfaction', label: '직무만족도(1-5)', type: 'continuous' },
+  { key: 'engagement', label: '몰입도(1-7)', type: 'continuous' },
+  { key: 'worklife', label: '워라밸(1-5)', type: 'continuous' },
+  { key: 'stress', label: '스트레스(1-10)', type: 'continuous' },
+  { key: 'turnover', label: '이직의향', type: 'categorical' },
+  { key: 'region', label: '근무지역', type: 'categorical' },
+];
+
+let dataset = [];
+let analysisLog = [];
+
+function generateDataset() {
+  dataset = [];
+  analysisLog = [];
+  const n = 500;
+  const missingRate = 0.03;
+
+  // Department effects on satisfaction
+  const deptEffects = { '영업부': -0.3, '마케팅부': 0.1, 'IT부': 0.3, '인사부': 0.0, '재무부': -0.1 };
+  // Gender pay gap
+  const genderSalaryGap = -200; // women earn less on average
+
+  for (let i = 0; i < n; i++) {
+    const dept = DEPTS[Math.floor(Math.random() * DEPTS.length)];
+    const gender = GENDERS[Math.floor(Math.random() * GENDERS.length)];
+    const age = Math.round(25 + Math.random() * 30 + normalRandom() * 3);
+    const clampedAge = Math.max(22, Math.min(60, age));
+    const tenureBase = Math.max(0, clampedAge - 22 - Math.floor(Math.random() * 5));
+    const tenure = Math.min(tenureBase, Math.round(Math.random() * tenureBase));
+    const posIdx = Math.min(POSITIONS.length - 1, Math.floor(tenure / 5));
+    const position = POSITIONS[Math.min(posIdx + Math.floor(Math.random() * 2), POSITIONS.length - 1)];
+    const eduIdx = Math.min(EDUCATION.length - 1, Math.floor(Math.random() * 3) + (dept === 'IT부' ? 1 : 0));
+    const education = EDUCATION[eduIdx];
+    const employment = Math.random() < 0.85 ? '정규직' : '계약직';
+    const baseSalary = 2800 + posIdx * 700 + tenure * 50 + (gender === '여성' ? genderSalaryGap : 0);
+    const salary = Math.max(2200, Math.round(baseSalary + normalRandom() * 600));
+    const satBase = 3.0 + (deptEffects[dept] || 0) + (salary - 3500) / 5000 + normalRandom() * 0.6;
+    const satisfaction = Math.round(Math.max(1, Math.min(5, satBase)) * 10) / 10;
+    const engageBase = 4.0 + satisfaction * 0.3 - 0.02 * (clampedAge - 35) + normalRandom() * 0.8;
+    const engagement = Math.round(Math.max(1, Math.min(7, engageBase)) * 10) / 10;
+    const wlBase = 3.0 - (dept === '영업부' ? 0.5 : 0) + normalRandom() * 0.7;
+    const worklife = Math.round(Math.max(1, Math.min(5, wlBase)) * 10) / 10;
+    const stressBase = 5.0 + (dept === '영업부' ? 1.5 : 0) - satisfaction * 0.5 + normalRandom() * 1.2;
+    const stress = Math.round(Math.max(1, Math.min(10, stressBase)) * 10) / 10;
+    const turnoverProb = 0.1 + (satisfaction < 2.5 ? 0.3 : 0) + (stress > 7 ? 0.2 : 0) - (tenure > 10 ? 0.1 : 0);
+    const turnover = Math.random() < turnoverProb ? '있음' : '없음';
+    const region = REGIONS[Math.floor(Math.random() * REGIONS.length)];
+
+    const row = {
+      id: 1000 + i + 1,
+      dept, gender, age: clampedAge, position, education, employment,
+      tenure, salary, satisfaction, engagement, worklife, stress, turnover, region
+    };
+
+    // Apply missing values
+    const fields = ['age','tenure','salary','satisfaction','engagement','worklife','stress','turnover','education'];
+    fields.forEach(f => { if (Math.random() < missingRate) row[f] = null; });
+
+    dataset.push(row);
+  }
+
+  return dataset;
+}
+
+// ==================== OVERVIEW ====================
+function renderOverview() {
+  if (dataset.length === 0) return;
+
+  document.getElementById('overview-section').style.display = '';
+  const n = dataset.length;
+  const nVars = VAR_META.length;
+  let totalMissing = 0;
+  dataset.forEach(r => VAR_META.forEach(v => { if (r[v.key] === null || r[v.key] === undefined) totalMissing++; }));
+
+  document.getElementById('ov-rows').textContent = n;
+  document.getElementById('ov-cols').textContent = nVars;
+  document.getElementById('ov-missing').textContent = totalMissing;
+  document.getElementById('ov-miss-rate').textContent = (totalMissing / (n * nVars) * 100).toFixed(1) + '%';
+
+  // Variable summary
+  const tbody = document.getElementById('var-summary-body');
+  tbody.innerHTML = '';
+  VAR_META.forEach(v => {
+    if (v.type === 'id') return;
+    const vals = dataset.map(r => r[v.key]).filter(x => x !== null && x !== undefined);
+    const miss = n - vals.length;
+    const unique = new Set(vals.map(String)).size;
+
+    let center = '-', spread = '-';
+    if (v.type === 'continuous') {
+      const numVals = vals.map(Number);
+      center = mean(numVals).toFixed(2);
+      spread = 'SD = ' + stdev(numVals).toFixed(2);
+    } else {
+      const counts = {};
+      vals.forEach(x => counts[String(x)] = (counts[String(x)]||0)+1);
+      const mode = Object.entries(counts).sort((a,b) => b[1]-a[1])[0];
+      center = mode ? mode[0] : '-';
+      spread = unique + '개 범주';
+    }
+
+    const typeLabel = v.type === 'continuous' ? '수치형' : v.type === 'ordinal' ? '서열형' : '범주형';
+    tbody.insertAdjacentHTML('beforeend', `<tr>
+      <td><strong>${v.label}</strong></td>
+      <td>${typeLabel}</td>
+      <td>${vals.length}</td>
+      <td>${miss > 0 ? '<span style="color:var(--tb-danger);">' + miss + '</span>' : '0'}</td>
+      <td>${unique}</td>
+      <td>${center}</td>
+      <td>${spread}</td>
+    </tr>`);
+  });
+
+  // Data preview
+  const previewHead = document.getElementById('preview-head');
+  const previewBody = document.getElementById('preview-body');
+  const displayCols = VAR_META.slice(0, 10);
+  previewHead.innerHTML = '<tr>' + displayCols.map(v => '<th>' + v.label + '</th>').join('') + '<th>...</th></tr>';
+  previewBody.innerHTML = '';
+  dataset.slice(0, 10).forEach(r => {
+    previewBody.insertAdjacentHTML('beforeend', '<tr>' +
+      displayCols.map(v => {
+        const val = r[v.key];
+        if (val === null) return '<td style="color:var(--tb-danger);font-style:italic;">결측</td>';
+        return '<td>' + (typeof val === 'number' ? val.toLocaleString() : val) + '</td>';
+      }).join('') + '<td>...</td></tr>');
+  });
+}
+
+// ==================== DESCRIPTIVE STATS ====================
+let descChart = null;
+
+function populateSelectors() {
+  const numVars = VAR_META.filter(v => v.type === 'continuous');
+  const catVars = VAR_META.filter(v => v.type === 'categorical' || v.type === 'ordinal');
+  const allVars = VAR_META.filter(v => v.type !== 'id');
+
+  // Desc selectors
+  const desc1 = document.getElementById('desc-var1');
+  const desc2 = document.getElementById('desc-var2');
+  desc1.innerHTML = allVars.map(v => '<option value="' + v.key + '">' + v.label + '</option>').join('');
+  desc2.innerHTML = '<option value="">없음</option>' + allVars.map(v => '<option value="' + v.key + '">' + v.label + '</option>').join('');
+
+  // Test selectors
+  const testDV = document.getElementById('test-dv');
+  const testIV = document.getElementById('test-iv');
+  testDV.innerHTML = numVars.map(v => '<option value="' + v.key + '">' + v.label + '</option>').join('') +
+    catVars.map(v => '<option value="' + v.key + '">' + v.label + '</option>').join('');
+  testIV.innerHTML = '<option value="">없음</option>' + catVars.map(v => '<option value="' + v.key + '">' + v.label + '</option>').join('');
+
+  // Subgroup selectors
+  const subDV = document.getElementById('sub-dv');
+  const subIV = document.getElementById('sub-iv');
+  subDV.innerHTML = numVars.map(v => '<option value="' + v.key + '">' + v.label + '</option>').join('');
+  subIV.innerHTML = catVars.map(v => '<option value="' + v.key + '">' + v.label + '</option>').join('');
+}
+
+async function runDescriptive() {
+  const Chart = await loadChart();
+  const var1 = document.getElementById('desc-var1').value;
+  const var2 = document.getElementById('desc-var2').value;
+  const meta1 = VAR_META.find(v => v.key === var1);
+
+  document.getElementById('desc-output').style.display = '';
+  const statsRow = document.getElementById('desc-stats');
+  const crossDiv = document.getElementById('desc-cross-table');
+  crossDiv.innerHTML = '';
+
+  const canvas = document.getElementById('desc-chart');
+  if (descChart) { descChart.destroy(); descChart = null; }
+
+  const valid = dataset.filter(r => r[var1] !== null && r[var1] !== undefined);
+
+  if (!var2) {
+    // Single variable
+    if (meta1.type === 'continuous') {
+      const vals = valid.map(r => r[var1]);
+      const m = mean(vals), s = stdev(vals), med = median(vals);
+      const min = Math.min(...vals), max = Math.max(...vals);
+      statsRow.innerHTML = `
+        <div class="tb-stat-box"><div class="label">N</div><div class="value">${vals.length}</div></div>
+        <div class="tb-stat-box"><div class="label">평균</div><div class="value">${m.toFixed(2)}</div></div>
+        <div class="tb-stat-box"><div class="label">중앙값</div><div class="value">${med.toFixed(2)}</div></div>
+        <div class="tb-stat-box"><div class="label">표준편차</div><div class="value">${s.toFixed(2)}</div></div>
+        <div class="tb-stat-box"><div class="label">범위</div><div class="value">${min.toFixed(1)} - ${max.toFixed(1)}</div></div>
+      `;
+      // Histogram
+      const bins = 20;
+      const bw = (max - min) / bins || 1;
+      const hist = new Array(bins).fill(0);
+      vals.forEach(v => { hist[Math.min(bins-1, Math.floor((v-min)/bw))]++; });
+      const labels = hist.map((_,i) => (min + i*bw + bw/2).toFixed(1));
+
+      descChart = new Chart(canvas, {
+        type: 'bar',
+        data: { labels, datasets: [{ label: '빈도', data: hist, backgroundColor: '#2563eb66', borderColor: '#2563eb', borderWidth: 1, borderRadius: 2 }] },
+        options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false }, title: { display: true, text: meta1.label + ' 분포', font: { size: 13, family: "'Paperlogy'" } } }, scales: { y: { beginAtZero: true, title: { display: true, text: '빈도' } }, x: { title: { display: true, text: meta1.label } } } }
+      });
+    } else {
+      // Categorical
+      const counts = {};
+      valid.forEach(r => { const k = String(r[var1]); counts[k] = (counts[k]||0)+1; });
+      const labels = Object.keys(counts).sort();
+      const data = labels.map(k => counts[k]);
+      const colors = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899'];
+
+      statsRow.innerHTML = `
+        <div class="tb-stat-box"><div class="label">N</div><div class="value">${valid.length}</div></div>
+        <div class="tb-stat-box"><div class="label">범주 수</div><div class="value">${labels.length}</div></div>
+        <div class="tb-stat-box"><div class="label">최빈값</div><div class="value">${labels.reduce((a,b)=>counts[b]>counts[a]?b:a,labels[0])}</div></div>
+      `;
+
+      descChart = new Chart(canvas, {
+        type: 'bar',
+        data: { labels, datasets: [{ label: '빈도', data, backgroundColor: labels.map((_,i) => colors[i%colors.length]), borderRadius: 4 }] },
+        options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false }, title: { display: true, text: meta1.label + ' 빈도', font: { size: 13, family: "'Paperlogy'" } } }, scales: { y: { beginAtZero: true, title: { display: true, text: '빈도' } }, x: { title: { display: true, text: meta1.label } } } }
+      });
+    }
+  } else {
+    // Two variables: grouped comparison
+    const meta2 = VAR_META.find(v => v.key === var2);
+    const both = dataset.filter(r => r[var1] !== null && r[var2] !== null);
+
+    if (meta1.type === 'continuous' && (meta2.type === 'categorical' || meta2.type === 'ordinal')) {
+      // Grouped bar chart: mean of var1 by var2
+      const groups = {};
+      both.forEach(r => { const k = String(r[var2]); if (!groups[k]) groups[k] = []; groups[k].push(r[var1]); });
+      const labels = Object.keys(groups).sort();
+      const means = labels.map(k => mean(groups[k]));
+      const sds = labels.map(k => stdev(groups[k]));
+      const ns = labels.map(k => groups[k].length);
+      const colors = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899'];
+
+      statsRow.innerHTML = labels.map((k,i) =>
+        `<div class="tb-stat-box"><div class="label">${k} (n=${ns[i]})</div><div class="value">${means[i].toFixed(2)}</div><div class="sub">SD=${sds[i].toFixed(2)}</div></div>`
+      ).join('');
+
+      descChart = new Chart(canvas, {
+        type: 'bar',
+        data: { labels, datasets: [{ label: meta1.label + ' 평균', data: means, backgroundColor: labels.map((_,i)=>colors[i%colors.length]+'88'), borderColor: labels.map((_,i)=>colors[i%colors.length]), borderWidth: 2, borderRadius: 6 }] },
+        options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false }, title: { display: true, text: meta2.label + '별 ' + meta1.label + ' 평균', font: { size: 13, family: "'Paperlogy'" } } }, scales: { y: { title: { display: true, text: meta1.label } }, x: { title: { display: true, text: meta2.label } } } }
+      });
+    } else if ((meta1.type === 'categorical' || meta1.type === 'ordinal') && (meta2.type === 'categorical' || meta2.type === 'ordinal')) {
+      // Cross-tabulation
+      const ct = {};
+      const rowKeys = new Set(), colKeys = new Set();
+      both.forEach(r => {
+        const rk = String(r[var1]), ck = String(r[var2]);
+        rowKeys.add(rk); colKeys.add(ck);
+        if (!ct[rk]) ct[rk] = {};
+        ct[rk][ck] = (ct[rk][ck]||0) + 1;
+      });
+      const rLabels = [...rowKeys].sort(), cLabels = [...colKeys].sort();
+      statsRow.innerHTML = `<div class="tb-stat-box"><div class="label">N</div><div class="value">${both.length}</div></div>`;
+
+      crossDiv.innerHTML = '<h3>교차표</h3><div class="tb-data-table-wrap" style="max-height:none;"><table class="tb-data-table"><thead><tr><th></th>' +
+        cLabels.map(c => '<th>' + c + '</th>').join('') + '</tr></thead><tbody>' +
+        rLabels.map(r => '<tr><td><strong>' + r + '</strong></td>' + cLabels.map(c => '<td>' + ((ct[r] && ct[r][c]) || 0) + '</td>').join('') + '</tr>').join('') +
+        '</tbody></table></div>';
+
+      // Grouped bar
+      const datasets = rLabels.map((rk, i) => ({
+        label: rk, data: cLabels.map(ck => (ct[rk] && ct[rk][ck]) || 0),
+        backgroundColor: ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed'][i%5] + '88',
+        borderColor: ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed'][i%5], borderWidth: 1, borderRadius: 4,
+      }));
+      descChart = new Chart(canvas, {
+        type: 'bar', data: { labels: cLabels, datasets },
+        options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { title: { display: true, text: meta1.label + ' x ' + meta2.label + ' 교차 빈도', font: { size: 13, family: "'Paperlogy'" } }, legend: { position: 'top' } }, scales: { y: { beginAtZero: true, title: { display: true, text: '빈도' } } } }
+      });
+    } else {
+      statsRow.innerHTML = '<div class="tb-stat-box"><div class="label">안내</div><div class="value">-</div><div class="sub">수치+범주 조합을 선택하세요</div></div>';
+    }
+  }
+}
+
+// ==================== HYPOTHESIS TEST WORKBENCH ====================
+let testChart = null;
+
+function runHypothesisTest() {
+  const type = document.getElementById('test-type').value;
+  const dvKey = document.getElementById('test-dv').value;
+  const ivKey = document.getElementById('test-iv').value;
+  const dvMeta = VAR_META.find(v => v.key === dvKey);
+
+  document.getElementById('test-output').style.display = '';
+  const hypothDiv = document.getElementById('test-hypotheses');
+  const statsRow = document.getElementById('test-stats-row');
+  const conclusionDiv = document.getElementById('test-conclusion');
+  const canvas = document.getElementById('test-chart');
+  if (testChart) { testChart.destroy(); testChart = null; }
+
+  if (type === 'one-t') {
+    const mu0 = parseFloat(document.getElementById('test-mu0').value);
+    const vals = dataset.filter(r => r[dvKey] !== null).map(r => r[dvKey]);
+    const n = vals.length, m = mean(vals), s = stdev(vals);
+    const t = (m - mu0) / (s / Math.sqrt(n));
+    const df = n - 1;
+    const p = tPValue(t, df);
+    const d = (m - mu0) / s;
+    const se = s / Math.sqrt(n);
+    const tCrit = 1.96; // approx for large df
+    const ciLo = m - tCrit * se, ciHi = m + tCrit * se;
+    const reject = p < 0.05;
+
+    hypothDiv.innerHTML = `<strong>가설:</strong><br>
+      H0: ${dvMeta.label}의 모평균 = ${mu0}<br>
+      H1: ${dvMeta.label}의 모평균 != ${mu0}`;
+
+    statsRow.innerHTML = `
+      <div class="tb-stat-box"><div class="label">t-통계량</div><div class="value">${t.toFixed(3)}</div></div>
+      <div class="tb-stat-box"><div class="label">자유도</div><div class="value">${df}</div></div>
+      <div class="tb-stat-box"><div class="label">p-값</div><div class="value" style="color:${reject?'var(--tb-danger)':'var(--tb-success)'}">${p < 0.001 ? '< 0.001' : p.toFixed(4)}</div></div>
+      <div class="tb-stat-box"><div class="label">Cohen's d</div><div class="value">${Math.abs(d).toFixed(3)}</div></div>
+      <div class="tb-stat-box"><div class="label">95% CI</div><div class="value">[${ciLo.toFixed(2)}, ${ciHi.toFixed(2)}]</div></div>
+    `;
+
+    conclusionDiv.innerHTML = `<div class="${reject ? 'tb-warning-box' : 'tb-insight'}">
+      <strong>결론:</strong> 표본 평균 = ${m.toFixed(2)}, 귀무가설 평균 = ${mu0}<br>
+      t(${df}) = ${t.toFixed(3)}, p = ${p < 0.001 ? '< 0.001' : p.toFixed(4)}, Cohen's d = ${Math.abs(d).toFixed(3)}<br>
+      ${reject ? '귀무가설을 기각한다. ' + dvMeta.label + '의 평균은 ' + mu0 + '와 통계적으로 유의한 차이가 있다.' : '귀무가설을 기각하지 못한다. 유의한 차이를 발견하지 못했다.'}
+    </div>`;
+
+    analysisLog.push({ type: '일표본 t-검정', dv: dvMeta.label, result: `t(${df})=${t.toFixed(3)}, p=${p<0.001?'<0.001':p.toFixed(4)}, d=${Math.abs(d).toFixed(3)}`, reject });
+    return;
+  }
+
+  if (type === 'two-t') {
+    if (!ivKey) { conclusionDiv.innerHTML = '<div class="tb-warning-box">그룹변수를 선택하세요.</div>'; return; }
+    const groups = {};
+    dataset.filter(r => r[dvKey] !== null && r[ivKey] !== null).forEach(r => {
+      const k = String(r[ivKey]); if (!groups[k]) groups[k] = []; groups[k].push(r[dvKey]);
+    });
+    const keys = Object.keys(groups);
+    if (keys.length !== 2) { conclusionDiv.innerHTML = '<div class="tb-warning-box">독립표본 t-검정은 2개 그룹이 필요합니다. 현재 ' + keys.length + '개 그룹입니다.</div>'; return; }
+
+    const g1 = groups[keys[0]], g2 = groups[keys[1]];
+    const m1 = mean(g1), m2 = mean(g2), s1 = stdev(g1), s2 = stdev(g2);
+    const n1 = g1.length, n2 = g2.length;
+    const se = Math.sqrt(s1*s1/n1 + s2*s2/n2);
+    const t = (m1 - m2) / se;
+    const dfNum = (s1*s1/n1 + s2*s2/n2)**2;
+    const dfDen = (s1*s1/n1)**2/(n1-1) + (s2*s2/n2)**2/(n2-1);
+    const df = Math.floor(dfNum / dfDen);
+    const p = tPValue(t, df);
+    const pooledSD = Math.sqrt(((n1-1)*s1*s1 + (n2-1)*s2*s2) / (n1+n2-2));
+    const d = (m1 - m2) / pooledSD;
+    const reject = p < 0.05;
+    const ivMeta = VAR_META.find(v => v.key === ivKey);
+
+    hypothDiv.innerHTML = `<strong>가설:</strong><br>
+      H0: ${keys[0]}과 ${keys[1]}의 ${dvMeta.label} 평균이 같다<br>
+      H1: ${keys[0]}과 ${keys[1]}의 ${dvMeta.label} 평균이 다르다`;
+
+    statsRow.innerHTML = `
+      <div class="tb-stat-box"><div class="label">${keys[0]} (n=${n1})</div><div class="value">${m1.toFixed(2)}</div><div class="sub">SD=${s1.toFixed(2)}</div></div>
+      <div class="tb-stat-box"><div class="label">${keys[1]} (n=${n2})</div><div class="value">${m2.toFixed(2)}</div><div class="sub">SD=${s2.toFixed(2)}</div></div>
+      <div class="tb-stat-box"><div class="label">t-통계량</div><div class="value">${t.toFixed(3)}</div></div>
+      <div class="tb-stat-box"><div class="label">p-값</div><div class="value" style="color:${reject?'var(--tb-danger)':'var(--tb-success)'}">${p < 0.001 ? '< 0.001' : p.toFixed(4)}</div></div>
+      <div class="tb-stat-box"><div class="label">Cohen's d</div><div class="value">${Math.abs(d).toFixed(3)}</div></div>
+    `;
+
+    conclusionDiv.innerHTML = `<div class="${reject ? 'tb-warning-box' : 'tb-insight'}">
+      <strong>결론:</strong> ${keys[0]} 평균=${m1.toFixed(2)} vs ${keys[1]} 평균=${m2.toFixed(2)}<br>
+      t(${df}) = ${t.toFixed(3)}, p = ${p<0.001?'<0.001':p.toFixed(4)}, Cohen's d = ${Math.abs(d).toFixed(3)}<br>
+      ${reject ? '두 그룹 간에 통계적으로 유의한 차이가 있다.' : '두 그룹 간에 통계적으로 유의한 차이를 발견하지 못했다.'}
+    </div>`;
+
+    analysisLog.push({ type: '독립표본 t-검정', dv: dvMeta.label, iv: ivMeta.label, result: `t(${df})=${t.toFixed(3)}, p=${p<0.001?'<0.001':p.toFixed(4)}, d=${Math.abs(d).toFixed(3)}`, reject });
+    return;
+  }
+
+  if (type === 'anova') {
+    if (!ivKey) { conclusionDiv.innerHTML = '<div class="tb-warning-box">그룹변수를 선택하세요.</div>'; return; }
+    const groups = {};
+    dataset.filter(r => r[dvKey] !== null && r[ivKey] !== null).forEach(r => {
+      const k = String(r[ivKey]); if (!groups[k]) groups[k] = []; groups[k].push(r[dvKey]);
+    });
+    const keys = Object.keys(groups).sort();
+    if (keys.length < 3) { conclusionDiv.innerHTML = '<div class="tb-warning-box">ANOVA는 3개 이상의 그룹이 필요합니다. t-검정을 사용하세요.</div>'; return; }
+
+    const allVals = keys.flatMap(k => groups[k]);
+    const grandM = mean(allVals);
+    const N = allVals.length;
+    let SSB = 0, SSW = 0;
+    keys.forEach(k => { const gm = mean(groups[k]); SSB += groups[k].length * (gm - grandM)**2; groups[k].forEach(v => SSW += (v - gm)**2); });
+    const dfB = keys.length - 1, dfW = N - keys.length;
+    const F = (SSB/dfB) / (SSW/dfW);
+    const p = fPValue(F, dfB, dfW);
+    const etaSq = SSB / (SSB + SSW);
+    const reject = p < 0.05;
+    const ivMeta = VAR_META.find(v => v.key === ivKey);
+
+    hypothDiv.innerHTML = `<strong>가설:</strong><br>
+      H0: 모든 ${ivMeta.label}의 ${dvMeta.label} 평균이 같다<br>
+      H1: 적어도 하나의 ${ivMeta.label}의 ${dvMeta.label} 평균이 다르다`;
+
+    statsRow.innerHTML = keys.map(k =>
+      `<div class="tb-stat-box"><div class="label">${k} (n=${groups[k].length})</div><div class="value">${mean(groups[k]).toFixed(2)}</div><div class="sub">SD=${stdev(groups[k]).toFixed(2)}</div></div>`
+    ).join('') + `
+      <div class="tb-stat-box"><div class="label">F-통계량</div><div class="value">${F.toFixed(3)}</div></div>
+      <div class="tb-stat-box"><div class="label">p-값</div><div class="value" style="color:${reject?'var(--tb-danger)':'var(--tb-success)'}">${p < 0.001 ? '< 0.001' : p.toFixed(4)}</div></div>
+      <div class="tb-stat-box"><div class="label">eta-squared</div><div class="value">${etaSq.toFixed(3)}</div></div>
+    `;
+
+    conclusionDiv.innerHTML = `<div class="${reject ? 'tb-warning-box' : 'tb-insight'}">
+      <strong>결론:</strong> F(${dfB}, ${dfW}) = ${F.toFixed(3)}, p = ${p<0.001?'<0.001':p.toFixed(4)}, eta^2 = ${etaSq.toFixed(3)}<br>
+      ${reject ? '그룹 간 평균에 통계적으로 유의한 차이가 있다.' : '그룹 간 평균에 통계적으로 유의한 차이를 발견하지 못했다.'}
+    </div>`;
+
+    // Draw group means
+    const means = keys.map(k => mean(groups[k]));
+    const colors = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899'];
+    testChart = new ChartJS(canvas, {
+      type: 'bar',
+      data: { labels: keys, datasets: [{ label: dvMeta.label + ' 평균', data: means, backgroundColor: keys.map((_,i)=>colors[i%colors.length]+'88'), borderColor: keys.map((_,i)=>colors[i%colors.length]), borderWidth: 2, borderRadius: 6 }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false }, title: { display: true, text: ivMeta.label + '별 ' + dvMeta.label + ' 평균', font: { size: 13, family: "'Paperlogy'" } } }, scales: { y: { title: { display: true, text: dvMeta.label } } } }
+    });
+
+    analysisLog.push({ type: 'ANOVA', dv: dvMeta.label, iv: ivMeta.label, result: `F(${dfB},${dfW})=${F.toFixed(3)}, p=${p<0.001?'<0.001':p.toFixed(4)}, eta^2=${etaSq.toFixed(3)}`, reject });
+    return;
+  }
+
+  if (type === 'chi') {
+    if (!ivKey) { conclusionDiv.innerHTML = '<div class="tb-warning-box">그룹변수를 선택하세요.</div>'; return; }
+    const both = dataset.filter(r => r[dvKey] !== null && r[ivKey] !== null);
+    const ct = {};
+    const rowKeys = new Set(), colKeys = new Set();
+    both.forEach(r => {
+      const rk = String(r[dvKey]), ck = String(r[ivKey]);
+      rowKeys.add(rk); colKeys.add(ck);
+      if (!ct[rk]) ct[rk] = {};
+      ct[rk][ck] = (ct[rk][ck]||0)+1;
+    });
+    const rLabels = [...rowKeys].sort(), cLabels = [...colKeys].sort();
+    const observed = rLabels.map(r => cLabels.map(c => (ct[r] && ct[r][c]) || 0));
+    const rowSums = observed.map(r => r.reduce((a,b)=>a+b,0));
+    const colSums = cLabels.map((_,j) => observed.reduce((a,r)=>a+r[j],0));
+    const total = rowSums.reduce((a,b)=>a+b,0);
+    const expected = observed.map((row,i) => row.map((_,j) => rowSums[i]*colSums[j]/total));
+
+    let chi2 = 0;
+    for (let i = 0; i < rLabels.length; i++)
+      for (let j = 0; j < cLabels.length; j++)
+        chi2 += (observed[i][j] - expected[i][j])**2 / expected[i][j];
+
+    const df = (rLabels.length - 1) * (cLabels.length - 1);
+    const p = 1 - chiCDF(chi2, df);
+    const cramersV = Math.sqrt(chi2 / (total * Math.min(rLabels.length - 1, cLabels.length - 1)));
+    const reject = p < 0.05;
+    const ivMeta = VAR_META.find(v => v.key === ivKey);
+
+    hypothDiv.innerHTML = `<strong>가설:</strong><br>
+      H0: ${dvMeta.label}와 ${ivMeta.label}은 독립이다<br>
+      H1: ${dvMeta.label}와 ${ivMeta.label}은 독립이 아니다 (관련 있다)`;
+
+    statsRow.innerHTML = `
+      <div class="tb-stat-box"><div class="label">카이제곱</div><div class="value">${chi2.toFixed(3)}</div></div>
+      <div class="tb-stat-box"><div class="label">자유도</div><div class="value">${df}</div></div>
+      <div class="tb-stat-box"><div class="label">p-값</div><div class="value" style="color:${reject?'var(--tb-danger)':'var(--tb-success)'}">${p < 0.001 ? '< 0.001' : p.toFixed(4)}</div></div>
+      <div class="tb-stat-box"><div class="label">Cramer's V</div><div class="value">${cramersV.toFixed(3)}</div></div>
+    `;
+
+    conclusionDiv.innerHTML = `<div class="${reject ? 'tb-warning-box' : 'tb-insight'}">
+      <strong>결론:</strong> chi2(${df}) = ${chi2.toFixed(3)}, p = ${p<0.001?'<0.001':p.toFixed(4)}, Cramer's V = ${cramersV.toFixed(3)}<br>
+      ${reject ? '두 변수 사이에 통계적으로 유의한 관련이 있다.' : '두 변수 사이에 통계적으로 유의한 관련을 발견하지 못했다.'}
+    </div>`;
+
+    analysisLog.push({ type: '카이제곱 검정', dv: dvMeta.label, iv: ivMeta.label, result: `chi2(${df})=${chi2.toFixed(3)}, p=${p<0.001?'<0.001':p.toFixed(4)}, V=${cramersV.toFixed(3)}`, reject });
+  }
+}
+
+// ==================== SUBGROUP COMPARISON ====================
+let subChart = null, forestChart = null;
+
+async function runSubgroup() {
+  const Chart = await loadChart();
+  const dvKey = document.getElementById('sub-dv').value;
+  const ivKey = document.getElementById('sub-iv').value;
+  const dvMeta = VAR_META.find(v => v.key === dvKey);
+  const ivMeta = VAR_META.find(v => v.key === ivKey);
+
+  const groups = {};
+  dataset.filter(r => r[dvKey] !== null && r[ivKey] !== null).forEach(r => {
+    const k = String(r[ivKey]); if (!groups[k]) groups[k] = []; groups[k].push(r[dvKey]);
+  });
+  const keys = Object.keys(groups).sort();
+
+  document.getElementById('sub-output').style.display = '';
+  const statsRow = document.getElementById('sub-stats-row');
+  const conclusionDiv = document.getElementById('sub-conclusion');
+  const canvas = document.getElementById('sub-chart');
+  const forestCanvas = document.getElementById('sub-forest');
+  if (subChart) { subChart.destroy(); subChart = null; }
+  if (forestChart) { forestChart.destroy(); forestChart = null; }
+
+  const means = keys.map(k => mean(groups[k]));
+  const sds = keys.map(k => stdev(groups[k]));
+  const ns = keys.map(k => groups[k].length);
+  const ses = sds.map((s, i) => s / Math.sqrt(ns[i]));
+
+  // Overall test
+  const allVals = keys.flatMap(k => groups[k]);
+  const grandM = mean(allVals);
+  let testResult;
+
+  if (keys.length === 2) {
+    // t-test
+    const g1 = groups[keys[0]], g2 = groups[keys[1]];
+    const m1 = mean(g1), m2 = mean(g2), s1 = stdev(g1), s2 = stdev(g2);
+    const se = Math.sqrt(s1*s1/g1.length + s2*s2/g2.length);
+    const t = (m1 - m2) / se;
+    const dfNum = (s1*s1/g1.length + s2*s2/g2.length)**2;
+    const dfDen = (s1*s1/g1.length)**2/(g1.length-1) + (s2*s2/g2.length)**2/(g2.length-1);
+    const df = Math.floor(dfNum / dfDen);
+    const p = tPValue(t, df);
+    const pooledSD = Math.sqrt(((g1.length-1)*s1*s1 + (g2.length-1)*s2*s2)/(g1.length+g2.length-2));
+    const d = (m1 - m2) / pooledSD;
+    testResult = { method: '독립표본 t-검정', stat: `t(${df}) = ${t.toFixed(3)}`, p, effectLabel: "Cohen's d", effect: Math.abs(d) };
+  } else {
+    // ANOVA
+    let SSB = 0, SSW = 0;
+    keys.forEach(k => { const gm = mean(groups[k]); SSB += groups[k].length*(gm-grandM)**2; groups[k].forEach(v => SSW += (v-gm)**2); });
+    const dfB = keys.length - 1, dfW = allVals.length - keys.length;
+    const F = (SSB/dfB) / (SSW/dfW);
+    const p = fPValue(F, dfB, dfW);
+    const etaSq = SSB / (SSB + SSW);
+    testResult = { method: '일원배치 ANOVA', stat: `F(${dfB}, ${dfW}) = ${F.toFixed(3)}`, p, effectLabel: 'eta-squared', effect: etaSq };
+  }
+
+  const reject = testResult.p < 0.05;
+  statsRow.innerHTML = `
+    <div class="tb-stat-box"><div class="label">검정 방법</div><div class="value" style="font-size:1rem;">${testResult.method}</div></div>
+    <div class="tb-stat-box"><div class="label">검정 통계량</div><div class="value" style="font-size:0.9rem;">${testResult.stat}</div></div>
+    <div class="tb-stat-box"><div class="label">p-값</div><div class="value" style="color:${reject?'var(--tb-danger)':'var(--tb-success)'}">${testResult.p < 0.001 ? '< 0.001' : testResult.p.toFixed(4)}</div></div>
+    <div class="tb-stat-box"><div class="label">${testResult.effectLabel}</div><div class="value">${testResult.effect.toFixed(3)}</div></div>
+  `;
+
+  const colors = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899'];
+
+  // Group means bar chart with error bars
+  subChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: keys,
+      datasets: [{
+        label: dvMeta.label + ' 평균',
+        data: means,
+        backgroundColor: keys.map((_,i) => colors[i%colors.length] + '66'),
+        borderColor: keys.map((_,i) => colors[i%colors.length]),
+        borderWidth: 2,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, title: { display: true, text: ivMeta.label + '별 ' + dvMeta.label + ' 평균', font: { size: 13, family: "'Paperlogy'" } } },
+      scales: { y: { title: { display: true, text: dvMeta.label } }, x: { title: { display: true, text: ivMeta.label } } }
+    },
+    plugins: [{
+      id: 'errBars',
+      afterDraw(chart) {
+        const ctx = chart.ctx;
+        const meta = chart.getDatasetMeta(0);
+        meta.data.forEach((bar, i) => {
+          const yTop = chart.scales.y.getPixelForValue(means[i] + ses[i]);
+          const yBot = chart.scales.y.getPixelForValue(means[i] - ses[i]);
+          ctx.save(); ctx.strokeStyle = colors[i%colors.length]; ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.moveTo(bar.x, yTop); ctx.lineTo(bar.x, yBot);
+          ctx.moveTo(bar.x-6, yTop); ctx.lineTo(bar.x+6, yTop);
+          ctx.moveTo(bar.x-6, yBot); ctx.lineTo(bar.x+6, yBot);
+          ctx.stroke(); ctx.restore();
+        });
+      }
+    }]
+  });
+
+  // Forest plot: pairwise effect sizes
+  if (keys.length >= 2) {
+    const pairs = [];
+    for (let i = 0; i < keys.length; i++) {
+      for (let j = i + 1; j < keys.length; j++) {
+        const g1 = groups[keys[i]], g2 = groups[keys[j]];
+        const m1 = mean(g1), m2 = mean(g2), s1 = stdev(g1), s2 = stdev(g2);
+        const pooled = Math.sqrt(((g1.length-1)*s1*s1+(g2.length-1)*s2*s2)/(g1.length+g2.length-2));
+        const d = (m1 - m2) / pooled;
+        const se_d = Math.sqrt(1/g1.length + 1/g2.length + d*d/(2*(g1.length+g2.length)));
+        pairs.push({ label: keys[i] + ' vs ' + keys[j], d, lo: d - 1.96*se_d, hi: d + 1.96*se_d });
+      }
+    }
+
+    forestChart = new Chart(forestCanvas, {
+      type: 'bar',
+      data: {
+        labels: pairs.map(p => p.label),
+        datasets: [{
+          label: "Cohen's d",
+          data: pairs.map(p => p.d),
+          backgroundColor: pairs.map(p => Math.abs(p.d) >= 0.5 ? '#ef444488' : Math.abs(p.d) >= 0.2 ? '#f59e0b88' : '#22c55e88'),
+          borderColor: pairs.map(p => Math.abs(p.d) >= 0.5 ? '#ef4444' : Math.abs(p.d) >= 0.2 ? '#f59e0b' : '#22c55e'),
+          borderWidth: 2,
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '쌍별 효과크기 (Cohen\'s d)', font: { size: 13, family: "'Paperlogy'" } },
+        },
+        scales: {
+          x: { title: { display: true, text: "Cohen's d" } },
+          y: {}
+        }
+      },
+      plugins: [{
+        id: 'ciLines',
+        afterDraw(chart) {
+          const ctx = chart.ctx;
+          const meta = chart.getDatasetMeta(0);
+          meta.data.forEach((bar, i) => {
+            const xLo = chart.scales.x.getPixelForValue(pairs[i].lo);
+            const xHi = chart.scales.x.getPixelForValue(pairs[i].hi);
+            ctx.save(); ctx.strokeStyle = '#475569'; ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(xLo, bar.y); ctx.lineTo(xHi, bar.y);
+            ctx.moveTo(xLo, bar.y-4); ctx.lineTo(xLo, bar.y+4);
+            ctx.moveTo(xHi, bar.y-4); ctx.lineTo(xHi, bar.y+4);
+            ctx.stroke(); ctx.restore();
+          });
+          // Zero line
+          const x0 = chart.scales.x.getPixelForValue(0);
+          const ctx2 = chart.ctx;
+          ctx2.save(); ctx2.strokeStyle = '#94a3b8'; ctx2.lineWidth = 1; ctx2.setLineDash([4,4]);
+          ctx2.beginPath(); ctx2.moveTo(x0, chart.chartArea.top); ctx2.lineTo(x0, chart.chartArea.bottom);
+          ctx2.stroke(); ctx2.restore();
+        }
+      }]
+    });
+  }
+
+  conclusionDiv.innerHTML = `<div class="${reject ? 'tb-warning-box' : 'tb-insight'}">
+    <strong>${testResult.method} 결과:</strong> ${testResult.stat}, p = ${testResult.p < 0.001 ? '< 0.001' : testResult.p.toFixed(4)}<br>
+    ${testResult.effectLabel} = ${testResult.effect.toFixed(3)}<br>
+    ${reject ? ivMeta.label + '에 따라 ' + dvMeta.label + '에 통계적으로 유의한 차이가 존재한다.' : ivMeta.label + '에 따른 ' + dvMeta.label + '의 유의한 차이를 발견하지 못했다.'}
+  </div>`;
+
+  analysisLog.push({ type: testResult.method + ' (하위집단)', dv: dvMeta.label, iv: ivMeta.label, result: `${testResult.stat}, p=${testResult.p<0.001?'<0.001':testResult.p.toFixed(4)}, ${testResult.effectLabel}=${testResult.effect.toFixed(3)}`, reject });
+}
+
+// ==================== REPORT GENERATOR ====================
+function generateReport() {
+  const n = dataset.length;
+  let totalMissing = 0;
+  dataset.forEach(r => VAR_META.forEach(v => { if (r[v.key] === null) totalMissing++; }));
+
+  const numVarSummaries = VAR_META.filter(v => v.type === 'continuous').map(v => {
+    const vals = dataset.filter(r => r[v.key] !== null).map(r => r[v.key]);
+    return `  - ${v.label}: M = ${mean(vals).toFixed(2)}, SD = ${stdev(vals).toFixed(2)}, N = ${vals.length}`;
+  }).join('\n');
+
+  const catVarSummaries = VAR_META.filter(v => v.type === 'categorical' || v.type === 'ordinal').map(v => {
+    const vals = dataset.filter(r => r[v.key] !== null).map(r => String(r[v.key]));
+    const counts = {};
+    vals.forEach(x => counts[x] = (counts[x]||0)+1);
+    const top3 = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k,v2]) => k + '(' + v2 + ')').join(', ');
+    return `  - ${v.label}: ${new Set(vals).size}개 범주, 최빈값 상위 3: ${top3}`;
+  }).join('\n');
+
+  const testResults = analysisLog.length > 0
+    ? analysisLog.map((a, i) =>
+        `  ${i+1}. [${a.type}] ${a.dv}${a.iv ? ' ~ ' + a.iv : ''}\n     결과: ${a.result}\n     판정: ${a.reject ? '귀무가설 기각 (유의한 차이/관련 있음)' : '귀무가설 기각 실패 (유의한 차이 없음)'}`
+      ).join('\n\n')
+    : '  (아직 수행된 검정이 없습니다. 위 실습 3, 4를 먼저 수행하세요.)';
+
+  const report = `====================================================
+  설문조사 분석 보고서
+  생성일: ${new Date().toLocaleDateString('ko-KR')}
+====================================================
+
+1. 연구 개요
+----------------------------------------------------
+  데이터: 한국 기업 직원 만족도 설문조사
+  관측치: ${n}명
+  변수 수: ${VAR_META.length}개
+  총 결측 셀: ${totalMissing}개 (결측률 ${(totalMissing / (n * VAR_META.length) * 100).toFixed(1)}%)
+
+2. 기술통계 요약
+----------------------------------------------------
+[수치형 변수]
+${numVarSummaries}
+
+[범주형 변수]
+${catVarSummaries}
+
+3. 가설검정 결과
+----------------------------------------------------
+${testResults}
+
+4. 주요 발견
+----------------------------------------------------
+${analysisLog.filter(a => a.reject).length > 0
+  ? analysisLog.filter(a => a.reject).map(a =>
+      `  - ${a.dv}${a.iv ? '와 ' + a.iv + ' 사이에' : '에서'} 통계적으로 유의한 ${a.type === '카이제곱 검정' ? '관련' : '차이'}이 발견됨 (${a.result})`
+    ).join('\n')
+  : '  유의한 결과를 발견하지 못했습니다.'}
+
+5. 한계점
+----------------------------------------------------
+  - 본 데이터는 시뮬레이션으로 생성된 가상 데이터이며, 실제 조사 결과가 아님
+  - 단면적(cross-sectional) 데이터이므로 인과관계를 추론할 수 없음
+  - 다중비교 시 가족 단위 오류율(family-wise error rate) 증가 가능성
+  - 잠재적 교란변수가 통제되지 않았을 수 있음
+
+6. 결론 및 제언
+----------------------------------------------------
+  본 분석은 탐색적(exploratory) 목적으로 수행되었으며,
+  발견된 관계는 확증적(confirmatory) 후속 연구를 통해
+  검증될 필요가 있다.
+
+====================================================
+  분석 도구: 통계학과 데이터 사이언스 입문 (캡스톤 II)
+  kimyonghee.com
+====================================================`;
+
+  document.getElementById('report-output').style.display = '';
+  document.getElementById('report-output').textContent = report;
+  document.getElementById('btn-download').style.display = '';
+
+  // Store for download
+  window._reportText = report;
+}
+
+function downloadReport() {
+  const text = window._reportText || '';
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'survey_analysis_report.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('14-capstone-survey')).catch(() => {});
+
+  // Test type change: show/hide mu0
+  document.getElementById('test-type').addEventListener('change', function() {
+    document.getElementById('test-mu0-row').style.display = this.value === 'one-t' ? '' : 'none';
+  });
+
+  // Generate data
+  function doGenerate() {
+    generateDataset();
+    renderOverview();
+    populateSelectors();
+
+    document.getElementById('gen-status').style.display = '';
+    document.getElementById('gen-status').innerHTML = '<div class="tb-insight"><strong>데이터 생성 완료:</strong> 500명, 15개 변수. 아래 각 실습 섹션에서 분석을 진행하세요.</div>';
+
+    // Show all sections
+    ['desc-section','test-section','subgroup-section','report-section'].forEach(id => {
+      document.getElementById(id).style.display = '';
+    });
+  }
+
+  document.getElementById('btn-generate').addEventListener('click', doGenerate);
+  document.getElementById('btn-regenerate').addEventListener('click', () => {
+    analysisLog = [];
+    doGenerate();
+  });
+
+  // Descriptive
+  document.getElementById('btn-desc').addEventListener('click', runDescriptive);
+
+  // Hypothesis test
+  document.getElementById('btn-test').addEventListener('click', async () => {
+    if (!ChartJS) await loadChart();
+    runHypothesisTest();
+  });
+
+  // Subgroup
+  document.getElementById('btn-subgroup').addEventListener('click', runSubgroup);
+
+  // Report
+  document.getElementById('btn-report').addEventListener('click', generateReport);
+  document.getElementById('btn-download').addEventListener('click', downloadReport);
+
+  // Auto-generate on load
+  doGenerate();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  #report-output {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+</style>

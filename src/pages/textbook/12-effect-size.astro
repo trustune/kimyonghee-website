@@ -1,0 +1,864 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="효과크기와 재현성 위기"
+  subtitle="p-value를 넘어서"
+  chapterNum={12}
+  part={2}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>p &lt; 0.05라고 다 중요한가?</h2>
+    <p>
+      10만 명을 조사하면 체중 0.1kg 차이도 통계적으로 유의하다.
+      하지만 그게 다이어트 효과라고 말할 수 있는가?
+      반대로, 25명만 조사하면 체중 5kg 차이가 있어도 p = 0.08로 "유의하지 않다"고 나올 수 있다.
+    </p>
+    <p style="margin-top: 12px;">
+      <strong>유의하다(significant)는 중요하다(important)와 같은 말이 아니다.</strong>
+      통계적 유의성은 소음(noise)에서 신호(signal)를 구분할 뿐이다.
+      신호의 크기가 얼마나 큰지 -- 이것이 <strong>효과크기(effect size)</strong>이다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 효과크기의 개념을 시각적으로 체험하고,
+      왜 수많은 연구가 재현에 실패하는지를 직접 시뮬레이션하며,
+      검정력 분석을 통해 적절한 표본크기를 결정하는 법을 배운다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong>
+      p-value는 "이 소리가 진짜 소리인가, 아니면 바람 소리인가?"를 판별하는 것이고,
+      효과크기는 "이 소리가 속삭임인가, 고함인가?"를 측정하는 것이다.
+      소리가 진짜라 해도 속삭임 수준이면 실질적으로 의미 없을 수 있다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 2: STATISTICAL VS PRACTICAL SIGNIFICANCE ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 통계적 유의성 vs 실질적 유의성</h2>
+    <p>
+      아래 두 시나리오를 비교해 보자.
+      표본크기(n)와 효과크기(d)를 슬라이더로 조절하면서
+      p-값이 어떻게 변하는지 관찰하라.
+      <strong>어떤 연구가 더 의미 있는가?</strong>
+    </p>
+
+    <ExerciseBox>
+      <strong>두 시나리오 비교:</strong>
+      시나리오 A는 대규모 표본에서 아주 작은 효과를 검출한 경우,
+      시나리오 B는 소규모 표본에서 큰 효과를 발견했지만 유의하지 않은 경우이다.
+      슬라이더를 조절하면서 "유의하다 = 중요하다"라는 공식이 성립하지 않음을 직접 확인하라.
+    </ExerciseBox>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 14px 0;">
+      <!-- Scenario A -->
+      <div style="padding: 20px; border: 2px solid var(--tb-primary); border-radius: var(--tb-radius); background: var(--tb-primary-light);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 12px;">시나리오 A: 대규모 + 작은 효과</h3>
+        <div class="tb-controls" style="flex-direction: column; align-items: flex-start;">
+          <div style="width:100%;">
+            <label>표본크기 (n): <span id="scA-n-label">50000</span></label>
+            <input type="range" id="scA-n" min="100" max="100000" step="100" value="50000" style="width:100%;">
+          </div>
+          <div style="width:100%;">
+            <label>효과크기 (d): <span id="scA-d-label">0.05</span></label>
+            <input type="range" id="scA-d" min="0.01" max="2" step="0.01" value="0.05" style="width:100%;">
+          </div>
+        </div>
+        <div class="tb-stat-row" style="margin-top: 12px;">
+          <StatBox label="Cohen's d" id="scA-d-val" />
+          <StatBox label="p-값" id="scA-p" />
+        </div>
+        <div id="scA-verdict" style="margin-top: 8px; font-weight: 700; text-align: center; font-size: 0.95rem;"></div>
+      </div>
+
+      <!-- Scenario B -->
+      <div style="padding: 20px; border: 2px solid var(--tb-warning); border-radius: var(--tb-radius); background: #fef3c7;">
+        <h3 style="color: #92400e; margin-bottom: 12px;">시나리오 B: 소규모 + 큰 효과</h3>
+        <div class="tb-controls" style="flex-direction: column; align-items: flex-start;">
+          <div style="width:100%;">
+            <label>표본크기 (n): <span id="scB-n-label">25</span></label>
+            <input type="range" id="scB-n" min="5" max="500" step="5" value="25" style="width:100%;">
+          </div>
+          <div style="width:100%;">
+            <label>효과크기 (d): <span id="scB-d-label">1.20</span></label>
+            <input type="range" id="scB-d" min="0.01" max="3" step="0.01" value="1.20" style="width:100%;">
+          </div>
+        </div>
+        <div class="tb-stat-row" style="margin-top: 12px;">
+          <StatBox label="Cohen's d" id="scB-d-val" />
+          <StatBox label="p-값" id="scB-p" />
+        </div>
+        <div id="scB-verdict" style="margin-top: 8px; font-weight: 700; text-align: center; font-size: 0.95rem;"></div>
+      </div>
+    </div>
+
+    <WarningBox>
+      <strong>핵심 교훈:</strong>
+      표본크기가 충분히 크면 무의미한 차이도 "통계적으로 유의"해진다.
+      반대로 표본이 작으면 의미 있는 차이도 "유의하지 않다"로 나올 수 있다.
+      따라서 p-값만 보고 판단하는 것은 위험하며, 반드시 효과크기를 함께 보고해야 한다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 3: COHEN'S D EXPLORER ===== -->
+  <div class="tb-card">
+    <h2>실습 2: Cohen's d 탐색기</h2>
+    <p>
+      Cohen's d는 두 그룹 평균 차이를 표준편차 단위로 표현한 것이다.
+      d = 0이면 두 분포가 완전히 겹치고, d가 커질수록 분포가 떨어진다.
+    </p>
+
+    <FormulaBox>
+      <span class="hl">Cohen's d</span> = (M&#8321; - M&#8322;) / SD<sub>pooled</sub><br>
+      <span style="font-size:0.85rem; color:#94a3b8;">small = 0.2 | medium = 0.5 | large = 0.8 (Cohen, 1988)</span>
+    </FormulaBox>
+
+    <ExerciseBox>
+      <strong>슬라이더를 움직여 d를 조절해 보라.</strong>
+      두 정규분포가 얼마나 겹치는지 시각적으로 관찰하고,
+      각 수준(작음, 보통, 큼)에서의 실제 사례를 확인하라.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>Cohen's d: <span id="cohend-label">0.50</span></label>
+      <input type="range" id="cohend-slider" min="0" max="3" step="0.05" value="0.50" style="width:300px;">
+      <button class="tb-btn tb-btn-primary" id="btn-cohend-small">작음 (0.2)</button>
+      <button class="tb-btn tb-btn-warning" id="btn-cohend-medium">보통 (0.5)</button>
+      <button class="tb-btn tb-btn-danger" id="btn-cohend-large">큼 (0.8)</button>
+    </SimControls>
+
+    <ChartContainer id="cohend-chart" />
+
+    <div class="tb-stat-row">
+      <StatBox label="Cohen's d" id="cohend-d" />
+      <StatBox label="효과크기 수준" id="cohend-level" />
+      <StatBox label="분포 겹침 비율" id="cohend-overlap" sub="% overlap" />
+    </div>
+
+    <div id="cohend-example" style="margin-top: 14px; padding: 16px; background: var(--tb-g100); border-radius: var(--tb-radius); font-size: 0.93rem;"></div>
+
+    <InsightBox>
+      <strong>실제 사례로 이해하기:</strong>
+      d = 0.2 (작음): 비타민C 복용이 감기 지속일수에 미치는 효과 (약 0.5일 단축).
+      d = 0.5 (보통): 성별 간 수학 불안 점수 차이.
+      d = 0.8 (큼): 인지행동치료가 우울증에 미치는 효과.
+      d > 1.0: 전문 운동선수와 일반인의 반응속도 차이.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 4: REPLICATION GAME ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 재현성 게임</h2>
+    <p>
+      2015년 Open Science Collaboration이 심리학 연구 100편을 재현한 결과,
+      <strong>원래 유의했던 결과 중 36%만 재현에 성공</strong>했다.
+      왜 이런 일이 발생하는가?
+    </p>
+
+    <ExplainBox>
+      <strong>재현성 위기의 주범:</strong>
+      (1) <strong>작은 표본 + 작은 효과</strong>: 통계적 검정력이 부족하여 우연에 의한 유의한 결과가 출판됨.
+      (2) <strong>p-해킹</strong>: 유의한 결과가 나올 때까지 분석 조건을 바꾸는 행위.
+      (3) <strong>출판 편향</strong>: 유의한 결과만 저널에 실리고, 유의하지 않은 결과는 서랍에 묻힘.
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>10개의 연구가 표시된다.</strong> 각 연구의 표본크기, 효과크기, p-값을 보고
+      "재현 성공"할 것이라고 생각하는 연구를 선택하라.
+      그런 다음 "재현 실행" 버튼을 누르면 실제 시뮬레이션 결과가 나온다.
+    </ExerciseBox>
+
+    <div id="replication-studies" style="margin: 14px 0;"></div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-repl-run">재현 실행</button>
+      <button class="tb-btn tb-btn-danger" id="btn-repl-new">새 연구 세트</button>
+    </SimControls>
+
+    <div id="repl-results" style="display: none; margin: 14px 0;">
+      <div class="tb-stat-row">
+        <StatBox label="내 예측 정확도" id="repl-accuracy" />
+        <StatBox label="실제 재현 성공" id="repl-success" sub="/ 10개 중" />
+        <StatBox label="작은 n + 겨우 유의한 재현률" id="repl-weak" />
+      </div>
+      <div id="repl-interpretation" style="margin-top: 14px;"></div>
+    </div>
+
+    <BusinessBox>
+      <strong>비즈니스 시사점:</strong>
+      A/B 테스트에서 표본이 작은데 "유의하다"라는 결과를 얻었다면,
+      다음 캠페인에서 같은 효과가 나타나지 않을 확률이 높다.
+      비용이 큰 의사결정일수록 효과크기와 검정력을 함께 검토해야 한다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 5: POWER ANALYSIS CALCULATOR ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 검정력 분석 계산기</h2>
+    <p>
+      <strong>검정력(power)</strong>이란 실제로 효과가 있을 때 이를 검출할 확률이다.
+      관례적으로 80% 이상의 검정력을 권장한다.
+      검정력은 세 가지에 의해 결정된다: (1) 효과크기, (2) 유의수준, (3) 표본크기.
+    </p>
+
+    <FormulaBox>
+      <span class="hl">검정력</span> = P(H&#8320; 기각 | H&#8321; 참)<br>
+      <span style="font-size:0.85rem; color:#94a3b8;">검정력 = 1 - beta (제2종 오류 확률)</span>
+    </FormulaBox>
+
+    <ExerciseBox>
+      <strong>원하는 효과크기와 유의수준을 입력하면 필요한 표본크기가 자동 계산된다.</strong>
+      검정력 곡선에서 표본크기에 따라 검정력이 어떻게 변하는지 확인하라.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>효과크기 (d):</label>
+      <select id="power-d">
+        <option value="0.2">작음 (0.2)</option>
+        <option value="0.5" selected>보통 (0.5)</option>
+        <option value="0.8">큼 (0.8)</option>
+        <option value="1.0">매우 큼 (1.0)</option>
+      </select>
+      <label>유의수준 (alpha):</label>
+      <select id="power-alpha">
+        <option value="0.01">0.01</option>
+        <option value="0.05" selected>0.05</option>
+        <option value="0.10">0.10</option>
+      </select>
+      <label>목표 검정력:</label>
+      <select id="power-target">
+        <option value="0.80" selected>0.80 (권장)</option>
+        <option value="0.90">0.90</option>
+        <option value="0.95">0.95</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-power">계산 실행</button>
+    </SimControls>
+
+    <div id="power-output" style="display: none; margin: 14px 0;">
+      <div class="tb-stat-row">
+        <StatBox label="필요 표본크기 (각 그룹)" id="power-n" />
+        <StatBox label="효과크기 (d)" id="power-d-val" />
+        <StatBox label="목표 검정력" id="power-target-val" />
+        <StatBox label="유의수준" id="power-alpha-val" />
+      </div>
+
+      <h3 style="margin-top: 18px;">검정력 곡선</h3>
+      <ChartContainer id="power-chart" />
+
+      <div id="power-interpretation" style="margin-top: 14px;"></div>
+    </div>
+
+    <WarningBox>
+      <strong>충격적 사실:</strong>
+      2000년대 이전 출판된 심리학 연구의 약 80%가 통계적 검정력이 50% 미만이었다 (Cohen, 1962; Sedlmeier & Gigerenzer, 1989).
+      즉, 실제 효과가 있더라도 절반 이상의 확률로 놓치는 연구 설계였다.
+      이는 재현성 위기의 근본 원인 중 하나이다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 6: SUMMARY TABLE ===== -->
+  <div class="tb-card">
+    <h2>효과크기 지표 종합 정리</h2>
+    <p>
+      효과크기 지표는 검정 유형에 따라 다르다.
+      아래 표는 주요 검정별로 사용되는 효과크기 지표와 기준값을 정리한 것이다.
+    </p>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr>
+            <th>검정 유형</th>
+            <th>효과크기 지표</th>
+            <th>작음</th>
+            <th>보통</th>
+            <th>큼</th>
+            <th>공식</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>t-검정</td>
+            <td><strong>Cohen's d</strong></td>
+            <td>0.2</td>
+            <td>0.5</td>
+            <td>0.8</td>
+            <td>(M1 - M2) / SD_pooled</td>
+          </tr>
+          <tr>
+            <td>상관분석</td>
+            <td><strong>r (상관계수)</strong></td>
+            <td>0.1</td>
+            <td>0.3</td>
+            <td>0.5</td>
+            <td>Pearson r</td>
+          </tr>
+          <tr>
+            <td>ANOVA</td>
+            <td><strong>eta-squared (&#951;&#178;)</strong></td>
+            <td>0.01</td>
+            <td>0.06</td>
+            <td>0.14</td>
+            <td>SS_between / SS_total</td>
+          </tr>
+          <tr>
+            <td>카이제곱</td>
+            <td><strong>Cramer's V</strong></td>
+            <td>0.1</td>
+            <td>0.3</td>
+            <td>0.5</td>
+            <td>sqrt(chi2 / (n * min(r-1, c-1)))</td>
+          </tr>
+          <tr>
+            <td>회귀분석</td>
+            <td><strong>R&#178;</strong></td>
+            <td>0.02</td>
+            <td>0.13</td>
+            <td>0.26</td>
+            <td>SS_regression / SS_total</td>
+          </tr>
+          <tr>
+            <td>회귀분석</td>
+            <td><strong>Cohen's f&#178;</strong></td>
+            <td>0.02</td>
+            <td>0.15</td>
+            <td>0.35</td>
+            <td>R&#178; / (1 - R&#178;)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <InsightBox>
+      <strong>보고 가이드라인:</strong>
+      APA(미국심리학회) 매뉴얼은 모든 통계 검정에 효과크기를 보고할 것을 권장한다.
+      "p &lt; 0.05"만으로는 충분하지 않으며,
+      "d = 0.45, 95% CI [0.12, 0.78]"처럼 효과크기와 신뢰구간을 함께 보고하는 것이 표준이다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>통계적 유의성(p &lt; 0.05)과 실질적 중요성(effect size)은 별개의 개념이다.</li>
+      <li>Cohen's d는 두 그룹 차이를 표준편차 단위로 표현한다: 0.2(작음), 0.5(보통), 0.8(큼).</li>
+      <li>재현성 위기의 주요 원인은 낮은 검정력, p-해킹, 출판 편향이다.</li>
+      <li>검정력 분석으로 연구 시작 전에 필요한 표본크기를 산출해야 한다.</li>
+      <li>효과크기와 신뢰구간을 함께 보고하는 것이 현대 통계 보고의 표준이다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 로또 데이터라는 재미있는 소재를 통해
+      확률, 가설검정, 효과크기를 종합적으로 체험하는 시간을 갖는다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  Chart.register(...registerables);
+  ChartJS = Chart;
+  return Chart;
+}
+
+// ==================== STATISTICAL HELPERS ====================
+function normalPDF(x, mu, sigma) {
+  const z = (x - mu) / sigma;
+  return Math.exp(-0.5 * z * z) / (sigma * Math.sqrt(2 * Math.PI));
+}
+
+function normalCDF(x) {
+  // Abramowitz & Stegun approximation
+  const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+  const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+  const sign = x < 0 ? -1 : 1;
+  const z = Math.abs(x) / Math.sqrt(2);
+  const t = 1.0 / (1.0 + p * z);
+  const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-z * z);
+  return 0.5 * (1.0 + sign * y);
+}
+
+function normalRandom() {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+// Simple p-value for two-sample z-test (large n approximation)
+function zTestPValue(n, d) {
+  // For a two-sample test with equal n, z = d * sqrt(n/2)
+  const z = d * Math.sqrt(n / 2);
+  const p = 2 * (1 - normalCDF(Math.abs(z)));
+  return p;
+}
+
+// Power calculation for two-sample t-test (normal approximation)
+function powerCalc(n, d, alpha) {
+  const zAlpha = normalQuantile(1 - alpha / 2);
+  const ncp = d * Math.sqrt(n / 2); // non-centrality parameter
+  const power = 1 - normalCDF(zAlpha - ncp) + normalCDF(-zAlpha - ncp);
+  return power;
+}
+
+function normalQuantile(p) {
+  // Rational approximation (Abramowitz & Stegun 26.2.23)
+  if (p <= 0) return -Infinity;
+  if (p >= 1) return Infinity;
+  if (p === 0.5) return 0;
+  const sign = p < 0.5 ? -1 : 1;
+  const pp = p < 0.5 ? p : 1 - p;
+  const t = Math.sqrt(-2 * Math.log(pp));
+  const c0 = 2.515517, c1 = 0.802853, c2 = 0.010328;
+  const d1 = 1.432788, d2 = 0.189269, d3 = 0.001308;
+  return sign * (t - (c0 + c1 * t + c2 * t * t) / (1 + d1 * t + d2 * t * t + d3 * t * t * t));
+}
+
+function requiredN(d, alpha, targetPower) {
+  // Binary search for required n per group
+  let lo = 2, hi = 100000;
+  for (let i = 0; i < 100; i++) {
+    const mid = Math.floor((lo + hi) / 2);
+    const pw = powerCalc(mid, d, alpha);
+    if (pw < targetPower) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+}
+
+// ==================== SCENARIO COMPARISON ====================
+function updateScenarioA() {
+  const n = parseInt(document.getElementById('scA-n').value);
+  const d = parseFloat(document.getElementById('scA-d').value);
+  document.getElementById('scA-n-label').textContent = n.toLocaleString();
+  document.getElementById('scA-d-label').textContent = d.toFixed(2);
+  document.getElementById('scA-d-val').textContent = d.toFixed(2);
+
+  const p = zTestPValue(n, d);
+  document.getElementById('scA-p').textContent = p < 0.0001 ? '< 0.0001' : p.toFixed(4);
+  document.getElementById('scA-p').style.color = p < 0.05 ? 'var(--tb-danger)' : 'var(--tb-success)';
+
+  const verdict = document.getElementById('scA-verdict');
+  if (p < 0.05) {
+    verdict.textContent = 'p < 0.05: 통계적으로 유의 -- 하지만 d = ' + d.toFixed(2) + '로 효과가 매우 작다!';
+    verdict.style.color = 'var(--tb-danger)';
+  } else {
+    verdict.textContent = 'p >= 0.05: 유의하지 않음';
+    verdict.style.color = 'var(--tb-g600)';
+  }
+}
+
+function updateScenarioB() {
+  const n = parseInt(document.getElementById('scB-n').value);
+  const d = parseFloat(document.getElementById('scB-d').value);
+  document.getElementById('scB-n-label').textContent = n;
+  document.getElementById('scB-d-label').textContent = d.toFixed(2);
+  document.getElementById('scB-d-val').textContent = d.toFixed(2);
+
+  const p = zTestPValue(n, d);
+  document.getElementById('scB-p').textContent = p < 0.0001 ? '< 0.0001' : p.toFixed(4);
+  document.getElementById('scB-p').style.color = p < 0.05 ? 'var(--tb-danger)' : 'var(--tb-success)';
+
+  const verdict = document.getElementById('scB-verdict');
+  if (p >= 0.05) {
+    verdict.textContent = 'p >= 0.05: 유의하지 않음 -- 하지만 d = ' + d.toFixed(2) + '로 효과가 크다!';
+    verdict.style.color = '#92400e';
+  } else {
+    verdict.textContent = 'p < 0.05: 통계적으로 유의하며 효과도 크다.';
+    verdict.style.color = 'var(--tb-success)';
+  }
+}
+
+// ==================== COHEN'S D EXPLORER ====================
+let cohendChart = null;
+
+const COHEND_EXAMPLES = {
+  negligible: '사실상 차이 없음. 두 그룹의 분포가 거의 완전히 겹친다.',
+  small: '작은 효과. 비타민C 복용이 감기 지속일수를 약 0.5일 줄이는 효과 수준. 육안으로 구분하기 어렵다.',
+  medium: '보통 효과. 성별 간 수학 불안 점수 차이 수준. 주의 깊게 보면 차이가 보인다.',
+  large: '큰 효과. 인지행동치료의 우울증 감소 효과 수준. 두 그룹의 차이가 명확히 보인다.',
+  huge: '매우 큰 효과. 전문 운동선수 vs 일반인의 신체 능력 차이 수준. 두 분포가 거의 분리된다.'
+};
+
+async function drawCohenD() {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('cohend-chart');
+  if (cohendChart) { cohendChart.destroy(); cohendChart = null; }
+
+  const d = parseFloat(document.getElementById('cohend-slider').value);
+  document.getElementById('cohend-label').textContent = d.toFixed(2);
+  document.getElementById('cohend-d').textContent = d.toFixed(2);
+
+  // Determine level
+  let level, levelText;
+  if (d < 0.1) { level = 'negligible'; levelText = '무시할 수준'; }
+  else if (d < 0.35) { level = 'small'; levelText = '작음 (small)'; }
+  else if (d < 0.65) { level = 'medium'; levelText = '보통 (medium)'; }
+  else if (d < 1.2) { level = 'large'; levelText = '큼 (large)'; }
+  else { level = 'huge'; levelText = '매우 큼'; }
+
+  document.getElementById('cohend-level').textContent = levelText;
+
+  // Overlap calculation (approximation: 2 * normalCDF(-d/2))
+  const overlap = 2 * normalCDF(-d / 2) * 100;
+  // Actually, the overlap for two normal distributions separated by d is:
+  // OVL = 2 * Phi(-d/2) where Phi is the standard normal CDF
+  const ovl = (2 * normalCDF(-Math.abs(d) / 2) * 100);
+  document.getElementById('cohend-overlap').textContent = (100 - (100 - ovl)).toFixed(1) + '%';
+
+  document.getElementById('cohend-example').innerHTML =
+    '<strong>' + levelText + ':</strong> ' + COHEND_EXAMPLES[level];
+
+  // Draw two overlapping distributions
+  const xMin = -4, xMax = 4 + d, step = 0.05;
+  const xs = [];
+  const y1 = [], y2 = [];
+  for (let x = xMin; x <= xMax; x += step) {
+    xs.push(x.toFixed(2));
+    y1.push(normalPDF(x, 0, 1));
+    y2.push(normalPDF(x, d, 1));
+  }
+
+  cohendChart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: xs,
+      datasets: [
+        {
+          label: '그룹 1 (M=0)',
+          data: y1,
+          borderColor: '#2563eb',
+          backgroundColor: '#2563eb22',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 0,
+          borderWidth: 2,
+        },
+        {
+          label: '그룹 2 (M=' + d.toFixed(2) + ')',
+          data: y2,
+          borderColor: '#ef4444',
+          backgroundColor: '#ef444422',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 0,
+          borderWidth: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Cohen\'s d = ' + d.toFixed(2) + ' -- 두 정규분포의 분리 정도',
+          font: { size: 13, family: "'Paperlogy'" }
+        },
+        legend: { position: 'top' }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: '표준편차 단위' },
+          ticks: { maxTicksLimit: 15, callback: function(val, idx) { return idx % 10 === 0 ? this.getLabelForValue(val) : ''; } }
+        },
+        y: { title: { display: true, text: '밀도' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+// ==================== REPLICATION GAME ====================
+let studies = [];
+let userPredictions = {};
+
+function generateStudies() {
+  studies = [];
+  userPredictions = {};
+  for (let i = 0; i < 10; i++) {
+    const n = [8, 12, 15, 20, 25, 40, 60, 100, 200, 500][Math.floor(Math.random() * 10)];
+    const trueD = Math.random() < 0.3 ? 0 : (0.1 + Math.random() * 1.2); // 30% null effects
+    // Simulate original study
+    let origP, origD;
+    // Generate data and compute observed effect
+    const g1 = Array.from({length: n}, () => normalRandom());
+    const g2 = Array.from({length: n}, () => normalRandom() + trueD);
+    const m1 = g1.reduce((a,b)=>a+b,0)/n, m2 = g2.reduce((a,b)=>a+b,0)/n;
+    const pooledVar = (g1.reduce((a,v)=>a+(v-m1)**2,0) + g2.reduce((a,v)=>a+(v-m2)**2,0)) / (2*n - 2);
+    origD = (m2 - m1) / Math.sqrt(pooledVar);
+    origP = zTestPValue(n, Math.abs(origD));
+
+    // Was original significant?
+    const origSig = origP < 0.05;
+
+    studies.push({
+      id: i + 1,
+      n,
+      trueD,
+      origD: Math.abs(origD),
+      origP,
+      origSig,
+    });
+  }
+
+  renderStudies();
+}
+
+function renderStudies() {
+  const container = document.getElementById('replication-studies');
+  container.innerHTML = '';
+  document.getElementById('repl-results').style.display = 'none';
+
+  const grid = document.createElement('div');
+  grid.style.cssText = 'display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px;';
+
+  studies.forEach(s => {
+    const card = document.createElement('div');
+    card.style.cssText = 'padding:14px; border:2px solid var(--tb-g300); border-radius:var(--tb-radius); cursor:pointer; transition:0.2s;';
+    card.dataset.id = s.id;
+
+    const sigLabel = s.origSig
+      ? '<span style="color:var(--tb-danger);font-weight:700;">p < 0.05</span>'
+      : '<span style="color:var(--tb-g600);">p >= 0.05</span>';
+
+    card.innerHTML = `
+      <div style="font-weight:700; margin-bottom:6px;">연구 ${s.id}</div>
+      <div style="font-size:0.85rem; color:var(--tb-g600);">
+        n = ${s.n} (각 그룹) | d = ${s.origD.toFixed(2)} | p = ${s.origP < 0.001 ? '< 0.001' : s.origP.toFixed(3)}
+      </div>
+      <div style="font-size:0.85rem; margin-top:4px;">${sigLabel}</div>
+      <div style="margin-top:8px; font-size:0.82rem; color:var(--tb-primary); font-weight:600;" id="pred-${s.id}">
+        클릭하여 예측: 재현 성공/실패
+      </div>
+    `;
+
+    card.addEventListener('click', () => {
+      if (!userPredictions[s.id]) {
+        userPredictions[s.id] = 'success';
+        card.style.borderColor = 'var(--tb-success)';
+        card.style.background = '#f0fdf4';
+        document.getElementById('pred-' + s.id).textContent = '예측: 재현 성공';
+      } else if (userPredictions[s.id] === 'success') {
+        userPredictions[s.id] = 'fail';
+        card.style.borderColor = 'var(--tb-danger)';
+        card.style.background = '#fef2f2';
+        document.getElementById('pred-' + s.id).textContent = '예측: 재현 실패';
+      } else {
+        delete userPredictions[s.id];
+        card.style.borderColor = 'var(--tb-g300)';
+        card.style.background = '';
+        document.getElementById('pred-' + s.id).textContent = '클릭하여 예측: 재현 성공/실패';
+      }
+    });
+
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+}
+
+function runReplication() {
+  let correct = 0, total = 0;
+  let replicated = 0;
+  let weakOrigCount = 0, weakReplCount = 0;
+
+  studies.forEach(s => {
+    // Run replication: same n, true effect
+    const n = s.n;
+    const g1 = Array.from({length: n}, () => normalRandom());
+    const g2 = Array.from({length: n}, () => normalRandom() + s.trueD);
+    const m1 = g1.reduce((a,b)=>a+b,0)/n, m2 = g2.reduce((a,b)=>a+b,0)/n;
+    const pooledVar = (g1.reduce((a,v)=>a+(v-m1)**2,0) + g2.reduce((a,v)=>a+(v-m2)**2,0)) / (2*n - 2);
+    const replD = (m2 - m1) / Math.sqrt(pooledVar);
+    const replP = zTestPValue(n, Math.abs(replD));
+    const replSig = replP < 0.05;
+
+    // "Replicated" if original was significant and replication is also significant in same direction
+    s.replSuccess = s.origSig && replSig && (replD > 0 === s.origD > 0);
+    s.replP = replP;
+    s.replD = Math.abs(replD);
+
+    if (s.replSuccess) replicated++;
+
+    // Track weak originals
+    if (s.origSig && s.n <= 25 && s.origP > 0.01) {
+      weakOrigCount++;
+      if (s.replSuccess) weakReplCount++;
+    }
+
+    // Check user prediction
+    if (userPredictions[s.id]) {
+      total++;
+      const predicted = userPredictions[s.id] === 'success';
+      const actual = s.replSuccess;
+      if (predicted === actual) correct++;
+    }
+
+    // Update card
+    const card = document.querySelector(`[data-id="${s.id}"]`);
+    if (card) {
+      const resultColor = s.replSuccess ? 'var(--tb-success)' : 'var(--tb-danger)';
+      const resultText = s.replSuccess ? '재현 성공' : '재현 실패';
+      card.style.borderColor = resultColor;
+      const predEl = document.getElementById('pred-' + s.id);
+      predEl.innerHTML = `<span style="color:${resultColor};">결과: ${resultText}</span> (repl p = ${s.replP < 0.001 ? '<0.001' : s.replP.toFixed(3)}, d = ${s.replD.toFixed(2)})`;
+    }
+  });
+
+  document.getElementById('repl-results').style.display = '';
+  document.getElementById('repl-accuracy').textContent = total > 0 ? Math.round(correct / total * 100) + '%' : '예측 없음';
+  document.getElementById('repl-success').textContent = replicated;
+  document.getElementById('repl-weak').textContent = weakOrigCount > 0
+    ? weakReplCount + '/' + weakOrigCount + ' (' + Math.round(weakReplCount/weakOrigCount*100) + '%)'
+    : 'N/A';
+
+  const interpDiv = document.getElementById('repl-interpretation');
+  interpDiv.innerHTML = `<div class="tb-insight">
+    <strong>시뮬레이션 결과:</strong>
+    10개 연구 중 ${replicated}개가 재현에 성공했다.
+    ${weakOrigCount > 0 ? '특히, 작은 표본(n<=25)에서 겨우 유의했던 연구의 재현률은 ' + Math.round(weakReplCount/weakOrigCount*100) + '%에 불과했다.' : ''}
+    이는 표본크기가 작고 효과가 불확실한 연구일수록 재현 가능성이 낮다는 것을 보여준다.
+  </div>`;
+}
+
+// ==================== POWER ANALYSIS ====================
+let powerChart = null;
+
+async function runPowerAnalysis() {
+  const Chart = await loadChart();
+  const d = parseFloat(document.getElementById('power-d').value);
+  const alpha = parseFloat(document.getElementById('power-alpha').value);
+  const target = parseFloat(document.getElementById('power-target').value);
+
+  const nReq = requiredN(d, alpha, target);
+
+  document.getElementById('power-output').style.display = '';
+  document.getElementById('power-n').textContent = nReq;
+  document.getElementById('power-d-val').textContent = d;
+  document.getElementById('power-target-val').textContent = (target * 100) + '%';
+  document.getElementById('power-alpha-val').textContent = alpha;
+
+  // Draw power curve
+  const canvas = document.getElementById('power-chart');
+  if (powerChart) { powerChart.destroy(); powerChart = null; }
+
+  const ns = [];
+  const powers = [];
+  const maxN = Math.max(nReq * 2, 200);
+  const step = Math.max(1, Math.floor(maxN / 100));
+  for (let n = 5; n <= maxN; n += step) {
+    ns.push(n);
+    powers.push(powerCalc(n, d, alpha));
+  }
+
+  powerChart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: ns,
+      datasets: [
+        {
+          label: '검정력 (Power)',
+          data: powers,
+          borderColor: '#2563eb',
+          backgroundColor: '#2563eb22',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 0,
+          borderWidth: 2,
+        },
+        {
+          label: '목표 검정력 (' + (target*100) + '%)',
+          data: ns.map(() => target),
+          borderColor: '#ef4444',
+          borderDash: [6, 4],
+          pointRadius: 0,
+          borderWidth: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        title: {
+          display: true,
+          text: '검정력 곡선 (d=' + d + ', alpha=' + alpha + ')',
+          font: { size: 13, family: "'Paperlogy'" }
+        },
+        legend: { position: 'top' },
+        annotation: {}
+      },
+      scales: {
+        x: { title: { display: true, text: '각 그룹 표본크기 (n)' }, ticks: { maxTicksLimit: 20 } },
+        y: { title: { display: true, text: '검정력' }, min: 0, max: 1, ticks: { callback: v => (v*100)+'%' } }
+      }
+    }
+  });
+
+  const interpDiv = document.getElementById('power-interpretation');
+  interpDiv.innerHTML = `<div class="tb-explain">
+    <strong>해석:</strong>
+    효과크기 d = ${d}, 유의수준 alpha = ${alpha}에서 ${(target*100)}% 검정력을 달성하려면
+    <strong>각 그룹에 최소 ${nReq}명</strong>이 필요하다 (총 ${nReq * 2}명).
+    ${nReq > 500 ? '이는 상당히 큰 표본이 필요함을 의미한다. 효과크기가 작을수록 필요한 표본이 급증한다.' : ''}
+    ${d <= 0.2 ? '작은 효과를 검출하려면 매우 큰 표본이 필요하다 -- 연구 계획 단계에서 현실적 가능성을 검토해야 한다.' : ''}
+  </div>`;
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('12-effect-size')).catch(() => {});
+
+  // Scenario comparison
+  updateScenarioA();
+  updateScenarioB();
+  document.getElementById('scA-n').addEventListener('input', updateScenarioA);
+  document.getElementById('scA-d').addEventListener('input', updateScenarioA);
+  document.getElementById('scB-n').addEventListener('input', updateScenarioB);
+  document.getElementById('scB-d').addEventListener('input', updateScenarioB);
+
+  // Cohen's d explorer
+  const dSlider = document.getElementById('cohend-slider');
+  dSlider.addEventListener('input', drawCohenD);
+  document.getElementById('btn-cohend-small').addEventListener('click', () => { dSlider.value = 0.2; drawCohenD(); });
+  document.getElementById('btn-cohend-medium').addEventListener('click', () => { dSlider.value = 0.5; drawCohenD(); });
+  document.getElementById('btn-cohend-large').addEventListener('click', () => { dSlider.value = 0.8; drawCohenD(); });
+  drawCohenD();
+
+  // Replication game
+  generateStudies();
+  document.getElementById('btn-repl-run').addEventListener('click', runReplication);
+  document.getElementById('btn-repl-new').addEventListener('click', generateStudies);
+
+  // Power analysis
+  document.getElementById('btn-power').addEventListener('click', runPowerAnalysis);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  #replication-studies [data-id] {
+    font-family: var(--tb-font);
+  }
+</style>
