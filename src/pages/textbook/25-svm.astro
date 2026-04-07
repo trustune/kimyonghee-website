@@ -1,0 +1,909 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="서포트 벡터 머신"
+  subtitle="마진을 최대화하는 경계선"
+  chapterNum={25}
+  part={4}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>두 팀 사이에 가장 넓은 도로를 깔아라</h2>
+    <p>
+      축구장에 빨간 팀과 파란 팀 선수들이 흩어져 있습니다.
+      심판이 "두 팀 사이에 선을 그어라"라고 합니다.
+      선을 긋는 방법은 무한히 많습니다.
+      하지만 <strong>가장 좋은 선</strong>은 무엇일까요?
+    </p>
+    <p style="margin-top: 12px;">
+      SVM(Support Vector Machine)의 답은 명쾌합니다.
+      <strong>"양쪽 팀에서 가장 가까운 선수들까지의 거리가 최대가 되는 선"</strong>을 긋는 것입니다.
+      이 거리를 <strong>마진(margin)</strong>이라 하고,
+      경계선에 가장 가까운 핵심 선수들을 <strong>서포트 벡터(support vector)</strong>라 부릅니다.
+    </p>
+    <p style="margin-top: 12px;">
+      마진을 넓게 가져갈수록, 새로운 데이터가 들어와도
+      정확하게 분류할 가능성이 높아집니다.
+      이것이 SVM의 핵심 아이디어이며, 이 장에서 단계별로 체험합니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 이론 - 마진과 결정 경계 ===== -->
+  <div class="tb-card">
+    <h2>마진과 결정 경계</h2>
+    <p>
+      분류 문제에서 <strong>결정 경계(decision boundary)</strong>는 두 클래스를 나누는 선(2D), 면(3D), 또는 초평면(고차원)입니다.
+      로지스틱 회귀도 경계선을 만들지만, SVM은 한 가지를 더 요구합니다.
+      경계선 양쪽에 <strong>여유 공간(마진)</strong>을 최대한 넓히라는 것입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong> 도로를 놓는다고 생각하세요.
+      왼쪽에는 A 마을, 오른쪽에는 B 마을.
+      도로의 중심선이 결정 경계, 도로 양쪽 가장자리가 마진 경계(gutter)입니다.
+      도로가 넓을수록 양쪽 마을 사람들이 도로에 침범하지 않습니다.
+      <strong>서포트 벡터</strong>는 도로 가장자리에 딱 붙어 사는 집들입니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      결정 경계: <span class="hl">w . x + b = 0</span><br>
+      마진 경계: w . x + b = +1 &nbsp;&nbsp;그리고&nbsp;&nbsp; w . x + b = -1<br>
+      마진 폭 = <span class="res">2 / ||w||</span><br>
+      목표: ||w||를 최소화 (= 마진을 최대화)
+    </FormulaBox>
+
+    <InsightBox>
+      <strong>핵심 통찰:</strong>
+      SVM은 모든 데이터를 사용하지 않습니다.
+      결정 경계를 정하는 데 관여하는 것은 오직 마진 경계에 걸친 <strong>소수의 서포트 벡터</strong>뿐입니다.
+      나머지 데이터 점을 제거해도 결정 경계는 변하지 않습니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 3: 인터랙티브 1 - Margin Visualizer ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 마진 시각화기</h2>
+    <p>
+      아래 캔버스에 두 클래스의 데이터 점이 표시됩니다.
+      결정 경계(실선)와 마진 경계(점선)가 자동으로 계산됩니다.
+      <strong>점을 드래그하면</strong> 경계가 실시간으로 바뀝니다.
+      서포트 벡터는 큰 원으로 강조됩니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      (1) 서포트 벡터를 경계 쪽으로 끌어보세요 -- 마진이 좁아집니다.
+      (2) 서포트 벡터가 아닌 점을 옮겨보세요 -- 경계가 변하지 않습니다!
+      (3) "데이터 초기화"로 새 데이터를 생성해보세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-reset-margin">데이터 초기화</button>
+      <label>데이터 수:</label>
+      <select id="sel-margin-n">
+        <option value="20">20개</option>
+        <option value="40" selected>40개</option>
+        <option value="60">60개</option>
+      </select>
+    </SimControls>
+
+    <canvas id="canvas-margin" width="700" height="420" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);cursor:crosshair;background:#fff;"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="마진 폭" id="stat-margin-width" />
+      <StatBox label="서포트 벡터 수" id="stat-sv-count" />
+      <StatBox label="정확도" id="stat-margin-acc" />
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: 소프트 마진과 C 파라미터 ===== -->
+  <div class="tb-card">
+    <h2>소프트 마진: 완벽함을 포기하는 지혜</h2>
+    <p>
+      현실 데이터는 완벽하게 분리되지 않습니다.
+      한두 개의 점이 상대편 영역에 섞여 있을 수 있습니다.
+      이때 <strong>하드 마진(hard margin)</strong>을 고집하면 모델을 만들 수 없습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      <strong>소프트 마진(soft margin)</strong>은 일부 오분류를 허용합니다.
+      얼마나 허용할지를 제어하는 것이 <strong>C 파라미터</strong>입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>C가 크면:</strong> 오분류 벌점이 크므로, 거의 모든 점을 맞추려 합니다. 마진이 좁아지고, 과적합 위험.<br>
+      <strong>C가 작으면:</strong> 오분류를 너그럽게 허용합니다. 마진이 넓어지고, 과소적합 위험.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 5: 인터랙티브 2 - C 파라미터 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: C 파라미터 조절기</h2>
+    <p>
+      C 슬라이더를 움직여 마진 폭과 오분류 수가 어떻게 변하는지 관찰하세요.
+      같은 데이터에서 C 값에 따라 결과가 극적으로 달라집니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      (1) C=0.01로 설정 -- 넓은 마진, 오분류 허용.
+      (2) C=100으로 설정 -- 좁은 마진, 거의 완벽 분류.
+      (3) 어떤 C가 새 데이터에 더 잘 일반화될까요?
+    </ExerciseBox>
+
+    <SimControls>
+      <label>C 값:</label>
+      <input type="range" id="slider-c" min="-2" max="3" step="0.1" value="0" style="width:250px;">
+      <span class="tb-speed-label" id="label-c">C = 1.00</span>
+      <button class="tb-btn tb-btn-primary" id="btn-reset-c">새 데이터</button>
+    </SimControls>
+
+    <canvas id="canvas-c" width="700" height="420" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="마진 폭" id="stat-c-margin" />
+      <StatBox label="오분류 수" id="stat-c-misclass" />
+      <StatBox label="서포트 벡터" id="stat-c-sv" />
+      <StatBox label="C 값" id="stat-c-val" />
+    </div>
+
+    <WarningBox>
+      <strong>과적합 경고:</strong>
+      C를 극단적으로 크게 하면 훈련 데이터의 노이즈까지 학습합니다.
+      교차검증으로 최적의 C를 찾는 것이 실무의 핵심입니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 6: 커널 트릭 이론 ===== -->
+  <div class="tb-card">
+    <h2>커널 트릭: 차원을 올려 직선으로 자르기</h2>
+    <p>
+      지금까지는 데이터가 직선(또는 초평면)으로 분리 가능한 경우를 봤습니다.
+      하지만 아래처럼 한 클래스가 다른 클래스를 <strong>둥글게 감싸고 있으면</strong> 어떨까요?
+      직선으로는 절대 나눌 수 없습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      SVM의 놀라운 해결책은 <strong>데이터를 더 높은 차원으로 올리는 것</strong>입니다.
+      2D에서 분리 불가능하던 데이터가 3D로 올라가면 평면 하나로 깔끔하게 나뉩니다.
+      이것을 다시 2D로 투영하면 곡선 경계가 됩니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong> 탁자 위에 빨간 동전과 파란 동전이 섞여 있습니다.
+      직선으로는 나눌 수 없습니다.
+      하지만 빨간 동전 아래에 스프링을 넣어 공중으로 띄우면?
+      이제 탁자 면(평면)으로 두 색을 분리할 수 있습니다!
+    </ExplainBox>
+
+    <FormulaBox>
+      RBF 커널: K(x, x') = exp(-<span class="hl">gamma</span> * ||x - x'||<sup>2</sup>)<br>
+      gamma가 크면: 가까운 점만 영향 (복잡한 경계)<br>
+      gamma가 작으면: 먼 점도 영향 (부드러운 경계)
+    </FormulaBox>
+  </div>
+
+  <!-- ===== SECTION 7: 인터랙티브 3 - 커널 트릭 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 커널 트릭 시각화</h2>
+    <p>
+      원형으로 분포된 데이터(내부 빨강, 외부 파랑)가 있습니다.
+      직선으로는 분류 불가능합니다.
+      "RBF 커널 적용" 버튼을 누르면 3D로 변환되는 과정을 관찰하세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      (1) 먼저 "선형 SVM 시도"를 눌러 실패를 확인하세요.
+      (2) "RBF 커널 적용"으로 3D 변환을 관찰하세요.
+      (3) Gamma 슬라이더로 경계의 복잡도를 조절하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-linear-try">선형 SVM 시도</button>
+      <button class="tb-btn tb-btn-success" id="btn-apply-kernel">RBF 커널 적용</button>
+      <button class="tb-btn tb-btn-danger" id="btn-reset-kernel">초기화</button>
+    </SimControls>
+    <SimControls>
+      <label>Gamma:</label>
+      <input type="range" id="slider-gamma" min="-2" max="2" step="0.1" value="0" style="width:220px;">
+      <span class="tb-speed-label" id="label-gamma">gamma = 1.0</span>
+    </SimControls>
+
+    <canvas id="canvas-kernel" width="700" height="450" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+
+    <div id="kernel-msg" style="text-align:center;padding:8px;font-weight:700;font-size:0.95rem;color:var(--tb-g600);"></div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="훈련 정확도" id="stat-kernel-acc" />
+      <StatBox label="경계 유형" id="stat-kernel-type" />
+      <StatBox label="Gamma" id="stat-kernel-gamma" />
+    </div>
+
+    <InsightBox>
+      <strong>커널 트릭의 핵심:</strong>
+      실제로 데이터를 고차원으로 변환하지 않고도, 커널 함수로 내적만 계산하면 됩니다.
+      계산 비용은 원래 차원과 같지만 효과는 고차원에서 분류한 것과 동일합니다.
+      이것이 "트릭"이라 불리는 이유입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 8: 인터랙티브 4 - SVM vs 로지스틱 비교 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: SVM vs 로지스틱 회귀 비교</h2>
+    <p>
+      같은 데이터에 SVM과 로지스틱 회귀를 적용합니다.
+      대부분의 경우 두 모델의 경계는 비슷하지만,
+      SVM은 <strong>마진을 최대화</strong>하는 반면 로지스틱 회귀는 <strong>확률을 최대화</strong>합니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      (1) "비교 시작"을 눌러 두 모델의 경계를 나란히 비교하세요.
+      (2) 데이터를 바꿔가며 어떤 경우에 차이가 크게 나는지 관찰하세요.
+      (3) 마진 영역(회색)이 있는 쪽이 SVM입니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-compare">비교 시작</button>
+      <button class="tb-btn tb-btn-danger" id="btn-compare-reset">새 데이터</button>
+      <label>데이터 패턴:</label>
+      <select id="sel-compare-pattern">
+        <option value="linear">선형 분리</option>
+        <option value="overlap">약간 겹침</option>
+        <option value="tight">밀집</option>
+      </select>
+    </SimControls>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <div style="text-align:center;font-weight:700;margin-bottom:8px;color:var(--tb-primary);">SVM</div>
+        <canvas id="canvas-svm-cmp" width="340" height="340" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+      </div>
+      <div>
+        <div style="text-align:center;font-weight:700;margin-bottom:8px;color:var(--tb-purple);">로지스틱 회귀</div>
+        <canvas id="canvas-lr-cmp" width="340" height="340" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="SVM 정확도" id="stat-svm-acc" />
+      <StatBox label="LR 정확도" id="stat-lr-acc" />
+      <StatBox label="SVM 마진 폭" id="stat-svm-margin" />
+      <StatBox label="차이" id="stat-diff" />
+    </div>
+
+    <BusinessBox>
+      <strong>실무 선택 기준:</strong>
+      확률이 필요하면 로지스틱 회귀, 마진 기반 견고함이 필요하면 SVM.
+      텍스트 분류, 이미지 인식 등 고차원 데이터에서 SVM이 강점을 보입니다.
+      최근에는 딥러닝에 자리를 내줬지만, 소규모 데이터에서는 여전히 강력합니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 9: SVM의 장단점 ===== -->
+  <div class="tb-card">
+    <h2>SVM의 장단점과 실무 팁</h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0;">
+      <div style="background:var(--tb-primary-light);padding:18px;border-radius:var(--tb-radius);">
+        <h3 style="color:var(--tb-primary);margin-bottom:8px;">장점</h3>
+        <ul style="font-size:.9rem;padding-left:20px;">
+          <li>고차원 데이터에서 강력 (텍스트, 유전체)</li>
+          <li>커널 트릭으로 비선형 분류 가능</li>
+          <li>서포트 벡터만 저장하면 되어 메모리 효율적</li>
+          <li>과적합에 비교적 강건 (마진 최대화)</li>
+        </ul>
+      </div>
+      <div style="background:#fef2f2;padding:18px;border-radius:var(--tb-radius);">
+        <h3 style="color:var(--tb-danger);margin-bottom:8px;">단점</h3>
+        <ul style="font-size:.9rem;padding-left:20px;">
+          <li>대규모 데이터(10만+)에서 느림</li>
+          <li>확률 출력이 직접적이지 않음</li>
+          <li>특성 스케일링 필수</li>
+          <li>C, gamma 등 하이퍼파라미터 튜닝 필요</li>
+        </ul>
+      </div>
+    </div>
+
+    <WarningBox>
+      <strong>스케일링 필수!</strong>
+      SVM은 거리 기반이므로 특성의 스케일에 매우 민감합니다.
+      연봉(천만 단위)과 나이(십 단위)를 함께 사용하면 연봉이 결정을 지배합니다.
+      반드시 StandardScaler 또는 MinMaxScaler를 적용하세요.
+    </WarningBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>SVM은 두 클래스 사이의 마진을 최대화하는 분류기이다.</li>
+      <li>서포트 벡터는 경계에 가장 가까운 점으로, 결정 경계를 결정한다.</li>
+      <li>C 파라미터는 마진 폭과 오분류 허용 사이의 균형을 조절한다.</li>
+      <li>커널 트릭으로 비선형 데이터도 분류할 수 있다 (RBF, 다항식 등).</li>
+      <li>SVM과 로지스틱 회귀는 비슷한 결과를 내지만, 접근 철학이 다르다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong>
+      지금까지 배운 모든 분류 모델을 총동원하여
+      실제 고객 이탈 예측 대시보드를 구축합니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITIES ====================
+function randNorm(mu = 0, sigma = 1) {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return mu + sigma * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+function generateTwoClassData(n, separation = 3) {
+  const data = [];
+  const half = Math.floor(n / 2);
+  for (let i = 0; i < half; i++) {
+    data.push({ x: randNorm(-separation / 2, 1.2), y: randNorm(0, 1.2), label: -1 });
+  }
+  for (let i = 0; i < n - half; i++) {
+    data.push({ x: randNorm(separation / 2, 1.2), y: randNorm(0, 1.2), label: 1 });
+  }
+  return data;
+}
+
+function generateCircularData(n) {
+  const data = [];
+  const half = Math.floor(n / 2);
+  for (let i = 0; i < half; i++) {
+    const r = Math.random() * 1.5;
+    const a = Math.random() * 2 * Math.PI;
+    data.push({ x: r * Math.cos(a), y: r * Math.sin(a), label: -1 });
+  }
+  for (let i = 0; i < n - half; i++) {
+    const r = 2.5 + Math.random() * 1.5;
+    const a = Math.random() * 2 * Math.PI;
+    data.push({ x: r * Math.cos(a), y: r * Math.sin(a), label: 1 });
+  }
+  return data;
+}
+
+// Simple 2D linear SVM via simplified SMO-like gradient descent
+function trainLinearSVM(data, C = 1.0, lr = 0.01, epochs = 500) {
+  let w1 = 0, w2 = 0, b = 0;
+  for (let e = 0; e < epochs; e++) {
+    for (const p of data) {
+      const margin = p.label * (w1 * p.x + w2 * p.y + b);
+      if (margin < 1) {
+        w1 += lr * (C * p.label * p.x - w1 / data.length);
+        w2 += lr * (C * p.label * p.y - w2 / data.length);
+        b += lr * C * p.label;
+      } else {
+        w1 -= lr * w1 / data.length;
+        w2 -= lr * w2 / data.length;
+      }
+    }
+  }
+  return { w1, w2, b };
+}
+
+function predictLinearSVM(model, x, y) {
+  return model.w1 * x + model.w2 * y + model.b;
+}
+
+// ==================== INTERACTIVE 1: MARGIN VISUALIZER ====================
+let marginData = [];
+let dragIdx = -1;
+
+function initMarginVis() {
+  const n = parseInt(document.getElementById('sel-margin-n').value);
+  marginData = generateTwoClassData(n, 3.5);
+  drawMarginCanvas();
+}
+
+function drawMarginCanvas() {
+  const canvas = document.getElementById('canvas-margin');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  if (marginData.length === 0) return;
+
+  // Compute scale
+  const xs = marginData.map(d => d.x), ys = marginData.map(d => d.y);
+  const xMin = Math.min(...xs) - 1, xMax = Math.max(...xs) + 1;
+  const yMin = Math.min(...ys) - 1, yMax = Math.max(...ys) + 1;
+  const sx = (x) => (x - xMin) / (xMax - xMin) * (W - 60) + 30;
+  const sy = (y) => H - ((y - yMin) / (yMax - yMin) * (H - 60) + 30);
+
+  // Train
+  const model = trainLinearSVM(marginData, 1.0, 0.005, 800);
+  const norm = Math.sqrt(model.w1 * model.w1 + model.w2 * model.w2);
+  const marginWidth = norm > 0 ? 2 / norm : 0;
+
+  // Find support vectors
+  const svIndices = [];
+  marginData.forEach((p, i) => {
+    const val = Math.abs(p.label * (model.w1 * p.x + model.w2 * p.y + model.b));
+    if (val < 1.3) svIndices.push(i);
+  });
+
+  // Draw margin fill
+  if (norm > 0) {
+    ctx.save();
+    ctx.globalAlpha = 0.08;
+    ctx.fillStyle = '#64748b';
+    // Draw filled region between margin gutters
+    const drawBoundaryLine = (offset) => {
+      const pts = [];
+      for (let px = 0; px <= W; px += 5) {
+        const dataX = xMin + (px - 30) / (W - 60) * (xMax - xMin);
+        const dataY = (-model.w1 * dataX - model.b + offset) / model.w2;
+        pts.push({ px, py: sy(dataY) });
+      }
+      return pts;
+    };
+    if (Math.abs(model.w2) > 0.001) {
+      const upper = drawBoundaryLine(1);
+      const lower = drawBoundaryLine(-1);
+      ctx.beginPath();
+      upper.forEach((p, i) => i === 0 ? ctx.moveTo(p.px, p.py) : ctx.lineTo(p.px, p.py));
+      for (let i = lower.length - 1; i >= 0; i--) ctx.lineTo(lower[i].px, lower[i].py);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  // Draw decision boundary
+  if (Math.abs(model.w2) > 0.001) {
+    const drawLine = (offset, dash, color, width) => {
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.setLineDash(dash);
+      const y0 = (-model.w1 * xMin - model.b + offset) / model.w2;
+      const y1 = (-model.w1 * xMax - model.b + offset) / model.w2;
+      ctx.moveTo(sx(xMin), sy(y0));
+      ctx.lineTo(sx(xMax), sy(y1));
+      ctx.stroke();
+      ctx.setLineDash([]);
+    };
+    drawLine(0, [], '#1e293b', 2.5);
+    drawLine(1, [6, 4], '#ef4444', 1.5);
+    drawLine(-1, [6, 4], '#2563eb', 1.5);
+  }
+
+  // Draw points
+  marginData.forEach((p, i) => {
+    const px = sx(p.x), py = sy(p.y);
+    const isSV = svIndices.includes(i);
+    ctx.beginPath();
+    ctx.arc(px, py, isSV ? 9 : 5, 0, 2 * Math.PI);
+    ctx.fillStyle = p.label === 1 ? '#2563eb' : '#ef4444';
+    ctx.fill();
+    if (isSV) {
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    }
+  });
+
+  // Accuracy
+  let correct = 0;
+  marginData.forEach(p => {
+    const pred = predictLinearSVM(model, p.x, p.y);
+    if ((pred >= 0 && p.label === 1) || (pred < 0 && p.label === -1)) correct++;
+  });
+
+  document.getElementById('stat-margin-width').textContent = marginWidth.toFixed(2);
+  document.getElementById('stat-sv-count').textContent = svIndices.length;
+  document.getElementById('stat-margin-acc').textContent = (correct / marginData.length * 100).toFixed(1) + '%';
+}
+
+function setupMarginDrag() {
+  const canvas = document.getElementById('canvas-margin');
+  const W = canvas.width, H = canvas.height;
+
+  function getDataCoords(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    const scaleY = H / rect.height;
+    const px = (e.clientX - rect.left) * scaleX;
+    const py = (e.clientY - rect.top) * scaleY;
+    const xs = marginData.map(d => d.x), ys = marginData.map(d => d.y);
+    const xMin = Math.min(...xs) - 1, xMax = Math.max(...xs) + 1;
+    const yMin = Math.min(...ys) - 1, yMax = Math.max(...ys) + 1;
+    const dataX = xMin + (px - 30) / (W - 60) * (xMax - xMin);
+    const dataY = yMax - (py - 30) / (H - 60) * (yMax - yMin);
+    return { dataX, dataY, px, py };
+  }
+
+  canvas.addEventListener('mousedown', (e) => {
+    const { dataX, dataY } = getDataCoords(e);
+    let minDist = Infinity;
+    marginData.forEach((p, i) => {
+      const d = Math.hypot(p.x - dataX, p.y - dataY);
+      if (d < minDist) { minDist = d; dragIdx = i; }
+    });
+    if (minDist > 1.5) dragIdx = -1;
+  });
+
+  canvas.addEventListener('mousemove', (e) => {
+    if (dragIdx < 0) return;
+    const { dataX, dataY } = getDataCoords(e);
+    marginData[dragIdx].x = dataX;
+    marginData[dragIdx].y = dataY;
+    drawMarginCanvas();
+  });
+
+  canvas.addEventListener('mouseup', () => { dragIdx = -1; });
+  canvas.addEventListener('mouseleave', () => { dragIdx = -1; });
+}
+
+// ==================== INTERACTIVE 2: C PARAMETER ====================
+let cData = [];
+
+function initCParam() {
+  cData = generateTwoClassData(50, 2.2);
+  // Add some noise (overlap)
+  for (let i = 0; i < 5; i++) {
+    cData.push({ x: randNorm(-0.5, 0.8), y: randNorm(0, 0.8), label: 1 });
+    cData.push({ x: randNorm(0.5, 0.8), y: randNorm(0, 0.8), label: -1 });
+  }
+  drawCCanvas();
+}
+
+function drawCCanvas() {
+  const canvas = document.getElementById('canvas-c');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const cVal = Math.pow(10, parseFloat(document.getElementById('slider-c').value));
+  document.getElementById('label-c').textContent = `C = ${cVal.toFixed(2)}`;
+  document.getElementById('stat-c-val').textContent = cVal.toFixed(2);
+
+  const xs = cData.map(d => d.x), ys = cData.map(d => d.y);
+  const xMin = Math.min(...xs) - 1, xMax = Math.max(...xs) + 1;
+  const yMin = Math.min(...ys) - 1, yMax = Math.max(...ys) + 1;
+  const sx = (x) => (x - xMin) / (xMax - xMin) * (W - 60) + 30;
+  const sy = (y) => H - ((y - yMin) / (yMax - yMin) * (H - 60) + 30);
+
+  const model = trainLinearSVM(cData, cVal, 0.003, 1000);
+  const norm = Math.sqrt(model.w1 * model.w1 + model.w2 * model.w2);
+  const marginW = norm > 0 ? 2 / norm : 0;
+
+  // Draw margin region
+  if (Math.abs(model.w2) > 0.001) {
+    ctx.save();
+    ctx.globalAlpha = 0.1;
+    ctx.fillStyle = '#64748b';
+    const upper = [], lower = [];
+    for (let px = 0; px <= W; px += 5) {
+      const dataX = xMin + (px - 30) / (W - 60) * (xMax - xMin);
+      upper.push({ px, py: sy((-model.w1 * dataX - model.b + 1) / model.w2) });
+      lower.push({ px, py: sy((-model.w1 * dataX - model.b - 1) / model.w2) });
+    }
+    ctx.beginPath();
+    upper.forEach((p, i) => i === 0 ? ctx.moveTo(p.px, p.py) : ctx.lineTo(p.px, p.py));
+    for (let i = lower.length - 1; i >= 0; i--) ctx.lineTo(lower[i].px, lower[i].py);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+    // Lines
+    const drawLine = (offset, dash, color, lw) => {
+      ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.setLineDash(dash);
+      ctx.moveTo(sx(xMin), sy((-model.w1 * xMin - model.b + offset) / model.w2));
+      ctx.lineTo(sx(xMax), sy((-model.w1 * xMax - model.b + offset) / model.w2));
+      ctx.stroke(); ctx.setLineDash([]);
+    };
+    drawLine(0, [], '#1e293b', 2.5);
+    drawLine(1, [6, 4], '#94a3b8', 1.5);
+    drawLine(-1, [6, 4], '#94a3b8', 1.5);
+  }
+
+  // Count misclassifications and SVs
+  let misclass = 0, svCount = 0;
+  cData.forEach(p => {
+    const val = p.label * (model.w1 * p.x + model.w2 * p.y + model.b);
+    if (val < 0) misclass++;
+    if (Math.abs(val) < 1.3) svCount++;
+  });
+
+  // Draw points
+  cData.forEach(p => {
+    const px = sx(p.x), py = sy(p.y);
+    const val = p.label * (model.w1 * p.x + model.w2 * p.y + model.b);
+    ctx.beginPath();
+    ctx.arc(px, py, 5, 0, 2 * Math.PI);
+    ctx.fillStyle = p.label === 1 ? '#2563eb' : '#ef4444';
+    ctx.fill();
+    if (val < 0) {
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    }
+  });
+
+  document.getElementById('stat-c-margin').textContent = marginW.toFixed(2);
+  document.getElementById('stat-c-misclass').textContent = misclass;
+  document.getElementById('stat-c-sv').textContent = svCount;
+}
+
+// ==================== INTERACTIVE 3: KERNEL TRICK ====================
+let kernelData = [];
+let kernelState = 'init'; // 'init', 'linear', 'rbf'
+let kernelAnimFrame = 0;
+
+function initKernel() {
+  kernelData = generateCircularData(80);
+  kernelState = 'init';
+  drawKernelCanvas();
+  document.getElementById('kernel-msg').textContent = '원형 데이터: 직선으로 분류할 수 있을까요?';
+  document.getElementById('stat-kernel-acc').textContent = '-';
+  document.getElementById('stat-kernel-type').textContent = '미적용';
+  document.getElementById('stat-kernel-gamma').textContent = '-';
+}
+
+function drawKernelCanvas() {
+  const canvas = document.getElementById('canvas-kernel');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const xs = kernelData.map(d => d.x), ys = kernelData.map(d => d.y);
+  const pad = 1;
+  const xMin = Math.min(...xs) - pad, xMax = Math.max(...xs) + pad;
+  const yMin = Math.min(...ys) - pad, yMax = Math.max(...ys) + pad;
+  const sx = (x) => (x - xMin) / (xMax - xMin) * (W - 60) + 30;
+  const sy = (y) => H - ((y - yMin) / (yMax - yMin) * (H - 60) + 30);
+
+  if (kernelState === 'rbf') {
+    // Draw RBF decision boundary using grid sampling
+    const gamma = Math.pow(10, parseFloat(document.getElementById('slider-gamma').value));
+    const step = 8;
+    for (let px = 0; px < W; px += step) {
+      for (let py = 0; py < H; py += step) {
+        const dataX = xMin + (px - 30) / (W - 60) * (xMax - xMin);
+        const dataY = yMax - (py - 30) / (H - 60) * (yMax - yMin);
+        // Simple RBF classification: weighted vote of nearest points
+        let score = 0;
+        kernelData.forEach(p => {
+          const dist2 = (p.x - dataX) ** 2 + (p.y - dataY) ** 2;
+          score += p.label * Math.exp(-gamma * dist2);
+        });
+        ctx.fillStyle = score >= 0 ? 'rgba(37, 99, 235, 0.06)' : 'rgba(239, 68, 68, 0.06)';
+        ctx.fillRect(px, py, step, step);
+      }
+    }
+
+    // Draw boundary contour
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 2;
+    for (let px = 2; px < W - 2; px += 4) {
+      for (let py = 2; py < H - 2; py += 4) {
+        const dataX = xMin + (px - 30) / (W - 60) * (xMax - xMin);
+        const dataY = yMax - (py - 30) / (H - 60) * (yMax - yMin);
+        const dataX2 = xMin + (px + 4 - 30) / (W - 60) * (xMax - xMin);
+        const dataY2 = yMax - (py + 4 - 30) / (H - 60) * (yMax - yMin);
+        let s1 = 0, s2 = 0, s3 = 0;
+        kernelData.forEach(p => {
+          const d1 = (p.x - dataX) ** 2 + (p.y - dataY) ** 2;
+          const d2 = (p.x - dataX2) ** 2 + (p.y - dataY) ** 2;
+          const d3 = (p.x - dataX) ** 2 + (p.y - dataY2) ** 2;
+          s1 += p.label * Math.exp(-gamma * d1);
+          s2 += p.label * Math.exp(-gamma * d2);
+          s3 += p.label * Math.exp(-gamma * d3);
+        });
+        if ((s1 >= 0) !== (s2 >= 0) || (s1 >= 0) !== (s3 >= 0)) {
+          ctx.fillStyle = '#1e293b';
+          ctx.fillRect(px, py, 2, 2);
+        }
+      }
+    }
+
+    // Accuracy
+    let correct = 0;
+    kernelData.forEach(p => {
+      let score = 0;
+      kernelData.forEach(q => {
+        if (p === q) return;
+        score += q.label * Math.exp(-gamma * ((p.x - q.x) ** 2 + (p.y - q.y) ** 2));
+      });
+      if ((score >= 0 && p.label === 1) || (score < 0 && p.label === -1)) correct++;
+    });
+    document.getElementById('stat-kernel-acc').textContent = (correct / kernelData.length * 100).toFixed(1) + '%';
+    document.getElementById('stat-kernel-type').textContent = 'RBF (곡선)';
+    document.getElementById('stat-kernel-gamma').textContent = gamma.toFixed(2);
+
+  } else if (kernelState === 'linear') {
+    // Draw failed linear boundary
+    const model = trainLinearSVM(kernelData, 1, 0.005, 500);
+    if (Math.abs(model.w2) > 0.001) {
+      ctx.beginPath(); ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2; ctx.setLineDash([8, 4]);
+      ctx.moveTo(sx(xMin), sy((-model.w1 * xMin - model.b) / model.w2));
+      ctx.lineTo(sx(xMax), sy((-model.w1 * xMax - model.b) / model.w2));
+      ctx.stroke(); ctx.setLineDash([]);
+    }
+    let correct = 0;
+    kernelData.forEach(p => {
+      const pred = model.w1 * p.x + model.w2 * p.y + model.b;
+      if ((pred >= 0 && p.label === 1) || (pred < 0 && p.label === -1)) correct++;
+    });
+    document.getElementById('stat-kernel-acc').textContent = (correct / kernelData.length * 100).toFixed(1) + '%';
+    document.getElementById('stat-kernel-type').textContent = '선형 (실패)';
+  }
+
+  // Draw points
+  kernelData.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(sx(p.x), sy(p.y), 5, 0, 2 * Math.PI);
+    ctx.fillStyle = p.label === 1 ? '#2563eb' : '#ef4444';
+    ctx.fill();
+  });
+}
+
+// ==================== INTERACTIVE 4: SVM vs LOGISTIC ====================
+let compareData = [];
+
+function generateCompareData() {
+  const pattern = document.getElementById('sel-compare-pattern').value;
+  const sep = pattern === 'linear' ? 4 : pattern === 'overlap' ? 2 : 1;
+  compareData = generateTwoClassData(60, sep);
+  drawComparison();
+}
+
+function drawComparison() {
+  if (compareData.length === 0) return;
+
+  const xs = compareData.map(d => d.x), ys = compareData.map(d => d.y);
+  const xMin = Math.min(...xs) - 1, xMax = Math.max(...xs) + 1;
+  const yMin = Math.min(...ys) - 1, yMax = Math.max(...ys) + 1;
+
+  // Train SVM
+  const svmModel = trainLinearSVM(compareData, 1, 0.005, 800);
+  const svmNorm = Math.sqrt(svmModel.w1 ** 2 + svmModel.w2 ** 2);
+  const svmMarginW = svmNorm > 0 ? 2 / svmNorm : 0;
+
+  // Train logistic-like (gradient descent on log loss)
+  let lw1 = 0, lw2 = 0, lb = 0;
+  for (let e = 0; e < 1000; e++) {
+    let gw1 = 0, gw2 = 0, gb = 0;
+    for (const p of compareData) {
+      const y01 = p.label === 1 ? 1 : 0;
+      const z = lw1 * p.x + lw2 * p.y + lb;
+      const pred = 1 / (1 + Math.exp(-z));
+      const err = pred - y01;
+      gw1 += err * p.x; gw2 += err * p.y; gb += err;
+    }
+    lw1 -= 0.01 * gw1 / compareData.length;
+    lw2 -= 0.01 * gw2 / compareData.length;
+    lb -= 0.01 * gb / compareData.length;
+  }
+  const lrModel = { w1: lw1, w2: lw2, b: lb };
+
+  // Draw both canvases
+  [
+    { canvasId: 'canvas-svm-cmp', model: svmModel, isSVM: true },
+    { canvasId: 'canvas-lr-cmp', model: lrModel, isSVM: false }
+  ].forEach(({ canvasId, model, isSVM }) => {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const sx = (x) => (x - xMin) / (xMax - xMin) * (W - 40) + 20;
+    const sy = (y) => H - ((y - yMin) / (yMax - yMin) * (H - 40) + 20);
+
+    // Margin region (SVM only)
+    if (isSVM && Math.abs(model.w2) > 0.001) {
+      ctx.save(); ctx.globalAlpha = 0.1; ctx.fillStyle = '#64748b';
+      const upper = [], lower = [];
+      for (let px = 0; px <= W; px += 4) {
+        const dx = xMin + (px - 20) / (W - 40) * (xMax - xMin);
+        upper.push({ px, py: sy((-model.w1 * dx - model.b + 1) / model.w2) });
+        lower.push({ px, py: sy((-model.w1 * dx - model.b - 1) / model.w2) });
+      }
+      ctx.beginPath();
+      upper.forEach((p, i) => i === 0 ? ctx.moveTo(p.px, p.py) : ctx.lineTo(p.px, p.py));
+      for (let i = lower.length - 1; i >= 0; i--) ctx.lineTo(lower[i].px, lower[i].py);
+      ctx.closePath(); ctx.fill(); ctx.restore();
+    }
+
+    // Decision boundary
+    if (Math.abs(model.w2) > 0.001) {
+      ctx.beginPath();
+      ctx.strokeStyle = isSVM ? '#1e293b' : '#7c3aed';
+      ctx.lineWidth = 2.5;
+      ctx.moveTo(sx(xMin), sy((-model.w1 * xMin - model.b) / model.w2));
+      ctx.lineTo(sx(xMax), sy((-model.w1 * xMax - model.b) / model.w2));
+      ctx.stroke();
+    }
+
+    // Points
+    compareData.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(sx(p.x), sy(p.y), 4, 0, 2 * Math.PI);
+      ctx.fillStyle = p.label === 1 ? '#2563eb' : '#ef4444';
+      ctx.fill();
+    });
+  });
+
+  // Accuracy
+  let svmCorrect = 0, lrCorrect = 0;
+  compareData.forEach(p => {
+    if ((predictLinearSVM(svmModel, p.x, p.y) >= 0 && p.label === 1) ||
+        (predictLinearSVM(svmModel, p.x, p.y) < 0 && p.label === -1)) svmCorrect++;
+    const z = lrModel.w1 * p.x + lrModel.w2 * p.y + lrModel.b;
+    const pred = z >= 0 ? 1 : -1;
+    if (pred === p.label) lrCorrect++;
+  });
+
+  document.getElementById('stat-svm-acc').textContent = (svmCorrect / compareData.length * 100).toFixed(1) + '%';
+  document.getElementById('stat-lr-acc').textContent = (lrCorrect / compareData.length * 100).toFixed(1) + '%';
+  document.getElementById('stat-svm-margin').textContent = svmMarginW.toFixed(2);
+  const diff = Math.abs(svmCorrect - lrCorrect);
+  document.getElementById('stat-diff').textContent = diff === 0 ? '동일' : diff + '개 차이';
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('25-svm')).catch(() => {});
+
+  initMarginVis();
+  setupMarginDrag();
+  initCParam();
+  initKernel();
+
+  document.getElementById('btn-reset-margin').addEventListener('click', initMarginVis);
+  document.getElementById('sel-margin-n').addEventListener('change', initMarginVis);
+
+  document.getElementById('slider-c').addEventListener('input', drawCCanvas);
+  document.getElementById('btn-reset-c').addEventListener('click', initCParam);
+
+  document.getElementById('btn-linear-try').addEventListener('click', () => {
+    kernelState = 'linear';
+    drawKernelCanvas();
+    document.getElementById('kernel-msg').textContent = '선형 SVM 실패! 직선으로는 원형 데이터를 나눌 수 없습니다.';
+  });
+  document.getElementById('btn-apply-kernel').addEventListener('click', () => {
+    kernelState = 'rbf';
+    drawKernelCanvas();
+    document.getElementById('kernel-msg').textContent = 'RBF 커널 적용! 곡선 경계로 완벽하게 분류됩니다.';
+  });
+  document.getElementById('btn-reset-kernel').addEventListener('click', initKernel);
+  document.getElementById('slider-gamma').addEventListener('input', () => {
+    const gamma = Math.pow(10, parseFloat(document.getElementById('slider-gamma').value));
+    document.getElementById('label-gamma').textContent = `gamma = ${gamma.toFixed(2)}`;
+    if (kernelState === 'rbf') drawKernelCanvas();
+  });
+
+  document.getElementById('btn-compare').addEventListener('click', generateCompareData);
+  document.getElementById('btn-compare-reset').addEventListener('click', generateCompareData);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+</style>

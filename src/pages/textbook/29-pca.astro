@@ -1,0 +1,1002 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="주성분 분석 (PCA)"
+  subtitle="차원을 줄이는 마법"
+  chapterNum={29}
+  part={5}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>10개 변수를 2개로 줄여도 정보의 90%를 보존할 수 있다면?</h2>
+    <p>
+      설문조사 문항이 50개인데, 응답 패턴을 보니 사실상 3~4개의 큰 흐름으로 설명됩니다.
+      경제 지표가 20개인데, GDP와 실업률 두 축만으로 대부분의 변동을 설명할 수 있습니다.
+      이런 상황에서 <strong>주성분 분석(PCA)</strong>이 빛을 발합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      PCA는 고차원 데이터에서 <strong>분산이 가장 큰 방향</strong>을 찾아내고,
+      그 방향으로 데이터를 투영하여 차원을 줄입니다.
+      시각화, 노이즈 제거, 전처리 등 다양한 곳에 활용됩니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong> 3D 물체의 그림자를 벽에 비추는 것과 같습니다.
+      어떤 각도로 빛을 비추느냐에 따라 그림자의 모양이 달라집니다.
+      PCA는 <strong>가장 많은 정보(분산)를 보존하는 각도</strong>를 자동으로 찾아줍니다.
+      첫 번째 그림자가 PC1, 두 번째 직교 그림자가 PC2입니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 2: 이론 ===== -->
+  <div class="tb-card">
+    <h2>PCA의 핵심 아이디어</h2>
+    <p>
+      PCA는 데이터의 <strong>공분산 행렬</strong>에서 <strong>고유벡터(eigenvector)</strong>를 구합니다.
+      고유벡터가 주성분의 방향이고, 대응하는 <strong>고유값(eigenvalue)</strong>이 그 방향의 분산량입니다.
+    </p>
+
+    <FormulaBox>
+      공분산 행렬: <span class="hl">C = (1/n) * X^T * X</span> (표준화 후)<br>
+      고유값 분해: C * v = lambda * v<br>
+      PC1: 가장 큰 고유값의 고유벡터 방향<br>
+      설명된 분산 비율 = <span class="res">lambda_k / sum(lambda)</span>
+    </FormulaBox>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0;">
+      <div style="background:var(--tb-primary-light);padding:16px;border-radius:var(--tb-radius);">
+        <h3 style="color:var(--tb-primary);margin-bottom:6px;">PCA가 하는 일</h3>
+        <ul style="font-size:.88rem;padding-left:18px;">
+          <li>데이터를 표준화 (평균 0, 분산 1)</li>
+          <li>분산이 최대인 방향(PC1)을 찾음</li>
+          <li>PC1에 직교하면서 분산이 최대인 방향(PC2)을 찾음</li>
+          <li>원하는 만큼 반복</li>
+          <li>데이터를 새 축(주성분)으로 변환</li>
+        </ul>
+      </div>
+      <div style="background:#fef3c7;padding:16px;border-radius:var(--tb-radius);">
+        <h3 style="color:var(--tb-warning);margin-bottom:6px;">PCA가 아닌 것</h3>
+        <ul style="font-size:.88rem;padding-left:18px;">
+          <li>변수 선택(feature selection)이 아님 -- 새로운 축을 만드는 것</li>
+          <li>비선형 관계는 잡지 못함</li>
+          <li>해석이 항상 쉽지는 않음</li>
+          <li>클래스 정보를 사용하지 않음 (비지도)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: 인터랙티브 1 - 2D->1D PCA ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 2D에서 1D로 -- 주성분 축 회전</h2>
+    <p>
+      2D 산점도에서 PC1 축(빨간 선)을 마우스로 회전시킬 수 있습니다.
+      점들이 축에 투영될 때 <strong>설명된 분산</strong>이 어떻게 변하는지 관찰하세요.
+      마우스를 놓으면 최적 PC1 위치로 자동 이동합니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      (1) 빨간 축을 드래그하여 회전시키세요. 설명 분산이 실시간으로 변합니다.
+      (2) 마우스를 놓으면 최적 위치로 스냅됩니다.
+      (3) "새 데이터"로 상관관계 강도를 바꿔보세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-pca2d-reset">새 데이터</button>
+      <label>상관관계:</label>
+      <select id="sel-pca2d-corr">
+        <option value="0.9">강한 양의 상관 (0.9)</option>
+        <option value="0.5">중간 상관 (0.5)</option>
+        <option value="0.1">거의 없음 (0.1)</option>
+        <option value="-0.7">음의 상관 (-0.7)</option>
+      </select>
+      <button class="tb-btn tb-btn-success" id="btn-pca2d-snap">최적 위치로</button>
+    </SimControls>
+
+    <canvas id="canvas-pca2d" width="700" height="450" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;cursor:pointer;"></canvas>
+
+    <div class="tb-stat-row" style="margin-top:14px;">
+      <StatBox label="PC1 설명 분산" id="stat-pca-var1" />
+      <StatBox label="PC2 설명 분산" id="stat-pca-var2" />
+      <StatBox label="현재 각도" id="stat-pca-angle" />
+      <StatBox label="최적 각도" id="stat-pca-optimal" />
+    </div>
+
+    <InsightBox>
+      <strong>핵심 관찰:</strong>
+      상관관계가 강할수록 PC1이 설명하는 분산 비율이 높아집니다.
+      상관관계가 0에 가까우면 PC1과 PC2가 거의 같은 분산을 설명합니다.
+      이 경우 차원 축소의 이점이 적습니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 4: 인터랙티브 2 - 스크리 플롯 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 스크리 플롯 -- 몇 개의 PC를 유지할까?</h2>
+    <p>
+      다변량 데이터에 PCA를 적용하면, 각 주성분이 설명하는 분산을 내림차순으로 그린 것이
+      <strong>스크리 플롯(scree plot)</strong>입니다.
+      누적 설명 분산이 80~90%가 되는 지점에서 잘라내는 것이 일반적입니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      (1) "PCA 실행"을 눌러 10개 변수에 대한 PCA를 수행하세요.
+      (2) 스크리 플롯에서 "팔꿈치"를 찾으세요.
+      (3) 누적 90%에 도달하는 PC 수를 확인하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-scree-run">PCA 실행</button>
+      <label>변수 수:</label>
+      <select id="sel-scree-vars">
+        <option value="6">6개</option>
+        <option value="10" selected>10개</option>
+        <option value="15">15개</option>
+      </select>
+      <label>잠재 차원:</label>
+      <select id="sel-scree-latent">
+        <option value="2">2개</option>
+        <option value="3" selected>3개</option>
+        <option value="5">5개</option>
+      </select>
+    </SimControls>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <div style="text-align:center;font-weight:700;margin-bottom:8px;">설명 분산 (스크리 플롯)</div>
+        <canvas id="canvas-scree" width="340" height="280" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+      </div>
+      <div>
+        <div style="text-align:center;font-weight:700;margin-bottom:8px;">누적 설명 분산</div>
+        <canvas id="canvas-cumulative" width="340" height="280" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+      </div>
+    </div>
+
+    <div id="scree-result" style="display:none;margin-top:14px;" class="tb-conclusion"></div>
+  </div>
+
+  <!-- ===== SECTION 5: 인터랙티브 3 - 바이플롯 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 바이플롯 -- 한국 경제 데이터</h2>
+    <p>
+      한국 경제 지표(GDP 성장률, 실업률, 물가 상승률, 수출 증가율 등) 30년 데이터에
+      PCA를 적용합니다. PC1 vs PC2 평면에 연도별 점과 변수 화살표를 함께 그린 것이
+      <strong>바이플롯(biplot)</strong>입니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      (1) "바이플롯 생성"을 누르세요.
+      (2) 위기 연도(1998, 2008, 2020)가 어디에 위치하는지 확인하세요.
+      (3) 화살표 방향이 비슷한 변수들은 서로 상관관계가 높습니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-biplot">바이플롯 생성</button>
+    </SimControls>
+
+    <canvas id="canvas-biplot" width="700" height="500" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+
+    <div id="biplot-tooltip" style="display:none;position:fixed;background:#1e293b;color:#fff;padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:600;pointer-events:none;z-index:100;"></div>
+
+    <div id="biplot-result" style="display:none;margin-top:14px;" class="tb-explain"></div>
+  </div>
+
+  <!-- ===== SECTION 6: 인터랙티브 4 - 이미지 압축 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 이미지 압축</h2>
+    <p>
+      그레이스케일 이미지의 각 행을 벡터로 보고 PCA를 적용합니다.
+      주성분 수를 줄이면 이미지가 흐려지지만, 파일 크기는 극적으로 줄어듭니다.
+      <strong>몇 개의 PC로 원본을 충분히 인식할 수 있을까요?</strong>
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      (1) 이미지 패턴을 선택하고 "생성"을 누르세요.
+      (2) 슬라이더로 주성분 수를 조절하며 화질 변화를 관찰하세요.
+      (3) 압축률과 화질 사이의 균형점을 찾아보세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>이미지 패턴:</label>
+      <select id="sel-img-pattern">
+        <option value="gradient">그라데이션</option>
+        <option value="checker">체크무늬</option>
+        <option value="circle">동심원</option>
+        <option value="face">얼굴 (단순)</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-img-gen">생성</button>
+    </SimControls>
+    <SimControls>
+      <label>주성분 수:</label>
+      <input type="range" id="slider-img-pc" min="1" max="32" value="16" style="width:250px;">
+      <span class="tb-speed-label" id="label-img-pc">16 / 32</span>
+    </SimControls>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <div style="text-align:center;font-weight:700;margin-bottom:8px;">원본</div>
+        <canvas id="canvas-img-orig" width="256" height="256" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);image-rendering:pixelated;"></canvas>
+      </div>
+      <div>
+        <div style="text-align:center;font-weight:700;margin-bottom:8px;">PCA 복원</div>
+        <canvas id="canvas-img-pca" width="256" height="256" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);image-rendering:pixelated;"></canvas>
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top:14px;">
+      <StatBox label="원본 정보량" id="stat-img-orig" />
+      <StatBox label="사용 PC" id="stat-img-pc" />
+      <StatBox label="압축률" id="stat-img-compress" />
+      <StatBox label="복원 오차 (MSE)" id="stat-img-mse" />
+    </div>
+  </div>
+
+  <!-- ===== SECTION 7: 실무 팁 ===== -->
+  <div class="tb-card">
+    <h2>PCA 실무 가이드</h2>
+
+    <WarningBox>
+      <strong>반드시 표준화하세요!</strong>
+      PCA는 분산을 기반으로 합니다.
+      스케일이 큰 변수(예: 소득 수천만원)가 스케일이 작은 변수(예: 나이 0-100)를 압도합니다.
+      분석 전 모든 변수를 표준화(평균 0, 표준편차 1)하는 것이 필수입니다.
+    </WarningBox>
+
+    <BusinessBox>
+      <strong>활용 사례:</strong>
+      (1) <strong>시각화:</strong> 고차원 데이터를 2D로 축소하여 패턴 파악.
+      (2) <strong>노이즈 제거:</strong> 작은 PC를 제거하면 노이즈가 줄어듦.
+      (3) <strong>다중공선성 해결:</strong> 상관된 변수들을 독립 PC로 변환.
+      (4) <strong>전처리:</strong> 머신러닝 모델 투입 전 차원 축소.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>PCA는 데이터의 분산이 최대인 방향(주성분)을 찾아 차원을 줄인다.</li>
+      <li>스크리 플롯과 누적 분산으로 유지할 PC 수를 결정한다.</li>
+      <li>바이플롯으로 변수 관계와 관측치 패턴을 동시에 시각화한다.</li>
+      <li>이미지 압축처럼 실용적인 차원 축소에도 활용된다.</li>
+      <li>분석 전 반드시 데이터를 표준화해야 한다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong>
+      '이 상품을 산 고객은 이것도 샀습니다' -- 연관 규칙과 추천 시스템을 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITIES ====================
+function randNorm(mu = 0, sigma = 1) {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return mu + sigma * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+// Simple 2x2 PCA
+function pca2x2(data) {
+  const n = data.length;
+  const mx = data.reduce((s, d) => s + d.x, 0) / n;
+  const my = data.reduce((s, d) => s + d.y, 0) / n;
+  let cxx = 0, cxy = 0, cyy = 0;
+  data.forEach(d => {
+    cxx += (d.x - mx) ** 2;
+    cxy += (d.x - mx) * (d.y - my);
+    cyy += (d.y - my) ** 2;
+  });
+  cxx /= n; cxy /= n; cyy /= n;
+
+  // Eigenvalues of 2x2 covariance matrix
+  const trace = cxx + cyy;
+  const det = cxx * cyy - cxy * cxy;
+  const disc = Math.sqrt(Math.max(0, trace * trace / 4 - det));
+  const lambda1 = trace / 2 + disc;
+  const lambda2 = trace / 2 - disc;
+
+  // Eigenvector for lambda1
+  let vx, vy;
+  if (Math.abs(cxy) > 1e-10) {
+    vx = lambda1 - cyy;
+    vy = cxy;
+  } else {
+    vx = 1; vy = 0;
+  }
+  const norm = Math.sqrt(vx * vx + vy * vy);
+  vx /= norm; vy /= norm;
+
+  return {
+    mean: { x: mx, y: my },
+    eigenvalues: [lambda1, lambda2],
+    pc1: { x: vx, y: vy },
+    pc2: { x: -vy, y: vx },
+    totalVar: lambda1 + lambda2
+  };
+}
+
+// ==================== INTERACTIVE 1: 2D -> 1D PCA ====================
+let pcaData = [];
+let pcaAngle = 0; // radians
+let pcaDragging = false;
+let pcaOptimalAngle = 0;
+
+function generatePcaData() {
+  const corr = parseFloat(document.getElementById('sel-pca2d-corr').value);
+  pcaData = [];
+  for (let i = 0; i < 80; i++) {
+    const z1 = randNorm(0, 2);
+    const z2 = randNorm(0, 1);
+    const x = z1;
+    const y = corr * z1 + Math.sqrt(1 - corr * corr) * z2;
+    pcaData.push({ x, y });
+  }
+  const result = pca2x2(pcaData);
+  pcaOptimalAngle = Math.atan2(result.pc1.y, result.pc1.x);
+  pcaAngle = pcaOptimalAngle;
+  document.getElementById('stat-pca-optimal').textContent = (pcaOptimalAngle * 180 / Math.PI).toFixed(1) + ' deg';
+  drawPca2D();
+}
+
+function drawPca2D() {
+  const canvas = document.getElementById('canvas-pca2d');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const allX = pcaData.map(d => d.x), allY = pcaData.map(d => d.y);
+  const xMin = Math.min(...allX) - 1, xMax = Math.max(...allX) + 1;
+  const yMin = Math.min(...allY) - 1, yMax = Math.max(...allY) + 1;
+  const range = Math.max(xMax - xMin, yMax - yMin);
+  const cx = (xMin + xMax) / 2, cy = (yMin + yMax) / 2;
+  const sx = (x) => (x - (cx - range / 2)) / range * (W - 80) + 40;
+  const sy = (y) => H - ((y - (cy - range / 2)) / range * (H - 80) + 40);
+
+  const mx = pcaData.reduce((s, d) => s + d.x, 0) / pcaData.length;
+  const my = pcaData.reduce((s, d) => s + d.y, 0) / pcaData.length;
+
+  // Draw PC axis
+  const dx = Math.cos(pcaAngle) * range;
+  const dy = Math.sin(pcaAngle) * range;
+  ctx.beginPath();
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 2.5;
+  ctx.moveTo(sx(mx - dx), sy(my - dy));
+  ctx.lineTo(sx(mx + dx), sy(my + dy));
+  ctx.stroke();
+
+  // PC2 axis (perpendicular)
+  const dx2 = Math.cos(pcaAngle + Math.PI / 2) * range;
+  const dy2 = Math.sin(pcaAngle + Math.PI / 2) * range;
+  ctx.beginPath();
+  ctx.strokeStyle = '#2563eb44';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([6, 4]);
+  ctx.moveTo(sx(mx - dx2), sy(my - dy2));
+  ctx.lineTo(sx(mx + dx2), sy(my + dy2));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Project points onto axis and draw projection lines
+  const projections = [];
+  pcaData.forEach(p => {
+    const vx = p.x - mx, vy = p.y - my;
+    const proj = vx * Math.cos(pcaAngle) + vy * Math.sin(pcaAngle);
+    const projX = mx + proj * Math.cos(pcaAngle);
+    const projY = my + proj * Math.sin(pcaAngle);
+    projections.push(proj);
+
+    // Projection line
+    ctx.beginPath();
+    ctx.strokeStyle = '#94a3b844';
+    ctx.lineWidth = 0.5;
+    ctx.moveTo(sx(p.x), sy(p.y));
+    ctx.lineTo(sx(projX), sy(projY));
+    ctx.stroke();
+
+    // Projected point on axis
+    ctx.beginPath();
+    ctx.arc(sx(projX), sy(projY), 3, 0, 2 * Math.PI);
+    ctx.fillStyle = '#ef444488';
+    ctx.fill();
+  });
+
+  // Draw original points
+  pcaData.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(sx(p.x), sy(p.y), 4, 0, 2 * Math.PI);
+    ctx.fillStyle = '#2563eb88';
+    ctx.fill();
+  });
+
+  // Compute explained variance at current angle
+  const projVar = projections.reduce((s, v) => s + v * v, 0) / projections.length;
+  const result = pca2x2(pcaData);
+  const varRatio = projVar / result.totalVar;
+
+  document.getElementById('stat-pca-var1').textContent = (varRatio * 100).toFixed(1) + '%';
+  document.getElementById('stat-pca-var2').textContent = ((1 - varRatio) * 100).toFixed(1) + '%';
+  document.getElementById('stat-pca-angle').textContent = (pcaAngle * 180 / Math.PI).toFixed(1) + ' deg';
+
+  // Labels
+  ctx.fillStyle = '#ef4444'; ctx.font = 'bold 13px Paperlogy';
+  ctx.fillText('PC1', sx(mx + dx * 0.8) + 10, sy(my + dy * 0.8) - 5);
+  ctx.fillStyle = '#2563eb'; ctx.font = '12px Paperlogy';
+  ctx.fillText(`설명 분산: ${(varRatio * 100).toFixed(1)}%`, 20, 25);
+}
+
+function setupPca2DDrag() {
+  const canvas = document.getElementById('canvas-pca2d');
+  canvas.addEventListener('mousedown', () => { pcaDragging = true; });
+  canvas.addEventListener('mouseup', () => {
+    pcaDragging = false;
+    // Snap to optimal
+    animateToOptimal();
+  });
+  canvas.addEventListener('mouseleave', () => { pcaDragging = false; });
+  canvas.addEventListener('mousemove', (e) => {
+    if (!pcaDragging) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left - rect.width / 2;
+    const my = -(e.clientY - rect.top - rect.height / 2);
+    pcaAngle = Math.atan2(my, mx);
+    drawPca2D();
+  });
+}
+
+function animateToOptimal() {
+  const target = pcaOptimalAngle;
+  let diff = target - pcaAngle;
+  // Normalize
+  while (diff > Math.PI) diff -= 2 * Math.PI;
+  while (diff < -Math.PI) diff += 2 * Math.PI;
+
+  if (Math.abs(diff) < 0.01) return;
+
+  const steps = 20;
+  const step = diff / steps;
+  let i = 0;
+  function animate() {
+    if (i >= steps) { pcaAngle = target; drawPca2D(); return; }
+    pcaAngle += step;
+    drawPca2D();
+    i++;
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// ==================== INTERACTIVE 2: SCREE PLOT ====================
+function runScreePlot() {
+  const nVars = parseInt(document.getElementById('sel-scree-vars').value);
+  const nLatent = parseInt(document.getElementById('sel-scree-latent').value);
+
+  // Generate correlated multi-variate data
+  const n = 100;
+  // Create latent factors
+  const latent = [];
+  for (let i = 0; i < n; i++) {
+    const factors = [];
+    for (let j = 0; j < nLatent; j++) factors.push(randNorm(0, 3 - j * 0.5));
+    latent.push(factors);
+  }
+
+  // Create observed variables as mixtures of latent + noise
+  const loadings = [];
+  for (let v = 0; v < nVars; v++) {
+    const load = [];
+    for (let j = 0; j < nLatent; j++) load.push(randNorm(0, 1));
+    loadings.push(load);
+  }
+
+  const dataMatrix = [];
+  for (let i = 0; i < n; i++) {
+    const row = [];
+    for (let v = 0; v < nVars; v++) {
+      let val = randNorm(0, 0.5); // noise
+      for (let j = 0; j < nLatent; j++) val += latent[i][j] * loadings[v][j];
+      row.push(val);
+    }
+    dataMatrix.push(row);
+  }
+
+  // Standardize
+  const means = [], stds = [];
+  for (let v = 0; v < nVars; v++) {
+    const vals = dataMatrix.map(r => r[v]);
+    const m = vals.reduce((s, x) => s + x, 0) / n;
+    const sd = Math.sqrt(vals.reduce((s, x) => s + (x - m) ** 2, 0) / n) || 1;
+    means.push(m); stds.push(sd);
+    dataMatrix.forEach(r => { r[v] = (r[v] - m) / sd; });
+  }
+
+  // Compute covariance matrix
+  const cov = [];
+  for (let i = 0; i < nVars; i++) {
+    cov[i] = [];
+    for (let j = 0; j < nVars; j++) {
+      let s = 0;
+      for (let k = 0; k < n; k++) s += dataMatrix[k][i] * dataMatrix[k][j];
+      cov[i][j] = s / n;
+    }
+  }
+
+  // Power iteration to get eigenvalues (simplified)
+  const eigenvalues = [];
+  const covCopy = cov.map(r => [...r]);
+  for (let pc = 0; pc < nVars; pc++) {
+    let v = new Array(nVars).fill(0).map(() => Math.random());
+    for (let iter = 0; iter < 100; iter++) {
+      const newV = new Array(nVars).fill(0);
+      for (let i = 0; i < nVars; i++)
+        for (let j = 0; j < nVars; j++) newV[i] += covCopy[i][j] * v[j];
+      const norm = Math.sqrt(newV.reduce((s, x) => s + x * x, 0));
+      v = newV.map(x => x / norm);
+    }
+    // Eigenvalue = v^T * Cov * v
+    let lambda = 0;
+    for (let i = 0; i < nVars; i++) {
+      let s = 0;
+      for (let j = 0; j < nVars; j++) s += covCopy[i][j] * v[j];
+      lambda += v[i] * s;
+    }
+    eigenvalues.push(Math.max(0, lambda));
+    // Deflate
+    for (let i = 0; i < nVars; i++)
+      for (let j = 0; j < nVars; j++)
+        covCopy[i][j] -= lambda * v[i] * v[j];
+  }
+
+  const totalVar = eigenvalues.reduce((s, v) => s + v, 0);
+  const explained = eigenvalues.map(v => v / totalVar);
+  const cumulative = [];
+  let cumSum = 0;
+  explained.forEach(v => { cumSum += v; cumulative.push(cumSum); });
+
+  // Draw scree plot
+  drawBarChart('canvas-scree', explained, '#2563eb', 'PC');
+  drawCumulativeLine('canvas-cumulative', cumulative);
+
+  // Find 90% threshold
+  const pcFor90 = cumulative.findIndex(v => v >= 0.9) + 1;
+  const result = document.getElementById('scree-result');
+  result.style.display = '';
+  result.innerHTML = `<strong>결과:</strong> PC1이 ${(explained[0] * 100).toFixed(1)}%를 설명합니다. ` +
+    `누적 90%에 도달하려면 <strong>PC ${pcFor90}개</strong>가 필요합니다. ` +
+    `원래 ${nVars}개 변수를 ${pcFor90}개로 줄일 수 있습니다!`;
+}
+
+function drawBarChart(canvasId, values, color, prefix) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  const margin = { top: 20, right: 15, bottom: 40, left: 45 };
+  const plotW = W - margin.left - margin.right;
+  const plotH = H - margin.top - margin.bottom;
+  const maxV = Math.max(...values);
+  const barW = plotW / values.length * 0.7;
+  const gap = plotW / values.length * 0.3;
+
+  values.forEach((v, i) => {
+    const x = margin.left + i * (barW + gap) + gap / 2;
+    const h = (v / maxV) * plotH;
+    ctx.fillStyle = color + (i < 3 ? 'cc' : '66');
+    ctx.fillRect(x, margin.top + plotH - h, barW, h);
+  });
+
+  ctx.fillStyle = '#1e293b'; ctx.font = '10px Paperlogy'; ctx.textAlign = 'center';
+  values.forEach((_, i) => {
+    const x = margin.left + i * (barW + gap) + gap / 2 + barW / 2;
+    ctx.fillText(prefix + (i + 1), x, H - 8);
+  });
+
+  ctx.textAlign = 'right'; ctx.font = '10px Paperlogy';
+  for (let i = 0; i <= 4; i++) {
+    const val = maxV * (4 - i) / 4;
+    ctx.fillText((val * 100).toFixed(0) + '%', margin.left - 4, margin.top + plotH * i / 4 + 4);
+  }
+}
+
+function drawCumulativeLine(canvasId, values) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  const margin = { top: 20, right: 15, bottom: 40, left: 45 };
+  const plotW = W - margin.left - margin.right;
+  const plotH = H - margin.top - margin.bottom;
+
+  // 90% line
+  ctx.beginPath(); ctx.strokeStyle = '#ef444466'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+  const y90 = margin.top + (1 - 0.9) * plotH;
+  ctx.moveTo(margin.left, y90); ctx.lineTo(margin.left + plotW, y90); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = '#ef4444'; ctx.font = '10px Paperlogy'; ctx.textAlign = 'left';
+  ctx.fillText('90%', margin.left + plotW + 2, y90 + 3);
+
+  // Line
+  ctx.beginPath(); ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 2.5;
+  values.forEach((v, i) => {
+    const x = margin.left + (i / (values.length - 1)) * plotW;
+    const y = margin.top + (1 - v) * plotH;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Points
+  values.forEach((v, i) => {
+    const x = margin.left + (i / (values.length - 1)) * plotW;
+    const y = margin.top + (1 - v) * plotH;
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fillStyle = v >= 0.9 ? '#22c55e' : '#94a3b8';
+    ctx.fill();
+  });
+
+  ctx.fillStyle = '#1e293b'; ctx.font = '10px Paperlogy'; ctx.textAlign = 'center';
+  values.forEach((_, i) => {
+    const x = margin.left + (i / (values.length - 1)) * plotW;
+    ctx.fillText('PC' + (i + 1), x, H - 8);
+  });
+
+  ctx.textAlign = 'right';
+  for (let i = 0; i <= 4; i++) {
+    const val = (4 - i) * 25;
+    ctx.fillText(val + '%', margin.left - 4, margin.top + plotH * i / 4 + 4);
+  }
+}
+
+// ==================== INTERACTIVE 3: BIPLOT ====================
+function generateBiplot() {
+  const years = [];
+  for (let y = 1995; y <= 2024; y++) years.push(y);
+  const n = years.length;
+
+  // Simulated Korean economic data (standardized)
+  const varNames = ['GDP성장률', '실업률', '물가상승률', '수출증가율', '환율변동', '금리', '주가지수', '제조업PMI', '소비자신뢰', '부채비율'];
+  const nVars = varNames.length;
+
+  // Create data with crisis patterns
+  const crisisYears = [1998, 2008, 2009, 2020];
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    const year = years[i];
+    const isCrisis = crisisYears.includes(year);
+    const row = [];
+    // GDP: normally ~3-5%, negative in crisis
+    row.push(isCrisis ? randNorm(-3, 2) : randNorm(3.5, 1.5));
+    // Unemployment: normally ~3-4%, high in crisis
+    row.push(isCrisis ? randNorm(6, 1) : randNorm(3.5, 0.5));
+    // CPI: varies
+    row.push(randNorm(isCrisis ? 1 : 2.5, 1));
+    // Export growth: correlated with GDP
+    row.push(row[0] * 2 + randNorm(0, 3));
+    // Exchange rate: spikes in crisis
+    row.push(isCrisis ? randNorm(15, 5) : randNorm(0, 3));
+    // Interest rate
+    row.push(isCrisis ? randNorm(5, 1) : randNorm(2.5, 0.5));
+    // Stock index growth
+    row.push(row[0] * 1.5 + randNorm(0, 5));
+    // PMI
+    row.push(isCrisis ? randNorm(42, 3) : randNorm(52, 2));
+    // Consumer confidence
+    row.push(isCrisis ? randNorm(70, 5) : randNorm(100, 8));
+    // Debt ratio
+    row.push(randNorm(year > 2015 ? 45 : 30, 5));
+    data.push(row);
+  }
+
+  // Standardize
+  const means = [], stds = [];
+  for (let v = 0; v < nVars; v++) {
+    const vals = data.map(r => r[v]);
+    const m = vals.reduce((s, x) => s + x, 0) / n;
+    const sd = Math.sqrt(vals.reduce((s, x) => s + (x - m) ** 2, 0) / n) || 1;
+    means.push(m); stds.push(sd);
+    data.forEach(r => { r[v] = (r[v] - m) / sd; });
+  }
+
+  // Simple PCA via power iteration for first 2 PCs
+  const cov = [];
+  for (let i = 0; i < nVars; i++) {
+    cov[i] = [];
+    for (let j = 0; j < nVars; j++) {
+      let s = 0;
+      for (let k = 0; k < n; k++) s += data[k][i] * data[k][j];
+      cov[i][j] = s / n;
+    }
+  }
+
+  const pcs = [];
+  const eigenvalues = [];
+  const covWork = cov.map(r => [...r]);
+
+  for (let pc = 0; pc < 2; pc++) {
+    let v = new Array(nVars).fill(0).map(() => Math.random());
+    for (let iter = 0; iter < 200; iter++) {
+      const newV = new Array(nVars).fill(0);
+      for (let i = 0; i < nVars; i++)
+        for (let j = 0; j < nVars; j++) newV[i] += covWork[i][j] * v[j];
+      const norm = Math.sqrt(newV.reduce((s, x) => s + x * x, 0));
+      v = newV.map(x => x / norm);
+    }
+    let lambda = 0;
+    for (let i = 0; i < nVars; i++) {
+      let s = 0;
+      for (let j = 0; j < nVars; j++) s += covWork[i][j] * v[j];
+      lambda += v[i] * s;
+    }
+    pcs.push(v);
+    eigenvalues.push(lambda);
+    for (let i = 0; i < nVars; i++)
+      for (let j = 0; j < nVars; j++)
+        covWork[i][j] -= lambda * v[i] * v[j];
+  }
+
+  // Project data
+  const scores = data.map(row => ({
+    pc1: row.reduce((s, v, i) => s + v * pcs[0][i], 0),
+    pc2: row.reduce((s, v, i) => s + v * pcs[1][i], 0)
+  }));
+
+  // Draw biplot
+  const canvas = document.getElementById('canvas-biplot');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  const margin = { top: 40, right: 40, bottom: 50, left: 60 };
+  const plotW = W - margin.left - margin.right;
+  const plotH = H - margin.top - margin.bottom;
+
+  const allPC1 = scores.map(s => s.pc1);
+  const allPC2 = scores.map(s => s.pc2);
+  const pc1Range = Math.max(Math.abs(Math.min(...allPC1)), Math.abs(Math.max(...allPC1))) * 1.3;
+  const pc2Range = Math.max(Math.abs(Math.min(...allPC2)), Math.abs(Math.max(...allPC2))) * 1.3;
+  const scaleRange = Math.max(pc1Range, pc2Range);
+
+  const sx = (v) => margin.left + (v + scaleRange) / (2 * scaleRange) * plotW;
+  const sy = (v) => margin.top + plotH - (v + scaleRange) / (2 * scaleRange) * plotH;
+
+  // Grid
+  ctx.strokeStyle = '#e2e8f088'; ctx.lineWidth = 0.5;
+  ctx.beginPath(); ctx.moveTo(sx(0), margin.top); ctx.lineTo(sx(0), margin.top + plotH); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(margin.left, sy(0)); ctx.lineTo(margin.left + plotW, sy(0)); ctx.stroke();
+
+  // Variable arrows
+  const arrowScale = scaleRange * 0.7;
+  const arrowColors = ['#ef4444', '#2563eb', '#22c55e', '#f59e0b', '#7c3aed', '#06b6d4', '#ec4899', '#84cc16', '#f97316', '#14b8a6'];
+  pcs[0].forEach((_, vi) => {
+    const ax = pcs[0][vi] * arrowScale;
+    const ay = pcs[1][vi] * arrowScale;
+    ctx.beginPath();
+    ctx.strokeStyle = arrowColors[vi % arrowColors.length];
+    ctx.lineWidth = 2;
+    ctx.moveTo(sx(0), sy(0));
+    ctx.lineTo(sx(ax), sy(ay));
+    ctx.stroke();
+    // Arrowhead
+    const angle = Math.atan2(sy(ay) - sy(0), sx(ax) - sx(0));
+    ctx.beginPath();
+    ctx.moveTo(sx(ax), sy(ay));
+    ctx.lineTo(sx(ax) - 10 * Math.cos(angle - 0.3), sy(ay) - 10 * Math.sin(angle - 0.3));
+    ctx.moveTo(sx(ax), sy(ay));
+    ctx.lineTo(sx(ax) - 10 * Math.cos(angle + 0.3), sy(ay) - 10 * Math.sin(angle + 0.3));
+    ctx.stroke();
+    // Label
+    ctx.fillStyle = arrowColors[vi % arrowColors.length];
+    ctx.font = 'bold 10px Paperlogy';
+    ctx.textAlign = ax > 0 ? 'left' : 'right';
+    ctx.fillText(varNames[vi], sx(ax) + (ax > 0 ? 5 : -5), sy(ay) - 5);
+  });
+
+  // Score points (years)
+  scores.forEach((s, i) => {
+    const isCrisis = crisisYears.includes(years[i]);
+    ctx.beginPath();
+    ctx.arc(sx(s.pc1), sy(s.pc2), isCrisis ? 7 : 4, 0, 2 * Math.PI);
+    ctx.fillStyle = isCrisis ? '#ef4444' : '#2563eb88';
+    ctx.fill();
+    if (isCrisis) {
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+    }
+    // Year label
+    if (isCrisis || i % 5 === 0) {
+      ctx.fillStyle = isCrisis ? '#ef4444' : '#64748b';
+      ctx.font = isCrisis ? 'bold 11px Paperlogy' : '9px Paperlogy';
+      ctx.textAlign = 'center';
+      ctx.fillText(years[i].toString(), sx(s.pc1), sy(s.pc2) - 10);
+    }
+  });
+
+  // Axis labels
+  const totalVar = eigenvalues.reduce((s, v) => s + v, 0);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 12px Paperlogy'; ctx.textAlign = 'center';
+  ctx.fillText(`PC1 (${(eigenvalues[0] / totalVar * 100).toFixed(1)}%)`, margin.left + plotW / 2, H - 10);
+  ctx.save(); ctx.translate(15, margin.top + plotH / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText(`PC2 (${(eigenvalues[1] / totalVar * 100).toFixed(1)}%)`, 0, 0); ctx.restore();
+
+  const result = document.getElementById('biplot-result');
+  result.style.display = '';
+  result.innerHTML = `<strong>해석:</strong> 위기 연도(1998, 2008, 2020)가 함께 군집을 이룹니다. ` +
+    `GDP성장률과 수출증가율 화살표가 같은 방향 = 강한 양의 상관. ` +
+    `실업률과 환율변동 화살표가 반대 방향 = 위기 시 실업과 환율이 동반 상승하면서 GDP와 반대로 움직임.`;
+}
+
+// ==================== INTERACTIVE 4: IMAGE COMPRESSION ====================
+let origImage = [];
+const IMG_SIZE = 32;
+
+function generateImage() {
+  const pattern = document.getElementById('sel-img-pattern').value;
+  origImage = [];
+  for (let y = 0; y < IMG_SIZE; y++) {
+    const row = [];
+    for (let x = 0; x < IMG_SIZE; x++) {
+      let val;
+      if (pattern === 'gradient') {
+        val = (x + y) / (2 * IMG_SIZE);
+      } else if (pattern === 'checker') {
+        val = ((Math.floor(x / 4) + Math.floor(y / 4)) % 2) ? 0.8 : 0.2;
+      } else if (pattern === 'circle') {
+        const d = Math.hypot(x - IMG_SIZE / 2, y - IMG_SIZE / 2);
+        val = (Math.sin(d * 0.8) + 1) / 2;
+      } else { // face
+        const cx = IMG_SIZE / 2, cy = IMG_SIZE / 2;
+        const d = Math.hypot(x - cx, y - cy);
+        val = d < 12 ? 0.9 : 0.2; // face
+        if (Math.hypot(x - cx + 4, y - cy + 3) < 2) val = 0.2; // left eye
+        if (Math.hypot(x - cx - 4, y - cy + 3) < 2) val = 0.2; // right eye
+        if (y > cy + 2 && y < cy + 5 && Math.abs(x - cx) < 4) val = 0.3; // mouth
+      }
+      val += (Math.random() - 0.5) * 0.05;
+      row.push(Math.max(0, Math.min(1, val)));
+    }
+    origImage.push(row);
+  }
+  drawImagePair();
+}
+
+function drawImagePair() {
+  const nPC = parseInt(document.getElementById('slider-img-pc').value);
+  document.getElementById('label-img-pc').textContent = `${nPC} / ${IMG_SIZE}`;
+
+  // Draw original
+  drawImageCanvas('canvas-img-orig', origImage);
+
+  // PCA compression
+  // Standardize rows
+  const data = origImage.map(row => [...row]);
+  const means = [];
+  data.forEach((row, i) => {
+    const m = row.reduce((s, v) => s + v, 0) / row.length;
+    means.push(m);
+    row.forEach((_, j) => { data[i][j] -= m; });
+  });
+
+  // Compute covariance (column-wise)
+  const nCols = IMG_SIZE;
+  const nRows = IMG_SIZE;
+  const cov = [];
+  for (let i = 0; i < nCols; i++) {
+    cov[i] = [];
+    for (let j = 0; j < nCols; j++) {
+      let s = 0;
+      for (let k = 0; k < nRows; k++) s += data[k][i] * data[k][j];
+      cov[i][j] = s / nRows;
+    }
+  }
+
+  // Power iteration for top nPC eigenvectors
+  const eigvecs = [];
+  const covWork = cov.map(r => [...r]);
+  for (let pc = 0; pc < nPC; pc++) {
+    let v = new Array(nCols).fill(0).map(() => Math.random());
+    for (let iter = 0; iter < 50; iter++) {
+      const newV = new Array(nCols).fill(0);
+      for (let i = 0; i < nCols; i++)
+        for (let j = 0; j < nCols; j++) newV[i] += covWork[i][j] * v[j];
+      const norm = Math.sqrt(newV.reduce((s, x) => s + x * x, 0)) || 1;
+      v = newV.map(x => x / norm);
+    }
+    let lambda = 0;
+    for (let i = 0; i < nCols; i++) {
+      let s = 0;
+      for (let j = 0; j < nCols; j++) s += covWork[i][j] * v[j];
+      lambda += v[i] * s;
+    }
+    eigvecs.push(v);
+    for (let i = 0; i < nCols; i++)
+      for (let j = 0; j < nCols; j++)
+        covWork[i][j] -= lambda * v[i] * v[j];
+  }
+
+  // Project and reconstruct
+  const reconstructed = [];
+  let mse = 0;
+  for (let r = 0; r < nRows; r++) {
+    const row = data[r];
+    // Project onto PCs
+    const scores = eigvecs.map(v => row.reduce((s, x, i) => s + x * v[i], 0));
+    // Reconstruct
+    const recon = new Array(nCols).fill(0);
+    scores.forEach((s, pi) => {
+      eigvecs[pi].forEach((v, j) => { recon[j] += s * v; });
+    });
+    // Add mean back
+    const reconRow = recon.map((v, j) => Math.max(0, Math.min(1, v + means[r])));
+    reconstructed.push(reconRow);
+    origImage[r].forEach((v, j) => { mse += (v - reconRow[j]) ** 2; });
+  }
+  mse /= (nRows * nCols);
+
+  drawImageCanvas('canvas-img-pca', reconstructed);
+
+  document.getElementById('stat-img-orig').textContent = IMG_SIZE + 'x' + IMG_SIZE;
+  document.getElementById('stat-img-pc').textContent = nPC;
+  document.getElementById('stat-img-compress').textContent = ((1 - nPC / IMG_SIZE) * 100).toFixed(0) + '%';
+  document.getElementById('stat-img-mse').textContent = mse.toFixed(4);
+}
+
+function drawImageCanvas(canvasId, imageData) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pixW = W / IMG_SIZE, pixH = H / IMG_SIZE;
+
+  for (let y = 0; y < IMG_SIZE; y++) {
+    for (let x = 0; x < IMG_SIZE; x++) {
+      const v = Math.round(imageData[y][x] * 255);
+      ctx.fillStyle = `rgb(${v},${v},${v})`;
+      ctx.fillRect(x * pixW, y * pixH, pixW + 1, pixH + 1);
+    }
+  }
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('29-pca')).catch(() => {});
+
+  generatePcaData();
+  setupPca2DDrag();
+
+  document.getElementById('btn-pca2d-reset').addEventListener('click', generatePcaData);
+  document.getElementById('sel-pca2d-corr').addEventListener('change', generatePcaData);
+  document.getElementById('btn-pca2d-snap').addEventListener('click', animateToOptimal);
+
+  document.getElementById('btn-scree-run').addEventListener('click', runScreePlot);
+  document.getElementById('btn-biplot').addEventListener('click', generateBiplot);
+
+  generateImage();
+  document.getElementById('btn-img-gen').addEventListener('click', generateImage);
+  document.getElementById('slider-img-pc').addEventListener('input', drawImagePair);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+</style>

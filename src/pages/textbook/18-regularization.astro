@@ -1,0 +1,1004 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="정규화와 과적합"
+  subtitle="왜 완벽한 학습이 나쁜가?"
+  chapterNum={18}
+  part={3}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>시험 답안지를 통째로 암기한다면?</h2>
+    <p>
+      중간고사 대비로 기출문제 답안을 한 글자도 빠짐없이 외웠다고 합시다.
+      그 시험지가 다시 나온다면? 100점입니다.
+      하지만 새로운 문제가 출제된다면? 거의 확실히 망합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      머신러닝에서도 같은 일이 벌어집니다.
+      모델이 훈련 데이터를 "암기"하면 훈련 성적은 완벽하지만,
+      처음 보는 데이터 앞에서는 엉망이 됩니다.
+      이것을 <strong>과적합(overfitting)</strong>이라 부릅니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 과적합이 왜 발생하는지, 어떻게 감지하는지,
+      그리고 <strong>정규화(regularization)</strong>라는 "적당히 단순하게 만드는 벌칙"으로
+      어떻게 해결하는지를 직접 체험합니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 과적합이란 무엇인가 ===== -->
+  <div class="tb-card">
+    <h2>과적합 = 암기, 일반화 = 이해</h2>
+    <p>
+      모델의 목표는 <strong>일반화(generalization)</strong>입니다.
+      훈련 데이터에서 패턴을 배워, 아직 보지 못한 새 데이터에서도 좋은 예측을 하는 것이죠.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: #fef2f2; padding: 18px; border-radius: var(--tb-radius); text-align: center;">
+        <h3 style="color: var(--tb-danger); margin-bottom: 8px;">과소적합 (Underfitting)</h3>
+        <p style="font-size: .88rem;">너무 단순한 모델. 교과서를 대충 훑고 시험 치는 학생.</p>
+        <p style="font-size: .82rem; color: var(--tb-g600); margin-top: 8px;">훈련 성적 나쁨 / 시험 성적 나쁨</p>
+      </div>
+      <div style="background: #f0fdf4; padding: 18px; border-radius: var(--tb-radius); text-align: center;">
+        <h3 style="color: var(--tb-success); margin-bottom: 8px;">적절한 적합 (Good Fit)</h3>
+        <p style="font-size: .88rem;">핵심 원리를 이해한 모델. 개념을 이해하고 시험 치는 학생.</p>
+        <p style="font-size: .82rem; color: var(--tb-g600); margin-top: 8px;">훈련 성적 좋음 / 시험 성적 좋음</p>
+      </div>
+      <div style="background: #fef3c7; padding: 18px; border-radius: var(--tb-radius); text-align: center;">
+        <h3 style="color: var(--tb-warning); margin-bottom: 8px;">과적합 (Overfitting)</h3>
+        <p style="font-size: .88rem;">너무 복잡한 모델. 답안지를 통째로 외운 학생.</p>
+        <p style="font-size: .82rem; color: var(--tb-g600); margin-top: 8px;">훈련 성적 완벽 / 시험 성적 나쁨</p>
+      </div>
+    </div>
+
+    <ExplainBox>
+      <strong>비유로 이해하기:</strong>
+      친구의 취향을 배운다고 합시다.
+      "이 친구는 매운 음식을 좋아한다"는 <strong>일반화</strong>입니다.
+      "이 친구는 화요일 12시 32분에 신촌역 2번 출구 옆 가게에서 불닭볶음면을 먹었다"는 <strong>암기</strong>입니다.
+      전자는 새로운 상황에서도 유용하지만, 후자는 완벽히 일치하는 상황이 아니면 쓸모가 없습니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      <span class="hl">총 오차</span> = <span class="hl">편향(Bias)</span><sup>2</sup> + <span class="hl">분산(Variance)</span> + 줄일 수 없는 오차<br>
+      과소적합: 높은 편향, 낮은 분산 | 과적합: 낮은 편향, 높은 분산
+    </FormulaBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Polynomial Degree Slider ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 다항식 차수와 과적합</h2>
+    <p>
+      산점도에 곡선을 맞춰봅시다.
+      차수가 1이면 직선, 차수가 올라갈수록 곡선이 점점 구불구불해집니다.
+      훈련 오차는 계속 줄어들지만, 테스트 오차는 어떻게 될까요?
+    </p>
+
+    <ExerciseBox>
+      <strong>목표:</strong> 슬라이더를 움직여 차수를 바꿔보세요.
+      훈련 오차(파란선)와 테스트 오차(빨간선)가 갈라지는 지점을 찾으세요.
+      그 지점이 바로 "적당한 복잡도"입니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>다항식 차수:</label>
+      <input type="range" id="poly-degree" min="1" max="15" value="1" style="width: 240px;">
+      <span id="poly-degree-label" class="tb-speed-label" style="min-width: 80px;">차수: 1</span>
+      <button class="tb-btn tb-btn-primary" id="btn-poly-newdata">새 데이터 생성</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <p style="font-weight: 700; font-size: .9rem; text-align: center; margin-bottom: 4px;">데이터 + 적합 곡선</p>
+        <ChartContainer id="poly-fit-chart" height="340px" />
+      </div>
+      <div>
+        <p style="font-weight: 700; font-size: .9rem; text-align: center; margin-bottom: 4px;">오차 곡선 (U자형)</p>
+        <ChartContainer id="poly-error-chart" height="340px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="훈련 MSE" id="poly-train-mse" borderColor="var(--tb-primary)" />
+      <StatBox label="테스트 MSE" id="poly-test-mse" borderColor="var(--tb-danger)" />
+      <StatBox label="현재 차수" id="poly-current-deg" />
+      <StatBox label="최적 차수" id="poly-best-deg" borderColor="var(--tb-success)" />
+    </div>
+
+    <InsightBox>
+      <strong>핵심 관찰:</strong>
+      차수를 올리면 훈련 오차는 0에 가까워지지만, 테스트 오차는 특정 지점 이후 급격히 증가합니다.
+      이 U자형 곡선이 과적합의 전형적인 신호입니다.
+      최적의 복잡도는 테스트 오차가 가장 낮은 지점입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Bias-Variance Tradeoff ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 편향-분산 트레이드오프</h2>
+    <p>
+      같은 데이터에 모델 복잡도를 바꿔 적합해봅시다.
+      너무 단순하면 데이터의 패턴을 못 잡고(높은 편향),
+      너무 복잡하면 노이즈까지 학습합니다(높은 분산).
+    </p>
+
+    <ExerciseBox>
+      <strong>목표:</strong> 세 가지 모델을 비교하세요.
+      과소적합, 적절한 적합, 과적합이 눈에 보이는 차이를 만듭니다.
+      복잡도 슬라이더를 조절해 "딱 좋은" 지점을 찾아보세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>모델 복잡도:</label>
+      <input type="range" id="bv-complexity" min="1" max="20" value="3" style="width: 240px;">
+      <span id="bv-complexity-label" class="tb-speed-label" style="min-width: 100px;">복잡도: 3</span>
+      <button class="tb-btn tb-btn-primary" id="btn-bv-regen">데이터 재생성</button>
+    </SimControls>
+
+    <ChartContainer id="bv-chart" height="380px" />
+
+    <div class="tb-stat-row">
+      <StatBox label="편향(Bias)" id="bv-bias" borderColor="var(--tb-primary)" sub="모델이 놓치는 패턴" />
+      <StatBox label="분산(Variance)" id="bv-variance" borderColor="var(--tb-danger)" sub="데이터 바뀌면 얼마나 흔들리나" />
+      <StatBox label="총 오차" id="bv-total" borderColor="var(--tb-warning)" sub="편향^2 + 분산" />
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 14px;">
+      <button class="tb-btn tb-btn-danger" id="btn-bv-under" style="width: 100%;">과소적합 보기 (차수=1)</button>
+      <button class="tb-btn tb-btn-success" id="btn-bv-good" style="width: 100%;">적절한 적합 (차수=3)</button>
+      <button class="tb-btn tb-btn-warning" id="btn-bv-over" style="width: 100%;">과적합 보기 (차수=15)</button>
+    </div>
+
+    <WarningBox>
+      <strong>분산이 높다는 것은</strong> 데이터를 조금만 바꿔도 모델이 완전히 달라진다는 뜻입니다.
+      "데이터 재생성" 버튼을 연속으로 눌러보세요. 과적합 모델은 데이터가 바뀔 때마다 곡선 모양이 크게 달라집니다.
+      반면 적절한 모델은 대체로 비슷한 형태를 유지합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION: 정규화 개념 ===== -->
+  <div class="tb-card">
+    <h2>정규화: "너무 복잡하면 벌점을 준다"</h2>
+    <p>
+      과적합을 막는 가장 대표적인 방법이 <strong>정규화(Regularization)</strong>입니다.
+      아이디어는 단순합니다. 모델이 데이터를 잘 맞추는 것도 중요하지만,
+      동시에 <strong>모델의 복잡도에 벌점(penalty)</strong>을 부여해서
+      불필요하게 복잡해지지 않도록 제한하는 것입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong>
+      에세이를 쓸 때 "A4 한 장 이내로 핵심만 쓰시오"라는 제한을 두면,
+      불필요한 수식어를 빼고 정말 중요한 내용만 남기게 됩니다.
+      정규화는 모델에 이런 "지면 제한"을 거는 것과 같습니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      일반 회귀: Loss = <span class="hl">데이터 오차(MSE)</span><br>
+      정규화 회귀: Loss = <span class="hl">데이터 오차(MSE)</span> + <span class="hl">lambda</span> x <span class="hl">계수의 크기(벌점)</span><br><br>
+      <span class="hl">lambda</span> = 0 이면 벌점 없음 (일반 회귀와 동일)<br>
+      <span class="hl">lambda</span> 가 크면 계수를 강하게 억제 (단순한 모델)
+    </FormulaBox>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 8px;">Ridge (L2 정규화)</h3>
+        <p style="font-size: .88rem;">벌점 = lambda x (계수<sup>2</sup>의 합)</p>
+        <p style="font-size: .85rem; color: var(--tb-g600); margin-top: 8px;">
+          계수를 골고루 <strong>줄이되</strong> 0으로 만들지는 않음.
+          모든 변수를 조금씩 사용.
+        </p>
+      </div>
+      <div style="background: #fdf4ff; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-purple); margin-bottom: 8px;">Lasso (L1 정규화)</h3>
+        <p style="font-size: .88rem;">벌점 = lambda x (|계수|의 합)</p>
+        <p style="font-size: .85rem; color: var(--tb-g600); margin-top: 8px;">
+          일부 계수를 정확히 <strong>0으로</strong> 만듦.
+          자동으로 변수 선택 효과.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: Ridge vs Lasso ===== -->
+  <div class="tb-card">
+    <h2>실습 3: Ridge vs Lasso -- 계수 변화 비교</h2>
+    <p>
+      같은 데이터에 Ridge와 Lasso를 적용합니다.
+      lambda(정규화 강도)를 올리면서 각 변수의 계수가 어떻게 변하는지 관찰하세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>목표:</strong> lambda 슬라이더를 올려보세요.
+      Ridge는 모든 계수가 서서히 줄어들고, Lasso는 일부 계수가 먼저 0이 됩니다.
+      "쓸모없는 변수"의 계수가 Lasso에서 먼저 사라지는 것을 확인하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>lambda (log scale):</label>
+      <input type="range" id="reg-lambda" min="-3" max="3" value="-1" step="0.1" style="width: 260px;">
+      <span id="reg-lambda-label" class="tb-speed-label" style="min-width: 120px;">lambda: 0.10</span>
+      <button class="tb-btn tb-btn-primary" id="btn-reg-newdata">새 데이터</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <p style="font-weight: 700; font-size: .9rem; text-align: center; margin-bottom: 4px; color: var(--tb-primary);">Ridge (L2) 계수</p>
+        <ChartContainer id="ridge-chart" height="300px" />
+      </div>
+      <div>
+        <p style="font-weight: 700; font-size: .9rem; text-align: center; margin-bottom: 4px; color: var(--tb-purple);">Lasso (L1) 계수</p>
+        <ChartContainer id="lasso-chart" height="300px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="Ridge 0이 아닌 계수" id="ridge-nonzero" borderColor="var(--tb-primary)" />
+      <StatBox label="Lasso 0이 아닌 계수" id="lasso-nonzero" borderColor="var(--tb-purple)" />
+      <StatBox label="Ridge MSE" id="ridge-mse" />
+      <StatBox label="Lasso MSE" id="lasso-mse" />
+    </div>
+
+    <BusinessBox>
+      <strong>언제 Ridge, 언제 Lasso?</strong>
+      변수가 많고 어떤 것이 중요한지 모를 때는 Lasso가 유리합니다 -- 자동으로 변수를 골라줍니다.
+      모든 변수가 골고루 기여한다고 생각되면 Ridge가 더 안정적입니다.
+      실무에서는 둘을 섞은 Elastic Net도 자주 사용합니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: Cross-Validation ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 교차 검증(Cross-Validation)</h2>
+    <p>
+      "테스트 오차"를 측정하려면 테스트 데이터가 필요합니다.
+      하지만 데이터가 부족한 상황에서는 어떻게 할까요?
+      <strong>K-fold 교차 검증</strong>은 데이터를 K개 조각으로 나눠
+      돌아가며 테스트하는 방법입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong>
+      5명이 돌아가며 발표 연습을 합니다.
+      한 명이 발표하면 나머지 4명이 평가합니다.
+      5번 반복하면 모든 사람이 한 번씩 평가를 받습니다.
+      K-fold CV도 데이터 조각이 돌아가며 "시험 역할"을 합니다.
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>목표:</strong> K값(3, 5, 10)을 바꿔보면서
+      각 fold의 테스트 오차가 어떻게 다른지, 평균 오차는 어떻게 달라지는지 관찰하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>K (fold 수):</label>
+      <select id="cv-k">
+        <option value="3">K = 3</option>
+        <option value="5" selected>K = 5</option>
+        <option value="10">K = 10</option>
+      </select>
+      <label>모델 차수:</label>
+      <select id="cv-degree">
+        <option value="1">1 (직선)</option>
+        <option value="3" selected>3</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15 (고차)</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-cv-run">교차 검증 실행</button>
+      <button class="tb-btn tb-btn-success" id="btn-cv-animate">애니메이션으로 보기</button>
+    </SimControls>
+
+    <!-- CV Visual: colored blocks -->
+    <div id="cv-blocks" style="margin: 14px 0;"></div>
+
+    <ChartContainer id="cv-chart" height="320px" />
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="평균 CV 오차" id="cv-mean" borderColor="var(--tb-primary)" />
+      <StatBox label="CV 오차 표준편차" id="cv-std" borderColor="var(--tb-warning)" />
+      <StatBox label="K" id="cv-k-display" />
+      <StatBox label="Fold당 테스트 크기" id="cv-fold-size" />
+    </div>
+
+    <InsightBox>
+      <strong>K값의 선택:</strong>
+      K가 작으면(예: 3) 각 fold의 테스트 크기가 크고 빠르지만 추정이 부정확할 수 있습니다.
+      K가 크면(예: 10) 더 정확한 추정이 가능하지만 계산량이 늘어납니다.
+      실무에서는 K=5 또는 K=10을 가장 많이 사용합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION: 정규화의 실전 적용 ===== -->
+  <div class="tb-card">
+    <h2>정규화의 실전 가이드</h2>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr>
+            <th>상황</th>
+            <th>추천 방법</th>
+            <th>이유</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>변수 &gt; 관측치</td><td><strong>Lasso / Elastic Net</strong></td><td>자동 변수 선택이 필수</td></tr>
+          <tr><td>다중공선성 심함</td><td><strong>Ridge</strong></td><td>상관된 변수의 계수를 안정화</td></tr>
+          <tr><td>해석이 중요함</td><td><strong>Lasso</strong></td><td>불필요한 변수를 0으로 제거</td></tr>
+          <tr><td>모든 변수가 중요</td><td><strong>Ridge</strong></td><td>모든 변수를 유지하되 크기 조절</td></tr>
+          <tr><td>어떤 것이 좋을지 모름</td><td><strong>교차 검증으로 비교</strong></td><td>데이터가 말해주게 하자</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <WarningBox>
+      <strong>정규화 전에 반드시 할 것:</strong>
+      정규화는 계수의 크기에 벌점을 줍니다. 변수의 단위가 다르면(예: 연봉 수천만 vs 나이 수십)
+      단위가 큰 변수만 불이익을 받습니다. 따라서 <strong>정규화 전에 반드시 표준화(standardization)</strong>를 해야 합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>과적합은 모델이 훈련 데이터를 "암기"하는 현상이다. 일반화가 목표이다.</li>
+      <li>편향-분산 트레이드오프: 모델이 단순할수록 편향은 높고 분산은 낮다. 그 반대도 성립한다.</li>
+      <li>정규화는 손실 함수에 계수 크기의 벌점을 추가하여 모델을 단순하게 유지한다.</li>
+      <li>Ridge(L2)는 계수를 골고루 줄이고, Lasso(L1)는 일부 계수를 정확히 0으로 만든다.</li>
+      <li>교차 검증(K-fold CV)은 데이터를 효율적으로 활용하여 모델의 일반화 성능을 추정한다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 시간에 따라 변하는 데이터는 어떻게 분석할까?
+      다음 장에서는 시계열 데이터의 추세, 계절성, 잔차를 분해하는 법을 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITY ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const mod = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  mod.Chart.register(...mod.registerables);
+  ChartJS = mod.Chart;
+  return ChartJS;
+}
+
+function destroyChart(ref) {
+  if (ref && ref.destroy) ref.destroy();
+  return null;
+}
+
+// ==================== POLYNOMIAL DATA ====================
+let polyTrainX = [], polyTrainY = [], polyTestX = [], polyTestY = [];
+let polyFitChart = null, polyErrorChart = null;
+
+function generatePolyData() {
+  const n = 20;
+  polyTrainX = []; polyTrainY = []; polyTestX = []; polyTestY = [];
+  for (let i = 0; i < n; i++) {
+    const x = (i / (n - 1)) * 4 - 2;
+    const trueY = 0.5 * x * x * x - x * x + 0.3 * x + 2;
+    polyTrainX.push(x);
+    polyTrainY.push(trueY + (Math.random() - 0.5) * 3);
+  }
+  for (let i = 0; i < n; i++) {
+    const x = (Math.random()) * 4 - 2;
+    const trueY = 0.5 * x * x * x - x * x + 0.3 * x + 2;
+    polyTestX.push(x);
+    polyTestY.push(trueY + (Math.random() - 0.5) * 3);
+  }
+}
+
+function polyFit(xs, ys, degree) {
+  // Simple polynomial fit using normal equations
+  const n = xs.length;
+  const X = xs.map(x => {
+    const row = [];
+    for (let d = 0; d <= degree; d++) row.push(Math.pow(x, d));
+    return row;
+  });
+  // X^T X
+  const p = degree + 1;
+  const XtX = Array.from({length: p}, () => new Array(p).fill(0));
+  const XtY = new Array(p).fill(0);
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < p; j++) {
+      XtY[j] += X[i][j] * ys[i];
+      for (let k = 0; k < p; k++) {
+        XtX[j][k] += X[i][j] * X[i][k];
+      }
+    }
+  }
+  // Add small ridge to avoid singular matrix
+  for (let i = 0; i < p; i++) XtX[i][i] += 1e-8;
+  // Solve via Gauss elimination
+  const aug = XtX.map((row, i) => [...row, XtY[i]]);
+  for (let i = 0; i < p; i++) {
+    let maxRow = i;
+    for (let k = i + 1; k < p; k++) if (Math.abs(aug[k][i]) > Math.abs(aug[maxRow][i])) maxRow = k;
+    [aug[i], aug[maxRow]] = [aug[maxRow], aug[i]];
+    if (Math.abs(aug[i][i]) < 1e-12) continue;
+    for (let k = i + 1; k < p; k++) {
+      const factor = aug[k][i] / aug[i][i];
+      for (let j = i; j <= p; j++) aug[k][j] -= factor * aug[i][j];
+    }
+  }
+  const coef = new Array(p).fill(0);
+  for (let i = p - 1; i >= 0; i--) {
+    coef[i] = aug[i][p];
+    for (let j = i + 1; j < p; j++) coef[i] -= aug[i][j] * coef[j];
+    coef[i] /= aug[i][i];
+  }
+  return coef;
+}
+
+function polyPredict(coef, x) {
+  let y = 0;
+  for (let d = 0; d < coef.length; d++) y += coef[d] * Math.pow(x, d);
+  return y;
+}
+
+function mse(actual, predicted) {
+  let s = 0;
+  for (let i = 0; i < actual.length; i++) s += (actual[i] - predicted[i]) ** 2;
+  return s / actual.length;
+}
+
+async function drawPolyFit() {
+  const Chart = await loadChart();
+  const degree = parseInt(document.getElementById('poly-degree').value);
+  document.getElementById('poly-degree-label').textContent = '차수: ' + degree;
+
+  const coef = polyFit(polyTrainX, polyTrainY, degree);
+  const trainPred = polyTrainX.map(x => polyPredict(coef, x));
+  const testPred = polyTestX.map(x => polyPredict(coef, x));
+
+  const trainMSE = mse(polyTrainY, trainPred);
+  const testMSE = mse(polyTestY, testPred);
+
+  document.getElementById('poly-train-mse').textContent = trainMSE.toFixed(2);
+  document.getElementById('poly-test-mse').textContent = testMSE.toFixed(2);
+  document.getElementById('poly-current-deg').textContent = degree;
+
+  // Fit curve points
+  const curveX = [];
+  for (let x = -2.2; x <= 2.2; x += 0.05) curveX.push(x);
+  const curveY = curveX.map(x => {
+    const y = polyPredict(coef, x);
+    return Math.max(-20, Math.min(20, y));
+  });
+
+  polyFitChart = destroyChart(polyFitChart);
+  polyFitChart = new Chart(document.getElementById('poly-fit-chart'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: '훈련 데이터',
+          data: polyTrainX.map((x, i) => ({x, y: polyTrainY[i]})),
+          backgroundColor: '#2563eb88',
+          pointRadius: 5,
+        },
+        {
+          label: '테스트 데이터',
+          data: polyTestX.map((x, i) => ({x, y: polyTestY[i]})),
+          backgroundColor: '#ef444488',
+          pointRadius: 5,
+          pointStyle: 'triangle',
+        },
+        {
+          label: '적합 곡선 (차수=' + degree + ')',
+          data: curveX.map((x, i) => ({x, y: curveY[i]})),
+          type: 'line',
+          borderColor: '#22c55e',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      scales: {
+        x: {min: -2.5, max: 2.5, title: {display: true, text: 'X'}},
+        y: {min: -15, max: 15, title: {display: true, text: 'Y'}}
+      },
+      plugins: {legend: {position: 'bottom', labels: {font: {size: 11}}}}
+    }
+  });
+
+  // Error curve for all degrees
+  const degrees = [];
+  const trainErrors = [];
+  const testErrors = [];
+  let bestDeg = 1, bestTestMSE = Infinity;
+  for (let d = 1; d <= 15; d++) {
+    degrees.push(d);
+    const c = polyFit(polyTrainX, polyTrainY, d);
+    const trnMSE = mse(polyTrainY, polyTrainX.map(x => polyPredict(c, x)));
+    const tstMSE = mse(polyTestY, polyTestX.map(x => polyPredict(c, x)));
+    trainErrors.push(Math.min(trnMSE, 50));
+    testErrors.push(Math.min(tstMSE, 50));
+    if (tstMSE < bestTestMSE) { bestTestMSE = tstMSE; bestDeg = d; }
+  }
+  document.getElementById('poly-best-deg').textContent = bestDeg;
+
+  polyErrorChart = destroyChart(polyErrorChart);
+  polyErrorChart = new Chart(document.getElementById('poly-error-chart'), {
+    type: 'line',
+    data: {
+      labels: degrees,
+      datasets: [
+        {label: '훈련 MSE', data: trainErrors, borderColor: '#2563eb', backgroundColor: '#2563eb22', fill: true, tension: 0.3},
+        {label: '테스트 MSE', data: testErrors, borderColor: '#ef4444', backgroundColor: '#ef444422', fill: true, tension: 0.3},
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      scales: {
+        x: {title: {display: true, text: '다항식 차수'}},
+        y: {beginAtZero: true, title: {display: true, text: 'MSE'}, max: 50}
+      },
+      plugins: {
+        legend: {position: 'bottom', labels: {font: {size: 11}}},
+        annotation: degree ? undefined : undefined,
+      }
+    }
+  });
+}
+
+// ==================== BIAS-VARIANCE ====================
+let bvData = {xs: [], ys: []};
+let bvChart = null;
+
+function generateBVData() {
+  bvData = {xs: [], ys: []};
+  for (let i = 0; i < 30; i++) {
+    const x = (i / 29) * 6 - 3;
+    const trueY = Math.sin(x) * 2 + 0.3 * x;
+    bvData.xs.push(x);
+    bvData.ys.push(trueY + (Math.random() - 0.5) * 1.5);
+  }
+}
+
+async function drawBV() {
+  const Chart = await loadChart();
+  const complexity = parseInt(document.getElementById('bv-complexity').value);
+  document.getElementById('bv-complexity-label').textContent = '복잡도: ' + complexity;
+
+  const coef = polyFit(bvData.xs, bvData.ys, complexity);
+  const curveX = [];
+  for (let x = -3.3; x <= 3.3; x += 0.05) curveX.push(x);
+  const curveY = curveX.map(x => {
+    const y = polyPredict(coef, x);
+    return Math.max(-10, Math.min(10, y));
+  });
+
+  // True function
+  const trueY = curveX.map(x => Math.sin(x) * 2 + 0.3 * x);
+
+  // Bias and variance estimates
+  const predicted = bvData.xs.map(x => polyPredict(coef, x));
+  const trueVals = bvData.xs.map(x => Math.sin(x) * 2 + 0.3 * x);
+  const biasEst = Math.sqrt(predicted.reduce((s, p, i) => s + (p - trueVals[i]) ** 2, 0) / predicted.length);
+  // Variance estimate: variation of predictions with different data samples
+  let varEst = 0;
+  for (let trial = 0; trial < 10; trial++) {
+    const noiseY = bvData.xs.map((x, i) => bvData.ys[i] + (Math.random() - 0.5) * 1.0);
+    const c2 = polyFit(bvData.xs, noiseY, complexity);
+    const p2 = bvData.xs.map(x => polyPredict(c2, x));
+    varEst += p2.reduce((s, p, i) => s + (p - predicted[i]) ** 2, 0) / predicted.length;
+  }
+  varEst /= 10;
+
+  document.getElementById('bv-bias').textContent = biasEst.toFixed(3);
+  document.getElementById('bv-variance').textContent = varEst.toFixed(3);
+  document.getElementById('bv-total').textContent = (biasEst * biasEst + varEst).toFixed(3);
+
+  bvChart = destroyChart(bvChart);
+  bvChart = new Chart(document.getElementById('bv-chart'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: '데이터',
+          data: bvData.xs.map((x, i) => ({x, y: bvData.ys[i]})),
+          backgroundColor: '#64748b88',
+          pointRadius: 5,
+        },
+        {
+          label: '참 함수',
+          data: curveX.map((x, i) => ({x, y: trueY[i]})),
+          type: 'line',
+          borderColor: '#22c55e',
+          borderWidth: 2,
+          borderDash: [6, 4],
+          pointRadius: 0,
+          fill: false,
+        },
+        {
+          label: '모델 (차수=' + complexity + ')',
+          data: curveX.map((x, i) => ({x, y: curveY[i]})),
+          type: 'line',
+          borderColor: '#2563eb',
+          borderWidth: 2.5,
+          pointRadius: 0,
+          fill: false,
+        },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      scales: {
+        x: {min: -3.5, max: 3.5, title: {display: true, text: 'X'}},
+        y: {min: -8, max: 8, title: {display: true, text: 'Y'}}
+      },
+      plugins: {legend: {position: 'bottom', labels: {font: {size: 11}}}}
+    }
+  });
+}
+
+// ==================== RIDGE vs LASSO ====================
+let regFeatureNames = ['소득', '나이', '교육연수', '근속연수', '가족수', '노이즈1', '노이즈2', '노이즈3'];
+let regTrueCoefs = [3.0, -1.5, 2.0, 1.2, -0.8, 0, 0, 0]; // last 3 are noise
+let regX = [], regY = [];
+let ridgeChart = null, lassoChart = null;
+
+function generateRegData() {
+  const n = 50;
+  const p = regTrueCoefs.length;
+  regX = [];
+  regY = [];
+  for (let i = 0; i < n; i++) {
+    const row = [];
+    for (let j = 0; j < p; j++) row.push((Math.random() - 0.5) * 2);
+    regX.push(row);
+    let y = 0;
+    for (let j = 0; j < p; j++) y += regTrueCoefs[j] * row[j];
+    y += (Math.random() - 0.5) * 2;
+    regY.push(y);
+  }
+}
+
+function ridgeCoefs(X, y, lambda) {
+  const n = X.length, p = X[0].length;
+  const XtX = Array.from({length: p}, () => new Array(p).fill(0));
+  const XtY = new Array(p).fill(0);
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < p; j++) {
+      XtY[j] += X[i][j] * y[i];
+      for (let k = 0; k < p; k++) XtX[j][k] += X[i][j] * X[i][k];
+    }
+  }
+  for (let i = 0; i < p; i++) XtX[i][i] += lambda * n;
+  const aug = XtX.map((row, i) => [...row, XtY[i]]);
+  for (let i = 0; i < p; i++) {
+    let maxRow = i;
+    for (let k = i + 1; k < p; k++) if (Math.abs(aug[k][i]) > Math.abs(aug[maxRow][i])) maxRow = k;
+    [aug[i], aug[maxRow]] = [aug[maxRow], aug[i]];
+    if (Math.abs(aug[i][i]) < 1e-12) continue;
+    for (let k = i + 1; k < p; k++) {
+      const f = aug[k][i] / aug[i][i];
+      for (let j = i; j <= p; j++) aug[k][j] -= f * aug[i][j];
+    }
+  }
+  const coef = new Array(p).fill(0);
+  for (let i = p - 1; i >= 0; i--) {
+    coef[i] = aug[i][p];
+    for (let j = i + 1; j < p; j++) coef[i] -= aug[i][j] * coef[j];
+    coef[i] /= aug[i][i];
+  }
+  return coef;
+}
+
+function lassoCoefs(X, y, lambda, maxIter = 200) {
+  const n = X.length, p = X[0].length;
+  const coef = new Array(p).fill(0);
+  const lr = 0.01;
+  for (let iter = 0; iter < maxIter; iter++) {
+    const grad = new Array(p).fill(0);
+    for (let i = 0; i < n; i++) {
+      let pred = 0;
+      for (let j = 0; j < p; j++) pred += coef[j] * X[i][j];
+      const err = pred - y[i];
+      for (let j = 0; j < p; j++) grad[j] += (2 / n) * err * X[i][j];
+    }
+    for (let j = 0; j < p; j++) {
+      coef[j] -= lr * grad[j];
+      // Soft thresholding (proximal step for L1)
+      const threshold = lr * lambda;
+      if (coef[j] > threshold) coef[j] -= threshold;
+      else if (coef[j] < -threshold) coef[j] += threshold;
+      else coef[j] = 0;
+    }
+  }
+  return coef;
+}
+
+function regMSE(X, y, coef) {
+  let s = 0;
+  for (let i = 0; i < X.length; i++) {
+    let pred = 0;
+    for (let j = 0; j < coef.length; j++) pred += coef[j] * X[i][j];
+    s += (pred - y[i]) ** 2;
+  }
+  return s / X.length;
+}
+
+async function drawRegularization() {
+  const Chart = await loadChart();
+  const logLambda = parseFloat(document.getElementById('reg-lambda').value);
+  const lambda = Math.pow(10, logLambda);
+  document.getElementById('reg-lambda-label').textContent = 'lambda: ' + lambda.toFixed(4);
+
+  const rCoefs = ridgeCoefs(regX, regY, lambda);
+  const lCoefs = lassoCoefs(regX, regY, lambda, 500);
+
+  const colors = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed', '#94a3b8', '#94a3b8', '#94a3b8'];
+
+  ridgeChart = destroyChart(ridgeChart);
+  ridgeChart = new Chart(document.getElementById('ridge-chart'), {
+    type: 'bar',
+    data: {
+      labels: regFeatureNames,
+      datasets: [{
+        label: 'Ridge 계수',
+        data: rCoefs,
+        backgroundColor: colors.map(c => c + '88'),
+        borderColor: colors,
+        borderWidth: 2,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      indexAxis: 'y',
+      scales: {x: {min: -4, max: 4, title: {display: true, text: '계수 값'}}},
+      plugins: {legend: {display: false}}
+    }
+  });
+
+  lassoChart = destroyChart(lassoChart);
+  lassoChart = new Chart(document.getElementById('lasso-chart'), {
+    type: 'bar',
+    data: {
+      labels: regFeatureNames,
+      datasets: [{
+        label: 'Lasso 계수',
+        data: lCoefs,
+        backgroundColor: colors.map(c => c + '88'),
+        borderColor: colors,
+        borderWidth: 2,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      indexAxis: 'y',
+      scales: {x: {min: -4, max: 4, title: {display: true, text: '계수 값'}}},
+      plugins: {legend: {display: false}}
+    }
+  });
+
+  document.getElementById('ridge-nonzero').textContent = rCoefs.filter(c => Math.abs(c) > 0.01).length;
+  document.getElementById('lasso-nonzero').textContent = lCoefs.filter(c => Math.abs(c) > 0.01).length;
+  document.getElementById('ridge-mse').textContent = regMSE(regX, regY, rCoefs).toFixed(3);
+  document.getElementById('lasso-mse').textContent = regMSE(regX, regY, lCoefs).toFixed(3);
+}
+
+// ==================== CROSS-VALIDATION ====================
+let cvData = {xs: [], ys: []};
+let cvChart = null;
+
+function generateCVData() {
+  cvData = {xs: [], ys: []};
+  for (let i = 0; i < 50; i++) {
+    const x = (i / 49) * 6 - 3;
+    const trueY = Math.sin(x) * 2 + 0.3 * x;
+    cvData.xs.push(x);
+    cvData.ys.push(trueY + (Math.random() - 0.5) * 2);
+  }
+}
+
+async function runCV(animate = false) {
+  const Chart = await loadChart();
+  const K = parseInt(document.getElementById('cv-k').value);
+  const degree = parseInt(document.getElementById('cv-degree').value);
+  const n = cvData.xs.length;
+  const foldSize = Math.floor(n / K);
+
+  // Shuffle indices
+  const indices = Array.from({length: n}, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+
+  // Display fold blocks
+  const blocksDiv = document.getElementById('cv-blocks');
+  const foldColors = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed', '#06b6d4', '#ec4899', '#64748b', '#ea580c', '#14b8a6'];
+
+  const foldErrors = [];
+
+  async function runFold(k) {
+    const testIdx = indices.slice(k * foldSize, Math.min((k + 1) * foldSize, n));
+    const trainIdx = indices.filter((_, i) => i < k * foldSize || i >= Math.min((k + 1) * foldSize, n));
+
+    const trainX = trainIdx.map(i => cvData.xs[i]);
+    const trainY = trainIdx.map(i => cvData.ys[i]);
+    const testX = testIdx.map(i => cvData.xs[i]);
+    const testY = testIdx.map(i => cvData.ys[i]);
+
+    const coef = polyFit(trainX, trainY, degree);
+    const testPred = testX.map(x => polyPredict(coef, x));
+    const foldMSE = mse(testY, testPred);
+    foldErrors.push(foldMSE);
+
+    if (animate) {
+      // Highlight current fold
+      const blocks = blocksDiv.querySelectorAll('.cv-block');
+      blocks.forEach((b, i) => {
+        b.style.opacity = i === k ? '1' : '0.4';
+        b.style.transform = i === k ? 'scale(1.05)' : 'scale(1)';
+      });
+      await new Promise(r => setTimeout(r, 600));
+    }
+  }
+
+  // Render blocks
+  let blocksHTML = '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">';
+  for (let k = 0; k < K; k++) {
+    blocksHTML += `<div class="cv-block" style="flex:1;min-width:60px;padding:10px;background:${foldColors[k % foldColors.length]}22;border:2px solid ${foldColors[k % foldColors.length]};border-radius:8px;text-align:center;font-size:.82rem;font-weight:700;transition:0.3s;">Fold ${k + 1}</div>`;
+  }
+  blocksHTML += '</div>';
+  blocksDiv.innerHTML = blocksHTML;
+
+  for (let k = 0; k < K; k++) {
+    await runFold(k);
+  }
+
+  // Reset block styles
+  blocksDiv.querySelectorAll('.cv-block').forEach((b, i) => {
+    b.style.opacity = '1';
+    b.style.transform = 'scale(1)';
+    b.innerHTML = `Fold ${i + 1}<br><span style="font-size:.78rem;font-weight:400;">MSE: ${foldErrors[i] ? foldErrors[i].toFixed(2) : '-'}</span>`;
+  });
+
+  const meanError = foldErrors.reduce((a, b) => a + b, 0) / foldErrors.length;
+  const stdError = Math.sqrt(foldErrors.reduce((a, e) => a + (e - meanError) ** 2, 0) / foldErrors.length);
+
+  document.getElementById('cv-mean').textContent = meanError.toFixed(3);
+  document.getElementById('cv-std').textContent = stdError.toFixed(3);
+  document.getElementById('cv-k-display').textContent = K;
+  document.getElementById('cv-fold-size').textContent = foldSize;
+
+  // Bar chart of fold errors
+  cvChart = destroyChart(cvChart);
+  cvChart = new Chart(document.getElementById('cv-chart'), {
+    type: 'bar',
+    data: {
+      labels: foldErrors.map((_, i) => 'Fold ' + (i + 1)),
+      datasets: [
+        {
+          label: 'Fold별 테스트 MSE',
+          data: foldErrors,
+          backgroundColor: foldErrors.map((_, i) => foldColors[i % foldColors.length] + '88'),
+          borderColor: foldErrors.map((_, i) => foldColors[i % foldColors.length]),
+          borderWidth: 2,
+          borderRadius: 6,
+        },
+        {
+          label: '평균 CV MSE',
+          data: foldErrors.map(() => meanError),
+          type: 'line',
+          borderColor: '#0f172a',
+          borderWidth: 2,
+          borderDash: [8, 4],
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      scales: {
+        y: {beginAtZero: true, title: {display: true, text: 'MSE'}},
+        x: {title: {display: true, text: 'Fold'}}
+      },
+      plugins: {legend: {position: 'bottom', labels: {font: {size: 11}}}}
+    }
+  });
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', () => {
+  generatePolyData();
+  generateBVData();
+  generateRegData();
+  generateCVData();
+
+  drawPolyFit();
+  drawBV();
+  drawRegularization();
+
+  // Polynomial controls
+  document.getElementById('poly-degree').addEventListener('input', drawPolyFit);
+  document.getElementById('btn-poly-newdata').addEventListener('click', () => {
+    generatePolyData();
+    drawPolyFit();
+  });
+
+  // Bias-variance controls
+  document.getElementById('bv-complexity').addEventListener('input', drawBV);
+  document.getElementById('btn-bv-regen').addEventListener('click', () => {
+    generateBVData();
+    drawBV();
+  });
+  document.getElementById('btn-bv-under').addEventListener('click', () => {
+    document.getElementById('bv-complexity').value = 1;
+    drawBV();
+  });
+  document.getElementById('btn-bv-good').addEventListener('click', () => {
+    document.getElementById('bv-complexity').value = 3;
+    drawBV();
+  });
+  document.getElementById('btn-bv-over').addEventListener('click', () => {
+    document.getElementById('bv-complexity').value = 15;
+    drawBV();
+  });
+
+  // Regularization controls
+  document.getElementById('reg-lambda').addEventListener('input', drawRegularization);
+  document.getElementById('btn-reg-newdata').addEventListener('click', () => {
+    generateRegData();
+    drawRegularization();
+  });
+
+  // CV controls
+  document.getElementById('btn-cv-run').addEventListener('click', () => runCV(false));
+  document.getElementById('btn-cv-animate').addEventListener('click', () => runCV(true));
+});
+</script>
+
+<style>
+  .cv-block {
+    cursor: default;
+    user-select: none;
+  }
+  .var-chip {
+    display: inline-block;
+    padding: 6px 14px;
+    background: #fff;
+    border: 2px solid var(--tb-g300);
+    border-radius: 20px;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s;
+    font-family: var(--tb-font);
+  }
+  .var-chip:hover {
+    border-color: var(--tb-primary);
+    background: var(--tb-primary-light);
+  }
+</style>

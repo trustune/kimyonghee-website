@@ -281,7 +281,7 @@
         15,
         16
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 19,
@@ -294,7 +294,7 @@
         6,
         10
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 20,
@@ -324,7 +324,7 @@
         6,
         17
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 22,
@@ -336,7 +336,7 @@
       "prerequisites": [
         17
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 23,
@@ -348,7 +348,7 @@
       "prerequisites": [
         22
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 24,
@@ -361,7 +361,7 @@
         17,
         21
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 25,
@@ -374,7 +374,7 @@
         17,
         24
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 26,
@@ -391,7 +391,7 @@
         25
       ],
       "capstone": true,
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 27,
@@ -403,7 +403,7 @@
       "prerequisites": [
         6
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 28,
@@ -428,7 +428,7 @@
         4,
         6
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 30,
@@ -440,7 +440,7 @@
       "prerequisites": [
         10
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 31,

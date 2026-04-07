@@ -1,0 +1,804 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="K-평균 클러스터링"
+  subtitle="라벨 없이 그룹 찾기"
+  chapterNum={27}
+  part={5}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>라벨 없이 패턴을 찾을 수 있을까?</h2>
+    <p>
+      고객 데이터가 10만 건 있는데 "이 고객은 VIP", "이 고객은 이탈 위험"이라는
+      라벨이 전혀 없다면? 지금까지 배운 지도 학습은 무력합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      하지만 데이터 자체에 숨겨진 패턴이 있습니다.
+      비슷한 구매 패턴의 고객끼리 자연스럽게 <strong>군집(cluster)</strong>을 이루고 있을 수 있습니다.
+      <strong>K-평균 클러스터링</strong>은 이런 숨은 그룹을 자동으로 찾아내는 가장 기본적이고 강력한 알고리즘입니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 K-평균의 원리를 단계별로 체험하고,
+      최적의 K를 결정하는 방법, 초기화의 함정, 그리고 실전 고객 세분화까지 다룹니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 알고리즘 이론 ===== -->
+  <div class="tb-card">
+    <h2>K-평균의 네 단계</h2>
+    <p>알고리즘은 놀랍도록 단순합니다. 딱 네 단계의 반복입니다.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0;">
+      <div style="background:var(--tb-primary-light);padding:14px;border-radius:var(--tb-radius);text-align:center;">
+        <div style="font-size:1.5rem;font-weight:800;color:var(--tb-primary);">1</div>
+        <div style="font-weight:700;font-size:.88rem;">중심점 배치</div>
+        <div style="font-size:.82rem;color:var(--tb-g600);margin-top:4px;">K개의 중심점(centroid)을 랜덤하게 배치</div>
+      </div>
+      <div style="background:#f0fdf4;padding:14px;border-radius:var(--tb-radius);text-align:center;">
+        <div style="font-size:1.5rem;font-weight:800;color:var(--tb-success);">2</div>
+        <div style="font-weight:700;font-size:.88rem;">할당</div>
+        <div style="font-size:.82rem;color:var(--tb-g600);margin-top:4px;">각 점을 가장 가까운 중심에 배정</div>
+      </div>
+      <div style="background:#fef3c7;padding:14px;border-radius:var(--tb-radius);text-align:center;">
+        <div style="font-size:1.5rem;font-weight:800;color:var(--tb-warning);">3</div>
+        <div style="font-weight:700;font-size:.88rem;">갱신</div>
+        <div style="font-size:.82rem;color:var(--tb-g600);margin-top:4px;">각 군집의 평균으로 중심 이동</div>
+      </div>
+      <div style="background:#fdf4ff;padding:14px;border-radius:var(--tb-radius);text-align:center;">
+        <div style="font-size:1.5rem;font-weight:800;color:var(--tb-purple);">4</div>
+        <div style="font-weight:700;font-size:.88rem;">반복</div>
+        <div style="font-size:.82rem;color:var(--tb-g600);margin-top:4px;">중심이 움직이지 않을 때까지 2-3 반복</div>
+      </div>
+    </div>
+
+    <ExplainBox>
+      <strong>비유:</strong> 교실에 학생 30명이 서 있고, 선생님이 깃발 3개를 아무 데나 꽂았습니다.
+      "가장 가까운 깃발 쪽으로 모여라!" -- 학생들이 이동합니다.
+      그러면 각 그룹의 <strong>한가운데</strong>로 깃발을 옮깁니다.
+      다시 "가장 가까운 깃발로!" -- 몇 번 반복하면 그룹이 안정됩니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      목표: <span class="hl">J = sum(||x_i - mu_k||^2)</span> 최소화<br>
+      mu_k = 군집 k에 속한 점들의 평균 (중심점)<br>
+      수렴 보장: 매 단계 J가 감소하거나 유지됨
+    </FormulaBox>
+  </div>
+
+  <!-- ===== SECTION 3: 인터랙티브 1 - 단계별 K-means ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 단계별 K-평균</h2>
+    <p>
+      "한 단계" 버튼을 누를 때마다 할당과 갱신이 교대로 실행됩니다.
+      중심점이 어떻게 이동하고 군집이 어떻게 형성되는지 직접 관찰하세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      (1) "초기화"로 시작한 후, "한 단계"를 반복적으로 누르세요.
+      (2) 몇 단계 만에 수렴하나요? 관성(inertia)이 감소하는지 확인하세요.
+      (3) K 값을 바꿔서 군집 수에 따른 차이를 관찰하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-km-init">초기화</button>
+      <button class="tb-btn tb-btn-success" id="btn-km-step">한 단계</button>
+      <button class="tb-btn tb-btn-warning" id="btn-km-run">끝까지 실행</button>
+      <label>K:</label>
+      <select id="sel-km-k">
+        <option value="2">2</option>
+        <option value="3" selected>3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <label>데이터 패턴:</label>
+      <select id="sel-km-pattern">
+        <option value="blobs">구형 군집</option>
+        <option value="spread">넓게 퍼짐</option>
+        <option value="unequal">크기 불균형</option>
+      </select>
+    </SimControls>
+
+    <canvas id="canvas-km" width="700" height="450" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+
+    <div class="tb-stat-row" style="margin-top:14px;">
+      <StatBox label="현재 단계" id="stat-km-step" />
+      <StatBox label="관성(Inertia)" id="stat-km-inertia" />
+      <StatBox label="상태" id="stat-km-status" />
+      <StatBox label="단계 유형" id="stat-km-phase" />
+    </div>
+
+    <InsightBox>
+      <strong>관찰 포인트:</strong>
+      처음 몇 단계에서 관성이 급격히 떨어지고, 이후 거의 변하지 않습니다.
+      이것이 "수렴"입니다. 보통 10-20단계 안에 수렴합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 4: 인터랙티브 2 - K 선택 (엘보우 + 실루엣) ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 최적 K 선택 -- 엘보우와 실루엣</h2>
+    <p>
+      K-평균의 가장 큰 질문: <strong>K를 몇으로 할 것인가?</strong>
+      두 가지 방법으로 최적 K를 찾습니다.
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0;">
+      <div style="background:var(--tb-primary-light);padding:16px;border-radius:var(--tb-radius);">
+        <h3 style="color:var(--tb-primary);margin-bottom:6px;">엘보우 방법</h3>
+        <p style="font-size:.88rem;">K=1~10까지 관성(inertia)을 그래프로 그립니다.
+        관성이 급격히 꺾이는 "팔꿈치" 지점이 최적 K입니다.</p>
+      </div>
+      <div style="background:#f0fdf4;padding:16px;border-radius:var(--tb-radius);">
+        <h3 style="color:var(--tb-success);margin-bottom:6px;">실루엣 점수</h3>
+        <p style="font-size:.88rem;">각 점이 자기 군집에 얼마나 잘 속하는지 측정합니다.
+        -1(최악)~1(최적). 평균 실루엣이 가장 높은 K가 최적입니다.</p>
+      </div>
+    </div>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      "분석 실행"을 누르면 K=1~10 각각에 대해 K-평균을 실행합니다.
+      엘보우 차트와 실루엣 점수를 보고 최적 K를 판단하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-elbow">분석 실행</button>
+    </SimControls>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <div style="text-align:center;font-weight:700;margin-bottom:8px;">엘보우 차트</div>
+        <canvas id="canvas-elbow" width="340" height="280" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+      </div>
+      <div>
+        <div style="text-align:center;font-weight:700;margin-bottom:8px;">실루엣 점수</div>
+        <canvas id="canvas-silhouette" width="340" height="280" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+      </div>
+    </div>
+
+    <div id="elbow-result" class="tb-conclusion" style="margin-top:14px;display:none;"></div>
+  </div>
+
+  <!-- ===== SECTION 5: 인터랙티브 3 - 초기화 민감도 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 초기화의 함정</h2>
+    <p>
+      K-평균의 결과는 <strong>초기 중심점 위치에 따라 달라집니다</strong>.
+      같은 데이터, 같은 K로 5번 실행하면 결과가 매번 다를 수 있습니다!
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      "5회 실행"을 누르면 같은 데이터에 5번 K-평균을 실행합니다.
+      결과가 얼마나 다른지 관찰하세요. 그 다음 K-means++를 사용해보세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-multi-run">랜덤 초기화 5회 실행</button>
+      <button class="tb-btn tb-btn-success" id="btn-kpp-run">K-means++ 5회 실행</button>
+    </SimControls>
+
+    <div id="multi-run-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0;">
+      <canvas class="mini-canvas" id="mini-0" width="140" height="140" style="width:100%;border:1px solid var(--tb-g200);border-radius:8px;background:#fff;"></canvas>
+      <canvas class="mini-canvas" id="mini-1" width="140" height="140" style="width:100%;border:1px solid var(--tb-g200);border-radius:8px;background:#fff;"></canvas>
+      <canvas class="mini-canvas" id="mini-2" width="140" height="140" style="width:100%;border:1px solid var(--tb-g200);border-radius:8px;background:#fff;"></canvas>
+      <canvas class="mini-canvas" id="mini-3" width="140" height="140" style="width:100%;border:1px solid var(--tb-g200);border-radius:8px;background:#fff;"></canvas>
+      <canvas class="mini-canvas" id="mini-4" width="140" height="140" style="width:100%;border:1px solid var(--tb-g200);border-radius:8px;background:#fff;"></canvas>
+    </div>
+    <div id="multi-run-inertias" style="display:flex;gap:8px;justify-content:space-around;font-size:.82rem;font-weight:700;color:var(--tb-g600);"></div>
+
+    <div id="init-explain" class="tb-explain" style="margin-top:14px;display:none;"></div>
+
+    <WarningBox>
+      <strong>해결책: K-means++</strong>
+      K-means++는 첫 중심점을 랜덤으로 놓되,
+      이후 중심점은 <strong>기존 중심에서 가장 먼 점</strong>을 우선 선택합니다.
+      이렇게 하면 초기 중심이 골고루 퍼져 나쁜 로컬 최적에 빠질 확률이 크게 줄어듭니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 6: 인터랙티브 4 - 고객 세분화 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 고객 세분화</h2>
+    <p>
+      실제와 유사한 고객 데이터(구매 금액, 구매 빈도)에 K-평균을 적용하여
+      고객을 자동으로 세분화합니다. 각 군집에 비즈니스 라벨을 붙여보세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>해보기:</strong>
+      (1) "고객 데이터 생성" 후 K-평균을 실행하세요.
+      (2) 각 군집의 특성을 확인하고 비즈니스 라벨을 선택하세요.
+      (3) 실무에서는 이 결과를 바탕으로 마케팅 전략을 수립합니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-seg-gen">고객 데이터 생성</button>
+      <button class="tb-btn tb-btn-success" id="btn-seg-run">K-평균 실행</button>
+      <label>K:</label>
+      <select id="sel-seg-k">
+        <option value="3">3개 그룹</option>
+        <option value="4" selected>4개 그룹</option>
+        <option value="5">5개 그룹</option>
+      </select>
+    </SimControls>
+
+    <canvas id="canvas-seg" width="700" height="400" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
+
+    <div id="seg-result" style="display:none;margin-top:14px;">
+      <div class="tb-data-table-wrap" style="max-height:none;">
+        <table class="tb-data-table" id="seg-table">
+          <thead>
+            <tr><th>군집</th><th>고객 수</th><th>평균 지출</th><th>평균 빈도</th><th>제안 라벨</th></tr>
+          </thead>
+          <tbody id="seg-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <BusinessBox>
+      <strong>비즈니스 활용:</strong>
+      고객 세분화는 CRM(고객관계관리)의 핵심입니다.
+      VIP에게는 프리미엄 서비스, At-risk에게는 재참여 캠페인,
+      신규 고객에게는 온보딩 프로그램을 설계합니다.
+      K-평균은 이 모든 것의 출발점입니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 7: 한계와 주의사항 ===== -->
+  <div class="tb-card">
+    <h2>K-평균의 한계</h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0;">
+      <div style="background:#fef2f2;padding:16px;border-radius:var(--tb-radius);">
+        <h3 style="color:var(--tb-danger);margin-bottom:6px;">한계점</h3>
+        <ul style="font-size:.88rem;padding-left:18px;">
+          <li>K를 미리 정해야 함</li>
+          <li>구형(둥근) 군집만 잘 찾음</li>
+          <li>크기가 다른 군집에 취약</li>
+          <li>초기화에 민감 (로컬 최적)</li>
+          <li>이상치에 영향 큼</li>
+        </ul>
+      </div>
+      <div style="background:#f0fdf4;padding:16px;border-radius:var(--tb-radius);">
+        <h3 style="color:var(--tb-success);margin-bottom:6px;">대안 알고리즘</h3>
+        <ul style="font-size:.88rem;padding-left:18px;">
+          <li><strong>계층적 클러스터링:</strong> K 불필요, 덴드로그램 제공</li>
+          <li><strong>DBSCAN:</strong> 비구형 군집, 노이즈 자동 제거</li>
+          <li><strong>GMM:</strong> 소프트 할당 (확률적)</li>
+          <li><strong>Mini-batch K-Means:</strong> 대규모 데이터용</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>K-평균은 중심점 배치 - 할당 - 갱신 - 반복의 네 단계로 동작한다.</li>
+      <li>엘보우 방법과 실루엣 점수로 최적 K를 결정한다.</li>
+      <li>초기화에 민감하므로 K-means++를 사용하는 것이 좋다.</li>
+      <li>구형 군집에는 강력하지만, 비구형 데이터에는 한계가 있다.</li>
+      <li>고객 세분화, 이미지 압축, 이상 탐지 등 다양한 분야에 활용된다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong>
+      K-평균이 실패하는 형태의 군집을 다루는 계층적 클러스터링과 DBSCAN을 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITIES ====================
+function randNorm(mu = 0, sigma = 1) {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return mu + sigma * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+const COLORS = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed', '#06b6d4', '#ec4899', '#84cc16', '#f97316', '#14b8a6'];
+
+function generateBlobData(pattern = 'blobs') {
+  const data = [];
+  const centers = pattern === 'blobs' ? [[-3, -3], [3, 3], [3, -3]]
+    : pattern === 'spread' ? [[-5, 0], [5, 0], [0, 5]]
+    : [[-3, -3], [4, 4], [4, -3]]; // unequal
+  const sizes = pattern === 'unequal' ? [80, 20, 50] : [50, 50, 50];
+  const sigmas = pattern === 'spread' ? [2, 2, 2] : pattern === 'unequal' ? [1.5, 0.5, 1] : [1, 1, 1];
+
+  centers.forEach((c, i) => {
+    for (let j = 0; j < sizes[i]; j++) {
+      data.push({ x: randNorm(c[0], sigmas[i]), y: randNorm(c[1], sigmas[i]), cluster: -1 });
+    }
+  });
+  return data;
+}
+
+// ==================== K-MEANS ALGORITHM ====================
+function initCentroids(data, k, method = 'random') {
+  if (method === 'kmpp') {
+    // K-means++
+    const centroids = [];
+    const idx = Math.floor(Math.random() * data.length);
+    centroids.push({ x: data[idx].x, y: data[idx].y });
+    for (let c = 1; c < k; c++) {
+      const dists = data.map(p => {
+        const minDist = centroids.reduce((m, ct) => Math.min(m, (p.x - ct.x) ** 2 + (p.y - ct.y) ** 2), Infinity);
+        return minDist;
+      });
+      const totalDist = dists.reduce((s, d) => s + d, 0);
+      let r = Math.random() * totalDist;
+      for (let i = 0; i < data.length; i++) {
+        r -= dists[i];
+        if (r <= 0) { centroids.push({ x: data[i].x, y: data[i].y }); break; }
+      }
+    }
+    return centroids;
+  } else {
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, k).map(p => ({ x: p.x, y: p.y }));
+  }
+}
+
+function assignClusters(data, centroids) {
+  data.forEach(p => {
+    let minDist = Infinity, minIdx = 0;
+    centroids.forEach((c, i) => {
+      const d = (p.x - c.x) ** 2 + (p.y - c.y) ** 2;
+      if (d < minDist) { minDist = d; minIdx = i; }
+    });
+    p.cluster = minIdx;
+  });
+}
+
+function updateCentroids(data, centroids) {
+  let moved = false;
+  centroids.forEach((c, i) => {
+    const members = data.filter(p => p.cluster === i);
+    if (members.length === 0) return;
+    const nx = members.reduce((s, p) => s + p.x, 0) / members.length;
+    const ny = members.reduce((s, p) => s + p.y, 0) / members.length;
+    if (Math.abs(nx - c.x) > 0.001 || Math.abs(ny - c.y) > 0.001) moved = true;
+    c.x = nx; c.y = ny;
+  });
+  return moved;
+}
+
+function computeInertia(data, centroids) {
+  return data.reduce((s, p) => {
+    const c = centroids[p.cluster];
+    return s + (p.x - c.x) ** 2 + (p.y - c.y) ** 2;
+  }, 0);
+}
+
+function computeSilhouette(data, centroids) {
+  if (centroids.length <= 1) return 0;
+  let totalSil = 0;
+  data.forEach(p => {
+    const same = data.filter(q => q.cluster === p.cluster && q !== p);
+    const a = same.length > 0 ? same.reduce((s, q) => s + Math.hypot(p.x - q.x, p.y - q.y), 0) / same.length : 0;
+    let b = Infinity;
+    centroids.forEach((c, ci) => {
+      if (ci === p.cluster) return;
+      const others = data.filter(q => q.cluster === ci);
+      if (others.length === 0) return;
+      const avg = others.reduce((s, q) => s + Math.hypot(p.x - q.x, p.y - q.y), 0) / others.length;
+      if (avg < b) b = avg;
+    });
+    if (b === Infinity) b = 0;
+    const sil = Math.max(a, b) > 0 ? (b - a) / Math.max(a, b) : 0;
+    totalSil += sil;
+  });
+  return totalSil / data.length;
+}
+
+// ==================== INTERACTIVE 1: STEP-BY-STEP ====================
+let kmData = [];
+let kmCentroids = [];
+let kmStep = 0;
+let kmPhase = 'assign'; // 'assign' or 'update'
+let kmConverged = false;
+
+function initKM() {
+  const pattern = document.getElementById('sel-km-pattern').value;
+  kmData = generateBlobData(pattern);
+  const k = parseInt(document.getElementById('sel-km-k').value);
+  kmCentroids = initCentroids(kmData, k, 'random');
+  kmData.forEach(p => p.cluster = -1);
+  kmStep = 0;
+  kmPhase = 'assign';
+  kmConverged = false;
+  drawKM();
+  document.getElementById('stat-km-step').textContent = '0';
+  document.getElementById('stat-km-inertia').textContent = '-';
+  document.getElementById('stat-km-status').textContent = '준비';
+  document.getElementById('stat-km-phase').textContent = '초기화';
+}
+
+function stepKM() {
+  if (kmConverged) return;
+  if (kmPhase === 'assign') {
+    assignClusters(kmData, kmCentroids);
+    kmPhase = 'update';
+    document.getElementById('stat-km-phase').textContent = '할당 완료';
+  } else {
+    const moved = updateCentroids(kmData, kmCentroids);
+    if (!moved) {
+      kmConverged = true;
+      document.getElementById('stat-km-status').textContent = '수렴!';
+    }
+    kmPhase = 'assign';
+    kmStep++;
+    document.getElementById('stat-km-phase').textContent = moved ? '갱신 완료' : '수렴';
+  }
+  const inertia = kmData[0].cluster >= 0 ? computeInertia(kmData, kmCentroids) : 0;
+  document.getElementById('stat-km-step').textContent = kmStep;
+  document.getElementById('stat-km-inertia').textContent = inertia.toFixed(1);
+  if (!kmConverged) document.getElementById('stat-km-status').textContent = '진행중';
+  drawKM();
+}
+
+function runKM() {
+  let max = 50;
+  while (!kmConverged && max-- > 0) {
+    stepKM();
+  }
+}
+
+function drawKM() {
+  const canvas = document.getElementById('canvas-km');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const allX = kmData.map(d => d.x);
+  const allY = kmData.map(d => d.y);
+  const xMin = Math.min(...allX) - 1, xMax = Math.max(...allX) + 1;
+  const yMin = Math.min(...allY) - 1, yMax = Math.max(...allY) + 1;
+  const sx = (x) => (x - xMin) / (xMax - xMin) * (W - 60) + 30;
+  const sy = (y) => H - ((y - yMin) / (yMax - yMin) * (H - 60) + 30);
+
+  // Draw points
+  kmData.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(sx(p.x), sy(p.y), 4, 0, 2 * Math.PI);
+    ctx.fillStyle = p.cluster >= 0 ? COLORS[p.cluster % COLORS.length] + 'aa' : '#94a3b8';
+    ctx.fill();
+  });
+
+  // Draw centroids
+  kmCentroids.forEach((c, i) => {
+    ctx.beginPath();
+    ctx.arc(sx(c.x), sy(c.y), 10, 0, 2 * Math.PI);
+    ctx.fillStyle = COLORS[i % COLORS.length];
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    // Cross marker
+    ctx.beginPath();
+    ctx.moveTo(sx(c.x) - 5, sy(c.y)); ctx.lineTo(sx(c.x) + 5, sy(c.y));
+    ctx.moveTo(sx(c.x), sy(c.y) - 5); ctx.lineTo(sx(c.x), sy(c.y) + 5);
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+  });
+}
+
+// ==================== INTERACTIVE 2: ELBOW + SILHOUETTE ====================
+function runElbowAnalysis() {
+  const data = [...kmData.map(p => ({ x: p.x, y: p.y, cluster: -1 }))];
+  const inertias = [];
+  const silhouettes = [];
+
+  for (let k = 1; k <= 10; k++) {
+    const localData = data.map(p => ({ ...p, cluster: -1 }));
+    const centroids = initCentroids(localData, k, 'kmpp');
+    for (let iter = 0; iter < 30; iter++) {
+      assignClusters(localData, centroids);
+      const moved = updateCentroids(localData, centroids);
+      if (!moved) break;
+    }
+    assignClusters(localData, centroids);
+    inertias.push(computeInertia(localData, centroids));
+    silhouettes.push(k >= 2 ? computeSilhouette(localData, centroids) : 0);
+  }
+
+  // Draw elbow chart
+  drawLineChart('canvas-elbow', inertias, '관성 (Inertia)', '#2563eb');
+  drawLineChart('canvas-silhouette', silhouettes, '실루엣 점수', '#22c55e');
+
+  // Find elbow (biggest drop)
+  let maxDrop = 0, elbowK = 2;
+  for (let i = 1; i < inertias.length - 1; i++) {
+    const drop = (inertias[i - 1] - inertias[i]) - (inertias[i] - inertias[i + 1]);
+    if (drop > maxDrop) { maxDrop = drop; elbowK = i + 1; }
+  }
+  const bestSilK = silhouettes.indexOf(Math.max(...silhouettes.slice(1))) + 1;
+
+  const result = document.getElementById('elbow-result');
+  result.style.display = '';
+  result.innerHTML = `<strong>분석 결과:</strong> 엘보우 지점 = K=${elbowK}, 실루엣 최적 = K=${bestSilK}. ` +
+    (elbowK === bestSilK ? `두 방법 모두 K=${elbowK}를 권장합니다.` : `두 방법의 결과가 다릅니다. 도메인 지식을 참고하여 결정하세요.`);
+}
+
+function drawLineChart(canvasId, values, label, color) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const margin = { top: 20, right: 20, bottom: 40, left: 50 };
+  const plotW = W - margin.left - margin.right;
+  const plotH = H - margin.top - margin.bottom;
+  const maxV = Math.max(...values);
+  const minV = Math.min(...values);
+  const range = maxV - minV || 1;
+
+  // Grid lines
+  ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 0.5;
+  for (let i = 0; i <= 4; i++) {
+    const y = margin.top + plotH * i / 4;
+    ctx.beginPath(); ctx.moveTo(margin.left, y); ctx.lineTo(margin.left + plotW, y); ctx.stroke();
+  }
+
+  // Line
+  ctx.beginPath();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2.5;
+  values.forEach((v, i) => {
+    const x = margin.left + (i / (values.length - 1)) * plotW;
+    const y = margin.top + (1 - (v - minV) / range) * plotH;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Points
+  values.forEach((v, i) => {
+    const x = margin.left + (i / (values.length - 1)) * plotW;
+    const y = margin.top + (1 - (v - minV) / range) * plotH;
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+  });
+
+  // X axis labels
+  ctx.fillStyle = '#1e293b'; ctx.font = '11px Paperlogy'; ctx.textAlign = 'center';
+  values.forEach((_, i) => {
+    const x = margin.left + (i / (values.length - 1)) * plotW;
+    ctx.fillText('K=' + (i + 1), x, H - 8);
+  });
+
+  // Y axis labels
+  ctx.textAlign = 'right';
+  for (let i = 0; i <= 4; i++) {
+    const y = margin.top + plotH * i / 4;
+    const val = maxV - range * i / 4;
+    ctx.fillText(val.toFixed(1), margin.left - 5, y + 4);
+  }
+
+  // Label
+  ctx.fillStyle = color; ctx.font = 'bold 12px Paperlogy'; ctx.textAlign = 'left';
+  ctx.fillText(label, margin.left + 5, margin.top - 5);
+}
+
+// ==================== INTERACTIVE 3: INITIALIZATION SENSITIVITY ====================
+function runMultipleKM(method) {
+  const k = parseInt(document.getElementById('sel-km-k').value);
+  const inertias = [];
+
+  for (let run = 0; run < 5; run++) {
+    const localData = kmData.map(p => ({ x: p.x, y: p.y, cluster: -1 }));
+    const centroids = initCentroids(localData, k, method);
+    for (let iter = 0; iter < 30; iter++) {
+      assignClusters(localData, centroids);
+      const moved = updateCentroids(localData, centroids);
+      if (!moved) break;
+    }
+    assignClusters(localData, centroids);
+    const inertia = computeInertia(localData, centroids);
+    inertias.push(inertia);
+
+    // Draw mini canvas
+    const canvas = document.getElementById('mini-' + run);
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const allX = localData.map(d => d.x), allY = localData.map(d => d.y);
+    const xMin = Math.min(...allX) - 1, xMax = Math.max(...allX) + 1;
+    const yMin = Math.min(...allY) - 1, yMax = Math.max(...allY) + 1;
+    const sx = (x) => (x - xMin) / (xMax - xMin) * (W - 16) + 8;
+    const sy = (y) => H - ((y - yMin) / (yMax - yMin) * (H - 16) + 8);
+
+    localData.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(sx(p.x), sy(p.y), 2.5, 0, 2 * Math.PI);
+      ctx.fillStyle = COLORS[p.cluster % COLORS.length] + 'bb';
+      ctx.fill();
+    });
+
+    centroids.forEach((c, i) => {
+      ctx.beginPath(); ctx.arc(sx(c.x), sy(c.y), 5, 0, 2 * Math.PI);
+      ctx.fillStyle = COLORS[i % COLORS.length]; ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+    });
+  }
+
+  // Show inertias
+  const div = document.getElementById('multi-run-inertias');
+  div.innerHTML = inertias.map((v, i) => `<span>Run ${i + 1}: ${v.toFixed(1)}</span>`).join('');
+
+  const explain = document.getElementById('init-explain');
+  explain.style.display = '';
+  const spread = Math.max(...inertias) - Math.min(...inertias);
+  if (method === 'random') {
+    explain.innerHTML = `<strong>랜덤 초기화 결과:</strong> 관성 범위 = ${spread.toFixed(1)}. ` +
+      (spread > 50 ? '결과 차이가 큽니다! 초기화에 따라 완전히 다른 군집이 만들어집니다.' : '이 데이터에서는 비교적 안정적이지만, 복잡한 데이터에서는 차이가 커집니다.');
+  } else {
+    explain.innerHTML = `<strong>K-means++ 결과:</strong> 관성 범위 = ${spread.toFixed(1)}. ` +
+      '랜덤 초기화에 비해 결과가 훨씬 일관적입니다. 실무에서는 K-means++를 기본으로 사용합니다.';
+  }
+}
+
+// ==================== INTERACTIVE 4: CUSTOMER SEGMENTATION ====================
+let segData = [];
+let segCentroids = [];
+
+function generateSegData() {
+  segData = [];
+  // VIP: high spending, high frequency
+  for (let i = 0; i < 30; i++) segData.push({ x: randNorm(80, 10), y: randNorm(25, 5), cluster: -1 });
+  // Regular: medium
+  for (let i = 0; i < 60; i++) segData.push({ x: randNorm(40, 12), y: randNorm(12, 4), cluster: -1 });
+  // Occasional: low freq, varied spending
+  for (let i = 0; i < 40; i++) segData.push({ x: randNorm(20, 8), y: randNorm(4, 2), cluster: -1 });
+  // At-risk: was high, now low
+  for (let i = 0; i < 20; i++) segData.push({ x: randNorm(60, 15), y: randNorm(3, 1.5), cluster: -1 });
+
+  drawSegCanvas(false);
+}
+
+function runSegmentation() {
+  if (segData.length === 0) return;
+  const k = parseInt(document.getElementById('sel-seg-k').value);
+  segCentroids = initCentroids(segData, k, 'kmpp');
+  for (let iter = 0; iter < 30; iter++) {
+    assignClusters(segData, segCentroids);
+    if (!updateCentroids(segData, segCentroids)) break;
+  }
+  assignClusters(segData, segCentroids);
+  drawSegCanvas(true);
+  showSegTable();
+}
+
+function drawSegCanvas(showClusters) {
+  const canvas = document.getElementById('canvas-seg');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const margin = { top: 30, right: 30, bottom: 50, left: 60 };
+  const plotW = W - margin.left - margin.right;
+  const plotH = H - margin.top - margin.bottom;
+  const xMin = 0, xMax = 120, yMin = 0, yMax = 40;
+  const sx = (x) => margin.left + (x - xMin) / (xMax - xMin) * plotW;
+  const sy = (y) => margin.top + plotH - (y - yMin) / (yMax - yMin) * plotH;
+
+  // Grid
+  ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 0.5;
+  for (let i = 0; i <= 4; i++) {
+    const y = margin.top + plotH * i / 4;
+    ctx.beginPath(); ctx.moveTo(margin.left, y); ctx.lineTo(margin.left + plotW, y); ctx.stroke();
+  }
+
+  // Axes
+  ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(margin.left, margin.top); ctx.lineTo(margin.left, margin.top + plotH); ctx.lineTo(margin.left + plotW, margin.top + plotH); ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#1e293b'; ctx.font = '12px Paperlogy'; ctx.textAlign = 'center';
+  ctx.fillText('월 평균 지출 (만원)', margin.left + plotW / 2, H - 8);
+  ctx.save(); ctx.translate(15, margin.top + plotH / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('월 구매 횟수', 0, 0); ctx.restore();
+
+  // Points
+  segData.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(sx(p.x), sy(p.y), 4, 0, 2 * Math.PI);
+    ctx.fillStyle = showClusters && p.cluster >= 0 ? COLORS[p.cluster % COLORS.length] + 'bb' : '#94a3b8';
+    ctx.fill();
+  });
+
+  // Centroids
+  if (showClusters && segCentroids.length > 0) {
+    segCentroids.forEach((c, i) => {
+      ctx.beginPath(); ctx.arc(sx(c.x), sy(c.y), 10, 0, 2 * Math.PI);
+      ctx.fillStyle = COLORS[i % COLORS.length]; ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.stroke();
+      ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1; ctx.stroke();
+    });
+  }
+}
+
+function showSegTable() {
+  const k = segCentroids.length;
+  const labels = ['VIP', '일반 고객', '저빈도 고객', '이탈 위험', '신규 고객'];
+  const tbody = document.getElementById('seg-tbody');
+  tbody.innerHTML = '';
+
+  // Sort clusters by average spending descending
+  const clusterInfo = [];
+  for (let i = 0; i < k; i++) {
+    const members = segData.filter(p => p.cluster === i);
+    const avgX = members.reduce((s, p) => s + p.x, 0) / members.length;
+    const avgY = members.reduce((s, p) => s + p.y, 0) / members.length;
+    clusterInfo.push({ idx: i, count: members.length, avgX, avgY });
+  }
+  clusterInfo.sort((a, b) => (b.avgX + b.avgY * 3) - (a.avgX + a.avgY * 3));
+
+  clusterInfo.forEach((ci, rank) => {
+    const label = labels[rank] || '군집 ' + (rank + 1);
+    tbody.insertAdjacentHTML('beforeend', `<tr>
+      <td><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${COLORS[ci.idx]};vertical-align:middle;margin-right:6px;"></span>${label}</td>
+      <td>${ci.count}명</td>
+      <td>${ci.avgX.toFixed(1)}만원</td>
+      <td>${ci.avgY.toFixed(1)}회</td>
+      <td style="font-weight:700;color:${COLORS[ci.idx]};">${label}</td>
+    </tr>`);
+  });
+
+  document.getElementById('seg-result').style.display = '';
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('27-kmeans')).catch(() => {});
+
+  initKM();
+
+  document.getElementById('btn-km-init').addEventListener('click', initKM);
+  document.getElementById('btn-km-step').addEventListener('click', stepKM);
+  document.getElementById('btn-km-run').addEventListener('click', runKM);
+  document.getElementById('sel-km-k').addEventListener('change', initKM);
+  document.getElementById('sel-km-pattern').addEventListener('change', initKM);
+
+  document.getElementById('btn-elbow').addEventListener('click', runElbowAnalysis);
+
+  document.getElementById('btn-multi-run').addEventListener('click', () => runMultipleKM('random'));
+  document.getElementById('btn-kpp-run').addEventListener('click', () => runMultipleKM('kmpp'));
+
+  document.getElementById('btn-seg-gen').addEventListener('click', generateSegData);
+  document.getElementById('btn-seg-run').addEventListener('click', runSegmentation);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+</style>

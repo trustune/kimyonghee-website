@@ -1,0 +1,1157 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="앙상블 학습"
+  subtitle="약한 모델의 연합"
+  chapterNum={23}
+  part={4}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>대중의 지혜: 한 명보다 백 명이 정확하다</h2>
+    <p>
+      1906년, 영국의 통계학자 프랜시스 골턴은 한 축제에서 흥미로운 실험을 목격합니다.
+      787명의 사람들이 소의 무게를 추측했는데, 개인의 추측은 들쭉날쭉했지만
+      <strong>전체 추측값의 중앙값은 실제 무게와 겨우 1% 차이</strong>였습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      한 사람의 판단보다 100명의 다수결이 정확한 이 현상을 <strong>"대중의 지혜(Wisdom of Crowds)"</strong>라 부릅니다.
+      앙상블 학습은 이 원리를 머신러닝에 적용합니다.
+      하나의 뛰어난 모델 대신, <strong>여러 개의 평범한 모델을 결합</strong>하면 더 강력한 모델이 됩니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이전 장에서 의사결정트리의 약점을 보았습니다: 불안정하고 과적합에 취약합니다.
+      하지만 트리 100개를 결합하면? 놀랍게도 가장 강력한 알고리즘 중 하나가 됩니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 앙상블의 두 가지 전략 ===== -->
+  <div class="tb-card">
+    <h2>앙상블의 두 가지 전략: 배깅 vs 부스팅</h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 14px 0;">
+      <div style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); padding: 20px; border-radius: var(--tb-radius);">
+        <h3 style="color: #1e40af;">배깅 (Bagging)</h3>
+        <p style="font-size: 0.9rem; margin-top: 8px;">
+          <strong>B</strong>ootstrap <strong>Agg</strong>regat<strong>ing</strong>의 약자.
+          원본 데이터에서 복원 추출(bootstrap)로 여러 데이터셋을 만들고,
+          각각에 독립적으로 모델을 학습시킨 뒤, 다수결(분류) 또는 평균(회귀)으로 결합합니다.
+        </p>
+        <p style="font-size: 0.85rem; color: #374151; margin-top: 8px;">
+          비유: 같은 시험을 여러 학생이 독립적으로 풀고, 가장 많이 고른 답을 제출.
+        </p>
+        <p style="font-size: 0.85rem; margin-top: 6px; font-weight: 700;">
+          대표 알고리즘: 랜덤 포레스트
+        </p>
+      </div>
+      <div style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 20px; border-radius: var(--tb-radius);">
+        <h3 style="color: #92400e;">부스팅 (Boosting)</h3>
+        <p style="font-size: 0.9rem; margin-top: 8px;">
+          약한 학습기를 <strong>순차적으로</strong> 학습합니다.
+          첫 번째 모델이 틀린 데이터에 가중치를 높여서 두 번째 모델이 그것에 집중합니다.
+          이렇게 실수를 보완하며 점점 강해집니다.
+        </p>
+        <p style="font-size: 0.85rem; color: #374151; margin-top: 8px;">
+          비유: 선생님이 학생의 오답만 모아서 다음 시험에 출제. 반복할수록 약점이 사라짐.
+        </p>
+        <p style="font-size: 0.85rem; margin-top: 6px; font-weight: 700;">
+          대표 알고리즘: AdaBoost, Gradient Boosting, XGBoost
+        </p>
+      </div>
+    </div>
+
+    <ExplainBox>
+      <strong>핵심 차이:</strong> 배깅은 <strong>분산(variance)</strong>을 줄이는 전략이고,
+      부스팅은 <strong>편향(bias)</strong>을 줄이는 전략입니다.
+      배깅은 과적합을 방지하고, 부스팅은 과소적합을 극복합니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      배깅: f(x) = <span class="hl">1/T</span> * [f_1(x) + f_2(x) + ... + f_T(x)] &nbsp;&nbsp;(독립적 평균)<br>
+      부스팅: f(x) = <span class="hl">alpha_1</span> * f_1(x) + <span class="hl">alpha_2</span> * f_2(x) + ... &nbsp;&nbsp;(순차적 가중합)
+    </FormulaBox>
+  </div>
+
+  <!-- ===== SECTION 3: 랜덤 포레스트 ===== -->
+  <div class="tb-card">
+    <h2>랜덤 포레스트: 나무가 모여 숲이 되면</h2>
+    <p>
+      랜덤 포레스트는 배깅에 <strong>무작위 특성 선택</strong>을 추가합니다.
+      각 트리는 전체 특성 중 일부만 사용합니다(보통 전체의 제곱근 개수).
+      이렇게 하면 트리들 사이의 상관관계가 줄어서 앙상블 효과가 극대화됩니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong> 30명이 퀴즈를 푸는데, 모두 같은 교과서만 보면 같은 실수를 합니다.
+      하지만 각자 다른 장만 공부하면(무작위 특성), 실수가 서로 다릅니다.
+      다수결로 합치면 개인의 실수가 상쇄됩니다.
+    </ExplainBox>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0;">
+      <div style="background: var(--tb-g100); padding: 16px; border-radius: var(--tb-radius); text-align: center;">
+        <div style="font-size: 2rem; font-weight: 800; color: var(--tb-primary);">1</div>
+        <div style="font-weight: 700; font-size: 0.9rem;">부트스트랩 샘플링</div>
+        <div style="font-size: 0.82rem; color: var(--tb-g600); margin-top: 4px;">원본에서 중복 허용 추출</div>
+      </div>
+      <div style="background: var(--tb-g100); padding: 16px; border-radius: var(--tb-radius); text-align: center;">
+        <div style="font-size: 2rem; font-weight: 800; color: var(--tb-primary);">2</div>
+        <div style="font-weight: 700; font-size: 0.9rem;">무작위 특성 선택</div>
+        <div style="font-size: 0.82rem; color: var(--tb-g600); margin-top: 4px;">sqrt(p)개만 후보로</div>
+      </div>
+      <div style="background: var(--tb-g100); padding: 16px; border-radius: var(--tb-radius); text-align: center;">
+        <div style="font-size: 2rem; font-weight: 800; color: var(--tb-primary);">3</div>
+        <div style="font-weight: 700; font-size: 0.9rem;">다수결 / 평균</div>
+        <div style="font-size: 0.82rem; color: var(--tb-g600); margin-top: 4px;">모든 트리 결합</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Forest Growth ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 숲을 키워보자</h2>
+    <p>
+      트리를 하나씩 추가하면서 앙상블의 결정 경계와 정확도가 어떻게 변하는지 관찰합니다.
+      단일 트리의 들쭉날쭉한 경계가 트리가 늘어날수록 부드러워지는 것을 확인하세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>"나무 추가" 버튼</strong>을 누르면 랜덤 트리가 하나씩 숲에 합류합니다.
+      트리가 늘어날수록 정확도가 어떻게 변하는지, 결정 경계가 어떻게 바뀌는지 관찰하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-add-tree">나무 추가 (+1)</button>
+      <button class="tb-btn tb-btn-warning" id="btn-add-10-trees">+10 나무</button>
+      <button class="tb-btn tb-btn-danger" id="btn-reset-forest">숲 초기화</button>
+      <span style="font-weight: 600; font-size: 0.9rem; margin-left: 12px;">현재 트리 수: <strong id="label-tree-count">0</strong></span>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div>
+        <div style="font-weight: 700; font-size: 0.9rem; text-align: center; margin-bottom: 8px;">앙상블 결정 경계</div>
+        <canvas id="canvas-forest-boundary" width="350" height="350" style="max-width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius);"></canvas>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: 0.9rem; text-align: center; margin-bottom: 8px;">트리 수 vs 정확도</div>
+        <ChartContainer id="chart-forest-accuracy" height="350px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="트리 수" id="stat-forest-trees" />
+      <StatBox label="앙상블 정확도" id="stat-forest-acc" borderColor="#22c55e" />
+      <StatBox label="첫 트리 정확도" id="stat-single-tree-acc" borderColor="#ef4444" />
+    </div>
+
+    <InsightBox>
+      <strong>관찰:</strong> 트리 1개는 불안정하지만, 50개 이상이면 결정 경계가 매끄러워지고
+      정확도가 안정됩니다. 하지만 200개 이상에서는 개선 폭이 미미합니다 -- 수확체감의 법칙이 여기에도 적용됩니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Bagging vs Single Tree ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 단일 트리 vs 배깅</h2>
+    <p>
+      같은 데이터에 대해 깊은 단일 트리와 50개 트리의 배깅 앙상블을 나란히 비교합니다.
+      단일 트리는 과적합으로 경계가 복잡하고, 배깅은 부드럽습니다.
+    </p>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-compare-bagging">비교 실행</button>
+      <label>단일 트리 깊이:</label>
+      <select id="select-single-depth">
+        <option value="3">3</option>
+        <option value="5">5</option>
+        <option value="8" selected>8</option>
+        <option value="12">12</option>
+        <option value="20">20 (과적합)</option>
+      </select>
+      <label>배깅 트리 수:</label>
+      <select id="select-bag-count">
+        <option value="10">10</option>
+        <option value="30">30</option>
+        <option value="50" selected>50</option>
+        <option value="100">100</option>
+      </select>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div>
+        <div style="font-weight: 700; font-size: 0.9rem; text-align: center; margin-bottom: 8px; color: var(--tb-danger);">
+          단일 트리 (깊이 <span id="label-single-depth">8</span>)
+        </div>
+        <canvas id="canvas-single-tree" width="340" height="340" style="max-width: 100%; border: 2px solid #fee2e2; border-radius: var(--tb-radius);"></canvas>
+        <div style="text-align: center; margin-top: 6px; font-weight: 700; font-size: 0.9rem;">
+          정확도: <span id="label-single-acc" style="color: var(--tb-danger);">--</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: 0.9rem; text-align: center; margin-bottom: 8px; color: var(--tb-success);">
+          배깅 앙상블 (<span id="label-bag-trees">50</span> 트리)
+        </div>
+        <canvas id="canvas-bagging" width="340" height="340" style="max-width: 100%; border: 2px solid #dcfce7; border-radius: var(--tb-radius);"></canvas>
+        <div style="text-align: center; margin-top: 6px; font-weight: 700; font-size: 0.9rem;">
+          정확도: <span id="label-bag-acc" style="color: var(--tb-success);">--</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: Boosting Step-by-Step ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 부스팅, 실수에서 배우다</h2>
+    <p>
+      부스팅은 이전 모델이 틀린 데이터에 더 집중합니다.
+      아래 시뮬레이션에서 각 라운드마다 <strong>오분류된 점이 크게 강조</strong>되는 것을 관찰하세요.
+    </p>
+
+    <ExplainBox>
+      <strong>AdaBoost 작동 원리:</strong><br>
+      1. 모든 데이터에 동일한 가중치를 부여합니다.<br>
+      2. 약한 학습기(얕은 트리)를 학습합니다.<br>
+      3. 틀린 데이터의 가중치를 높이고, 맞은 데이터의 가중치를 낮춥니다.<br>
+      4. 다음 학습기는 높은 가중치의 데이터에 집중합니다.<br>
+      5. 모든 학습기의 가중 투표로 최종 예측합니다.
+    </ExplainBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-boost-step">다음 라운드</button>
+      <button class="tb-btn tb-btn-warning" id="btn-boost-auto">자동 진행 (10라운드)</button>
+      <button class="tb-btn tb-btn-danger" id="btn-boost-reset">초기화</button>
+      <span style="font-weight: 600; font-size: 0.9rem;">라운드: <strong id="label-boost-round">0</strong> / 10</span>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div>
+        <div style="font-weight: 700; font-size: 0.9rem; text-align: center; margin-bottom: 8px;">현재 라운드 학습기</div>
+        <canvas id="canvas-boost-current" width="340" height="340" style="max-width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius);"></canvas>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: 0.9rem; text-align: center; margin-bottom: 8px;">결합된 앙상블</div>
+        <canvas id="canvas-boost-ensemble" width="340" height="340" style="max-width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius);"></canvas>
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="현재 학습기 오류율" id="stat-boost-error" />
+      <StatBox label="학습기 가중치" id="stat-boost-alpha" />
+      <StatBox label="앙상블 정확도" id="stat-boost-acc" borderColor="#22c55e" />
+    </div>
+
+    <ChartContainer id="chart-boost-progress" height="250px" />
+  </div>
+
+  <!-- ===== INTERACTIVE 4: Random Forest Feature Importance ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 랜덤 포레스트 특성 중요도</h2>
+    <p>
+      랜덤 포레스트로 비즈니스 데이터를 분석하면, 어떤 요인이 결과에 가장 큰 영향을 미치는지
+      <strong>순열 중요도(Permutation Importance)</strong>로 측정할 수 있습니다.
+    </p>
+
+    <BusinessBox>
+      <strong>시나리오:</strong> 고객 이탈을 예측하는 랜덤 포레스트 모델입니다.
+      가입기간, 월 이용료, 고객만족도, 문의횟수, 계약유형의 5가지 특성이 있습니다.
+      특성을 하나 선택하고 "셔플" 버튼을 누르면, 그 특성의 값을 무작위로 섞었을 때
+      정확도가 얼마나 떨어지는지 볼 수 있습니다.
+    </BusinessBox>
+
+    <ChartContainer id="chart-rf-importance" height="280px" />
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-rf-fit">랜덤 포레스트 학습</button>
+      <label>셔플할 특성:</label>
+      <select id="select-shuffle-feature">
+        <option value="0">가입기간</option>
+        <option value="1">월 이용료</option>
+        <option value="2">고객만족도</option>
+        <option value="3">문의횟수</option>
+        <option value="4">계약유형</option>
+      </select>
+      <button class="tb-btn tb-btn-warning" id="btn-rf-shuffle">특성 셔플</button>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="원래 정확도" id="stat-rf-original" />
+      <StatBox label="셔플 후 정확도" id="stat-rf-shuffled" />
+      <StatBox label="정확도 감소" id="stat-rf-drop" borderColor="#ef4444" />
+    </div>
+
+    <InsightBox>
+      <strong>순열 중요도의 직관:</strong> "이 특성이 완전히 엉망이 되면 예측이 얼마나 나빠지는가?"
+      많이 나빠지면 중요한 특성이고, 별로 안 나빠지면 중요하지 않은 특성입니다.
+      이것은 트리 기반 중요도보다 더 신뢰할 수 있는 방법입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: Model Zoo Comparison ===== -->
+  <div class="tb-card">
+    <h2>실습 5: 모델 동물원 비교</h2>
+    <p>
+      같은 데이터에 대해 단일 트리, 배깅, 랜덤 포레스트, 그레이디언트 부스팅 4가지 모델을 동시에 실행합니다.
+      어떤 모델이 가장 좋은 성능을 보일까요?
+    </p>
+
+    <ExerciseBox>
+      <strong>"전체 비교 실행" 버튼</strong>을 누르면 4가지 모델이 순차적으로 학습됩니다.
+      결과 테이블과 막대그래프를 비교하세요. 항상 같은 모델이 이기나요? 데이터를 바꿔보세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-zoo-run">전체 비교 실행</button>
+      <button class="tb-btn tb-btn-danger" id="btn-zoo-new-data">새 데이터</button>
+      <label>데이터 크기:</label>
+      <select id="select-zoo-size">
+        <option value="100">100</option>
+        <option value="200" selected>200</option>
+        <option value="500">500</option>
+      </select>
+    </SimControls>
+
+    <!-- 결과 테이블 -->
+    <div class="tb-data-table-wrap" style="max-height: none; margin: 14px 0;">
+      <table class="tb-data-table" id="zoo-result-table">
+        <thead>
+          <tr>
+            <th>모델</th>
+            <th>훈련 정확도</th>
+            <th>테스트 정확도</th>
+            <th>리프/학습기 수</th>
+            <th>순위</th>
+          </tr>
+        </thead>
+        <tbody id="zoo-result-tbody">
+          <tr><td colspan="5" style="color: var(--tb-g600);">실행 버튼을 눌러주세요</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ChartContainer id="chart-zoo-comparison" height="300px" />
+
+    <WarningBox>
+      <strong>주의:</strong> "항상 가장 좋은 모델"은 없습니다.
+      데이터 크기, 특성 수, 노이즈 수준에 따라 최적 모델이 달라집니다.
+      하지만 일반적으로 <strong>랜덤 포레스트나 그레이디언트 부스팅</strong>이 단일 트리보다 우수합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== Gradient Boosting 이론 ===== -->
+  <div class="tb-card">
+    <h2>그레이디언트 부스팅: 잔차를 학습하라</h2>
+    <p>
+      그레이디언트 부스팅(Gradient Boosting)은 부스팅의 강력한 변형입니다.
+      이전 모델의 <strong>잔차(residual, 실제값 - 예측값)</strong>를 다음 모델이 학습합니다.
+      매 단계마다 "아직 설명하지 못한 오차"를 조금씩 줄여 나갑니다.
+    </p>
+
+    <FormulaBox>
+      F_0(x) = 초기 예측 (평균값)<br>
+      F_1(x) = F_0(x) + <span class="hl">lr</span> * h_1(x) &nbsp;&nbsp;(h_1은 잔차를 학습한 트리)<br>
+      F_2(x) = F_1(x) + <span class="hl">lr</span> * h_2(x) &nbsp;&nbsp;(h_2는 새 잔차를 학습)<br>
+      ...<br>
+      F_T(x) = F_0(x) + <span class="hl">lr</span> * <span class="res">[h_1(x) + h_2(x) + ... + h_T(x)]</span>
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>비유:</strong> 초상화를 그릴 때, 첫 화가가 대략적인 윤곽을 잡고,
+      두 번째 화가가 부족한 부분을 보완하고, 세 번째가 세부를 추가합니다.
+      각 화가는 이전까지의 작품에서 "빠진 부분"만 그립니다.
+      <strong>lr(학습률)</strong>은 각 화가가 얼마나 자신감 있게 그리는지를 조절합니다.
+    </ExplainBox>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: var(--tb-g100); padding: 16px; border-radius: var(--tb-radius);">
+        <h3>실무에서 인기 있는 구현체</h3>
+        <ul style="font-size: 0.9rem; line-height: 2; padding-left: 18px;">
+          <li><strong>XGBoost:</strong> 속도와 성능의 균형. Kaggle 대회 우승의 단골.</li>
+          <li><strong>LightGBM:</strong> 대용량 데이터에 빠름. 리프 중심 성장.</li>
+          <li><strong>CatBoost:</strong> 범주형 데이터에 강함. 인코딩 자동 처리.</li>
+        </ul>
+      </div>
+      <div style="background: var(--tb-g100); padding: 16px; border-radius: var(--tb-radius);">
+        <h3>핵심 하이퍼파라미터</h3>
+        <ul style="font-size: 0.9rem; line-height: 2; padding-left: 18px;">
+          <li><strong>n_estimators:</strong> 트리 수 (100~1000)</li>
+          <li><strong>learning_rate:</strong> 학습률 (0.01~0.3)</li>
+          <li><strong>max_depth:</strong> 개별 트리 깊이 (3~8)</li>
+          <li><strong>subsample:</strong> 데이터 부분 사용 비율</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <ul style="line-height: 2;">
+      <li>앙상블은 여러 약한 모델을 결합하여 강한 모델을 만드는 전략이다.</li>
+      <li>배깅(랜덤 포레스트)은 독립적 투표로 분산을 줄이고, 부스팅은 순차 학습으로 편향을 줄인다.</li>
+      <li>랜덤 포레스트는 부트스트랩 + 무작위 특성 선택으로 트리 간 상관을 낮춘다.</li>
+      <li>그레이디언트 부스팅은 잔차를 순차적으로 학습하며, XGBoost/LightGBM이 대표적이다.</li>
+      <li>앙상블은 강력하지만, "어떤 모델이 좋은가?"를 판단하려면 체계적 평가가 필요하다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 모델을 만들었으면, 이제 "이 모델이 정말 좋은가?"를 판단해야 합니다.
+      다음 장에서는 <strong>모델 평가와 선택</strong> -- 정확도, 정밀도, 재현율, ROC 곡선, 교차검증을 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+  import { markVisited } from '../../textbook/lib/progress';
+  markVisited('23-ensemble');
+
+  // ====================== SHARED DATA ======================
+  function generate2DData(n: number) {
+    const data = [];
+    for (let i = 0; i < n; i++) {
+      const x = Math.random() * 10;
+      const y = Math.random() * 10;
+      const noise = (Math.random() - 0.5) * 2;
+      const boundary = 3 * Math.sin(x * 0.8) + 5 + noise;
+      const cls = y > boundary ? 1 : 0;
+      data.push({ x, y, cls });
+    }
+    return data;
+  }
+
+  let forestTrainData = generate2DData(120);
+  let forestTestData = generate2DData(60);
+
+  // ====================== SIMPLE TREE ======================
+  interface TreeNode {
+    feature?: string;
+    threshold?: number;
+    left?: TreeNode;
+    right?: TreeNode;
+    prediction?: number;
+    counts?: number[];
+  }
+
+  function gini(counts: number[]) {
+    const total = counts.reduce((a, b) => a + b, 0);
+    if (total === 0) return 0;
+    let s = 0;
+    for (const c of counts) s += (c / total) ** 2;
+    return 1 - s;
+  }
+
+  function buildSimpleTree(data: any[], depth = 0, maxDepth = 4, features = ['x', 'y'], subsampleFeatures = false): TreeNode {
+    const c0 = data.filter((d: any) => d.cls === 0).length;
+    const c1 = data.length - c0;
+    const pred = c0 >= c1 ? 0 : 1;
+    const g = gini([c0, c1]);
+    if (depth >= maxDepth || data.length < 4 || g === 0) {
+      return { prediction: pred, counts: [c0, c1] };
+    }
+
+    // Optionally subsample features (for RF)
+    let usedFeatures = features;
+    if (subsampleFeatures) {
+      usedFeatures = Math.random() > 0.5 ? ['x'] : ['y'];
+      if (Math.random() > 0.5) usedFeatures = features; // sometimes use both
+    }
+
+    let bestGain = -1, bestFeat = 'x', bestThresh = 0;
+    for (const feat of usedFeatures) {
+      const vals = data.map((d: any) => d[feat]).sort((a: number, b: number) => a - b);
+      const step = Math.max(1, Math.floor(vals.length / 15));
+      for (let i = 0; i < vals.length - 1; i += step) {
+        const thresh = (vals[i] + vals[i + 1]) / 2;
+        const left = data.filter((d: any) => d[feat] <= thresh);
+        const right = data.filter((d: any) => d[feat] > thresh);
+        if (left.length === 0 || right.length === 0) continue;
+        const lc = [left.filter((d: any) => d.cls === 0).length, left.filter((d: any) => d.cls === 1).length];
+        const rc = [right.filter((d: any) => d.cls === 0).length, right.filter((d: any) => d.cls === 1).length];
+        const wg = (left.length * gini(lc) + right.length * gini(rc)) / data.length;
+        const gain = g - wg;
+        if (gain > bestGain) { bestGain = gain; bestFeat = feat; bestThresh = thresh; }
+      }
+    }
+
+    if (bestGain <= 0) return { prediction: pred, counts: [c0, c1] };
+
+    const leftD = data.filter((d: any) => d[bestFeat] <= bestThresh);
+    const rightD = data.filter((d: any) => d[bestFeat] > bestThresh);
+
+    return {
+      feature: bestFeat, threshold: bestThresh,
+      left: buildSimpleTree(leftD, depth + 1, maxDepth, features, subsampleFeatures),
+      right: buildSimpleTree(rightD, depth + 1, maxDepth, features, subsampleFeatures),
+      counts: [c0, c1],
+    };
+  }
+
+  function predictNode(node: TreeNode, sample: any): number {
+    if (node.feature === undefined) return node.prediction!;
+    return sample[node.feature!] <= node.threshold! ? predictNode(node.left!, sample) : predictNode(node.right!, sample);
+  }
+
+  function bootstrapSample(data: any[]) {
+    const n = data.length;
+    const sample = [];
+    for (let i = 0; i < n; i++) sample.push(data[Math.floor(Math.random() * n)]);
+    return sample;
+  }
+
+  // ====================== ENSEMBLE PREDICT ======================
+  function ensemblePredict(trees: TreeNode[], sample: any): number {
+    let votes = 0;
+    for (const t of trees) votes += predictNode(t, sample);
+    return votes > trees.length / 2 ? 1 : 0;
+  }
+
+  function calcAccuracy(trees: TreeNode[], data: any[]) {
+    let correct = 0;
+    for (const d of data) if (ensemblePredict(trees, d) === d.cls) correct++;
+    return data.length > 0 ? correct / data.length : 0;
+  }
+
+  function singleAccuracy(tree: TreeNode, data: any[]) {
+    let correct = 0;
+    for (const d of data) if (predictNode(tree, d) === d.cls) correct++;
+    return data.length > 0 ? correct / data.length : 0;
+  }
+
+  // ====================== DRAW BOUNDARY ======================
+  function drawBoundaryOnCanvas(canvasId: string, predictor: (sample: any) => number, trainData: any[], testData?: any[]) {
+    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const step = 5;
+    for (let px = 0; px < W; px += step) {
+      for (let py = 0; py < H; py += step) {
+        const x = (px / W) * 10;
+        const y = ((H - py) / H) * 10;
+        const pred = predictor({ x, y });
+        ctx.fillStyle = pred === 0 ? 'rgba(37,99,235,0.12)' : 'rgba(239,68,68,0.12)';
+        ctx.fillRect(px, py, step, step);
+      }
+    }
+
+    // Draw points
+    for (const d of trainData) {
+      const px = (d.x / 10) * W;
+      const py = H - (d.y / 10) * H;
+      ctx.beginPath();
+      ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = d.cls === 0 ? '#2563eb' : '#ef4444';
+      ctx.fill();
+    }
+    if (testData) {
+      for (const d of testData) {
+        const px = (d.x / 10) * W;
+        const py = H - (d.y / 10) * H;
+        ctx.beginPath();
+        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = d.cls === 0 ? '#93c5fd' : '#fca5a5';
+        ctx.fill();
+        ctx.strokeStyle = '#999';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+
+  // ====================== INTERACTIVE 1: FOREST GROWTH ======================
+  let forestTrees: TreeNode[] = [];
+  let forestAccHistory: number[] = [];
+  let chartForestAccuracy: any = null;
+
+  async function initForestChart() {
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+    Chart.register(...registerables);
+
+    const ctx = (document.getElementById('chart-forest-accuracy') as HTMLCanvasElement)?.getContext('2d');
+    if (!ctx) return;
+
+    chartForestAccuracy = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{ label: '테스트 정확도', data: [], borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.1)', fill: true, tension: 0.3 }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          x: { title: { display: true, text: '트리 수', font: { family: 'Paperlogy' } } },
+          y: { title: { display: true, text: '정확도', font: { family: 'Paperlogy' } }, min: 0.5, max: 1.0 },
+        },
+        plugins: { legend: { labels: { font: { family: 'Paperlogy' } } } },
+      },
+    });
+  }
+
+  function addTrees(count: number) {
+    for (let i = 0; i < count; i++) {
+      const sample = bootstrapSample(forestTrainData);
+      const tree = buildSimpleTree(sample, 0, 4 + Math.floor(Math.random() * 3), ['x', 'y'], true);
+      forestTrees.push(tree);
+      const acc = calcAccuracy(forestTrees, forestTestData);
+      forestAccHistory.push(acc);
+    }
+    updateForestDisplay();
+  }
+
+  function updateForestDisplay() {
+    const n = forestTrees.length;
+    document.getElementById('label-tree-count')!.textContent = String(n);
+    setStat('stat-forest-trees', String(n));
+
+    if (n > 0) {
+      const ensAcc = calcAccuracy(forestTrees, forestTestData);
+      const singleAcc = singleAccuracy(forestTrees[0], forestTestData);
+      setStat('stat-forest-acc', (ensAcc * 100).toFixed(1) + '%');
+      setStat('stat-single-tree-acc', (singleAcc * 100).toFixed(1) + '%');
+
+      drawBoundaryOnCanvas('canvas-forest-boundary', (s) => ensemblePredict(forestTrees, s), forestTrainData, forestTestData);
+    }
+
+    if (chartForestAccuracy) {
+      chartForestAccuracy.data.labels = forestAccHistory.map((_, i) => i + 1);
+      chartForestAccuracy.data.datasets[0].data = forestAccHistory;
+      chartForestAccuracy.update();
+    }
+  }
+
+  // ====================== INTERACTIVE 2: BAGGING VS SINGLE ======================
+  function runBaggingComparison() {
+    const singleDepth = parseInt((document.getElementById('select-single-depth') as HTMLSelectElement).value);
+    const bagCount = parseInt((document.getElementById('select-bag-count') as HTMLSelectElement).value);
+
+    document.getElementById('label-single-depth')!.textContent = String(singleDepth);
+    document.getElementById('label-bag-trees')!.textContent = String(bagCount);
+
+    // Single tree
+    const singleTree = buildSimpleTree(forestTrainData, 0, singleDepth);
+    const singleAcc = singleAccuracy(singleTree, forestTestData);
+    document.getElementById('label-single-acc')!.textContent = (singleAcc * 100).toFixed(1) + '%';
+    drawBoundaryOnCanvas('canvas-single-tree', (s) => predictNode(singleTree, s), forestTrainData);
+
+    // Bagging
+    const bagTrees: TreeNode[] = [];
+    for (let i = 0; i < bagCount; i++) {
+      const sample = bootstrapSample(forestTrainData);
+      bagTrees.push(buildSimpleTree(sample, 0, singleDepth, ['x', 'y'], true));
+    }
+    const bagAcc = calcAccuracy(bagTrees, forestTestData);
+    document.getElementById('label-bag-acc')!.textContent = (bagAcc * 100).toFixed(1) + '%';
+    drawBoundaryOnCanvas('canvas-bagging', (s) => ensemblePredict(bagTrees, s), forestTrainData);
+  }
+
+  // ====================== INTERACTIVE 3: BOOSTING ======================
+  let boostData: any[] = [];
+  let boostWeights: number[] = [];
+  let boostLearners: { tree: TreeNode; alpha: number }[] = [];
+  let boostRound = 0;
+  let chartBoostProgress: any = null;
+  let boostAccHistory: number[] = [];
+
+  function initBoosting() {
+    boostData = generate2DData(80);
+    boostWeights = new Array(boostData.length).fill(1 / boostData.length);
+    boostLearners = [];
+    boostRound = 0;
+    boostAccHistory = [];
+    document.getElementById('label-boost-round')!.textContent = '0';
+    setStat('stat-boost-error', '--');
+    setStat('stat-boost-alpha', '--');
+    setStat('stat-boost-acc', '--');
+    drawBoostingCurrent();
+    drawBoostingEnsemble();
+    if (chartBoostProgress) {
+      chartBoostProgress.data.labels = [];
+      chartBoostProgress.data.datasets[0].data = [];
+      chartBoostProgress.update();
+    }
+  }
+
+  function boostStep() {
+    if (boostRound >= 10) return;
+    boostRound++;
+
+    // Weight-based sampling
+    const sample: any[] = [];
+    for (let i = 0; i < boostData.length; i++) {
+      if (Math.random() < boostWeights[i] * boostData.length) {
+        sample.push(boostData[i]);
+      }
+    }
+    if (sample.length < 5) {
+      for (let i = 0; i < 5; i++) sample.push(boostData[Math.floor(Math.random() * boostData.length)]);
+    }
+
+    // Train weak learner (stump: depth 1-2)
+    const tree = buildSimpleTree(sample, 0, 2);
+
+    // Compute weighted error
+    let err = 0;
+    for (let i = 0; i < boostData.length; i++) {
+      if (predictNode(tree, boostData[i]) !== boostData[i].cls) {
+        err += boostWeights[i];
+      }
+    }
+    err = Math.max(0.001, Math.min(err, 0.999));
+
+    // Learner weight
+    const alpha = 0.5 * Math.log((1 - err) / err);
+    boostLearners.push({ tree, alpha });
+
+    // Update weights
+    for (let i = 0; i < boostData.length; i++) {
+      const correct = predictNode(tree, boostData[i]) === boostData[i].cls;
+      boostWeights[i] *= Math.exp(correct ? -alpha : alpha);
+    }
+    // Normalize
+    const wSum = boostWeights.reduce((a, b) => a + b, 0);
+    for (let i = 0; i < boostWeights.length; i++) boostWeights[i] /= wSum;
+
+    // Compute ensemble accuracy
+    const ensAcc = boostData.filter((d: any) => boostEnsemblePredict(d) === d.cls).length / boostData.length;
+    boostAccHistory.push(ensAcc);
+
+    document.getElementById('label-boost-round')!.textContent = String(boostRound);
+    setStat('stat-boost-error', (err * 100).toFixed(1) + '%');
+    setStat('stat-boost-alpha', alpha.toFixed(3));
+    setStat('stat-boost-acc', (ensAcc * 100).toFixed(1) + '%');
+
+    drawBoostingCurrent();
+    drawBoostingEnsemble();
+
+    if (chartBoostProgress) {
+      chartBoostProgress.data.labels = boostAccHistory.map((_, i) => i + 1);
+      chartBoostProgress.data.datasets[0].data = boostAccHistory;
+      chartBoostProgress.update();
+    }
+  }
+
+  function boostEnsemblePredict(sample: any): number {
+    let score = 0;
+    for (const { tree, alpha } of boostLearners) {
+      const pred = predictNode(tree, sample);
+      score += alpha * (pred === 1 ? 1 : -1);
+    }
+    return score >= 0 ? 1 : 0;
+  }
+
+  function drawBoostingCurrent() {
+    const canvas = document.getElementById('canvas-boost-current') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    if (boostLearners.length > 0) {
+      const lastTree = boostLearners[boostLearners.length - 1].tree;
+      const step = 5;
+      for (let px = 0; px < W; px += step) {
+        for (let py = 0; py < H; py += step) {
+          const x = (px / W) * 10;
+          const y = ((H - py) / H) * 10;
+          const pred = predictNode(lastTree, { x, y });
+          ctx.fillStyle = pred === 0 ? 'rgba(37,99,235,0.1)' : 'rgba(239,68,68,0.1)';
+          ctx.fillRect(px, py, step, step);
+        }
+      }
+    }
+
+    // Draw data points with weights
+    const maxW = Math.max(...boostWeights);
+    for (let i = 0; i < boostData.length; i++) {
+      const d = boostData[i];
+      const px = (d.x / 10) * W;
+      const py = H - (d.y / 10) * H;
+      const radius = 2 + (boostWeights[i] / maxW) * 8;
+      ctx.beginPath();
+      ctx.arc(px, py, radius, 0, Math.PI * 2);
+      ctx.fillStyle = d.cls === 0 ? '#2563eb' : '#ef4444';
+      ctx.globalAlpha = 0.3 + (boostWeights[i] / maxW) * 0.7;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function drawBoostingEnsemble() {
+    if (boostLearners.length === 0) {
+      const canvas = document.getElementById('canvas-boost-ensemble') as HTMLCanvasElement;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d')!;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '13px Paperlogy, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('부스팅 진행 후 표시됩니다', canvas.width / 2, canvas.height / 2);
+      return;
+    }
+    drawBoundaryOnCanvas('canvas-boost-ensemble', (s) => boostEnsemblePredict(s), boostData);
+  }
+
+  async function initBoostChart() {
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+    Chart.register(...registerables);
+
+    const ctx = (document.getElementById('chart-boost-progress') as HTMLCanvasElement)?.getContext('2d');
+    if (!ctx) return;
+
+    chartBoostProgress = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{ label: '앙상블 정확도', data: [], borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.1)', fill: true, tension: 0.3, pointRadius: 5 }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          x: { title: { display: true, text: '라운드', font: { family: 'Paperlogy' } } },
+          y: { title: { display: true, text: '정확도', font: { family: 'Paperlogy' } }, min: 0.5, max: 1.0 },
+        },
+        plugins: { legend: { labels: { font: { family: 'Paperlogy' } } } },
+      },
+    });
+  }
+
+  // ====================== INTERACTIVE 4: RF FEATURE IMPORTANCE ======================
+  const BIZ_FEATURES = ['tenure', 'fee', 'satisfaction', 'inquiries', 'contract'];
+  const BIZ_LABELS = ['가입기간', '월 이용료', '고객만족도', '문의횟수', '계약유형'];
+  let bizData: any[] = [];
+  let rfTrees: TreeNode[] = [];
+  let rfOriginalAcc = 0;
+  let chartRfImportance: any = null;
+
+  function generateBizData(n: number) {
+    const data = [];
+    for (let i = 0; i < n; i++) {
+      const tenure = Math.round(Math.random() * 60); // months
+      const fee = Math.round(30 + Math.random() * 100);
+      const satisfaction = Math.ceil(Math.random() * 5);
+      const inquiries = Math.floor(Math.random() * 10);
+      const contract = Math.random() > 0.5 ? 1 : 0; // 0=monthly, 1=annual
+      const prob = 1 / (1 + Math.exp(-(
+        -1.5 + (tenure < 12 ? 1.2 : -0.5) + (fee > 80 ? 0.8 : -0.3) +
+        (satisfaction <= 2 ? 1.5 : -0.6) + (inquiries > 5 ? 0.6 : -0.2) +
+        (contract === 0 ? 0.7 : -0.4) + (Math.random() - 0.5) * 1.0
+      )));
+      const churned = Math.random() < prob ? 1 : 0;
+      data.push({ tenure, fee, satisfaction, inquiries, contract, cls: churned });
+    }
+    return data;
+  }
+
+  function buildBizTree(data: any[], depth = 0, maxDepth = 4): TreeNode {
+    const c0 = data.filter((d: any) => d.cls === 0).length;
+    const c1 = data.length - c0;
+    if (depth >= maxDepth || data.length < 5 || gini([c0, c1]) === 0) {
+      return { prediction: c0 >= c1 ? 0 : 1, counts: [c0, c1] };
+    }
+
+    // Random feature subset
+    const featIndices = [];
+    for (let i = 0; i < 5; i++) if (Math.random() > 0.4) featIndices.push(i);
+    if (featIndices.length === 0) featIndices.push(Math.floor(Math.random() * 5));
+
+    let bestGain = -1, bestFeat = '', bestThresh = 0;
+    const g = gini([c0, c1]);
+    for (const fi of featIndices) {
+      const key = BIZ_FEATURES[fi];
+      const vals = [...new Set(data.map((d: any) => d[key]))].sort((a: number, b: number) => a - b);
+      for (let vi = 0; vi < vals.length - 1; vi += Math.max(1, Math.floor(vals.length / 10))) {
+        const thresh = (vals[vi] + vals[vi + 1]) / 2;
+        const left = data.filter((d: any) => d[key] <= thresh);
+        const right = data.filter((d: any) => d[key] > thresh);
+        if (left.length === 0 || right.length === 0) continue;
+        const lc = [left.filter((d: any) => d.cls === 0).length, left.length - left.filter((d: any) => d.cls === 0).length];
+        const rc = [right.filter((d: any) => d.cls === 0).length, right.length - right.filter((d: any) => d.cls === 0).length];
+        const wg = (left.length * gini(lc) + right.length * gini(rc)) / data.length;
+        const gain = g - wg;
+        if (gain > bestGain) { bestGain = gain; bestFeat = key; bestThresh = thresh; }
+      }
+    }
+
+    if (bestGain <= 0) return { prediction: c0 >= c1 ? 0 : 1, counts: [c0, c1] };
+
+    const leftD = data.filter((d: any) => d[bestFeat] <= bestThresh);
+    const rightD = data.filter((d: any) => d[bestFeat] > bestThresh);
+
+    return {
+      feature: bestFeat, threshold: bestThresh,
+      left: buildBizTree(leftD, depth + 1, maxDepth),
+      right: buildBizTree(rightD, depth + 1, maxDepth),
+      counts: [c0, c1],
+    };
+  }
+
+  function fitRandomForest() {
+    bizData = generateBizData(200);
+    rfTrees = [];
+    for (let i = 0; i < 50; i++) {
+      const sample = bootstrapSample(bizData);
+      rfTrees.push(buildBizTree(sample, 0, 5));
+    }
+
+    const testData = generateBizData(100);
+    rfOriginalAcc = testData.filter(d => ensemblePredict(rfTrees, d) === d.cls).length / testData.length;
+    setStat('stat-rf-original', (rfOriginalAcc * 100).toFixed(1) + '%');
+    setStat('stat-rf-shuffled', '--');
+    setStat('stat-rf-drop', '--');
+
+    // Compute permutation importance for all features
+    const importances: number[] = [];
+    for (let fi = 0; fi < 5; fi++) {
+      const shuffled = testData.map(d => {
+        const nd = { ...d };
+        nd[BIZ_FEATURES[fi]] = testData[Math.floor(Math.random() * testData.length)][BIZ_FEATURES[fi]];
+        return nd;
+      });
+      const shuffAcc = shuffled.filter(d => ensemblePredict(rfTrees, d) === d.cls).length / shuffled.length;
+      importances.push(Math.max(0, rfOriginalAcc - shuffAcc));
+    }
+
+    if (chartRfImportance) {
+      chartRfImportance.data.datasets[0].data = importances.map(v => v * 100);
+      chartRfImportance.update();
+    }
+  }
+
+  function shuffleFeature() {
+    if (rfTrees.length === 0) return;
+    const fi = parseInt((document.getElementById('select-shuffle-feature') as HTMLSelectElement).value);
+    const testData = generateBizData(100);
+    const shuffled = testData.map(d => {
+      const nd = { ...d };
+      nd[BIZ_FEATURES[fi]] = testData[Math.floor(Math.random() * testData.length)][BIZ_FEATURES[fi]];
+      return nd;
+    });
+    const shuffAcc = shuffled.filter(d => ensemblePredict(rfTrees, d) === d.cls).length / shuffled.length;
+    const origAcc = testData.filter(d => ensemblePredict(rfTrees, d) === d.cls).length / testData.length;
+    setStat('stat-rf-original', (origAcc * 100).toFixed(1) + '%');
+    setStat('stat-rf-shuffled', (shuffAcc * 100).toFixed(1) + '%');
+    setStat('stat-rf-drop', ((origAcc - shuffAcc) * 100).toFixed(1) + '%');
+  }
+
+  async function initRfChart() {
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+    Chart.register(...registerables);
+
+    const ctx = (document.getElementById('chart-rf-importance') as HTMLCanvasElement)?.getContext('2d');
+    if (!ctx) return;
+
+    chartRfImportance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: BIZ_LABELS,
+        datasets: [{ label: '정확도 감소 (%p)', data: [0, 0, 0, 0, 0], backgroundColor: ['#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#22c55e'] }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        indexAxis: 'y',
+        scales: { x: { title: { display: true, text: '정확도 감소 (percentage points)', font: { family: 'Paperlogy' } }, min: 0 } },
+        plugins: { legend: { display: false } },
+      },
+    });
+  }
+
+  // ====================== INTERACTIVE 5: MODEL ZOO ======================
+  let chartZooComparison: any = null;
+
+  function runModelZoo() {
+    const n = parseInt((document.getElementById('select-zoo-size') as HTMLSelectElement).value);
+    const train = generate2DData(n);
+    const test = generate2DData(Math.floor(n * 0.4));
+
+    // 1. Single tree (depth 5)
+    const singleTree = buildSimpleTree(train, 0, 5);
+    const singleTrainAcc = singleAccuracy(singleTree, train);
+    const singleTestAcc = singleAccuracy(singleTree, test);
+
+    // 2. Bagged trees (30 trees, depth 5)
+    const bagTrees: TreeNode[] = [];
+    for (let i = 0; i < 30; i++) bagTrees.push(buildSimpleTree(bootstrapSample(train), 0, 5));
+    const bagTrainAcc = calcAccuracy(bagTrees, train);
+    const bagTestAcc = calcAccuracy(bagTrees, test);
+
+    // 3. Random Forest (50 trees, depth 5, feature subsampling)
+    const rfTreesLocal: TreeNode[] = [];
+    for (let i = 0; i < 50; i++) rfTreesLocal.push(buildSimpleTree(bootstrapSample(train), 0, 5, ['x', 'y'], true));
+    const rfTrainAcc = calcAccuracy(rfTreesLocal, train);
+    const rfTestAcc = calcAccuracy(rfTreesLocal, test);
+
+    // 4. Gradient Boosting (simulated: sequential residual fitting)
+    const gbLearners: { tree: TreeNode; alpha: number }[] = [];
+    let gbWeights = new Array(train.length).fill(1 / train.length);
+    for (let r = 0; r < 20; r++) {
+      const sample: any[] = [];
+      for (let i = 0; i < train.length; i++) {
+        if (Math.random() < gbWeights[i] * train.length) sample.push(train[i]);
+      }
+      if (sample.length < 5) continue;
+      const tree = buildSimpleTree(sample, 0, 3);
+      let err = 0;
+      for (let i = 0; i < train.length; i++) {
+        if (predictNode(tree, train[i]) !== train[i].cls) err += gbWeights[i];
+      }
+      err = Math.max(0.001, Math.min(err, 0.999));
+      const alpha = 0.5 * Math.log((1 - err) / err);
+      gbLearners.push({ tree, alpha });
+      for (let i = 0; i < train.length; i++) {
+        const correct = predictNode(tree, train[i]) === train[i].cls;
+        gbWeights[i] *= Math.exp(correct ? -alpha : alpha);
+      }
+      const wSum = gbWeights.reduce((a, b) => a + b, 0);
+      for (let i = 0; i < gbWeights.length; i++) gbWeights[i] /= wSum;
+    }
+    const gbPredict = (sample: any) => {
+      let score = 0;
+      for (const { tree, alpha } of gbLearners) score += alpha * (predictNode(tree, sample) === 1 ? 1 : -1);
+      return score >= 0 ? 1 : 0;
+    };
+    const gbTrainAcc = train.filter(d => gbPredict(d) === d.cls).length / train.length;
+    const gbTestAcc = test.filter(d => gbPredict(d) === d.cls).length / test.length;
+
+    // Results
+    const results = [
+      { name: '단일 트리', trainAcc: singleTrainAcc, testAcc: singleTestAcc, detail: '깊이 5' },
+      { name: '배깅', trainAcc: bagTrainAcc, testAcc: bagTestAcc, detail: '30 트리' },
+      { name: '랜덤 포레스트', trainAcc: rfTrainAcc, testAcc: rfTestAcc, detail: '50 트리' },
+      { name: '그레이디언트 부스팅', trainAcc: gbTrainAcc, testAcc: gbTestAcc, detail: '20 라운드' },
+    ];
+
+    results.sort((a, b) => b.testAcc - a.testAcc);
+
+    const tbody = document.getElementById('zoo-result-tbody')!;
+    tbody.innerHTML = '';
+    results.forEach((r, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td style="font-weight:700;">${r.name}</td>` +
+        `<td>${(r.trainAcc * 100).toFixed(1)}%</td>` +
+        `<td style="font-weight:700; color:${i === 0 ? 'var(--tb-success)' : 'inherit'};">${(r.testAcc * 100).toFixed(1)}%</td>` +
+        `<td>${r.detail}</td>` +
+        `<td style="font-weight:800; color:${i === 0 ? 'var(--tb-success)' : 'var(--tb-g600)'};">${i + 1}위</td>`;
+      tbody.appendChild(tr);
+    });
+
+    if (chartZooComparison) {
+      chartZooComparison.data.datasets[0].data = results.map(r => r.testAcc * 100);
+      chartZooComparison.data.labels = results.map(r => r.name);
+      chartZooComparison.update();
+    }
+  }
+
+  async function initZooChart() {
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+    Chart.register(...registerables);
+
+    const ctx = (document.getElementById('chart-zoo-comparison') as HTMLCanvasElement)?.getContext('2d');
+    if (!ctx) return;
+
+    chartZooComparison = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['단일 트리', '배깅', '랜덤 포레스트', '그레이디언트 부스팅'],
+        datasets: [{
+          label: '테스트 정확도 (%)',
+          data: [0, 0, 0, 0],
+          backgroundColor: ['#94a3b8', '#3b82f6', '#22c55e', '#f59e0b'],
+        }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          y: { title: { display: true, text: '테스트 정확도 (%)', font: { family: 'Paperlogy' } }, min: 50, max: 100 },
+        },
+        plugins: { legend: { display: false } },
+      },
+    });
+  }
+
+  // ====================== UTILITY ======================
+  function setStat(id: string, val: string) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
+  // ====================== INIT ======================
+  function init() {
+    // Interactive 1: Forest Growth
+    document.getElementById('btn-add-tree')?.addEventListener('click', () => addTrees(1));
+    document.getElementById('btn-add-10-trees')?.addEventListener('click', () => addTrees(10));
+    document.getElementById('btn-reset-forest')?.addEventListener('click', () => {
+      forestTrees = [];
+      forestAccHistory = [];
+      forestTrainData = generate2DData(120);
+      forestTestData = generate2DData(60);
+      updateForestDisplay();
+    });
+
+    // Interactive 2: Bagging comparison
+    document.getElementById('btn-compare-bagging')?.addEventListener('click', runBaggingComparison);
+
+    // Interactive 3: Boosting
+    initBoosting();
+    document.getElementById('btn-boost-step')?.addEventListener('click', boostStep);
+    document.getElementById('btn-boost-auto')?.addEventListener('click', () => {
+      for (let i = 0; i < 10; i++) boostStep();
+    });
+    document.getElementById('btn-boost-reset')?.addEventListener('click', initBoosting);
+
+    // Interactive 4: RF Importance
+    document.getElementById('btn-rf-fit')?.addEventListener('click', fitRandomForest);
+    document.getElementById('btn-rf-shuffle')?.addEventListener('click', shuffleFeature);
+
+    // Interactive 5: Model Zoo
+    document.getElementById('btn-zoo-run')?.addEventListener('click', runModelZoo);
+    document.getElementById('btn-zoo-new-data')?.addEventListener('click', () => {
+      forestTrainData = generate2DData(120);
+      forestTestData = generate2DData(60);
+    });
+
+    // Init all charts
+    initForestChart();
+    initBoostChart();
+    initRfChart();
+    initZooChart();
+
+    // Show initial boundary
+    updateForestDisplay();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>
+
+<style>
+  canvas {
+    display: block;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    #canvas-forest-boundary,
+    #canvas-single-tree,
+    #canvas-bagging,
+    #canvas-boost-current,
+    #canvas-boost-ensemble {
+      width: 100% !important;
+      height: auto !important;
+    }
+  }
+</style>

@@ -1,0 +1,1388 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="의사결정트리"
+  subtitle="AI가 '20 질문 게임'을 하는 법"
+  chapterNum={22}
+  part={4}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>의사의 진단법, 알고리즘이 되다</h2>
+    <p>
+      여러분이 목이 아파서 병원에 갔다고 상상해 봅시다.
+      의사는 이렇게 질문합니다. "열이 있나요?" -- "네." -- "기침을 하나요?" -- "아니요."
+      -- "목이 부었나요?" -- "네." -- "편도선염이 의심됩니다."
+    </p>
+    <p style="margin-top: 12px;">
+      의사는 <strong>가장 중요한 질문부터</strong> 순서대로 물어서 진단을 좁혀 갑니다.
+      이 과정 자체가 바로 <strong>의사결정트리(Decision Tree)</strong>입니다.
+      데이터를 가장 잘 나누는 질문을 찾아서 반복하면, 컴퓨터도 이런 진단을 할 수 있습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      의사결정트리는 머신러닝에서 가장 직관적인 알고리즘 중 하나입니다.
+      결과를 <strong>사람이 읽을 수 있는 규칙</strong>으로 설명할 수 있기 때문에,
+      "왜 이런 예측을 했는가?"라는 질문에 명확히 답할 수 있습니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 핵심 개념 ===== -->
+  <div class="tb-card">
+    <h2>트리의 구조: 뿌리, 가지, 잎</h2>
+    <p>
+      의사결정트리는 이름 그대로 <strong>나무를 뒤집어 놓은 구조</strong>입니다.
+      맨 위에 뿌리(root)가 있고, 아래로 가지(branch)가 뻗어 나가며, 끝에 잎(leaf)이 있습니다.
+    </p>
+
+    <ExplainBox>
+      <strong>루트 노드(Root):</strong> 전체 데이터에 대한 첫 번째 질문. "연봉이 5000만원 이상인가?"<br>
+      <strong>내부 노드(Internal Node):</strong> 추가 질문으로 데이터를 더 나눔.<br>
+      <strong>리프 노드(Leaf):</strong> 최종 판단. "이직한다" 또는 "이직하지 않는다."<br>
+      <strong>깊이(Depth):</strong> 루트에서 가장 먼 리프까지의 질문 횟수.
+    </ExplainBox>
+
+    <p style="margin-top: 14px;">
+      비유하자면, <strong>"스무고개" 게임</strong>과 같습니다.
+      적은 질문으로 정답을 맞추려면, 가장 많은 후보를 한 번에 제거하는 질문을 먼저 해야 합니다.
+      "동물인가요?"처럼 반을 나누는 질문이 "코끼리인가요?"보다 훨씬 효율적이죠.
+    </p>
+
+    <!-- 시각적 트리 구조 예시 -->
+    <div id="tree-visual-example" style="margin: 20px 0; text-align: center;">
+      <canvas id="canvas-tree-example" width="700" height="320" style="max-width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius);"></canvas>
+    </div>
+
+    <InsightBox>
+      <strong>핵심 질문:</strong> 어떤 질문이 "가장 좋은" 질문일까요?
+      답은 <strong>불순도(impurity)</strong>를 가장 크게 줄이는 질문입니다.
+      잎 노드에 한 종류의 데이터만 남으면 "순수(pure)"하다고 합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 3: 불순도 이론 ===== -->
+  <div class="tb-card">
+    <h2>불순도(Impurity): 얼마나 섞여 있는가?</h2>
+    <p>
+      상자 안에 빨간 공 10개만 있으면 순수합니다. 빨간 공 5개 + 파란 공 5개면 최대로 불순합니다.
+      트리 알고리즘은 분할 후 자식 노드들의 불순도 합이 <strong>최소</strong>가 되는 분할을 선택합니다.
+    </p>
+
+    <h3>지니 불순도 (Gini Impurity)</h3>
+    <FormulaBox>
+      Gini = 1 - <span class="hl">p_1^2</span> - <span class="hl">p_2^2</span> - ... - <span class="hl">p_k^2</span>
+    </FormulaBox>
+    <p style="font-size: 0.9rem; margin-top: 8px;">
+      p_i는 각 클래스의 비율입니다.
+      클래스가 2개일 때, 50:50이면 Gini = 1 - 0.25 - 0.25 = <strong>0.5</strong> (최대 불순).
+      100:0이면 Gini = 1 - 1 - 0 = <strong>0</strong> (완전 순수).
+    </p>
+
+    <h3>엔트로피 (Entropy)</h3>
+    <FormulaBox>
+      Entropy = - <span class="hl">p_1</span> log2(<span class="hl">p_1</span>) - <span class="hl">p_2</span> log2(<span class="hl">p_2</span>) - ...
+    </FormulaBox>
+    <p style="font-size: 0.9rem; margin-top: 8px;">
+      정보이론에서 온 개념입니다. 불확실성이 클수록 엔트로피가 높습니다.
+      클래스가 2개일 때 최댓값은 1.0, 최솟값은 0입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong> 방에 들어갔는데 모든 사람이 같은 팀 유니폼을 입고 있으면 (Gini=0),
+      누가 어느 팀인지 즉시 알 수 있습니다. 반반 섞여 있으면 (Gini=0.5), 물어봐야 합니다.
+      트리는 "물어볼 필요가 없는" 상태, 즉 순수한 상태를 목표로 합니다.
+    </ExplainBox>
+
+    <h3>정보 이득 (Information Gain)</h3>
+    <FormulaBox>
+      Information Gain = <span class="hl">부모 불순도</span> - (왼쪽 비율 x 왼쪽 불순도 + 오른쪽 비율 x 오른쪽 불순도)
+    </FormulaBox>
+    <p style="font-size: 0.9rem; margin-top: 8px;">
+      정보 이득이 클수록 좋은 분할입니다. 모든 가능한 질문(특성 + 분할점)에 대해 정보 이득을 계산하고,
+      가장 높은 것을 선택합니다. 이 과정을 재귀적으로 반복하면 트리가 완성됩니다.
+    </p>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Manual Tree Builder ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 직접 트리 만들기</h2>
+    <p>
+      아래는 직원 이탈 데이터입니다. 5가지 특성을 보고, 어떤 특성으로 분할할지 직접 선택해 보세요.
+      각 후보의 <strong>지니 불순도 감소량</strong>을 비교하고, 알고리즘이 선택한 최적 분할과 비교합니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>목표:</strong> 각 노드에서 분할할 특성을 선택하세요.
+      지니 감소량(Gain)이 가장 큰 특성을 고르면 최적 트리와 같아집니다.
+      당신의 직관 vs 알고리즘 -- 얼마나 비슷한 결과가 나올까요?
+    </ExerciseBox>
+
+    <!-- 데이터 테이블 -->
+    <div class="tb-data-table-wrap" style="max-height: 220px;">
+      <table class="tb-data-table" id="tree-data-table">
+        <thead>
+          <tr>
+            <th>연봉(만원)</th>
+            <th>근속(년)</th>
+            <th>만족도(1-5)</th>
+            <th>야근(시간/주)</th>
+            <th>승진여부</th>
+            <th style="background: #fee2e2;">이탈</th>
+          </tr>
+        </thead>
+        <tbody id="tree-data-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- 트리 빌더 -->
+    <div id="tree-builder-area" style="margin-top: 16px;">
+      <div style="font-weight: 700; margin-bottom: 10px;">현재 노드: <span id="current-node-info">루트 (전체 데이터)</span></div>
+
+      <div id="split-candidates" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+        <!-- JS가 후보 카드를 렌더링 -->
+      </div>
+
+      <div style="margin-top: 14px; display: flex; gap: 10px; align-items: center;">
+        <span style="font-weight: 600; font-size: 0.9rem;">선택한 특성:</span>
+        <span id="selected-feature-label" style="font-weight: 800; color: var(--tb-primary);">--</span>
+      </div>
+    </div>
+
+    <!-- 트리 시각화 -->
+    <div style="margin-top: 16px; text-align: center;">
+      <canvas id="canvas-user-tree" width="700" height="300" style="max-width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius);"></canvas>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="당신의 정확도" id="stat-user-acc" />
+      <StatBox label="최적 트리 정확도" id="stat-optimal-acc" />
+      <StatBox label="트리 깊이" id="stat-tree-depth" />
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-confirm-split">분할 확정</button>
+      <button class="tb-btn tb-btn-warning" id="btn-auto-build">최적 트리 보기</button>
+      <button class="tb-btn tb-btn-danger" id="btn-reset-tree">처음부터</button>
+    </SimControls>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Gini vs Entropy ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 지니 vs 엔트로피 비교</h2>
+    <p>
+      같은 분할에 대해 지니 불순도와 엔트로피를 나란히 비교합니다.
+      대부분의 경우 <strong>같은 분할을 선택</strong>합니다. 차이가 나는 경우를 찾아보세요.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 14px 0;">
+      <!-- 왼쪽: Gini -->
+      <div style="background: var(--tb-g100); padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); text-align: center;">Gini Impurity</h3>
+        <div id="gini-visual" style="text-align: center; margin: 14px 0;">
+          <canvas id="canvas-gini-pie" width="200" height="200" style="max-width: 100%;"></canvas>
+        </div>
+        <div id="gini-values" style="text-align: center; font-size: 0.95rem;"></div>
+      </div>
+      <!-- 오른쪽: Entropy -->
+      <div style="background: var(--tb-g100); padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-purple); text-align: center;">Entropy</h3>
+        <div id="entropy-visual" style="text-align: center; margin: 14px 0;">
+          <canvas id="canvas-entropy-pie" width="200" height="200" style="max-width: 100%;"></canvas>
+        </div>
+        <div id="entropy-values" style="text-align: center; font-size: 0.95rem;"></div>
+      </div>
+    </div>
+
+    <SimControls>
+      <label>클래스 A 비율:</label>
+      <input type="range" id="range-class-ratio" min="0" max="100" value="50" style="width: 200px;">
+      <span id="label-class-ratio" class="tb-speed-label">50%</span>
+      <button class="tb-btn tb-btn-primary" id="btn-compare-metrics">비교 업데이트</button>
+    </SimControls>
+
+    <!-- 비교 차트: Gini vs Entropy 커브 -->
+    <ChartContainer id="chart-gini-entropy" height="300px" />
+
+    <InsightBox>
+      <strong>발견:</strong> 지니는 0~0.5, 엔트로피는 0~1 범위입니다.
+      스케일은 다르지만 형태가 매우 비슷해서, 실무에서는 어떤 것을 쓰든 결과가 거의 같습니다.
+      scikit-learn의 기본값은 지니이고, 계산이 약간 더 빠릅니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: Overfitting Depth Demo ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 깊이와 과적합</h2>
+    <p>
+      트리를 깊게 만들면 훈련 데이터를 완벽하게 외울 수 있습니다.
+      하지만 새로운 데이터에서는? 깊이 슬라이더를 움직여서 <strong>과적합의 순간</strong>을 찾아보세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>관찰 포인트:</strong> 훈련 정확도(파란선)는 깊이가 깊어질수록 항상 올라갑니다.
+      테스트 정확도(빨간선)는 어느 지점 이후 내려갑니다.
+      그 최적 지점이 바로 <strong>최적 깊이</strong>입니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>최대 깊이:</label>
+      <input type="range" id="range-depth" min="1" max="20" value="3">
+      <span id="label-depth" class="tb-speed-label">3</span>
+      <button class="tb-btn tb-btn-primary" id="btn-gen-overfit-data">새 데이터</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <!-- 결정 경계 -->
+      <div>
+        <div style="font-weight: 700; font-size: 0.9rem; text-align: center; margin-bottom: 8px;">결정 경계</div>
+        <canvas id="canvas-boundary" width="350" height="350" style="max-width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius);"></canvas>
+      </div>
+      <!-- 정확도 차트 -->
+      <div>
+        <div style="font-weight: 700; font-size: 0.9rem; text-align: center; margin-bottom: 8px;">깊이별 정확도</div>
+        <ChartContainer id="chart-depth-accuracy" height="350px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="훈련 정확도" id="stat-train-acc" borderColor="#2563eb" />
+      <StatBox label="테스트 정확도" id="stat-test-acc" borderColor="#ef4444" />
+      <StatBox label="리프 수" id="stat-leaf-count" />
+      <StatBox label="최적 깊이" id="stat-best-depth" borderColor="#22c55e" />
+    </div>
+
+    <WarningBox>
+      <strong>과적합 경고:</strong> 깊이가 15 이상이면 결정 경계가 들쭉날쭉해집니다.
+      훈련 데이터의 노이즈까지 학습한 것입니다. 이것은 "시험 문제를 외웠지만 응용 문제를 못 푸는" 것과 같습니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: Pruning Demo ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 가지치기(Pruning)</h2>
+    <p>
+      과적합을 막는 대표적인 방법이 <strong>가지치기</strong>입니다.
+      너무 깊이 자란 트리의 불필요한 가지를 잘라내면, 오히려 예측 성능이 좋아집니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비용-복잡도 가지치기(Cost-Complexity Pruning):</strong>
+      alpha 값을 높이면, 복잡한 트리에 패널티를 줍니다.
+      총 비용 = 분류 오류 + alpha x (리프 노드 수). alpha가 크면 단순한 트리를 선호합니다.
+    </ExplainBox>
+
+    <SimControls>
+      <label>Alpha (ccp_alpha):</label>
+      <input type="range" id="range-alpha" min="0" max="100" value="0" step="1">
+      <span id="label-alpha" class="tb-speed-label">0.000</span>
+      <button class="tb-btn tb-btn-primary" id="btn-full-tree">전체 트리</button>
+      <button class="tb-btn tb-btn-success" id="btn-best-alpha">최적 Alpha</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin: 14px 0;">
+      <!-- 트리 시각화 -->
+      <div>
+        <canvas id="canvas-pruned-tree" width="600" height="350" style="max-width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius);"></canvas>
+      </div>
+      <!-- 성능 지표 -->
+      <div>
+        <ChartContainer id="chart-alpha-accuracy" height="350px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="현재 리프 수" id="stat-prune-leaves" />
+      <StatBox label="훈련 정확도" id="stat-prune-train" />
+      <StatBox label="테스트 정확도" id="stat-prune-test" />
+    </div>
+
+    <InsightBox>
+      <strong>핵심:</strong> 가지치기는 "적당히 단순한" 트리를 찾는 과정입니다.
+      alpha를 서서히 높여보면, 테스트 정확도가 처음에는 올라가다가 나중에 떨어지는 것을 볼 수 있습니다.
+      정원사가 나무를 가지치기하면 오히려 더 건강하게 자라는 것과 같은 원리입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: Feature Importance ===== -->
+  <div class="tb-card">
+    <h2>실습 5: 특성 중요도</h2>
+    <p>
+      트리가 만들어진 후, 각 특성이 분류에 얼마나 기여했는지 측정할 수 있습니다.
+      특성 중요도 = 해당 특성을 사용한 모든 분할에서의 <strong>총 지니 감소량</strong>입니다.
+    </p>
+
+    <BusinessBox>
+      <strong>비즈니스 질문:</strong> "직원 이탈을 막으려면 어떤 요인에 집중해야 할까?"
+      특성 중요도를 보면, 가장 영향력 큰 요인을 데이터로 확인할 수 있습니다.
+      연봉 인상이 효과적일까, 아니면 야근 줄이기가 더 효과적일까?
+    </BusinessBox>
+
+    <ChartContainer id="chart-feature-importance" height="300px" />
+
+    <div id="importance-ranking" style="margin: 14px 0;"></div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-fit-importance">트리 학습 및 중요도 계산</button>
+      <button class="tb-btn tb-btn-warning" id="btn-shuffle-importance">특성 하나 제거해보기</button>
+      <select id="select-remove-feature">
+        <option value="0">연봉 제거</option>
+        <option value="1">근속연수 제거</option>
+        <option value="2">만족도 제거</option>
+        <option value="3">야근시간 제거</option>
+        <option value="4">승진여부 제거</option>
+      </select>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="전체 특성 정확도" id="stat-full-acc" />
+      <StatBox label="특성 제거 후 정확도" id="stat-removed-acc" />
+      <StatBox label="정확도 변화" id="stat-acc-change" />
+    </div>
+
+    <InsightBox>
+      <strong>해석:</strong> 중요한 특성을 제거하면 정확도가 크게 떨어집니다.
+      중요하지 않은 특성을 제거해도 거의 변화가 없습니다.
+      이것이 <strong>특성 선택(feature selection)</strong>의 기초입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION: 장단점 정리 ===== -->
+  <div class="tb-card">
+    <h2>의사결정트리의 장점과 한계</h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: #f0fdf4; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-success);">장점</h3>
+        <ul style="font-size: 0.9rem; line-height: 2; padding-left: 18px;">
+          <li>직관적이고 설명하기 쉬움</li>
+          <li>특성 스케일링 불필요</li>
+          <li>범주형/수치형 혼합 가능</li>
+          <li>비선형 관계 포착</li>
+          <li>특성 중요도 자동 제공</li>
+        </ul>
+      </div>
+      <div style="background: #fef2f2; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-danger);">한계</h3>
+        <ul style="font-size: 0.9rem; line-height: 2; padding-left: 18px;">
+          <li>과적합에 취약 (깊은 트리)</li>
+          <li>데이터 변화에 민감 (불안정)</li>
+          <li>축 평행 분할만 가능</li>
+          <li>최적 트리 찾기는 NP-완전</li>
+          <li>단독 성능은 앙상블에 밀림</li>
+        </ul>
+      </div>
+    </div>
+
+    <WarningBox>
+      <strong>데이터 하나만 바뀌어도:</strong> 의사결정트리는 훈련 데이터에 매우 민감합니다.
+      데이터 하나가 바뀌면 완전히 다른 트리가 만들어질 수 있습니다.
+      이 불안정성을 해결하기 위해 다음 장에서 배울 <strong>앙상블 학습</strong>이 등장합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <ul style="line-height: 2;">
+      <li>의사결정트리는 데이터를 가장 잘 나누는 질문을 반복해서 분류 규칙을 만든다.</li>
+      <li>"가장 잘 나눈다" = 불순도(지니 또는 엔트로피)를 최대로 줄이는 분할이다.</li>
+      <li>트리가 너무 깊으면 과적합. 가지치기(pruning)로 최적 복잡도를 찾는다.</li>
+      <li>특성 중요도를 통해 "무엇이 예측에 가장 큰 영향을 미치는가"를 알 수 있다.</li>
+      <li>단점: 불안정성과 단독 성능의 한계 -- 이것을 극복하는 것이 앙상블 학습이다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 한 그루의 나무가 불안정하다면, 숲을 만들면 어떨까요?
+      다음 장에서는 여러 약한 모델을 결합하는 <strong>앙상블 학습</strong>을 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+  import { markVisited } from '../../textbook/lib/progress';
+  markVisited('22-decision-trees');
+
+  // ====================== DATA GENERATION ======================
+  function generateEmployeeData(n = 30) {
+    const data = [];
+    for (let i = 0; i < n; i++) {
+      const salary = Math.round(3000 + Math.random() * 5000);
+      const tenure = Math.round(Math.random() * 15);
+      const satisfaction = Math.ceil(Math.random() * 5);
+      const overtime = Math.round(Math.random() * 30);
+      const promoted = Math.random() > 0.6 ? 1 : 0;
+      // Target: more likely to leave if low salary, low satisfaction, high overtime
+      const prob = 1 / (1 + Math.exp(-(
+        -2 + (salary < 4500 ? 1.5 : -0.5) + (satisfaction <= 2 ? 1.5 : -0.5) +
+        (overtime > 15 ? 1.2 : -0.3) + (promoted === 0 ? 0.8 : -0.5) +
+        (tenure < 3 ? 0.5 : -0.2) + (Math.random() - 0.5) * 1.5
+      )));
+      const left = Math.random() < prob ? 1 : 0;
+      data.push({ salary, tenure, satisfaction, overtime, promoted, left });
+    }
+    return data;
+  }
+
+  const FEATURES = ['salary', 'tenure', 'satisfaction', 'overtime', 'promoted'];
+  const FEATURE_LABELS = ['연봉', '근속연수', '만족도', '야근시간', '승진여부'];
+  let employeeData = generateEmployeeData(30);
+  let userTree: any = null;
+  let optimalTree: any = null;
+
+  // ====================== GINI / ENTROPY ======================
+  function gini(counts: number[]) {
+    const total = counts.reduce((a, b) => a + b, 0);
+    if (total === 0) return 0;
+    let sum = 0;
+    for (const c of counts) sum += (c / total) ** 2;
+    return 1 - sum;
+  }
+
+  function entropy(counts: number[]) {
+    const total = counts.reduce((a, b) => a + b, 0);
+    if (total === 0) return 0;
+    let sum = 0;
+    for (const c of counts) {
+      if (c === 0) continue;
+      const p = c / total;
+      sum -= p * Math.log2(p);
+    }
+    return sum;
+  }
+
+  function countClasses(data: any[]) {
+    let c0 = 0, c1 = 0;
+    for (const d of data) { if (d.left === 0) c0++; else c1++; }
+    return [c0, c1];
+  }
+
+  // ====================== TREE BUILDING (ID3-like) ======================
+  interface TreeNode {
+    feature?: number;
+    threshold?: number;
+    left?: TreeNode;
+    right?: TreeNode;
+    prediction?: number;
+    counts?: number[];
+    giniVal?: number;
+    depth?: number;
+    samples?: number;
+  }
+
+  function findBestSplit(data: any[], features: number[]) {
+    const parentCounts = countClasses(data);
+    const parentGini = gini(parentCounts);
+    let bestGain = -1, bestFeature = -1, bestThreshold = 0;
+
+    for (const fi of features) {
+      const key = FEATURES[fi];
+      const values = [...new Set(data.map(d => d[key]))].sort((a, b) => a - b);
+      for (let vi = 0; vi < values.length - 1; vi++) {
+        const thresh = (values[vi] + values[vi + 1]) / 2;
+        const leftData = data.filter(d => d[key] <= thresh);
+        const rightData = data.filter(d => d[key] > thresh);
+        if (leftData.length === 0 || rightData.length === 0) continue;
+        const wGini = (leftData.length * gini(countClasses(leftData)) +
+                       rightData.length * gini(countClasses(rightData))) / data.length;
+        const gain = parentGini - wGini;
+        if (gain > bestGain) {
+          bestGain = gain;
+          bestFeature = fi;
+          bestThreshold = thresh;
+        }
+      }
+    }
+    return { bestFeature, bestThreshold, bestGain };
+  }
+
+  function buildTree(data: any[], depth = 0, maxDepth = 5, minSamples = 2): TreeNode {
+    const counts = countClasses(data);
+    const prediction = counts[0] >= counts[1] ? 0 : 1;
+    const g = gini(counts);
+
+    if (depth >= maxDepth || data.length < minSamples || g === 0) {
+      return { prediction, counts, giniVal: g, depth, samples: data.length };
+    }
+
+    const { bestFeature, bestThreshold, bestGain } = findBestSplit(data, [0, 1, 2, 3, 4]);
+    if (bestGain <= 0) {
+      return { prediction, counts, giniVal: g, depth, samples: data.length };
+    }
+
+    const key = FEATURES[bestFeature];
+    const leftData = data.filter(d => d[key] <= bestThreshold);
+    const rightData = data.filter(d => d[key] > bestThreshold);
+
+    return {
+      feature: bestFeature,
+      threshold: bestThreshold,
+      left: buildTree(leftData, depth + 1, maxDepth, minSamples),
+      right: buildTree(rightData, depth + 1, maxDepth, minSamples),
+      counts,
+      giniVal: g,
+      depth,
+      samples: data.length,
+    };
+  }
+
+  function predictTree(node: TreeNode, sample: any): number {
+    if (node.feature === undefined) return node.prediction!;
+    const val = sample[FEATURES[node.feature!]];
+    return val <= node.threshold! ? predictTree(node.left!, sample) : predictTree(node.right!, sample);
+  }
+
+  function treeAccuracy(node: TreeNode, data: any[]) {
+    let correct = 0;
+    for (const d of data) if (predictTree(node, d) === d.left) correct++;
+    return data.length > 0 ? correct / data.length : 0;
+  }
+
+  function countLeaves(node: TreeNode): number {
+    if (node.feature === undefined) return 1;
+    return countLeaves(node.left!) + countLeaves(node.right!);
+  }
+
+  function treeDepthFn(node: TreeNode): number {
+    if (node.feature === undefined) return 0;
+    return 1 + Math.max(treeDepthFn(node.left!), treeDepthFn(node.right!));
+  }
+
+  // ====================== RENDER DATA TABLE ======================
+  function renderDataTable() {
+    const tbody = document.getElementById('tree-data-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    for (const d of employeeData) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${d.salary}</td><td>${d.tenure}</td><td>${d.satisfaction}</td>` +
+        `<td>${d.overtime}</td><td>${d.promoted ? '예' : '아니오'}</td>` +
+        `<td style="background:${d.left ? '#fee2e2' : '#dcfce7'}; font-weight:700;">${d.left ? '이탈' : '잔류'}</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+
+  // ====================== INTERACTIVE 1: MANUAL TREE BUILDER ======================
+  let currentBuildData: any[] = [];
+  let buildPath: any[] = [];
+
+  function initTreeBuilder() {
+    currentBuildData = [...employeeData];
+    buildPath = [];
+    renderSplitCandidates(currentBuildData);
+    renderUserTreeCanvas();
+    document.getElementById('current-node-info')!.textContent = `루트 (${currentBuildData.length}개 샘플)`;
+    document.getElementById('selected-feature-label')!.textContent = '--';
+    setStat('stat-user-acc', '--');
+    setStat('stat-optimal-acc', '--');
+    setStat('stat-tree-depth', '--');
+  }
+
+  let selectedSplitFeature = -1;
+
+  function renderSplitCandidates(data: any[]) {
+    const container = document.getElementById('split-candidates');
+    if (!container) return;
+    container.innerHTML = '';
+    selectedSplitFeature = -1;
+
+    const parentCounts = countClasses(data);
+    const parentGini = gini(parentCounts);
+
+    for (let fi = 0; fi < 5; fi++) {
+      const key = FEATURES[fi];
+      const values = [...new Set(data.map((d: any) => d[key]))].sort((a: number, b: number) => a - b);
+      let bestGain = 0, bestThresh = 0;
+      for (let vi = 0; vi < values.length - 1; vi++) {
+        const thresh = (values[vi] + values[vi + 1]) / 2;
+        const leftD = data.filter((d: any) => d[key] <= thresh);
+        const rightD = data.filter((d: any) => d[key] > thresh);
+        if (leftD.length === 0 || rightD.length === 0) continue;
+        const wg = (leftD.length * gini(countClasses(leftD)) + rightD.length * gini(countClasses(rightD))) / data.length;
+        const gain = parentGini - wg;
+        if (gain > bestGain) { bestGain = gain; bestThresh = thresh; }
+      }
+
+      const card = document.createElement('div');
+      card.style.cssText = 'padding:14px; border:2px solid var(--tb-g200); border-radius:var(--tb-radius); cursor:pointer; transition:0.2s;';
+      card.innerHTML = `<div style="font-weight:700; font-size:0.95rem;">${FEATURE_LABELS[fi]}</div>` +
+        `<div style="font-size:0.82rem; color:var(--tb-g600); margin-top:4px;">Gini 감소: <strong style="color:var(--tb-primary);">${bestGain.toFixed(4)}</strong></div>` +
+        `<div style="font-size:0.78rem; color:var(--tb-g600);">최적 분할점: ${bestThresh.toFixed(1)}</div>`;
+
+      card.addEventListener('click', () => {
+        container.querySelectorAll('div').forEach((c: any) => { c.style.borderColor = 'var(--tb-g200)'; c.style.background = ''; });
+        card.style.borderColor = 'var(--tb-primary)';
+        card.style.background = 'var(--tb-primary-light)';
+        selectedSplitFeature = fi;
+        document.getElementById('selected-feature-label')!.textContent = `${FEATURE_LABELS[fi]} (Gain: ${bestGain.toFixed(4)})`;
+      });
+
+      container.appendChild(card);
+    }
+  }
+
+  function renderUserTreeCanvas() {
+    const canvas = document.getElementById('canvas-user-tree') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = '13px Paperlogy, sans-serif';
+    ctx.textAlign = 'center';
+
+    if (buildPath.length === 0) {
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('분할을 선택하면 트리가 여기에 그려집니다', canvas.width / 2, canvas.height / 2);
+      return;
+    }
+
+    // Simple tree rendering
+    const drawNode = (x: number, y: number, text: string, isLeaf: boolean) => {
+      ctx.fillStyle = isLeaf ? '#dcfce7' : '#dbeafe';
+      ctx.strokeStyle = isLeaf ? '#22c55e' : '#2563eb';
+      ctx.lineWidth = 2;
+      const w = 120, h = 36, r = 8;
+      ctx.beginPath();
+      ctx.roundRect(x - w/2, y - h/2, w, h, r);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText(text, x, y + 4);
+    };
+
+    // Render build path as a simple chain
+    let cx = canvas.width / 2;
+    let cy = 30;
+    for (let i = 0; i < buildPath.length; i++) {
+      const bp = buildPath[i];
+      drawNode(cx, cy, `${FEATURE_LABELS[bp.feature]} <= ${bp.threshold.toFixed(1)}`, false);
+      if (i > 0) {
+        ctx.strokeStyle = '#94a3b8';
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - 18);
+        ctx.lineTo(cx, cy - 36);
+        ctx.stroke();
+      }
+      cy += 60;
+    }
+    drawNode(cx - 80, cy, '잔류/이탈', true);
+    drawNode(cx + 80, cy, '잔류/이탈', true);
+    ctx.strokeStyle = '#94a3b8';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 42);
+    ctx.lineTo(cx - 80, cy - 18);
+    ctx.moveTo(cx, cy - 42);
+    ctx.lineTo(cx + 80, cy - 18);
+    ctx.stroke();
+  }
+
+  // ====================== EXAMPLE TREE VISUAL ======================
+  function drawExampleTree() {
+    const canvas = document.getElementById('canvas-tree-example') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = '12px Paperlogy, sans-serif';
+    ctx.textAlign = 'center';
+
+    const drawBox = (x: number, y: number, text: string, color: string, bg: string) => {
+      const w = 130, h = 32;
+      ctx.fillStyle = bg;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x - w/2, y - h/2, w, h, 6);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText(text, x, y + 4);
+    };
+
+    const drawLine = (x1: number, y1: number, x2: number, y2: number, label: string) => {
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1 + 16);
+      ctx.lineTo(x2, y2 - 16);
+      ctx.stroke();
+      ctx.fillStyle = '#64748b';
+      ctx.font = '11px Paperlogy, sans-serif';
+      ctx.fillText(label, (x1 + x2) / 2 + (x2 < x1 ? -20 : 20), (y1 + y2) / 2);
+      ctx.font = '12px Paperlogy, sans-serif';
+    };
+
+    // Root
+    drawBox(350, 40, '만족도 <= 2?', '#2563eb', '#dbeafe');
+    // Level 1
+    drawBox(180, 120, '야근 > 15시간?', '#2563eb', '#dbeafe');
+    drawBox(520, 120, '연봉 <= 4000?', '#2563eb', '#dbeafe');
+    drawLine(350, 40, 180, 120, '예');
+    drawLine(350, 40, 520, 120, '아니오');
+    // Level 2 leaves
+    drawBox(100, 210, '이탈 (85%)', '#ef4444', '#fee2e2');
+    drawBox(260, 210, '잔류 (60%)', '#22c55e', '#dcfce7');
+    drawBox(440, 210, '이탈 (70%)', '#ef4444', '#fee2e2');
+    drawBox(600, 210, '잔류 (90%)', '#22c55e', '#dcfce7');
+    drawLine(180, 120, 100, 210, '예');
+    drawLine(180, 120, 260, 210, '아니오');
+    drawLine(520, 120, 440, 210, '예');
+    drawLine(520, 120, 600, 210, '아니오');
+
+    // Labels
+    ctx.font = '11px Paperlogy, sans-serif';
+    ctx.fillStyle = '#64748b';
+    ctx.textAlign = 'left';
+    ctx.fillText('루트 노드 (Root)', 10, 290);
+    ctx.fillText('내부 노드 (Internal)', 170, 290);
+    ctx.fillText('리프 노드 (Leaf)', 400, 290);
+    ctx.fillStyle = '#2563eb';
+    ctx.fillRect(10, 295, 30, 3);
+    ctx.fillStyle = '#22c55e';
+    ctx.fillRect(400, 295, 30, 3);
+  }
+
+  // ====================== INTERACTIVE 2: GINI vs ENTROPY COMPARISON ======================
+  let chartGiniEntropy: any = null;
+
+  function drawPieChart(canvasId: string, ratio: number, color1: string, color2: string) {
+    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    const cx = canvas.width / 2, cy = canvas.height / 2, r = 80;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Class A
+    ctx.fillStyle = color1;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, 0, Math.PI * 2 * ratio);
+    ctx.fill();
+
+    // Class B
+    ctx.fillStyle = color2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, Math.PI * 2 * ratio, Math.PI * 2);
+    ctx.fill();
+
+    // Labels
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '12px Paperlogy, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(`A: ${(ratio * 100).toFixed(0)}%`, cx - 30, cy + r + 20);
+    ctx.fillText(`B: ${((1 - ratio) * 100).toFixed(0)}%`, cx + 30, cy + r + 20);
+  }
+
+  function updateGiniEntropyComparison() {
+    const slider = document.getElementById('range-class-ratio') as HTMLInputElement;
+    const ratio = parseInt(slider.value) / 100;
+    document.getElementById('label-class-ratio')!.textContent = `${Math.round(ratio * 100)}%`;
+
+    const g = gini([ratio * 100, (1 - ratio) * 100]);
+    const e = entropy([ratio * 100, (1 - ratio) * 100]);
+
+    drawPieChart('canvas-gini-pie', ratio, '#3b82f6', '#f97316');
+    drawPieChart('canvas-entropy-pie', ratio, '#3b82f6', '#f97316');
+
+    document.getElementById('gini-values')!.innerHTML = `Gini = <strong>${g.toFixed(4)}</strong>`;
+    document.getElementById('entropy-values')!.innerHTML = `Entropy = <strong>${e.toFixed(4)}</strong>`;
+  }
+
+  async function initGiniEntropyChart() {
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+    Chart.register(...registerables);
+
+    const labels: number[] = [];
+    const giniData: number[] = [];
+    const entropyData: number[] = [];
+    for (let p = 0; p <= 100; p += 2) {
+      const r = p / 100;
+      labels.push(r);
+      giniData.push(gini([p, 100 - p]));
+      entropyData.push(entropy([p, 100 - p]));
+    }
+
+    const ctx = (document.getElementById('chart-gini-entropy') as HTMLCanvasElement)?.getContext('2d');
+    if (!ctx) return;
+
+    chartGiniEntropy = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          { label: 'Gini', data: giniData, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, tension: 0.3, pointRadius: 0 },
+          { label: 'Entropy', data: entropyData, borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.1)', fill: true, tension: 0.3, pointRadius: 0 },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          x: { title: { display: true, text: '클래스 A 비율 (p)', font: { family: 'Paperlogy' } } },
+          y: { title: { display: true, text: '불순도', font: { family: 'Paperlogy' } } },
+        },
+        plugins: { legend: { labels: { font: { family: 'Paperlogy' } } } },
+      },
+    });
+  }
+
+  // ====================== INTERACTIVE 3: OVERFITTING DEPTH ======================
+  let overfitTrainData: any[] = [];
+  let overfitTestData: any[] = [];
+  let chartDepthAccuracy: any = null;
+
+  function generate2DData(n: number) {
+    const data = [];
+    for (let i = 0; i < n; i++) {
+      const x = Math.random() * 10;
+      const y = Math.random() * 10;
+      const noise = (Math.random() - 0.5) * 2;
+      const boundary = 3 * Math.sin(x * 0.8) + 5 + noise;
+      const cls = y > boundary ? 1 : 0;
+      data.push({ x, y, cls });
+    }
+    return data;
+  }
+
+  function buildTree2D(data: any[], depth: number, maxDepth: number): TreeNode {
+    const c0 = data.filter(d => d.cls === 0).length;
+    const c1 = data.length - c0;
+    const pred = c0 >= c1 ? 0 : 1;
+    const g = gini([c0, c1]);
+
+    if (depth >= maxDepth || data.length < 4 || g === 0) {
+      return { prediction: pred, counts: [c0, c1], giniVal: g, depth, samples: data.length };
+    }
+
+    let bestGain = -1, bestFeat = 'x', bestThresh = 0;
+    for (const feat of ['x', 'y']) {
+      const vals = data.map(d => d[feat]).sort((a: number, b: number) => a - b);
+      for (let i = 0; i < vals.length - 1; i += Math.max(1, Math.floor(vals.length / 20))) {
+        const thresh = (vals[i] + vals[i + 1]) / 2;
+        const left = data.filter(d => d[feat] <= thresh);
+        const right = data.filter(d => d[feat] > thresh);
+        if (left.length === 0 || right.length === 0) continue;
+        const lc = countClasses2D(left), rc = countClasses2D(right);
+        const wg = (left.length * gini(lc) + right.length * gini(rc)) / data.length;
+        const gain = g - wg;
+        if (gain > bestGain) { bestGain = gain; bestFeat = feat; bestThresh = thresh; }
+      }
+    }
+
+    if (bestGain <= 0) return { prediction: pred, counts: [c0, c1], giniVal: g, depth, samples: data.length };
+
+    const leftD = data.filter(d => d[bestFeat] <= bestThresh);
+    const rightD = data.filter(d => d[bestFeat] > bestThresh);
+
+    return {
+      feature: bestFeat === 'x' ? 0 : 1,
+      threshold: bestThresh,
+      left: buildTree2D(leftD, depth + 1, maxDepth),
+      right: buildTree2D(rightD, depth + 1, maxDepth),
+      counts: [c0, c1], giniVal: g, depth, samples: data.length,
+    };
+  }
+
+  function countClasses2D(data: any[]) {
+    const c0 = data.filter(d => d.cls === 0).length;
+    return [c0, data.length - c0];
+  }
+
+  function predict2D(node: TreeNode, sample: any): number {
+    if (node.feature === undefined) return node.prediction!;
+    const feat = node.feature === 0 ? 'x' : 'y';
+    return sample[feat] <= node.threshold! ? predict2D(node.left!, sample) : predict2D(node.right!, sample);
+  }
+
+  function drawBoundary(tree: TreeNode) {
+    const canvas = document.getElementById('canvas-boundary') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // Draw decision regions
+    const step = 4;
+    for (let px = 0; px < W; px += step) {
+      for (let py = 0; py < H; py += step) {
+        const x = (px / W) * 10;
+        const y = ((H - py) / H) * 10;
+        const pred = predict2D(tree, { x, y });
+        ctx.fillStyle = pred === 0 ? 'rgba(37,99,235,0.15)' : 'rgba(239,68,68,0.15)';
+        ctx.fillRect(px, py, step, step);
+      }
+    }
+
+    // Draw data points
+    const allData = [...overfitTrainData.map(d => ({...d, isTrain: true})), ...overfitTestData.map(d => ({...d, isTrain: false}))];
+    for (const d of allData) {
+      const px = (d.x / 10) * W;
+      const py = H - (d.y / 10) * H;
+      ctx.beginPath();
+      ctx.arc(px, py, d.isTrain ? 4 : 3, 0, Math.PI * 2);
+      ctx.fillStyle = d.cls === 0 ? '#2563eb' : '#ef4444';
+      ctx.globalAlpha = d.isTrain ? 1 : 0.4;
+      ctx.fill();
+      if (!d.isTrain) {
+        ctx.strokeStyle = '#666';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  async function initDepthChart() {
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+    Chart.register(...registerables);
+
+    const ctx = (document.getElementById('chart-depth-accuracy') as HTMLCanvasElement)?.getContext('2d');
+    if (!ctx) return;
+
+    chartDepthAccuracy = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: Array.from({ length: 20 }, (_, i) => i + 1),
+        datasets: [
+          { label: '훈련 정확도', data: [], borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: false, tension: 0.3 },
+          { label: '테스트 정확도', data: [], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', fill: false, tension: 0.3 },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          x: { title: { display: true, text: '트리 깊이', font: { family: 'Paperlogy' } } },
+          y: { title: { display: true, text: '정확도', font: { family: 'Paperlogy' } }, min: 0.4, max: 1.05 },
+        },
+        plugins: { legend: { labels: { font: { family: 'Paperlogy' } } } },
+      },
+    });
+  }
+
+  function updateDepthDemo() {
+    const maxDepth = parseInt((document.getElementById('range-depth') as HTMLInputElement).value);
+    document.getElementById('label-depth')!.textContent = String(maxDepth);
+
+    const tree = buildTree2D(overfitTrainData, 0, maxDepth);
+    const trainAcc = overfitTrainData.filter(d => predict2D(tree, d) === d.cls).length / overfitTrainData.length;
+    const testAcc = overfitTestData.filter(d => predict2D(tree, d) === d.cls).length / overfitTestData.length;
+
+    drawBoundary(tree);
+    setStat('stat-train-acc', (trainAcc * 100).toFixed(1) + '%');
+    setStat('stat-test-acc', (testAcc * 100).toFixed(1) + '%');
+    setStat('stat-leaf-count', String(countLeaves(tree)));
+
+    // Compute all depths for chart
+    const trainAccs: number[] = [];
+    const testAccs: number[] = [];
+    let bestD = 1, bestTestAcc = 0;
+    for (let d = 1; d <= 20; d++) {
+      const t = buildTree2D(overfitTrainData, 0, d);
+      const trA = overfitTrainData.filter(dd => predict2D(t, dd) === dd.cls).length / overfitTrainData.length;
+      const teA = overfitTestData.filter(dd => predict2D(t, dd) === dd.cls).length / overfitTestData.length;
+      trainAccs.push(trA);
+      testAccs.push(teA);
+      if (teA > bestTestAcc) { bestTestAcc = teA; bestD = d; }
+    }
+
+    if (chartDepthAccuracy) {
+      chartDepthAccuracy.data.datasets[0].data = trainAccs;
+      chartDepthAccuracy.data.datasets[1].data = testAccs;
+      chartDepthAccuracy.update();
+    }
+    setStat('stat-best-depth', String(bestD));
+  }
+
+  // ====================== INTERACTIVE 4: PRUNING ======================
+  let pruneFullTree: TreeNode | null = null;
+  let pruneTrainData: any[] = [];
+  let pruneTestData: any[] = [];
+  let chartAlphaAccuracy: any = null;
+
+  function pruneTree(node: TreeNode, alpha: number): TreeNode {
+    if (node.feature === undefined) return { ...node };
+    const leftPruned = pruneTree(node.left!, alpha);
+    const rightPruned = pruneTree(node.right!, alpha);
+
+    // Cost of keeping subtree
+    const subLeaves = countLeaves(leftPruned) + countLeaves(rightPruned);
+    // Cost of collapsing to leaf
+    const counts = node.counts || [0, 0];
+    const total = counts[0] + counts[1];
+    const leafError = total > 0 ? 1 - Math.max(counts[0], counts[1]) / total : 0;
+
+    // Effective alpha: collapse if simplicity gain outweighs error
+    const subError = computeTreeError(leftPruned, pruneTrainData.filter(d => d[FEATURES[node.feature!]] <= node.threshold!))
+      + computeTreeError(rightPruned, pruneTrainData.filter(d => d[FEATURES[node.feature!]] > node.threshold!));
+
+    if (leafError <= subError + alpha * (subLeaves - 1) || subLeaves <= 1) {
+      return { prediction: counts[0] >= counts[1] ? 0 : 1, counts, giniVal: gini(counts), depth: node.depth, samples: total };
+    }
+    return { ...node, left: leftPruned, right: rightPruned };
+  }
+
+  function computeTreeError(node: TreeNode, data: any[]): number {
+    let errors = 0;
+    for (const d of data) if (predictTree(node, d) !== d.left) errors++;
+    return data.length > 0 ? errors / data.length : 0;
+  }
+
+  function drawPrunedTree(node: TreeNode) {
+    const canvas = document.getElementById('canvas-pruned-tree') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = '11px Paperlogy, sans-serif';
+    ctx.textAlign = 'center';
+
+    function getWidth(n: TreeNode): number {
+      if (n.feature === undefined) return 1;
+      return getWidth(n.left!) + getWidth(n.right!);
+    }
+
+    const totalWidth = getWidth(node);
+    const xScale = canvas.width / (totalWidth + 1);
+    const yStep = 55;
+
+    function draw(n: TreeNode, x: number, y: number, leftBound: number, rightBound: number) {
+      const isLeaf = n.feature === undefined;
+      const w = isLeaf ? 60 : 100;
+      const h = 28;
+      ctx.fillStyle = isLeaf ? (n.prediction === 1 ? '#fee2e2' : '#dcfce7') : '#dbeafe';
+      ctx.strokeStyle = isLeaf ? (n.prediction === 1 ? '#ef4444' : '#22c55e') : '#2563eb';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(x - w/2, y - h/2, w, h, 5);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#1e293b';
+      if (isLeaf) {
+        ctx.fillText(n.prediction === 1 ? '이탈' : '잔류', x, y + 4);
+      } else {
+        ctx.fillText(`${FEATURE_LABELS[n.feature!]}`, x, y + 4);
+      }
+
+      if (!isLeaf) {
+        const leftW = getWidth(n.left!);
+        const rightW = getWidth(n.right!);
+        const mid = leftBound + leftW;
+        const leftX = leftBound + leftW / 2;
+        const rightX = mid + rightW / 2;
+        const lx = (leftX + 0.5) * xScale;
+        const rx = (rightX + 0.5) * xScale;
+        const ny = y + yStep;
+
+        ctx.strokeStyle = '#94a3b8';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x, y + h/2);
+        ctx.lineTo(lx, ny - h/2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y + h/2);
+        ctx.lineTo(rx, ny - h/2);
+        ctx.stroke();
+
+        draw(n.left!, lx, ny, leftBound, mid);
+        draw(n.right!, rx, ny, mid, rightBound);
+      }
+    }
+
+    draw(node, (0.5 + totalWidth / 2) * xScale, 25, 0, totalWidth);
+  }
+
+  async function initAlphaChart() {
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+    Chart.register(...registerables);
+
+    const ctx = (document.getElementById('chart-alpha-accuracy') as HTMLCanvasElement)?.getContext('2d');
+    if (!ctx) return;
+
+    chartAlphaAccuracy = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [
+          { label: '훈련', data: [], borderColor: '#2563eb', tension: 0.3, pointRadius: 2 },
+          { label: '테스트', data: [], borderColor: '#ef4444', tension: 0.3, pointRadius: 2 },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          x: { title: { display: true, text: 'Alpha', font: { family: 'Paperlogy' } } },
+          y: { title: { display: true, text: '정확도', font: { family: 'Paperlogy' } }, min: 0.4, max: 1.05 },
+        },
+        plugins: { legend: { labels: { font: { family: 'Paperlogy' } } } },
+      },
+    });
+  }
+
+  function updatePruningDemo() {
+    const alphaVal = parseInt((document.getElementById('range-alpha') as HTMLInputElement).value) / 2000;
+    document.getElementById('label-alpha')!.textContent = alphaVal.toFixed(3);
+
+    if (!pruneFullTree) return;
+
+    const pruned = pruneTree(pruneFullTree, alphaVal);
+    drawPrunedTree(pruned);
+
+    const trainAcc = treeAccuracy(pruned, pruneTrainData);
+    const testAcc = treeAccuracy(pruned, pruneTestData);
+    setStat('stat-prune-leaves', String(countLeaves(pruned)));
+    setStat('stat-prune-train', (trainAcc * 100).toFixed(1) + '%');
+    setStat('stat-prune-test', (testAcc * 100).toFixed(1) + '%');
+
+    // Update alpha chart
+    if (chartAlphaAccuracy) {
+      const alphas: number[] = [];
+      const trainAccs: number[] = [];
+      const testAccs: number[] = [];
+      for (let a = 0; a <= 100; a += 2) {
+        const av = a / 2000;
+        alphas.push(av);
+        const pt = pruneTree(pruneFullTree!, av);
+        trainAccs.push(treeAccuracy(pt, pruneTrainData));
+        testAccs.push(treeAccuracy(pt, pruneTestData));
+      }
+      chartAlphaAccuracy.data.labels = alphas.map(a => a.toFixed(3));
+      chartAlphaAccuracy.data.datasets[0].data = trainAccs;
+      chartAlphaAccuracy.data.datasets[1].data = testAccs;
+      chartAlphaAccuracy.update();
+    }
+  }
+
+  // ====================== INTERACTIVE 5: FEATURE IMPORTANCE ======================
+  let chartFeatureImportance: any = null;
+
+  function computeFeatureImportance(node: TreeNode, totalSamples: number): number[] {
+    const importance = [0, 0, 0, 0, 0];
+    function traverse(n: TreeNode) {
+      if (n.feature === undefined) return;
+      const parentGini = gini(n.counts!);
+      const leftGini = gini(n.left!.counts!);
+      const rightGini = gini(n.right!.counts!);
+      const leftN = n.left!.samples || 0;
+      const rightN = n.right!.samples || 0;
+      const nSamples = n.samples || 1;
+      const gain = (nSamples / totalSamples) * (parentGini - (leftN / nSamples) * leftGini - (rightN / nSamples) * rightGini);
+      importance[n.feature!] += gain;
+      traverse(n.left!);
+      traverse(n.right!);
+    }
+    traverse(node);
+    // Normalize
+    const total = importance.reduce((a, b) => a + b, 0);
+    if (total > 0) for (let i = 0; i < importance.length; i++) importance[i] /= total;
+    return importance;
+  }
+
+  async function initFeatureImportanceChart() {
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+    Chart.register(...registerables);
+
+    const ctx = (document.getElementById('chart-feature-importance') as HTMLCanvasElement)?.getContext('2d');
+    if (!ctx) return;
+
+    chartFeatureImportance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: FEATURE_LABELS,
+        datasets: [{ label: '특성 중요도', data: [0, 0, 0, 0, 0], backgroundColor: ['#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#22c55e'] }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        indexAxis: 'y',
+        scales: { x: { title: { display: true, text: '중요도 (Normalized Gini Gain)', font: { family: 'Paperlogy' } }, min: 0, max: 1 } },
+        plugins: { legend: { display: false } },
+      },
+    });
+  }
+
+  function updateFeatureImportance(removeIdx = -1) {
+    const data = [...employeeData];
+    const split = Math.floor(data.length * 0.7);
+    const train = data.slice(0, split);
+    const test = data.slice(split);
+
+    // Build full tree
+    const fullTree = buildTree(train, 0, 5);
+    const fullAcc = treeAccuracy(fullTree, test);
+    const importance = computeFeatureImportance(fullTree, train.length);
+
+    if (chartFeatureImportance) {
+      chartFeatureImportance.data.datasets[0].data = importance;
+      chartFeatureImportance.update();
+    }
+
+    setStat('stat-full-acc', (fullAcc * 100).toFixed(1) + '%');
+
+    // Render ranking
+    const ranking = document.getElementById('importance-ranking');
+    if (ranking) {
+      const sorted = importance.map((v, i) => ({ label: FEATURE_LABELS[i], value: v }))
+        .sort((a, b) => b.value - a.value);
+      ranking.innerHTML = '<div style="font-weight:700; font-size:0.9rem; margin-bottom:8px;">중요도 순위:</div>' +
+        sorted.map((s, i) => `<span style="display:inline-block; padding:4px 12px; margin:3px; background:var(--tb-g100); border-radius:20px; font-size:0.85rem;">${i + 1}. ${s.label} (${(s.value * 100).toFixed(1)}%)</span>`).join('');
+    }
+
+    // If removing a feature
+    if (removeIdx >= 0) {
+      const modTrain = train.map(d => {
+        const nd = { ...d };
+        nd[FEATURES[removeIdx]] = Math.random() * 10; // shuffle this feature
+        return nd;
+      });
+      const modTree = buildTree(modTrain, 0, 5);
+      const modAcc = treeAccuracy(modTree, test);
+      setStat('stat-removed-acc', (modAcc * 100).toFixed(1) + '%');
+      setStat('stat-acc-change', ((modAcc - fullAcc) * 100).toFixed(1) + '%');
+    } else {
+      setStat('stat-removed-acc', '--');
+      setStat('stat-acc-change', '--');
+    }
+  }
+
+  // ====================== UTILITY ======================
+  function setStat(id: string, val: string) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
+  // ====================== INITIALIZATION ======================
+  function init() {
+    renderDataTable();
+    drawExampleTree();
+    initTreeBuilder();
+
+    // Interactive 2: Gini vs Entropy
+    updateGiniEntropyComparison();
+    const ratioSlider = document.getElementById('range-class-ratio');
+    ratioSlider?.addEventListener('input', updateGiniEntropyComparison);
+    document.getElementById('btn-compare-metrics')?.addEventListener('click', updateGiniEntropyComparison);
+
+    // Interactive 3: Overfitting
+    overfitTrainData = generate2DData(80);
+    overfitTestData = generate2DData(40);
+    const depthSlider = document.getElementById('range-depth');
+    depthSlider?.addEventListener('input', updateDepthDemo);
+    document.getElementById('btn-gen-overfit-data')?.addEventListener('click', () => {
+      overfitTrainData = generate2DData(80);
+      overfitTestData = generate2DData(40);
+      updateDepthDemo();
+    });
+
+    // Interactive 4: Pruning
+    pruneTrainData = employeeData.slice(0, 20);
+    pruneTestData = employeeData.slice(20);
+    pruneFullTree = buildTree(pruneTrainData, 0, 10);
+    const alphaSlider = document.getElementById('range-alpha');
+    alphaSlider?.addEventListener('input', updatePruningDemo);
+    document.getElementById('btn-full-tree')?.addEventListener('click', () => {
+      (document.getElementById('range-alpha') as HTMLInputElement).value = '0';
+      updatePruningDemo();
+    });
+    document.getElementById('btn-best-alpha')?.addEventListener('click', () => {
+      // Find best alpha
+      let bestAlpha = 0, bestAcc = 0;
+      for (let a = 0; a <= 100; a += 1) {
+        const av = a / 2000;
+        const pt = pruneTree(pruneFullTree!, av);
+        const acc = treeAccuracy(pt, pruneTestData);
+        if (acc > bestAcc) { bestAcc = acc; bestAlpha = a; }
+      }
+      (document.getElementById('range-alpha') as HTMLInputElement).value = String(bestAlpha);
+      updatePruningDemo();
+    });
+
+    // Interactive 1: Tree builder
+    document.getElementById('btn-confirm-split')?.addEventListener('click', () => {
+      if (selectedSplitFeature < 0) return;
+      const key = FEATURES[selectedSplitFeature];
+      const vals = [...new Set(currentBuildData.map(d => d[key]))].sort((a: number, b: number) => a - b);
+      let bestThresh = 0, bestGain = -1;
+      const pc = countClasses(currentBuildData);
+      const pg = gini(pc);
+      for (let i = 0; i < vals.length - 1; i++) {
+        const thresh = (vals[i] + vals[i + 1]) / 2;
+        const ld = currentBuildData.filter(d => d[key] <= thresh);
+        const rd = currentBuildData.filter(d => d[key] > thresh);
+        if (ld.length === 0 || rd.length === 0) continue;
+        const wg = (ld.length * gini(countClasses(ld)) + rd.length * gini(countClasses(rd))) / currentBuildData.length;
+        if (pg - wg > bestGain) { bestGain = pg - wg; bestThresh = thresh; }
+      }
+      buildPath.push({ feature: selectedSplitFeature, threshold: bestThresh });
+      currentBuildData = currentBuildData.filter(d => d[key] <= bestThresh);
+      renderSplitCandidates(currentBuildData);
+      renderUserTreeCanvas();
+      document.getElementById('current-node-info')!.textContent = `깊이 ${buildPath.length} (${currentBuildData.length}개 샘플)`;
+    });
+
+    document.getElementById('btn-auto-build')?.addEventListener('click', () => {
+      optimalTree = buildTree(employeeData, 0, 4);
+      const optAcc = treeAccuracy(optimalTree, employeeData);
+      setStat('stat-optimal-acc', (optAcc * 100).toFixed(1) + '%');
+      setStat('stat-tree-depth', String(treeDepthFn(optimalTree)));
+      drawPrunedTree(optimalTree); // reuse pruned tree canvas style
+    });
+
+    document.getElementById('btn-reset-tree')?.addEventListener('click', () => {
+      employeeData = generateEmployeeData(30);
+      renderDataTable();
+      initTreeBuilder();
+    });
+
+    // Interactive 5: Feature importance
+    document.getElementById('btn-fit-importance')?.addEventListener('click', () => updateFeatureImportance());
+    document.getElementById('btn-shuffle-importance')?.addEventListener('click', () => {
+      const idx = parseInt((document.getElementById('select-remove-feature') as HTMLSelectElement).value);
+      updateFeatureImportance(idx);
+    });
+
+    // Initialize charts
+    initGiniEntropyChart();
+    initDepthChart().then(() => updateDepthDemo());
+    initAlphaChart().then(() => updatePruningDemo());
+    initFeatureImportanceChart();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>
+
+<style>
+  /* Chapter 22 specific styles */
+  #split-candidates > div:hover {
+    border-color: var(--tb-primary) !important;
+    background: var(--tb-primary-light);
+  }
+
+  canvas {
+    display: block;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    #split-candidates {
+      grid-template-columns: 1fr 1fr !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #split-candidates {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

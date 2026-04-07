@@ -1,0 +1,863 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="시계열 기초"
+  subtitle="시간에 숨겨진 패턴"
+  chapterNum={19}
+  part={3}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>매출이 오른 것인가, 계절적 패턴인가?</h2>
+    <p>
+      아이스크림 가게 사장님이 기뻐합니다. "7월 매출이 1월보다 3배나 높아!"
+      하지만 이것은 성장일까요, 단순히 여름이라서일까요?
+    </p>
+    <p style="margin-top: 12px;">
+      시간 데이터에는 여러 패턴이 겹쳐 있습니다.
+      전체적으로 오르는 <strong>추세(trend)</strong>,
+      매년 반복되는 <strong>계절성(seasonality)</strong>,
+      그리고 설명할 수 없는 <strong>잔차(residual)</strong>.
+      이 세 겹을 분리해야 진짜 성장인지, 단순한 계절 효과인지 구분할 수 있습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 시계열 데이터의 구성 요소를 분해하고,
+      이동평균으로 노이즈를 걸러내며,
+      자기상관 분석과 예측 기법을 직접 체험합니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 시계열이란 ===== -->
+  <div class="tb-card">
+    <h2>시계열이란 무엇인가?</h2>
+    <p>
+      <strong>시계열(Time Series)</strong>은 시간 순서대로 관측된 데이터입니다.
+      주식 가격, 기온, 월별 매출, 일일 방문자 수 등이 모두 시계열입니다.
+      보통의 데이터와 다른 점은, <strong>순서가 중요하다</strong>는 것입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유: 양파 껍질 벗기기</strong><br>
+      시계열 데이터는 양파와 같습니다. 겉에서부터 한 겹씩 벗기면 서로 다른 패턴이 나옵니다.<br>
+      <strong>1층 (겉)</strong>: 원본 데이터 -- 모든 것이 섞여 있음<br>
+      <strong>2층</strong>: 추세 -- 장기적으로 올라가는지 내려가는지<br>
+      <strong>3층</strong>: 계절성 -- 매년(매월, 매주) 반복되는 패턴<br>
+      <strong>4층 (속)</strong>: 잔차 -- 추세와 계절성으로 설명되지 않는 나머지
+    </ExplainBox>
+
+    <FormulaBox>
+      <span class="hl">Y(t)</span> = <span class="hl">추세(T)</span> + <span class="hl">계절성(S)</span> + <span class="hl">잔차(R)</span><br>
+      (가법 모형) 또는<br>
+      <span class="hl">Y(t)</span> = <span class="hl">추세(T)</span> x <span class="hl">계절성(S)</span> x <span class="hl">잔차(R)</span><br>
+      (승법 모형 -- 계절 진폭이 추세에 비례할 때)
+    </FormulaBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Decomposition Machine ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 시계열 분해 기계</h2>
+    <p>
+      가상의 월별 소매 매출 데이터를 분해합니다.
+      원본 데이터에서 추세를 빼고, 계절성을 빼면, 잔차만 남습니다.
+      각 요소를 켜고 끄면서 데이터의 구성을 직접 확인하세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>목표:</strong> 체크박스로 추세/계절성/잔차를 각각 켜고 끄세요.
+      원본 데이터에서 각 요소가 어떤 역할을 하는지 눈으로 확인하세요.
+      "분해 실행" 버튼을 누르면 애니메이션으로 분리 과정을 볼 수 있습니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-decompose">분해 실행</button>
+      <button class="tb-btn tb-btn-success" id="btn-decompose-new">새 데이터 생성</button>
+      <label style="margin-left: 16px;">
+        <input type="checkbox" id="show-trend" checked> 추세
+      </label>
+      <label>
+        <input type="checkbox" id="show-seasonal" checked> 계절성
+      </label>
+      <label>
+        <input type="checkbox" id="show-residual" checked> 잔차
+      </label>
+      <label>
+        <input type="checkbox" id="show-original" checked> 원본
+      </label>
+    </SimControls>
+
+    <ChartContainer id="decompose-chart" height="400px" />
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="관측치 수" id="ts-n" />
+      <StatBox label="추세 방향" id="ts-trend-dir" borderColor="var(--tb-primary)" />
+      <StatBox label="계절 주기" id="ts-season-period" borderColor="var(--tb-success)" />
+      <StatBox label="잔차 표준편차" id="ts-resid-sd" borderColor="var(--tb-warning)" />
+    </div>
+
+    <InsightBox>
+      <strong>관찰 포인트:</strong>
+      원본 데이터만 보면 "매출이 오르는 건가?"라고 착각할 수 있습니다.
+      하지만 분해해보면 추세가 완만한데 계절성이 강해서 올라 보이는 경우가 많습니다.
+      잔차가 크면 예측이 어려운 데이터이고, 잔차가 작으면 패턴이 잘 포착된 것입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Moving Average Explorer ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 이동평균 탐색기</h2>
+    <p>
+      <strong>이동평균(Moving Average)</strong>은 시계열의 노이즈를 걸러내는 가장 기본적인 도구입니다.
+      일정 구간(윈도우)의 평균을 구해 원래 값을 대체합니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong>
+      주식 차트에서 "5일 이동평균선"을 본 적 있나요?
+      어제-그제-그끄저께-...의 평균을 이어 그린 선입니다.
+      윈도우가 클수록 곡선이 매끄러워지지만, 최신 변화에 반응이 느려집니다.
+      카메라의 블러 효과와 같습니다 -- 블러가 강할수록 세부가 사라지고 큰 윤곽만 남습니다.
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>목표:</strong> 윈도우 크기를 바꿔가며 스무딩 효과를 관찰하세요.
+      작은 윈도우(3)는 빠르게 반응하지만 울퉁불퉁하고,
+      큰 윈도우(12)는 매끄럽지만 변화를 늦게 잡습니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>윈도우 크기:</label>
+      <input type="range" id="ma-window" min="2" max="24" value="6" style="width: 220px;">
+      <span id="ma-window-label" class="tb-speed-label" style="min-width: 80px;">윈도우: 6</span>
+      <button class="tb-btn tb-btn-primary" id="btn-ma-draw">그리기</button>
+    </SimControls>
+
+    <ChartContainer id="ma-chart" height="380px" />
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="윈도우 크기" id="ma-win-display" />
+      <StatBox label="원본 분산" id="ma-orig-var" borderColor="var(--tb-danger)" sub="노이즈 정도" />
+      <StatBox label="스무딩 후 분산" id="ma-smooth-var" borderColor="var(--tb-success)" sub="안정화 정도" />
+      <StatBox label="분산 감소율" id="ma-var-reduction" borderColor="var(--tb-primary)" />
+    </div>
+
+    <WarningBox>
+      <strong>이동평균의 한계:</strong>
+      이동평균은 데이터의 양쪽 끝에서 값을 잃습니다(윈도우 크기만큼).
+      또한 급격한 변화(구조적 변곡점)에 늦게 반응합니다.
+      이 때문에 단순 이동평균은 예측 도구가 아닌 <strong>패턴 탐색 도구</strong>로 사용합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: ACF/PACF Viewer ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 자기상관(ACF) 분석</h2>
+    <p>
+      시계열에서 "오늘 값은 어제 값과 비슷한가? 일주일 전 값과는?"를 측정하는 것이
+      <strong>자기상관(Autocorrelation)</strong>입니다.
+      ACF 차트에서 유의한 시차(lag)를 찾으면 데이터의 숨은 주기를 발견할 수 있습니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong>
+      메아리를 생각해보세요. 소리를 지르면 일정 시간 뒤에 메아리가 돌아옵니다.
+      자기상관은 "데이터의 메아리"입니다. 12개월 전 값과 상관이 높다면,
+      이 데이터에는 12개월 주기의 계절성이 있다는 뜻입니다.
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>목표:</strong> 데이터 유형을 바꿔가며 ACF 패턴의 차이를 관찰하세요.
+      계절성이 있는 데이터는 특정 시차에서 높은 자기상관이 나타납니다.
+      파란 점선 밖의 막대가 "통계적으로 유의한" 자기상관입니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>데이터 유형:</label>
+      <select id="acf-type">
+        <option value="seasonal">계절성 데이터 (12개월 주기)</option>
+        <option value="trend">추세만 있는 데이터</option>
+        <option value="random">완전 랜덤 데이터</option>
+        <option value="ar1">자기회귀 데이터 (AR(1))</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-acf-draw">ACF 그리기</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <p style="font-weight: 700; font-size: .9rem; text-align: center; margin-bottom: 4px;">시계열 데이터</p>
+        <ChartContainer id="acf-ts-chart" height="280px" />
+      </div>
+      <div>
+        <p style="font-weight: 700; font-size: .9rem; text-align: center; margin-bottom: 4px;">ACF (자기상관 함수)</p>
+        <ChartContainer id="acf-chart" height="280px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="Lag 1 자기상관" id="acf-lag1" borderColor="var(--tb-primary)" />
+      <StatBox label="유의한 시차 수" id="acf-sig-count" borderColor="var(--tb-danger)" />
+      <StatBox label="최대 상관 시차" id="acf-max-lag" borderColor="var(--tb-success)" />
+    </div>
+
+    <BusinessBox>
+      <strong>실무 활용:</strong>
+      ACF에서 12개월 주기가 보이면 계절 조정이 필요합니다.
+      ACF가 천천히 감소하면 추세가 존재합니다 -- 차분(differencing)을 고려하세요.
+      ACF가 모두 유의하지 않으면 완전한 랜덤 -- 이 경우 정교한 모델보다 단순 평균이 최선입니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: Forecasting Sandbox ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 예측 샌드박스</h2>
+    <p>
+      이제 직접 예측을 해봅시다. 세 가지 방법을 비교합니다.
+      "나이브 모델을 이길 수 있을까?"가 핵심 질문입니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 14px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 6px; font-size: .95rem;">나이브 (Naive)</h3>
+        <p style="font-size: .85rem;">"내일은 오늘과 같다." 마지막 관측값을 그대로 반복.</p>
+      </div>
+      <div style="background: #f0fdf4; padding: 14px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-success); margin-bottom: 6px; font-size: .95rem;">이동평균 (MA)</h3>
+        <p style="font-size: .85rem;">최근 K개 관측값의 평균으로 예측.</p>
+      </div>
+      <div style="background: #fdf4ff; padding: 14px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-purple); margin-bottom: 6px; font-size: .95rem;">지수평활 (ES)</h3>
+        <p style="font-size: .85rem;">최근 값에 더 높은 가중치. alpha가 클수록 최근 중시.</p>
+      </div>
+    </div>
+
+    <ExerciseBox>
+      <strong>도전:</strong> 예측 방법과 파라미터를 조절해서 나이브 모델보다 낮은 MAE/RMSE를 달성해보세요.
+      "나이브 모델을 이기기 어렵다면, 이 데이터는 예측이 어렵다"는 뜻입니다.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>예측 방법:</label>
+      <select id="fc-method">
+        <option value="naive">나이브</option>
+        <option value="ma">이동평균</option>
+        <option value="es" selected>지수평활</option>
+      </select>
+      <label>alpha (지수평활):</label>
+      <input type="range" id="fc-alpha" min="0.05" max="0.95" value="0.3" step="0.05" style="width: 160px;">
+      <span id="fc-alpha-label" class="tb-speed-label">alpha: 0.30</span>
+      <label>MA 윈도우:</label>
+      <select id="fc-ma-window">
+        <option value="3">3</option>
+        <option value="6" selected>6</option>
+        <option value="12">12</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-fc-run">예측 실행</button>
+      <button class="tb-btn tb-btn-success" id="btn-fc-newdata">새 데이터</button>
+    </SimControls>
+
+    <ChartContainer id="fc-chart" height="380px" />
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="나이브 MAE" id="fc-naive-mae" borderColor="var(--tb-g300)" sub="기준선" />
+      <StatBox label="선택 모델 MAE" id="fc-model-mae" borderColor="var(--tb-primary)" />
+      <StatBox label="선택 모델 RMSE" id="fc-model-rmse" borderColor="var(--tb-danger)" />
+      <StatBox label="나이브 대비" id="fc-vs-naive" borderColor="var(--tb-success)" sub="낮을수록 좋음" />
+    </div>
+
+    <InsightBox>
+      <strong>핵심 교훈:</strong>
+      실무에서 "나이브 모델을 이기는가?"는 가장 기본적인 벤치마크입니다.
+      복잡한 모델이 단순한 나이브 모델도 이기지 못한다면, 그 복잡성은 불필요합니다.
+      지수평활은 alpha 하나만으로 놀라울 정도로 좋은 예측을 할 수 있습니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION: 시계열 분석의 실전 가이드 ===== -->
+  <div class="tb-card">
+    <h2>시계열 분석 체크리스트</h2>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr>
+            <th>단계</th>
+            <th>질문</th>
+            <th>도구</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1. 시각화</td><td>데이터에 추세, 계절성, 이상치가 보이는가?</td><td>시계열 그래프</td></tr>
+          <tr><td>2. 분해</td><td>추세와 계절성을 분리할 수 있는가?</td><td>이동평균, STL 분해</td></tr>
+          <tr><td>3. 자기상관</td><td>과거 값과 현재 값 사이에 상관이 있는가?</td><td>ACF / PACF</td></tr>
+          <tr><td>4. 정상성</td><td>평균과 분산이 시간에 따라 일정한가?</td><td>ADF 검정, 차분</td></tr>
+          <tr><td>5. 모델링</td><td>어떤 모델이 적합한가?</td><td>ARIMA, 지수평활, ML</td></tr>
+          <tr><td>6. 검증</td><td>예측이 나이브 모델보다 나은가?</td><td>MAE, RMSE, 교차 검증</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <WarningBox>
+      <strong>시계열의 함정:</strong>
+      시계열 데이터에서는 일반적인 교차 검증을 쓰면 안 됩니다.
+      미래 데이터로 과거를 예측하는 "데이터 누출"이 발생하기 때문입니다.
+      반드시 <strong>시간 순서를 유지한 검증</strong>(walk-forward validation)을 사용하세요.
+    </WarningBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>시계열 데이터는 추세 + 계절성 + 잔차로 분해할 수 있다.</li>
+      <li>이동평균은 노이즈를 제거하는 기본 도구이다. 윈도우 크기가 커질수록 매끄럽지만 반응이 느려진다.</li>
+      <li>자기상관(ACF)은 데이터의 숨은 주기를 발견하는 열쇠이다.</li>
+      <li>예측의 기본 벤치마크는 나이브 모델이다. 이를 이기지 못하는 복잡한 모델은 불필요하다.</li>
+      <li>지수평활은 단순하면서도 강력한 예측 기법이다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 지금까지 배운 회귀, 정규화, 시계열을 종합하여
+      실전 예측 프로젝트를 수행합니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITY ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const mod = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  mod.Chart.register(...mod.registerables);
+  ChartJS = mod.Chart;
+  return ChartJS;
+}
+
+function destroyChart(ref) {
+  if (ref && ref.destroy) ref.destroy();
+  return null;
+}
+
+// ==================== GENERATE TIME SERIES DATA ====================
+let tsData = {dates: [], original: [], trend: [], seasonal: [], residual: []};
+
+function generateTSData() {
+  const months = 72; // 6 years
+  const dates = [];
+  const original = [];
+  const trend = [];
+  const seasonal = [];
+  const residual = [];
+
+  const trendSlope = 5 + Math.random() * 10;
+  const trendBase = 100 + Math.random() * 50;
+  const seasonAmplitude = 15 + Math.random() * 15;
+  const seasonalPattern = [0, -0.5, -0.2, 0.3, 0.7, 1.0, 0.9, 0.6, 0.2, -0.3, -0.6, -0.8];
+
+  for (let i = 0; i < months; i++) {
+    const year = 2019 + Math.floor(i / 12);
+    const month = (i % 12) + 1;
+    dates.push(`${year}-${String(month).padStart(2, '0')}`);
+
+    const t = trendBase + trendSlope * (i / 12);
+    const s = seasonAmplitude * seasonalPattern[i % 12];
+    const r = (Math.random() - 0.5) * 10;
+
+    trend.push(t);
+    seasonal.push(s);
+    residual.push(r);
+    original.push(t + s + r);
+  }
+
+  tsData = {dates, original, trend, seasonal, residual};
+  return tsData;
+}
+
+// ==================== DECOMPOSITION CHART ====================
+let decomposeChart = null;
+
+async function drawDecompose() {
+  const Chart = await loadChart();
+  const showTrend = document.getElementById('show-trend').checked;
+  const showSeasonal = document.getElementById('show-seasonal').checked;
+  const showResidual = document.getElementById('show-residual').checked;
+  const showOriginal = document.getElementById('show-original').checked;
+
+  const datasets = [];
+
+  if (showOriginal) {
+    datasets.push({
+      label: '원본 데이터',
+      data: tsData.original,
+      borderColor: '#64748b',
+      backgroundColor: '#64748b22',
+      borderWidth: 1.5,
+      pointRadius: 0,
+      fill: false,
+    });
+  }
+  if (showTrend) {
+    datasets.push({
+      label: '추세 (Trend)',
+      data: tsData.trend,
+      borderColor: '#2563eb',
+      borderWidth: 2.5,
+      pointRadius: 0,
+      fill: false,
+    });
+  }
+  if (showSeasonal) {
+    datasets.push({
+      label: '계절성 (Seasonal)',
+      data: tsData.seasonal,
+      borderColor: '#22c55e',
+      borderWidth: 2,
+      pointRadius: 0,
+      fill: false,
+    });
+  }
+  if (showResidual) {
+    datasets.push({
+      label: '잔차 (Residual)',
+      data: tsData.residual,
+      borderColor: '#f59e0b',
+      backgroundColor: '#f59e0b22',
+      borderWidth: 1,
+      pointRadius: 0,
+      fill: true,
+    });
+  }
+
+  decomposeChart = destroyChart(decomposeChart);
+  decomposeChart = new Chart(document.getElementById('decompose-chart'), {
+    type: 'line',
+    data: {labels: tsData.dates, datasets},
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      scales: {
+        x: {title: {display: true, text: '날짜'}, ticks: {maxTicksLimit: 12}},
+        y: {title: {display: true, text: '값'}}
+      },
+      plugins: {legend: {position: 'bottom', labels: {font: {size: 11}}}}
+    }
+  });
+
+  // Stats
+  document.getElementById('ts-n').textContent = tsData.original.length;
+  const trendDir = tsData.trend[tsData.trend.length - 1] > tsData.trend[0] ? '상승' : '하락';
+  document.getElementById('ts-trend-dir').textContent = trendDir;
+  document.getElementById('ts-season-period').textContent = '12개월';
+  const residMean = tsData.residual.reduce((a, b) => a + b, 0) / tsData.residual.length;
+  const residSD = Math.sqrt(tsData.residual.reduce((a, v) => a + (v - residMean) ** 2, 0) / tsData.residual.length);
+  document.getElementById('ts-resid-sd').textContent = residSD.toFixed(2);
+}
+
+// ==================== MOVING AVERAGE ====================
+let maChart = null;
+
+async function drawMA() {
+  const Chart = await loadChart();
+  const window = parseInt(document.getElementById('ma-window').value);
+  document.getElementById('ma-window-label').textContent = '윈도우: ' + window;
+
+  const data = tsData.original;
+  const smoothed = [];
+  for (let i = 0; i < data.length; i++) {
+    if (i < window - 1) {
+      smoothed.push(null);
+    } else {
+      let sum = 0;
+      for (let j = 0; j < window; j++) sum += data[i - j];
+      smoothed.push(sum / window);
+    }
+  }
+
+  maChart = destroyChart(maChart);
+  maChart = new Chart(document.getElementById('ma-chart'), {
+    type: 'line',
+    data: {
+      labels: tsData.dates,
+      datasets: [
+        {
+          label: '원본',
+          data: data,
+          borderColor: '#94a3b8',
+          borderWidth: 1,
+          pointRadius: 0,
+          fill: false,
+        },
+        {
+          label: `이동평균 (윈도우=${window})`,
+          data: smoothed,
+          borderColor: '#2563eb',
+          borderWidth: 2.5,
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      scales: {
+        x: {title: {display: true, text: '날짜'}, ticks: {maxTicksLimit: 12}},
+        y: {title: {display: true, text: '매출'}}
+      },
+      plugins: {legend: {position: 'bottom', labels: {font: {size: 11}}}}
+    }
+  });
+
+  // Stats
+  document.getElementById('ma-win-display').textContent = window;
+  const origVar = variance(data);
+  const validSmoothed = smoothed.filter(v => v !== null);
+  const smoothVar = variance(validSmoothed);
+  document.getElementById('ma-orig-var').textContent = origVar.toFixed(1);
+  document.getElementById('ma-smooth-var').textContent = smoothVar.toFixed(1);
+  const reduction = ((origVar - smoothVar) / origVar * 100);
+  document.getElementById('ma-var-reduction').textContent = reduction.toFixed(1) + '%';
+}
+
+function variance(arr) {
+  const mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+  return arr.reduce((a, v) => a + (v - mean) ** 2, 0) / arr.length;
+}
+
+// ==================== ACF ====================
+let acfTSChart = null, acfBarChart = null;
+
+function generateACFData(type) {
+  const n = 120;
+  const data = [];
+  if (type === 'seasonal') {
+    for (let i = 0; i < n; i++) {
+      data.push(50 + 15 * Math.sin(2 * Math.PI * i / 12) + (Math.random() - 0.5) * 8);
+    }
+  } else if (type === 'trend') {
+    for (let i = 0; i < n; i++) {
+      data.push(30 + 0.5 * i + (Math.random() - 0.5) * 5);
+    }
+  } else if (type === 'random') {
+    for (let i = 0; i < n; i++) {
+      data.push(50 + (Math.random() - 0.5) * 20);
+    }
+  } else if (type === 'ar1') {
+    data.push(50);
+    for (let i = 1; i < n; i++) {
+      data.push(0.85 * data[i - 1] + 0.15 * 50 + (Math.random() - 0.5) * 5);
+    }
+  }
+  return data;
+}
+
+function computeACF(data, maxLag) {
+  const n = data.length;
+  const mean = data.reduce((a, b) => a + b, 0) / n;
+  const c0 = data.reduce((a, v) => a + (v - mean) ** 2, 0) / n;
+  const acf = [1];
+  for (let lag = 1; lag <= maxLag; lag++) {
+    let s = 0;
+    for (let i = lag; i < n; i++) s += (data[i] - mean) * (data[i - lag] - mean);
+    acf.push(s / (n * c0));
+  }
+  return acf;
+}
+
+async function drawACF() {
+  const Chart = await loadChart();
+  const type = document.getElementById('acf-type').value;
+  const data = generateACFData(type);
+  const maxLag = 30;
+  const acfValues = computeACF(data, maxLag);
+  const significance = 1.96 / Math.sqrt(data.length);
+
+  // Time series chart
+  const labels = Array.from({length: data.length}, (_, i) => i + 1);
+  acfTSChart = destroyChart(acfTSChart);
+  acfTSChart = new Chart(document.getElementById('acf-ts-chart'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: '시계열',
+        data: data,
+        borderColor: '#2563eb',
+        borderWidth: 1.5,
+        pointRadius: 0,
+        fill: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      scales: {
+        x: {title: {display: true, text: '시점'}, ticks: {maxTicksLimit: 10}},
+        y: {title: {display: true, text: '값'}}
+      },
+      plugins: {legend: {display: false}}
+    }
+  });
+
+  // ACF bar chart
+  const lagLabels = Array.from({length: maxLag}, (_, i) => i + 1);
+  const acfData = acfValues.slice(1);
+  const acfColors = acfData.map(v => Math.abs(v) > significance ? '#ef4444' : '#2563eb88');
+
+  acfBarChart = destroyChart(acfBarChart);
+  acfBarChart = new Chart(document.getElementById('acf-chart'), {
+    type: 'bar',
+    data: {
+      labels: lagLabels,
+      datasets: [
+        {
+          label: 'ACF',
+          data: acfData,
+          backgroundColor: acfColors,
+          borderRadius: 2,
+        },
+        {
+          label: '유의 경계 (+)',
+          data: lagLabels.map(() => significance),
+          type: 'line',
+          borderColor: '#2563eb',
+          borderWidth: 1,
+          borderDash: [4, 4],
+          pointRadius: 0,
+          fill: false,
+        },
+        {
+          label: '유의 경계 (-)',
+          data: lagLabels.map(() => -significance),
+          type: 'line',
+          borderColor: '#2563eb',
+          borderWidth: 1,
+          borderDash: [4, 4],
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      scales: {
+        x: {title: {display: true, text: '시차 (Lag)'}},
+        y: {min: -1, max: 1, title: {display: true, text: 'ACF'}}
+      },
+      plugins: {legend: {display: false}}
+    }
+  });
+
+  // Stats
+  document.getElementById('acf-lag1').textContent = acfData[0].toFixed(3);
+  const sigCount = acfData.filter(v => Math.abs(v) > significance).length;
+  document.getElementById('acf-sig-count').textContent = sigCount;
+  let maxLagIdx = 0, maxVal = 0;
+  acfData.forEach((v, i) => { if (Math.abs(v) > maxVal) { maxVal = Math.abs(v); maxLagIdx = i; } });
+  document.getElementById('acf-max-lag').textContent = 'Lag ' + (maxLagIdx + 1);
+}
+
+// ==================== FORECASTING ====================
+let fcData = {history: [], future: []};
+let fcChart = null;
+
+function generateFCData() {
+  const n = 60;
+  const forecast_h = 12;
+  const all = [];
+  for (let i = 0; i < n + forecast_h; i++) {
+    const trend = 100 + 3 * (i / 12);
+    const seasonal = 12 * Math.sin(2 * Math.PI * i / 12);
+    const noise = (Math.random() - 0.5) * 8;
+    all.push(trend + seasonal + noise);
+  }
+  fcData = {
+    history: all.slice(0, n),
+    future: all.slice(n),
+  };
+}
+
+function naiveForecast(history, h) {
+  const last = history[history.length - 1];
+  return new Array(h).fill(last);
+}
+
+function maForecast(history, h, window) {
+  const recent = history.slice(-window);
+  const avg = recent.reduce((a, b) => a + b, 0) / recent.length;
+  return new Array(h).fill(avg);
+}
+
+function esForecast(history, h, alpha) {
+  let level = history[0];
+  for (let i = 1; i < history.length; i++) {
+    level = alpha * history[i] + (1 - alpha) * level;
+  }
+  return new Array(h).fill(level);
+}
+
+function mae(actual, predicted) {
+  let s = 0;
+  const len = Math.min(actual.length, predicted.length);
+  for (let i = 0; i < len; i++) s += Math.abs(actual[i] - predicted[i]);
+  return s / len;
+}
+
+function rmse(actual, predicted) {
+  let s = 0;
+  const len = Math.min(actual.length, predicted.length);
+  for (let i = 0; i < len; i++) s += (actual[i] - predicted[i]) ** 2;
+  return Math.sqrt(s / len);
+}
+
+async function drawForecast() {
+  const Chart = await loadChart();
+  const method = document.getElementById('fc-method').value;
+  const alpha = parseFloat(document.getElementById('fc-alpha').value);
+  const maWindow = parseInt(document.getElementById('fc-ma-window').value);
+  document.getElementById('fc-alpha-label').textContent = 'alpha: ' + alpha.toFixed(2);
+
+  const h = fcData.future.length;
+  const naivePred = naiveForecast(fcData.history, h);
+
+  let modelPred;
+  if (method === 'naive') modelPred = naivePred;
+  else if (method === 'ma') modelPred = maForecast(fcData.history, h, maWindow);
+  else modelPred = esForecast(fcData.history, h, alpha);
+
+  const labels = [];
+  for (let i = 0; i < fcData.history.length + h; i++) labels.push(i + 1);
+
+  const historyData = fcData.history.map((v, i) => ({x: i + 1, y: v}));
+  const futureData = fcData.future.map((v, i) => ({x: fcData.history.length + i + 1, y: v}));
+  const forecastData = modelPred.map((v, i) => ({x: fcData.history.length + i + 1, y: v}));
+  const naiveData = naivePred.map((v, i) => ({x: fcData.history.length + i + 1, y: v}));
+
+  const datasets = [
+    {
+      label: '과거 데이터',
+      data: historyData,
+      borderColor: '#64748b',
+      borderWidth: 1.5,
+      pointRadius: 0,
+      fill: false,
+    },
+    {
+      label: '실제 미래',
+      data: futureData,
+      borderColor: '#22c55e',
+      borderWidth: 2,
+      pointRadius: 3,
+      pointBackgroundColor: '#22c55e',
+      fill: false,
+    },
+    {
+      label: '예측 (' + (method === 'naive' ? '나이브' : method === 'ma' ? '이동평균' : '지수평활') + ')',
+      data: forecastData,
+      borderColor: '#2563eb',
+      borderWidth: 2.5,
+      borderDash: [6, 3],
+      pointRadius: 3,
+      pointBackgroundColor: '#2563eb',
+      fill: false,
+    },
+  ];
+
+  if (method !== 'naive') {
+    datasets.push({
+      label: '나이브 기준선',
+      data: naiveData,
+      borderColor: '#94a3b8',
+      borderWidth: 1,
+      borderDash: [4, 4],
+      pointRadius: 0,
+      fill: false,
+    });
+  }
+
+  fcChart = destroyChart(fcChart);
+  fcChart = new Chart(document.getElementById('fc-chart'), {
+    type: 'line',
+    data: {labels, datasets},
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      scales: {
+        x: {title: {display: true, text: '시점'}, type: 'linear', ticks: {maxTicksLimit: 12}},
+        y: {title: {display: true, text: '값'}}
+      },
+      plugins: {legend: {position: 'bottom', labels: {font: {size: 11}}}}
+    }
+  });
+
+  // Stats
+  const naiveMAE = mae(fcData.future, naivePred);
+  const modelMAE = mae(fcData.future, modelPred);
+  const modelRMSE = rmse(fcData.future, modelPred);
+
+  document.getElementById('fc-naive-mae').textContent = naiveMAE.toFixed(2);
+  document.getElementById('fc-model-mae').textContent = modelMAE.toFixed(2);
+  document.getElementById('fc-model-rmse').textContent = modelRMSE.toFixed(2);
+
+  const ratio = (modelMAE / naiveMAE * 100).toFixed(1);
+  const vsNaiveEl = document.getElementById('fc-vs-naive');
+  vsNaiveEl.textContent = ratio + '%';
+  vsNaiveEl.style.color = modelMAE < naiveMAE ? 'var(--tb-success)' : 'var(--tb-danger)';
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', () => {
+  generateTSData();
+  generateFCData();
+
+  drawDecompose();
+  drawMA();
+  drawACF();
+  drawForecast();
+
+  // Decomposition controls
+  document.getElementById('btn-decompose').addEventListener('click', drawDecompose);
+  document.getElementById('btn-decompose-new').addEventListener('click', () => {
+    generateTSData();
+    drawDecompose();
+    drawMA();
+  });
+  ['show-trend', 'show-seasonal', 'show-residual', 'show-original'].forEach(id => {
+    document.getElementById(id).addEventListener('change', drawDecompose);
+  });
+
+  // Moving average controls
+  document.getElementById('ma-window').addEventListener('input', drawMA);
+  document.getElementById('btn-ma-draw').addEventListener('click', drawMA);
+
+  // ACF controls
+  document.getElementById('btn-acf-draw').addEventListener('click', drawACF);
+
+  // Forecasting controls
+  document.getElementById('fc-alpha').addEventListener('input', () => {
+    document.getElementById('fc-alpha-label').textContent = 'alpha: ' + parseFloat(document.getElementById('fc-alpha').value).toFixed(2);
+  });
+  document.getElementById('btn-fc-run').addEventListener('click', drawForecast);
+  document.getElementById('btn-fc-newdata').addEventListener('click', () => {
+    generateFCData();
+    drawForecast();
+  });
+});
+</script>
+
+<style>
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+</style>

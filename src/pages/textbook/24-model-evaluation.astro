@@ -1,0 +1,981 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="모델 평가와 선택"
+  subtitle="좋은 모델은 어떻게 고르나?"
+  chapterNum={24}
+  part={4}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>99% 정확한 코로나 검사의 함정</h2>
+    <p>
+      코로나 검사의 정확도가 99%라고 합니다. 양성 결과가 나왔습니다. 진짜 감염되었을 확률은?
+    </p>
+    <p style="margin-top: 12px;">
+      놀랍게도, <strong>유병률이 0.1%</strong>라면 양성의 대부분은 오진입니다.
+      1000명 중 실제 감염자는 1명. 검사하면 이 1명을 잡지만, 나머지 999명 중 1%(약 10명)도
+      잘못 양성으로 나옵니다. 양성 11명 중 진짜 감염은 1명뿐 -- 약 <strong>9%</strong>.
+    </p>
+    <p style="margin-top: 12px;">
+      이것이 바로 <strong>"정확도(accuracy)만으로는 부족하다"</strong>는 교훈입니다.
+      특히 데이터가 불균형할 때, 정확도는 완전히 잘못된 안도감을 줍니다.
+      이 장에서는 상황에 맞는 평가 지표를 고르는 법을 배웁니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 혼동 행렬 ===== -->
+  <div class="tb-card">
+    <h2>혼동 행렬 (Confusion Matrix): 모든 평가의 출발점</h2>
+    <p>
+      이진 분류 모델의 예측 결과는 4가지로 나뉩니다.
+      이것을 2x2 표로 정리한 것이 <strong>혼동 행렬</strong>입니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: auto 1fr 1fr; gap: 0; margin: 20px auto; max-width: 500px; border: 2px solid var(--tb-g200); border-radius: var(--tb-radius); overflow: hidden;">
+      <div style="background: var(--tb-g100); padding: 14px; font-weight: 700;"></div>
+      <div style="background: var(--tb-g100); padding: 14px; font-weight: 700; text-align: center; border-left: 1px solid var(--tb-g200);">예측: 양성</div>
+      <div style="background: var(--tb-g100); padding: 14px; font-weight: 700; text-align: center; border-left: 1px solid var(--tb-g200);">예측: 음성</div>
+      <div style="background: var(--tb-g100); padding: 14px; font-weight: 700; border-top: 1px solid var(--tb-g200);">실제: 양성</div>
+      <div style="background: #dcfce7; padding: 14px; text-align: center; font-weight: 700; color: #166534; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">TP (참 양성)</div>
+      <div style="background: #fef3c7; padding: 14px; text-align: center; font-weight: 700; color: #92400e; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">FN (거짓 음성)</div>
+      <div style="background: var(--tb-g100); padding: 14px; font-weight: 700; border-top: 1px solid var(--tb-g200);">실제: 음성</div>
+      <div style="background: #fee2e2; padding: 14px; text-align: center; font-weight: 700; color: #991b1b; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">FP (거짓 양성)</div>
+      <div style="background: #dbeafe; padding: 14px; text-align: center; font-weight: 700; color: #1e40af; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">TN (참 음성)</div>
+    </div>
+
+    <ExplainBox>
+      <strong>TP:</strong> 환자를 환자라고 맞춤 (정확한 양성)<br>
+      <strong>FP:</strong> 건강한 사람을 환자라고 잘못 판단 (오진, 1종 오류)<br>
+      <strong>FN:</strong> 환자를 건강하다고 놓침 (미발견, 2종 오류)<br>
+      <strong>TN:</strong> 건강한 사람을 건강하다고 맞춤 (정확한 음성)
+    </ExplainBox>
+
+    <h3>핵심 지표들</h3>
+    <FormulaBox>
+      정확도(Accuracy) = (<span class="hl">TP + TN</span>) / (TP + FP + FN + TN)<br>
+      정밀도(Precision) = <span class="hl">TP</span> / (TP + FP) &nbsp;&nbsp;"양성이라 한 것 중 진짜 양성"<br>
+      재현율(Recall) = <span class="hl">TP</span> / (TP + FN) &nbsp;&nbsp;"진짜 양성 중 찾아낸 비율"<br>
+      F1 = 2 * (Precision * Recall) / (Precision + Recall) &nbsp;&nbsp;<span class="res">조화평균</span>
+    </FormulaBox>
+
+    <InsightBox>
+      <strong>정밀도 vs 재현율의 갈등:</strong>
+      스팸 메일 필터: 정밀도 우선 (정상 메일을 스팸으로 보내면 안 됨).
+      암 검진: 재현율 우선 (환자를 놓치면 안 됨).
+      두 지표는 시소 관계입니다 -- 하나를 올리면 다른 하나가 내려갑니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Imbalanced Data Simulator ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 불균형 데이터의 위험</h2>
+    <p>
+      신용카드 사기 탐지 시나리오입니다. 99%가 정상, 1%만 사기입니다.
+      "전부 정상"이라고 예측하면 정확도 99%를 달성하지만, 사기를 하나도 못 잡습니다.
+      임계값(threshold)을 조절해서 최적의 균형점을 찾아보세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>목표:</strong> 사기를 최대한 잡되(재현율 높이기), 오진도 줄이세요(정밀도 유지).
+      임계값 슬라이더를 움직여서 F1 점수가 최대인 지점을 찾아보세요.
+      비용 행렬도 확인하세요: 사기를 놓치면 100만원, 오탐은 1만원.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>임계값 (Threshold):</label>
+      <input type="range" id="range-threshold" min="0" max="100" value="50" style="width: 250px;">
+      <span id="label-threshold" class="tb-speed-label">0.50</span>
+      <button class="tb-btn tb-btn-primary" id="btn-new-fraud-data">새 데이터</button>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="정확도" id="stat-im-accuracy" />
+      <StatBox label="정밀도" id="stat-im-precision" borderColor="#2563eb" />
+      <StatBox label="재현율" id="stat-im-recall" borderColor="#ef4444" />
+      <StatBox label="F1 점수" id="stat-im-f1" borderColor="#22c55e" />
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <ChartContainer id="chart-threshold-metrics" height="300px" />
+      <div>
+        <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 8px;">비용 분석</div>
+        <div class="tb-stat-row">
+          <StatBox label="놓친 사기 (FN)" id="stat-fn-count" borderColor="#ef4444" />
+          <StatBox label="오탐 (FP)" id="stat-fp-count" borderColor="#f59e0b" />
+        </div>
+        <div class="tb-stat-row" style="margin-top: 8px;">
+          <StatBox label="사기 미탐지 비용" id="stat-fn-cost" sub="FN x 100만원" borderColor="#ef4444" />
+          <StatBox label="오탐 비용" id="stat-fp-cost" sub="FP x 1만원" borderColor="#f59e0b" />
+        </div>
+        <div style="background: var(--tb-g100); padding: 14px; border-radius: var(--tb-radius); text-align: center; margin-top: 8px;">
+          <div style="font-size: 0.82rem; color: var(--tb-g600);">총 비용</div>
+          <div id="stat-total-cost" style="font-size: 1.6rem; font-weight: 800; color: var(--tb-danger);">--</div>
+        </div>
+      </div>
+    </div>
+
+    <WarningBox>
+      <strong>교훈:</strong> 정확도 99%가 최선이 아닙니다!
+      비용 관점에서는 재현율을 높여 사기를 더 많이 잡는 것이
+      오탐 비용을 감수하더라도 훨씬 저렴할 수 있습니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Confusion Matrix Builder ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 혼동 행렬 직접 조작하기</h2>
+    <p>
+      2x2 행렬의 각 셀 값을 직접 바꿔보세요. 모든 평가 지표가 실시간으로 업데이트됩니다.
+      "TP를 올리면 어떤 지표가 변하는가?" "FP를 줄이면?" 직접 실험해 보세요.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 14px 0;">
+      <!-- 행렬 입력 -->
+      <div>
+        <div style="display: grid; grid-template-columns: auto 1fr 1fr; gap: 0; border: 2px solid var(--tb-g200); border-radius: var(--tb-radius); overflow: hidden;">
+          <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; font-size: 0.85rem;"></div>
+          <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; text-align: center; font-size: 0.85rem; border-left: 1px solid var(--tb-g200);">예측 양성</div>
+          <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; text-align: center; font-size: 0.85rem; border-left: 1px solid var(--tb-g200);">예측 음성</div>
+
+          <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; font-size: 0.85rem; border-top: 1px solid var(--tb-g200);">실제 양성</div>
+          <div style="padding: 8px; text-align: center; background: #dcfce7; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">
+            <label style="font-size: 0.78rem; color: #166534; font-weight: 700;">TP</label><br>
+            <input type="number" id="input-tp" value="40" min="0" max="500" style="width: 70px; text-align: center; font-weight: 700; font-size: 1.1rem; border: 2px solid #22c55e; border-radius: 6px; padding: 4px;">
+          </div>
+          <div style="padding: 8px; text-align: center; background: #fef3c7; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">
+            <label style="font-size: 0.78rem; color: #92400e; font-weight: 700;">FN</label><br>
+            <input type="number" id="input-fn" value="10" min="0" max="500" style="width: 70px; text-align: center; font-weight: 700; font-size: 1.1rem; border: 2px solid #f59e0b; border-radius: 6px; padding: 4px;">
+          </div>
+
+          <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; font-size: 0.85rem; border-top: 1px solid var(--tb-g200);">실제 음성</div>
+          <div style="padding: 8px; text-align: center; background: #fee2e2; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">
+            <label style="font-size: 0.78rem; color: #991b1b; font-weight: 700;">FP</label><br>
+            <input type="number" id="input-fp" value="5" min="0" max="500" style="width: 70px; text-align: center; font-weight: 700; font-size: 1.1rem; border: 2px solid #ef4444; border-radius: 6px; padding: 4px;">
+          </div>
+          <div style="padding: 8px; text-align: center; background: #dbeafe; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">
+            <label style="font-size: 0.78rem; color: #1e40af; font-weight: 700;">TN</label><br>
+            <input type="number" id="input-tn" value="945" min="0" max="5000" style="width: 70px; text-align: center; font-weight: 700; font-size: 1.1rem; border: 2px solid #2563eb; border-radius: 6px; padding: 4px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- 지표 표시 -->
+      <div>
+        <div class="tb-stat-row">
+          <StatBox label="정확도 (Accuracy)" id="stat-cm-accuracy" />
+          <StatBox label="오류율 (Error Rate)" id="stat-cm-error" />
+        </div>
+        <div class="tb-stat-row">
+          <StatBox label="정밀도 (Precision)" id="stat-cm-precision" borderColor="#2563eb" />
+          <StatBox label="재현율 (Recall)" id="stat-cm-recall" borderColor="#ef4444" />
+        </div>
+        <div class="tb-stat-row">
+          <StatBox label="F1 Score" id="stat-cm-f1" borderColor="#22c55e" />
+          <StatBox label="특이도 (Specificity)" id="stat-cm-specificity" borderColor="#7c3aed" />
+        </div>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>실험 아이디어:</strong> TP=1, FN=0, FP=0, TN=999로 놓으면?
+      정밀도와 재현율 모두 100%이지만, 양성 데이터가 1개뿐이라 신뢰도가 낮습니다.
+      지표 숫자만 보지 말고, <strong>표본 크기도 함께</strong> 고려해야 합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: ROC Curve Comparison ===== -->
+  <div class="tb-card">
+    <h2>실습 3: ROC 곡선과 AUC</h2>
+    <p>
+      <strong>ROC 곡선</strong>은 임계값을 0에서 1까지 변화시키면서
+      거짓 양성률(FPR)과 참 양성률(TPR)의 관계를 그린 곡선입니다.
+      곡선 아래 면적(AUC)이 클수록 좋은 모델입니다.
+    </p>
+
+    <FormulaBox>
+      TPR (Recall) = TP / (TP + FN) &nbsp;&nbsp;&nbsp; FPR = FP / (FP + TN)<br>
+      <span class="res">AUC = 1.0</span> (완벽) &nbsp;&nbsp; AUC = 0.5 (무작위) &nbsp;&nbsp; AUC &lt; 0.5 (반대로 예측)
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>비유:</strong> ROC 곡선은 "민감도를 올리면 오탐이 얼마나 늘어나는가"의 트레이드오프를 보여줍니다.
+      좋은 모델은 왼쪽 위 모서리에 가깝고(TPR 높고 FPR 낮고), 나쁜 모델은 대각선에 가깝습니다.
+    </ExplainBox>
+
+    <ChartContainer id="chart-roc-curves" height="380px" />
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-gen-roc">새 모델 생성</button>
+      <label>모델 A 성능:</label>
+      <select id="select-model-a">
+        <option value="0.9" selected>우수 (AUC~0.9)</option>
+        <option value="0.75">보통 (AUC~0.75)</option>
+        <option value="0.6">약함 (AUC~0.6)</option>
+      </select>
+      <label>모델 B 성능:</label>
+      <select id="select-model-b">
+        <option value="0.9">우수 (AUC~0.9)</option>
+        <option value="0.75" selected>보통 (AUC~0.75)</option>
+        <option value="0.6">약함 (AUC~0.6)</option>
+      </select>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="모델 A AUC" id="stat-auc-a" borderColor="#2563eb" />
+      <StatBox label="모델 B AUC" id="stat-auc-b" borderColor="#ef4444" />
+      <StatBox label="무작위 AUC" id="stat-auc-random" value="0.500" borderColor="#94a3b8" />
+    </div>
+
+    <WarningBox>
+      <strong>AUC의 한계:</strong> AUC는 전체적인 성능을 요약하지만,
+      "실제로 사용할 운영점(threshold)"에서의 성능은 알려주지 않습니다.
+      두 모델의 AUC가 같아도, 특정 FPR 범위에서는 성능이 크게 다를 수 있습니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: K-Fold Cross-Validation ===== -->
+  <div class="tb-card">
+    <h2>실습 4: K-겹 교차검증</h2>
+    <p>
+      데이터를 한 번만 분할하면 운에 따라 결과가 달라질 수 있습니다.
+      <strong>K-겹 교차검증</strong>은 데이터를 K등분하고, 각 등분을 한 번씩 테스트 세트로 사용합니다.
+      K번의 평가 결과의 평균이 더 안정적인 성능 추정치를 줍니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong> 5명의 학생이 돌아가면서 발표 평가를 받습니다.
+      1명만 평가하면 그 사람의 운에 따라 달라지지만,
+      5명 모두 한 번씩 평가받으면 전체 실력을 더 정확히 알 수 있습니다.
+    </ExplainBox>
+
+    <!-- K-fold 시각화 -->
+    <div id="kfold-visual" style="margin: 14px 0;">
+      <canvas id="canvas-kfold" width="700" height="200" style="max-width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius);"></canvas>
+    </div>
+
+    <SimControls>
+      <label>K 값:</label>
+      <select id="select-kfold">
+        <option value="3">K = 3</option>
+        <option value="5" selected>K = 5</option>
+        <option value="10">K = 10</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-run-cv">교차검증 실행</button>
+      <button class="tb-btn tb-btn-warning" id="btn-compare-cv">K=3, 5, 10 비교</button>
+    </SimControls>
+
+    <!-- 결과 -->
+    <div id="cv-results" style="margin: 14px 0;"></div>
+
+    <ChartContainer id="chart-cv-comparison" height="300px" />
+
+    <div class="tb-stat-row">
+      <StatBox label="평균 정확도" id="stat-cv-mean" borderColor="#22c55e" />
+      <StatBox label="표준편차" id="stat-cv-std" borderColor="#f59e0b" />
+      <StatBox label="단일 홀드아웃" id="stat-cv-holdout" borderColor="#94a3b8" />
+    </div>
+
+    <InsightBox>
+      <strong>K 선택 가이드:</strong>
+      K=5 또는 K=10이 실무에서 가장 흔합니다.
+      K가 크면 편향이 줄지만 분산이 늘고 계산이 오래 걸립니다.
+      K=n (Leave-One-Out)은 데이터가 아주 적을 때만 사용합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: Model Selection Checklist ===== -->
+  <div class="tb-card">
+    <h2>실습 5: 모델 선택 가이드</h2>
+    <p>
+      어떤 모델과 평가 지표를 사용할지 결정하는 것은 데이터의 특성과 비즈니스 맥락에 따라 다릅니다.
+      아래의 대화형 가이드를 따라가며 상황에 맞는 최적의 선택을 찾아보세요.
+    </p>
+
+    <ExerciseBox>
+      각 질문에 답하면 다음 질문이 나타나고, 최종적으로 추천 모델과 평가 지표가 제시됩니다.
+      다른 답을 선택해서 결과가 어떻게 바뀌는지도 확인해 보세요.
+    </ExerciseBox>
+
+    <div id="checklist-container" style="margin: 14px 0;">
+      <!-- Step 1 -->
+      <div class="checklist-step" id="step-1" style="margin-bottom: 14px;">
+        <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--tb-primary);">Q1. 데이터가 균형적인가요?</div>
+        <div style="display: flex; gap: 10px;">
+          <button class="tb-btn tb-btn-primary checklist-btn" data-step="1" data-answer="balanced">예 (각 클래스 비율 유사)</button>
+          <button class="tb-btn tb-btn-warning checklist-btn" data-step="1" data-answer="imbalanced">아니오 (한 클래스가 압도적)</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="checklist-step" id="step-2" style="margin-bottom: 14px; display: none;">
+        <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--tb-primary);">Q2. 오류의 비용이 비대칭인가요?</div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="tb-btn tb-btn-primary checklist-btn" data-step="2" data-answer="fn-costly">놓치는 것이 더 위험 (FN 비용 높음)</button>
+          <button class="tb-btn tb-btn-warning checklist-btn" data-step="2" data-answer="fp-costly">오탐이 더 위험 (FP 비용 높음)</button>
+          <button class="tb-btn tb-btn-success checklist-btn" data-step="2" data-answer="symmetric">비슷함</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="checklist-step" id="step-3" style="margin-bottom: 14px; display: none;">
+        <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--tb-primary);">Q3. 모델의 해석 가능성이 중요한가요?</div>
+        <div style="display: flex; gap: 10px;">
+          <button class="tb-btn tb-btn-primary checklist-btn" data-step="3" data-answer="interpretable">매우 중요 (규제, 의료 등)</button>
+          <button class="tb-btn tb-btn-warning checklist-btn" data-step="3" data-answer="not-important">성능이 더 중요</button>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="checklist-step" id="step-4" style="margin-bottom: 14px; display: none;">
+        <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--tb-primary);">Q4. 데이터 크기는?</div>
+        <div style="display: flex; gap: 10px;">
+          <button class="tb-btn tb-btn-primary checklist-btn" data-step="4" data-answer="small">소규모 (&lt; 1000건)</button>
+          <button class="tb-btn tb-btn-warning checklist-btn" data-step="4" data-answer="medium">중규모 (1000-10만건)</button>
+          <button class="tb-btn tb-btn-success checklist-btn" data-step="4" data-answer="large">대규모 (&gt; 10만건)</button>
+        </div>
+      </div>
+
+      <!-- Recommendation -->
+      <div id="checklist-result" style="display: none; margin-top: 16px;">
+        <div style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); padding: 20px; border-radius: var(--tb-radius); border-left: 4px solid var(--tb-success);">
+          <div style="font-weight: 800; font-size: 1.05rem; color: #166534; margin-bottom: 10px;">추천 결과</div>
+          <div id="recommend-model" style="font-size: 0.93rem; margin-bottom: 8px;"></div>
+          <div id="recommend-metric" style="font-size: 0.93rem; margin-bottom: 8px;"></div>
+          <div id="recommend-cv" style="font-size: 0.93rem;"></div>
+        </div>
+        <button class="tb-btn tb-btn-danger" id="btn-reset-checklist" style="margin-top: 10px;">다시 선택하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION: 지표 요약 테이블 ===== -->
+  <div class="tb-card">
+    <h2>평가 지표 요약</h2>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr>
+            <th>지표</th>
+            <th>언제 사용?</th>
+            <th>주의점</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight: 700;">Accuracy</td><td>클래스 균형, 오류 비용 대칭</td><td>불균형 데이터에서는 무의미</td></tr>
+          <tr><td style="font-weight: 700;">Precision</td><td>FP 비용이 높을 때 (스팸 필터)</td><td>FN을 무시할 수 있음</td></tr>
+          <tr><td style="font-weight: 700;">Recall</td><td>FN 비용이 높을 때 (암 검진)</td><td>FP를 무시할 수 있음</td></tr>
+          <tr><td style="font-weight: 700;">F1</td><td>정밀도와 재현율 균형</td><td>TN을 반영하지 않음</td></tr>
+          <tr><td style="font-weight: 700;">AUC-ROC</td><td>전체 임계값 범위의 성능</td><td>불균형 시 PR-AUC가 더 나음</td></tr>
+          <tr><td style="font-weight: 700;">Log Loss</td><td>확률 예측의 품질</td><td>확률 보정이 중요</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <BusinessBox>
+      <strong>비즈니스 함의:</strong> 모델 선택은 기술적 결정이 아니라 <strong>비즈니스 결정</strong>입니다.
+      "사기를 놓치는 비용이 얼마인가?" "고객을 잘못 차단하면 얼마를 잃는가?"
+      이 비용을 먼저 정의하고, 그에 맞는 지표를 선택해야 합니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <ul style="line-height: 2;">
+      <li>정확도만으로 모델을 평가하면 안 된다. 특히 불균형 데이터에서는 치명적이다.</li>
+      <li>혼동 행렬에서 TP/FP/FN/TN을 이해하면 모든 지표를 파악할 수 있다.</li>
+      <li>정밀도와 재현율은 시소 관계. 비즈니스 맥락에 따라 우선순위를 정해야 한다.</li>
+      <li>ROC 곡선과 AUC로 전체적인 분류 성능을 비교할 수 있다.</li>
+      <li>K-겹 교차검증은 안정적인 성능 추정을 제공하며, K=5 또는 10이 표준이다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 의사결정트리, 앙상블, 모델 평가를 모두 배웠습니다.
+      다음 장에서는 이 모든 기법을 종합하여 실전 프로젝트를 수행합니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+  import { markVisited } from '../../textbook/lib/progress';
+  markVisited('24-model-evaluation');
+
+  // ====================== INTERACTIVE 1: IMBALANCED DATA ======================
+  let fraudData: { score: number; actual: number }[] = [];
+
+  function generateFraudData(n = 1000) {
+    fraudData = [];
+    const fraudRate = 0.01;
+    for (let i = 0; i < n; i++) {
+      const actual = Math.random() < fraudRate ? 1 : 0;
+      // Score: higher for fraud, but with overlap
+      const score = actual === 1
+        ? 0.4 + Math.random() * 0.55 + (Math.random() - 0.5) * 0.3
+        : Math.random() * 0.6 + (Math.random() - 0.5) * 0.2;
+      fraudData.push({ score: Math.max(0, Math.min(1, score)), actual });
+    }
+  }
+
+  let chartThresholdMetrics: any = null;
+
+  function updateFraudMetrics() {
+    const threshold = parseInt((document.getElementById('range-threshold') as HTMLInputElement).value) / 100;
+    document.getElementById('label-threshold')!.textContent = threshold.toFixed(2);
+
+    let tp = 0, fp = 0, fn = 0, tn = 0;
+    for (const d of fraudData) {
+      const pred = d.score >= threshold ? 1 : 0;
+      if (pred === 1 && d.actual === 1) tp++;
+      else if (pred === 1 && d.actual === 0) fp++;
+      else if (pred === 0 && d.actual === 1) fn++;
+      else tn++;
+    }
+
+    const accuracy = (tp + tn) / (tp + fp + fn + tn);
+    const precision = tp + fp > 0 ? tp / (tp + fp) : 0;
+    const recall = tp + fn > 0 ? tp / (tp + fn) : 0;
+    const f1 = precision + recall > 0 ? 2 * precision * recall / (precision + recall) : 0;
+
+    setStat('stat-im-accuracy', (accuracy * 100).toFixed(1) + '%');
+    setStat('stat-im-precision', (precision * 100).toFixed(1) + '%');
+    setStat('stat-im-recall', (recall * 100).toFixed(1) + '%');
+    setStat('stat-im-f1', f1.toFixed(3));
+
+    setStat('stat-fn-count', String(fn));
+    setStat('stat-fp-count', String(fp));
+    setStat('stat-fn-cost', (fn * 100).toFixed(0) + '만원');
+    setStat('stat-fp-cost', (fp * 1).toFixed(0) + '만원');
+    document.getElementById('stat-total-cost')!.textContent = ((fn * 100) + (fp * 1)).toFixed(0) + '만원';
+
+    // Update threshold metrics chart
+    if (chartThresholdMetrics) {
+      const thresholds: number[] = [];
+      const precisions: number[] = [];
+      const recalls: number[] = [];
+      const f1s: number[] = [];
+      for (let t = 0; t <= 100; t += 2) {
+        const th = t / 100;
+        thresholds.push(th);
+        let ltp = 0, lfp = 0, lfn = 0;
+        for (const d of fraudData) {
+          const pred = d.score >= th ? 1 : 0;
+          if (pred === 1 && d.actual === 1) ltp++;
+          else if (pred === 1 && d.actual === 0) lfp++;
+          else if (pred === 0 && d.actual === 1) lfn++;
+        }
+        const lp = ltp + lfp > 0 ? ltp / (ltp + lfp) : 0;
+        const lr = ltp + lfn > 0 ? ltp / (ltp + lfn) : 0;
+        const lf = lp + lr > 0 ? 2 * lp * lr / (lp + lr) : 0;
+        precisions.push(lp);
+        recalls.push(lr);
+        f1s.push(lf);
+      }
+      chartThresholdMetrics.data.labels = thresholds.map(t => t.toFixed(2));
+      chartThresholdMetrics.data.datasets[0].data = precisions;
+      chartThresholdMetrics.data.datasets[1].data = recalls;
+      chartThresholdMetrics.data.datasets[2].data = f1s;
+      chartThresholdMetrics.update();
+    }
+  }
+
+  // ====================== INTERACTIVE 2: CONFUSION MATRIX BUILDER ======================
+  function updateConfusionMatrix() {
+    const tp = parseInt((document.getElementById('input-tp') as HTMLInputElement).value) || 0;
+    const fn = parseInt((document.getElementById('input-fn') as HTMLInputElement).value) || 0;
+    const fp = parseInt((document.getElementById('input-fp') as HTMLInputElement).value) || 0;
+    const tn = parseInt((document.getElementById('input-tn') as HTMLInputElement).value) || 0;
+
+    const total = tp + fn + fp + tn;
+    const accuracy = total > 0 ? (tp + tn) / total : 0;
+    const errorRate = 1 - accuracy;
+    const precision = tp + fp > 0 ? tp / (tp + fp) : 0;
+    const recall = tp + fn > 0 ? tp / (tp + fn) : 0;
+    const f1 = precision + recall > 0 ? 2 * precision * recall / (precision + recall) : 0;
+    const specificity = fp + tn > 0 ? tn / (fp + tn) : 0;
+
+    setStat('stat-cm-accuracy', (accuracy * 100).toFixed(1) + '%');
+    setStat('stat-cm-error', (errorRate * 100).toFixed(1) + '%');
+    setStat('stat-cm-precision', (precision * 100).toFixed(1) + '%');
+    setStat('stat-cm-recall', (recall * 100).toFixed(1) + '%');
+    setStat('stat-cm-f1', f1.toFixed(3));
+    setStat('stat-cm-specificity', (specificity * 100).toFixed(1) + '%');
+  }
+
+  // ====================== INTERACTIVE 3: ROC CURVE ======================
+  let chartRocCurves: any = null;
+
+  function generateROCData(quality: number) {
+    // Generate scores that approximate a model of given AUC quality
+    const points: { score: number; actual: number }[] = [];
+    for (let i = 0; i < 500; i++) {
+      const actual = Math.random() > 0.5 ? 1 : 0;
+      const noise = (1 - quality) * 2;
+      const score = actual === 1
+        ? quality + (Math.random() - 0.5) * noise
+        : (1 - quality) + (Math.random() - 0.5) * noise;
+      points.push({ score: Math.max(0, Math.min(1, score)), actual });
+    }
+    return points;
+  }
+
+  function computeROC(data: { score: number; actual: number }[]) {
+    const sorted = [...data].sort((a, b) => b.score - a.score);
+    const totalP = data.filter(d => d.actual === 1).length;
+    const totalN = data.length - totalP;
+    const fprList = [0];
+    const tprList = [0];
+    let tp = 0, fp = 0;
+
+    for (const d of sorted) {
+      if (d.actual === 1) tp++;
+      else fp++;
+      tprList.push(totalP > 0 ? tp / totalP : 0);
+      fprList.push(totalN > 0 ? fp / totalN : 0);
+    }
+
+    // Compute AUC using trapezoidal rule
+    let auc = 0;
+    for (let i = 1; i < fprList.length; i++) {
+      auc += (fprList[i] - fprList[i - 1]) * (tprList[i] + tprList[i - 1]) / 2;
+    }
+
+    // Subsample for chart
+    const step = Math.max(1, Math.floor(fprList.length / 100));
+    const sampledFpr: number[] = [];
+    const sampledTpr: number[] = [];
+    for (let i = 0; i < fprList.length; i += step) {
+      sampledFpr.push(fprList[i]);
+      sampledTpr.push(tprList[i]);
+    }
+    if (sampledFpr[sampledFpr.length - 1] !== 1) {
+      sampledFpr.push(1);
+      sampledTpr.push(1);
+    }
+
+    return { fpr: sampledFpr, tpr: sampledTpr, auc };
+  }
+
+  function updateROC() {
+    const qualA = parseFloat((document.getElementById('select-model-a') as HTMLSelectElement).value);
+    const qualB = parseFloat((document.getElementById('select-model-b') as HTMLSelectElement).value);
+
+    const dataA = generateROCData(qualA);
+    const dataB = generateROCData(qualB);
+    const rocA = computeROC(dataA);
+    const rocB = computeROC(dataB);
+
+    setStat('stat-auc-a', rocA.auc.toFixed(3));
+    setStat('stat-auc-b', rocB.auc.toFixed(3));
+
+    if (chartRocCurves) {
+      // Model A
+      chartRocCurves.data.datasets[0].data = rocA.fpr.map((fpr, i) => ({ x: fpr, y: rocA.tpr[i] }));
+      // Model B
+      chartRocCurves.data.datasets[1].data = rocB.fpr.map((fpr, i) => ({ x: fpr, y: rocB.tpr[i] }));
+      // Random
+      chartRocCurves.data.datasets[2].data = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+      chartRocCurves.update();
+    }
+  }
+
+  // ====================== INTERACTIVE 4: K-FOLD CV ======================
+  let chartCvComparison: any = null;
+
+  function simulateCV(k: number) {
+    // Generate a dataset
+    const n = 200;
+    const data: { x: number; y: number; cls: number }[] = [];
+    for (let i = 0; i < n; i++) {
+      const x = Math.random() * 10;
+      const y = Math.random() * 10;
+      const cls = (y > 3 * Math.sin(x * 0.8) + 5 + (Math.random() - 0.5) * 2) ? 1 : 0;
+      data.push({ x, y, cls });
+    }
+
+    // K-fold
+    const foldSize = Math.floor(n / k);
+    const accuracies: number[] = [];
+
+    for (let fold = 0; fold < k; fold++) {
+      const testStart = fold * foldSize;
+      const testEnd = fold === k - 1 ? n : (fold + 1) * foldSize;
+      const testSet = data.slice(testStart, testEnd);
+      const trainSet = [...data.slice(0, testStart), ...data.slice(testEnd)];
+
+      // Simple KNN-like classifier (k=5 nearest neighbors)
+      let correct = 0;
+      for (const t of testSet) {
+        const dists = trainSet.map(tr => ({
+          dist: Math.sqrt((tr.x - t.x) ** 2 + (tr.y - t.y) ** 2),
+          cls: tr.cls,
+        })).sort((a, b) => a.dist - b.dist);
+        const neighbors = dists.slice(0, 5);
+        const vote = neighbors.filter(n => n.cls === 1).length > 2 ? 1 : 0;
+        if (vote === t.cls) correct++;
+      }
+      accuracies.push(correct / testSet.length);
+    }
+
+    const mean = accuracies.reduce((a, b) => a + b, 0) / accuracies.length;
+    const std = Math.sqrt(accuracies.reduce((a, b) => a + (b - mean) ** 2, 0) / accuracies.length);
+
+    return { accuracies, mean, std };
+  }
+
+  function drawKFoldVisual(k: number) {
+    const canvas = document.getElementById('canvas-kfold') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const blockW = (W - 40) / k;
+    const rowH = 28;
+    const startY = 20;
+
+    ctx.font = '11px Paperlogy, sans-serif';
+    ctx.textAlign = 'center';
+
+    for (let fold = 0; fold < k; fold++) {
+      const y = startY + fold * (rowH + 8);
+      ctx.fillStyle = '#475569';
+      ctx.textAlign = 'right';
+      ctx.fillText(`Fold ${fold + 1}`, 35, y + rowH / 2 + 4);
+      ctx.textAlign = 'center';
+
+      for (let block = 0; block < k; block++) {
+        const x = 40 + block * blockW;
+        const isTest = block === fold;
+        ctx.fillStyle = isTest ? '#ef4444' : '#3b82f6';
+        ctx.globalAlpha = isTest ? 0.9 : 0.3;
+        ctx.beginPath();
+        ctx.roundRect(x + 1, y, blockW - 2, rowH, 4);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+
+        if (isTest) {
+          ctx.fillStyle = '#fff';
+          ctx.font = '10px Paperlogy, sans-serif';
+          ctx.fillText('Test', x + blockW / 2, y + rowH / 2 + 3);
+          ctx.font = '11px Paperlogy, sans-serif';
+        }
+      }
+    }
+
+    // Legend
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#3b82f6';
+    ctx.globalAlpha = 0.3;
+    ctx.fillRect(40, H - 25, 20, 12);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = '#475569';
+    ctx.fillText('훈련', 65, H - 15);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.globalAlpha = 0.9;
+    ctx.fillRect(120, H - 25, 20, 12);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = '#475569';
+    ctx.fillText('테스트', 145, H - 15);
+  }
+
+  function runCV() {
+    const k = parseInt((document.getElementById('select-kfold') as HTMLSelectElement).value);
+    drawKFoldVisual(k);
+
+    const result = simulateCV(k);
+    setStat('stat-cv-mean', (result.mean * 100).toFixed(1) + '%');
+    setStat('stat-cv-std', (result.std * 100).toFixed(2) + '%');
+
+    // Single holdout for comparison
+    const holdout = simulateCV(2);
+    setStat('stat-cv-holdout', (holdout.accuracies[0] * 100).toFixed(1) + '%');
+
+    // Display fold results
+    const container = document.getElementById('cv-results')!;
+    container.innerHTML = `<div style="display:flex; gap:8px; flex-wrap:wrap;">` +
+      result.accuracies.map((acc, i) =>
+        `<span style="padding:6px 14px; background:var(--tb-g100); border-radius:20px; font-size:0.85rem; font-weight:600;">Fold ${i + 1}: ${(acc * 100).toFixed(1)}%</span>`
+      ).join('') +
+      `</div><div style="margin-top:8px; font-weight:700; font-size:0.9rem;">평균: ${(result.mean * 100).toFixed(1)}% +/- ${(result.std * 100).toFixed(2)}%</div>`;
+  }
+
+  function compareCV() {
+    const results: { k: number; mean: number; std: number; accs: number[] }[] = [];
+    for (const k of [3, 5, 10]) {
+      const r = simulateCV(k);
+      results.push({ k, mean: r.mean, std: r.std, accs: r.accuracies });
+    }
+
+    if (chartCvComparison) {
+      chartCvComparison.data.labels = results.map(r => `K=${r.k}`);
+      chartCvComparison.data.datasets[0].data = results.map(r => r.mean * 100);
+      chartCvComparison.data.datasets[1].data = results.map(r => r.std * 100);
+      chartCvComparison.update();
+    }
+  }
+
+  // ====================== INTERACTIVE 5: MODEL SELECTION CHECKLIST ======================
+  let checklistAnswers: Record<string, string> = {};
+
+  function handleChecklistClick(step: string, answer: string) {
+    checklistAnswers[step] = answer;
+
+    // Highlight selected button
+    const stepEl = document.getElementById(`step-${step}`);
+    if (stepEl) {
+      stepEl.querySelectorAll('.checklist-btn').forEach((btn: any) => {
+        btn.style.opacity = btn.dataset.answer === answer ? '1' : '0.4';
+      });
+    }
+
+    // Show next step
+    const nextStep = parseInt(step) + 1;
+    if (nextStep <= 4) {
+      const nextEl = document.getElementById(`step-${nextStep}`);
+      if (nextEl) nextEl.style.display = 'block';
+    }
+
+    // Show result after step 4
+    if (parseInt(step) >= 4 || (parseInt(step) === 3 && Object.keys(checklistAnswers).length >= 3)) {
+      showChecklistResult();
+    }
+  }
+
+  function showChecklistResult() {
+    const result = document.getElementById('checklist-result')!;
+    result.style.display = 'block';
+
+    const isBalanced = checklistAnswers['1'] === 'balanced';
+    const costType = checklistAnswers['2'] || 'symmetric';
+    const needInterpret = checklistAnswers['3'] === 'interpretable';
+    const dataSize = checklistAnswers['4'] || 'medium';
+
+    // Determine recommendation
+    let model = '';
+    let metric = '';
+    let cv = '';
+
+    if (needInterpret) {
+      model = dataSize === 'small'
+        ? '<strong>로지스틱 회귀</strong> 또는 <strong>의사결정트리</strong> (해석 가능 + 소규모 데이터에 적합)'
+        : '<strong>의사결정트리</strong> 또는 <strong>규칙 기반 모델</strong> (해석 가능 + 비선형 포착)';
+    } else {
+      if (dataSize === 'large') {
+        model = '<strong>그레이디언트 부스팅 (XGBoost/LightGBM)</strong> (대규모 데이터에서 최강 성능)';
+      } else {
+        model = '<strong>랜덤 포레스트</strong> (안정적 성능, 과적합 방지)';
+      }
+    }
+
+    if (!isBalanced) {
+      if (costType === 'fn-costly') {
+        metric = '<strong>재현율(Recall)</strong> 또는 <strong>F2 Score</strong> (FN 최소화 우선)';
+      } else if (costType === 'fp-costly') {
+        metric = '<strong>정밀도(Precision)</strong> 또는 <strong>F0.5 Score</strong> (FP 최소화 우선)';
+      } else {
+        metric = '<strong>F1 Score</strong> + <strong>AUC-PR</strong> (불균형 데이터의 균형 지표)';
+      }
+    } else {
+      if (costType === 'fn-costly') {
+        metric = '<strong>재현율(Recall)</strong> 우선, Accuracy도 참고';
+      } else if (costType === 'fp-costly') {
+        metric = '<strong>정밀도(Precision)</strong> 우선, Accuracy도 참고';
+      } else {
+        metric = '<strong>Accuracy</strong> + <strong>AUC-ROC</strong> (균형 데이터의 표준 지표)';
+      }
+    }
+
+    if (dataSize === 'small') {
+      cv = '<strong>K=10 교차검증</strong> 또는 <strong>Leave-One-Out</strong> (소규모에서 안정적 추정)';
+    } else if (dataSize === 'medium') {
+      cv = '<strong>K=5 교차검증</strong> (표준적 선택)';
+    } else {
+      cv = '<strong>단일 홀드아웃 (80/20)</strong>으로 충분 (데이터가 많으면 분산이 자연히 낮음)';
+    }
+
+    document.getElementById('recommend-model')!.innerHTML = '추천 모델: ' + model;
+    document.getElementById('recommend-metric')!.innerHTML = '추천 평가 지표: ' + metric;
+    document.getElementById('recommend-cv')!.innerHTML = '검증 방법: ' + cv;
+  }
+
+  function resetChecklist() {
+    checklistAnswers = {};
+    for (let i = 2; i <= 4; i++) {
+      const el = document.getElementById(`step-${i}`);
+      if (el) el.style.display = 'none';
+    }
+    document.getElementById('checklist-result')!.style.display = 'none';
+    document.querySelectorAll('.checklist-btn').forEach((btn: any) => { btn.style.opacity = '1'; });
+  }
+
+  // ====================== UTILITY ======================
+  function setStat(id: string, val: string) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
+  // ====================== CHART INITIALIZATION ======================
+  async function initCharts() {
+    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+    Chart.register(...registerables);
+
+    // Threshold metrics chart
+    const ctxThreshold = (document.getElementById('chart-threshold-metrics') as HTMLCanvasElement)?.getContext('2d');
+    if (ctxThreshold) {
+      chartThresholdMetrics = new Chart(ctxThreshold, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [
+            { label: '정밀도', data: [], borderColor: '#2563eb', tension: 0.3, pointRadius: 0, borderWidth: 2 },
+            { label: '재현율', data: [], borderColor: '#ef4444', tension: 0.3, pointRadius: 0, borderWidth: 2 },
+            { label: 'F1', data: [], borderColor: '#22c55e', tension: 0.3, pointRadius: 0, borderWidth: 2.5 },
+          ],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            x: { title: { display: true, text: '임계값 (Threshold)', font: { family: 'Paperlogy' } },
+                 ticks: { maxTicksLimit: 10 } },
+            y: { title: { display: true, text: '점수', font: { family: 'Paperlogy' } }, min: 0, max: 1 },
+          },
+          plugins: { legend: { labels: { font: { family: 'Paperlogy' } } } },
+        },
+      });
+    }
+
+    // ROC curves chart
+    const ctxRoc = (document.getElementById('chart-roc-curves') as HTMLCanvasElement)?.getContext('2d');
+    if (ctxRoc) {
+      chartRocCurves = new Chart(ctxRoc, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            { label: '모델 A', data: [], borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', showLine: true, pointRadius: 0, borderWidth: 2.5, fill: false },
+            { label: '모델 B', data: [], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', showLine: true, pointRadius: 0, borderWidth: 2.5, fill: false },
+            { label: '무작위', data: [{ x: 0, y: 0 }, { x: 1, y: 1 }], borderColor: '#94a3b8', showLine: true, pointRadius: 0, borderWidth: 1.5, borderDash: [5, 5], fill: false },
+          ],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            x: { title: { display: true, text: 'FPR (거짓 양성률)', font: { family: 'Paperlogy' } }, min: 0, max: 1 },
+            y: { title: { display: true, text: 'TPR (참 양성률)', font: { family: 'Paperlogy' } }, min: 0, max: 1 },
+          },
+          plugins: { legend: { labels: { font: { family: 'Paperlogy' } } } },
+        },
+      });
+    }
+
+    // CV comparison chart
+    const ctxCv = (document.getElementById('chart-cv-comparison') as HTMLCanvasElement)?.getContext('2d');
+    if (ctxCv) {
+      chartCvComparison = new Chart(ctxCv, {
+        type: 'bar',
+        data: {
+          labels: ['K=3', 'K=5', 'K=10'],
+          datasets: [
+            { label: '평균 정확도 (%)', data: [0, 0, 0], backgroundColor: ['#3b82f6', '#22c55e', '#f59e0b'] },
+            { label: '표준편차 (%)', data: [0, 0, 0], backgroundColor: ['rgba(59,130,246,0.3)', 'rgba(34,197,94,0.3)', 'rgba(245,158,11,0.3)'] },
+          ],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            y: { title: { display: true, text: '%', font: { family: 'Paperlogy' } }, min: 0 },
+          },
+          plugins: { legend: { labels: { font: { family: 'Paperlogy' } } } },
+        },
+      });
+    }
+  }
+
+  // ====================== INITIALIZATION ======================
+  function init() {
+    // Interactive 1: Fraud data
+    generateFraudData(2000);
+    const thresholdSlider = document.getElementById('range-threshold');
+    thresholdSlider?.addEventListener('input', updateFraudMetrics);
+    document.getElementById('btn-new-fraud-data')?.addEventListener('click', () => {
+      generateFraudData(2000);
+      updateFraudMetrics();
+    });
+
+    // Interactive 2: Confusion matrix
+    const cmInputs = ['input-tp', 'input-fn', 'input-fp', 'input-tn'];
+    for (const id of cmInputs) {
+      document.getElementById(id)?.addEventListener('input', updateConfusionMatrix);
+    }
+    updateConfusionMatrix();
+
+    // Interactive 3: ROC
+    document.getElementById('btn-gen-roc')?.addEventListener('click', updateROC);
+
+    // Interactive 4: K-fold CV
+    document.getElementById('btn-run-cv')?.addEventListener('click', runCV);
+    document.getElementById('btn-compare-cv')?.addEventListener('click', compareCV);
+
+    // Interactive 5: Checklist
+    document.querySelectorAll('.checklist-btn').forEach((btn: any) => {
+      btn.addEventListener('click', () => {
+        handleChecklistClick(btn.dataset.step, btn.dataset.answer);
+      });
+    });
+    document.getElementById('btn-reset-checklist')?.addEventListener('click', resetChecklist);
+
+    // Init charts then update
+    initCharts().then(() => {
+      updateFraudMetrics();
+      updateROC();
+      drawKFoldVisual(5);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>
+
+<style>
+  /* Chapter 24 specific styles */
+  .checklist-btn {
+    transition: opacity 0.2s;
+  }
+
+  .checklist-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  input[type="number"] {
+    font-family: var(--tb-font);
+  }
+
+  canvas {
+    display: block;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    #canvas-kfold {
+      width: 100% !important;
+      height: auto !important;
+    }
+  }
+</style>
