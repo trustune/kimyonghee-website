@@ -1,0 +1,1154 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="신경망 실전"
+  subtitle="TensorFlow Playground 따라하기"
+  chapterNum={32}
+  part={6}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>이론에서 실전으로</h2>
+    <p>
+      31장에서 뉴런과 경사하강법을 이해했습니다. 뉴런 하나가 직선을 긋고,
+      은닉층을 추가하면 곡선 경계가 가능해진다는 것까지 확인했습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이제 직접 신경망을 설계하고 훈련시킵니다.
+      은닉층 수, 뉴런 수, 활성화 함수, 학습률 -- 이 네 가지 선택이
+      결과를 어떻게 바꾸는지 실시간으로 관찰합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      핵심 메시지는 하나입니다. <strong>은닉층을 늘리면 복잡한 패턴을 학습할 수 있지만,
+      과적합 위험도 커진다.</strong> 드롭아웃과 배치 정규화가 이를 방지합니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 네트워크 설계의 선택지 ===== -->
+  <div class="tb-card">
+    <h2>신경망 설계의 네 가지 선택</h2>
+    <p>
+      신경망을 만들 때 결정해야 하는 핵심 요소를 정리합니다.
+      각 선택이 학습 결과에 미치는 영향을 이해하는 것이 이 장의 목표입니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 8px;">은닉층 수 (Depth)</h3>
+        <p style="font-size: .9rem;">
+          층이 깊을수록 더 추상적인 특징을 단계적으로 학습합니다.
+          1층은 단순 곡선, 2층은 영역, 3층은 복잡한 섬 모양까지 표현합니다.
+        </p>
+      </div>
+      <div style="background: #f0fdf4; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-success); margin-bottom: 8px;">뉴런 수 (Width)</h3>
+        <p style="font-size: .9rem;">
+          뉴런이 많을수록 각 층의 표현력이 풍부해집니다.
+          그러나 불필요하게 많으면 훈련 데이터를 암기하여 과적합이 발생합니다.
+        </p>
+      </div>
+      <div style="background: #fef3c7; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: #92400e; margin-bottom: 8px;">활성화 함수</h3>
+        <p style="font-size: .9rem;">
+          ReLU: 빠르고 안정적, 대부분의 기본 선택. Sigmoid: 0~1 출력, 깊은 네트워크에서 기울기 소실.
+          Tanh: -1~1, Sigmoid보다 중심이 0에 가까워 약간 유리.
+        </p>
+      </div>
+      <div style="background: #fdf4ff; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-purple); margin-bottom: 8px;">학습률 (Learning Rate)</h3>
+        <p style="font-size: .9rem;">
+          너무 작으면 학습이 지나치게 느리고, 너무 크면 손실이 발산합니다.
+          적절한 학습률은 데이터와 네트워크 구조에 따라 달라집니다.
+        </p>
+      </div>
+    </div>
+
+    <ExplainBox>
+      <strong>비유: 조직 설계</strong><br>
+      은닉층은 조직의 계층(팀장-부장-이사)이고, 뉴런은 각 계층의 인원 수입니다.
+      계층이 많으면 정보가 정제되지만 전달이 느려지고,
+      인원이 많으면 다양한 관점을 얻지만 의사결정이 복잡해집니다.
+      활성화 함수는 각 직원의 판단 방식이고, 학습률은 조직의 변화 속도입니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Mini TensorFlow Playground ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 미니 TensorFlow Playground</h2>
+    <p>
+      2D 분류 데이터셋을 선택하고, 네트워크 구조를 직접 설계한 뒤 "훈련 시작" 버튼을 누르세요.
+      캔버스에 결정 경계가 실시간으로 변화하고, 손실 곡선이 그려집니다.
+    </p>
+
+    <SimControls>
+      <label>데이터셋:</label>
+      <select id="pg-dataset">
+        <option value="circle">원형</option>
+        <option value="xor" selected>XOR</option>
+        <option value="spiral">나선형</option>
+        <option value="moons">반달</option>
+      </select>
+      <label>은닉층:</label>
+      <select id="pg-layers">
+        <option value="1">1개</option>
+        <option value="2" selected>2개</option>
+        <option value="3">3개</option>
+      </select>
+      <label>뉴런/층:</label>
+      <select id="pg-neurons">
+        <option value="2">2</option>
+        <option value="4" selected>4</option>
+        <option value="6">6</option>
+        <option value="8">8</option>
+      </select>
+    </SimControls>
+    <SimControls>
+      <label>활성화:</label>
+      <select id="pg-activation">
+        <option value="relu" selected>ReLU</option>
+        <option value="sigmoid">Sigmoid</option>
+        <option value="tanh">Tanh</option>
+      </select>
+      <label>학습률:</label>
+      <input type="range" id="pg-lr" min="0.001" max="1.0" step="0.001" value="0.03" style="width: 140px;">
+      <span class="tb-speed-label" id="pg-lr-val">0.030</span>
+      <button class="tb-btn tb-btn-primary" id="btn-pg-train">훈련 시작</button>
+      <button class="tb-btn tb-btn-danger" id="btn-pg-reset">초기화</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px;">결정 경계</h3>
+        <canvas id="pg-canvas" width="400" height="400" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px;">손실 곡선</h3>
+        <ChartContainer id="pg-loss-chart" height="400px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="에포크" id="pg-epoch" value="0" />
+      <StatBox label="손실" id="pg-loss" value="-" />
+      <StatBox label="정확도" id="pg-acc" value="-" />
+      <StatBox label="파라미터 수" id="pg-params" value="-" />
+    </div>
+
+    <ExerciseBox>
+      <strong>실험 과제:</strong>
+      (1) XOR 데이터에서 은닉층 1개, 뉴런 2개로 시작하세요. 100%가 되지 않을 수 있습니다.
+      (2) 뉴런을 4개로 늘려보세요. 경계가 복잡해지면서 정확도가 올라갑니다.
+      (3) 나선형 데이터를 선택하세요. 은닉층 2개, 뉴런 6개 이상이 필요합니다.
+      (4) 활성화 함수를 바꿔가며 수렴 속도를 비교하세요.
+    </ExerciseBox>
+
+    <InsightBox>
+      <strong>관찰 포인트:</strong>
+      같은 데이터라도 ReLU는 각진 경계, Sigmoid는 부드러운 경계를 만듭니다.
+      나선형처럼 복잡한 패턴은 깊고 넓은 네트워크가 필요합니다.
+      그러나 너무 크면 훈련 데이터에 과적합됩니다 -- 이 문제는 실습 3에서 다룹니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 3: 깊이 vs 너비 ===== -->
+  <div class="tb-card">
+    <h2>깊이 vs 너비: 어떤 네트워크가 더 나은가?</h2>
+    <p>
+      같은 수의 뉴런을 가지고 있어도, 배치 방식에 따라 성능이 달라집니다.
+      예를 들어 뉴런 12개를 한 층에 모두 넣는 것(1x12)과
+      세 층에 나누는 것(3x4)은 전혀 다른 결과를 냅니다.
+    </p>
+
+    <ExplainBox>
+      <strong>깊은 네트워크의 장점:</strong>
+      각 층이 이전 층의 출력을 추상화합니다.
+      첫 번째 층은 선분, 두 번째 층은 도형, 세 번째 층은 패턴을 인식하는 식입니다.
+      이러한 계층적 표현 학습이 딥러닝의 핵심 아이디어입니다.
+    </ExplainBox>
+
+    <WarningBox>
+      <strong>깊은 네트워크의 위험:</strong>
+      층이 깊어질수록 기울기가 소실되거나 폭발할 수 있습니다.
+      학습이 불안정해지고, 같은 데이터에 대해서도 수렴이 보장되지 않습니다.
+      실무에서는 잔차 연결(Residual Connection), 배치 정규화 등으로 이를 완화합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Layer Depth Experiment ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 깊이 실험 -- 같은 뉴런, 다른 구조</h2>
+    <p>
+      동일한 데이터셋에서 총 뉴런 수를 고정한 채, 1층/2층/3층 구조의 손실 곡선을 비교합니다.
+      "비교 실행" 버튼을 누르면 세 네트워크가 동시에 학습을 시작합니다.
+    </p>
+
+    <SimControls>
+      <label>데이터셋:</label>
+      <select id="depth-dataset">
+        <option value="circle">원형</option>
+        <option value="xor">XOR</option>
+        <option value="spiral" selected>나선형</option>
+        <option value="moons">반달</option>
+      </select>
+      <label>총 뉴런:</label>
+      <select id="depth-total">
+        <option value="6">6</option>
+        <option value="8" selected>8</option>
+        <option value="12">12</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-depth-run">비교 실행</button>
+      <button class="tb-btn tb-btn-danger" id="btn-depth-reset">초기화</button>
+    </SimControls>
+
+    <div style="margin-top: 14px;">
+      <h3 style="text-align: center; margin-bottom: 8px;">손실 곡선 비교</h3>
+      <ChartContainer id="depth-chart" height="360px" />
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="1층 최종 정확도" id="depth-acc1" value="-" />
+      <StatBox label="2층 최종 정확도" id="depth-acc2" value="-" />
+      <StatBox label="3층 최종 정확도" id="depth-acc3" value="-" />
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 14px;">
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">1개 은닉층</h3>
+        <canvas id="depth-canvas1" width="200" height="200" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">2개 은닉층</h3>
+        <canvas id="depth-canvas2" width="200" height="200" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">3개 은닉층</h3>
+        <canvas id="depth-canvas3" width="200" height="200" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>핵심 관찰:</strong>
+      나선형 데이터에서 1층은 한계가 뚜렷합니다.
+      2층은 대부분의 패턴을 잡아내고, 3층은 더 세밀하지만 학습이 불안정할 수 있습니다.
+      깊다고 무조건 좋은 것이 아니라, 문제의 복잡도에 맞는 깊이를 선택해야 합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 4: 과적합과 정규화 ===== -->
+  <div class="tb-card">
+    <h2>과적합: 시험 문제를 외우면 실전에서 망한다</h2>
+    <p>
+      네트워크가 충분히 크면 훈련 데이터를 100% 맞출 수 있습니다.
+      하지만 새로운 데이터(테스트 데이터)에서는 성능이 급락합니다.
+      이것이 <strong>과적합(overfitting)</strong>입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유: 기출문제만 외운 학생</strong><br>
+      기출문제 답을 모조리 외운 학생은 같은 시험지에서는 만점을 받지만,
+      문제가 조금만 바뀌면 전혀 풀지 못합니다.
+      반면, 개념을 이해한 학생은 기출에서 98점이라도 새 문제에서 90점을 받습니다.
+      우리는 후자를 원합니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      <span class="hl">드롭아웃 (Dropout):</span><br>
+      훈련 중 각 뉴런을 확률 p로 무작위 비활성화<br>
+      <span style="font-size: 0.85rem; color: #94a3b8;">특정 뉴런에 의존하지 않도록 강제하여 일반화 성능을 높인다</span>
+    </FormulaBox>
+
+    <BusinessBox>
+      <strong>배치 정규화 (Batch Normalization):</strong><br>
+      각 층의 출력값을 미니배치 단위로 평균 0, 분산 1로 정규화합니다.
+      학습이 안정되고, 더 높은 학습률을 사용할 수 있으며, 일종의 정규화 효과도 있습니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: Dropout Demo ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 드롭아웃 효과 비교</h2>
+    <p>
+      동일한 네트워크를 드롭아웃 있이/없이 학습시킵니다.
+      훈련 정확도와 테스트 정확도의 차이(과적합 갭)를 비교하세요.
+      드롭아웃 없이는 훈련 정확도가 매우 높지만 테스트 정확도와 큰 격차가 벌어집니다.
+    </p>
+
+    <SimControls>
+      <label>데이터셋:</label>
+      <select id="do-dataset">
+        <option value="circle">원형</option>
+        <option value="moons" selected>반달</option>
+        <option value="spiral">나선형</option>
+      </select>
+      <label>뉴런/층:</label>
+      <select id="do-neurons">
+        <option value="8" selected>8</option>
+        <option value="12">12</option>
+        <option value="16">16</option>
+      </select>
+      <label>드롭아웃 비율:</label>
+      <input type="range" id="do-rate" min="0.0" max="0.7" step="0.05" value="0.3" style="width: 120px;">
+      <span class="tb-speed-label" id="do-rate-val">0.30</span>
+      <button class="tb-btn tb-btn-primary" id="btn-do-run">비교 실행</button>
+    </SimControls>
+
+    <div style="margin-top: 14px;">
+      <h3 style="text-align: center; margin-bottom: 8px;">정확도 곡선 비교</h3>
+      <ChartContainer id="do-chart" height="360px" />
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="드롭아웃 OFF: 훈련" id="do-train-off" value="-" />
+      <StatBox label="드롭아웃 OFF: 테스트" id="do-test-off" value="-" />
+      <StatBox label="드롭아웃 ON: 훈련" id="do-train-on" value="-" />
+      <StatBox label="드롭아웃 ON: 테스트" id="do-test-on" value="-" />
+    </div>
+
+    <ExerciseBox>
+      <strong>직접 해보기:</strong>
+      (1) 뉴런 16, 드롭아웃 0으로 실행하세요. 과적합 갭이 크게 벌어집니다.
+      (2) 드롭아웃 0.3으로 다시 실행하세요. 갭이 줄어드는 것을 확인하세요.
+      (3) 드롭아웃 0.7로 올려보세요. 너무 많이 꺼뜨리면 학습 자체가 어려워집니다.
+    </ExerciseBox>
+
+    <WarningBox>
+      <strong>드롭아웃의 핵심:</strong>
+      드롭아웃은 앙상블의 효과를 냅니다.
+      매 훈련 단계마다 다른 부분 네트워크가 활성화되므로,
+      수많은 작은 네트워크의 평균 예측을 사용하는 것과 유사한 효과가 있습니다.
+      테스트 시에는 드롭아웃을 끄고 모든 뉴런을 사용합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: Learning Rate Finder ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 학습률 탐색기</h2>
+    <p>
+      세 가지 학습률(너무 작은/적절한/너무 큰)로 동시에 학습을 진행합니다.
+      슬라이더로 "적절한" 학습률을 직접 조정하면서,
+      각각의 손실 곡선이 어떻게 달라지는지 비교하세요.
+    </p>
+
+    <SimControls>
+      <label>너무 작은 lr:</label>
+      <span class="tb-speed-label" id="lrf-small-val">0.0005</span>
+      <label style="margin-left: 12px;">적절한 lr:</label>
+      <input type="range" id="lrf-mid" min="-3" max="-0.5" step="0.1" value="-1.5" style="width: 140px;">
+      <span class="tb-speed-label" id="lrf-mid-val">0.032</span>
+      <label style="margin-left: 12px;">너무 큰 lr:</label>
+      <span class="tb-speed-label" id="lrf-large-val">0.800</span>
+    </SimControls>
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-lrf-run">비교 실행</button>
+      <button class="tb-btn tb-btn-danger" id="btn-lrf-reset">초기화</button>
+    </SimControls>
+
+    <div style="margin-top: 14px;">
+      <h3 style="text-align: center; margin-bottom: 8px;">손실 곡선 비교 (로그 스케일)</h3>
+      <ChartContainer id="lrf-chart" height="380px" />
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="너무 작은: 최종 손실" id="lrf-loss-small" value="-" />
+      <StatBox label="적절: 최종 손실" id="lrf-loss-mid" value="-" />
+      <StatBox label="너무 큰: 최종 손실" id="lrf-loss-large" value="-" />
+    </div>
+
+    <InsightBox>
+      <strong>세 가지 시나리오:</strong>
+      <strong>너무 작은 학습률</strong> -- 손실이 매우 천천히 줄어듭니다. 수백 에포크가 지나도 최적점에 도달하지 못합니다.
+      <strong>적절한 학습률</strong> -- 빠르고 안정적으로 수렴합니다.
+      <strong>너무 큰 학습률</strong> -- 처음에는 빠르게 줄다가 곧 진동하거나 발산합니다.
+    </InsightBox>
+
+    <ExerciseBox>
+      <strong>실험 과제:</strong>
+      슬라이더를 조절하여 "적절한" 학습률의 범위를 찾아보세요.
+      로그 스케일에서 대략 0.01~0.1 사이가 최적인 경우가 많습니다.
+      실무에서는 이 범위를 자동으로 찾아주는 "학습률 스케줄러"를 사용합니다.
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== SECTION 5: 실전 팁 요약 ===== -->
+  <div class="tb-card">
+    <h2>신경망 설계 실전 가이드</h2>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr><th>선택 항목</th><th>기본 권장</th><th>주의점</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>활성화 함수</td><td>ReLU (은닉), Sigmoid/Softmax (출력)</td><td>깊은 네트워크에서 Sigmoid 은닉층은 기울기 소실 위험</td></tr>
+          <tr><td>은닉층 수</td><td>1~3개로 시작</td><td>더 깊으면 잔차 연결 필요</td></tr>
+          <tr><td>학습률</td><td>0.001 ~ 0.01</td><td>Adam 옵티마이저 사용 시 0.001 추천</td></tr>
+          <tr><td>드롭아웃</td><td>0.2 ~ 0.5</td><td>입력층에도 적용 가능 (0.1~0.2)</td></tr>
+          <tr><td>배치 크기</td><td>32 ~ 256</td><td>작을수록 노이즈가 크지만 일반화에 유리</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <BusinessBox>
+      <strong>실무에서의 신경망 학습 과정:</strong><br>
+      (1) 작은 네트워크로 시작하여 과소적합 확인
+      (2) 네트워크를 키워서 훈련 손실이 충분히 줄어드는지 확인
+      (3) 과적합이 나타나면 드롭아웃, 정규화, 조기 종료(early stopping) 적용
+      (4) 학습률 스케줄링으로 미세 조정
+      이 순서를 "진단적 접근법"이라 합니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>은닉층을 늘리면 더 복잡한 패턴을 학습할 수 있지만 과적합 위험이 커진다.</li>
+      <li>활성화 함수(ReLU, Sigmoid, Tanh)는 결정 경계의 형태와 학습 안정성에 영향을 준다.</li>
+      <li>학습률이 너무 작으면 느리고, 너무 크면 발산한다. 로그 스케일로 탐색한다.</li>
+      <li>드롭아웃은 훈련 중 뉴런을 무작위로 비활성화하여 과적합을 방지한다.</li>
+      <li>네트워크 설계는 "작게 시작 -> 키우기 -> 정규화"의 진단적 접근이 효과적이다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong>
+      신경망은 표 형태의 데이터뿐 아니라 이미지도 처리할 수 있습니다.
+      다음 장에서는 이미지를 인식하는 특수한 신경망, CNN(합성곱 신경망)을 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITY FUNCTIONS ====================
+function sigmoid(x) { return 1 / (1 + Math.exp(-Math.max(-500, Math.min(500, x)))); }
+function relu(x) { return Math.max(0, x); }
+function tanhAct(x) { return Math.tanh(x); }
+function sigmoidDeriv(x) { const s = sigmoid(x); return s * (1 - s); }
+function reluDeriv(x) { return x > 0 ? 1 : 0; }
+function tanhDeriv(x) { const t = Math.tanh(x); return 1 - t * t; }
+
+function randn() { let u = 0, v = 0; while (u === 0) u = Math.random(); while (v === 0) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+function randRange(a, b) { return a + Math.random() * (b - a); }
+
+const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+
+// ==================== DATASETS ====================
+function generateCircle(n) {
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const inner = Math.random() < 0.5;
+    const r = inner ? randRange(0, 0.5) : randRange(0.7, 1.2);
+    data.push({ x: [Math.cos(angle) * r, Math.sin(angle) * r], y: inner ? 1 : 0 });
+  }
+  return data;
+}
+
+function generateXOR(n) {
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    const px = randRange(-1.5, 1.5), py = randRange(-1.5, 1.5);
+    data.push({ x: [px, py], y: (px * py > 0) ? 1 : 0 });
+  }
+  return data;
+}
+
+function generateSpiral(n) {
+  const data = [];
+  const half = Math.floor(n / 2);
+  for (let c = 0; c < 2; c++) {
+    for (let i = 0; i < half; i++) {
+      const t = i / half * 2 * Math.PI + c * Math.PI;
+      const r = 0.4 + t * 0.12;
+      data.push({ x: [r * Math.cos(t) + randn() * 0.08, r * Math.sin(t) + randn() * 0.08], y: c });
+    }
+  }
+  return data;
+}
+
+function generateMoons(n) {
+  const data = [];
+  const half = Math.floor(n / 2);
+  for (let i = 0; i < half; i++) {
+    const angle = Math.PI * i / half;
+    data.push({ x: [Math.cos(angle) + randn() * 0.1, Math.sin(angle) + randn() * 0.1], y: 0 });
+    data.push({ x: [1 - Math.cos(angle) + randn() * 0.1, 0.5 - Math.sin(angle) + randn() * 0.1], y: 1 });
+  }
+  return data;
+}
+
+function getDataset(type, n = 200) {
+  switch (type) {
+    case 'circle': return generateCircle(n);
+    case 'xor': return generateXOR(n);
+    case 'spiral': return generateSpiral(n);
+    case 'moons': return generateMoons(n);
+    default: return generateXOR(n);
+  }
+}
+
+// ==================== MULTI-LAYER NETWORK ====================
+class MLPNetwork {
+  constructor(layerSizes, activationType = 'relu', dropoutRate = 0) {
+    this.layers = [];
+    this.activationType = activationType;
+    this.dropoutRate = dropoutRate;
+    this.training = true;
+    for (let i = 0; i < layerSizes.length - 1; i++) {
+      const inp = layerSizes[i], out = layerSizes[i + 1];
+      const scale = Math.sqrt(2.0 / inp);
+      const w = Array.from({ length: out }, () => Array.from({ length: inp }, () => randn() * scale));
+      const b = new Array(out).fill(0);
+      this.layers.push({ w, b });
+    }
+  }
+
+  activate(x, isOutput) {
+    if (isOutput) return sigmoid(x);
+    switch (this.activationType) {
+      case 'relu': return relu(x);
+      case 'sigmoid': return sigmoid(x);
+      case 'tanh': return tanhAct(x);
+      default: return relu(x);
+    }
+  }
+
+  activateDerivFromOutput(a, isOutput) {
+    if (isOutput) return a * (1 - a);
+    switch (this.activationType) {
+      case 'relu': return a > 0 ? 1 : 0;
+      case 'sigmoid': return a * (1 - a);
+      case 'tanh': return 1 - a * a;
+      default: return a > 0 ? 1 : 0;
+    }
+  }
+
+  forward(input) {
+    let a = [...input];
+    this.activations = [a];
+    this.dropMasks = [];
+    for (let l = 0; l < this.layers.length; l++) {
+      const layer = this.layers[l];
+      const isOutput = l === this.layers.length - 1;
+      const next = [];
+      for (let j = 0; j < layer.b.length; j++) {
+        let z = layer.b[j];
+        for (let k = 0; k < a.length; k++) z += layer.w[j][k] * a[k];
+        next.push(this.activate(z, isOutput));
+      }
+      // Dropout (not on output layer)
+      if (!isOutput && this.training && this.dropoutRate > 0) {
+        const mask = next.map(() => Math.random() > this.dropoutRate ? 1 : 0);
+        this.dropMasks.push(mask);
+        for (let j = 0; j < next.length; j++) next[j] *= mask[j];
+      } else {
+        this.dropMasks.push(next.map(() => 1));
+      }
+      a = next;
+      this.activations.push(a);
+    }
+    return a[0];
+  }
+
+  backward(input, target, lr) {
+    const L = this.layers.length;
+    const deltas = new Array(L);
+    // Output layer delta
+    const outA = this.activations[L];
+    deltas[L - 1] = [outA[0] - target];
+    // Hidden layers
+    for (let l = L - 2; l >= 0; l--) {
+      const nextLayer = this.layers[l + 1];
+      const a = this.activations[l + 1];
+      const d = [];
+      for (let j = 0; j < this.layers[l].b.length; j++) {
+        let err = 0;
+        for (let k = 0; k < nextLayer.b.length; k++) err += nextLayer.w[k][j] * deltas[l + 1][k];
+        const deriv = this.activateDerivFromOutput(a[j], false);
+        d.push(err * deriv * this.dropMasks[l][j]);
+      }
+      deltas[l] = d;
+    }
+    // Update weights
+    for (let l = 0; l < L; l++) {
+      const a = this.activations[l];
+      for (let j = 0; j < this.layers[l].b.length; j++) {
+        for (let k = 0; k < a.length; k++) {
+          this.layers[l].w[j][k] -= lr * deltas[l][j] * a[k];
+        }
+        this.layers[l].b[j] -= lr * deltas[l][j];
+      }
+    }
+  }
+
+  predict(input) {
+    const prev = this.training;
+    this.training = false;
+    const out = this.forward(input);
+    this.training = prev;
+    return out >= 0.5 ? 1 : 0;
+  }
+
+  predictRaw(input) {
+    const prev = this.training;
+    this.training = false;
+    const out = this.forward(input);
+    this.training = prev;
+    return out;
+  }
+
+  paramCount() {
+    let c = 0;
+    for (const l of this.layers) {
+      c += l.b.length;
+      for (const row of l.w) c += row.length;
+    }
+    return c;
+  }
+}
+
+// ==================== DRAW BOUNDARY ====================
+function drawBoundary(canvasId, net, data) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Find data bounds
+  let minX = -2, maxX = 2, minY = -2, maxY = 2;
+  if (data.length > 0) {
+    const xs = data.map(d => d.x[0]), ys = data.map(d => d.x[1]);
+    minX = Math.min(...xs) - 0.5; maxX = Math.max(...xs) + 0.5;
+    minY = Math.min(...ys) - 0.5; maxY = Math.max(...ys) + 0.5;
+  }
+
+  // Decision boundary heatmap
+  const step = 4;
+  for (let py = 0; py < H; py += step) {
+    for (let px = 0; px < W; px += step) {
+      const x1 = minX + (px / W) * (maxX - minX);
+      const x2 = maxY - (py / H) * (maxY - minY);
+      const pred = net.predictRaw([x1, x2]);
+      const r = Math.round(255 * (1 - pred));
+      const b = Math.round(255 * pred);
+      ctx.fillStyle = `rgba(${r}, 100, ${b}, 0.3)`;
+      ctx.fillRect(px, py, step, step);
+    }
+  }
+
+  // Data points
+  data.forEach(d => {
+    const px = ((d.x[0] - minX) / (maxX - minX)) * W;
+    const py = (1 - (d.x[1] - minY) / (maxY - minY)) * H;
+    ctx.beginPath();
+    ctx.arc(px, py, 4, 0, Math.PI * 2);
+    ctx.fillStyle = d.y === 1 ? '#2563eb' : '#ef4444';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+}
+
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return;
+  const mod = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  ChartJS = mod.Chart;
+}
+
+// ==================== INTERACTIVE 1: MINI PLAYGROUND ====================
+let pgNet = null;
+let pgData = [];
+let pgTraining = false;
+let pgAnimFrame = null;
+let pgLossChart = null;
+
+function buildLayers(numLayers, neuronsPerLayer) {
+  const sizes = [2];
+  for (let i = 0; i < numLayers; i++) sizes.push(neuronsPerLayer);
+  sizes.push(1);
+  return sizes;
+}
+
+async function setupPlayground() {
+  await loadChart();
+
+  function createNet() {
+    const layers = parseInt(document.getElementById('pg-layers').value);
+    const neurons = parseInt(document.getElementById('pg-neurons').value);
+    const act = document.getElementById('pg-activation').value;
+    pgNet = new MLPNetwork(buildLayers(layers, neurons), act, 0);
+    el('pg-params', pgNet.paramCount().toString());
+  }
+
+  function createData() {
+    pgData = getDataset(document.getElementById('pg-dataset').value, 200);
+  }
+
+  createData();
+  createNet();
+  drawBoundary('pg-canvas', pgNet, pgData);
+
+  document.getElementById('pg-lr').addEventListener('input', function () {
+    el('pg-lr-val', parseFloat(this.value).toFixed(3));
+  });
+
+  document.getElementById('btn-pg-train').addEventListener('click', () => {
+    if (pgTraining) return;
+    pgTraining = true;
+    const lr = parseFloat(document.getElementById('pg-lr').value);
+    let epoch = 0;
+    const maxEpochs = 600;
+    const lossHistory = [];
+
+    function step() {
+      if (!pgTraining || epoch >= maxEpochs) { pgTraining = false; return; }
+      for (let i = 0; i < 5 && epoch < maxEpochs; i++) {
+        let totalLoss = 0;
+        const shuffled = [...pgData].sort(() => Math.random() - 0.5);
+        shuffled.forEach(d => {
+          const out = pgNet.forward(d.x);
+          const eps = 1e-7;
+          totalLoss += -(d.y * Math.log(out + eps) + (1 - d.y) * Math.log(1 - out + eps));
+          pgNet.backward(d.x, d.y, lr);
+        });
+        lossHistory.push(totalLoss / pgData.length);
+        epoch++;
+      }
+      let correct = 0;
+      pgData.forEach(d => { if (pgNet.predict(d.x) === d.y) correct++; });
+      el('pg-epoch', epoch.toString());
+      el('pg-loss', lossHistory[lossHistory.length - 1].toFixed(4));
+      el('pg-acc', Math.round(correct / pgData.length * 100) + '%');
+      drawBoundary('pg-canvas', pgNet, pgData);
+      updatePgLossChart(lossHistory);
+      pgAnimFrame = requestAnimationFrame(step);
+    }
+    step();
+  });
+
+  document.getElementById('btn-pg-reset').addEventListener('click', () => {
+    pgTraining = false;
+    if (pgAnimFrame) cancelAnimationFrame(pgAnimFrame);
+    createData(); createNet();
+    el('pg-epoch', '0'); el('pg-loss', '-'); el('pg-acc', '-');
+    if (pgLossChart) { pgLossChart.destroy(); pgLossChart = null; }
+    drawBoundary('pg-canvas', pgNet, pgData);
+  });
+
+  ['pg-dataset', 'pg-layers', 'pg-neurons', 'pg-activation'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => {
+      if (!pgTraining) {
+        if (id === 'pg-dataset') createData();
+        createNet();
+        el('pg-epoch', '0'); el('pg-loss', '-'); el('pg-acc', '-');
+        if (pgLossChart) { pgLossChart.destroy(); pgLossChart = null; }
+        drawBoundary('pg-canvas', pgNet, pgData);
+      }
+    });
+  });
+}
+
+function updatePgLossChart(hist) {
+  const canvas = document.getElementById('pg-loss-chart');
+  if (!canvas || !ChartJS) return;
+  const labels = hist.map((_, i) => i + 1);
+  if (pgLossChart) {
+    pgLossChart.data.labels = labels;
+    pgLossChart.data.datasets[0].data = hist;
+    pgLossChart.update('none');
+  } else {
+    pgLossChart = new ChartJS(canvas, {
+      type: 'line',
+      data: { labels, datasets: [{ label: '손실', data: hist, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, pointRadius: 0, borderWidth: 2 }] },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { title: { display: true, text: '에포크', font: { family: "'Paperlogy'" } }, ticks: { maxTicksLimit: 6, font: { size: 10 } } },
+          y: { title: { display: true, text: '손실', font: { family: "'Paperlogy'" } }, beginAtZero: true, ticks: { font: { size: 10 } } }
+        }
+      }
+    });
+  }
+}
+
+// ==================== INTERACTIVE 2: DEPTH EXPERIMENT ====================
+let depthChart = null;
+let depthTraining = false;
+let depthAnimFrame = null;
+
+async function setupDepthExperiment() {
+  await loadChart();
+
+  document.getElementById('btn-depth-run').addEventListener('click', () => {
+    if (depthTraining) return;
+    depthTraining = true;
+
+    const total = parseInt(document.getElementById('depth-total').value);
+    const dsType = document.getElementById('depth-dataset').value;
+    const data = getDataset(dsType, 200);
+
+    // Three configs with same total neurons
+    const configs = [
+      { layers: buildLayers(1, total), label: '1층 (' + total + ')' },
+      { layers: buildLayers(2, Math.round(total / 2)), label: '2층 (' + Math.round(total / 2) + 'x2)' },
+      { layers: buildLayers(3, Math.round(total / 3)), label: '3층 (' + Math.round(total / 3) + 'x3)' }
+    ];
+    const nets = configs.map(c => new MLPNetwork(c.layers, 'relu', 0));
+    const histories = [[], [], []];
+    let epoch = 0;
+    const maxEpochs = 400;
+    const lr = 0.03;
+
+    function step() {
+      if (!depthTraining || epoch >= maxEpochs) {
+        depthTraining = false;
+        // Final accuracies
+        nets.forEach((net, i) => {
+          let correct = 0;
+          data.forEach(d => { if (net.predict(d.x) === d.y) correct++; });
+          el('depth-acc' + (i + 1), Math.round(correct / data.length * 100) + '%');
+        });
+        return;
+      }
+
+      for (let rep = 0; rep < 5 && epoch < maxEpochs; rep++) {
+        const shuffled = [...data].sort(() => Math.random() - 0.5);
+        nets.forEach((net, idx) => {
+          let totalLoss = 0;
+          shuffled.forEach(d => {
+            const out = net.forward(d.x);
+            const eps = 1e-7;
+            totalLoss += -(d.y * Math.log(out + eps) + (1 - d.y) * Math.log(1 - out + eps));
+            net.backward(d.x, d.y, lr);
+          });
+          histories[idx].push(totalLoss / data.length);
+        });
+        epoch++;
+      }
+
+      // Draw boundaries
+      drawBoundary('depth-canvas1', nets[0], data);
+      drawBoundary('depth-canvas2', nets[1], data);
+      drawBoundary('depth-canvas3', nets[2], data);
+
+      // Update accuracies
+      nets.forEach((net, i) => {
+        let correct = 0;
+        data.forEach(d => { if (net.predict(d.x) === d.y) correct++; });
+        el('depth-acc' + (i + 1), Math.round(correct / data.length * 100) + '%');
+      });
+
+      updateDepthChart(histories, configs);
+      depthAnimFrame = requestAnimationFrame(step);
+    }
+    step();
+  });
+
+  document.getElementById('btn-depth-reset').addEventListener('click', () => {
+    depthTraining = false;
+    if (depthAnimFrame) cancelAnimationFrame(depthAnimFrame);
+    if (depthChart) { depthChart.destroy(); depthChart = null; }
+    ['depth-acc1', 'depth-acc2', 'depth-acc3'].forEach(id => el(id, '-'));
+    ['depth-canvas1', 'depth-canvas2', 'depth-canvas3'].forEach(cid => {
+      const c = document.getElementById(cid);
+      if (c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
+    });
+  });
+}
+
+function updateDepthChart(histories, configs) {
+  const canvas = document.getElementById('depth-chart');
+  if (!canvas || !ChartJS) return;
+  const colors = ['#2563eb', '#22c55e', '#f59e0b'];
+  const labels = histories[0].map((_, i) => i + 1);
+  const datasets = histories.map((h, i) => ({
+    label: configs[i].label,
+    data: h,
+    borderColor: colors[i],
+    backgroundColor: 'transparent',
+    pointRadius: 0,
+    borderWidth: 2
+  }));
+
+  if (depthChart) {
+    depthChart.data.labels = labels;
+    depthChart.data.datasets = datasets;
+    depthChart.update('none');
+  } else {
+    depthChart = new ChartJS(canvas, {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { labels: { font: { family: "'Paperlogy'", size: 12 } } } },
+        scales: {
+          x: { title: { display: true, text: '에포크', font: { family: "'Paperlogy'" } }, ticks: { maxTicksLimit: 6, font: { size: 10 } } },
+          y: { title: { display: true, text: '손실', font: { family: "'Paperlogy'" } }, beginAtZero: true, ticks: { font: { size: 10 } } }
+        }
+      }
+    });
+  }
+}
+
+// ==================== INTERACTIVE 3: DROPOUT DEMO ====================
+let doChart = null;
+let doRunning = false;
+let doAnimFrame = null;
+
+async function setupDropoutDemo() {
+  await loadChart();
+
+  document.getElementById('do-rate').addEventListener('input', function () {
+    el('do-rate-val', parseFloat(this.value).toFixed(2));
+  });
+
+  document.getElementById('btn-do-run').addEventListener('click', () => {
+    if (doRunning) return;
+    doRunning = true;
+
+    const dsType = document.getElementById('do-dataset').value;
+    const neurons = parseInt(document.getElementById('do-neurons').value);
+    const dropRate = parseFloat(document.getElementById('do-rate').value);
+
+    // Generate data: 70% train, 30% test
+    const allData = getDataset(dsType, 300);
+    const shuffled = [...allData].sort(() => Math.random() - 0.5);
+    const split = Math.floor(shuffled.length * 0.7);
+    const trainData = shuffled.slice(0, split);
+    const testData = shuffled.slice(split);
+
+    const netOff = new MLPNetwork(buildLayers(2, neurons), 'relu', 0);
+    const netOn = new MLPNetwork(buildLayers(2, neurons), 'relu', dropRate);
+
+    const trainAccOff = [], testAccOff = [];
+    const trainAccOn = [], testAccOn = [];
+    let epoch = 0;
+    const maxEpochs = 300;
+    const lr = 0.03;
+
+    function calcAcc(net, data) {
+      let correct = 0;
+      data.forEach(d => { if (net.predict(d.x) === d.y) correct++; });
+      return correct / data.length * 100;
+    }
+
+    function step() {
+      if (!doRunning || epoch >= maxEpochs) {
+        doRunning = false;
+        return;
+      }
+
+      for (let rep = 0; rep < 5 && epoch < maxEpochs; rep++) {
+        const sh = [...trainData].sort(() => Math.random() - 0.5);
+        [netOff, netOn].forEach(net => {
+          sh.forEach(d => {
+            net.forward(d.x);
+            net.backward(d.x, d.y, lr);
+          });
+        });
+        trainAccOff.push(calcAcc(netOff, trainData));
+        testAccOff.push(calcAcc(netOff, testData));
+        trainAccOn.push(calcAcc(netOn, trainData));
+        testAccOn.push(calcAcc(netOn, testData));
+        epoch++;
+      }
+
+      el('do-train-off', Math.round(trainAccOff[trainAccOff.length - 1]) + '%');
+      el('do-test-off', Math.round(testAccOff[testAccOff.length - 1]) + '%');
+      el('do-train-on', Math.round(trainAccOn[trainAccOn.length - 1]) + '%');
+      el('do-test-on', Math.round(testAccOn[testAccOn.length - 1]) + '%');
+
+      updateDoChart(trainAccOff, testAccOff, trainAccOn, testAccOn);
+      doAnimFrame = requestAnimationFrame(step);
+    }
+    step();
+  });
+}
+
+function updateDoChart(trOff, tsOff, trOn, tsOn) {
+  const canvas = document.getElementById('do-chart');
+  if (!canvas || !ChartJS) return;
+  const labels = trOff.map((_, i) => i + 1);
+  const datasets = [
+    { label: 'OFF: 훈련', data: trOff, borderColor: '#ef4444', borderDash: [], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' },
+    { label: 'OFF: 테스트', data: tsOff, borderColor: '#ef4444', borderDash: [5, 5], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' },
+    { label: 'ON: 훈련', data: trOn, borderColor: '#2563eb', borderDash: [], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' },
+    { label: 'ON: 테스트', data: tsOn, borderColor: '#2563eb', borderDash: [5, 5], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' }
+  ];
+
+  if (doChart) {
+    doChart.data.labels = labels;
+    doChart.data.datasets = datasets;
+    doChart.update('none');
+  } else {
+    doChart = new ChartJS(canvas, {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { labels: { font: { family: "'Paperlogy'", size: 11 } } } },
+        scales: {
+          x: { title: { display: true, text: '에포크', font: { family: "'Paperlogy'" } }, ticks: { maxTicksLimit: 6, font: { size: 10 } } },
+          y: { title: { display: true, text: '정확도 (%)', font: { family: "'Paperlogy'" } }, min: 40, max: 105, ticks: { font: { size: 10 } } }
+        }
+      }
+    });
+  }
+}
+
+// ==================== INTERACTIVE 4: LEARNING RATE FINDER ====================
+let lrfChart = null;
+let lrfRunning = false;
+let lrfAnimFrame = null;
+
+async function setupLRFinder() {
+  await loadChart();
+
+  const midSlider = document.getElementById('lrf-mid');
+  midSlider.addEventListener('input', function () {
+    el('lrf-mid-val', Math.pow(10, parseFloat(this.value)).toFixed(3));
+  });
+
+  document.getElementById('btn-lrf-run').addEventListener('click', () => {
+    if (lrfRunning) return;
+    lrfRunning = true;
+    if (lrfChart) { lrfChart.destroy(); lrfChart = null; }
+
+    const data = getDataset('moons', 200);
+    const midLR = Math.pow(10, parseFloat(midSlider.value));
+    const smallLR = 0.0005;
+    const largeLR = 0.8;
+
+    el('lrf-small-val', smallLR.toFixed(4));
+    el('lrf-large-val', largeLR.toFixed(3));
+
+    const nets = [
+      new MLPNetwork(buildLayers(2, 6), 'relu', 0),
+      new MLPNetwork(buildLayers(2, 6), 'relu', 0),
+      new MLPNetwork(buildLayers(2, 6), 'relu', 0)
+    ];
+    const lrs = [smallLR, midLR, largeLR];
+    const histories = [[], [], []];
+    let epoch = 0;
+    const maxEpochs = 300;
+
+    function step() {
+      if (!lrfRunning || epoch >= maxEpochs) {
+        lrfRunning = false;
+        histories.forEach((h, i) => {
+          const ids = ['lrf-loss-small', 'lrf-loss-mid', 'lrf-loss-large'];
+          el(ids[i], h.length > 0 ? h[h.length - 1].toFixed(4) : '-');
+        });
+        return;
+      }
+
+      for (let rep = 0; rep < 5 && epoch < maxEpochs; rep++) {
+        const sh = [...data].sort(() => Math.random() - 0.5);
+        nets.forEach((net, idx) => {
+          let totalLoss = 0;
+          sh.forEach(d => {
+            const out = net.forward(d.x);
+            const eps = 1e-7;
+            totalLoss += -(d.y * Math.log(Math.max(out, eps)) + (1 - d.y) * Math.log(Math.max(1 - out, eps)));
+            net.backward(d.x, d.y, lrs[idx]);
+          });
+          const avgLoss = Math.min(totalLoss / data.length, 5);
+          histories[idx].push(avgLoss);
+        });
+        epoch++;
+      }
+
+      histories.forEach((h, i) => {
+        const ids = ['lrf-loss-small', 'lrf-loss-mid', 'lrf-loss-large'];
+        el(ids[i], h.length > 0 ? h[h.length - 1].toFixed(4) : '-');
+      });
+
+      updateLRFChart(histories, lrs);
+      lrfAnimFrame = requestAnimationFrame(step);
+    }
+    step();
+  });
+
+  document.getElementById('btn-lrf-reset').addEventListener('click', () => {
+    lrfRunning = false;
+    if (lrfAnimFrame) cancelAnimationFrame(lrfAnimFrame);
+    if (lrfChart) { lrfChart.destroy(); lrfChart = null; }
+    ['lrf-loss-small', 'lrf-loss-mid', 'lrf-loss-large'].forEach(id => el(id, '-'));
+  });
+}
+
+function updateLRFChart(histories, lrs) {
+  const canvas = document.getElementById('lrf-chart');
+  if (!canvas || !ChartJS) return;
+  const labels = histories[0].map((_, i) => i + 1);
+  const colors = ['#94a3b8', '#2563eb', '#ef4444'];
+  const names = ['lr=' + lrs[0].toFixed(4) + ' (작음)', 'lr=' + lrs[1].toFixed(3) + ' (적절)', 'lr=' + lrs[2].toFixed(3) + ' (큼)'];
+  const datasets = histories.map((h, i) => ({
+    label: names[i], data: h, borderColor: colors[i], backgroundColor: 'transparent',
+    pointRadius: 0, borderWidth: 2, borderDash: i === 0 ? [5, 5] : []
+  }));
+
+  if (lrfChart) {
+    lrfChart.data.labels = labels;
+    lrfChart.data.datasets = datasets;
+    lrfChart.update('none');
+  } else {
+    lrfChart = new ChartJS(canvas, {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { labels: { font: { family: "'Paperlogy'", size: 11 } } } },
+        scales: {
+          x: { title: { display: true, text: '에포크', font: { family: "'Paperlogy'" } }, ticks: { maxTicksLimit: 6, font: { size: 10 } } },
+          y: { title: { display: true, text: '손실', font: { family: "'Paperlogy'" } }, min: 0, max: 2.5, ticks: { font: { size: 10 } } }
+        }
+      }
+    });
+  }
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('32-neural-practice'));
+
+  setupPlayground();
+  setupDepthExperiment();
+  setupDropoutDemo();
+  setupLRFinder();
+}
+
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  canvas {
+    image-rendering: auto;
+  }
+
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="grid-template-columns: 1fr 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

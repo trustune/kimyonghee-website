@@ -810,7 +810,7 @@ function calculateSampleSize() {
 }
 
 // ==================== INITIALIZATION ====================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('astro:page-load', () => {
   initPopulation();
   drawPopulation();
 

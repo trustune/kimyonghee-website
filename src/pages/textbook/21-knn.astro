@@ -998,7 +998,7 @@ function runScaleComparison() {
 }
 
 // ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('astro:page-load', () => {
   // Interactive 1: KNN Canvas
   const knnCanvas = document.getElementById('knn-canvas');
   knnCanvas.addEventListener('click', (e) => {

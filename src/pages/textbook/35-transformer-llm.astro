@@ -1,0 +1,998 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="Transformer와 LLM"
+  subtitle="ChatGPT는 어떻게 작동하는가?"
+  chapterNum={35}
+  part={6}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>가장 그럴듯한 다음 단어를 예측하는 기계</h2>
+    <p>
+      ChatGPT는 세계 지식을 가진 초인이 아닙니다.
+      <strong>통계적으로 가장 그럴듯한 다음 단어를 예측하는 기계</strong>입니다.
+      "오늘 날씨가" 다음에 "좋다"가 올 확률이 "자동차"보다 높다는 것을
+      수십억 개의 문장에서 학습한 것입니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 단순한 원리가 어떻게 시를 쓰고, 코드를 작성하고, 논문을 요약할 수 있을까요?
+      비밀은 <strong>어텐션(Attention)</strong> 메커니즘에 있습니다.
+      "이 단어를 이해하려면 문장의 어떤 다른 단어에 주목해야 하는가?"를 계산하는 장치입니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 어텐션의 작동 원리, 자동회귀 생성, Transformer의 구조,
+      그리고 LLM의 능력과 한계를 실습합니다.
+      이 책의 마지막 장으로서, 데이터 리터러시에서 시작한 여정의 정점입니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: RNN의 한계와 어텐션 ===== -->
+  <div class="tb-card">
+    <h2>RNN의 한계: 왜 Transformer가 필요한가</h2>
+    <p>
+      34장에서 배운 RNN에는 두 가지 근본적 한계가 있습니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: #fef2f2; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-danger); margin-bottom: 8px;">순차 처리</h3>
+        <p style="font-size: .9rem;">
+          RNN은 단어를 하나씩 순서대로 처리합니다.
+          앞 단어를 처리해야 다음 단어를 처리할 수 있으므로 병렬화가 불가능합니다.
+          GPU 수천 개가 있어도 활용하지 못합니다.
+        </p>
+      </div>
+      <div style="background: #fef3c7; padding: 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: #92400e; margin-bottom: 8px;">장기 기억 한계</h3>
+        <p style="font-size: .9rem;">
+          LSTM이 개선했지만, 수천 단어 떨어진 정보를 기억하기는 여전히 어렵습니다.
+          긴 문서를 처리할 때 초반 내용을 잊어버립니다.
+        </p>
+      </div>
+    </div>
+
+    <ExplainBox>
+      <strong>Transformer의 해결책: Self-Attention</strong><br>
+      Transformer는 모든 단어를 동시에 처리합니다.
+      각 단어가 문장의 다른 모든 단어와 직접 "대화"할 수 있으므로,
+      거리에 관계없이 관련 정보를 즉시 참조할 수 있습니다.
+      마치 회의에서 모든 참석자가 서로 직접 소통할 수 있는 것과 같습니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      <span class="hl">Self-Attention 핵심 수식:</span><br>
+      Attention(Q, K, V) = softmax(Q * K^T / sqrt(d_k)) * V<br>
+      <span style="font-size: 0.85rem; color: #94a3b8;">Q=Query(질문), K=Key(열쇠), V=Value(값). 각 단어가 Q, K, V를 동시에 가진다.</span>
+    </FormulaBox>
+
+    <BusinessBox>
+      <strong>비유: 도서관의 검색 시스템</strong><br>
+      각 단어는 "나에게 관련 있는 정보가 뭐지?"라는 <strong>질문(Query)</strong>을 던집니다.
+      다른 모든 단어는 "나는 이런 정보를 가지고 있어"라는 <strong>열쇠(Key)</strong>를 제시합니다.
+      질문과 열쇠가 잘 맞는 단어의 <strong>값(Value)</strong>을 가져옵니다.
+      "은행"이라는 단어가 "돈"과 어텐션이 높으면 금융기관, "잎"과 높으면 은행나무로 해석됩니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Attention Visualizer ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 어텐션 시각화</h2>
+    <p>
+      문장을 선택하면 단어 간 어텐션 가중치가 히트맵으로 표시됩니다.
+      단어를 클릭하면 해당 단어가 어떤 다른 단어에 주목하는지 연결선으로 확인할 수 있습니다.
+      특히 "은행"이 문맥에 따라 다른 단어에 주목하는 것을 비교하세요.
+    </p>
+
+    <SimControls>
+      <label>예문:</label>
+      <select id="attn-sentence">
+        <option value="0" selected>은행에서 돈을 빌렸다</option>
+        <option value="1">은행나무 잎이 떨어진다</option>
+        <option value="2">나는 어제 학교에서 친구를 만났다</option>
+        <option value="3">그 영화는 정말 감동적이었다</option>
+      </select>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">어텐션 히트맵</h3>
+        <canvas id="attn-heatmap" width="400" height="400" style="width: 100%; max-width: 400px; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">어텐션 연결 (단어 클릭)</h3>
+        <canvas id="attn-lines" width="400" height="400" style="width: 100%; max-width: 400px; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+        <p id="attn-focus-word" style="text-align: center; font-weight: 700; margin-top: 8px; color: var(--tb-primary);"></p>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>핵심 관찰:</strong>
+      "은행에서 돈을 빌렸다"에서 "은행"은 "돈"과 "빌렸다"에 높은 어텐션을 보입니다.
+      "은행나무 잎이 떨어진다"에서 "은행"은 "나무"와 "잎"에 높은 어텐션을 보입니다.
+      같은 단어라도 문맥에 따라 주목하는 대상이 완전히 달라집니다.
+      이것이 Self-Attention이 단어의 <strong>문맥적 의미</strong>를 파악하는 방식입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 3: 자동회귀 생성 ===== -->
+  <div class="tb-card">
+    <h2>자동회귀 생성: 한 단어씩 만들어간다</h2>
+    <p>
+      GPT는 텍스트를 한 단어(토큰)씩 순서대로 생성합니다.
+      이전에 생성한 모든 단어를 입력으로 받아 다음 단어의 확률 분포를 예측하고,
+      그 중 하나를 선택합니다. 이것을 <strong>자동회귀(autoregressive) 생성</strong>이라 합니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유: 이어쓰기 게임</strong><br>
+      여러 사람이 돌아가며 한 문장씩 이어서 소설을 쓰는 게임을 상상하세요.
+      GPT는 혼자서 이 게임을 합니다.
+      직전까지 쓴 모든 내용을 읽고, 가장 자연스러운 다음 단어를 선택합니다.
+      이 과정을 반복하면 한 편의 글이 완성됩니다.
+    </ExplainBox>
+
+    <ExplainBox>
+      <strong>Temperature(온도) 파라미터:</strong><br>
+      Temperature가 <strong>낮으면</strong>(0에 가까우면) 확률이 가장 높은 단어만 선택합니다. 결정적이고 반복적인 텍스트.
+      Temperature가 <strong>높으면</strong>(1 이상) 확률이 낮은 단어도 선택될 수 있습니다. 창의적이지만 일관성이 떨어질 수 있습니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Next Token Predictor ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 다음 단어 예측기</h2>
+    <p>
+      간단한 n-gram 모델로 다음 단어를 예측합니다.
+      단어를 입력하면 상위 5개 후보와 확률이 표시됩니다.
+      후보를 클릭하면 선택되어 다음 예측으로 이어집니다.
+      Temperature 슬라이더로 확률 분포의 날카로움을 조절해보세요.
+    </p>
+
+    <SimControls>
+      <label>시작 단어:</label>
+      <input type="text" id="gen-input" value="오늘" style="padding: 8px 12px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: Paperlogy, sans-serif; font-size: 0.93rem; width: 200px; background: #fff; color: var(--tb-g800);">
+      <label>Temperature:</label>
+      <input type="range" id="gen-temp" min="0.1" max="2.0" step="0.1" value="1.0" style="width: 140px;">
+      <span class="tb-speed-label" id="gen-temp-val">1.0</span>
+      <button class="tb-btn tb-btn-primary" id="btn-gen-predict">예측</button>
+      <button class="tb-btn tb-btn-danger" id="btn-gen-clear">초기화</button>
+    </SimControls>
+
+    <div id="gen-output" style="margin-top: 14px; padding: 18px; background: var(--tb-g100); border-radius: var(--tb-radius); font-size: 1.1rem; line-height: 2; min-height: 50px; font-family: Paperlogy, sans-serif;">
+    </div>
+
+    <div id="gen-candidates" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;">
+    </div>
+
+    <div style="margin-top: 14px;">
+      <h3 style="font-size: 0.9rem; margin-bottom: 8px;">확률 분포</h3>
+      <ChartContainer id="gen-prob-chart" height="200px" />
+    </div>
+
+    <ExerciseBox>
+      <strong>직접 해보기:</strong>
+      (1) Temperature를 0.1로 낮추세요. 항상 같은 단어가 최우선 후보입니다.
+      (2) Temperature를 2.0으로 올리세요. 예상치 못한 단어가 높은 확률로 나타납니다.
+      (3) 여러 단어를 이어서 선택해보세요. 문장이 자연스럽게 이어지는가요?
+      이것이 GPT의 기본 작동 원리입니다 -- 훨씬 큰 규모와 정교한 확률로.
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== SECTION 4: Transformer vs RNN ===== -->
+  <div class="tb-card">
+    <h2>Transformer vs RNN: 근본적 차이</h2>
+    <p>
+      두 아키텍처의 핵심 차이를 시각적으로 비교합니다.
+    </p>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr><th>특성</th><th>RNN</th><th>Transformer</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:700;">처리 방식</td><td>순차적 (좌 -&gt; 우)</td><td>병렬 (모든 위치 동시)</td></tr>
+          <tr><td style="font-weight:700;">장거리 의존성</td><td>기울기 소실로 어려움</td><td>어텐션으로 직접 연결</td></tr>
+          <tr><td style="font-weight:700;">학습 속도</td><td>느림 (병렬화 불가)</td><td>빠름 (GPU 활용 극대)</td></tr>
+          <tr><td style="font-weight:700;">위치 정보</td><td>순서 자체에 내재</td><td>위치 인코딩 필요</td></tr>
+          <tr><td style="font-weight:700;">메모리</td><td>고정 크기 숨겨진 상태</td><td>문맥 길이에 비례</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: Transformer vs RNN Animation ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 처리 방식 비교 애니메이션</h2>
+    <p>
+      같은 문장을 RNN과 Transformer가 처리하는 방식의 차이를 애니메이션으로 관찰합니다.
+      RNN은 왼쪽에서 오른쪽으로 한 단어씩 순차적으로,
+      Transformer는 모든 단어를 동시에 처리합니다.
+    </p>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-compare-run">비교 시작</button>
+      <button class="tb-btn tb-btn-danger" id="btn-compare-reset">초기화</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 14px;">
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">RNN (순차 처리)</h3>
+        <canvas id="compare-rnn" width="400" height="300" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+        <div class="tb-stat-row" style="grid-template-columns: 1fr 1fr; margin-top: 8px;">
+          <StatBox label="처리된 단어" id="comp-rnn-done" value="0/6" />
+          <StatBox label="소요 단계" id="comp-rnn-steps" value="0" />
+        </div>
+      </div>
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">Transformer (병렬 처리)</h3>
+        <canvas id="compare-tf" width="400" height="300" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+        <div class="tb-stat-row" style="grid-template-columns: 1fr 1fr; margin-top: 8px;">
+          <StatBox label="처리된 단어" id="comp-tf-done" value="0/6" />
+          <StatBox label="소요 단계" id="comp-tf-steps" value="0" />
+        </div>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>핵심 차이:</strong>
+      RNN은 6단어 문장을 처리하는 데 6단계가 필요합니다.
+      Transformer는 1단계에 모든 단어를 동시에 처리합니다.
+      이 차이가 학습 속도의 비약적 향상을 가져왔고,
+      거대 언어 모델의 훈련을 가능하게 만들었습니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 5: LLM의 구조 ===== -->
+  <div class="tb-card">
+    <h2>GPT: Transformer를 거대하게 쌓다</h2>
+    <p>
+      GPT(Generative Pre-trained Transformer)는 Transformer의 디코더를 수십~수백 층 쌓고,
+      인터넷의 방대한 텍스트로 사전 훈련한 모델입니다.
+    </p>
+
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr><th>모델</th><th>파라미터 수</th><th>학습 데이터</th><th>연도</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:700;">GPT-1</td><td>1.2억</td><td>BookCorpus</td><td>2018</td></tr>
+          <tr><td style="font-weight:700;">GPT-2</td><td>15억</td><td>WebText</td><td>2019</td></tr>
+          <tr><td style="font-weight:700;">GPT-3</td><td>1,750억</td><td>인터넷 텍스트</td><td>2020</td></tr>
+          <tr><td style="font-weight:700;">GPT-4</td><td>비공개 (추정 1조+)</td><td>다중 모달</td><td>2023</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ExplainBox>
+      <strong>규모의 힘 (Scaling Laws):</strong>
+      모델 크기, 데이터 양, 연산량을 동시에 키우면 성능이 예측 가능하게 향상됩니다.
+      이 "스케일링 법칙"이 거대 모델 경쟁의 이론적 토대입니다.
+      하지만 무한히 키울 수는 없습니다 -- 비용, 에너지, 그리고 수확 체감의 법칙이 있습니다.
+    </ExplainBox>
+
+    <WarningBox>
+      <strong>LLM이 실제로 하는 것:</strong>
+      LLM은 "이해"나 "사고"가 아니라, 학습 데이터에서 본 패턴의 통계적 재조합입니다.
+      놀라운 결과를 내지만, 그것이 진정한 이해인지는
+      인공지능 철학의 핵심 질문으로 남아 있습니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: AI Limitations Quiz ===== -->
+  <div class="tb-card">
+    <h2>실습 4: AI 능력 한계 퀴즈</h2>
+    <p>
+      다섯 가지 문제 유형에 대해 "LLM이 정확히 답할 수 있을까?"를 예측해보세요.
+      각 문제를 읽고 "가능" 또는 "어려움"을 선택한 뒤 정답을 확인하세요.
+    </p>
+
+    <div id="quiz-container" style="margin-top: 14px;"></div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-quiz-reveal">정답 확인</button>
+      <button class="tb-btn tb-btn-danger" id="btn-quiz-reset">다시 풀기</button>
+    </SimControls>
+
+    <div id="quiz-result" style="display: none; margin-top: 14px;">
+      <div class="tb-stat-row">
+        <StatBox label="맞힌 수" id="quiz-correct" value="-" />
+        <StatBox label="총 문제" id="quiz-total" value="5" />
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>LLM의 약점 패턴:</strong>
+      (1) <strong>수학 추론:</strong> 단순 계산은 가능하지만 복잡한 다단계 추론은 실수가 잦습니다.
+      (2) <strong>사실 확인:</strong> 학습 데이터에 있는 정보는 정확하지만, 없거나 모호한 정보는 그럴듯하게 지어냅니다(환각, hallucination).
+      (3) <strong>공간 추론:</strong> 물리적 세계의 3D 관계를 이해하지 못합니다.
+      (4) <strong>시간 논리:</strong> "~하기 전에 ~했다" 같은 시간 순서가 복잡해지면 혼동합니다.
+      (5) <strong>상식 추론:</strong> 대부분 잘 하지만, 드문 상황에서는 엉뚱한 답을 할 수 있습니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: Responsible AI Discussion ===== -->
+  <div class="tb-card">
+    <h2>실습 5: 책임 있는 AI -- 토론 시나리오</h2>
+    <p>
+      AI 기술이 사회에 미치는 영향에 대한 세 가지 시나리오를 읽고,
+      여러분의 판단을 선택하세요. 정답이 없는 문제입니다.
+      다양한 관점을 고려하며 토론하는 것이 목적입니다.
+    </p>
+
+    <div id="ethics-scenarios" style="margin-top: 14px;"></div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-ethics-discuss">토론 포인트 보기</button>
+    </SimControls>
+
+    <div id="ethics-discussion" style="display: none; margin-top: 14px;"></div>
+
+    <BusinessBox>
+      <strong>AI 리터러시의 핵심:</strong><br>
+      AI 도구를 사용하는 것만큼, AI의 한계와 윤리적 함의를 이해하는 것이 중요합니다.
+      데이터 편향, 프라이버시, 저작권, 일자리 변화, 의사결정의 투명성 --
+      이 모든 것이 AI 시대의 시민이 알아야 할 주제입니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== BOOK CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>35장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>Self-Attention은 모든 단어 쌍 간의 관련성을 동시에 계산하여 문맥을 파악한다.</li>
+      <li>Transformer는 병렬 처리가 가능하여 RNN보다 학습이 빠르고 장거리 의존성에 강하다.</li>
+      <li>GPT는 다음 토큰 예측이라는 단순한 목표를 거대한 규모로 학습한 것이다.</li>
+      <li>Temperature는 생성의 다양성을 조절하는 핵심 파라미터이다.</li>
+      <li>LLM은 수학 추론, 사실 확인, 공간 추론 등에서 여전히 한계가 있다.</li>
+      <li>AI의 사회적 영향(편향, 프라이버시, 윤리)은 기술만큼 중요한 주제이다.</li>
+    </ul>
+
+    <div style="margin-top: 20px; padding: 18px; background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(124,58,237,0.1)); border-radius: var(--tb-radius);">
+      <strong style="font-size: 1.1rem; color: var(--tb-primary);">교과서를 마치며</strong>
+      <p style="margin-top: 10px;">
+        35장을 마칩니다.
+        기초 통계에서 시작해 추론, 회귀, 머신러닝, 딥러닝,
+        그리고 대규모 언어모델까지 도달했습니다.
+      </p>
+      <p style="margin-top: 8px;">
+        이 모든 것의 근본은 1장에서 배운 <strong>데이터 리터러시</strong>입니다.
+        데이터를 읽고, 질문하고, 비판적으로 해석하는 능력 --
+        이것이 아무리 정교한 알고리즘보다 먼저 필요한 역량입니다.
+      </p>
+      <p style="margin-top: 8px;">
+        통계학은 불확실한 세계에서 합리적 판단을 내리는 도구입니다.
+        데이터 사이언스는 이 도구를 현실 문제에 적용하는 기술입니다.
+        여러분은 이제 그 출발선에 섰습니다.
+      </p>
+    </div>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITY ====================
+const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return;
+  const mod = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  ChartJS = mod.Chart;
+}
+
+// ==================== INTERACTIVE 1: ATTENTION VISUALIZER ====================
+const SENTENCES = [
+  { words: ['은행', '에서', '돈', '을', '빌렸다'], attn: [[0.15,0.05,0.45,0.05,0.30],[0.30,0.10,0.20,0.10,0.30],[0.40,0.05,0.15,0.10,0.30],[0.10,0.20,0.30,0.20,0.20],[0.25,0.10,0.35,0.05,0.25]] },
+  { words: ['은행나무', '잎', '이', '떨어진다'], attn: [[0.30,0.40,0.05,0.25],[0.35,0.20,0.05,0.40],[0.15,0.15,0.40,0.30],[0.20,0.35,0.05,0.40]] },
+  { words: ['나', '는', '어제', '학교', '에서', '친구', '를', '만났다'], attn: [[0.20,0.05,0.10,0.10,0.05,0.15,0.05,0.30],[0.30,0.15,0.10,0.10,0.05,0.10,0.05,0.15],[0.10,0.05,0.25,0.10,0.10,0.10,0.05,0.25],[0.05,0.05,0.10,0.25,0.30,0.10,0.05,0.10],[0.05,0.05,0.10,0.35,0.20,0.10,0.05,0.10],[0.15,0.05,0.10,0.10,0.10,0.20,0.10,0.20],[0.10,0.05,0.05,0.05,0.05,0.40,0.15,0.20],[0.20,0.05,0.15,0.10,0.05,0.20,0.05,0.20]] },
+  { words: ['그', '영화', '는', '정말', '감동적', '이었다'], attn: [[0.10,0.40,0.05,0.15,0.20,0.10],[0.10,0.15,0.05,0.20,0.35,0.15],[0.15,0.30,0.10,0.15,0.15,0.15],[0.05,0.10,0.05,0.15,0.45,0.20],[0.05,0.15,0.05,0.30,0.20,0.25],[0.10,0.15,0.05,0.20,0.35,0.15]] }
+];
+
+let selectedWord = -1;
+
+function drawHeatmap(sentIdx) {
+  const canvas = document.getElementById('attn-heatmap');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const sent = SENTENCES[sentIdx];
+  const n = sent.words.length;
+  const pad = 60;
+  const cellW = (W - pad) / n;
+  const cellH = (H - pad) / n;
+
+  // Column labels (top)
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#475569';
+  sent.words.forEach((w, i) => {
+    ctx.fillText(w, pad + i * cellW + cellW / 2, pad - 8);
+  });
+
+  // Row labels (left)
+  ctx.textAlign = 'right';
+  sent.words.forEach((w, i) => {
+    ctx.fillText(w, pad - 8, pad + i * cellH + cellH / 2 + 4);
+  });
+
+  // Heatmap cells
+  for (let r = 0; r < n; r++) {
+    for (let c = 0; c < n; c++) {
+      const val = sent.attn[r][c];
+      const intensity = Math.round(val * 255);
+      ctx.fillStyle = `rgb(${255 - intensity}, ${255 - intensity * 0.5}, 255)`;
+      ctx.fillRect(pad + c * cellW, pad + r * cellH, cellW - 1, cellH - 1);
+
+      // Value text
+      ctx.fillStyle = val > 0.3 ? '#fff' : '#475569';
+      ctx.font = '10px Paperlogy, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(val.toFixed(2), pad + c * cellW + cellW / 2, pad + r * cellH + cellH / 2);
+    }
+  }
+
+  // Highlight selected row
+  if (selectedWord >= 0 && selectedWord < n) {
+    ctx.strokeStyle = '#2563eb';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(pad, pad + selectedWord * cellH, (W - pad), cellH);
+  }
+}
+
+function drawAttnLines(sentIdx) {
+  const canvas = document.getElementById('attn-lines');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const sent = SENTENCES[sentIdx];
+  const n = sent.words.length;
+  const yTop = 60, yBottom = H - 60;
+  const xPad = 40;
+
+  // Draw words on top and bottom
+  ctx.font = '13px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+
+  sent.words.forEach((w, i) => {
+    const x = xPad + (i / (n - 1 || 1)) * (W - 2 * xPad);
+
+    ctx.fillStyle = (i === selectedWord) ? '#2563eb' : '#475569';
+    ctx.font = (i === selectedWord) ? 'bold 14px Paperlogy, sans-serif' : '13px Paperlogy, sans-serif';
+    ctx.fillText(w, x, yTop - 10);
+    ctx.fillText(w, x, yBottom + 20);
+
+    // Dots
+    ctx.beginPath();
+    ctx.arc(x, yTop, 5, 0, Math.PI * 2);
+    ctx.fillStyle = (i === selectedWord) ? '#2563eb' : '#94a3b8';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(x, yBottom, 5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Draw attention lines from selected word
+  if (selectedWord >= 0 && selectedWord < n) {
+    const fromX = xPad + (selectedWord / (n - 1 || 1)) * (W - 2 * xPad);
+    sent.attn[selectedWord].forEach((weight, j) => {
+      const toX = xPad + (j / (n - 1 || 1)) * (W - 2 * xPad);
+      ctx.beginPath();
+      ctx.moveTo(fromX, yTop + 8);
+      ctx.lineTo(toX, yBottom - 8);
+      ctx.strokeStyle = `rgba(37, 99, 235, ${Math.min(weight * 2.5, 1)})`;
+      ctx.lineWidth = Math.max(1, weight * 8);
+      ctx.stroke();
+    });
+    el('attn-focus-word', `"${sent.words[selectedWord]}"이(가) 주목하는 단어`);
+  } else {
+    el('attn-focus-word', '위 히트맵에서 단어를 클릭하세요');
+  }
+}
+
+function setupAttention() {
+  const sentSelect = document.getElementById('attn-sentence');
+  if (!sentSelect) return;
+
+  const redraw = () => {
+    const idx = parseInt(sentSelect.value);
+    selectedWord = -1;
+    drawHeatmap(idx);
+    drawAttnLines(idx);
+  };
+
+  sentSelect.addEventListener('change', redraw);
+
+  // Click on heatmap to select word
+  const heatCanvas = document.getElementById('attn-heatmap');
+  if (heatCanvas) {
+    heatCanvas.addEventListener('click', (e) => {
+      const idx = parseInt(sentSelect.value);
+      const sent = SENTENCES[idx];
+      const n = sent.words.length;
+      const rect = heatCanvas.getBoundingClientRect();
+      const scaleY = heatCanvas.height / rect.height;
+      const py = (e.clientY - rect.top) * scaleY;
+      const pad = 60;
+      const cellH = (heatCanvas.height - pad) / n;
+      const row = Math.floor((py - pad) / cellH);
+      if (row >= 0 && row < n) {
+        selectedWord = row;
+        drawHeatmap(idx);
+        drawAttnLines(idx);
+      }
+    });
+  }
+
+  redraw();
+}
+
+// ==================== INTERACTIVE 2: NEXT TOKEN PREDICTOR ====================
+// Simple Korean n-gram model
+const NGRAMS = {
+  '오늘': [['날씨', 0.30], ['점심', 0.20], ['아침', 0.15], ['하루', 0.15], ['밤', 0.10], ['저녁', 0.10]],
+  '날씨': [['가', 0.35], ['좋다', 0.25], ['맑다', 0.15], ['흐리다', 0.10], ['춥다', 0.15]],
+  '가': [['좋다', 0.30], ['나쁘다', 0.15], ['맑다', 0.15], ['흐리다', 0.10], ['덥다', 0.10], ['춥다', 0.10], ['변하다', 0.10]],
+  '점심': [['먹다', 0.30], ['메뉴', 0.20], ['시간', 0.20], ['약속', 0.15], ['맛있다', 0.15]],
+  '아침': [['일찍', 0.25], ['밥', 0.20], ['운동', 0.20], ['출근', 0.15], ['커피', 0.20]],
+  '하루': [['종일', 0.25], ['빨리', 0.20], ['행복', 0.15], ['피곤', 0.20], ['보내다', 0.20]],
+  '나는': [['오늘', 0.20], ['학생', 0.20], ['매일', 0.15], ['어제', 0.15], ['정말', 0.15], ['항상', 0.15]],
+  '학생': [['이다', 0.30], ['시절', 0.20], ['생활', 0.15], ['들이', 0.20], ['때', 0.15]],
+  '인공': [['지능', 0.50], ['위성', 0.15], ['호흡', 0.10], ['눈물', 0.05], ['관절', 0.10], ['수정', 0.10]],
+  '지능': [['기술', 0.25], ['연구', 0.20], ['발전', 0.20], ['시대', 0.15], ['모델', 0.20]],
+  '데이터': [['분석', 0.30], ['과학', 0.20], ['수집', 0.15], ['처리', 0.15], ['활용', 0.20]],
+  '분석': [['결과', 0.25], ['방법', 0.20], ['도구', 0.15], ['기법', 0.20], ['보고서', 0.20]],
+  '좋다': [['정말', 0.25], ['매우', 0.20], ['너무', 0.15], ['오늘', 0.20], ['항상', 0.20]],
+  // default fallback
+  '__default__': [['그리고', 0.15], ['하지만', 0.15], ['때문에', 0.12], ['그래서', 0.12], ['또한', 0.10], ['이것은', 0.10], ['그러나', 0.10], ['우리', 0.08], ['매우', 0.08]]
+};
+
+let genChart = null;
+let generatedText = [];
+
+function applyTemperature(probs, temp) {
+  const logits = probs.map(([w, p]) => [w, Math.log(Math.max(p, 1e-8)) / temp]);
+  const maxLogit = Math.max(...logits.map(l => l[1]));
+  const exps = logits.map(([w, l]) => [w, Math.exp(l - maxLogit)]);
+  const sumExp = exps.reduce((s, [, e]) => s + e, 0);
+  return exps.map(([w, e]) => [w, e / sumExp]);
+}
+
+async function setupNextToken() {
+  await loadChart();
+
+  const runPredict = () => {
+    const input = document.getElementById('gen-input')?.value?.trim() || '';
+    if (!input) return;
+
+    if (generatedText.length === 0) generatedText = [input];
+
+    const lastWord = generatedText[generatedText.length - 1];
+    const temp = parseFloat(document.getElementById('gen-temp')?.value || '1.0');
+
+    let candidates = NGRAMS[lastWord] || NGRAMS['__default__'];
+    candidates = applyTemperature(candidates, temp);
+
+    // Sort by probability
+    candidates.sort((a, b) => b[1] - a[1]);
+    const top5 = candidates.slice(0, 5);
+
+    // Render output text
+    const outputDiv = document.getElementById('gen-output');
+    if (outputDiv) {
+      outputDiv.innerHTML = generatedText.map((w, i) =>
+        `<span style="display:inline;${i === generatedText.length - 1 ? 'color:var(--tb-primary);font-weight:700;text-decoration:underline;' : ''}">${w}</span>`
+      ).join(' ');
+    }
+
+    // Render candidates
+    const candDiv = document.getElementById('gen-candidates');
+    if (candDiv) {
+      candDiv.innerHTML = top5.map(([w, p]) =>
+        `<button class="tb-btn" style="padding:8px 16px;background:var(--tb-primary-light);color:var(--tb-primary);border:2px solid var(--tb-primary);font-family:Paperlogy,sans-serif;" data-word="${w}">${w} <span style="font-size:0.8rem;opacity:0.7;">(${(p * 100).toFixed(1)}%)</span></button>`
+      ).join('');
+
+      // Click handler for candidates
+      candDiv.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const word = btn.getAttribute('data-word');
+          generatedText.push(word);
+          document.getElementById('gen-input').value = word;
+          runPredict();
+        });
+      });
+    }
+
+    // Update probability chart
+    updateGenChart(top5);
+  };
+
+  document.getElementById('gen-temp')?.addEventListener('input', function () {
+    el('gen-temp-val', parseFloat(this.value).toFixed(1));
+  });
+
+  document.getElementById('btn-gen-predict')?.addEventListener('click', () => {
+    generatedText = [document.getElementById('gen-input')?.value?.trim() || ''];
+    runPredict();
+  });
+
+  document.getElementById('btn-gen-clear')?.addEventListener('click', () => {
+    generatedText = [];
+    const outputDiv = document.getElementById('gen-output');
+    if (outputDiv) outputDiv.innerHTML = '';
+    const candDiv = document.getElementById('gen-candidates');
+    if (candDiv) candDiv.innerHTML = '';
+    if (genChart) { genChart.destroy(); genChart = null; }
+  });
+}
+
+function updateGenChart(top5) {
+  const canvas = document.getElementById('gen-prob-chart');
+  if (!canvas || !ChartJS) return;
+
+  const labels = top5.map(([w]) => w);
+  const data = top5.map(([, p]) => (p * 100));
+  const bgColors = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'];
+
+  if (genChart) {
+    genChart.data.labels = labels;
+    genChart.data.datasets[0].data = data;
+    genChart.update('none');
+  } else {
+    genChart = new ChartJS(canvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{ label: '확률 (%)', data, backgroundColor: bgColors, borderRadius: 6 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { beginAtZero: true, max: 60, title: { display: true, text: '확률 (%)', font: { family: "'Paperlogy'" } }, ticks: { font: { size: 10 } } },
+          y: { ticks: { font: { family: "'Paperlogy'", size: 12, weight: '700' } } }
+        }
+      }
+    });
+  }
+}
+
+// ==================== INTERACTIVE 3: TRANSFORMER vs RNN COMPARISON ====================
+const COMP_WORDS = ['나는', '어제', '학교에서', '친구를', '만나서', '기뻤다'];
+let compRunning = false;
+
+function drawCompCanvas(canvasId, words, active, connections) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const n = words.length;
+  const yCenter = H / 2;
+  const xPad = 30;
+  const gap = (W - 2 * xPad) / (n - 1 || 1);
+
+  // Draw connections
+  if (connections) {
+    connections.forEach(([from, to]) => {
+      const x1 = xPad + from * gap, x2 = xPad + to * gap;
+      ctx.beginPath();
+      ctx.moveTo(x1, yCenter - 10);
+      ctx.quadraticCurveTo((x1 + x2) / 2, yCenter - 50 - Math.abs(to - from) * 10, x2, yCenter - 10);
+      ctx.strokeStyle = 'rgba(37,99,235,0.3)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+  }
+
+  // Draw word boxes
+  words.forEach((w, i) => {
+    const x = xPad + i * gap;
+    const isActive = active.includes(i);
+
+    ctx.fillStyle = isActive ? '#2563eb' : '#e2e8f0';
+    const boxW = 60, boxH = 36;
+    ctx.beginPath();
+    ctx.roundRect(x - boxW / 2, yCenter - boxH / 2, boxW, boxH, 8);
+    ctx.fill();
+
+    ctx.font = isActive ? 'bold 11px Paperlogy, sans-serif' : '11px Paperlogy, sans-serif';
+    ctx.fillStyle = isActive ? '#fff' : '#475569';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(w, x, yCenter);
+
+    // Processing indicator
+    if (isActive) {
+      ctx.beginPath();
+      ctx.arc(x, yCenter + boxH / 2 + 12, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#22c55e';
+      ctx.fill();
+    }
+  });
+}
+
+function setupComparison() {
+  let compStep = 0;
+  let compAnimFrame = null;
+
+  document.getElementById('btn-compare-run')?.addEventListener('click', () => {
+    if (compRunning) return;
+    compRunning = true;
+    compStep = 0;
+
+    const n = COMP_WORDS.length;
+
+    function tick() {
+      if (!compRunning) return;
+
+      // RNN: process one word at a time
+      const rnnActive = compStep < n ? [compStep] : Array.from({ length: n }, (_, i) => i);
+      const rnnDone = Math.min(compStep + 1, n);
+      drawCompCanvas('compare-rnn', COMP_WORDS, rnnActive, null);
+      el('comp-rnn-done', `${rnnDone}/${n}`);
+      el('comp-rnn-steps', Math.min(compStep + 1, n).toString());
+
+      // Transformer: all at once (show all active after step 0)
+      if (compStep === 0) {
+        // Step 0: show initial state
+        drawCompCanvas('compare-tf', COMP_WORDS, [], null);
+        el('comp-tf-done', `0/${n}`);
+        el('comp-tf-steps', '0');
+      } else {
+        // All words processed simultaneously with connections
+        const allActive = Array.from({ length: n }, (_, i) => i);
+        const conns = [];
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < n; j++) {
+            if (i !== j && Math.random() > 0.5) conns.push([i, j]);
+          }
+        }
+        drawCompCanvas('compare-tf', COMP_WORDS, allActive, conns);
+        el('comp-tf-done', `${n}/${n}`);
+        el('comp-tf-steps', '1');
+      }
+
+      compStep++;
+      if (compStep <= n) {
+        compAnimFrame = setTimeout(tick, 700);
+      } else {
+        compRunning = false;
+      }
+    }
+    tick();
+  });
+
+  document.getElementById('btn-compare-reset')?.addEventListener('click', () => {
+    compRunning = false;
+    if (compAnimFrame) clearTimeout(compAnimFrame);
+    drawCompCanvas('compare-rnn', COMP_WORDS, [], null);
+    drawCompCanvas('compare-tf', COMP_WORDS, [], null);
+    el('comp-rnn-done', '0/6'); el('comp-rnn-steps', '0');
+    el('comp-tf-done', '0/6'); el('comp-tf-steps', '0');
+  });
+
+  // Initial draw
+  drawCompCanvas('compare-rnn', COMP_WORDS, [], null);
+  drawCompCanvas('compare-tf', COMP_WORDS, [], null);
+}
+
+// ==================== INTERACTIVE 4: AI LIMITATIONS QUIZ ====================
+const QUIZ_DATA = [
+  {
+    question: '숫자 1부터 100까지의 합을 구하세요.',
+    type: '수학 추론',
+    answer: 'possible',
+    explanation: 'LLM은 이 정도의 단순한 수학은 학습 데이터에서 본 적이 있어 정확히 답합니다 (5050). 하지만 "1부터 73까지의 합"처럼 덜 흔한 문제에서는 실수할 수 있습니다.'
+  },
+  {
+    question: '대한민국의 17번째 대통령은 누구인가?',
+    type: '사실 확인',
+    answer: 'possible',
+    explanation: 'LLM은 학습 데이터에 포함된 잘 알려진 사실은 정확히 답합니다 (이명박). 하지만 학습 이후의 사건이나 잘 알려지지 않은 사실에 대해서는 그럴듯하게 지어낼 수 있습니다 (환각).'
+  },
+  {
+    question: '거울에 비친 시계가 2시 30분을 가리킨다. 실제 시간은?',
+    type: '공간 추론',
+    answer: 'difficult',
+    explanation: 'LLM은 물리적 공간의 거울 반사를 직접 시뮬레이션하지 못합니다. 텍스트 패턴에서 유추할 수 있지만, 새로운 각도의 공간 문제에서는 자주 틀립니다.'
+  },
+  {
+    question: '"A가 B보다 먼저 도착했고, C가 A보다 늦게 왔다. B가 C 다음에 왔다면, 도착 순서는?"',
+    type: '시간 논리',
+    answer: 'difficult',
+    explanation: '복잡한 시간적 순서 관계는 LLM이 자주 혼동합니다. 단순한 경우는 맞추지만, 관계가 복잡해지면 논리적 일관성이 무너집니다. (정답: A, C, B)'
+  },
+  {
+    question: '"아이가 개에게 밥을 주었다"에서 밥을 먹은 것은 누구?',
+    type: '상식 추론',
+    answer: 'possible',
+    explanation: 'LLM은 대부분의 상식 추론을 잘 수행합니다. "개"가 밥을 먹었다는 것을 정확히 답합니다. 하지만 매우 드문 상황이나 문화적 맥락에서는 실수할 수 있습니다.'
+  }
+];
+
+function setupQuiz() {
+  const container = document.getElementById('quiz-container');
+  if (!container) return;
+
+  container.innerHTML = QUIZ_DATA.map((q, i) => `
+    <div class="tb-card" style="margin-bottom: 12px; padding: 16px;" id="quiz-q${i}">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+        <span class="tb-badge" style="background: var(--tb-primary-light); color: var(--tb-primary);">${q.type}</span>
+        <span style="font-weight: 700; font-size: 0.95rem;">문제 ${i + 1}</span>
+      </div>
+      <p style="margin-bottom: 12px;">${q.question}</p>
+      <div style="display: flex; gap: 8px;">
+        <button class="tb-btn quiz-choice" data-q="${i}" data-v="possible" style="padding:6px 16px;background:#dcfce7;color:#16a34a;border:2px solid transparent;">LLM 가능</button>
+        <button class="tb-btn quiz-choice" data-q="${i}" data-v="difficult" style="padding:6px 16px;background:#fee2e2;color:#dc2626;border:2px solid transparent;">LLM 어려움</button>
+      </div>
+      <div id="quiz-explain-${i}" style="display:none;margin-top:12px;"></div>
+    </div>
+  `).join('');
+
+  // Choice handlers
+  const userAnswers = {};
+  container.querySelectorAll('.quiz-choice').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const q = parseInt(btn.getAttribute('data-q'));
+      const v = btn.getAttribute('data-v');
+      userAnswers[q] = v;
+
+      // Highlight selected
+      container.querySelectorAll(`[data-q="${q}"]`).forEach(b => {
+        b.style.borderColor = 'transparent';
+        b.style.fontWeight = '400';
+      });
+      btn.style.borderColor = v === 'possible' ? '#16a34a' : '#dc2626';
+      btn.style.fontWeight = '700';
+    });
+  });
+
+  // Reveal answers
+  document.getElementById('btn-quiz-reveal')?.addEventListener('click', () => {
+    let correct = 0;
+    QUIZ_DATA.forEach((q, i) => {
+      const explainDiv = document.getElementById(`quiz-explain-${i}`);
+      if (!explainDiv) return;
+
+      const isCorrect = userAnswers[i] === q.answer;
+      if (isCorrect) correct++;
+
+      const icon = isCorrect ? 'O' : 'X';
+      const color = isCorrect ? '#16a34a' : '#dc2626';
+      explainDiv.style.display = 'block';
+      explainDiv.innerHTML = `
+        <div style="padding:12px;background:${isCorrect ? '#f0fdf4' : '#fef2f2'};border-radius:8px;">
+          <span style="font-weight:700;color:${color};font-size:1.1rem;">${icon}</span>
+          <span style="font-weight:600;margin-left:8px;">정답: ${q.answer === 'possible' ? 'LLM 가능' : 'LLM 어려움'}</span>
+          <p style="margin-top:8px;font-size:0.88rem;">${q.explanation}</p>
+        </div>
+      `;
+    });
+
+    const resultDiv = document.getElementById('quiz-result');
+    if (resultDiv) resultDiv.style.display = 'block';
+    el('quiz-correct', correct.toString());
+  });
+
+  document.getElementById('btn-quiz-reset')?.addEventListener('click', () => {
+    Object.keys(userAnswers).forEach(k => delete userAnswers[k]);
+    QUIZ_DATA.forEach((_, i) => {
+      const explainDiv = document.getElementById(`quiz-explain-${i}`);
+      if (explainDiv) explainDiv.style.display = 'none';
+      container.querySelectorAll(`[data-q="${i}"]`).forEach(b => {
+        b.style.borderColor = 'transparent';
+        b.style.fontWeight = '400';
+      });
+    });
+    const resultDiv = document.getElementById('quiz-result');
+    if (resultDiv) resultDiv.style.display = 'none';
+  });
+}
+
+// ==================== INTERACTIVE 5: RESPONSIBLE AI DISCUSSION ====================
+const ETHICS_SCENARIOS = [
+  {
+    title: '딥페이크 탐지',
+    desc: '한 정치인의 딥페이크 영상이 선거 직전에 SNS에서 빠르게 확산되고 있습니다. AI 탐지 시스템은 87% 확률로 가짜라고 판정했지만 100%는 아닙니다.',
+    options: ['즉시 삭제해야 한다', '경고 표시만 붙여야 한다', '확인될 때까지 그대로 두어야 한다'],
+    discussion: '표현의 자유와 허위정보 방지 사이의 균형. AI 판정의 오류 가능성. 플랫폼의 책임 범위. "삭제"는 검열이 될 수 있고, "방치"는 피해를 키울 수 있습니다.'
+  },
+  {
+    title: 'AI 채용 시스템의 편향',
+    desc: '대기업이 AI 기반 이력서 심사 시스템을 도입했습니다. 6개월 후 분석 결과, 특정 성별의 합격률이 유의미하게 낮은 것으로 나타났습니다. AI는 과거 합격자 데이터에서 패턴을 학습한 것입니다.',
+    options: ['AI 시스템을 즉시 폐기해야 한다', '편향을 보정한 뒤 계속 사용해야 한다', '인간 심사와 병행해야 한다'],
+    discussion: '과거 데이터의 편향이 AI를 통해 재생산되는 문제. 알고리즘 공정성(Algorithmic Fairness)의 정의. 완전 자동화 vs 인간 개입의 적절한 수준. 기술적 보정만으로 사회적 편향을 해결할 수 있는가?'
+  },
+  {
+    title: '언어 모델의 프라이버시',
+    desc: 'LLM 학습 데이터에 개인의 이름, 주소, 전화번호가 포함되어 있었습니다. 사용자가 특정 질문을 하면 이 정보가 출력될 수 있습니다.',
+    options: ['학습 데이터에서 모든 개인정보를 사전 제거해야 한다', '출력 단계에서 필터링하면 된다', '사용자에게 경고하는 것으로 충분하다'],
+    discussion: '개인정보 보호와 AI 성능의 균형. 학습 데이터 정제의 기술적 한계. "잊힐 권리"와 AI 모델의 관계. 현행 법률의 적용 가능성과 새로운 규제의 필요성.'
+  }
+];
+
+function setupEthics() {
+  const container = document.getElementById('ethics-scenarios');
+  if (!container) return;
+
+  container.innerHTML = ETHICS_SCENARIOS.map((s, i) => `
+    <div class="tb-card" style="margin-bottom: 12px; padding: 16px;">
+      <h3 style="color: var(--tb-primary); margin-bottom: 8px;">시나리오 ${i + 1}: ${s.title}</h3>
+      <p style="margin-bottom: 12px;">${s.desc}</p>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        ${s.options.map((opt, j) => `
+          <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--tb-g100);border-radius:8px;cursor:pointer;font-size:0.9rem;">
+            <input type="radio" name="ethics-${i}" value="${j}" style="accent-color:var(--tb-primary);">
+            ${opt}
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('btn-ethics-discuss')?.addEventListener('click', () => {
+    const discussDiv = document.getElementById('ethics-discussion');
+    if (!discussDiv) return;
+    discussDiv.style.display = 'block';
+    discussDiv.innerHTML = ETHICS_SCENARIOS.map((s, i) => `
+      <div class="tb-insight" style="margin-bottom: 12px;">
+        <strong>${s.title} -- 토론 포인트:</strong><br>
+        ${s.discussion}
+      </div>
+    `).join('');
+  });
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('35-transformer-llm'));
+
+  setupAttention();
+  setupNextToken();
+  setupComparison();
+  setupQuiz();
+  setupEthics();
+}
+
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  canvas {
+    image-rendering: auto;
+  }
+
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    input[style*="width: 200px"] {
+      width: 100% !important;
+    }
+  }
+</style>

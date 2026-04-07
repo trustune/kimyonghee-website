@@ -465,7 +465,7 @@
       "prerequisites": [
         30
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 33,
@@ -477,7 +477,7 @@
       "prerequisites": [
         31
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 34,
@@ -489,7 +489,7 @@
       "prerequisites": [
         31
       ],
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 35,
@@ -501,7 +501,7 @@
       "prerequisites": [
         33
       ],
-      "status": "planned"
+      "status": "published"
     }
   ]
 }

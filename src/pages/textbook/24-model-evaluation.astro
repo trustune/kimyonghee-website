@@ -947,7 +947,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
   } else {
     init();
   }

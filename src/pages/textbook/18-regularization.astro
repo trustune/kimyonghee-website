@@ -931,7 +931,7 @@ async function runCV(animate = false) {
 }
 
 // ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('astro:page-load', () => {
   generatePolyData();
   generateBVData();
   generateRegData();

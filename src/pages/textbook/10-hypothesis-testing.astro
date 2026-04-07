@@ -1220,7 +1220,7 @@ function randn() {
 }
 
 // ==================== INITIALIZATION ====================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('astro:page-load', () => {
   // Coin flipper
   document.getElementById('btn-flip-1').addEventListener('click', () => flipCoins(1));
   document.getElementById('btn-flip-10').addEventListener('click', () => flipCoins(10));

@@ -750,7 +750,7 @@ function resetQuiz() {
 }
 
 // ==================== INITIALIZATION ====================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('astro:page-load', () => {
   // 100 CIs
   document.getElementById('btn-run-ci').addEventListener('click', run100CIs);
 

@@ -1,0 +1,939 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="자연어처리와 순환신경망"
+  subtitle="기계가 언어를 이해하는 법"
+  chapterNum={34}
+  part={6}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>기계에게 텍스트는 어떻게 보이는가</h2>
+    <p>
+      스팸 필터, 번역기, 챗봇 -- 모두 기계가 글을 '이해'해야 합니다.
+      하지만 컴퓨터는 숫자만 처리할 수 있습니다.
+      "오늘 날씨가 좋다"라는 문장을 컴퓨터에게 전달하려면
+      먼저 텍스트를 숫자로 변환해야 합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 과정은 세 단계로 이루어집니다.
+      <strong>텍스트 -&gt; 토큰 -&gt; 숫자(인코딩) -&gt; 벡터(임베딩)</strong>.
+      그리고 언어에는 <strong>순서</strong>가 중요합니다.
+      "개가 사람을 물었다"와 "사람이 개를 물었다"는 단어가 같지만 의미가 전혀 다릅니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 텍스트 전처리부터 단어 벡터, 감성 분류,
+      그리고 순서를 기억하는 RNN까지 자연어처리의 핵심 기법을 실습합니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 토큰화 ===== -->
+  <div class="tb-card">
+    <h2>토큰화: 텍스트를 조각으로 나누다</h2>
+    <p>
+      텍스트를 처리하는 첫 단계는 <strong>토큰화(tokenization)</strong>입니다.
+      문장을 의미 있는 단위(토큰)로 쪼개는 작업입니다.
+      한국어는 영어와 달리 공백만으로 단어를 구분하기 어려워,
+      형태소 분석이나 서브워드 분할이 자주 사용됩니다.
+    </p>
+
+    <ExplainBox>
+      <strong>세 가지 토큰화 방식:</strong><br>
+      <strong>글자 단위:</strong> 각 글자를 하나의 토큰으로. 어휘가 작지만 의미 파악이 어렵다.<br>
+      <strong>단어 단위:</strong> 공백/형태소 기준. 직관적이지만 어휘가 폭증할 수 있다.<br>
+      <strong>서브워드 (BPE):</strong> 자주 나오는 글자 조합을 묶어 토큰으로. 현대 NLP의 표준.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Tokenizer ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 한국어 토크나이저</h2>
+    <p>
+      한국어 문장을 입력하면 세 가지 토큰화 방식의 결과를 비교합니다.
+      토큰 수가 어떻게 달라지는지 관찰하세요.
+    </p>
+
+    <SimControls>
+      <label>문장 입력:</label>
+      <input type="text" id="tok-input" value="자연어처리는 인공지능의 핵심 기술입니다" style="padding: 8px 12px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: Paperlogy, sans-serif; font-size: 0.93rem; width: 400px; max-width: 100%; background: #fff; color: var(--tb-g800);">
+      <button class="tb-btn tb-btn-primary" id="btn-tokenize">토큰화</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 14px;">
+      <div style="background: var(--tb-primary-light); padding: 14px 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 6px; font-size: 0.9rem;">글자 단위 <span id="tok-char-count" style="font-weight: 400; font-size: 0.85rem;"></span></h3>
+        <div id="tok-char-result" style="display: flex; flex-wrap: wrap; gap: 4px;"></div>
+      </div>
+      <div style="background: #f0fdf4; padding: 14px 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-success); margin-bottom: 6px; font-size: 0.9rem;">단어(공백) 단위 <span id="tok-word-count" style="font-weight: 400; font-size: 0.85rem;"></span></h3>
+        <div id="tok-word-result" style="display: flex; flex-wrap: wrap; gap: 4px;"></div>
+      </div>
+      <div style="background: #fef3c7; padding: 14px 18px; border-radius: var(--tb-radius);">
+        <h3 style="color: #92400e; margin-bottom: 6px; font-size: 0.9rem;">서브워드(유사 BPE) <span id="tok-bpe-count" style="font-weight: 400; font-size: 0.85rem;"></span></h3>
+        <div id="tok-bpe-result" style="display: flex; flex-wrap: wrap; gap: 4px;"></div>
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="글자 토큰 수" id="tok-stat-char" value="-" />
+      <StatBox label="단어 토큰 수" id="tok-stat-word" value="-" />
+      <StatBox label="서브워드 토큰 수" id="tok-stat-bpe" value="-" />
+    </div>
+
+    <ExerciseBox>
+      <strong>직접 해보기:</strong>
+      (1) "나는 학생입니다"를 입력하세요. 단어 단위는 3개, 글자 단위는 훨씬 많습니다.
+      (2) "인공지능"처럼 복합어를 넣으면 서브워드가 어떻게 분할하는지 관찰하세요.
+      (3) 영어 문장을 넣어보고 한국어와의 차이를 비교하세요.
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== SECTION 3: 텍스트를 숫자로 ===== -->
+  <div class="tb-card">
+    <h2>Bag of Words와 TF-IDF</h2>
+    <p>
+      토큰화된 텍스트를 벡터(숫자 목록)로 바꾸는 고전적 방법 두 가지를 배웁니다.
+    </p>
+
+    <ExplainBox>
+      <strong>Bag of Words (BoW):</strong>
+      각 단어의 등장 횟수를 세서 벡터로 만듭니다.
+      "사과 바나나 사과"는 &#123;"사과": 2, "바나나": 1&#125;이 됩니다.
+      간단하지만 단어 순서를 완전히 무시합니다.
+    </ExplainBox>
+
+    <ExplainBox>
+      <strong>TF-IDF (Term Frequency-Inverse Document Frequency):</strong>
+      모든 문서에 자주 나오는 단어("은", "는", "이")는 중요도를 낮추고,
+      특정 문서에만 나오는 단어는 중요도를 높입니다.
+      BoW의 한계를 상당 부분 보완합니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      <span class="hl">TF-IDF(t, d)</span> = TF(t, d) x IDF(t)<br>
+      TF = 문서 d에서 단어 t의 빈도<br>
+      IDF = log(전체 문서 수 / 단어 t를 포함하는 문서 수)<br>
+      <span style="font-size: 0.85rem; color: #94a3b8;">흔한 단어는 IDF가 낮아져 가중치가 줄어든다</span>
+    </FormulaBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: BoW vs TF-IDF ===== -->
+  <div class="tb-card">
+    <h2>실습 2: BoW vs TF-IDF 비교</h2>
+    <p>
+      두 문장을 입력하면 BoW 행렬과 TF-IDF 행렬을 나란히 비교합니다.
+      공통 단어(조사 등)가 TF-IDF에서 어떻게 억제되는지 관찰하세요.
+    </p>
+
+    <SimControls>
+      <label>문서 1:</label>
+      <input type="text" id="tfidf-doc1" value="오늘 날씨가 좋아서 공원에서 산책을 했다" style="padding: 8px 12px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: Paperlogy, sans-serif; font-size: 0.9rem; width: 340px; max-width: 100%; background: #fff; color: var(--tb-g800);">
+    </SimControls>
+    <SimControls>
+      <label>문서 2:</label>
+      <input type="text" id="tfidf-doc2" value="오늘 비가 와서 집에서 영화를 봤다" style="padding: 8px 12px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: Paperlogy, sans-serif; font-size: 0.9rem; width: 340px; max-width: 100%; background: #fff; color: var(--tb-g800);">
+      <button class="tb-btn tb-btn-primary" id="btn-tfidf">비교</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">Bag of Words</h3>
+        <div class="tb-data-table-wrap" style="max-height: 300px;">
+          <table class="tb-data-table" id="bow-table">
+            <thead><tr><th>단어</th><th>문서 1</th><th>문서 2</th></tr></thead>
+            <tbody id="bow-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">TF-IDF</h3>
+        <div class="tb-data-table-wrap" style="max-height: 300px;">
+          <table class="tb-data-table" id="tfidf-table">
+            <thead><tr><th>단어</th><th>문서 1</th><th>문서 2</th></tr></thead>
+            <tbody id="tfidf-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>핵심 관찰:</strong>
+      "오늘"은 두 문서 모두에 나타나므로 TF-IDF 값이 0입니다.
+      반면 "공원"은 문서 1에만 나타나므로 TF-IDF가 높습니다.
+      이것이 TF-IDF의 핵심: <strong>특정 문서를 구별하는 단어에 높은 가중치</strong>를 부여합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 4: 단어 임베딩 ===== -->
+  <div class="tb-card">
+    <h2>단어 임베딩: 의미를 벡터에 담다</h2>
+    <p>
+      BoW와 TF-IDF는 단어 간의 의미적 관계를 포착하지 못합니다.
+      "왕"과 "여왕"이 관련 있다는 것을 모릅니다.
+      <strong>단어 임베딩(Word Embedding)</strong>은 각 단어를 저차원 벡터로 표현하되,
+      의미가 비슷한 단어는 벡터 공간에서 가까이 위치하도록 학습합니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유: 의미의 지도</strong><br>
+      단어 임베딩은 모든 단어를 거대한 지도 위에 배치하는 것과 같습니다.
+      "사과"와 "배"는 가까이, "사과"와 "자동차"는 멀리 있습니다.
+      놀랍게도 이 지도에서는 방향도 의미를 가집니다.
+      "왕"에서 "남자" 방향을 빼고 "여자" 방향을 더하면 "여왕" 근처에 도달합니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      <span class="hl">벡터 산술의 예:</span><br>
+      vec("왕") - vec("남자") + vec("여자") &asymp; vec("여왕")<br>
+      vec("서울") - vec("한국") + vec("일본") &asymp; vec("도쿄")
+    </FormulaBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: Word Embedding Explorer ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 단어 임베딩 탐색기</h2>
+    <p>
+      50개 한국어 단어가 2D 공간에 배치되어 있습니다.
+      의미가 비슷한 단어끼리 클러스터를 이루는 것을 관찰하세요.
+      벡터 산술도 시도할 수 있습니다.
+    </p>
+
+    <div style="margin-top: 14px;">
+      <canvas id="embed-canvas" width="600" height="500" style="width: 100%; max-width: 600px; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff; cursor: crosshair;"></canvas>
+    </div>
+
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;">
+      <span style="font-size: 0.85rem; font-weight: 700;">범례:</span>
+      <span class="tb-badge" style="background: #dbeafe; color: #2563eb;">음식</span>
+      <span class="tb-badge" style="background: #dcfce7; color: #16a34a;">감정</span>
+      <span class="tb-badge" style="background: #fef3c7; color: #92400e;">직업</span>
+      <span class="tb-badge" style="background: #fce7f3; color: #be185d;">가족</span>
+      <span class="tb-badge" style="background: #e0e7ff; color: #4338ca;">장소</span>
+    </div>
+
+    <SimControls>
+      <label>벡터 산술:</label>
+      <select id="embed-a" style="padding: 6px 10px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: Paperlogy, sans-serif; background: #fff; color: var(--tb-g800);"></select>
+      <span style="font-weight: 700;">-</span>
+      <select id="embed-b" style="padding: 6px 10px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: Paperlogy, sans-serif; background: #fff; color: var(--tb-g800);"></select>
+      <span style="font-weight: 700;">+</span>
+      <select id="embed-c" style="padding: 6px 10px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: Paperlogy, sans-serif; background: #fff; color: var(--tb-g800);"></select>
+      <span style="font-weight: 700;">=</span>
+      <span id="embed-result" style="font-weight: 700; color: var(--tb-primary); font-size: 1.1rem;">?</span>
+      <button class="tb-btn tb-btn-primary" id="btn-embed-calc" style="padding: 6px 14px;">계산</button>
+    </SimControls>
+
+    <ExerciseBox>
+      <strong>직접 해보기:</strong>
+      (1) 음식 단어들이 모여있는 영역을 찾아보세요.
+      (2) "왕 - 남자 + 여자"를 계산해보세요.
+      (3) "서울 - 한국 + 일본"을 시도해보세요.
+      이런 관계가 벡터 공간에서 자연스럽게 나타나는 것이 임베딩의 힘입니다.
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: Korean Sentiment Classifier ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 한국어 감성 분류기</h2>
+    <p>
+      한국어 문장을 입력하면 긍정/부정을 분류합니다.
+      키워드 기반 모델이 어떤 단어에 반응하는지 하이라이트로 확인하세요.
+      실제 딥러닝 모델은 문맥까지 고려하지만,
+      여기서는 단어 감성 사전 기반의 간단한 모델을 사용합니다.
+    </p>
+
+    <SimControls>
+      <label>문장:</label>
+      <input type="text" id="sent-input" value="이 영화는 정말 재미있고 감동적이었다" style="padding: 8px 12px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: Paperlogy, sans-serif; font-size: 0.93rem; width: 400px; max-width: 100%; background: #fff; color: var(--tb-g800);">
+      <button class="tb-btn tb-btn-primary" id="btn-sentiment">분석</button>
+    </SimControls>
+
+    <div id="sent-result" style="margin-top: 14px; padding: 18px; background: var(--tb-g100); border-radius: var(--tb-radius); display: none;">
+      <div id="sent-highlight" style="font-size: 1.05rem; line-height: 2; margin-bottom: 12px;"></div>
+      <div class="tb-stat-row">
+        <StatBox label="긍정 점수" id="sent-pos" value="-" />
+        <StatBox label="부정 점수" id="sent-neg" value="-" />
+        <StatBox label="최종 판정" id="sent-verdict" value="-" />
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;">
+      <div style="background: #f0fdf4; padding: 12px; border-radius: var(--tb-radius); font-size: 0.85rem;">
+        <strong style="color: var(--tb-success);">긍정 키워드 예시:</strong>
+        좋다, 훌륭하다, 재미있다, 감동, 최고, 사랑, 행복, 만족, 추천, 대박
+      </div>
+      <div style="background: #fef2f2; padding: 12px; border-radius: var(--tb-radius); font-size: 0.85rem;">
+        <strong style="color: var(--tb-danger);">부정 키워드 예시:</strong>
+        나쁘다, 최악, 실망, 지루하다, 별로, 짜증, 불만, 후회, 싫다, 화나다
+      </div>
+    </div>
+
+    <WarningBox>
+      <strong>키워드 기반의 한계:</strong>
+      "이 영화는 재미없지 않다"는 실제로 긍정이지만,
+      "재미없다"라는 부정 키워드에 반응하여 오분류될 수 있습니다.
+      문맥과 부정어 처리를 위해 RNN이나 Transformer 같은 순차 모델이 필요합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 5: 순환신경망 ===== -->
+  <div class="tb-card">
+    <h2>RNN: 순서를 기억하는 신경망</h2>
+    <p>
+      일반 신경망은 각 입력을 독립적으로 처리합니다.
+      하지만 언어와 시계열 데이터는 <strong>순서</strong>가 핵심입니다.
+      순환신경망(RNN)은 이전 단계의 정보를 "숨겨진 상태(hidden state)"에 저장하고,
+      다음 단계에 전달합니다.
+    </p>
+
+    <FormulaBox>
+      <span class="hl">RNN의 핵심 수식:</span><br>
+      h(t) = tanh(W_h * h(t-1) + W_x * x(t) + b)<br>
+      <span style="font-size: 0.85rem; color: #94a3b8;">h(t) = 현재 숨겨진 상태, h(t-1) = 이전 숨겨진 상태, x(t) = 현재 입력</span>
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>비유: 독서하는 사람</strong><br>
+      사람이 소설을 읽을 때, 각 문장을 이해하면서 이전 내용의 요약을 머릿속에 유지합니다.
+      새 문장을 읽으면 기존 요약과 합쳐 업데이트합니다.
+      RNN의 숨겨진 상태가 바로 이 "머릿속 요약"입니다.
+    </ExplainBox>
+
+    <WarningBox>
+      <strong>장기 의존성 문제:</strong>
+      기본 RNN은 문장이 길어지면 초반 정보를 잊어버립니다.
+      "나는 프랑스에서 태어났다. ... (100단어) ... 그래서 나는 __어를 잘 한다."
+      여기서 "프랑스"를 기억해야 하지만 기본 RNN은 이를 놓칩니다.
+      이 문제를 해결하기 위해 LSTM(Long Short-Term Memory)이 개발되었습니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: RNN Sequence Demo ===== -->
+  <div class="tb-card">
+    <h2>실습 5: RNN 시퀀스 처리 시각화</h2>
+    <p>
+      숫자 시퀀스(예: 온도 변화)를 RNN이 한 단계씩 처리하는 과정을 관찰합니다.
+      각 시점에서 숨겨진 상태가 어떻게 변하는지, 그리고 다음 값을 어떻게 예측하는지 확인하세요.
+    </p>
+
+    <SimControls>
+      <label>시퀀스 패턴:</label>
+      <select id="rnn-pattern">
+        <option value="sine" selected>사인파</option>
+        <option value="linear">선형 증가</option>
+        <option value="step">계단 함수</option>
+        <option value="random">랜덤</option>
+      </select>
+      <label>시퀀스 길이:</label>
+      <select id="rnn-length">
+        <option value="8">8</option>
+        <option value="12" selected>12</option>
+        <option value="20">20</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-rnn-run">처리 시작</button>
+      <button class="tb-btn tb-btn-danger" id="btn-rnn-reset">초기화</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">입력 시퀀스와 예측</h3>
+        <ChartContainer id="rnn-seq-chart" height="300px" />
+      </div>
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px; font-size: 0.9rem;">숨겨진 상태 변화</h3>
+        <ChartContainer id="rnn-hidden-chart" height="300px" />
+      </div>
+    </div>
+
+    <div id="rnn-step-info" style="margin-top: 14px; padding: 14px; background: var(--tb-g100); border-radius: var(--tb-radius); font-family: 'Courier New', monospace; font-size: 0.85rem; min-height: 60px;">
+      "처리 시작"을 눌러 RNN의 단계별 처리 과정을 관찰하세요.
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="현재 시점" id="rnn-step" value="0" />
+      <StatBox label="현재 입력" id="rnn-input-val" value="-" />
+      <StatBox label="숨겨진 상태" id="rnn-hidden-val" value="-" />
+      <StatBox label="예측값" id="rnn-pred-val" value="-" />
+    </div>
+
+    <InsightBox>
+      <strong>관찰 포인트:</strong>
+      사인파처럼 규칙적인 패턴은 RNN이 잘 예측합니다.
+      계단 함수처럼 갑작스러운 변화에는 숨겨진 상태가 급변합니다.
+      랜덤 데이터는 패턴이 없으므로 예측이 부정확합니다.
+      이것은 RNN(그리고 모든 모델)의 근본적 한계를 보여줍니다:
+      <strong>데이터에 패턴이 없으면 학습할 것도 없다.</strong>
+    </InsightBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>텍스트는 토큰화 -> 인코딩 -> 임베딩의 과정을 거쳐 숫자 벡터로 변환된다.</li>
+      <li>BoW는 단어 빈도, TF-IDF는 문서 특이적 중요도를 반영한다.</li>
+      <li>단어 임베딩은 의미적 관계를 벡터 공간에 표현하여 유사 단어를 가까이 배치한다.</li>
+      <li>RNN은 숨겨진 상태를 통해 시퀀스의 순서 정보를 유지한다.</li>
+      <li>기본 RNN은 장기 의존성 문제가 있으며, LSTM이 이를 개선한다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong>
+      RNN은 순서대로 처리하므로 병렬화가 어렵고 긴 문맥에 약합니다.
+      다음 장에서는 이 한계를 극복한 Transformer와,
+      이를 거대하게 확장한 GPT 같은 대규모 언어모델(LLM)을 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITY ====================
+const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return;
+  const mod = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  ChartJS = mod.Chart;
+}
+
+// ==================== INTERACTIVE 1: TOKENIZER ====================
+function simpleSubwordTokenize(text) {
+  // Simplified BPE-like tokenization for Korean
+  const commonPairs = ['자연어', '처리', '인공', '지능', '기술', '입니다', '니다', '습니다', '에서', '으로', '하다', '이다', '있다', '었다', '했다'];
+  let remaining = text.replace(/\s+/g, ' ').trim();
+  const tokens = [];
+  let i = 0;
+
+  while (i < remaining.length) {
+    if (remaining[i] === ' ') { i++; continue; }
+
+    let matched = false;
+    // Try longest common subword first
+    for (let len = Math.min(4, remaining.length - i); len >= 2; len--) {
+      const sub = remaining.substring(i, i + len);
+      if (commonPairs.includes(sub)) {
+        tokens.push(sub);
+        i += len;
+        matched = true;
+        break;
+      }
+    }
+
+    if (!matched) {
+      // Syllable block as token
+      tokens.push(remaining[i]);
+      i++;
+    }
+  }
+  return tokens;
+}
+
+function renderTokens(containerId, tokens, bgColor) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = tokens.map(t =>
+    `<span style="display:inline-block;padding:4px 10px;background:${bgColor};border-radius:6px;font-size:0.88rem;font-weight:600;font-family:Paperlogy,sans-serif;border:1px solid rgba(0,0,0,0.1);">${t}</span>`
+  ).join('');
+}
+
+function setupTokenizer() {
+  const runTokenize = () => {
+    const text = document.getElementById('tok-input')?.value || '';
+    if (!text.trim()) return;
+
+    // Character-level
+    const charTokens = text.replace(/\s/g, '').split('');
+    renderTokens('tok-char-result', charTokens, '#dbeafe');
+    el('tok-char-count', `(${charTokens.length}개)`);
+    el('tok-stat-char', charTokens.length.toString());
+
+    // Word-level (space-separated)
+    const wordTokens = text.trim().split(/\s+/);
+    renderTokens('tok-word-result', wordTokens, '#dcfce7');
+    el('tok-word-count', `(${wordTokens.length}개)`);
+    el('tok-stat-word', wordTokens.length.toString());
+
+    // Subword-level
+    const bpeTokens = simpleSubwordTokenize(text);
+    renderTokens('tok-bpe-result', bpeTokens, '#fef3c7');
+    el('tok-bpe-count', `(${bpeTokens.length}개)`);
+    el('tok-stat-bpe', bpeTokens.length.toString());
+  };
+
+  document.getElementById('btn-tokenize')?.addEventListener('click', runTokenize);
+  document.getElementById('tok-input')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') runTokenize(); });
+  runTokenize();
+}
+
+// ==================== INTERACTIVE 2: BoW vs TF-IDF ====================
+function setupTFIDF() {
+  document.getElementById('btn-tfidf')?.addEventListener('click', () => {
+    const doc1 = (document.getElementById('tfidf-doc1')?.value || '').trim().split(/\s+/);
+    const doc2 = (document.getElementById('tfidf-doc2')?.value || '').trim().split(/\s+/);
+
+    // Build vocabulary
+    const vocab = [...new Set([...doc1, ...doc2])].sort();
+    const n = 2; // total documents
+
+    // BoW
+    const bow1 = {}, bow2 = {};
+    doc1.forEach(w => bow1[w] = (bow1[w] || 0) + 1);
+    doc2.forEach(w => bow2[w] = (bow2[w] || 0) + 1);
+
+    // TF-IDF
+    const tfidf1 = {}, tfidf2 = {};
+    vocab.forEach(w => {
+      const df = (bow1[w] ? 1 : 0) + (bow2[w] ? 1 : 0);
+      const idf = Math.log(n / df);
+      tfidf1[w] = ((bow1[w] || 0) / doc1.length) * idf;
+      tfidf2[w] = ((bow2[w] || 0) / doc2.length) * idf;
+    });
+
+    // Render BoW table
+    const bowTbody = document.getElementById('bow-tbody');
+    if (bowTbody) {
+      bowTbody.innerHTML = vocab.map(w => {
+        const v1 = bow1[w] || 0, v2 = bow2[w] || 0;
+        const common = v1 > 0 && v2 > 0;
+        return `<tr style="${common ? 'background:#fef3c7;' : ''}"><td style="font-weight:600;">${w}</td><td>${v1}</td><td>${v2}</td></tr>`;
+      }).join('');
+    }
+
+    // Render TF-IDF table
+    const tfidfTbody = document.getElementById('tfidf-tbody');
+    if (tfidfTbody) {
+      tfidfTbody.innerHTML = vocab.map(w => {
+        const v1 = tfidf1[w] || 0, v2 = tfidf2[w] || 0;
+        const isZero = v1 === 0 && v2 === 0;
+        return `<tr style="${isZero ? 'color:var(--tb-g300);' : ''}"><td style="font-weight:600;">${w}</td><td>${v1.toFixed(3)}</td><td>${v2.toFixed(3)}</td></tr>`;
+      }).join('');
+    }
+  });
+
+  // Auto-run
+  document.getElementById('btn-tfidf')?.click();
+}
+
+// ==================== INTERACTIVE 3: WORD EMBEDDING EXPLORER ====================
+const WORD_DATA = [
+  // 음식 (food) - blue
+  { word: '사과', x: 0.15, y: 0.72, cat: '음식' },
+  { word: '바나나', x: 0.18, y: 0.78, cat: '음식' },
+  { word: '김치', x: 0.22, y: 0.68, cat: '음식' },
+  { word: '라면', x: 0.12, y: 0.65, cat: '음식' },
+  { word: '떡볶이', x: 0.25, y: 0.74, cat: '음식' },
+  { word: '피자', x: 0.10, y: 0.80, cat: '음식' },
+  { word: '초밥', x: 0.20, y: 0.82, cat: '음식' },
+  { word: '치킨', x: 0.14, y: 0.70, cat: '음식' },
+  { word: '밥', x: 0.19, y: 0.67, cat: '음식' },
+  { word: '국수', x: 0.16, y: 0.76, cat: '음식' },
+  // 감정 (emotion) - green
+  { word: '행복', x: 0.70, y: 0.80, cat: '감정' },
+  { word: '슬픔', x: 0.75, y: 0.65, cat: '감정' },
+  { word: '기쁨', x: 0.68, y: 0.82, cat: '감정' },
+  { word: '분노', x: 0.78, y: 0.60, cat: '감정' },
+  { word: '사랑', x: 0.72, y: 0.85, cat: '감정' },
+  { word: '두려움', x: 0.80, y: 0.63, cat: '감정' },
+  { word: '희망', x: 0.66, y: 0.78, cat: '감정' },
+  { word: '외로움', x: 0.76, y: 0.68, cat: '감정' },
+  { word: '감동', x: 0.69, y: 0.75, cat: '감정' },
+  { word: '설렘', x: 0.73, y: 0.83, cat: '감정' },
+  // 직업 (job) - yellow
+  { word: '의사', x: 0.40, y: 0.20, cat: '직업' },
+  { word: '교사', x: 0.45, y: 0.25, cat: '직업' },
+  { word: '엔지니어', x: 0.38, y: 0.18, cat: '직업' },
+  { word: '변호사', x: 0.42, y: 0.22, cat: '직업' },
+  { word: '과학자', x: 0.36, y: 0.15, cat: '직업' },
+  { word: '예술가', x: 0.48, y: 0.28, cat: '직업' },
+  { word: '요리사', x: 0.25, y: 0.55, cat: '직업' },
+  { word: '운동선수', x: 0.50, y: 0.30, cat: '직업' },
+  { word: '간호사', x: 0.43, y: 0.23, cat: '직업' },
+  { word: '소방관', x: 0.47, y: 0.26, cat: '직업' },
+  // 가족 (family) - pink
+  { word: '아버지', x: 0.82, y: 0.30, cat: '가족' },
+  { word: '어머니', x: 0.85, y: 0.35, cat: '가족' },
+  { word: '아들', x: 0.80, y: 0.25, cat: '가족' },
+  { word: '딸', x: 0.83, y: 0.28, cat: '가족' },
+  { word: '할아버지', x: 0.88, y: 0.32, cat: '가족' },
+  { word: '할머니', x: 0.90, y: 0.37, cat: '가족' },
+  { word: '남자', x: 0.78, y: 0.22, cat: '가족' },
+  { word: '여자', x: 0.81, y: 0.27, cat: '가족' },
+  { word: '왕', x: 0.76, y: 0.18, cat: '가족' },
+  { word: '여왕', x: 0.79, y: 0.23, cat: '가족' },
+  // 장소 (place) - indigo
+  { word: '서울', x: 0.35, y: 0.50, cat: '장소' },
+  { word: '도쿄', x: 0.40, y: 0.52, cat: '장소' },
+  { word: '부산', x: 0.33, y: 0.48, cat: '장소' },
+  { word: '학교', x: 0.45, y: 0.42, cat: '장소' },
+  { word: '병원', x: 0.42, y: 0.40, cat: '장소' },
+  { word: '공원', x: 0.38, y: 0.55, cat: '장소' },
+  { word: '한국', x: 0.32, y: 0.45, cat: '장소' },
+  { word: '일본', x: 0.37, y: 0.47, cat: '장소' },
+  { word: '바다', x: 0.30, y: 0.58, cat: '장소' },
+  { word: '산', x: 0.28, y: 0.53, cat: '장소' }
+];
+
+const CAT_COLORS = { '음식': '#2563eb', '감정': '#16a34a', '직업': '#92400e', '가족': '#be185d', '장소': '#4338ca' };
+
+function drawEmbeddingCanvas() {
+  const canvas = document.getElementById('embed-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = 40;
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, W, H);
+
+  WORD_DATA.forEach(d => {
+    const px = pad + d.x * (W - 2 * pad);
+    const py = pad + (1 - d.y) * (H - 2 * pad);
+    const color = CAT_COLORS[d.cat] || '#666';
+
+    ctx.beginPath();
+    ctx.arc(px, py, 5, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    ctx.font = '12px Paperlogy, sans-serif';
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.fillText(d.word, px, py - 10);
+  });
+}
+
+function setupEmbeddingExplorer() {
+  drawEmbeddingCanvas();
+
+  // Populate dropdowns
+  const words = WORD_DATA.map(d => d.word);
+  ['embed-a', 'embed-b', 'embed-c'].forEach((id, idx) => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = words.map(w => `<option value="${w}" ${(idx === 0 && w === '왕') || (idx === 1 && w === '남자') || (idx === 2 && w === '여자') ? 'selected' : ''}>${w}</option>`).join('');
+  });
+
+  document.getElementById('btn-embed-calc')?.addEventListener('click', () => {
+    const a = document.getElementById('embed-a')?.value;
+    const b = document.getElementById('embed-b')?.value;
+    const c = document.getElementById('embed-c')?.value;
+    if (!a || !b || !c) return;
+
+    const da = WORD_DATA.find(d => d.word === a);
+    const db = WORD_DATA.find(d => d.word === b);
+    const dc = WORD_DATA.find(d => d.word === c);
+    if (!da || !db || !dc) return;
+
+    const targetX = da.x - db.x + dc.x;
+    const targetY = da.y - db.y + dc.y;
+
+    // Find nearest word
+    let minDist = Infinity, nearest = '';
+    WORD_DATA.forEach(d => {
+      if (d.word === a || d.word === b || d.word === c) return;
+      const dist = Math.sqrt((d.x - targetX) ** 2 + (d.y - targetY) ** 2);
+      if (dist < minDist) { minDist = dist; nearest = d.word; }
+    });
+
+    el('embed-result', nearest);
+
+    // Highlight on canvas
+    drawEmbeddingCanvas();
+    const canvas = document.getElementById('embed-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const pad = 40;
+
+    // Draw result point
+    const rpx = pad + targetX * (W - 2 * pad);
+    const rpy = pad + (1 - targetY) * (H - 2 * pad);
+    ctx.beginPath();
+    ctx.arc(rpx, rpy, 8, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(239,68,68,0.3)';
+    ctx.fill();
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.font = 'bold 14px Paperlogy, sans-serif';
+    ctx.fillStyle = '#ef4444';
+    ctx.textAlign = 'center';
+    ctx.fillText('= ' + nearest + '?', rpx, rpy + 22);
+  });
+}
+
+// ==================== INTERACTIVE 4: SENTIMENT CLASSIFIER ====================
+const POS_WORDS = ['좋', '훌륭', '재미있', '재밌', '감동', '최고', '사랑', '행복', '만족', '추천', '대박', '멋지', '아름다', '완벽', '즐거', '신나', '편하', '따뜻', '기쁘', '유익'];
+const NEG_WORDS = ['나쁘', '최악', '실망', '지루', '별로', '짜증', '불만', '후회', '싫', '화나', '끔찍', '형편없', '불편', '아프', '힘들', '어렵', '슬프', '우울', '무섭', '재미없'];
+
+function setupSentiment() {
+  const analyze = () => {
+    const text = document.getElementById('sent-input')?.value || '';
+    if (!text.trim()) return;
+
+    let posScore = 0, negScore = 0;
+    const highlights = [];
+
+    // Split into chunks for analysis
+    const chars = text.split('');
+    let i = 0;
+    while (i < chars.length) {
+      let matched = false;
+      // Try matching positive words
+      for (const pw of POS_WORDS) {
+        if (text.substring(i, i + pw.length) === pw) {
+          highlights.push({ text: text.substring(i, i + pw.length + 1), type: 'pos', start: i });
+          posScore++;
+          matched = true;
+          break;
+        }
+      }
+      if (!matched) {
+        for (const nw of NEG_WORDS) {
+          if (text.substring(i, i + nw.length) === nw) {
+            highlights.push({ text: text.substring(i, i + nw.length + 1), type: 'neg', start: i });
+            negScore++;
+            matched = true;
+            break;
+          }
+        }
+      }
+      i++;
+    }
+
+    // Render highlighted text
+    const resultDiv = document.getElementById('sent-result');
+    const hlDiv = document.getElementById('sent-highlight');
+    if (resultDiv) resultDiv.style.display = 'block';
+
+    if (hlDiv) {
+      let html = '';
+      let lastEnd = 0;
+      // Sort highlights by start position
+      highlights.sort((a, b) => a.start - b.start);
+      // Remove overlaps
+      const filtered = [];
+      let prev = -1;
+      highlights.forEach(h => {
+        if (h.start > prev) { filtered.push(h); prev = h.start + h.text.length; }
+      });
+
+      filtered.forEach(h => {
+        if (h.start > lastEnd) html += text.substring(lastEnd, h.start);
+        const color = h.type === 'pos' ? 'background:#dcfce7;color:#16a34a;' : 'background:#fee2e2;color:#dc2626;';
+        html += `<span style="${color}padding:2px 6px;border-radius:4px;font-weight:700;">${h.text}</span>`;
+        lastEnd = h.start + h.text.length;
+      });
+      if (lastEnd < text.length) html += text.substring(lastEnd);
+      hlDiv.innerHTML = html || text;
+    }
+
+    el('sent-pos', posScore.toString());
+    el('sent-neg', negScore.toString());
+    const verdict = posScore > negScore ? '긍정' : posScore < negScore ? '부정' : '중립';
+    const verdictEl = document.getElementById('sent-verdict');
+    if (verdictEl) {
+      verdictEl.textContent = verdict;
+      verdictEl.style.color = verdict === '긍정' ? '#16a34a' : verdict === '부정' ? '#dc2626' : '#64748b';
+    }
+  };
+
+  document.getElementById('btn-sentiment')?.addEventListener('click', analyze);
+  document.getElementById('sent-input')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') analyze(); });
+}
+
+// ==================== INTERACTIVE 5: RNN SEQUENCE DEMO ====================
+let rnnChart1 = null, rnnChart2 = null;
+let rnnRunning = false;
+
+function generateSequence(pattern, length) {
+  const seq = [];
+  for (let i = 0; i < length; i++) {
+    switch (pattern) {
+      case 'sine': seq.push(Math.sin(i * 0.6) * 0.5 + 0.5); break;
+      case 'linear': seq.push(i / length); break;
+      case 'step': seq.push(i < length / 2 ? 0.2 : 0.8); break;
+      case 'random': seq.push(Math.random()); break;
+      default: seq.push(Math.sin(i * 0.6) * 0.5 + 0.5);
+    }
+  }
+  return seq;
+}
+
+async function setupRNNDemo() {
+  await loadChart();
+
+  const runRNN = () => {
+    if (rnnRunning) return;
+    rnnRunning = true;
+
+    const pattern = document.getElementById('rnn-pattern')?.value || 'sine';
+    const length = parseInt(document.getElementById('rnn-length')?.value || '12');
+    const seq = generateSequence(pattern, length);
+
+    // Simple RNN simulation
+    const wx = 0.7, wh = 0.5, bh = -0.1, wo = 0.8, bo = 0.0;
+    let h = 0;
+    const hiddenStates = [h];
+    const predictions = [];
+    let step = 0;
+    const infoDiv = document.getElementById('rnn-step-info');
+
+    function tick() {
+      if (step >= seq.length) {
+        rnnRunning = false;
+        if (infoDiv) infoDiv.textContent = `처리 완료. ${length}개 시점 모두 처리되었습니다.`;
+        return;
+      }
+
+      const x = seq[step];
+      const z = wx * x + wh * h + bh;
+      h = Math.tanh(z);
+      hiddenStates.push(h);
+      const pred = Math.max(0, Math.min(1, wo * h + bo));
+      predictions.push(pred);
+
+      el('rnn-step', (step + 1).toString());
+      el('rnn-input-val', x.toFixed(3));
+      el('rnn-hidden-val', h.toFixed(3));
+      el('rnn-pred-val', pred.toFixed(3));
+
+      if (infoDiv) {
+        infoDiv.textContent =
+          `시점 ${step + 1}: 입력 x=${x.toFixed(3)}, ` +
+          `h = tanh(${wx.toFixed(1)}*${x.toFixed(3)} + ${wh.toFixed(1)}*${hiddenStates[step].toFixed(3)} + ${bh.toFixed(1)}) = ${h.toFixed(3)}, ` +
+          `예측 = ${wo.toFixed(1)}*${h.toFixed(3)} + ${bo.toFixed(1)} = ${pred.toFixed(3)}`;
+      }
+
+      // Update charts
+      updateRNNCharts(seq, predictions, hiddenStates, step + 1);
+
+      step++;
+      setTimeout(tick, 400);
+    }
+    tick();
+  };
+
+  document.getElementById('btn-rnn-run')?.addEventListener('click', runRNN);
+  document.getElementById('btn-rnn-reset')?.addEventListener('click', () => {
+    rnnRunning = false;
+    if (rnnChart1) { rnnChart1.destroy(); rnnChart1 = null; }
+    if (rnnChart2) { rnnChart2.destroy(); rnnChart2 = null; }
+    ['rnn-step', 'rnn-input-val', 'rnn-hidden-val', 'rnn-pred-val'].forEach(id => el(id, id === 'rnn-step' ? '0' : '-'));
+    const infoDiv = document.getElementById('rnn-step-info');
+    if (infoDiv) infoDiv.textContent = '"처리 시작"을 눌러 RNN의 단계별 처리 과정을 관찰하세요.';
+  });
+}
+
+function updateRNNCharts(seq, preds, hidden, currentStep) {
+  if (!ChartJS) return;
+
+  // Sequence chart
+  const canvas1 = document.getElementById('rnn-seq-chart');
+  if (canvas1) {
+    const labels = seq.map((_, i) => `t${i + 1}`);
+    const datasets = [
+      { label: '입력', data: seq.map((v, i) => i < currentStep ? v : null), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: false, pointRadius: 4, borderWidth: 2 },
+      { label: '예측', data: [null, ...preds], borderColor: '#ef4444', backgroundColor: 'transparent', fill: false, pointRadius: 4, borderWidth: 2, borderDash: [5, 5] }
+    ];
+
+    if (rnnChart1) {
+      rnnChart1.data.labels = labels;
+      rnnChart1.data.datasets = datasets;
+      rnnChart1.update('none');
+    } else {
+      rnnChart1 = new ChartJS(canvas1, {
+        type: 'line', data: { labels, datasets },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { labels: { font: { family: "'Paperlogy'", size: 11 } } } },
+          scales: {
+            x: { ticks: { font: { size: 10 } } },
+            y: { min: -0.5, max: 1.5, ticks: { font: { size: 10 } } }
+          }
+        }
+      });
+    }
+  }
+
+  // Hidden state chart
+  const canvas2 = document.getElementById('rnn-hidden-chart');
+  if (canvas2) {
+    const hLabels = hidden.map((_, i) => i === 0 ? 'h0' : `h${i}`);
+    const hData = hidden.map((v, i) => i <= currentStep ? v : null);
+
+    if (rnnChart2) {
+      rnnChart2.data.labels = hLabels;
+      rnnChart2.data.datasets[0].data = hData;
+      rnnChart2.update('none');
+    } else {
+      rnnChart2 = new ChartJS(canvas2, {
+        type: 'line',
+        data: {
+          labels: hLabels,
+          datasets: [{ label: '숨겨진 상태 h', data: hData, borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.1)', fill: true, pointRadius: 5, borderWidth: 2 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { labels: { font: { family: "'Paperlogy'", size: 11 } } } },
+          scales: {
+            x: { ticks: { font: { size: 10 } } },
+            y: { min: -1, max: 1, ticks: { font: { size: 10 } } }
+          }
+        }
+      });
+    }
+  }
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('34-nlp-rnn'));
+
+  setupTokenizer();
+  setupTFIDF();
+  setupEmbeddingExplorer();
+  setupSentiment();
+  setupRNNDemo();
+}
+
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  canvas {
+    image-rendering: auto;
+  }
+
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="grid-template-columns: 1fr auto 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    input[style*="width: 400px"] {
+      width: 100% !important;
+    }
+    input[style*="width: 340px"] {
+      width: 100% !important;
+    }
+  }
+</style>

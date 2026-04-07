@@ -814,7 +814,7 @@ async function drawForecast() {
 }
 
 // ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('astro:page-load', () => {
   generateTSData();
   generateFCData();
 
