@@ -344,7 +344,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITIES ====================
 function randNorm(mu = 0, sigma = 1) {
   let u = 0, v = 0;
@@ -863,7 +863,6 @@ function drawComparison() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('25-svm')).catch(() => {});
 
   initMarginVis();
   setupMarginDrag();
@@ -897,7 +896,7 @@ function init() {
   document.getElementById('btn-compare-reset').addEventListener('click', generateCompareData);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

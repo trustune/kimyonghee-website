@@ -363,7 +363,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== CHART.JS LOADER ====================
 let ChartJS = null;
 async function loadChart() {
@@ -1001,7 +1001,6 @@ async function generateQQData() {
 
 // ==================== INIT & EVENT BINDING ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('05-distributions')).catch(() => {});
 
   // Interactive 1
   updateDistParams();
@@ -1059,7 +1058,7 @@ function init() {
   generateQQData();
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

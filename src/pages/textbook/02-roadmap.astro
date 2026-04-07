@@ -354,7 +354,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== CHAPTER DATA ====================
 const PARTS = [
   { id: 0, title: '출발점', color: '#2563eb', chapters: [1, 2] },
@@ -899,7 +899,6 @@ function showLearningPath(pathKey) {
 // ==================== INIT ====================
 function init() {
   try {
-    import('../../textbook/lib/progress').then(m => m.markVisited('02-roadmap')).catch(() => {});
   } catch(e) {}
 
   updateProgressStats();
@@ -948,7 +947,7 @@ function init() {
   });
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

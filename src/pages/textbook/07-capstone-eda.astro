@@ -312,7 +312,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== CHART.JS LOADER ====================
 let ChartJS = null;
 async function loadChart() {
@@ -915,7 +915,6 @@ async function detectCrisis() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('07-capstone-eda')).catch(() => {});
 
   // Interactive 1
   document.getElementById('btn-var-explore').addEventListener('click', exploreVariable);
@@ -936,7 +935,7 @@ function init() {
   document.getElementById('btn-crisis-detect').addEventListener('click', detectCrisis);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

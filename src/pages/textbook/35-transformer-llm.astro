@@ -385,7 +385,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITY ====================
 const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
 
@@ -970,7 +970,6 @@ function setupEthics() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('35-transformer-llm'));
 
   setupAttention();
   setupNextToken();
@@ -979,7 +978,7 @@ function init() {
   setupEthics();
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

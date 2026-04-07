@@ -330,7 +330,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== 100 CONFIDENCE INTERVALS ====================
 const TRUE_MEAN = 500;
 const POP_SD = 100;
@@ -750,7 +750,7 @@ function resetQuiz() {
 }
 
 // ==================== INITIALIZATION ====================
-document.addEventListener('astro:page-load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   // 100 CIs
   document.getElementById('btn-run-ci').addEventListener('click', run100CIs);
 

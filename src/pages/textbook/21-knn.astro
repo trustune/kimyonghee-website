@@ -394,7 +394,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITY ====================
 let ChartJS = null;
 async function loadChart() {
@@ -998,7 +998,7 @@ function runScaleComparison() {
 }
 
 // ==================== INIT ====================
-document.addEventListener('astro:page-load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   // Interactive 1: KNN Canvas
   const knnCanvas = document.getElementById('knn-canvas');
   knnCanvas.addEventListener('click', (e) => {

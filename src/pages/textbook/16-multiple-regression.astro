@@ -379,7 +379,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITY ====================
 function randNorm(mu = 0, sigma = 1) {
   let u = 0, v = 0;
@@ -1114,7 +1114,6 @@ function draw3D() {
 // ==================== INITIALIZATION ====================
 function init() {
   try {
-    import('../../textbook/lib/progress').then(m => m.markVisited('16-multiple-regression')).catch(() => {});
   } catch(e) {}
 
   // Generate data
@@ -1168,7 +1167,7 @@ function init() {
   });
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

@@ -415,7 +415,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== COIN FAIRNESS TESTER ====================
 let coinFlips = [];
 let pvalueHistory = [];
@@ -1220,7 +1220,7 @@ function randn() {
 }
 
 // ==================== INITIALIZATION ====================
-document.addEventListener('astro:page-load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   // Coin flipper
   document.getElementById('btn-flip-1').addEventListener('click', () => flipCoins(1));
   document.getElementById('btn-flip-10').addEventListener('click', () => flipCoins(10));

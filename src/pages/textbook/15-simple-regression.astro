@@ -381,7 +381,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITY FUNCTIONS ====================
 function randNorm(mu = 0, sigma = 1) {
   let u = 0, v = 0;
@@ -1081,7 +1081,6 @@ function updateOutputTable() {
 // ==================== INITIALIZATION ====================
 function init() {
   try {
-    import('../../textbook/lib/progress').then(m => m.markVisited('15-simple-regression')).catch(() => {});
   } catch(e) {}
 
   // Generate initial data
@@ -1142,7 +1141,7 @@ function init() {
   document.getElementById('btn-diag-gen').addEventListener('click', generateDiagData);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

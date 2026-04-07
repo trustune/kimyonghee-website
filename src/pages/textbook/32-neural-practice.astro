@@ -430,7 +430,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITY FUNCTIONS ====================
 function sigmoid(x) { return 1 / (1 + Math.exp(-Math.max(-500, Math.min(500, x)))); }
 function relu(x) { return Math.max(0, x); }
@@ -1127,7 +1127,6 @@ function updateLRFChart(histories, lrs) {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('32-neural-practice'));
 
   setupPlayground();
   setupDepthExperiment();
@@ -1135,7 +1134,7 @@ function init() {
   setupLRFinder();
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

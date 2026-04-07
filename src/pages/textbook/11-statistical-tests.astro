@@ -433,7 +433,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== CHART.JS LOADER ====================
 let ChartJS = null;
 async function loadChart() {
@@ -1212,7 +1212,6 @@ function lookupRef() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('11-statistical-tests')).catch(() => {});
 
   // Decision tree
   renderTreeNode('start');
@@ -1249,7 +1248,7 @@ function init() {
   document.getElementById('btn-ref-lookup').addEventListener('click', lookupRef);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

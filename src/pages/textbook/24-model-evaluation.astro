@@ -410,8 +410,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
-  import { markVisited } from '../../textbook/lib/progress';
+<script is:inline>
   markVisited('24-model-evaluation');
 
   // ====================== INTERACTIVE 1: IMBALANCED DATA ======================
@@ -947,7 +946,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   if (document.readyState === 'loading') {
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }

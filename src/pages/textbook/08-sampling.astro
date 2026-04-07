@@ -404,7 +404,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== POPULATION DATA ====================
 const PARTIES = [
   { name: 'A당', color: '#2563eb', ratio: 0.38 },
@@ -810,7 +810,7 @@ function calculateSampleSize() {
 }
 
 // ==================== INITIALIZATION ====================
-document.addEventListener('astro:page-load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   initPopulation();
   drawPopulation();
 

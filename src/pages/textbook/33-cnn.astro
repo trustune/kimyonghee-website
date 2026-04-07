@@ -374,7 +374,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITY ====================
 const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
 
@@ -803,7 +803,6 @@ function setupCNNBuilder() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('33-cnn'));
 
   setupPixelViewer();
   setupConvExplorer();
@@ -811,7 +810,7 @@ function init() {
   setupCNNBuilder();
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

@@ -534,7 +534,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== CHART.JS LOADER ====================
 let Chart = null;
 async function loadChartJS() {
@@ -647,7 +647,6 @@ async function lottoInit(){
   await loadChartJS();
 
   // Mark visited for progress tracking
-  import('../../textbook/lib/progress').then(m => m.markVisited('13-lotto-probability'));
 
   initFreqGrid();updateFreqChart();initLLN();buildNumSelect();
   // Populate ACF number selector
@@ -672,7 +671,7 @@ async function lottoInit(){
   document.getElementById('btn-battle2-reset')?.addEventListener('click',resetBattle2);
 }
 
-document.addEventListener('astro:page-load', lottoInit);
+document.addEventListener('DOMContentLoaded', lottoInit);
 </script>
 
 <style>

@@ -295,7 +295,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== CHART.JS LOADER ====================
 let ChartJS = null;
 async function loadChart() {
@@ -854,7 +854,6 @@ async function generateCorrMatrix() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('06-correlation')).catch(() => {});
 
   // Anscombe
   drawAnscombe();
@@ -880,7 +879,7 @@ function init() {
   document.getElementById('btn-corrmat-gen').addEventListener('click', generateCorrMatrix);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

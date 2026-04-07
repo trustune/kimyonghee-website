@@ -399,7 +399,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITY ====================
 const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
 
@@ -905,7 +905,6 @@ function updateRNNCharts(seq, preds, hidden, currentStep) {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('34-nlp-rnn'));
 
   setupTokenizer();
   setupTFIDF();
@@ -914,7 +913,7 @@ function init() {
   setupRNNDemo();
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

@@ -335,7 +335,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== DATA ====================
 const CONV_ITEMS = ['삼각김밥', '컵라면', '우유', '빵', '커피', '음료수', '과자', '초콜릿', '아이스크림', '도시락', '샌드위치', '맥주', '소주', '안주', '생수'];
 
@@ -794,7 +794,6 @@ function collabBasedRecommend() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('30-recommendation')).catch(() => {});
 
   initMoviePanel();
 
@@ -820,7 +819,7 @@ function init() {
   document.getElementById('btn-collab-rec').addEventListener('click', collabBasedRecommend);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

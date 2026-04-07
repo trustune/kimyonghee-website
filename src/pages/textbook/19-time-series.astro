@@ -334,7 +334,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITY ====================
 let ChartJS = null;
 async function loadChart() {
@@ -814,7 +814,7 @@ async function drawForecast() {
 }
 
 // ==================== INIT ====================
-document.addEventListener('astro:page-load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   generateTSData();
   generateFCData();
 

@@ -257,7 +257,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== CHART.JS LOADER ====================
 let ChartJS = null;
 async function loadChart() {
@@ -1121,7 +1121,6 @@ function downloadReport() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('14-capstone-survey')).catch(() => {});
 
   // Test type change: show/hide mu0
   document.getElementById('test-type').addEventListener('change', function() {
@@ -1169,7 +1168,7 @@ function init() {
   doGenerate();
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

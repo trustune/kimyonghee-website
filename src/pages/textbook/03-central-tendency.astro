@@ -257,7 +257,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== CHART.JS LOADER ====================
 let ChartJS = null;
 async function loadChart() {
@@ -732,7 +732,6 @@ async function updateTrimDisplay() {
 // ==================== INIT ====================
 function init() {
   try {
-    import('../../textbook/lib/progress').then(m => m.markVisited('03-central-tendency')).catch(() => {});
   } catch(e) {}
 
   // Interactive 1: Income
@@ -763,7 +762,7 @@ function init() {
   document.getElementById('trim-slider').addEventListener('input', updateTrimDisplay);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

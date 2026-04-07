@@ -368,7 +368,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== CHART.JS LOADER ====================
 let ChartJS = null;
 async function loadChart() {
@@ -826,7 +826,6 @@ async function runPowerAnalysis() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('12-effect-size')).catch(() => {});
 
   // Scenario comparison
   updateScenarioA();
@@ -853,7 +852,7 @@ function init() {
   document.getElementById('btn-power').addEventListener('click', runPowerAnalysis);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

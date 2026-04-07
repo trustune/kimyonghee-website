@@ -410,7 +410,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== DATA GENERATION ====================
 const DEPTS = ['영업', '마케팅', '인사', 'IT', '재무'];
 const RANKS = ['사원', '주임', '대리', '과장', '차장', '부장'];
@@ -1020,7 +1020,6 @@ async function generateSummary() {
 // ==================== INIT & EVENT BINDING ====================
 function init() {
   // Mark visited
-  import('../../textbook/lib/progress').then(m => m.markVisited('01-what-is-data'));
 
   // Generate initial data
   generateData();
@@ -1049,7 +1048,7 @@ function init() {
   document.getElementById('btn-summary').addEventListener('click', generateSummary);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

@@ -348,7 +348,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== DATA GENERATION ====================
 const CONTRACTS = ['월별', '1년', '2년'];
 const PAY_METHODS = ['카드', '계좌이체', '자동이체'];
@@ -914,7 +914,6 @@ function predictChurn() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('26-capstone-churn')).catch(() => {});
 
   document.getElementById('btn-load-data').addEventListener('click', generateChurnData);
   document.getElementById('btn-eda-explore').addEventListener('click', drawEDA);
@@ -947,7 +946,7 @@ function init() {
   });
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

@@ -372,7 +372,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITY ====================
 let ChartJS = null;
 async function loadChart() {
@@ -931,7 +931,7 @@ async function runCV(animate = false) {
 }
 
 // ==================== INIT ====================
-document.addEventListener('astro:page-load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   generatePolyData();
   generateBVData();
   generateRegData();

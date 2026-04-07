@@ -535,7 +535,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ========================================================================
 //  Chapter 20: Capstone III -- Real Estate Price Predictor
 //  All regression via GRADIENT DESCENT. Chart.js loaded from CDN.
@@ -1402,7 +1402,7 @@ function init() {
   document.getElementById('pred-result').style.display = 'none';
 }
 
-document.addEventListener('astro:page-load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   init();
 
   // Data regen
@@ -1440,7 +1440,6 @@ document.addEventListener('astro:page-load', () => {
   document.getElementById('btn-predict').addEventListener('click', predictPrice);
 
   // Mark visited
-  import('../../textbook/lib/progress').then(m => m.markVisited('20-capstone-prediction')).catch(() => {});
 });
 </script>
 

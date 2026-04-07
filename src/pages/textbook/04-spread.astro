@@ -333,7 +333,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== CHART.JS LOADER ====================
 let ChartJS = null;
 async function loadChart() {
@@ -852,7 +852,6 @@ function applyManualData() {
 // ==================== INIT ====================
 function init() {
   try {
-    import('../../textbook/lib/progress').then(m => m.markVisited('04-spread')).catch(() => {});
   } catch(e) {}
 
   // Interactive 1: Dual distribution
@@ -879,7 +878,7 @@ function init() {
   document.getElementById('btn-box-manual').addEventListener('click', applyManualData);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

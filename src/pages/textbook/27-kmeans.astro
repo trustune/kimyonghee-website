@@ -305,7 +305,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITIES ====================
 function randNorm(mu = 0, sigma = 1) {
   let u = 0, v = 0;
@@ -773,7 +773,6 @@ function showSegTable() {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('27-kmeans')).catch(() => {});
 
   initKM();
 
@@ -792,7 +791,7 @@ function init() {
   document.getElementById('btn-seg-run').addEventListener('click', runSegmentation);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

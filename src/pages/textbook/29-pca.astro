@@ -286,7 +286,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITIES ====================
 function randNorm(mu = 0, sigma = 1) {
   let u = 0, v = 0;
@@ -973,7 +973,6 @@ function drawImageCanvas(canvasId, imageData) {
 
 // ==================== INIT ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('29-pca')).catch(() => {});
 
   generatePcaData();
   setupPca2DDrag();
@@ -990,7 +989,7 @@ function init() {
   document.getElementById('slider-img-pc').addEventListener('input', drawImagePair);
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>

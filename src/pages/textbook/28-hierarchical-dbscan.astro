@@ -406,7 +406,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script>
+<script is:inline>
 // ==================== UTILITIES ====================
 const COLORS = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899','#84cc16','#f97316','#6366f1'];
 function dist(a, b) { return Math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2); }
@@ -1243,7 +1243,6 @@ function drawStoreMap(result, eps) {
 
 // ==================== INIT & EVENT BINDING ====================
 function init() {
-  import('../../textbook/lib/progress').then(m => m.markVisited('28-hierarchical-dbscan'));
 
   // 1. HC Visualizer
   hcInit();
@@ -1294,7 +1293,7 @@ function init() {
   });
 }
 
-document.addEventListener('astro:page-load', init);
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <style>
