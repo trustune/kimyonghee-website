@@ -1,0 +1,1440 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="신경망 기초 -- 뉴런에서 네트워크로"
+  subtitle="퍼셉트론, 활성화 함수, 경사하강법"
+  chapterNum={31}
+  part={6}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>기계가 판단을 배운다는 것</h2>
+    <p>
+      은행 심사역은 수백 건의 대출 심사를 거치면서 "이 고객은 상환할 것이다"라는 직관을 형성합니다.
+      소득, 부채비율, 신용등급 같은 여러 지표를 동시에 고려하되,
+      어떤 지표에 더 무게를 두는지는 경험에 따라 달라집니다.
+    </p>
+    <p style="margin-top: 12px;">
+      신경망(neural network)은 바로 이 과정을 수학으로 모방합니다.
+      입력 신호에 각각 <strong>가중치(weight)</strong>를 곱하고,
+      합산 결과가 기준을 넘으면 "예", 넘지 않으면 "아니오"를 출력합니다.
+      처음에는 가중치가 엉터리지만, 데이터를 반복 학습하면서 점점 정확해집니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 하나의 뉴런부터 시작해서, 활성화 함수, 경사하강법, 다층 네트워크까지
+      신경망의 핵심 구조를 직접 조작하고 실험하면서 이해합니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 뉴런의 수학적 모델 ===== -->
+  <div class="tb-card">
+    <h2>하나의 뉴런: 가중합과 활성화</h2>
+    <p>
+      생물학적 뉴런은 수상돌기로 신호를 받고, 신호의 총합이 임계값을 넘으면 축삭을 통해 다음 뉴런으로 전달합니다.
+      인공 뉴런은 이것을 단순화한 수학 모델입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>인공 뉴런의 구조:</strong>
+      입력값(x1, x2, ...)에 각각 가중치(w1, w2, ...)를 곱한 뒤 모두 더합니다.
+      여기에 편향(bias, b)을 더한 것이 가중합 z입니다.
+      이 z를 활성화 함수에 통과시키면 최종 출력 a가 됩니다.
+      쉽게 말하면, 뉴런은 "입력들의 가중 평균이 기준을 넘는가?"를 판단하는 장치입니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      <span class="hl">z</span> = w1 * x1 + w2 * x2 + b<br>
+      <span class="hl">a</span> = sigma(z) = 1 / (1 + e<sup>-z</sup>)<br>
+      <span style="font-size: 0.85rem; color: #94a3b8;">시그모이드 함수: z가 크면 1에 가깝고, z가 작으면 0에 가까운 값을 출력</span>
+    </FormulaBox>
+
+    <BusinessBox>
+      <strong>비유: 의사결정 위원회</strong><br>
+      신경망은 의사결정 위원회와 같습니다.
+      위원(입력) 각각이 의견(값)을 내놓고, 위원장(뉴런)은 각 의견에 신뢰도(가중치)를 곱해 종합합니다.
+      종합 점수가 기준(편향)을 넘으면 "승인", 넘지 않으면 "거절"을 결정합니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Single Neuron Playground ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 단일 뉴런 놀이터</h2>
+    <p>
+      하나의 뉴런이 2차원 평면을 어떻게 분류하는지 직접 확인합니다.
+      가중치와 편향을 조절하면 결정 경계(decision boundary)가 실시간으로 이동합니다.
+    </p>
+
+    <SimControls>
+      <label>데이터셋:</label>
+      <button class="tb-btn tb-btn-primary" id="btn-data-and" style="padding: 6px 14px;">AND</button>
+      <button class="tb-btn tb-btn-warning" id="btn-data-or" style="padding: 6px 14px;">OR</button>
+      <button class="tb-btn tb-btn-danger" id="btn-data-xor" style="padding: 6px 14px;">XOR</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 280px; gap: 20px; margin-top: 14px;">
+      <div>
+        <canvas id="neuron-canvas" width="400" height="400" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+      <div>
+        <div style="margin-bottom: 16px;">
+          <label style="font-weight: 700; font-size: 0.9rem;">w1: <span id="w1-val">0.5</span></label><br>
+          <input type="range" id="slider-w1" min="-3" max="3" step="0.1" value="0.5" style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 16px;">
+          <label style="font-weight: 700; font-size: 0.9rem;">w2: <span id="w2-val">0.5</span></label><br>
+          <input type="range" id="slider-w2" min="-3" max="3" step="0.1" value="0.5" style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 16px;">
+          <label style="font-weight: 700; font-size: 0.9rem;">b: <span id="b-val">-0.7</span></label><br>
+          <input type="range" id="slider-b" min="-3" max="3" step="0.1" value="-0.7" style="width: 100%;">
+        </div>
+        <div class="tb-stat-row" style="grid-template-columns: 1fr 1fr;">
+          <StatBox label="정확도" id="neuron-accuracy" />
+          <StatBox label="데이터셋" id="neuron-dataset" value="AND" />
+        </div>
+      </div>
+    </div>
+
+    <ExerciseBox>
+      <strong>직접 해보기:</strong>
+      AND 데이터에서 가중치를 조절해 100% 정확도를 달성하세요.
+      그 다음 XOR 데이터를 선택하고, 아무리 조절해도 100%가 불가능한 이유를 생각해보세요.
+    </ExerciseBox>
+
+    <InsightBox>
+      <strong>핵심 발견:</strong>
+      단일 뉴런의 결정 경계는 언제나 <strong>직선</strong>입니다.
+      AND와 OR는 직선 하나로 분류할 수 있지만(선형 분리 가능),
+      XOR는 직선으로는 절대 분류할 수 없습니다(선형 분리 불가능).
+      이 한계를 극복하려면 뉴런을 여러 층으로 쌓아야 합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 3: 활성화 함수 ===== -->
+  <div class="tb-card">
+    <h2>활성화 함수: 왜 비선형이 필요한가</h2>
+    <p>
+      만약 활성화 함수가 없다면(또는 단순히 f(z) = z라면),
+      뉴런을 아무리 많이 쌓아도 결국 하나의 선형 변환과 같습니다.
+      비선형 활성화 함수가 있어야 네트워크가 곡선, 영역, 복잡한 패턴을 표현할 수 있습니다.
+    </p>
+
+    <FormulaBox>
+      <strong>Step:</strong> f(z) = z &gt; 0 ? 1 : 0<br>
+      <strong>Sigmoid:</strong> f(z) = 1 / (1 + e<sup>-z</sup>)<br>
+      <strong>Tanh:</strong> f(z) = (e<sup>z</sup> - e<sup>-z</sup>) / (e<sup>z</sup> + e<sup>-z</sup>)<br>
+      <strong>ReLU:</strong> f(z) = max(0, z)
+    </FormulaBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Activation Function Explorer ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 활성화 함수 탐색기</h2>
+    <p>
+      네 가지 활성화 함수의 형태와 기울기(도함수)를 비교합니다.
+      입력값 슬라이더를 움직여 각 함수의 출력이 어떻게 달라지는지 관찰하세요.
+    </p>
+
+    <SimControls>
+      <label>표시할 함수:</label>
+      <label><input type="checkbox" id="chk-sigmoid" checked> Sigmoid</label>
+      <label><input type="checkbox" id="chk-relu" checked> ReLU</label>
+      <label><input type="checkbox" id="chk-tanh" checked> Tanh</label>
+      <label><input type="checkbox" id="chk-step" checked> Step</label>
+    </SimControls>
+
+    <div style="margin: 14px 0;">
+      <label style="font-weight: 700; font-size: 0.9rem;">입력값 x = <span id="act-x-val">0.0</span></label>
+      <input type="range" id="slider-act-x" min="-5" max="5" step="0.1" value="0" style="width: 100%;">
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px;">활성화 함수 출력</h3>
+        <ChartContainer id="act-func-chart" height="320px" />
+      </div>
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px;">도함수 (기울기)</h3>
+        <ChartContainer id="act-deriv-chart" height="320px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="Sigmoid 출력" id="stat-sigmoid" />
+      <StatBox label="ReLU 출력" id="stat-relu" />
+      <StatBox label="Tanh 출력" id="stat-tanh" />
+      <StatBox label="Step 출력" id="stat-step" />
+    </div>
+
+    <WarningBox>
+      <strong>기울기 소실 문제 (Vanishing Gradient):</strong>
+      Sigmoid와 Tanh는 입력이 극단적으로 크거나 작을 때 기울기가 거의 0이 됩니다.
+      이 상태에서는 학습이 사실상 멈춥니다.
+      ReLU는 양수 영역에서 기울기가 항상 1이므로 이 문제를 크게 완화합니다.
+      x를 -5나 5 근처로 옮기고 각 함수의 도함수 값을 비교해보세요.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 4: 손실 함수와 경사하강법 ===== -->
+  <div class="tb-card">
+    <h2>손실 함수: 얼마나 틀렸는가</h2>
+    <p>
+      뉴런이 출력한 예측값 a와 실제 정답 y 사이의 차이를 수치화한 것이 <strong>손실(loss)</strong>입니다.
+      학습이란 이 손실을 최소화하는 가중치를 찾아가는 과정입니다.
+    </p>
+
+    <FormulaBox>
+      <span class="hl">이진 교차 엔트로피 손실:</span><br>
+      L = -[ y * log(a) + (1 - y) * log(1 - a) ]<br>
+      <span style="font-size: 0.85rem; color: #94a3b8;">y=1일 때 a가 1에 가까우면 손실이 작고, y=0일 때 a가 0에 가까우면 손실이 작다</span>
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>경사하강법(Gradient Descent)의 직관:</strong>
+      산 정상에서 눈을 감고 가장 빠르게 내려가는 방향을 찾는 것과 같습니다.
+      발밑의 경사(기울기, gradient)를 느끼고, 그 반대 방향으로 한 걸음 이동합니다.
+      이것을 반복하면 결국 골짜기(손실의 최솟값)에 도달합니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      <span class="hl">가중치 업데이트 규칙:</span><br>
+      w := w - lr * (dL/dw)<br>
+      <span style="font-size: 0.85rem; color: #94a3b8;">lr = 학습률(learning rate), dL/dw = 손실의 가중치에 대한 기울기</span>
+    </FormulaBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: Gradient Descent Visualizer ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 경사하강법 시각화</h2>
+    <p>
+      2차원 손실 곡면 위에서 경사하강법이 어떻게 최솟값을 찾아가는지 관찰합니다.
+      등고선이 진할수록 손실이 높은 지점입니다.
+      캔버스를 클릭해 출발점을 지정한 뒤 "하강 시작" 버튼을 누르세요.
+    </p>
+
+    <SimControls>
+      <label>학습률:</label>
+      <input type="range" id="slider-lr" min="0.001" max="1.0" step="0.001" value="0.05" style="width: 160px;">
+      <span class="tb-speed-label" id="lr-val">0.050</span>
+      <button class="tb-btn tb-btn-primary" id="btn-gd-run">하강 시작</button>
+      <button class="tb-btn tb-btn-danger" id="btn-gd-reset">초기화</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 200px; gap: 16px; margin-top: 14px;">
+      <canvas id="gd-canvas" width="500" height="500" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff; cursor: crosshair;"></canvas>
+      <div>
+        <div class="tb-stat-row" style="grid-template-columns: 1fr;">
+          <StatBox label="현재 손실" id="gd-loss" />
+          <StatBox label="스텝 수" id="gd-steps" value="0" />
+          <StatBox label="w1" id="gd-w1" />
+          <StatBox label="w2" id="gd-w2" />
+        </div>
+      </div>
+    </div>
+
+    <ExerciseBox>
+      <strong>실험 과제:</strong>
+      (1) 학습률을 0.01로 설정하고 하강을 실행하세요. 천천히 수렴합니다.
+      (2) 학습률을 0.5로 높여보세요. 큰 보폭으로 빠르게 접근하지만 진동할 수 있습니다.
+      (3) 학습률을 0.95 이상으로 올려보세요. 발산하여 최솟값을 벗어나는 것을 관찰하세요.
+    </ExerciseBox>
+
+    <InsightBox>
+      <strong>학습률의 딜레마:</strong>
+      너무 작으면 학습이 지나치게 느리고, 너무 크면 최적점을 건너뛰며 발산합니다.
+      실무에서는 학습률을 점진적으로 줄이는 "학습률 스케줄링"이나
+      Adam 같은 적응적 최적화 알고리즘을 사용합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 5: 역전파와 다층 네트워크 ===== -->
+  <div class="tb-card">
+    <h2>역전파: 오류를 거꾸로 전달하다</h2>
+    <p>
+      다층 네트워크에서는 출력층의 오차를 이전 층까지 "역방향"으로 전달하여
+      모든 가중치를 업데이트합니다. 이것이 <strong>역전파(backpropagation)</strong>입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>역전파의 핵심: 연쇄 법칙(Chain Rule)</strong><br>
+      미적분의 연쇄 법칙을 활용합니다.
+      출력에서 시작하여, 각 층을 거슬러 올라가면서 "이 가중치가 손실에 얼마나 기여했는가?"를 계산합니다.
+      쉽게 말하면, 최종 실수의 책임을 각 단계에 배분하는 과정입니다.
+    </ExplainBox>
+
+    <BusinessBox>
+      <strong>비유: 제조 공정의 품질 관리</strong><br>
+      완제품에서 불량이 발견되었을 때, 어떤 공정 단계가 원인인지 역추적하는 것과 같습니다.
+      조립 단계의 문제인지, 부품 가공의 문제인지, 원자재의 문제인지를
+      뒤에서부터 하나씩 점검하면서 각 단계의 기여도를 파악합니다.
+    </BusinessBox>
+
+    <p style="margin-top: 14px;">
+      <strong>보편 근사 정리(Universal Approximation Theorem):</strong>
+      은닉층이 하나 이상이고 뉴런이 충분히 많으면,
+      신경망은 어떤 연속 함수든 원하는 정밀도로 근사할 수 있습니다.
+      쉽게 말하면, 충분히 큰 네트워크는 어떤 패턴이든 학습할 수 있다는 뜻입니다.
+    </p>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 2-Layer Network — Solving XOR ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 은닉층으로 XOR 해결하기</h2>
+    <p>
+      단일 뉴런으로 불가능했던 XOR 문제를 2층 네트워크(입력 -> 은닉 -> 출력)로 해결합니다.
+      "학습 시작" 버튼을 누르면 네트워크가 XOR 패턴을 학습하는 과정을 실시간으로 관찰할 수 있습니다.
+    </p>
+
+    <SimControls>
+      <label>학습률:</label>
+      <input type="range" id="slider-xor-lr" min="0.1" max="5" step="0.1" value="2.0" style="width: 140px;">
+      <span class="tb-speed-label" id="xor-lr-val">2.0</span>
+      <button class="tb-btn tb-btn-primary" id="btn-xor-train">학습 시작</button>
+      <button class="tb-btn tb-btn-danger" id="btn-xor-reset">초기화</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px;">결정 경계</h3>
+        <canvas id="xor-boundary-canvas" width="300" height="300" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px;">손실 곡선</h3>
+        <ChartContainer id="xor-loss-chart" height="300px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="에포크" id="xor-epoch" value="0" />
+      <StatBox label="현재 손실" id="xor-loss" value="-" />
+      <StatBox label="정확도" id="xor-acc" value="-" />
+    </div>
+
+    <InsightBox>
+      <strong>관찰 포인트:</strong>
+      학습 초기에는 결정 경계가 직선처럼 보이지만,
+      에포크가 진행될수록 경계가 휘어지면서 XOR 패턴에 맞는 비선형 영역이 형성됩니다.
+      이것이 은닉층의 역할입니다. 은닉 뉴런들이 입력 공간을 "접어서" 선형 분리가 가능한 새로운 표현을 만듭니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: Neural Network from Scratch ===== -->
+  <div class="tb-card">
+    <h2>실습 5: 처음부터 만드는 신경망 -- 이진 분류</h2>
+    <p>
+      두 개의 클러스터로 이루어진 2차원 데이터를 신경망으로 분류합니다.
+      은닉층의 뉴런 수를 바꾸면서 네트워크 용량이 결정 경계에 미치는 영향을 관찰하세요.
+    </p>
+
+    <SimControls>
+      <label>은닉 뉴런:</label>
+      <select id="sel-hidden">
+        <option value="1">1개</option>
+        <option value="2">2개</option>
+        <option value="4" selected>4개</option>
+        <option value="8">8개</option>
+      </select>
+      <label>학습률:</label>
+      <input type="range" id="slider-nn-lr" min="0.01" max="2" step="0.01" value="0.5" style="width: 120px;">
+      <span class="tb-speed-label" id="nn-lr-val">0.50</span>
+      <label>데이터:</label>
+      <select id="sel-dataset">
+        <option value="clusters" selected>클러스터</option>
+        <option value="spiral">나선형</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-nn-train">학습 시작</button>
+      <button class="tb-btn tb-btn-danger" id="btn-nn-reset">초기화</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px;">결정 경계</h3>
+        <canvas id="nn-boundary-canvas" width="300" height="300" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+      <div>
+        <h3 style="text-align: center; margin-bottom: 8px;">손실 곡선</h3>
+        <ChartContainer id="nn-loss-chart" height="300px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="에포크" id="nn-epoch" value="0" />
+      <StatBox label="손실" id="nn-loss" value="-" />
+      <StatBox label="정확도" id="nn-acc" value="-" />
+      <StatBox label="은닉 뉴런" id="nn-hidden" value="4" />
+    </div>
+
+    <ExerciseBox>
+      <strong>실험 과제:</strong>
+      (1) 은닉 뉴런 1개로 클러스터 데이터를 학습시켜보세요. 직선 경계밖에 만들지 못합니다.
+      (2) 뉴런 수를 4, 8로 늘리면서 경계가 어떻게 복잡해지는지 관찰하세요.
+      (3) 나선형 데이터를 선택하고, 최소 몇 개의 뉴런이 필요한지 실험하세요.
+    </ExerciseBox>
+
+    <WarningBox>
+      <strong>과적합 주의:</strong>
+      뉴런이 너무 많으면 훈련 데이터의 잡음까지 외워버립니다.
+      결정 경계가 지나치게 구불구불해지면 새로운 데이터에 대한 예측력이 떨어집니다.
+      이 장에서는 다루지 않지만, 이후 장에서 정규화와 검증 기법을 배웁니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>인공 뉴런은 입력의 가중합에 활성화 함수를 적용하는 수학 모델이다.</li>
+      <li>단일 뉴런은 선형 경계만 만들 수 있으므로 XOR 같은 비선형 문제를 풀 수 없다.</li>
+      <li>활성화 함수(Sigmoid, ReLU, Tanh)는 네트워크에 비선형성을 부여한다.</li>
+      <li>경사하강법은 손실 함수의 기울기를 따라 가중치를 반복 조정하는 최적화 방법이다.</li>
+      <li>학습률이 너무 작으면 느리고, 너무 크면 발산한다.</li>
+      <li>은닉층을 추가하면 비선형 결정 경계를 만들 수 있어 복잡한 패턴을 학습할 수 있다.</li>
+      <li>보편 근사 정리: 충분한 뉴런이 있으면 어떤 함수든 근사할 수 있다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong>
+      이 장에서 수동으로 구현한 것을 실무에서는 프레임워크(TensorFlow, PyTorch)로 처리합니다.
+      다음 장에서는 더 깊은 네트워크 구조와 학습 기법을 살펴봅니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITY FUNCTIONS ====================
+function sigmoid(x) { return 1 / (1 + Math.exp(-Math.max(-500, Math.min(500, x)))); }
+function relu(x) { return Math.max(0, x); }
+function tanhAct(x) { return Math.tanh(x); }
+function step(x) { return x > 0 ? 1 : 0; }
+
+function sigmoidDeriv(x) { const s = sigmoid(x); return s * (1 - s); }
+function reluDeriv(x) { return x > 0 ? 1 : 0; }
+function tanhDeriv(x) { const t = Math.tanh(x); return 1 - t * t; }
+function stepDeriv(_x) { return 0; }
+
+function randRange(a, b) { return a + Math.random() * (b - a); }
+function randn() { let u = 0, v = 0; while (u === 0) u = Math.random(); while (v === 0) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+
+// ==================== DATASETS ====================
+const DATA_AND = [ {x:[0,0],y:0}, {x:[0,1],y:0}, {x:[1,0],y:0}, {x:[1,1],y:1} ];
+const DATA_OR  = [ {x:[0,0],y:0}, {x:[0,1],y:1}, {x:[1,0],y:1}, {x:[1,1],y:1} ];
+const DATA_XOR = [ {x:[0,0],y:0}, {x:[0,1],y:1}, {x:[1,0],y:1}, {x:[1,1],y:0} ];
+
+function generateClusters(n) {
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    if (i < n / 2) {
+      data.push({ x: [randn() * 0.5 + 1.5, randn() * 0.5 + 1.5], y: 0 });
+    } else {
+      data.push({ x: [randn() * 0.5 - 1.5, randn() * 0.5 - 1.5], y: 1 });
+    }
+  }
+  return data;
+}
+
+function generateSpiral(n) {
+  const data = [];
+  const half = Math.floor(n / 2);
+  for (let c = 0; c < 2; c++) {
+    for (let i = 0; i < half; i++) {
+      const r = (i / half) * 3;
+      const t = 1.25 * i / half * 2 * Math.PI + (c * Math.PI);
+      const x = r * Math.cos(t) + randn() * 0.25;
+      const y = r * Math.sin(t) + randn() * 0.25;
+      data.push({ x: [x, y], y: c });
+    }
+  }
+  return data;
+}
+
+// ==================== SIMPLE 2-LAYER NETWORK ====================
+class SimpleNetwork {
+  constructor(inputSize, hiddenSize, outputSize) {
+    this.inputSize = inputSize;
+    this.hiddenSize = hiddenSize;
+    this.outputSize = outputSize;
+    this.initWeights();
+  }
+
+  initWeights() {
+    const s1 = Math.sqrt(2 / this.inputSize);
+    const s2 = Math.sqrt(2 / this.hiddenSize);
+    this.w1 = Array.from({length: this.hiddenSize}, () =>
+      Array.from({length: this.inputSize}, () => randn() * s1)
+    );
+    this.b1 = Array.from({length: this.hiddenSize}, () => 0);
+    this.w2 = Array.from({length: this.outputSize}, () =>
+      Array.from({length: this.hiddenSize}, () => randn() * s2)
+    );
+    this.b2 = Array.from({length: this.outputSize}, () => 0);
+  }
+
+  forward(x) {
+    // Hidden layer: tanh activation
+    this.z1 = this.b1.map((b, i) => {
+      let sum = b;
+      for (let j = 0; j < this.inputSize; j++) sum += this.w1[i][j] * x[j];
+      return sum;
+    });
+    this.h = this.z1.map(z => Math.tanh(z));
+
+    // Output layer: sigmoid activation
+    this.z2 = this.b2.map((b, i) => {
+      let sum = b;
+      for (let j = 0; j < this.hiddenSize; j++) sum += this.w2[i][j] * this.h[j];
+      return sum;
+    });
+    this.out = this.z2.map(z => sigmoid(z));
+    return this.out[0];
+  }
+
+  backward(x, y, lr) {
+    const a = this.out[0];
+    const eps = 1e-7;
+    // Output gradient
+    const dz2 = a - y;
+
+    // Update output weights
+    for (let j = 0; j < this.hiddenSize; j++) {
+      this.w2[0][j] -= lr * dz2 * this.h[j];
+    }
+    this.b2[0] -= lr * dz2;
+
+    // Hidden gradients
+    for (let i = 0; i < this.hiddenSize; i++) {
+      const dh = dz2 * this.w2[0][i];
+      const dz1 = dh * (1 - this.h[i] * this.h[i]); // tanh derivative
+      for (let j = 0; j < this.inputSize; j++) {
+        this.w1[i][j] -= lr * dz1 * x[j];
+      }
+      this.b1[i] -= lr * dz1;
+    }
+  }
+
+  predict(x) {
+    return this.forward(x) > 0.5 ? 1 : 0;
+  }
+}
+
+// ==================== INTERACTIVE 1: SINGLE NEURON PLAYGROUND ====================
+let neuronDataset = DATA_AND;
+let neuronDatasetName = 'AND';
+
+function drawNeuronCanvas() {
+  const canvas = document.getElementById('neuron-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const w1 = parseFloat(document.getElementById('slider-w1').value);
+  const w2 = parseFloat(document.getElementById('slider-w2').value);
+  const b  = parseFloat(document.getElementById('slider-b').value);
+
+  // Draw coordinate system
+  const pad = 40;
+  const plotW = W - 2 * pad;
+  const plotH = H - 2 * pad;
+
+  // Map data coords to canvas: data range [-0.5, 1.5] for logic gates
+  const xMin = -0.5, xMax = 1.5, yMin = -0.5, yMax = 1.5;
+  function toCanvasX(x) { return pad + (x - xMin) / (xMax - xMin) * plotW; }
+  function toCanvasY(y) { return H - pad - (y - yMin) / (yMax - yMin) * plotH; }
+
+  // Draw background coloring (decision regions)
+  const res = 4;
+  for (let px = pad; px < W - pad; px += res) {
+    for (let py = pad; py < H - pad; py += res) {
+      const dx = xMin + (px - pad) / plotW * (xMax - xMin);
+      const dy = yMax - (py - pad) / plotH * (yMax - yMin);
+      const z = w1 * dx + w2 * dy + b;
+      const a = sigmoid(z);
+      if (a > 0.5) {
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.08)';
+      } else {
+        ctx.fillStyle = 'rgba(37, 99, 235, 0.08)';
+      }
+      ctx.fillRect(px, py, res, res);
+    }
+  }
+
+  // Draw grid
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 0.5;
+  for (let v = 0; v <= 1; v += 0.5) {
+    ctx.beginPath();
+    ctx.moveTo(toCanvasX(v), pad);
+    ctx.lineTo(toCanvasX(v), H - pad);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(pad, toCanvasY(v));
+    ctx.lineTo(W - pad, toCanvasY(v));
+    ctx.stroke();
+  }
+
+  // Draw axes
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad, H - pad);
+  ctx.lineTo(W - pad, H - pad);
+  ctx.moveTo(pad, pad);
+  ctx.lineTo(pad, H - pad);
+  ctx.stroke();
+
+  // Axis labels
+  ctx.fillStyle = '#475569';
+  ctx.font = '12px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('x1', W / 2, H - 8);
+  ctx.save();
+  ctx.translate(12, H / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('x2', 0, 0);
+  ctx.restore();
+
+  // Tick labels
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  [0, 0.5, 1].forEach(v => {
+    ctx.fillText(v.toString(), toCanvasX(v), H - pad + 5);
+  });
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  [0, 0.5, 1].forEach(v => {
+    ctx.fillText(v.toString(), pad - 5, toCanvasY(v));
+  });
+
+  // Draw decision boundary: w1*x1 + w2*x2 + b = 0
+  ctx.strokeStyle = '#7c3aed';
+  ctx.lineWidth = 2.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+
+  if (Math.abs(w2) > 0.001) {
+    const x1a = xMin;
+    const x2a = -(w1 * x1a + b) / w2;
+    const x1b = xMax;
+    const x2b = -(w1 * x1b + b) / w2;
+    ctx.moveTo(toCanvasX(x1a), toCanvasY(x2a));
+    ctx.lineTo(toCanvasX(x1b), toCanvasY(x2b));
+  } else if (Math.abs(w1) > 0.001) {
+    const x1 = -b / w1;
+    ctx.moveTo(toCanvasX(x1), pad);
+    ctx.lineTo(toCanvasX(x1), H - pad);
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Draw data points
+  let correct = 0;
+  neuronDataset.forEach(d => {
+    const cx = toCanvasX(d.x[0]);
+    const cy = toCanvasY(d.x[1]);
+    const z = w1 * d.x[0] + w2 * d.x[1] + b;
+    const pred = sigmoid(z) > 0.5 ? 1 : 0;
+    const isCorrect = pred === d.y;
+    if (isCorrect) correct++;
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 10, 0, 2 * Math.PI);
+    ctx.fillStyle = d.y === 1 ? '#ef4444' : '#2563eb';
+    ctx.fill();
+    ctx.strokeStyle = isCorrect ? '#22c55e' : '#fbbf24';
+    ctx.lineWidth = isCorrect ? 2 : 3;
+    ctx.stroke();
+
+    // Label
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 10px Paperlogy, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(d.y.toString(), cx, cy);
+  });
+
+  const accuracy = Math.round(correct / neuronDataset.length * 100);
+  const accEl = document.getElementById('neuron-accuracy');
+  if (accEl) accEl.textContent = accuracy + '%';
+}
+
+function setupNeuronPlayground() {
+  const sliders = ['slider-w1', 'slider-w2', 'slider-b'];
+  const displays = ['w1-val', 'w2-val', 'b-val'];
+
+  sliders.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      document.getElementById(displays[i]).textContent = parseFloat(el.value).toFixed(1);
+      drawNeuronCanvas();
+    });
+  });
+
+  function setDataset(data, name) {
+    neuronDataset = data;
+    neuronDatasetName = name;
+    const dsEl = document.getElementById('neuron-dataset');
+    if (dsEl) dsEl.textContent = name;
+    drawNeuronCanvas();
+  }
+
+  document.getElementById('btn-data-and')?.addEventListener('click', () => setDataset(DATA_AND, 'AND'));
+  document.getElementById('btn-data-or')?.addEventListener('click', () => setDataset(DATA_OR, 'OR'));
+  document.getElementById('btn-data-xor')?.addEventListener('click', () => setDataset(DATA_XOR, 'XOR'));
+
+  drawNeuronCanvas();
+}
+
+// ==================== INTERACTIVE 2: ACTIVATION FUNCTION EXPLORER ====================
+let actFuncChart = null;
+let actDerivChart = null;
+let ChartJS = null;
+
+async function loadChart() {
+  if (ChartJS) return;
+  const mod = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  ChartJS = mod.Chart;
+  mod.Chart.register(...mod.registerables);
+}
+
+async function drawActivationCharts() {
+  await loadChart();
+
+  const showSigmoid = document.getElementById('chk-sigmoid')?.checked;
+  const showRelu = document.getElementById('chk-relu')?.checked;
+  const showTanh = document.getElementById('chk-tanh')?.checked;
+  const showStep = document.getElementById('chk-step')?.checked;
+  const xVal = parseFloat(document.getElementById('slider-act-x')?.value || '0');
+
+  const xs = [];
+  for (let x = -5; x <= 5; x += 0.1) xs.push(Math.round(x * 10) / 10);
+
+  const datasets = [];
+  const derivDatasets = [];
+
+  const colors = {
+    sigmoid: '#2563eb',
+    relu: '#ef4444',
+    tanh: '#22c55e',
+    step: '#7c3aed'
+  };
+
+  if (showSigmoid) {
+    datasets.push({ label: 'Sigmoid', data: xs.map(x => sigmoid(x)), borderColor: colors.sigmoid, backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2 });
+    derivDatasets.push({ label: 'Sigmoid\'', data: xs.map(x => sigmoidDeriv(x)), borderColor: colors.sigmoid, backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2 });
+  }
+  if (showRelu) {
+    datasets.push({ label: 'ReLU', data: xs.map(x => relu(x)), borderColor: colors.relu, backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2 });
+    derivDatasets.push({ label: 'ReLU\'', data: xs.map(x => reluDeriv(x)), borderColor: colors.relu, backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2 });
+  }
+  if (showTanh) {
+    datasets.push({ label: 'Tanh', data: xs.map(x => tanhAct(x)), borderColor: colors.tanh, backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2 });
+    derivDatasets.push({ label: 'Tanh\'', data: xs.map(x => tanhDeriv(x)), borderColor: colors.tanh, backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2 });
+  }
+  if (showStep) {
+    datasets.push({ label: 'Step', data: xs.map(x => step(x)), borderColor: colors.step, backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2, borderDash: [5, 3] });
+    derivDatasets.push({ label: 'Step\'', data: xs.map(x => stepDeriv(x)), borderColor: colors.step, backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2, borderDash: [5, 3] });
+  }
+
+  // Add vertical indicator line for current x
+  const vertLine = {
+    id: 'vertLine',
+    afterDraw(chart) {
+      const xScale = chart.scales.x;
+      const yScale = chart.scales.y;
+      const idx = xs.findIndex(v => Math.abs(v - xVal) < 0.05);
+      if (idx < 0) return;
+      const xPixel = xScale.getPixelForValue(idx);
+      const ctx = chart.ctx;
+      ctx.save();
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(xPixel, yScale.top);
+      ctx.lineTo(xPixel, yScale.bottom);
+      ctx.stroke();
+      ctx.restore();
+    }
+  };
+
+  const labels = xs.map(x => x.toFixed(1));
+  const chartOpts = {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    plugins: { legend: { position: 'top', labels: { font: { family: "'Paperlogy'", size: 11 }, boxWidth: 20 } } },
+    scales: {
+      x: { type: 'category', ticks: { callback: (_, i) => i % 10 === 0 ? xs[i] : '', font: { size: 10 } } },
+      y: { beginAtZero: false, ticks: { font: { size: 10 } } }
+    }
+  };
+
+  // Function chart
+  const funcCanvas = document.getElementById('act-func-chart');
+  if (actFuncChart) actFuncChart.destroy();
+  actFuncChart = new ChartJS(funcCanvas, {
+    type: 'line', data: { labels, datasets }, options: chartOpts, plugins: [vertLine]
+  });
+
+  // Derivative chart
+  const derivCanvas = document.getElementById('act-deriv-chart');
+  if (actDerivChart) actDerivChart.destroy();
+  actDerivChart = new ChartJS(derivCanvas, {
+    type: 'line', data: { labels, datasets: derivDatasets }, options: chartOpts, plugins: [vertLine]
+  });
+
+  // Update stat boxes
+  const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+  el('stat-sigmoid', sigmoid(xVal).toFixed(4));
+  el('stat-relu', relu(xVal).toFixed(4));
+  el('stat-tanh', tanhAct(xVal).toFixed(4));
+  el('stat-step', step(xVal).toString());
+}
+
+function setupActivationExplorer() {
+  const xSlider = document.getElementById('slider-act-x');
+  if (!xSlider) return;
+  xSlider.addEventListener('input', () => {
+    document.getElementById('act-x-val').textContent = parseFloat(xSlider.value).toFixed(1);
+    drawActivationCharts();
+  });
+
+  ['chk-sigmoid', 'chk-relu', 'chk-tanh', 'chk-step'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', drawActivationCharts);
+  });
+
+  drawActivationCharts();
+}
+
+// ==================== INTERACTIVE 3: GRADIENT DESCENT VISUALIZER ====================
+let gdStartPoint = null;
+let gdPath = [];
+let gdAnimFrame = null;
+let gdRunning = false;
+
+// Loss surface: L(w1, w2) with minimum at (2, -1)
+function gdLoss(w1, w2) {
+  return 0.5 * ((w1 - 2) * (w1 - 2)) + 1.5 * ((w2 + 1) * (w2 + 1)) + 0.3 * (w1 - 2) * (w2 + 1);
+}
+function gdGrad(w1, w2) {
+  const dw1 = (w1 - 2) + 0.3 * (w2 + 1);
+  const dw2 = 3 * (w2 + 1) + 0.3 * (w1 - 2);
+  return [dw1, dw2];
+}
+
+function drawGDCanvas() {
+  const canvas = document.getElementById('gd-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const wMin = -3, wMax = 7;
+  function toX(w) { return (w - wMin) / (wMax - wMin) * W; }
+  function toY(w) { return (1 - (w - wMin) / (wMax - wMin)) * H; }
+  function fromX(px) { return wMin + px / W * (wMax - wMin); }
+  function fromY(py) { return wMax - py / H * (wMax - wMin); }
+
+  // Draw contour plot
+  const maxLoss = 40;
+  const contourLevels = [0.5, 1, 2, 4, 8, 12, 18, 25, 35];
+
+  // Background heatmap
+  const imgData = ctx.createImageData(W, H);
+  for (let py = 0; py < H; py++) {
+    for (let px = 0; px < W; px++) {
+      const w1 = fromX(px);
+      const w2 = fromY(py);
+      const L = gdLoss(w1, w2);
+      const t = Math.min(1, L / maxLoss);
+      const r = Math.round(255 * t);
+      const g = Math.round(255 * (1 - t * 0.7));
+      const b = Math.round(255 * (1 - t));
+      const idx = (py * W + px) * 4;
+      imgData.data[idx] = r;
+      imgData.data[idx + 1] = g;
+      imgData.data[idx + 2] = b;
+      imgData.data[idx + 3] = 60;
+    }
+  }
+  ctx.putImageData(imgData, 0, 0);
+
+  // Draw contour lines
+  ctx.strokeStyle = '#475569';
+  ctx.lineWidth = 0.8;
+  const step = 2;
+  contourLevels.forEach(level => {
+    for (let py = 0; py < H; py += step) {
+      for (let px = 0; px < W; px += step) {
+        const w1 = fromX(px);
+        const w2 = fromY(py);
+        const w1r = fromX(px + step);
+        const w2d = fromY(py + step);
+        const v00 = gdLoss(w1, w2);
+        const v10 = gdLoss(w1r, w2);
+        const v01 = gdLoss(w1, w2d);
+        if ((v00 - level) * (v10 - level) < 0 || (v00 - level) * (v01 - level) < 0) {
+          ctx.fillStyle = 'rgba(71, 85, 105, 0.4)';
+          ctx.fillRect(px, py, 1, 1);
+        }
+      }
+    }
+  });
+
+  // Draw minimum point marker
+  ctx.beginPath();
+  ctx.arc(toX(2), toY(-1), 6, 0, 2 * Math.PI);
+  ctx.fillStyle = '#22c55e';
+  ctx.fill();
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Axis labels
+  ctx.fillStyle = '#475569';
+  ctx.font = '12px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('w1', W / 2, H - 5);
+  ctx.save();
+  ctx.translate(12, H / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('w2', 0, 0);
+  ctx.restore();
+
+  // Draw path
+  if (gdPath.length > 1) {
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(toX(gdPath[0][0]), toY(gdPath[0][1]));
+    for (let i = 1; i < gdPath.length; i++) {
+      ctx.lineTo(toX(gdPath[i][0]), toY(gdPath[i][1]));
+    }
+    ctx.stroke();
+
+    // Draw dots along path
+    gdPath.forEach((p, i) => {
+      ctx.beginPath();
+      ctx.arc(toX(p[0]), toY(p[1]), i === gdPath.length - 1 ? 5 : 3, 0, 2 * Math.PI);
+      ctx.fillStyle = i === gdPath.length - 1 ? '#ef4444' : '#f87171';
+      ctx.fill();
+    });
+  }
+
+  // Draw start point
+  if (gdStartPoint && gdPath.length <= 1) {
+    ctx.beginPath();
+    ctx.arc(toX(gdStartPoint[0]), toY(gdStartPoint[1]), 6, 0, 2 * Math.PI);
+    ctx.fillStyle = '#2563eb';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // Update stats
+  if (gdPath.length > 0) {
+    const last = gdPath[gdPath.length - 1];
+    const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+    el('gd-loss', gdLoss(last[0], last[1]).toFixed(4));
+    el('gd-steps', (gdPath.length - 1).toString());
+    el('gd-w1', last[0].toFixed(3));
+    el('gd-w2', last[1].toFixed(3));
+  }
+}
+
+function setupGradientDescent() {
+  const canvas = document.getElementById('gd-canvas');
+  if (!canvas) return;
+
+  const wMin = -3, wMax = 7;
+  function fromX(px) { return wMin + px / canvas.width * (wMax - wMin); }
+  function fromY(py) { return wMax - py / canvas.height * (wMax - wMin); }
+
+  canvas.addEventListener('click', (e) => {
+    if (gdRunning) return;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const px = (e.clientX - rect.left) * scaleX;
+    const py = (e.clientY - rect.top) * scaleY;
+    gdStartPoint = [fromX(px), fromY(py)];
+    gdPath = [gdStartPoint.slice()];
+    drawGDCanvas();
+  });
+
+  const lrSlider = document.getElementById('slider-lr');
+  lrSlider?.addEventListener('input', () => {
+    document.getElementById('lr-val').textContent = parseFloat(lrSlider.value).toFixed(3);
+  });
+
+  document.getElementById('btn-gd-run')?.addEventListener('click', () => {
+    if (gdRunning || !gdStartPoint) return;
+    if (gdPath.length <= 1) gdPath = [gdStartPoint.slice()];
+    gdRunning = true;
+    const lr = parseFloat(document.getElementById('slider-lr')?.value || '0.05');
+    let stepCount = 0;
+    const maxSteps = 200;
+
+    function gdStep() {
+      if (!gdRunning || stepCount >= maxSteps) {
+        gdRunning = false;
+        return;
+      }
+      const current = gdPath[gdPath.length - 1];
+      const [dw1, dw2] = gdGrad(current[0], current[1]);
+      const newW1 = current[0] - lr * dw1;
+      const newW2 = current[1] - lr * dw2;
+
+      // Stop if out of bounds or converged
+      if (newW1 < -3 || newW1 > 7 || newW2 < -3 || newW2 > 7) {
+        gdRunning = false;
+        drawGDCanvas();
+        return;
+      }
+      if (Math.abs(dw1) < 0.0001 && Math.abs(dw2) < 0.0001) {
+        gdRunning = false;
+        drawGDCanvas();
+        return;
+      }
+
+      gdPath.push([newW1, newW2]);
+      stepCount++;
+      drawGDCanvas();
+      gdAnimFrame = requestAnimationFrame(gdStep);
+    }
+    gdStep();
+  });
+
+  document.getElementById('btn-gd-reset')?.addEventListener('click', () => {
+    gdRunning = false;
+    if (gdAnimFrame) cancelAnimationFrame(gdAnimFrame);
+    gdStartPoint = null;
+    gdPath = [];
+    const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+    el('gd-loss', '-');
+    el('gd-steps', '0');
+    el('gd-w1', '-');
+    el('gd-w2', '-');
+    drawGDCanvas();
+  });
+
+  drawGDCanvas();
+}
+
+// ==================== INTERACTIVE 4: XOR NETWORK ====================
+let xorNet = null;
+let xorLossChart = null;
+let xorTraining = false;
+let xorAnimFrame = null;
+
+function drawXORBoundary() {
+  const canvas = document.getElementById('xor-boundary-canvas');
+  if (!canvas || !xorNet) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = 30;
+  const plotW = W - 2 * pad;
+  const plotH = H - 2 * pad;
+
+  // Draw decision boundary heatmap
+  const res = 3;
+  for (let px = pad; px < W - pad; px += res) {
+    for (let py = pad; py < H - pad; py += res) {
+      const x1 = (px - pad) / plotW * 2 - 0.5;
+      const x2 = 1.5 - (py - pad) / plotH * 2;
+      const out = xorNet.forward([x1, x2]);
+      const r = Math.round(239 * out + 37 * (1 - out));
+      const g = Math.round(68 * out + 99 * (1 - out));
+      const b = Math.round(68 * out + 235 * (1 - out));
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.25)`;
+      ctx.fillRect(px, py, res, res);
+    }
+  }
+
+  // Draw data points
+  function toX(v) { return pad + (v + 0.5) / 2 * plotW; }
+  function toY(v) { return H - pad - (v + 0.5) / 2 * plotH; }
+
+  DATA_XOR.forEach(d => {
+    ctx.beginPath();
+    ctx.arc(toX(d.x[0]), toY(d.x[1]), 12, 0, 2 * Math.PI);
+    ctx.fillStyle = d.y === 1 ? '#ef4444' : '#2563eb';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 11px Paperlogy, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(d.y.toString(), toX(d.x[0]), toY(d.x[1]));
+  });
+
+  // Axes
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad, H - pad);
+  ctx.lineTo(W - pad, H - pad);
+  ctx.moveTo(pad, pad);
+  ctx.lineTo(pad, H - pad);
+  ctx.stroke();
+
+  ctx.fillStyle = '#475569';
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('x1', W / 2, H - 8);
+  ctx.save();
+  ctx.translate(10, H / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('x2', 0, 0);
+  ctx.restore();
+}
+
+async function setupXORTraining() {
+  await loadChart();
+
+  xorNet = new SimpleNetwork(2, 4, 1);
+  drawXORBoundary();
+
+  const lrSlider = document.getElementById('slider-xor-lr');
+  lrSlider?.addEventListener('input', () => {
+    document.getElementById('xor-lr-val').textContent = parseFloat(lrSlider.value).toFixed(1);
+  });
+
+  document.getElementById('btn-xor-train')?.addEventListener('click', () => {
+    if (xorTraining) return;
+    xorTraining = true;
+    const lr = parseFloat(lrSlider?.value || '2.0');
+    let epoch = 0;
+    const maxEpochs = 1500;
+    const lossHistory = [];
+
+    function trainStep() {
+      if (!xorTraining || epoch >= maxEpochs) {
+        xorTraining = false;
+        return;
+      }
+
+      // Train 10 epochs per frame for speed
+      for (let i = 0; i < 10 && epoch < maxEpochs; i++) {
+        let totalLoss = 0;
+        DATA_XOR.forEach(d => {
+          const out = xorNet.forward(d.x);
+          const eps = 1e-7;
+          totalLoss += -(d.y * Math.log(out + eps) + (1 - d.y) * Math.log(1 - out + eps));
+          xorNet.backward(d.x, d.y, lr);
+        });
+        lossHistory.push(totalLoss / 4);
+        epoch++;
+      }
+
+      // Compute accuracy
+      let correct = 0;
+      DATA_XOR.forEach(d => {
+        if (xorNet.predict(d.x) === d.y) correct++;
+      });
+      const acc = Math.round(correct / 4 * 100);
+      const lastLoss = lossHistory[lossHistory.length - 1];
+
+      const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+      el('xor-epoch', epoch.toString());
+      el('xor-loss', lastLoss.toFixed(4));
+      el('xor-acc', acc + '%');
+
+      drawXORBoundary();
+      updateXORLossChart(lossHistory);
+
+      if (acc === 100 && lastLoss < 0.05) {
+        xorTraining = false;
+        return;
+      }
+      xorAnimFrame = requestAnimationFrame(trainStep);
+    }
+    trainStep();
+  });
+
+  document.getElementById('btn-xor-reset')?.addEventListener('click', () => {
+    xorTraining = false;
+    if (xorAnimFrame) cancelAnimationFrame(xorAnimFrame);
+    xorNet = new SimpleNetwork(2, 4, 1);
+    const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+    el('xor-epoch', '0');
+    el('xor-loss', '-');
+    el('xor-acc', '-');
+    if (xorLossChart) { xorLossChart.destroy(); xorLossChart = null; }
+    drawXORBoundary();
+  });
+}
+
+function updateXORLossChart(history) {
+  const canvas = document.getElementById('xor-loss-chart');
+  if (!canvas || !ChartJS) return;
+
+  // Subsample for performance
+  const maxPoints = 200;
+  let data, labels;
+  if (history.length <= maxPoints) {
+    data = history;
+    labels = history.map((_, i) => i);
+  } else {
+    const stride = Math.ceil(history.length / maxPoints);
+    data = history.filter((_, i) => i % stride === 0);
+    labels = data.map((_, i) => i * stride);
+  }
+
+  if (xorLossChart) {
+    xorLossChart.data.labels = labels;
+    xorLossChart.data.datasets[0].data = data;
+    xorLossChart.update('none');
+  } else {
+    xorLossChart = new ChartJS(canvas, {
+      type: 'line',
+      data: { labels, datasets: [{ label: '손실', data, borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', fill: true, pointRadius: 0, borderWidth: 2 }] },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { title: { display: true, text: '에포크', font: { family: "'Paperlogy'" } }, ticks: { maxTicksLimit: 6, font: { size: 10 } } },
+          y: { title: { display: true, text: '손실', font: { family: "'Paperlogy'" } }, beginAtZero: true, ticks: { font: { size: 10 } } }
+        }
+      }
+    });
+  }
+}
+
+// ==================== INTERACTIVE 5: FULL NN CLASSIFICATION ====================
+let nnNet = null;
+let nnData = [];
+let nnLossChart = null;
+let nnTraining = false;
+let nnAnimFrame = null;
+
+function drawNNBoundary() {
+  const canvas = document.getElementById('nn-boundary-canvas');
+  if (!canvas || !nnNet) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = 20;
+  const plotW = W - 2 * pad;
+  const plotH = H - 2 * pad;
+
+  // Determine data range
+  let xMin = -4, xMax = 4, yMin = -4, yMax = 4;
+
+  // Draw decision boundary heatmap
+  const res = 4;
+  for (let px = pad; px < W - pad; px += res) {
+    for (let py = pad; py < H - pad; py += res) {
+      const x1 = xMin + (px - pad) / plotW * (xMax - xMin);
+      const x2 = yMax - (py - pad) / plotH * (yMax - yMin);
+      const out = nnNet.forward([x1, x2]);
+      const r = Math.round(239 * out + 37 * (1 - out));
+      const g = Math.round(68 * out + 99 * (1 - out));
+      const b = Math.round(68 * out + 235 * (1 - out));
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.3)`;
+      ctx.fillRect(px, py, res, res);
+    }
+  }
+
+  // Draw data points
+  function toX(v) { return pad + (v - xMin) / (xMax - xMin) * plotW; }
+  function toY(v) { return H - pad - (v - yMin) / (yMax - yMin) * plotH; }
+
+  nnData.forEach(d => {
+    ctx.beginPath();
+    ctx.arc(toX(d.x[0]), toY(d.x[1]), 4, 0, 2 * Math.PI);
+    ctx.fillStyle = d.y === 1 ? '#ef4444' : '#2563eb';
+    ctx.fill();
+  });
+}
+
+function updateNNLossChart(history) {
+  const canvas = document.getElementById('nn-loss-chart');
+  if (!canvas || !ChartJS) return;
+
+  const maxPoints = 200;
+  let data, labels;
+  if (history.length <= maxPoints) {
+    data = history;
+    labels = history.map((_, i) => i);
+  } else {
+    const stride = Math.ceil(history.length / maxPoints);
+    data = history.filter((_, i) => i % stride === 0);
+    labels = data.map((_, i) => i * stride);
+  }
+
+  if (nnLossChart) {
+    nnLossChart.data.labels = labels;
+    nnLossChart.data.datasets[0].data = data;
+    nnLossChart.update('none');
+  } else {
+    nnLossChart = new ChartJS(canvas, {
+      type: 'line',
+      data: { labels, datasets: [{ label: '손실', data, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, pointRadius: 0, borderWidth: 2 }] },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { title: { display: true, text: '에포크', font: { family: "'Paperlogy'" } }, ticks: { maxTicksLimit: 6, font: { size: 10 } } },
+          y: { title: { display: true, text: '손실', font: { family: "'Paperlogy'" } }, beginAtZero: true, ticks: { font: { size: 10 } } }
+        }
+      }
+    });
+  }
+}
+
+async function setupNNClassification() {
+  await loadChart();
+
+  function createNet() {
+    const hidden = parseInt(document.getElementById('sel-hidden')?.value || '4');
+    nnNet = new SimpleNetwork(2, hidden, 1);
+    document.getElementById('nn-hidden').textContent = hidden.toString();
+  }
+
+  function createData() {
+    const type = document.getElementById('sel-dataset')?.value || 'clusters';
+    if (type === 'spiral') {
+      nnData = generateSpiral(200);
+    } else {
+      nnData = generateClusters(200);
+    }
+  }
+
+  createData();
+  createNet();
+  drawNNBoundary();
+
+  const lrSlider = document.getElementById('slider-nn-lr');
+  lrSlider?.addEventListener('input', () => {
+    document.getElementById('nn-lr-val').textContent = parseFloat(lrSlider.value).toFixed(2);
+  });
+
+  document.getElementById('btn-nn-train')?.addEventListener('click', () => {
+    if (nnTraining) return;
+    nnTraining = true;
+    const lr = parseFloat(lrSlider?.value || '0.5');
+    let epoch = 0;
+    const maxEpochs = 500;
+    const lossHistory = [];
+
+    function trainStep() {
+      if (!nnTraining || epoch >= maxEpochs) {
+        nnTraining = false;
+        return;
+      }
+
+      // Train multiple epochs per frame
+      for (let i = 0; i < 5 && epoch < maxEpochs; i++) {
+        let totalLoss = 0;
+        // Shuffle data each epoch
+        const shuffled = [...nnData].sort(() => Math.random() - 0.5);
+        shuffled.forEach(d => {
+          const out = nnNet.forward(d.x);
+          const eps = 1e-7;
+          totalLoss += -(d.y * Math.log(out + eps) + (1 - d.y) * Math.log(1 - out + eps));
+          nnNet.backward(d.x, d.y, lr / nnData.length * 10);
+        });
+        lossHistory.push(totalLoss / nnData.length);
+        epoch++;
+      }
+
+      // Compute accuracy
+      let correct = 0;
+      nnData.forEach(d => { if (nnNet.predict(d.x) === d.y) correct++; });
+      const acc = Math.round(correct / nnData.length * 100);
+      const lastLoss = lossHistory[lossHistory.length - 1];
+
+      const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+      el('nn-epoch', epoch.toString());
+      el('nn-loss', lastLoss.toFixed(4));
+      el('nn-acc', acc + '%');
+
+      drawNNBoundary();
+      updateNNLossChart(lossHistory);
+      nnAnimFrame = requestAnimationFrame(trainStep);
+    }
+    trainStep();
+  });
+
+  document.getElementById('btn-nn-reset')?.addEventListener('click', () => {
+    nnTraining = false;
+    if (nnAnimFrame) cancelAnimationFrame(nnAnimFrame);
+    createData();
+    createNet();
+    const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+    el('nn-epoch', '0');
+    el('nn-loss', '-');
+    el('nn-acc', '-');
+    if (nnLossChart) { nnLossChart.destroy(); nnLossChart = null; }
+    drawNNBoundary();
+  });
+
+  document.getElementById('sel-hidden')?.addEventListener('change', () => {
+    if (!nnTraining) { createNet(); drawNNBoundary(); }
+  });
+
+  document.getElementById('sel-dataset')?.addEventListener('change', () => {
+    if (!nnTraining) {
+      createData();
+      createNet();
+      if (nnLossChart) { nnLossChart.destroy(); nnLossChart = null; }
+      const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+      el('nn-epoch', '0');
+      el('nn-loss', '-');
+      el('nn-acc', '-');
+      drawNNBoundary();
+    }
+  });
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('31-neural-basics'));
+
+  setupNeuronPlayground();
+  setupActivationExplorer();
+  setupGradientDescent();
+  setupXORTraining();
+  setupNNClassification();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  canvas {
+    image-rendering: auto;
+  }
+
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 280px"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="grid-template-columns: 1fr 200px"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

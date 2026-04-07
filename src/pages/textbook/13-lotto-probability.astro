@@ -1,0 +1,770 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="로또로 배우는 확률과 가설검정"
+  subtitle="AI로 로또를 예측할 수 있을까? -- 추론통계 종합 체험"
+  chapterNum={13}
+  part={2}
+>
+
+  <!-- ========== TABS ========== -->
+  <nav class="tb-tabs">
+    <span class="tb-part-label">PART I</span>
+    <button class="tb-tab-btn active" data-tab="0">1. 확률 기초</button>
+    <button class="tb-tab-btn" data-tab="1">2. 출현 빈도</button>
+    <button class="tb-tab-btn" data-tab="2">3. 큰 수의 법칙</button>
+    <button class="tb-tab-btn" data-tab="3">4. 전략 대결</button>
+    <span class="tb-tab-divider"></span>
+    <span class="tb-part-label">PART II</span>
+    <button class="tb-tab-btn" data-tab="4">5. 가설 전환</button>
+    <button class="tb-tab-btn" data-tab="5">6. 조건부 확률</button>
+    <button class="tb-tab-btn" data-tab="6">7. 자기상관</button>
+    <button class="tb-tab-btn" data-tab="7">8. 마르코프 대결</button>
+    <button class="tb-tab-btn" data-tab="8">9. 최종 결론</button>
+  </nav>
+
+  <!-- ========== SECTION BANNERS ========== -->
+  <div class="tb-section-banner part-a" id="banner-part1">PART I -- 로또는 확률적으로 어떤 게임인가?</div>
+  <div class="tb-section-banner part-b" id="banner-part2" style="display:none">PART II -- "독립이 아니라면?" 가설을 세우고 검증하기</div>
+
+  <!-- ===================== TAB 1: 확률 기초 ===================== -->
+  <div id="tab-0" class="tb-tab-content active">
+    <div class="tb-card">
+      <h2>로또 6/45의 수학</h2>
+      <ExplainBox>
+        <strong>조합(Combination)이란?</strong> 순서를 따지지 않고 뽑는 경우의 수입니다.<br>
+        예를 들어, 반에서 청소 당번 2명을 뽑을 때 (철수, 영희)와 (영희, 철수)는 같은 조합입니다.
+        순서가 달라도 같은 사람들이니까요.<br><br>
+        로또도 마찬가지입니다. (1, 5, 12, 23, 34, 45)와 (45, 34, 23, 12, 5, 1)은 같은 번호 조합입니다.
+        그래서 "45개 중 6개를 <strong>순서 상관없이</strong> 뽑는 경우의 수"를 구해야 합니다.
+      </ExplainBox>
+      <p>45개의 공 중에서 6개를 뽑는 모든 경우의 수는?</p>
+      <FormulaBox>
+        C(<span class="hl">45</span>, <span class="hl">6</span>)
+        = <span class="hl">45</span>! / (<span class="hl">6</span>! x <span class="hl">39</span>!)
+        = <span class="res">8,145,060</span> 가지
+      </FormulaBox>
+      <ExplainBox>
+        <strong>쉽게 말하면:</strong> 로또 용지에 적을 수 있는 서로 다른 번호 조합이 <strong>약 814만 가지</strong>나 됩니다.
+        그 중 당첨 번호는 딱 1가지뿐이니, 1장을 사면 814만 분의 1의 확률로 당첨됩니다.
+      </ExplainBox>
+      <FormulaBox>P(1등) = 1 / 8,145,060 &asymp; <span class="res">0.0000123%</span></FormulaBox>
+    </div>
+
+    <div class="tb-card">
+      <h2>등위별 당첨 확률</h2>
+      <ExplainBox>
+        6개를 모두 맞춰야 1등이지만, 3개만 맞춰도 5등(5,000원)에 당첨됩니다.
+        아래 표에서 각 등위별로 얼마나 어려운지 확인해보세요.
+      </ExplainBox>
+      <div class="tb-data-table-wrap" style="max-height:none">
+        <table class="tb-data-table prob-table">
+          <thead><tr><th>등위</th><th>조건</th><th>경우의 수</th><th>확률</th><th>평균 당첨금</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1등</strong></td><td>6개 일치</td><td>1</td><td>1 / 8,145,060</td><td class="money">~20억원</td></tr>
+            <tr><td><strong>2등</strong></td><td>5개+보너스</td><td>6</td><td>6 / 8,145,060</td><td class="money">~5천만원</td></tr>
+            <tr><td><strong>3등</strong></td><td>5개 일치</td><td>228</td><td>228 / 8,145,060</td><td class="money">~150만원</td></tr>
+            <tr><td><strong>4등</strong></td><td>4개 일치</td><td>9,855</td><td>9,855 / 8,145,060</td><td class="money">5만원</td></tr>
+            <tr><td><strong>5등</strong></td><td>3개 일치</td><td>142,506</td><td>142,506 / 8,145,060</td><td class="money">5천원</td></tr>
+            <tr><td><strong>꽝</strong></td><td>2개 이하</td><td>7,992,464</td><td>98.13%</td><td>0원</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ExplainBox>
+        <strong>기대값이란?</strong> "이 게임을 아주 많이 반복하면 평균적으로 얼마를 벌까?"를 나타내는 숫자입니다.<br>
+        동전 던지기에서 앞면이 나오면 200원을 받고, 뒷면이면 0원이라면, 기대값은 100원입니다 (200 x 0.5 + 0 x 0.5 = 100).<br>
+        즉, 한 번에 100원 참가비를 내면 딱 본전인 게임이라는 뜻이죠.
+      </ExplainBox>
+      <InsightBox>
+        <strong>핵심:</strong> 로또 1장(1,000원)의 기대값은 약 <strong>500원</strong>입니다.
+        즉, 1장을 살 때마다 평균적으로 <span class="ev-negative">500원을 잃는 게임</span>입니다.
+        이 차이(500원)가 복권 운영 수익이 됩니다.
+      </InsightBox>
+    </div>
+
+    <div class="tb-card">
+      <h2>체감 확률 비교</h2>
+      <p>1등 당첨 확률(1/814만)은 상상하기 어려울 만큼 낮습니다. 다른 희귀한 사건과 비교해볼까요?</p>
+      <div style="margin:14px 0">
+        <div style="margin:8px 0"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>벼락 맞을 확률 (1/100만)</span><span style="color:var(--tb-primary);font-weight:700">로또보다 8.1배 더 높음</span></div><div class="tb-progress-bar"><div class="fill" style="width:100%;background:var(--tb-warning)"></div></div></div>
+        <div style="margin:8px 0"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>비행기 사고 (1/1,100만)</span><span style="color:var(--tb-g600);font-weight:700">로또와 비슷</span></div><div class="tb-progress-bar"><div class="fill" style="width:74%;background:var(--tb-primary)"></div></div></div>
+        <div style="margin:8px 0"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>로또 1등 (1/814만)</span><span style="color:var(--tb-danger);font-weight:700">기준</span></div><div class="tb-progress-bar"><div class="fill" style="width:12%;background:var(--tb-danger)"></div></div></div>
+      </div>
+      <ExplainBox>
+        <strong>놀라운 사실:</strong> 벼락에 맞을 확률이 로또 1등보다 8배나 높습니다!
+        우리가 벼락 걱정을 거의 안 하는 것처럼, 로또 1등 당첨도 사실상 일어나지 않는 사건이라고 볼 수 있습니다.
+      </ExplainBox>
+      <h3>매주 1장씩 산다면?</h3>
+      <div class="tb-stat-row">
+        <StatBox label="1등까지 평균 소요 시간" value="156,636년" sub="8,145,060주 / 52주" />
+        <StatBox label="총 투자 금액" value="81.5억원" sub="1등 당첨금(~20억)의 4배" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 2: 출현 빈도 ===================== -->
+  <div id="tab-1" class="tb-tab-content">
+    <div class="tb-card">
+      <h2>번호별 출현 빈도 분석</h2>
+      <ExplainBox>
+        <strong>이 실험의 목적:</strong> "특정 번호가 더 잘 나올까?"를 확인하는 것입니다.<br><br>
+        주사위를 6번 던진다고 1부터 6이 한 번씩 나오지는 않습니다.
+        어떤 숫자는 2번 나오고, 어떤 숫자는 한 번도 안 나올 수 있죠.
+        하지만 600번 던지면? 각 숫자가 거의 100번씩 비슷하게 나옵니다.<br><br>
+        로또도 마찬가지입니다. 적게 뽑으면 편차가 크지만, 많이 뽑으면 45개 번호가 모두 비슷한 빈도로 나옵니다.
+        아래에서 <strong>직접 실험</strong>해보세요. 처음에는 10회만, 그 다음에는 10,000회를 추가해보세요!
+      </ExplainBox>
+      <SimControls>
+        <label>추첨 횟수:</label>
+        <select id="freq-count">
+          <option value="10">10회</option><option value="50">50회</option><option value="100">100회</option>
+          <option value="500" selected>500회</option><option value="1000">1,000회</option>
+          <option value="5000">5,000회</option><option value="10000">10,000회</option>
+        </select>
+        <button class="tb-btn tb-btn-primary" id="btn-freq-run">추첨 시작</button>
+        <button class="tb-btn tb-btn-danger" id="btn-freq-reset">초기화</button>
+      </SimControls>
+      <div class="tb-stat-row">
+        <StatBox label="총 추첨 횟수" id="freq-total" value="0" />
+        <StatBox label="이론적 출현율" value="13.3%" sub="6/45 = 각 번호가 나올 확률" />
+        <StatBox label="실제 편차 (최대-최소)" id="freq-deviation" />
+        <StatBox label="카이제곱 p-value" id="freq-chi" sub="균등 분포 검정" />
+      </div>
+      <ExplainBox>
+        <strong>카이제곱 검정이란?</strong> "이 결과가 우연으로 설명 가능한가?"를 숫자로 판단하는 방법입니다.<br>
+        p-value가 <strong>0.05보다 크면</strong> "우연의 범위 안"이라는 뜻입니다. 즉, 특별히 편향된 번호는 없다는 것이죠.<br>
+        p-value가 0.05보다 작으면 "뭔가 이상하다"는 신호인데, 로또에서는 거의 나타나지 않습니다.
+      </ExplainBox>
+      <h3>번호별 출현 빈도 히트맵</h3>
+      <p style="font-size:.85rem;color:var(--tb-g600)">공 위의 숫자는 출현 횟수입니다. 밝을수록 많이 나온 번호, 어두울수록 적게 나온 번호.</p>
+      <div class="ball-grid" id="freq-grid"></div>
+      <ChartContainer id="freq-chart" height="280px" />
+    </div>
+  </div>
+
+  <!-- ===================== TAB 3: 큰 수의 법칙 ===================== -->
+  <div id="tab-2" class="tb-tab-content">
+    <div class="tb-card">
+      <h2>큰 수의 법칙 (Law of Large Numbers)</h2>
+      <ExplainBox>
+        <strong>큰 수의 법칙이란?</strong> 같은 실험을 아주 많이 반복하면, 실제 결과가 이론적 확률에 점점 가까워진다는 법칙입니다.<br><br>
+        <strong>일상적인 예:</strong><br>
+        - 동전을 <strong>10번</strong> 던지면 앞면이 7번(70%) 나올 수 있습니다 -- 꽤 삐뚤어져 보이죠?<br>
+        - 동전을 <strong>100번</strong> 던지면 앞면이 45~55번 정도 나옵니다 -- 50%에 좀 더 가까워졌죠?<br>
+        - 동전을 <strong>10,000번</strong> 던지면 앞면이 거의 정확히 50%에 가까워집니다!<br><br>
+        아래에서 로또 번호 5개(7, 13, 25, 33, 42)를 추적하면서, 각 번호의 출현율이 이론값(13.33%)에 수렴하는 과정을 직접 관찰해보세요.
+      </ExplainBox>
+      <InsightBox>
+        <strong>도박사의 오류:</strong> "7번이 10회 연속 안 나왔으니 다음에 나올 확률이 높다?"<br>
+        -- 틀렸습니다! 각 추첨은 <strong>독립시행</strong>이므로 이전 결과는 다음에 절대 영향을 주지 않습니다.
+        동전을 던져서 앞면이 5번 연속 나왔어도, 다음 번에 뒷면이 나올 확률은 여전히 50%입니다.
+      </InsightBox>
+      <SimControls>
+        <label>추첨 횟수:</label>
+        <select id="lln-count">
+          <option value="100">100회</option><option value="500">500회</option>
+          <option value="1000" selected>1,000회</option><option value="5000">5,000회</option>
+          <option value="10000">10,000회</option>
+        </select>
+        <label>속도:</label><input type="range" id="lln-speed" min="1" max="100" value="50">
+        <span class="tb-speed-label" id="lln-speed-label">보통</span>
+        <button class="tb-btn tb-btn-primary" id="lln-start-btn">시작</button>
+        <button class="tb-btn tb-btn-danger" id="btn-lln-reset">초기화</button>
+      </SimControls>
+      <div class="tb-stat-row">
+        <StatBox label="현재 추첨 수" id="lln-current" value="0" />
+        <StatBox label="최대 편차" id="lln-max-dev" sub="이론값(13.33%)과의 차이" />
+      </div>
+      <div class="draw-result" id="lln-current-draw"><span class="draw-label">최근 추첨:</span><span style="color:var(--tb-g600)">시작 버튼을 눌러주세요</span></div>
+      <ChartContainer id="lln-chart" />
+      <ExplainBox>
+        <strong>그래프 보는 법:</strong> 각 색깔 선은 특정 번호의 출현율(%)입니다.
+        처음에는 선들이 심하게 흔들리지만, 추첨이 쌓일수록 점점 검은 점선(이론값 13.33%)에 모여드는 것을 볼 수 있습니다.
+        이것이 바로 큰 수의 법칙입니다!
+      </ExplainBox>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 4: 전략 대결 ===================== -->
+  <div id="tab-3" class="tb-tab-content">
+    <div class="tb-card">
+      <h2>예측 전략 대결</h2>
+      <ExplainBox>
+        <strong>질문:</strong> "자주 나온 번호를 골라서 사면 유리하지 않을까?"<br><br>
+        많은 사람들이 이렇게 생각합니다. 그래서 4가지 전략을 만들어서 실험해봅니다:<br>
+        - <strong style="color:var(--tb-danger)">뜨거운 번호</strong>: 최근에 가장 많이 나온 6개 번호를 고르기 (인기 있는 전략!)<br>
+        - <strong style="color:var(--tb-primary)">차가운 번호</strong>: 최근에 가장 적게 나온 6개 번호를 고르기 ("안 나왔으니 곧 나올 거야!")<br>
+        - <strong style="color:var(--tb-purple)">패턴 전략</strong>: 7, 14, 21, 28, 35, 42처럼 규칙적인 간격으로 고르기<br>
+        - <strong style="color:var(--tb-success)">완전 랜덤</strong>: 아무 생각 없이 무작위로 고르기<br><br>
+        과연 어떤 전략이 이길까요? <strong>"대결 시작!"</strong>을 눌러보세요!
+      </ExplainBox>
+      <SimControls>
+        <label>시뮬레이션 횟수:</label>
+        <select id="b1-count">
+          <option value="100">100회</option><option value="500">500회</option>
+          <option value="1000" selected>1,000회</option><option value="5000">5,000회</option>
+          <option value="10000">10,000회</option>
+        </select>
+        <button class="tb-btn tb-btn-primary" id="btn-battle1">대결 시작!</button>
+        <button class="tb-btn tb-btn-danger" id="btn-battle1-reset">초기화</button>
+      </SimControls>
+      <div class="tb-progress-bar" id="b1-pb" style="display:none"><div class="fill" id="b1-pf"></div></div>
+      <div class="battle-grid">
+        <div class="strategy-card" id="s1-hot"><h4 style="color:var(--tb-danger)">뜨거운 번호 (Hot)</h4><p style="font-size:.8rem;color:var(--tb-g600)">직전 100회에서 가장 많이 나온 6개</p><div class="numbers" id="s1-hot-nums"></div><div class="match-count" id="s1-hot-score">-</div><div class="match-label">총 일치 수</div></div>
+        <div class="strategy-card" id="s1-cold"><h4 style="color:var(--tb-primary)">차가운 번호 (Cold)</h4><p style="font-size:.8rem;color:var(--tb-g600)">직전 100회에서 가장 적게 나온 6개</p><div class="numbers" id="s1-cold-nums"></div><div class="match-count" id="s1-cold-score">-</div><div class="match-label">총 일치 수</div></div>
+        <div class="strategy-card" id="s1-pattern"><h4 style="color:var(--tb-purple)">패턴 전략</h4><p style="font-size:.8rem;color:var(--tb-g600)">등간격 (7, 14, 21, 28, 35, 42)</p><div class="numbers" id="s1-pattern-nums"></div><div class="match-count" id="s1-pattern-score">-</div><div class="match-label">총 일치 수</div></div>
+        <div class="strategy-card" id="s1-random"><h4 style="color:var(--tb-success)">완전 랜덤</h4><p style="font-size:.8rem;color:var(--tb-g600)">매회 새로 랜덤 선택</p><div class="numbers" id="s1-random-nums"></div><div class="match-count" id="s1-random-score">-</div><div class="match-label">총 일치 수</div></div>
+      </div>
+      <div id="b1-result" style="display:none">
+        <div class="tb-stat-row">
+          <StatBox label="회당 평균 일치 수 (이론값)" value="0.800" sub="6x6/45 = 0.800" />
+          <StatBox label="전략 간 차이" id="b1-diff" sub="통계적으로 유의미한가?" />
+        </div>
+        <ChartContainer id="b1-chart" height="280px" />
+        <ExplainBox>
+          <strong>그래프 보는 법:</strong> 4개의 선이 모두 검은 점선(이론값 0.800) 주변에서 움직이며 수렴합니다.
+          어떤 전략이 "승리"했더라도, 그것은 운이지 실력이 아닙니다. 여러 번 실행해보면 매번 다른 전략이 이깁니다.
+        </ExplainBox>
+      </div>
+      <InsightBox id="b1-insight" style="display:none">
+        <strong>PART I 중간 결론:</strong> 어떤 전략을 써도 결과는 랜덤과 거의 같습니다. 로또는 <strong>독립시행</strong>이기 때문입니다.
+        <br><br>그런데... 정말 독립일까요? PART II에서 이것을 <strong>과학적으로 직접 검증</strong>해봅시다!
+      </InsightBox>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 5: 가설 전환 ===================== -->
+  <div id="tab-4" class="tb-tab-content">
+    <div class="tb-card">
+      <h2>가설 전환: "로또 추첨은 독립이 아닐 수도 있다"</h2>
+      <ExplainBox>
+        <strong>"독립"이 뭘까요?</strong><br>
+        두 사건이 서로 영향을 주지 않으면 "독립"이라고 합니다.<br><br>
+        <strong>독립인 경우:</strong> 동전을 던져서 앞면이 나왔어도, 다음에 뒷면이 나올 확률은 여전히 50%입니다. 동전은 이전 결과를 "기억"하지 못하니까요.<br>
+        <strong>독립이 아닌 경우:</strong> 오늘 날씨가 맑으면, 내일도 맑을 확률이 높습니다. 날씨는 이전 상태에 영향을 받으니까요.<br><br>
+        지금까지 우리는 "로또는 동전처럼 독립적"이라고 가정했습니다. 하지만 만약 "날씨처럼 이전 결과에 영향을 받는다면?" 과거 데이터를 분석해서 미래를 예측할 수 있을 것입니다!<br><br>
+        <strong>이것이 과학의 시작입니다:</strong> 가설을 세우고 &rarr; 모델을 만들고 &rarr; 데이터로 검증한다.
+      </ExplainBox>
+      <FormulaBox>
+        <strong>귀무가설 H0:</strong> P(X<sub>t</sub> | X<sub>t-1</sub>) = P(X<sub>t</sub>) &nbsp; <span class="hl">(독립 -- 이전이 다음에 영향 없음)</span><br>
+        <strong>대립가설 H1:</strong> P(X<sub>t</sub> | X<sub>t-1</sub>) &ne; P(X<sub>t</sub>) &nbsp; <span class="res">(종속 -- 이전이 다음에 영향 있음)</span>
+      </FormulaBox>
+      <ExplainBox>
+        <strong>쉽게 말하면:</strong><br>
+        - <strong>H0 (귀무가설)</strong>: "로또는 매번 새로 뽑는 거야. 이전 결과와 상관없어." &larr; 이게 맞다고 일단 가정<br>
+        - <strong>H1 (대립가설)</strong>: "아니야, 이전에 뭐가 나왔느냐에 따라 다음이 달라져!" &larr; 이걸 증명하려고 시도<br><br>
+        H1이 맞다면 AI로 로또를 예측할 수 있겠죠? 이제 데이터로 확인해봅시다.
+      </ExplainBox>
+    </div>
+    <div class="tb-card">
+      <h2>데이터 준비</h2>
+      <ExplainBox>
+        분석에 사용할 로또 추첨 데이터를 준비합니다. 컴퓨터가 로또 추첨을 500번 시뮬레이션합니다.
+        이 데이터를 80%(400회)는 모델 학습용, 20%(100회)는 테스트용으로 나눕니다.
+      </ExplainBox>
+      <SimControls>
+        <label>데이터:</label>
+        <span class="tb-badge tb-badge-sim" id="data-badge">시뮬레이션 (500회 랜덤 추첨)</span>
+        <button class="tb-btn tb-btn-primary" id="btn-regen">시뮬레이션 데이터로 전환</button>
+        <button class="tb-btn tb-btn-success" id="btn-load-real">실제 데이터로 전환</button>
+      </SimControls>
+      <div id="loading-msg" style="display:none;color:var(--tb-primary);font-weight:600;margin:8px 0">실제 데이터 로딩 중...</div>
+      <div class="tb-stat-row">
+        <StatBox label="총 회차" id="d-total" value="500" />
+        <StatBox label="훈련 세트 (80%)" id="d-train" value="400" />
+        <StatBox label="테스트 세트 (20%)" id="d-test" value="100" />
+        <StatBox label="이론적 출현율" value="13.33%" sub="6/45" />
+      </div>
+      <div class="tb-data-table-wrap">
+        <table class="tb-data-table"><thead><tr><th>#</th><th>번호 1</th><th>번호 2</th><th>번호 3</th><th>번호 4</th><th>번호 5</th><th>번호 6</th></tr></thead><tbody id="data-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 6: 조건부 확률 ===================== -->
+  <div id="tab-5" class="tb-tab-content">
+    <div class="tb-card">
+      <h2>조건부 확률 분석: "같은 번호가 연속으로 나올까?"</h2>
+      <ExplainBox>
+        <strong>조건부 확률이란?</strong> "어떤 일이 이미 일어났을 때, 다른 일이 일어날 확률"입니다.<br><br>
+        <strong>일상적인 예:</strong><br>
+        - 비가 올 때 우산을 가져올 확률 = P(우산 | 비) &rarr; 아마 높겠죠?<br>
+        - 맑을 때 우산을 가져올 확률 = P(우산 | 맑음) &rarr; 아마 낮겠죠?<br>
+        - 이 두 확률이 다르다면, 날씨와 우산 사이에 <strong>종속 관계</strong>가 있는 것입니다.<br><br>
+        <strong>로또에 적용하면:</strong><br>
+        - 7번이 이번에 <span style="color:var(--tb-danger);font-weight:700">나왔을 때</span>, 다음에도 7번이 나올 확률은? (Hot)<br>
+        - 7번이 이번에 <span style="color:var(--tb-primary);font-weight:700">안 나왔을 때</span>, 다음에 7번이 나올 확률은? (Cold)<br>
+        - 만약 두 확률이 같다면 &rarr; <strong>독립</strong> (이전 결과가 영향 없음)<br>
+        - 만약 두 확률이 다르다면 &rarr; <strong>종속</strong> (이전 결과가 영향 있음!)
+      </ExplainBox>
+      <SimControls><button class="tb-btn tb-btn-primary" id="btn-conditional">분석 실행</button></SimControls>
+      <ChartContainer id="cond-chart" height="420px" />
+      <ExplainBox>
+        <strong>산점도 보는 법:</strong> 점 하나가 번호 하나(1~45)입니다.<br>
+        - <span style="color:var(--tb-danger)">빨간 점</span>: 그 번호가 나온 뒤 다시 나올 확률 (Hot)<br>
+        - <span style="color:var(--tb-primary)">파란 점</span>: 그 번호가 안 나온 뒤 나올 확률 (Cold)<br>
+        - <strong>검은 대각선</strong>: 독립일 때의 기준선 (Hot = Cold = 무조건부 확률)<br>
+        점들이 대각선 주위에 모여 있으면 &rarr; 독립! 대각선에서 벗어나면 &rarr; 종속 의심!
+      </ExplainBox>
+      <div class="tb-stat-row" id="cond-stats" style="display:none">
+        <StatBox label="'Hot' 평균" id="cond-hot" />
+        <StatBox label="'Cold' 평균" id="cond-cold" />
+        <StatBox label="이론값" value="13.33%" />
+        <StatBox label="Hot-Cold 차이" id="cond-diff" />
+      </div>
+      <div class="tb-insight" id="cond-insight" style="display:none"></div>
+    </div>
+    <div class="tb-card">
+      <h2>번호 탐색기: "이 번호 다음에 뭐가 나왔을까?"</h2>
+      <ExplainBox>
+        아래에서 번호를 하나 클릭해보세요. 그 번호가 나온 다음 회차에 45개 번호가 각각 얼마나 자주 나왔는지 막대그래프로 보여줍니다.
+        독립이라면 모든 막대가 검은 점선(13.33%) 근처에 있어야 합니다.
+      </ExplainBox>
+      <div class="number-select" id="num-select"></div>
+      <ChartContainer id="explorer-chart" height="280px" />
+      <div class="tb-insight" id="explorer-insight" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 7: 자기상관 ===================== -->
+  <div id="tab-6" class="tb-tab-content">
+    <div class="tb-card">
+      <h2>자기상관 분석 (Autocorrelation)</h2>
+      <ExplainBox>
+        <strong>자기상관이란?</strong> "과거의 나 자신"과 "현재의 나 자신"이 얼마나 관련 있는지를 측정하는 것입니다.<br><br>
+        <strong>자기상관이 높은 예:</strong> 오늘 기온이 30도면, 내일도 비슷하게 더울 확률이 높습니다. 기온은 어제의 기온과 관련이 있죠 &rarr; 자기상관이 높음<br>
+        <strong>자기상관이 없는 예:</strong> 오늘 동전이 앞면이 나왔다고, 내일 앞면이 나올 가능성이 높아지지 않습니다 &rarr; 자기상관 없음<br><br>
+        로또의 각 번호를 시간 순서대로 "나왔다(1) / 안 나왔다(0)"로 기록하면, 하나의 <strong>시계열</strong>이 됩니다.
+        이 시계열에서 자기상관이 발견되면, 과거 패턴으로 미래를 예측할 수 있을 것입니다!
+      </ExplainBox>
+      <SimControls>
+        <label>분석할 번호:</label>
+        <select id="acf-num"></select>
+        <label>최대 Lag:</label>
+        <select id="acf-lag"><option value="10">10</option><option value="20" selected>20</option><option value="30">30</option></select>
+        <button class="tb-btn tb-btn-primary" id="btn-acf">분석</button>
+        <button class="tb-btn tb-btn-success" id="btn-acf-all">전체 45개 검정</button>
+      </SimControls>
+      <div class="acf-legend">
+        <span><span class="dot" style="background:var(--tb-primary)"></span> 자기상관 계수</span>
+        <span><span class="dot" style="background:var(--tb-danger)"></span> 95% 신뢰구간</span>
+      </div>
+      <ChartContainer id="acf-chart" height="340px" />
+      <ExplainBox>
+        <strong>ACF 그래프 보는 법:</strong><br>
+        - 각 막대는 "Lag(간격) k만큼 떨어진 과거와 현재의 상관관계"입니다.<br>
+        - Lag 1 = 바로 직전 회차와의 관계, Lag 2 = 2회 전과의 관계, ...<br>
+        - <span style="color:var(--tb-primary)">파란 막대</span>가 <span style="color:var(--tb-danger)">빨간 점선(신뢰구간)</span> 안에 있으면 &rarr; 자기상관 없음 (우연의 범위)<br>
+        - 빨간 점선을 넘으면 &rarr; 자기상관이 있을 수 있음 (하지만 20개 중 1개 정도는 우연히 넘을 수 있습니다!)
+      </ExplainBox>
+      <div class="tb-stat-row" id="acf-stats" style="display:none">
+        <StatBox label="Ljung-Box Q 통계량" id="acf-Q" />
+        <StatBox label="자유도" id="acf-df" />
+        <StatBox label="p-value" id="acf-p" />
+        <StatBox label="판정" id="acf-verdict" />
+      </div>
+      <ExplainBox>
+        <strong>Ljung-Box 검정이란?</strong> 모든 lag의 자기상관을 한꺼번에 모아서 "전체적으로 자기상관이 있는가?"를 판단합니다.<br>
+        p-value > 0.05이면 &rarr; "자기상관 없음" &rarr; 이 번호의 출현은 랜덤입니다.
+      </ExplainBox>
+    </div>
+    <div class="tb-card" id="all-acf-card" style="display:none">
+      <h2>전체 45개 번호 Ljung-Box 검정 결과</h2>
+      <ExplainBox>
+        <strong>다중검정 문제:</strong> 45개 번호를 동시에 검정하면, 우연히 2~3개가 "유의하다"고 나올 수 있습니다 (45 x 0.05 = 2.25).
+        이것은 진짜 패턴이 아니라 <strong>통계적 노이즈</strong>입니다. 시험을 100번 보면 5번 정도는 찍어서 맞추는 것처럼요!
+      </ExplainBox>
+      <div class="tb-stat-row">
+        <StatBox label="p < 0.05 개수" id="all-acf-sig" />
+        <StatBox label="기대값 (우연)" value="2.25" sub="45 x 0.05" />
+        <StatBox label="판정" id="all-acf-verdict" />
+      </div>
+      <ChartContainer id="all-acf-chart" height="260px" />
+    </div>
+  </div>
+
+  <!-- ===================== TAB 8: 마르코프 대결 ===================== -->
+  <div id="tab-7" class="tb-tab-content">
+    <div class="tb-card">
+      <h2>마르코프 모델 vs 랜덤</h2>
+      <ExplainBox>
+        <strong>마르코프 체인이란?</strong> "현재 상태가 바로 다음 상태에 영향을 준다"고 가정하는 모델입니다.<br><br>
+        <strong>일상적인 예 (날씨):</strong><br>
+        - 오늘 맑으면 &rarr; 내일도 맑을 확률 80%, 흐릴 확률 20%<br>
+        - 오늘 흐리면 &rarr; 내일 맑을 확률 40%, 흐릴 확률 60%<br>
+        이런 "전이확률"을 과거 데이터에서 학습하면, 오늘 날씨를 보고 내일을 예측할 수 있습니다!<br><br>
+        <strong>로또에 적용하면:</strong><br>
+        - "이번에 7번이 나왔을 때, 다음에 각 번호가 나올 확률"을 과거 데이터에서 계산합니다.<br>
+        - 이런 전이확률표를 만들어두면, 마지막 추첨 결과를 보고 다음 번호를 "예측"할 수 있습니다.<br>
+        - 과연 이 예측이 랜덤보다 나을까요? 직접 확인해봅시다!
+      </ExplainBox>
+      <SimControls>
+        <button class="tb-btn tb-btn-primary" id="btn-battle2">대결 시작!</button>
+        <button class="tb-btn tb-btn-danger" id="btn-battle2-reset">초기화</button>
+      </SimControls>
+      <div class="tb-progress-bar" id="bt-pb" style="display:none"><div class="fill" id="bt-pf"></div></div>
+      <div class="tb-stat-row" id="bt-stats" style="display:none">
+        <StatBox label="마르코프 모델" id="bt-markov" sub="회당 평균 일치 수" borderColor="var(--tb-danger)" />
+        <StatBox label="완전 랜덤" id="bt-random" sub="회당 평균 일치 수" borderColor="var(--tb-success)" />
+        <StatBox label="이론값" value="0.800" sub="6x6/45" />
+        <StatBox label="차이" id="bt-diff" />
+      </div>
+    </div>
+    <div class="tb-card" id="perm-card" style="display:none">
+      <h2>셔플 검정 (Permutation Test)</h2>
+      <ExplainBox>
+        <strong>셔플 검정이란?</strong> 모델이 찾은 "패턴"이 진짜인지 가짜인지 확인하는 방법입니다.<br><br>
+        <strong>원리:</strong><br>
+        1. 데이터의 시간 순서를 무작위로 뒤섞습니다 (카드 셔플처럼!)<br>
+        2. 섞인 데이터로 같은 마르코프 모델을 학습시킵니다<br>
+        3. 이것을 500번 반복합니다<br>
+        4. 원래 모델의 성능이 섞인 모델들보다 확실히 좋다면 &rarr; 진짜 패턴!<br>
+        5. 원래 모델의 성능이 섞인 모델들과 비슷하다면 &rarr; <strong>가짜 패턴 (우연이었음!)</strong><br><br>
+        왜 섞나요? 시간 순서를 섞으면 "이전 &rarr; 다음"의 관계가 완전히 파괴됩니다.
+        그런데도 성능이 비슷하다면, 원래 모델이 찾은 것은 시간적 패턴이 아니라 그냥 우연이라는 뜻입니다.
+      </ExplainBox>
+      <ChartContainer id="perm-chart" height="300px" />
+      <ExplainBox>
+        <strong>히스토그램 보는 법:</strong> 파란 막대들은 500번 셔플한 모델들의 성능 분포입니다.
+        빨간 막대는 원래(시간 순서를 유지한) 모델의 성능 위치입니다.
+        빨간 막대가 파란 분포 한가운데에 있으면 &rarr; 원래 모델이 셔플 모델과 다를 바 없음 &rarr; 패턴 없음!
+      </ExplainBox>
+      <div class="tb-stat-row">
+        <StatBox label="실제 모델 정확도" id="perm-actual" />
+        <StatBox label="셔플 평균" id="perm-mean" />
+        <StatBox label="백분위" id="perm-pct" />
+        <StatBox label="판정" id="perm-verdict" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 9: 최종 결론 ===================== -->
+  <div id="tab-8" class="tb-tab-content">
+    <div class="tb-card">
+      <h2>우리가 한 것: 데이터 사이언스 전체 워크플로우</h2>
+      <ExplainBox>
+        축하합니다! 여러분은 방금 데이터 사이언스의 핵심 과정을 처음부터 끝까지 경험했습니다.
+        아래 8단계가 바로 전문 데이터 과학자들이 실제로 하는 일의 흐름입니다.
+      </ExplainBox>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0">
+        <div style="background:var(--tb-primary-light);padding:16px;border-radius:var(--tb-radius);text-align:center"><div style="font-size:1.8rem;font-weight:800">1</div><strong>확률 계산</strong><br><span style="font-size:.82rem">경우의 수, 기대값</span></div>
+        <div style="background:#e0e7ff;padding:16px;border-radius:var(--tb-radius);text-align:center"><div style="font-size:1.8rem;font-weight:800">2</div><strong>빈도 분석</strong><br><span style="font-size:.82rem">히트맵, 카이제곱</span></div>
+        <div style="background:#dbeafe;padding:16px;border-radius:var(--tb-radius);text-align:center"><div style="font-size:1.8rem;font-weight:800">3</div><strong>큰 수의 법칙</strong><br><span style="font-size:.82rem">수렴 시뮬레이션</span></div>
+        <div style="background:#fef3c7;padding:16px;border-radius:var(--tb-radius);text-align:center"><div style="font-size:1.8rem;font-weight:800">4</div><strong>전략 대결</strong><br><span style="font-size:.82rem">분석 vs 랜덤</span></div>
+        <div style="background:#fde68a;padding:16px;border-radius:var(--tb-radius);text-align:center"><div style="font-size:1.8rem;font-weight:800">5</div><strong>가설 전환</strong><br><span style="font-size:.82rem">"독립 아닐 수도"</span></div>
+        <div style="background:#dcfce7;padding:16px;border-radius:var(--tb-radius);text-align:center"><div style="font-size:1.8rem;font-weight:800">6</div><strong>조건부 확률</strong><br><span style="font-size:.82rem">종속성 탐색</span></div>
+        <div style="background:#d1fae5;padding:16px;border-radius:var(--tb-radius);text-align:center"><div style="font-size:1.8rem;font-weight:800">7</div><strong>자기상관</strong><br><span style="font-size:.82rem">Ljung-Box 검정</span></div>
+        <div style="background:#fee2e2;padding:16px;border-radius:var(--tb-radius);text-align:center"><div style="font-size:1.8rem;font-weight:800">8</div><strong>모델 검증</strong><br><span style="font-size:.82rem">마르코프+셔플</span></div>
+      </div>
+    </div>
+
+    <div class="tb-card">
+      <h2>결론: 왜 로또는 예측할 수 없는가?</h2>
+      <ConclusionBox title="모든 검증 결과가 같은 답을 가리킵니다">
+        <p style="margin-top:8px">
+          - 조건부 확률 분석: Hot과 Cold의 차이 거의 없음 &rarr; <strong>종속성 없음</strong><br>
+          - 자기상관 분석: 모든 번호에서 ACF &asymp; 0 &rarr; <strong>시간적 패턴 없음</strong><br>
+          - 마르코프 예측: 랜덤과 성능 동일 &rarr; <strong>예측 불가능</strong><br>
+          - 셔플 검정: 원래 모델이 셔플 모델과 차이 없음 &rarr; <strong>진짜 패턴 아님</strong>
+        </p>
+      </ConclusionBox>
+      <ExplainBox>
+        <strong>최종 답:</strong> 로또는 <strong>독립시행(i.i.d.)</strong>입니다. 각 추첨은 이전 결과와 완전히 독립적이고, 동일한 확률 분포를 따릅니다.
+        과거 데이터에서 미래를 예측할 수 있는 패턴은 존재하지 않습니다.
+        어떤 AI 모델을 써도, 어떤 통계 기법을 써도, 랜덤보다 나을 수 없습니다.
+      </ExplainBox>
+    </div>
+
+    <div class="tb-card">
+      <h2>핵심 교훈</h2>
+      <InsightBox>
+        <strong>1. "데이터가 있다" &ne; "예측 가능하다"</strong><br>
+        데이터가 아무리 많아도, 그 안에 <strong>배울 수 있는 패턴</strong>이 없으면 예측은 불가능합니다.
+        AI/머신러닝이 작동하려면 데이터 사이에 규칙성(종속성)이 있어야 합니다.<br>
+        - 날씨 예측: 물리 법칙에 의한 패턴 있음 &rarr; 예측 가능<br>
+        - 번역: 언어의 문법 규칙 있음 &rarr; AI 가능<br>
+        - 로또: 완전한 독립시행 &rarr; 예측 불가능
+      </InsightBox>
+      <InsightBox>
+        <strong>2. 바이브코딩의 함정</strong><br>
+        AI에게 "로또를 예측해줘"라고 하면 그럴듯한 코드를 짜줍니다.
+        하지만 그 코드가 <strong>원리적으로 작동할 수 있는지</strong>는 사람이 판단해야 합니다.
+        코드가 돌아간다고 해서 결과가 의미 있는 것은 아닙니다!
+      </InsightBox>
+      <InsightBox>
+        <strong>3. 과학적 사고의 힘</strong><br>
+        우리는 오늘 "가설 &rarr; 모델 &rarr; 검증"의 과정을 거쳤습니다.
+        모델이 틀렸다는 것을 증명하는 것도 매우 가치 있는 결과입니다.
+        "이 방법은 안 된다"는 것을 확실히 아는 것이, 아무것도 모르는 것보다 훨씬 낫습니다.
+      </InsightBox>
+      <div class="tb-card" style="background:var(--tb-g900);color:#fff;margin-top:20px">
+        <p style="font-size:1.1rem;font-weight:700;color:#fbbf24;text-align:center">
+          AI는 도구입니다. 그 도구를 올바르게 사용하려면 기초 이론이 필요합니다.<br>
+          "모델이 틀릴 수 있다"를 증명하는 과정이 곧 과학적 사고이자 데이터 사이언스입니다.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Final ConclusionBox ========== -->
+  <ConclusionBox title="13장을 마치며">
+    <p style="margin-top:8px">
+      이 장에서는 로또 6/45라는 친숙한 소재를 통해 확률의 기초부터 가설검정,
+      시계열 분석, 그리고 모델 검증까지 추론통계의 핵심 개념을 직접 체험했습니다.
+      데이터가 있다고 해서 예측이 가능한 것은 아니며,
+      과학적 사고란 "무엇이 가능하고 무엇이 불가능한지"를 데이터로 증명하는 과정입니다.
+    </p>
+    <p style="margin-top:8px">
+      <strong>다음 장 예고:</strong> 14장 캡스톤 II에서는 실제 설문조사 데이터에
+      이 장에서 배운 검정 기법들을 적용하는 종합 실습을 진행합니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// ==================== SHARED UTILITIES ====================
+const MAX=45,DRAW_SIZE=6,THEO=DRAW_SIZE/MAX;
+function rng(c,m){const s=new Set();while(s.size<c)s.add(Math.floor(Math.random()*m)+1);return[...s].sort((a,b)=>a-b);}
+function ballClass(n){return n<=10?'ball-yellow':n<=20?'ball-blue':n<=30?'ball-red':n<=40?'ball-gray':'ball-green';}
+function ballColor(n){return n<=10?'#f59e0b':n<=20?'#2563eb':n<=30?'#ef4444':n<=40?'#64748b':'#22c55e';}
+function matchCount(a,b){const s=new Set(b);return a.filter(n=>s.has(n)).length;}
+function makeMini(n){const e=document.createElement('div');e.className=`mini-ball ${ballClass(n)}`;e.textContent=n;return e;}
+function makeBig(n){const e=document.createElement('div');e.className=`big-ball ${ballClass(n)}`;e.textContent=n;return e;}
+function erf(x){const a1=.254829592,a2=-.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=.3275911;const sg=x<0?-1:1;x=Math.abs(x);const t=1/(1+p*x);return sg*(1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x));}
+function normCDF(x){return .5*(1+erf(x/Math.SQRT2));}
+function chiSurv(x,df){const z=Math.pow(x/df,1/3)-(1-2/(9*df));const se=Math.sqrt(2/(9*df));return Math.min(1,Math.max(0,1-normCDF(z/se)));}
+function chiPVal(obs,exp){let chi=0;for(let i=0;i<obs.length;i++)chi+=Math.pow(obs[i]-exp,2)/exp;const df=obs.length-1,z=Math.pow(chi/df,1/3)-(1-2/(9*df)),se=Math.sqrt(2/(9*df));return{chi,p:Math.min(1,Math.max(0,.5*(1+erf(-z/se/Math.SQRT2))))};}
+
+// ==================== TAB SWITCHING ====================
+const TAB_IDS=[0,1,2,3,4,5,6,7,8];
+function showTab(idx){
+  TAB_IDS.forEach(i=>document.getElementById('tab-'+i).classList.remove('active'));
+  document.querySelectorAll('.tb-tab-btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById('tab-'+idx).classList.add('active');
+  document.querySelectorAll('.tb-tab-btn')[idx].classList.add('active');
+  const b1=document.getElementById('banner-part1'),b2=document.getElementById('banner-part2');
+  b1.style.display=idx<=3?'':'none';
+  b2.style.display=idx>=4&&idx<=7?'':'none';
+  if(idx===8){b1.style.display='none';b2.style.display='none';}
+}
+
+// Bind tab buttons via data attributes
+document.querySelectorAll('.tb-tab-btn[data-tab]').forEach(btn=>{
+  btn.addEventListener('click',()=>showTab(+btn.dataset.tab));
+});
+
+// ==================== TAB 2: FREQUENCY ====================
+let freqCounts=new Array(45).fill(0),freqTotal=0,freqChart=null;
+function initFreqGrid(){const g=document.getElementById('freq-grid');if(!g)return;g.innerHTML='';for(let i=1;i<=45;i++){const b=document.createElement('div');b.className=`ball ${ballClass(i)}`;b.id=`fball-${i}`;b.innerHTML=`<span class="intensity"></span><span class="num">${i}</span>`;g.appendChild(b);}}
+function updateFreqGrid(){const mx=Math.max(...freqCounts,1);for(let i=0;i<45;i++){const b=document.getElementById(`fball-${i+1}`);if(!b)continue;b.querySelector('.intensity').style.background=`rgba(0,0,0,${.5-freqCounts[i]/mx*.5})`;b.querySelector('.num').textContent=freqTotal>0?freqCounts[i]:(i+1);}}
+function updateFreqStats(){document.getElementById('freq-total').textContent=freqTotal.toLocaleString();if(!freqTotal){document.getElementById('freq-deviation').textContent='-';document.getElementById('freq-chi').textContent='-';return;}const mx=Math.max(...freqCounts),mn=Math.min(...freqCounts);document.getElementById('freq-deviation').textContent=((mx/freqTotal*100)-(mn/freqTotal*100)).toFixed(1)+'%p';const{p}=chiPVal(freqCounts,freqTotal*6/45);document.getElementById('freq-chi').textContent=p.toFixed(3);const sub=document.getElementById('freq-chi-label');if(sub)sub.textContent=p>.05?'균등 분포와 차이 없음 (p>0.05)':'편향 감지 (p<=0.05)';}
+function updateFreqChart(){const labels=Array.from({length:45},(_,i)=>i+1),data=freqCounts.map(c=>freqTotal>0?(c/freqTotal*100):0),colors=labels.map(n=>ballColor(n));if(freqChart){freqChart.data.datasets[0].data=data;freqChart.update('none');}else{const el=document.getElementById('freq-chart');if(!el)return;freqChart=new Chart(el,{type:'bar',data:{labels,datasets:[{label:'출현율 (%)',data,backgroundColor:colors,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'출현율 (%)'}},x:{title:{display:true,text:'번호'}}}}});}}
+function runFrequency(){const c=+document.getElementById('freq-count').value;for(let i=0;i<c;i++){rng(6,45).forEach(n=>freqCounts[n-1]++);freqTotal++;}updateFreqGrid();updateFreqStats();updateFreqChart();}
+function resetFrequency(){freqCounts=new Array(45).fill(0);freqTotal=0;updateFreqGrid();updateFreqStats();updateFreqChart();}
+
+// ==================== TAB 3: LLN ====================
+const LLN_TRACK=[7,13,25,33,42],LLN_COLORS=['#f59e0b','#2563eb','#ef4444','#64748b','#22c55e'];
+let llnChart=null,llnRunning=false,llnCounts={},llnTotal=0,llnHistory={},llnAnim=null;
+function initLLN(){LLN_TRACK.forEach(n=>{llnCounts[n]=0;llnHistory[n]=[];});const sp=document.getElementById('lln-speed');if(sp)sp.addEventListener('input',function(){const v=+this.value;document.getElementById('lln-speed-label').textContent=v<30?'느림':v<70?'보통':'빠름';});}
+function startLLN(){if(llnRunning){stopLLN();return;}llnRunning=true;const btn=document.getElementById('lln-start-btn');btn.textContent='일시정지';btn.className='tb-btn tb-btn-warning';const target=+document.getElementById('lln-count').value,speed=+document.getElementById('lln-speed').value,bs=speed<30?1:speed<70?5:20,iv=speed<30?100:speed<70?30:5;function step(){if(!llnRunning||llnTotal>=target){stopLLN();return;}const ab=Math.min(bs,target-llnTotal);for(let b=0;b<ab;b++){const d=rng(6,45);llnTotal++;LLN_TRACK.forEach(n=>{if(d.includes(n))llnCounts[n]++;llnHistory[n].push(llnCounts[n]/llnTotal*100);});if(b===ab-1){const c=document.getElementById('lln-current-draw');c.innerHTML='<span class="draw-label">추첨 #'+llnTotal+':</span>';d.forEach(n=>c.appendChild(makeBig(n)));}}updateLLNChart();updateLLNStats();llnAnim=setTimeout(step,iv);}step();}
+function stopLLN(){llnRunning=false;if(llnAnim)clearTimeout(llnAnim);const btn=document.getElementById('lln-start-btn');btn.textContent='계속';btn.className='tb-btn tb-btn-primary';if(llnTotal>=+document.getElementById('lln-count').value){btn.textContent='완료';btn.disabled=true;}}
+function resetLLN(){stopLLN();llnTotal=0;LLN_TRACK.forEach(n=>{llnCounts[n]=0;llnHistory[n]=[];});document.getElementById('lln-current').textContent='0';document.getElementById('lln-max-dev').textContent='-';const btn=document.getElementById('lln-start-btn');btn.textContent='시작';btn.disabled=false;btn.className='tb-btn tb-btn-primary';document.getElementById('lln-current-draw').innerHTML='<span class="draw-label">최근 추첨:</span><span style="color:var(--tb-g600)">시작 버튼을 눌러주세요</span>';if(llnChart){llnChart.destroy();llnChart=null;}}
+function updateLLNStats(){document.getElementById('lln-current').textContent=llnTotal.toLocaleString();if(!llnTotal)return;const th=6/45*100;document.getElementById('lln-max-dev').textContent=Math.max(...LLN_TRACK.map(n=>Math.abs(llnCounts[n]/llnTotal*100-th))).toFixed(2)+'%p';}
+function updateLLNChart(){const mp=500,st=Math.max(1,Math.floor(llnTotal/mp)),labels=[];for(let i=0;i<llnTotal;i+=st)labels.push(i+1);if(labels[labels.length-1]!==llnTotal)labels.push(llnTotal);const ds=LLN_TRACK.map((n,i)=>({label:`번호 ${n}`,data:labels.map(l=>llnHistory[n][l-1]??null),borderColor:LLN_COLORS[i],backgroundColor:LLN_COLORS[i]+'20',borderWidth:2,pointRadius:0,tension:.1}));ds.push({label:'이론값 (13.33%)',data:labels.map(()=>13.33),borderColor:'#000',borderDash:[8,4],borderWidth:2,pointRadius:0,fill:false});const el=document.getElementById('lln-chart');if(!el)return;if(llnChart){llnChart.data.labels=labels;llnChart.data.datasets=ds;llnChart.update('none');}else{llnChart=new Chart(el,{type:'line',data:{labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{position:'top'}},scales:{x:{title:{display:true,text:'추첨 횟수'},ticks:{maxTicksLimit:10}},y:{title:{display:true,text:'출현율 (%)'},min:0,max:30}}}});}}
+
+// ==================== TAB 4: STRATEGY BATTLE ====================
+let b1Chart=null;
+async function runBattle1(){const count=+document.getElementById('b1-count').value;document.getElementById('b1-pb').style.display='';const hist=[];for(let i=0;i<100;i++)hist.push(rng(6,45));const hc=new Array(45).fill(0);hist.forEach(d=>d.forEach(n=>hc[n-1]++));const sorted=hc.map((c,i)=>({n:i+1,c})).sort((a,b)=>b.c-a.c);const hot=sorted.slice(0,6).map(x=>x.n).sort((a,b)=>a-b),cold=sorted.slice(-6).map(x=>x.n).sort((a,b)=>a-b),pat=[7,14,21,28,35,42];[['hot',hot],['cold',cold],['pattern',pat]].forEach(([k,nums])=>{const c=document.getElementById(`s1-${k}-nums`);c.innerHTML='';nums.forEach(n=>c.appendChild(makeMini(n)));});const sc={hot:0,cold:0,pattern:0,random:0},mh={hot:[],cold:[],pattern:[],random:[]};let done=0;const chunk=Math.min(100,count);while(done<count){const b=Math.min(chunk,count-done);for(let i=0;i<b;i++){const d=rng(6,45),rp=rng(6,45);sc.hot+=matchCount(hot,d);sc.cold+=matchCount(cold,d);sc.pattern+=matchCount(pat,d);sc.random+=matchCount(rp,d);['hot','cold','pattern','random'].forEach(k=>mh[k].push(sc[k]/(done+i+1)));}done+=b;document.getElementById('b1-pf').style.width=(done/count*100)+'%';await new Promise(r=>setTimeout(r,0));}const lr=rng(6,45);const rc=document.getElementById('s1-random-nums');rc.innerHTML='';lr.forEach(n=>rc.appendChild(makeMini(n)));['hot','cold','pattern','random'].forEach(k=>document.getElementById(`s1-${k}-score`).textContent=sc[k].toLocaleString());const mx=Math.max(sc.hot,sc.cold,sc.pattern,sc.random);['hot','cold','pattern','random'].forEach(k=>document.getElementById(`s1-${k}`).classList.toggle('winner',sc[k]===mx));const avgs=Object.fromEntries(Object.entries(sc).map(([k,v])=>[k,v/count]));const diff=(Math.max(...Object.values(avgs))-Math.min(...Object.values(avgs))).toFixed(3);document.getElementById('b1-diff').textContent=diff;document.getElementById('b1-diff').style.color=diff<0.05?'var(--tb-success)':'var(--tb-warning)';document.getElementById('b1-result').style.display='';document.getElementById('b1-pb').style.display='none';document.getElementById('b1-insight').style.display='';const step=Math.max(1,Math.floor(count/200)),cl=[];for(let i=0;i<count;i+=step)cl.push(i+1);const dcol={hot:'#ef4444',cold:'#2563eb',pattern:'#7c3aed',random:'#22c55e'},dnam={hot:'뜨거운 번호',cold:'차가운 번호',pattern:'패턴 전략',random:'완전 랜덤'};const dsets=Object.keys(sc).map(k=>({label:dnam[k],data:cl.map(l=>mh[k][l-1]),borderColor:dcol[k],borderWidth:2,pointRadius:0,tension:.1}));dsets.push({label:'이론값 (0.800)',data:cl.map(()=>.8),borderColor:'#000',borderDash:[8,4],borderWidth:2,pointRadius:0});if(b1Chart)b1Chart.destroy();b1Chart=new Chart(document.getElementById('b1-chart'),{type:'line',data:{labels:cl,datasets:dsets},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{position:'top'}},scales:{x:{title:{display:true,text:'시뮬레이션 횟수'},ticks:{maxTicksLimit:10}},y:{title:{display:true,text:'회당 평균 일치 수'},min:.4,max:1.2}}}});}
+function resetBattle1(){['hot','cold','pattern','random'].forEach(k=>{document.getElementById(`s1-${k}-score`).textContent='-';document.getElementById(`s1-${k}-nums`).innerHTML='';document.getElementById(`s1-${k}`).classList.remove('winner');});document.getElementById('b1-result').style.display='none';document.getElementById('b1-pb').style.display='none';document.getElementById('b1-insight').style.display='none';if(b1Chart){b1Chart.destroy();b1Chart=null;}}
+
+// ==================== PART II: SHARED DATA ====================
+let draws=[],dataSource='sim';
+function genData(n=500){draws=[];for(let i=0;i<n;i++)draws.push(rng(6,45));dataSource='sim';updateDataUI();}
+function updateDataUI(){const b=document.getElementById('data-badge');if(!b)return;b.textContent=dataSource==='sim'?`시뮬레이션 (${draws.length}회 랜덤 추첨)`:`실제 로또 데이터 (1회~${draws.length}회차)`;b.className='tb-badge '+(dataSource==='sim'?'tb-badge-sim':'tb-badge-real');document.getElementById('d-total').textContent=draws.length;const tr=Math.floor(draws.length*.8);document.getElementById('d-train').textContent=tr;document.getElementById('d-test').textContent=draws.length-tr;const tb=document.getElementById('data-tbody');if(!tb)return;tb.innerHTML='';const show=[...draws.slice(0,5),null,...draws.slice(-5)];show.forEach((d,i)=>{if(!d){tb.insertAdjacentHTML('beforeend','<tr><td colspan="7" style="color:var(--tb-g600)">...</td></tr>');return;}const idx=i<5?i+1:draws.length-4+(i-6);tb.insertAdjacentHTML('beforeend',`<tr><td>${idx}</td>${d.map(n=>`<td><span class="mini-ball ${ballClass(n)}">${n}</span></td>`).join('')}</tr>`);});}
+function regenData(){genData(500);}
+// Load real data from pre-fetched static JSON
+async function loadReal(){
+  const msg=document.getElementById('loading-msg');if(msg)msg.style.display='block';
+  try{
+    const r=await fetch('/lotto/data.json');
+    const raw=await r.json();
+    draws=raw.map(d=>d.slice(1).sort((a,b)=>a-b));
+    dataSource='real';
+    updateDataUI();
+  }catch(e){
+    console.error('data.json load failed',e);
+    genData(500);
+  }
+  if(msg)msg.style.display='none';
+}
+
+// ==================== TAB 6: CONDITIONAL ====================
+let condChart=null,explorerChart=null;
+function buildNumSelect(){const c=document.getElementById('num-select');if(!c)return;for(let i=1;i<=45;i++){const b=document.createElement('button');b.className='num-btn';b.textContent=i;b.onclick=()=>{c.querySelectorAll('.num-btn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');runExplorer(i);};c.appendChild(b);}}
+function runConditional(){const res=[];for(let n=1;n<=MAX;n++){let ah=0,hc=0,ac=0,cc=0;for(let t=1;t<draws.length;t++){const ip=draws[t-1].includes(n),ic=draws[t].includes(n);if(ip){hc++;if(ic)ah++;}else{cc++;if(ic)ac++;}}res.push({n,hot:hc?ah/hc:0,cold:cc?ac/cc:0,marginal:draws.reduce((a,d)=>a+(d.includes(n)?1:0),0)/draws.length});}if(condChart)condChart.destroy();condChart=new Chart(document.getElementById('cond-chart'),{type:'scatter',data:{datasets:[{label:'Hot: P(n|n 나옴)',data:res.map(r=>({x:r.marginal*100,y:r.hot*100})),backgroundColor:'rgba(239,68,68,.7)',pointRadius:6},{label:'Cold: P(n|n 안나옴)',data:res.map(r=>({x:r.marginal*100,y:r.cold*100})),backgroundColor:'rgba(37,99,235,.7)',pointRadius:6,pointStyle:'rectRot'},{label:'독립선 (y=x)',data:[{x:8,y:8},{x:18,y:18}],type:'line',borderColor:'#000',borderDash:[6,4],borderWidth:2,pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:{callbacks:{label:ctx=>`번호 ${res[ctx.dataIndex]?.n}: ${ctx.parsed.y.toFixed(1)}%`}}},scales:{x:{title:{display:true,text:'무조건부 출현율 (%)'},min:6,max:22},y:{title:{display:true,text:'조건부 출현율 (%)'},min:6,max:22}}}});const avgH=(res.reduce((a,r)=>a+r.hot,0)/MAX*100).toFixed(2),avgC=(res.reduce((a,r)=>a+r.cold,0)/MAX*100).toFixed(2),diff=Math.abs(avgH-avgC).toFixed(2);document.getElementById('cond-hot').textContent=avgH+'%';document.getElementById('cond-cold').textContent=avgC+'%';document.getElementById('cond-diff').textContent=diff+'%p';document.getElementById('cond-diff').style.color=diff<1?'var(--tb-success)':'var(--tb-danger)';document.getElementById('cond-stats').style.display='';const ins=document.getElementById('cond-insight');ins.style.display='';ins.innerHTML=diff<2?`<strong>결과:</strong> Hot과 Cold의 차이가 <strong>${diff}%p</strong>로 매우 작습니다. 산점도에서 점들이 대각선 주위에 고르게 분포합니다. → <strong>종속성 증거 없음!</strong>`:`<strong>결과:</strong> 차이가 ${diff}%p이지만, 이는 표본 변동(우연)으로 설명 가능합니다. "새로 생성" 버튼을 눌러 데이터를 바꿔보면 매번 다른 값이 나옵니다.`;}
+function runExplorer(num){const counts=new Array(MAX).fill(0);let total=0;for(let t=0;t<draws.length-1;t++){if(draws[t].includes(num)){total++;draws[t+1].forEach(n=>counts[n-1]++);}}const freq=counts.map(c=>total?c/total*100:0);if(explorerChart)explorerChart.destroy();explorerChart=new Chart(document.getElementById('explorer-chart'),{type:'bar',data:{labels:Array.from({length:MAX},(_,i)=>i+1),datasets:[{label:`번호 ${num} 다음 회차 출현율 (%)`,data:freq,backgroundColor:Array.from({length:MAX},(_,i)=>ballColor(i+1)),borderRadius:2},{label:'이론값 (13.33%)',data:new Array(MAX).fill(THEO*100),type:'line',borderColor:'#000',borderDash:[6,4],borderWidth:2,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,title:{display:true,text:'출현율 (%)'}},x:{title:{display:true,text:'번호'}}}}});const ins=document.getElementById('explorer-insight');ins.style.display='';const sorted=freq.map((f,i)=>({n:i+1,f})).sort((a,b)=>b.f-a.f);ins.innerHTML=`<strong>번호 ${num}</strong>이 나온 뒤 가장 많이 나온 번호: <strong>${sorted.slice(0,5).map(x=>`${x.n}(${x.f.toFixed(1)}%)`).join(', ')}</strong><br>하지만 이론값(13.33%)과 크게 다르지 않습니다. 표본 크기(${total}회)가 작아서 변동이 클 뿐입니다.`;}
+
+// ==================== TAB 7: ACF ====================
+let acfChart=null,allAcfChart=null;
+function computeACF(num,maxLag){const s=draws.map(d=>d.includes(num)?1:0),N=s.length,mu=s.reduce((a,b)=>a+b,0)/N,v=s.reduce((a,x)=>a+(x-mu)**2,0)/N;if(v===0)return new Array(maxLag+1).fill(0);const acf=[1];for(let k=1;k<=maxLag;k++){let sm=0;for(let t=0;t<N-k;t++)sm+=(s[t]-mu)*(s[t+k]-mu);acf.push(sm/(N*v));}return acf;}
+function ljungBox(acf,N,h){let Q=0;for(let k=1;k<=h;k++)Q+=acf[k]**2/(N-k);Q*=N*(N+2);return{Q,df:h,p:chiSurv(Q,h)};}
+function runACF(){const num=+document.getElementById('acf-num').value,maxLag=+document.getElementById('acf-lag').value,acf=computeACF(num,maxLag),N=draws.length,ci=1.96/Math.sqrt(N),labels=Array.from({length:maxLag},(_,i)=>i+1),data=acf.slice(1),barColors=data.map(v=>Math.abs(v)>ci?'rgba(239,68,68,.8)':'rgba(37,99,235,.7)');if(acfChart)acfChart.destroy();acfChart=new Chart(document.getElementById('acf-chart'),{type:'bar',data:{labels,datasets:[{label:'자기상관 계수',data,backgroundColor:barColors,borderRadius:2},{label:'+95% CI',data:new Array(maxLag).fill(ci),type:'line',borderColor:'var(--tb-danger)',borderDash:[5,3],borderWidth:2,pointRadius:0,fill:false},{label:'-95% CI',data:new Array(maxLag).fill(-ci),type:'line',borderColor:'var(--tb-danger)',borderDash:[5,3],borderWidth:2,pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'ACF'},min:-.15,max:.15},x:{title:{display:true,text:'Lag'}}}}});const lb=ljungBox(acf,N,maxLag);document.getElementById('acf-Q').textContent=lb.Q.toFixed(2);document.getElementById('acf-df').textContent=lb.df;document.getElementById('acf-p').textContent=lb.p.toFixed(4);const sig=lb.p<.05;document.getElementById('acf-verdict').textContent=sig?'자기상관 감지 (p<0.05)':'자기상관 없음 (p>=0.05)';document.getElementById('acf-verdict').style.color=sig?'var(--tb-danger)':'var(--tb-success)';document.getElementById('acf-stats').style.display='';}
+function runAllACF(){const maxLag=+document.getElementById('acf-lag').value,pValues=[];for(let n=1;n<=MAX;n++){const acf=computeACF(n,maxLag);pValues.push(ljungBox(acf,draws.length,maxLag).p);}const sigCount=pValues.filter(p=>p<.05).length;document.getElementById('all-acf-sig').textContent=sigCount;document.getElementById('all-acf-verdict').textContent=sigCount<=4?'우연의 범위 (다중검정 효과)':'비정상적으로 많음';document.getElementById('all-acf-verdict').style.color=sigCount<=4?'var(--tb-success)':'var(--tb-danger)';document.getElementById('all-acf-card').style.display='';if(allAcfChart)allAcfChart.destroy();allAcfChart=new Chart(document.getElementById('all-acf-chart'),{type:'bar',data:{labels:Array.from({length:MAX},(_,i)=>i+1),datasets:[{label:'p-value',data:pValues,backgroundColor:pValues.map(p=>p<.05?'rgba(239,68,68,.8)':'rgba(37,99,235,.5)'),borderRadius:2},{label:'유의수준 0.05',data:new Array(MAX).fill(.05),type:'line',borderColor:'var(--tb-danger)',borderDash:[5,3],borderWidth:2,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{title:{display:true,text:'p-value'},min:0,max:1},x:{title:{display:true,text:'번호'}}}}});}
+
+// ==================== TAB 8: MARKOV BATTLE ====================
+let permChart=null;
+function trainMarkov(data){const counts=Array.from({length:MAX},()=>new Array(MAX).fill(0)),totals=new Array(MAX).fill(0);for(let t=0;t<data.length-1;t++)data[t].forEach(i=>{totals[i-1]++;data[t+1].forEach(j=>counts[i-1][j-1]++);});return counts.map((row,i)=>row.map(c=>totals[i]?c/totals[i]:THEO));}
+function markovPredict(last,prob){const sc=new Array(MAX).fill(0);last.forEach(i=>prob[i-1].forEach((p,j)=>sc[j]+=p));return sc.map((s,i)=>({n:i+1,s})).sort((a,b)=>b.s-a.s).slice(0,DRAW_SIZE).map(x=>x.n).sort((a,b)=>a-b);}
+async function runBattle2(){const split=Math.floor(draws.length*.8),train=draws.slice(0,split),test=draws.slice(split),prob=trainMarkov(train);let mS=0,rS=0;for(let t=0;t<test.length;t++){const prev=t===0?train[train.length-1]:test[t-1];mS+=matchCount(markovPredict(prev,prob),test[t]);rS+=matchCount(rng(6,45),test[t]);}const mA=(mS/test.length).toFixed(3),rA=(rS/test.length).toFixed(3),diff=Math.abs(mA-rA).toFixed(3);document.getElementById('bt-markov').textContent=mA;document.getElementById('bt-random').textContent=rA;document.getElementById('bt-diff').textContent=diff;document.getElementById('bt-diff').style.color=diff<0.05?'var(--tb-success)':'var(--tb-warning)';document.getElementById('bt-stats').style.display='';document.getElementById('perm-card').style.display='';document.getElementById('bt-pb').style.display='';const PERMS=500,permScores=[];for(let p=0;p<PERMS;p++){const sh=[...draws];for(let i=sh.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[sh[i],sh[j]]=[sh[j],sh[i]];}const sT=sh.slice(0,split),sE=sh.slice(split),sP=trainMarkov(sT);let sc=0;for(let t=0;t<sE.length;t++){const prev=t===0?sT[sT.length-1]:sE[t-1];sc+=matchCount(markovPredict(prev,sP),sE[t]);}permScores.push(sc/sE.length);if(p%50===0){document.getElementById('bt-pf').style.width=(p/PERMS*100)+'%';await new Promise(r=>setTimeout(r,0));}}document.getElementById('bt-pb').style.display='none';const aV=parseFloat(mA),mn=Math.min(...permScores,aV)-.05,mx=Math.max(...permScores,aV)+.05,bins=20,bw=(mx-mn)/bins,hist=new Array(bins).fill(0);permScores.forEach(v=>{const b=Math.min(bins-1,Math.floor((v-mn)/bw));hist[b]++;});const binL=Array.from({length:bins},(_,i)=>(mn+i*bw+bw/2).toFixed(3));if(permChart)permChart.destroy();permChart=new Chart(document.getElementById('perm-chart'),{type:'bar',data:{labels:binL,datasets:[{label:'셔플 분포',data:hist,backgroundColor:binL.map(l=>Math.abs(parseFloat(l)-aV)<bw?'rgba(239,68,68,.8)':'rgba(37,99,235,.5)'),borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:`빨간 막대: 실제 모델 정확도 (${mA}) 위치`,color:'var(--tb-danger)',font:{size:14}}},scales:{y:{title:{display:true,text:'빈도'}},x:{title:{display:true,text:'회당 평균 일치 수'},ticks:{maxTicksLimit:10}}}}});const pctile=(permScores.filter(v=>v<aV).length/PERMS*100).toFixed(1),isSig=pctile>97.5||pctile<2.5;document.getElementById('perm-actual').textContent=mA;document.getElementById('perm-mean').textContent=(permScores.reduce((a,b)=>a+b,0)/PERMS).toFixed(3);document.getElementById('perm-pct').textContent=pctile+'%';document.getElementById('perm-verdict').textContent=isSig?'유의한 차이 발견!':'유의하지 않음 (셔플과 동일)';document.getElementById('perm-verdict').style.color=isSig?'var(--tb-danger)':'var(--tb-success)';}
+function resetBattle2(){['bt-markov','bt-random','bt-diff'].forEach(id=>document.getElementById(id).textContent='-');document.getElementById('bt-stats').style.display='none';document.getElementById('perm-card').style.display='none';document.getElementById('bt-pb').style.display='none';if(permChart){permChart.destroy();permChart=null;}}
+
+// ==================== INIT ====================
+function lottoInit(){
+  // Mark visited for progress tracking
+  import('../../textbook/lib/progress').then(m => m.markVisited('13-lotto-probability'));
+
+  initFreqGrid();updateFreqChart();initLLN();buildNumSelect();
+  // Populate ACF number selector
+  const acfSel=document.getElementById('acf-num');
+  if(acfSel){for(let i=1;i<=45;i++){const o=document.createElement('option');o.value=i;o.textContent=i;acfSel.appendChild(o);}}
+  document.getElementById('banner-part2').style.display='none';
+  loadReal();
+
+  // Bind all button events
+  document.getElementById('btn-freq-run')?.addEventListener('click',runFrequency);
+  document.getElementById('btn-freq-reset')?.addEventListener('click',resetFrequency);
+  document.getElementById('lln-start-btn')?.addEventListener('click',startLLN);
+  document.getElementById('btn-lln-reset')?.addEventListener('click',resetLLN);
+  document.getElementById('btn-battle1')?.addEventListener('click',runBattle1);
+  document.getElementById('btn-battle1-reset')?.addEventListener('click',resetBattle1);
+  document.getElementById('btn-regen')?.addEventListener('click',regenData);
+  document.getElementById('btn-load-real')?.addEventListener('click',loadReal);
+  document.getElementById('btn-conditional')?.addEventListener('click',runConditional);
+  document.getElementById('btn-acf')?.addEventListener('click',runACF);
+  document.getElementById('btn-acf-all')?.addEventListener('click',runAllACF);
+  document.getElementById('btn-battle2')?.addEventListener('click',runBattle2);
+  document.getElementById('btn-battle2-reset')?.addEventListener('click',resetBattle2);
+}
+
+document.addEventListener('DOMContentLoaded', lottoInit);
+document.addEventListener('astro:page-load', lottoInit);
+</script>
+
+<style>
+  /* ========== LOTTO-SPECIFIC STYLES ========== */
+  .ball-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 8px;
+    margin: 14px 0;
+  }
+  .ball {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.3);
+    position: relative;
+    transition: transform .2s, box-shadow .2s;
+    cursor: default;
+  }
+  .ball:hover { transform: scale(1.15); box-shadow: var(--tb-shadow-lg); }
+  .ball .intensity {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: rgba(0,0,0,0); transition: background .3s;
+  }
+  .ball-yellow { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+  .ball-blue   { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+  .ball-red    { background: linear-gradient(135deg, #f87171, #ef4444); }
+  .ball-gray   { background: linear-gradient(135deg, #94a3b8, #64748b); }
+  .ball-green  { background: linear-gradient(135deg, #4ade80, #22c55e); }
+
+  .mini-ball {
+    display: inline-flex; width: 30px; height: 30px; border-radius: 50%;
+    align-items: center; justify-content: center;
+    font-size: .72rem; font-weight: 700; color: #fff;
+    text-shadow: 0 1px 1px rgba(0,0,0,.2); margin: 1px;
+  }
+
+  .draw-result {
+    display: flex; align-items: center; gap: 8px; justify-content: center;
+    padding: 14px; background: var(--tb-g100); border-radius: 10px;
+    margin: 12px 0; min-height: 60px; flex-wrap: wrap;
+  }
+  .draw-result .big-ball {
+    width: 46px; height: 46px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.05rem; font-weight: 800; color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.3);
+    animation: popIn .3s ease-out;
+  }
+  @keyframes popIn { 0%{transform:scale(0)} 70%{transform:scale(1.2)} 100%{transform:scale(1)} }
+  .draw-label { font-weight: 600; margin-right: 8px; }
+
+  /* Probability table */
+  .prob-table th, .prob-table td { padding: 10px 14px; text-align: center; }
+  .prob-table th { font-weight: 700; }
+  .prob-table tr:hover { background: var(--tb-primary-light); }
+  .prob-table .money { color: var(--tb-danger); font-weight: 700; }
+
+  .ev-negative { color: var(--tb-danger); font-weight: 700; }
+
+  /* Strategy battle */
+  .battle-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px; margin: 14px 0;
+  }
+  .strategy-card {
+    border: 2px solid var(--tb-g200); border-radius: var(--tb-radius);
+    padding: 18px; text-align: center; transition: .3s;
+  }
+  .strategy-card.winner { border-color: var(--tb-success); background: #f0fdf4; }
+  .strategy-card h4 { font-size: 1.05rem; margin-bottom: 6px; }
+  .strategy-card .match-count { font-size: 2.2rem; font-weight: 800; }
+  .strategy-card .match-label { font-size: .82rem; color: var(--tb-g600); }
+  .strategy-card .numbers {
+    display: flex; gap: 3px; justify-content: center;
+    flex-wrap: wrap; margin-top: 10px;
+  }
+
+  /* Number selector */
+  .number-select { display: flex; flex-wrap: wrap; gap: 4px; margin: 10px 0; }
+  .num-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid var(--tb-g300); background: #fff;
+    font-weight: 700; font-size: .82rem; cursor: pointer; transition: .15s;
+  }
+  .num-btn:hover { border-color: var(--tb-primary); background: var(--tb-primary-light); }
+  .num-btn.sel { border-color: var(--tb-primary); background: var(--tb-primary); color: #fff; }
+
+  /* ACF legend */
+  .acf-legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 8px 0; font-size: .85rem; }
+  .acf-legend span { display: flex; align-items: center; gap: 4px; }
+  .acf-legend .dot { width: 12px; height: 12px; border-radius: 2px; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .ball-grid { grid-template-columns: repeat(5, 1fr); }
+  }
+</style>
+

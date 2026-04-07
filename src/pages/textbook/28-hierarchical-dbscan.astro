@@ -1,0 +1,1318 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="계층적 클러스터링과 DBSCAN"
+  subtitle="다양한 모양의 군집을 발견하다"
+  chapterNum={28}
+  part={5}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>K-Means가 실패하는 순간</h2>
+    <p>
+      앞 장에서 배운 K-Means는 강력하지만, 치명적인 가정이 하나 있습니다.
+      군집이 <strong>둥근 모양(구형)</strong>이라는 것입니다.
+      현실의 데이터는 초승달 모양, 고리 모양, 불규칙한 밀집 지역 등 다양한 형태를 가집니다.
+    </p>
+    <p style="margin-top: 12px;">
+      고객이 두 개의 초승달처럼 얽혀 있다면? 매장이 도심과 외곽에 불균일하게 흩어져 있다면?
+      K-Means는 이런 패턴을 제대로 잡아내지 못합니다.
+      이 장에서는 <strong>형태에 구애받지 않는</strong> 두 가지 클러스터링 기법을 배웁니다.
+    </p>
+    <p style="margin-top: 12px;">
+      <strong>계층적 클러스터링</strong>은 데이터를 단계별로 합치거나 나누면서
+      트리 구조(덴드로그램)를 만들고, <strong>DBSCAN</strong>은 밀도가 높은 지역을 자동으로 찾아
+      군집의 수조차 미리 정하지 않아도 됩니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 계층적 클러스터링 이론 ===== -->
+  <div class="tb-card">
+    <h2>계층적 클러스터링: 아래에서 위로 합치기</h2>
+    <p>
+      계층적 클러스터링(Hierarchical Clustering)의 핵심 아이디어는 단순합니다.
+      처음에는 <strong>모든 점이 각자 하나의 군집</strong>입니다.
+      가장 가까운 두 군집을 찾아서 합치고, 이 과정을 반복합니다.
+      결국 모든 점이 하나의 군집이 될 때까지 계속합니다.
+      이것을 <strong>병합(agglomerative)</strong> 방식이라 합니다.
+    </p>
+
+    <ExplainBox>
+      <strong>알고리즘 순서:</strong><br>
+      1. N개의 점 각각을 독립 군집으로 시작한다.<br>
+      2. 모든 군집 쌍 사이의 거리를 계산한다.<br>
+      3. 가장 가까운 두 군집을 하나로 합친다.<br>
+      4. 군집이 1개가 될 때까지 2-3을 반복한다.<br>
+      쉽게 말하면, 가장 친한 친구끼리 먼저 팀을 만들고, 팀끼리 다시 합치는 과정입니다.
+    </ExplainBox>
+
+    <h3>연결 방법(Linkage): 두 군집 사이의 거리를 어떻게 잴 것인가?</h3>
+    <p>
+      단일 점이 아니라 <strong>군집</strong> 사이의 거리를 재야 하므로, 어떤 기준을 쓰느냐에 따라 결과가 달라집니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin: 0 0 8px;">단일 연결 (Single)</h3>
+        <p style="font-size: .88rem;">두 군집에서 <strong>가장 가까운 점 쌍</strong>의 거리. 체인 효과(길게 늘어지는 군집)가 발생할 수 있습니다.</p>
+      </div>
+      <div style="background: #f0fdf4; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-success); margin: 0 0 8px;">완전 연결 (Complete)</h3>
+        <p style="font-size: .88rem;">두 군집에서 <strong>가장 먼 점 쌍</strong>의 거리. 비교적 동글한 군집을 만드는 경향이 있습니다.</p>
+      </div>
+      <div style="background: #fdf4ff; padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-purple); margin: 0 0 8px;">평균 연결 (Average)</h3>
+        <p style="font-size: .88rem;">두 군집에 속한 <strong>모든 점 쌍 거리의 평균</strong>. 단일과 완전의 절충안입니다.</p>
+      </div>
+    </div>
+
+    <FormulaBox>
+      <span class="hl">단일 연결:</span> d(A, B) = min d(a, b) &nbsp; (가장 가까운 쌍)<br>
+      <span class="hl">완전 연결:</span> d(A, B) = max d(a, b) &nbsp; (가장 먼 쌍)<br>
+      <span class="hl">평균 연결:</span> d(A, B) = (1 / |A|*|B|) * &Sigma; d(a, b)
+    </FormulaBox>
+  </div>
+
+  <!-- ===== SECTION 3: 병합 클러스터링 시각화 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 병합 클러스터링 단계별 시각화</h2>
+    <p>
+      아래 캔버스에 30개의 점이 무작위로 생성됩니다.
+      "한 단계 합치기" 버튼을 누를 때마다 가장 가까운 두 군집이 합쳐지는 과정을 직접 관찰하세요.
+      연결 방법을 바꿔보면 같은 데이터에서도 합쳐지는 순서가 달라지는 것을 확인할 수 있습니다.
+    </p>
+
+    <SimControls>
+      <label>연결 방법:</label>
+      <select id="hc-linkage">
+        <option value="single">단일 연결 (Single)</option>
+        <option value="complete">완전 연결 (Complete)</option>
+        <option value="average" selected>평균 연결 (Average)</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-hc-step">한 단계 합치기</button>
+      <button class="tb-btn tb-btn-success" id="btn-hc-auto">자동 실행</button>
+      <button class="tb-btn tb-btn-danger" id="btn-hc-reset">초기화</button>
+    </SimControls>
+
+    <canvas id="hc-canvas" width="760" height="420" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff; cursor: crosshair;"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="현재 군집 수" id="hc-cluster-count" value="-" />
+      <StatBox label="마지막 합병 거리" id="hc-merge-dist" value="-" />
+      <StatBox label="합병 단계" id="hc-step-count" value="0" />
+    </div>
+
+    <ExerciseBox>
+      <strong>직접 해보기:</strong>
+      연결 방법을 "단일"로 설정하고 끝까지 합쳐본 뒤, 초기화하여 "완전"으로 다시 해보세요.
+      어떤 연결 방법이 더 균일한 크기의 군집을 만드는지 비교해보세요.
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== SECTION 4: 덴드로그램과 절단선 ===== -->
+  <div class="tb-card">
+    <h2>덴드로그램 읽기: 높이와 절단선</h2>
+    <p>
+      계층적 클러스터링의 전체 과정은 <strong>덴드로그램(dendrogram)</strong>이라는 트리 그림으로 요약됩니다.
+      세로축은 합병 시점의 거리(높이)를 나타내고, 아래쪽에서 위로 올라갈수록 더 먼 군집들이 합쳐집니다.
+    </p>
+
+    <ExplainBox>
+      <strong>절단선(cut line)의 의미:</strong>
+      덴드로그램에 수평선을 그으면, 그 높이에서 교차하는 가지의 수가 곧 군집의 수입니다.
+      쉽게 말하면, 칼로 나무를 수평으로 잘랐을 때 나뉘는 조각의 수가 클러스터 수입니다.
+      절단선을 낮추면 군집이 많아지고, 올리면 적어집니다.
+    </ExplainBox>
+
+    <h3>실습 2: 절단 높이를 움직여 군집 수 조절하기</h3>
+    <p>아래 슬라이더를 움직여 절단 높이를 바꿔보세요. 왼쪽 덴드로그램의 절단선과 오른쪽 산점도의 색이 동시에 바뀝니다.</p>
+
+    <SimControls>
+      <label>절단 높이:</label>
+      <input type="range" id="dendro-cut" min="0" max="100" value="50" style="width: 280px;">
+      <span id="dendro-cut-val" class="tb-speed-label">-</span>
+      <button class="tb-btn tb-btn-primary" id="btn-dendro-reset">새 데이터</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <div style="font-weight: 700; font-size: .9rem; margin-bottom: 6px; text-align: center;">덴드로그램</div>
+        <canvas id="dendro-canvas" width="370" height="380" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: .9rem; margin-bottom: 6px; text-align: center;">산점도 (절단 결과)</div>
+        <canvas id="dendro-scatter" width="370" height="380" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="절단 높이" id="dendro-height" value="-" />
+      <StatBox label="군집 수" id="dendro-k" value="-" />
+    </div>
+
+    <InsightBox>
+      <strong>관찰 포인트:</strong>
+      덴드로그램에서 긴 세로 막대가 나타나는 높이가 "자연스러운 절단점"입니다.
+      이 지점은 군집 간 거리가 급격히 증가하는 구간으로, 최적 군집 수의 힌트가 됩니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 5: DBSCAN 이론 ===== -->
+  <div class="tb-card">
+    <h2>DBSCAN: 밀도 기반 클러스터링</h2>
+    <p>
+      DBSCAN(Density-Based Spatial Clustering of Applications with Noise)은 1996년 Ester 등이 제안한 알고리즘으로,
+      <strong>밀도가 높은 영역</strong>을 군집으로 정의합니다.
+      K-Means처럼 군집 수를 미리 정할 필요가 없고, 임의의 형태의 군집을 찾을 수 있으며,
+      어디에도 속하지 않는 <strong>노이즈(이상치)</strong>를 자동으로 식별합니다.
+    </p>
+
+    <h3>핵심 개념: 세 종류의 점</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 16px; border-radius: var(--tb-radius); text-align: center;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--tb-primary); margin: 0 auto 8px;"></div>
+        <h3 style="color: var(--tb-primary); margin: 0 0 6px;">핵심점 (Core Point)</h3>
+        <p style="font-size: .85rem;">반경 epsilon 안에 minPts개 이상의 이웃이 있는 점. 군집의 내부를 구성합니다.</p>
+      </div>
+      <div style="background: #fef3c7; padding: 16px; border-radius: var(--tb-radius); text-align: center;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--tb-warning); margin: 0 auto 8px;"></div>
+        <h3 style="color: #92400e; margin: 0 0 6px;">경계점 (Border Point)</h3>
+        <p style="font-size: .85rem;">핵심점의 이웃이지만, 자신은 핵심점이 아닌 점. 군집의 가장자리입니다.</p>
+      </div>
+      <div style="background: var(--tb-g100); padding: 16px; border-radius: var(--tb-radius); text-align: center;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--tb-g300); margin: 0 auto 8px;"></div>
+        <h3 style="color: var(--tb-g600); margin: 0 0 6px;">노이즈 (Noise)</h3>
+        <p style="font-size: .85rem;">핵심점도 아니고 어떤 핵심점의 이웃도 아닌 점. 어떤 군집에도 속하지 않습니다.</p>
+      </div>
+    </div>
+
+    <FormulaBox>
+      <span class="hl">epsilon (eps):</span> 이웃 탐색 반경<br>
+      <span class="hl">minPts:</span> 핵심점이 되기 위한 최소 이웃 수 (자기 자신 포함)<br>
+      N_eps(p) = &#123; q in D | dist(p, q) &lt;= eps &#125; &nbsp;&nbsp; |N_eps(p)| &gt;= minPts 이면 p는 핵심점
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>알고리즘 순서:</strong><br>
+      1. 임의의 미방문 점 p를 선택한다.<br>
+      2. p의 epsilon-이웃을 구한다. minPts 이상이면 p는 핵심점 -- 새 군집 시작.<br>
+      3. p의 이웃들을 모두 같은 군집에 넣고, 이웃 중 핵심점이면 그 이웃의 이웃도 확장.<br>
+      4. minPts 미만이면 일단 노이즈로 표시 (나중에 다른 핵심점의 이웃이면 경계점으로 변경).<br>
+      5. 모든 점을 방문할 때까지 반복.<br>
+      쉽게 말하면, 사람이 붐비는 곳(핵심점)을 찾아서 연결된 붐비는 곳끼리 하나의 군집으로 묶는 것입니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 6: DBSCAN 파라미터 탐색기 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: DBSCAN 파라미터 탐색기</h2>
+    <p>
+      다양한 형태의 데이터셋에서 epsilon과 minPts를 조절해보세요.
+      핵심점 주위에 epsilon 반경 원이 표시되며, 군집 결과가 실시간으로 바뀝니다.
+      노이즈 점은 회색 X로 표시됩니다.
+    </p>
+
+    <SimControls>
+      <label>데이터셋:</label>
+      <select id="dbscan-dataset">
+        <option value="blobs">원형 군집 (Blobs)</option>
+        <option value="moons" selected>초승달 (Moons)</option>
+        <option value="rings">동심원 (Rings)</option>
+        <option value="varied">불균일 밀도</option>
+      </select>
+      <label>epsilon:</label>
+      <input type="range" id="dbscan-eps" min="5" max="80" value="28" style="width: 160px;">
+      <span id="dbscan-eps-val" class="tb-speed-label">28</span>
+      <label>minPts:</label>
+      <input type="range" id="dbscan-minpts" min="2" max="15" value="4" style="width: 120px;">
+      <span id="dbscan-minpts-val" class="tb-speed-label">4</span>
+    </SimControls>
+
+    <canvas id="dbscan-canvas" width="760" height="460" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="발견된 군집 수" id="dbscan-clusters" value="-" borderColor="#2563eb" />
+      <StatBox label="핵심점" id="dbscan-core" value="-" borderColor="#22c55e" />
+      <StatBox label="경계점" id="dbscan-border" value="-" borderColor="#f59e0b" />
+      <StatBox label="노이즈 점" id="dbscan-noise" value="-" borderColor="#ef4444" />
+    </div>
+
+    <ExerciseBox>
+      <strong>탐구 과제 1:</strong>
+      "초승달" 데이터셋에서 epsilon을 25~35, minPts를 3~5 범위로 조절하여 두 개의 초승달이 정확히 분리되는 조합을 찾아보세요.
+      epsilon이 너무 크면 어떻게 되는지, 너무 작으면 어떻게 되는지 관찰하세요.
+    </ExerciseBox>
+
+    <ExerciseBox>
+      <strong>탐구 과제 2:</strong>
+      "불균일 밀도" 데이터셋을 선택하세요. 밀도가 다른 군집이 있을 때
+      DBSCAN이 겪는 어려움을 확인하세요. 하나의 epsilon으로 모든 군집을 잡을 수 있나요?
+    </ExerciseBox>
+
+    <WarningBox>
+      <strong>DBSCAN의 한계:</strong>
+      밀도가 크게 다른 군집이 공존하면 하나의 epsilon으로는 모든 군집을 올바르게 잡기 어렵습니다.
+      이를 개선한 OPTICS, HDBSCAN 같은 변형 알고리즘이 있지만, 이 장에서는 기본 DBSCAN에 집중합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== SECTION 7: K-Means vs DBSCAN 비교 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: K-Means vs DBSCAN 비교</h2>
+    <p>
+      같은 데이터에 K-Means와 DBSCAN을 적용한 결과를 나란히 비교합니다.
+      비구형 데이터에서 두 알고리즘의 차이가 극적으로 드러납니다.
+    </p>
+
+    <SimControls>
+      <label>데이터 형태:</label>
+      <select id="compare-dataset">
+        <option value="moons" selected>초승달 (Moons)</option>
+        <option value="rings">동심원 (Rings)</option>
+        <option value="blobs">원형 군집 (Blobs)</option>
+      </select>
+      <label>K-Means의 K:</label>
+      <select id="compare-k">
+        <option value="2" selected>2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-compare-run">실행</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <div style="font-weight: 700; font-size: .9rem; margin-bottom: 6px; text-align: center;">K-Means 결과</div>
+        <canvas id="compare-kmeans" width="370" height="370" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: .9rem; margin-bottom: 6px; text-align: center;">DBSCAN 결과</div>
+        <canvas id="compare-dbscan" width="370" height="370" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>핵심 관찰:</strong>
+      초승달이나 동심원 데이터에서 K-Means는 원형 경계를 강제하기 때문에 군집을 잘못 나눕니다.
+      반면 DBSCAN은 밀도를 따라가므로 복잡한 형태도 정확히 잡아냅니다.
+      다만 원형 군집에서는 K-Means도 충분히 좋은 결과를 보여줍니다. 만능 알고리즘은 없습니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 8: 비즈니스 적용 — 매장 군집화 ===== -->
+  <div class="tb-card">
+    <h2>실습 5: 서울 매장 위치 군집 분석</h2>
+    <p>
+      프랜차이즈 본사가 서울 시내 50개 매장의 위치 데이터를 분석합니다.
+      DBSCAN으로 자연스러운 매장 군집을 찾고, 고립 매장(노이즈)을 식별하여
+      물류 배송 권역 설정과 고립 매장 지원 전략을 수립할 수 있습니다.
+    </p>
+
+    <BusinessBox>
+      <strong>비즈니스 맥락:</strong>
+      프랜차이즈 운영에서 매장 군집은 곧 배송 권역입니다.
+      같은 군집 안의 매장들은 하나의 물류 허브에서 관리할 수 있고,
+      고립 매장은 별도의 배송 루트나 인근 권역 편입 여부를 검토해야 합니다.
+      DBSCAN은 군집 수를 미리 정하지 않아도 되고 고립점을 자동 식별하므로, 이 문제에 적합합니다.
+    </BusinessBox>
+
+    <SimControls>
+      <label>epsilon (km):</label>
+      <input type="range" id="store-eps" min="5" max="60" value="20" style="width: 160px;">
+      <span id="store-eps-val" class="tb-speed-label">20</span>
+      <label>minPts:</label>
+      <select id="store-minpts">
+        <option value="2">2</option>
+        <option value="3" selected>3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-store-run">군집 분석 실행</button>
+      <button class="tb-btn tb-btn-danger" id="btn-store-new">새 매장 데이터</button>
+    </SimControls>
+
+    <canvas id="store-canvas" width="760" height="480" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="배송 권역 수" id="store-zones" value="-" borderColor="#2563eb" />
+      <StatBox label="평균 권역 크기" id="store-avg" value="-" borderColor="#22c55e" />
+      <StatBox label="고립 매장 수" id="store-isolated" value="-" borderColor="#ef4444" />
+      <StatBox label="전체 매장 수" id="store-total" value="50" />
+    </div>
+
+    <ExerciseBox>
+      <strong>의사결정 실습:</strong>
+      epsilon을 조절하여 배송 권역이 3~5개가 되도록 설정해보세요.
+      고립 매장이 3개 이하가 되는 최소 epsilon은 얼마인가요?
+      이 값이 실무적으로 "한 배송차가 커버할 수 있는 반경"이라고 해석할 수 있습니다.
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== SECTION 9: 알고리즘 비교 정리 ===== -->
+  <div class="tb-card">
+    <h2>세 가지 클러스터링 기법 비교</h2>
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead>
+          <tr>
+            <th>기준</th>
+            <th>K-Means</th>
+            <th>계층적</th>
+            <th>DBSCAN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>군집 수</strong></td><td>사전 지정 필요</td><td>나중에 절단선으로 결정</td><td>자동 결정</td></tr>
+          <tr><td><strong>군집 형태</strong></td><td>구형만</td><td>연결 방법에 따라 다양</td><td>임의 형태</td></tr>
+          <tr><td><strong>노이즈 처리</strong></td><td>불가 (모든 점 할당)</td><td>불가 (모든 점 할당)</td><td>자동 식별</td></tr>
+          <tr><td><strong>주요 파라미터</strong></td><td>K (군집 수)</td><td>연결 방법, 절단 높이</td><td>epsilon, minPts</td></tr>
+          <tr><td><strong>시간 복잡도</strong></td><td>O(nKt)</td><td>O(n^2 log n) ~ O(n^3)</td><td>O(n log n) ~ O(n^2)</td></tr>
+          <tr><td><strong>대규모 데이터</strong></td><td>적합</td><td>부적합 (메모리 문제)</td><td>적합 (공간 인덱스 사용 시)</td></tr>
+          <tr><td><strong>적합한 상황</strong></td><td>사전 지식이 있고 구형 군집</td><td>군집 계층 구조가 필요할 때</td><td>형태 불명, 이상치 존재</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <h3>이 장의 핵심 정리</h3>
+    <ul style="padding-left: 20px; line-height: 2;">
+      <li>계층적 클러스터링은 데이터를 단계별로 합치며 덴드로그램을 생성하고, 절단 높이로 군집 수를 결정한다.</li>
+      <li>연결 방법(단일/완전/평균)에 따라 군집의 모양과 크기가 크게 달라진다.</li>
+      <li>DBSCAN은 밀도가 높은 영역을 자동으로 군집으로 인식하며, 군집 수를 사전에 지정하지 않아도 된다.</li>
+      <li>DBSCAN은 핵심점, 경계점, 노이즈의 세 가지 유형으로 점을 분류한다.</li>
+      <li>K-Means는 구형 군집에 강하고, DBSCAN은 비구형 군집과 이상치 탐지에 강하다. 만능 알고리즘은 없다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong>
+      군집 분석의 결과를 어떻게 평가할 것인가?
+      실루엣 분석, 군집 타당성 지표 등 군집의 품질을 측정하는 방법을 다룹니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== UTILITIES ====================
+const COLORS = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899','#84cc16','#f97316','#6366f1'];
+function dist(a, b) { return Math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2); }
+function randGauss() { let u=0,v=0; while(!u) u=Math.random(); while(!v) v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+
+// ==================== DATA GENERATORS ====================
+function generateBlobs(n, canvasW, canvasH, numCenters) {
+  const margin = 60;
+  const centers = [];
+  for (let c = 0; c < numCenters; c++) {
+    centers.push([margin + Math.random()*(canvasW - 2*margin), margin + Math.random()*(canvasH - 2*margin)]);
+  }
+  const pts = [];
+  for (let i = 0; i < n; i++) {
+    const c = centers[i % numCenters];
+    pts.push([c[0] + randGauss()*30, c[1] + randGauss()*30]);
+  }
+  return pts;
+}
+
+function generateMoons(n, canvasW, canvasH) {
+  const pts = [];
+  const cx = canvasW / 2, cy = canvasH / 2;
+  const r = Math.min(canvasW, canvasH) * 0.28;
+  const half = Math.floor(n / 2);
+  for (let i = 0; i < half; i++) {
+    const angle = Math.PI * i / half;
+    pts.push([cx - r*0.4 + r*Math.cos(angle) + randGauss()*6, cy - r*0.15 + r*Math.sin(angle) + randGauss()*6]);
+  }
+  for (let i = 0; i < n - half; i++) {
+    const angle = Math.PI * i / (n - half);
+    pts.push([cx + r*0.4 + r*Math.cos(angle + Math.PI) + randGauss()*6, cy + r*0.15 + r*Math.sin(angle + Math.PI) + randGauss()*6]);
+  }
+  return pts;
+}
+
+function generateRings(n, canvasW, canvasH) {
+  const pts = [];
+  const cx = canvasW / 2, cy = canvasH / 2;
+  const r1 = Math.min(canvasW, canvasH) * 0.15;
+  const r2 = Math.min(canvasW, canvasH) * 0.35;
+  const half = Math.floor(n / 2);
+  for (let i = 0; i < half; i++) {
+    const angle = 2 * Math.PI * Math.random();
+    const rr = r1 + randGauss() * 6;
+    pts.push([cx + rr*Math.cos(angle), cy + rr*Math.sin(angle)]);
+  }
+  for (let i = 0; i < n - half; i++) {
+    const angle = 2 * Math.PI * Math.random();
+    const rr = r2 + randGauss() * 6;
+    pts.push([cx + rr*Math.cos(angle), cy + rr*Math.sin(angle)]);
+  }
+  return pts;
+}
+
+function generateVaried(n, canvasW, canvasH) {
+  const pts = [];
+  const third = Math.floor(n / 3);
+  // Dense small cluster
+  for (let i = 0; i < third; i++) {
+    pts.push([canvasW*0.25 + randGauss()*15, canvasH*0.35 + randGauss()*15]);
+  }
+  // Medium cluster
+  for (let i = 0; i < third; i++) {
+    pts.push([canvasW*0.65 + randGauss()*40, canvasH*0.55 + randGauss()*40]);
+  }
+  // Sparse spread cluster
+  for (let i = 0; i < n - 2*third; i++) {
+    pts.push([canvasW*0.35 + randGauss()*25, canvasH*0.75 + randGauss()*25]);
+  }
+  // Some noise
+  for (let i = 0; i < Math.floor(n*0.08); i++) {
+    pts.push([Math.random()*canvasW*0.9 + canvasW*0.05, Math.random()*canvasH*0.9 + canvasH*0.05]);
+  }
+  return pts;
+}
+
+function getDataset(name, canvasW, canvasH) {
+  const n = 120;
+  switch(name) {
+    case 'blobs': return generateBlobs(n, canvasW, canvasH, 3);
+    case 'moons': return generateMoons(n, canvasW, canvasH);
+    case 'rings': return generateRings(n, canvasW, canvasH);
+    case 'varied': return generateVaried(n, canvasW, canvasH);
+    default: return generateBlobs(n, canvasW, canvasH, 3);
+  }
+}
+
+// ==================== DBSCAN ALGORITHM ====================
+function dbscan(points, epsilon, minPts) {
+  const n = points.length;
+  const labels = new Array(n).fill(-2); // -2 = unvisited, -1 = noise
+  const pointTypes = new Array(n).fill('noise'); // core, border, noise
+  let clusterId = 0;
+
+  function regionQuery(idx) {
+    const neighbors = [];
+    for (let i = 0; i < n; i++) {
+      if (dist(points[idx], points[i]) <= epsilon) neighbors.push(i);
+    }
+    return neighbors;
+  }
+
+  for (let i = 0; i < n; i++) {
+    if (labels[i] !== -2) continue;
+    const neighbors = regionQuery(i);
+    if (neighbors.length < minPts) {
+      labels[i] = -1; // noise
+      continue;
+    }
+    // Core point -- start new cluster
+    labels[i] = clusterId;
+    pointTypes[i] = 'core';
+    const seed = [...neighbors];
+    let j = 0;
+    while (j < seed.length) {
+      const q = seed[j];
+      if (labels[q] === -1) {
+        labels[q] = clusterId;
+        pointTypes[q] = 'border';
+      }
+      if (labels[q] !== -2) { j++; continue; }
+      labels[q] = clusterId;
+      const qNeighbors = regionQuery(q);
+      if (qNeighbors.length >= minPts) {
+        pointTypes[q] = 'core';
+        for (const nn of qNeighbors) {
+          if (!seed.includes(nn)) seed.push(nn);
+        }
+      } else {
+        pointTypes[q] = 'border';
+      }
+      j++;
+    }
+    clusterId++;
+  }
+  return { labels, pointTypes, numClusters: clusterId };
+}
+
+// ==================== K-MEANS ALGORITHM ====================
+function kmeans(points, k, maxIter) {
+  maxIter = maxIter || 50;
+  const n = points.length;
+  // Random initialization
+  const indices = [];
+  while (indices.length < k) {
+    const idx = Math.floor(Math.random() * n);
+    if (!indices.includes(idx)) indices.push(idx);
+  }
+  let centroids = indices.map(i => [...points[i]]);
+  let labels = new Array(n).fill(0);
+
+  for (let iter = 0; iter < maxIter; iter++) {
+    // Assign
+    let changed = false;
+    for (let i = 0; i < n; i++) {
+      let minD = Infinity, minC = 0;
+      for (let c = 0; c < k; c++) {
+        const d = dist(points[i], centroids[c]);
+        if (d < minD) { minD = d; minC = c; }
+      }
+      if (labels[i] !== minC) changed = true;
+      labels[i] = minC;
+    }
+    if (!changed) break;
+    // Update centroids
+    centroids = centroids.map((_, c) => {
+      const members = points.filter((_, i) => labels[i] === c);
+      if (members.length === 0) return centroids[c];
+      return [
+        members.reduce((s, p) => s + p[0], 0) / members.length,
+        members.reduce((s, p) => s + p[1], 0) / members.length
+      ];
+    });
+  }
+  return labels;
+}
+
+// ==================== HIERARCHICAL CLUSTERING ====================
+function computeLinkageDist(clusterA, clusterB, points, linkage) {
+  let dists = [];
+  for (const a of clusterA) {
+    for (const b of clusterB) {
+      dists.push(dist(points[a], points[b]));
+    }
+  }
+  if (linkage === 'single') return Math.min(...dists);
+  if (linkage === 'complete') return Math.max(...dists);
+  return dists.reduce((s, d) => s + d, 0) / dists.length; // average
+}
+
+// ==================== 1. HC STEP-BY-STEP VISUALIZER ====================
+let hcState = null;
+
+function hcInit() {
+  const canvas = document.getElementById('hc-canvas');
+  const w = canvas.width, h = canvas.height;
+  const pts = [];
+  for (let i = 0; i < 30; i++) {
+    pts.push([50 + Math.random() * (w - 100), 40 + Math.random() * (h - 80)]);
+  }
+  const clusters = pts.map((_, i) => [i]);
+  const mergeHistory = [];
+  hcState = { points: pts, clusters, mergeHistory, step: 0 };
+  document.getElementById('hc-cluster-count').textContent = clusters.length;
+  document.getElementById('hc-merge-dist').textContent = '-';
+  document.getElementById('hc-step-count').textContent = '0';
+  drawHC();
+}
+
+function hcStep() {
+  if (!hcState || hcState.clusters.length <= 1) return;
+  const { points, clusters } = hcState;
+  const linkage = document.getElementById('hc-linkage').value;
+
+  let minDist = Infinity, mergeI = 0, mergeJ = 1;
+  for (let i = 0; i < clusters.length; i++) {
+    for (let j = i + 1; j < clusters.length; j++) {
+      const d = computeLinkageDist(clusters[i], clusters[j], points, linkage);
+      if (d < minDist) { minDist = d; mergeI = i; mergeJ = j; }
+    }
+  }
+
+  const merged = [...clusters[mergeI], ...clusters[mergeJ]];
+  hcState.mergeHistory.push({
+    a: [...clusters[mergeI]], b: [...clusters[mergeJ]],
+    distance: minDist
+  });
+  hcState.clusters.splice(mergeJ, 1);
+  hcState.clusters.splice(mergeI, 1, merged);
+  hcState.step++;
+
+  document.getElementById('hc-cluster-count').textContent = hcState.clusters.length;
+  document.getElementById('hc-merge-dist').textContent = minDist.toFixed(1);
+  document.getElementById('hc-step-count').textContent = hcState.step;
+  drawHC();
+}
+
+function drawHC() {
+  const canvas = document.getElementById('hc-canvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.clientWidth * dpr;
+  canvas.height = canvas.clientHeight * dpr;
+  ctx.scale(dpr, dpr);
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  ctx.clearRect(0, 0, w, h);
+
+  if (!hcState) return;
+  const { points, clusters } = hcState;
+  const scaleX = w / 760, scaleY = h / 420;
+
+  // Draw connection lines between merged points
+  clusters.forEach((cluster, ci) => {
+    if (cluster.length > 1) {
+      ctx.strokeStyle = COLORS[ci % COLORS.length] + '40';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < cluster.length; i++) {
+        for (let j = i + 1; j < cluster.length; j++) {
+          const a = points[cluster[i]], b = points[cluster[j]];
+          ctx.beginPath();
+          ctx.moveTo(a[0]*scaleX, a[1]*scaleY);
+          ctx.lineTo(b[0]*scaleX, b[1]*scaleY);
+          ctx.stroke();
+        }
+      }
+    }
+  });
+
+  // Draw convex hull-like boundary for each cluster
+  clusters.forEach((cluster, ci) => {
+    if (cluster.length >= 3) {
+      const cPts = cluster.map(i => [points[i][0]*scaleX, points[i][1]*scaleY]);
+      const cx = cPts.reduce((s, p) => s + p[0], 0) / cPts.length;
+      const cy = cPts.reduce((s, p) => s + p[1], 0) / cPts.length;
+      cPts.sort((a, b) => Math.atan2(a[1]-cy, a[0]-cx) - Math.atan2(b[1]-cy, b[0]-cx));
+      ctx.fillStyle = COLORS[ci % COLORS.length] + '15';
+      ctx.beginPath();
+      ctx.moveTo(cPts[0][0], cPts[0][1]);
+      for (let i = 1; i < cPts.length; i++) ctx.lineTo(cPts[i][0], cPts[i][1]);
+      ctx.closePath();
+      ctx.fill();
+    }
+  });
+
+  // Draw points
+  clusters.forEach((cluster, ci) => {
+    ctx.fillStyle = COLORS[ci % COLORS.length];
+    cluster.forEach(idx => {
+      const p = points[idx];
+      ctx.beginPath();
+      ctx.arc(p[0]*scaleX, p[1]*scaleY, 5, 0, Math.PI*2);
+      ctx.fill();
+    });
+  });
+
+  // Last merge highlight
+  if (hcState.mergeHistory.length > 0) {
+    const last = hcState.mergeHistory[hcState.mergeHistory.length - 1];
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4, 4]);
+    const centA = last.a.reduce((s, i) => [s[0]+points[i][0], s[1]+points[i][1]], [0,0]);
+    centA[0] /= last.a.length; centA[1] /= last.a.length;
+    const centB = last.b.reduce((s, i) => [s[0]+points[i][0], s[1]+points[i][1]], [0,0]);
+    centB[0] /= last.b.length; centB[1] /= last.b.length;
+    ctx.beginPath();
+    ctx.moveTo(centA[0]*scaleX, centA[1]*scaleY);
+    ctx.lineTo(centB[0]*scaleX, centB[1]*scaleY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+}
+
+let hcAutoTimer = null;
+function hcAuto() {
+  if (hcAutoTimer) { clearInterval(hcAutoTimer); hcAutoTimer = null; return; }
+  hcAutoTimer = setInterval(() => {
+    if (!hcState || hcState.clusters.length <= 1) { clearInterval(hcAutoTimer); hcAutoTimer = null; return; }
+    hcStep();
+  }, 400);
+}
+
+// ==================== 2. DENDROGRAM + CUT LINE ====================
+let dendroState = null;
+
+function dendroInit() {
+  const canvas = document.getElementById('dendro-canvas');
+  const w = 370, h = 380;
+  const pts = generateBlobs(20, 400, 400, 3);
+  // Run full agglomerative clustering
+  let clusters = pts.map((_, i) => [i]);
+  const merges = [];
+  const linkage = 'average';
+
+  while (clusters.length > 1) {
+    let minDist = Infinity, mi = 0, mj = 1;
+    for (let i = 0; i < clusters.length; i++) {
+      for (let j = i + 1; j < clusters.length; j++) {
+        const d = computeLinkageDist(clusters[i], clusters[j], pts, linkage);
+        if (d < minDist) { minDist = d; mi = i; mj = j; }
+      }
+    }
+    merges.push({ a: [...clusters[mi]], b: [...clusters[mj]], distance: minDist,
+                  merged: [...clusters[mi], ...clusters[mj]] });
+    const merged = [...clusters[mi], ...clusters[mj]];
+    clusters.splice(mj, 1);
+    clusters.splice(mi, 1, merged);
+  }
+
+  const maxDist = merges.length > 0 ? merges[merges.length - 1].distance : 1;
+  dendroState = { points: pts, merges, maxDist };
+
+  const slider = document.getElementById('dendro-cut');
+  slider.max = 100;
+  slider.value = 50;
+  dendroUpdate();
+}
+
+function dendroUpdate() {
+  if (!dendroState) return;
+  const { points, merges, maxDist } = dendroState;
+  const cutPct = parseInt(document.getElementById('dendro-cut').value);
+  const cutHeight = (cutPct / 100) * maxDist * 1.1;
+
+  document.getElementById('dendro-cut-val').textContent = cutHeight.toFixed(1);
+  document.getElementById('dendro-height').textContent = cutHeight.toFixed(1);
+
+  // Determine clusters at cut height
+  let clusters = points.map((_, i) => [i]);
+  for (const m of merges) {
+    if (m.distance > cutHeight) break;
+    // Find which clusters contain the members of a and b
+    let ci = -1, cj = -1;
+    for (let c = 0; c < clusters.length; c++) {
+      if (clusters[c].includes(m.a[0])) ci = c;
+      if (clusters[c].includes(m.b[0])) cj = c;
+    }
+    if (ci !== -1 && cj !== -1 && ci !== cj) {
+      const j = Math.max(ci, cj), i = Math.min(ci, cj);
+      clusters[i] = [...clusters[i], ...clusters[j]];
+      clusters.splice(j, 1);
+    }
+  }
+
+  document.getElementById('dendro-k').textContent = clusters.length;
+
+  // Draw dendrogram
+  drawDendrogram(merges, maxDist, cutHeight, points.length);
+  // Draw scatter
+  drawDendroScatter(points, clusters);
+}
+
+function drawDendrogram(merges, maxDist, cutHeight, n) {
+  const canvas = document.getElementById('dendro-canvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.clientWidth * dpr;
+  canvas.height = canvas.clientHeight * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.clientWidth, H = canvas.clientHeight;
+  ctx.clearRect(0, 0, W, H);
+
+  const padL = 40, padR = 10, padT = 20, padB = 30;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+  const scaleH = maxDist * 1.1;
+
+  // Build tree structure for positioning
+  // Each leaf gets an x position, internal nodes get avg of children
+  const nodePos = {}; // nodeId -> { x, y (height) }
+  const leafOrder = [];
+
+  // Simple ordering: follow merge order
+  // Assign leaves their order
+  function getLeaves(mergeIdx) {
+    if (mergeIdx < 0) return [-(mergeIdx + 1)]; // leaf
+    const m = merges[mergeIdx];
+    return [...m.merged];
+  }
+
+  // Build a simpler dendrogram: for each merge, track which points
+  // We'll use a flat approach: position leaves evenly, draw bars
+  const leafX = {};
+  // Order leaves by first appearance in merges
+  const ordered = [];
+  const seen = new Set();
+  for (const m of merges) {
+    for (const idx of m.a) { if (!seen.has(idx)) { ordered.push(idx); seen.add(idx); } }
+    for (const idx of m.b) { if (!seen.has(idx)) { ordered.push(idx); seen.add(idx); } }
+  }
+  // Add any remaining
+  for (let i = 0; i < n; i++) { if (!seen.has(i)) { ordered.push(i); seen.add(i); } }
+
+  ordered.forEach((idx, i) => {
+    leafX[idx] = padL + (i + 0.5) * (plotW / n);
+  });
+
+  // For each merge, compute position
+  const clusterPos = {}; // key: sorted member string -> {x, y}
+  for (let i = 0; i < n; i++) {
+    clusterPos[JSON.stringify([i])] = { x: leafX[i], y: 0 };
+  }
+
+  ctx.strokeStyle = '#475569';
+  ctx.lineWidth = 1.5;
+
+  for (const m of merges) {
+    const keyA = JSON.stringify([...m.a].sort((a,b) => a-b));
+    const keyB = JSON.stringify([...m.b].sort((a,b) => a-b));
+    const keyM = JSON.stringify([...m.merged].sort((a,b) => a-b));
+
+    const posA = clusterPos[keyA] || { x: m.a.reduce((s, i) => s + leafX[i], 0) / m.a.length, y: 0 };
+    const posB = clusterPos[keyB] || { x: m.b.reduce((s, i) => s + leafX[i], 0) / m.b.length, y: 0 };
+    const mergeY = padT + plotH * (1 - m.distance / scaleH);
+    const yA = padT + plotH * (1 - posA.y / scaleH);
+    const yB = padT + plotH * (1 - posB.y / scaleH);
+
+    // Draw the U-shape
+    ctx.beginPath();
+    ctx.moveTo(posA.x, yA);
+    ctx.lineTo(posA.x, mergeY);
+    ctx.lineTo(posB.x, mergeY);
+    ctx.lineTo(posB.x, yB);
+    ctx.stroke();
+
+    clusterPos[keyM] = { x: (posA.x + posB.x) / 2, y: m.distance };
+  }
+
+  // Draw cut line
+  const cutY = padT + plotH * (1 - cutHeight / scaleH);
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(padL, cutY);
+  ctx.lineTo(W - padR, cutY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Label
+  ctx.fillStyle = '#ef4444';
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('cut = ' + cutHeight.toFixed(1), padL + 4, cutY - 4);
+
+  // Y axis labels
+  ctx.fillStyle = '#475569';
+  ctx.font = '10px Paperlogy, sans-serif';
+  ctx.textAlign = 'right';
+  for (let i = 0; i <= 4; i++) {
+    const val = (scaleH * i / 4);
+    const y = padT + plotH * (1 - val / scaleH);
+    ctx.fillText(val.toFixed(0), padL - 4, y + 3);
+  }
+}
+
+function drawDendroScatter(points, clusters) {
+  const canvas = document.getElementById('dendro-scatter');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.clientWidth * dpr;
+  canvas.height = canvas.clientHeight * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.clientWidth, H = canvas.clientHeight;
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = 30;
+  // Find bounds of points
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (const p of points) {
+    if (p[0] < minX) minX = p[0]; if (p[0] > maxX) maxX = p[0];
+    if (p[1] < minY) minY = p[1]; if (p[1] > maxY) maxY = p[1];
+  }
+  const rangeX = maxX - minX || 1, rangeY = maxY - minY || 1;
+  const sx = (x) => pad + (x - minX) / rangeX * (W - 2*pad);
+  const sy = (y) => pad + (y - minY) / rangeY * (H - 2*pad);
+
+  clusters.forEach((cluster, ci) => {
+    ctx.fillStyle = COLORS[ci % COLORS.length];
+    cluster.forEach(idx => {
+      ctx.beginPath();
+      ctx.arc(sx(points[idx][0]), sy(points[idx][1]), 5, 0, Math.PI*2);
+      ctx.fill();
+    });
+  });
+
+  // Label cluster count
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 13px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(clusters.length + '개 군집', W/2, H - 6);
+}
+
+// ==================== 3. DBSCAN EXPLORER ====================
+let dbscanPoints = [];
+
+function dbscanInit() {
+  const canvas = document.getElementById('dbscan-canvas');
+  const dataset = document.getElementById('dbscan-dataset').value;
+  dbscanPoints = getDataset(dataset, 760, 460);
+  dbscanRun();
+}
+
+function dbscanRun() {
+  const eps = parseInt(document.getElementById('dbscan-eps').value);
+  const minPts = parseInt(document.getElementById('dbscan-minpts').value);
+  document.getElementById('dbscan-eps-val').textContent = eps;
+  document.getElementById('dbscan-minpts-val').textContent = minPts;
+
+  if (dbscanPoints.length === 0) return;
+  const result = dbscan(dbscanPoints, eps, minPts);
+  drawDBSCAN(dbscanPoints, result, eps);
+
+  const nClusters = result.numClusters;
+  const nCore = result.pointTypes.filter(t => t === 'core').length;
+  const nBorder = result.pointTypes.filter(t => t === 'border').length;
+  const nNoise = result.labels.filter(l => l === -1).length;
+  document.getElementById('dbscan-clusters').textContent = nClusters;
+  document.getElementById('dbscan-core').textContent = nCore;
+  document.getElementById('dbscan-border').textContent = nBorder;
+  document.getElementById('dbscan-noise').textContent = nNoise;
+}
+
+function drawDBSCAN(points, result, eps) {
+  const canvas = document.getElementById('dbscan-canvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.clientWidth * dpr;
+  canvas.height = canvas.clientHeight * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.clientWidth, H = canvas.clientHeight;
+  ctx.clearRect(0, 0, W, H);
+  const scaleX = W / 760, scaleY = H / 460;
+
+  // Draw epsilon circles for core points (faint)
+  for (let i = 0; i < points.length; i++) {
+    if (result.pointTypes[i] === 'core') {
+      ctx.strokeStyle = COLORS[result.labels[i] % COLORS.length] + '20';
+      ctx.fillStyle = COLORS[result.labels[i] % COLORS.length] + '08';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.arc(points[i][0]*scaleX, points[i][1]*scaleY, eps*scaleX, 0, Math.PI*2);
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  // Draw points
+  for (let i = 0; i < points.length; i++) {
+    const x = points[i][0]*scaleX, y = points[i][1]*scaleY;
+    if (result.labels[i] === -1) {
+      // Noise: gray X
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x-4, y-4); ctx.lineTo(x+4, y+4);
+      ctx.moveTo(x+4, y-4); ctx.lineTo(x-4, y+4);
+      ctx.stroke();
+    } else {
+      const color = COLORS[result.labels[i] % COLORS.length];
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      if (result.pointTypes[i] === 'core') {
+        ctx.arc(x, y, 5, 0, Math.PI*2);
+        ctx.fill();
+      } else {
+        // Border: smaller, ring
+        ctx.arc(x, y, 4, 0, Math.PI*2);
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Legend
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'left';
+  const legendY = H - 16;
+  ctx.fillStyle = '#2563eb';
+  ctx.beginPath(); ctx.arc(12, legendY, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#1e293b'; ctx.fillText('핵심점', 22, legendY + 4);
+
+  ctx.fillStyle = '#f59e0b';
+  ctx.beginPath(); ctx.arc(82, legendY, 4, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#1e293b'; ctx.fillText('경계점', 92, legendY + 4);
+
+  ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(148, legendY-4); ctx.lineTo(156, legendY+4);
+  ctx.moveTo(156, legendY-4); ctx.lineTo(148, legendY+4); ctx.stroke();
+  ctx.fillStyle = '#1e293b'; ctx.fillText('노이즈', 162, legendY + 4);
+}
+
+// ==================== 4. K-MEANS vs DBSCAN COMPARISON ====================
+function runComparison() {
+  const dataset = document.getElementById('compare-dataset').value;
+  const k = parseInt(document.getElementById('compare-k').value);
+  const points = getDataset(dataset, 370, 370);
+
+  // K-Means
+  const kmLabels = kmeans(points, k);
+  drawCompareCanvas('compare-kmeans', points, kmLabels, false);
+
+  // DBSCAN with reasonable defaults based on dataset
+  let eps = 28, minPts = 4;
+  if (dataset === 'rings') { eps = 22; minPts = 4; }
+  if (dataset === 'blobs') { eps = 35; minPts = 4; }
+  const dbResult = dbscan(points, eps, minPts);
+  drawCompareCanvas('compare-dbscan', points, dbResult.labels, true);
+}
+
+function drawCompareCanvas(canvasId, points, labels, showNoise) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.clientWidth * dpr;
+  canvas.height = canvas.clientHeight * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.clientWidth, H = canvas.clientHeight;
+  ctx.clearRect(0, 0, W, H);
+  const scaleX = W / 370, scaleY = H / 370;
+
+  for (let i = 0; i < points.length; i++) {
+    const x = points[i][0]*scaleX, y = points[i][1]*scaleY;
+    if (showNoise && labels[i] === -1) {
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x-3, y-3); ctx.lineTo(x+3, y+3);
+      ctx.moveTo(x+3, y-3); ctx.lineTo(x-3, y+3);
+      ctx.stroke();
+    } else {
+      const ci = labels[i] < 0 ? 0 : labels[i];
+      ctx.fillStyle = COLORS[ci % COLORS.length];
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI*2);
+      ctx.fill();
+    }
+  }
+
+  // Count clusters
+  const unique = [...new Set(labels.filter(l => l >= 0))];
+  const noiseCount = labels.filter(l => l === -1).length;
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 12px Paperlogy, sans-serif';
+  ctx.textAlign = 'center';
+  let info = unique.length + '개 군집';
+  if (showNoise && noiseCount > 0) info += ', 노이즈 ' + noiseCount;
+  ctx.fillText(info, W/2, H - 8);
+}
+
+// ==================== 5. STORE LOCATION CLUSTERING ====================
+let storePoints = [];
+
+function generateStores() {
+  storePoints = [];
+  // Seoul-like area: simulate clusters around major commercial districts
+  const districts = [
+    { name: '강남', cx: 500, cy: 300, n: 12, spread: 35 },
+    { name: '홍대/마포', cx: 250, cy: 180, n: 10, spread: 30 },
+    { name: '종로/광화문', cx: 380, cy: 140, n: 8, spread: 25 },
+    { name: '영등포/여의도', cx: 220, cy: 310, n: 7, spread: 28 },
+    { name: '잠실/송파', cx: 620, cy: 340, n: 6, spread: 25 },
+  ];
+  for (const d of districts) {
+    for (let i = 0; i < d.n; i++) {
+      storePoints.push({
+        x: d.cx + randGauss() * d.spread,
+        y: d.cy + randGauss() * d.spread,
+        district: d.name
+      });
+    }
+  }
+  // Add isolated stores
+  for (let i = 0; i < 7; i++) {
+    storePoints.push({
+      x: 80 + Math.random() * 600,
+      y: 60 + Math.random() * 380,
+      district: '기타'
+    });
+  }
+  document.getElementById('store-total').textContent = storePoints.length;
+}
+
+function runStoreAnalysis() {
+  const eps = parseInt(document.getElementById('store-eps').value);
+  const minPts = parseInt(document.getElementById('store-minpts').value);
+  document.getElementById('store-eps-val').textContent = eps;
+
+  const pts = storePoints.map(s => [s.x, s.y]);
+  const result = dbscan(pts, eps, minPts);
+  drawStoreMap(result, eps);
+
+  const nZones = result.numClusters;
+  const isolated = result.labels.filter(l => l === -1).length;
+  const clusterSizes = [];
+  for (let c = 0; c < nZones; c++) {
+    clusterSizes.push(result.labels.filter(l => l === c).length);
+  }
+  const avgSize = clusterSizes.length > 0 ? (clusterSizes.reduce((a,b) => a+b, 0) / clusterSizes.length).toFixed(1) : '-';
+
+  document.getElementById('store-zones').textContent = nZones;
+  document.getElementById('store-avg').textContent = avgSize;
+  document.getElementById('store-isolated').textContent = isolated;
+}
+
+function drawStoreMap(result, eps) {
+  const canvas = document.getElementById('store-canvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.clientWidth * dpr;
+  canvas.height = canvas.clientHeight * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.clientWidth, H = canvas.clientHeight;
+  ctx.clearRect(0, 0, W, H);
+  const scaleX = W / 760, scaleY = H / 480;
+
+  // Background grid
+  ctx.strokeStyle = '#e2e8f066';
+  ctx.lineWidth = 0.5;
+  for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+  // Draw cluster zones (convex hull-like shading)
+  for (let c = 0; c < result.numClusters; c++) {
+    const members = [];
+    for (let i = 0; i < storePoints.length; i++) {
+      if (result.labels[i] === c) members.push(i);
+    }
+    if (members.length >= 3) {
+      const cPts = members.map(i => [storePoints[i].x*scaleX, storePoints[i].y*scaleY]);
+      const cx = cPts.reduce((s, p) => s + p[0], 0) / cPts.length;
+      const cy = cPts.reduce((s, p) => s + p[1], 0) / cPts.length;
+      cPts.sort((a, b) => Math.atan2(a[1]-cy, a[0]-cx) - Math.atan2(b[1]-cy, b[0]-cx));
+
+      ctx.fillStyle = COLORS[c % COLORS.length] + '18';
+      ctx.strokeStyle = COLORS[c % COLORS.length] + '50';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(cPts[0][0], cPts[0][1]);
+      for (let i = 1; i < cPts.length; i++) ctx.lineTo(cPts[i][0], cPts[i][1]);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Zone label
+      ctx.fillStyle = COLORS[c % COLORS.length];
+      ctx.font = 'bold 12px Paperlogy, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('권역 ' + (c+1), cx, cy - 18);
+    }
+  }
+
+  // Draw stores
+  for (let i = 0; i < storePoints.length; i++) {
+    const x = storePoints[i].x * scaleX, y = storePoints[i].y * scaleY;
+    if (result.labels[i] === -1) {
+      // Isolated store
+      ctx.fillStyle = '#ef4444';
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 2;
+      // Draw diamond shape for isolated
+      ctx.beginPath();
+      ctx.moveTo(x, y-6); ctx.lineTo(x+5, y); ctx.lineTo(x, y+6); ctx.lineTo(x-5, y);
+      ctx.closePath();
+      ctx.fill();
+    } else {
+      ctx.fillStyle = COLORS[result.labels[i] % COLORS.length];
+      ctx.beginPath();
+      ctx.arc(x, y, 5, 0, Math.PI*2);
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+
+  // Legend
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'left';
+  const ly = H - 14;
+  ctx.fillStyle = '#2563eb';
+  ctx.beginPath(); ctx.arc(14, ly, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#1e293b'; ctx.fillText('군집 매장', 24, ly + 4);
+
+  ctx.fillStyle = '#ef4444';
+  ctx.beginPath();
+  ctx.moveTo(100, ly-5); ctx.lineTo(105, ly); ctx.lineTo(100, ly+5); ctx.lineTo(95, ly); ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = '#1e293b'; ctx.fillText('고립 매장', 112, ly + 4);
+}
+
+// ==================== INIT & EVENT BINDING ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('28-hierarchical-dbscan'));
+
+  // 1. HC Visualizer
+  hcInit();
+  document.getElementById('btn-hc-step').addEventListener('click', hcStep);
+  document.getElementById('btn-hc-auto').addEventListener('click', hcAuto);
+  document.getElementById('btn-hc-reset').addEventListener('click', () => {
+    if (hcAutoTimer) { clearInterval(hcAutoTimer); hcAutoTimer = null; }
+    hcInit();
+  });
+  document.getElementById('hc-linkage').addEventListener('change', () => {
+    if (hcAutoTimer) { clearInterval(hcAutoTimer); hcAutoTimer = null; }
+    hcInit();
+  });
+
+  // 2. Dendrogram
+  dendroInit();
+  document.getElementById('dendro-cut').addEventListener('input', dendroUpdate);
+  document.getElementById('btn-dendro-reset').addEventListener('click', dendroInit);
+
+  // 3. DBSCAN Explorer
+  dbscanInit();
+  document.getElementById('dbscan-dataset').addEventListener('change', dbscanInit);
+  document.getElementById('dbscan-eps').addEventListener('input', dbscanRun);
+  document.getElementById('dbscan-minpts').addEventListener('input', dbscanRun);
+
+  // 4. Comparison
+  runComparison();
+  document.getElementById('btn-compare-run').addEventListener('click', runComparison);
+  document.getElementById('compare-dataset').addEventListener('change', runComparison);
+  document.getElementById('compare-k').addEventListener('change', runComparison);
+
+  // 5. Store analysis
+  generateStores();
+  runStoreAnalysis();
+  document.getElementById('btn-store-run').addEventListener('click', runStoreAnalysis);
+  document.getElementById('store-eps').addEventListener('input', runStoreAnalysis);
+  document.getElementById('store-minpts').addEventListener('change', runStoreAnalysis);
+  document.getElementById('btn-store-new').addEventListener('click', () => {
+    generateStores();
+    runStoreAnalysis();
+  });
+
+  // Handle canvas resize
+  window.addEventListener('resize', () => {
+    drawHC();
+    dendroUpdate();
+    dbscanRun();
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  canvas {
+    image-rendering: auto;
+    max-width: 100%;
+  }
+  @media (max-width: 768px) {
+    canvas {
+      height: auto !important;
+    }
+    div[style*="grid-template-columns: 1fr 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
+
