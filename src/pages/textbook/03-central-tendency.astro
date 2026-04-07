@@ -1,0 +1,786 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="데이터의 중심 — 평균은 거짓말을 한다"
+  subtitle="평균, 중앙값, 최빈값의 함정"
+  chapterNum={3}
+  part={1}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>한국 평균 연봉이 4,200만원인데 왜 대부분이 그 이하를 받는가?</h2>
+    <p>
+      통계청에 따르면 한국 근로자의 평균 연봉은 약 4,200만원입니다.
+      하지만 이 숫자를 듣고 "나도 그 정도 받겠지"라고 생각하면 큰 착각입니다.
+      실제로 근로자의 약 <strong>65%</strong>가 평균 이하의 연봉을 받고 있습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      어떻게 "평균"인데 대부분이 그 아래에 있을 수 있을까요?
+      그 비밀은 소득 분포의 <strong>오른쪽 꼬리</strong>에 있습니다.
+      소수의 고소득자가 평균을 끌어올리기 때문입니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 데이터의 "중심"을 나타내는 세 가지 대표값 --
+      <strong>평균, 중앙값, 최빈값</strong> -- 의 특성과 함정을 직접 실험하며 배웁니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 공식 ===== -->
+  <div class="tb-card">
+    <h2>세 가지 대표값</h2>
+
+    <ExplainBox>
+      <strong>평균(Mean):</strong> 모든 값을 더해서 개수로 나눈 값. 모든 데이터가 영향을 줍니다.<br>
+      <strong>중앙값(Median):</strong> 데이터를 크기 순으로 정렬했을 때 정가운데 값. 극단값에 강합니다.<br>
+      <strong>최빈값(Mode):</strong> 가장 자주 나타나는 값. 범주형 데이터에서 특히 유용합니다.
+    </ExplainBox>
+
+    <FormulaBox>
+      <span class="hl">평균</span> = (x&#8321; + x&#8322; + ... + x&#8345;) / n = &#931;x&#7522; / n<br>
+      <span class="hl">중앙값</span> = 정렬 후 &#123;(n+1)/2&#125;번째 값 (n이 홀수) 또는 가운데 두 값의 평균 (n이 짝수)<br>
+      <span class="hl">최빈값</span> = 가장 빈도가 높은 값
+    </FormulaBox>
+
+    <InsightBox>
+      <strong>핵심 차이:</strong>
+      평균은 <strong>모든 데이터에 민감</strong>합니다. 극단값 하나가 평균을 크게 움직일 수 있습니다.
+      중앙값은 <strong>위치만 보기 때문에 극단값에 강건</strong>(robust)합니다.
+      최빈값은 <strong>분포의 봉우리</strong>를 나타냅니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Income Distribution Builder ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 소득 분포 만들기</h2>
+    <p>
+      아래 히스토그램의 각 막대를 클릭하여 해당 소득 구간에 사람을 추가하세요.
+      우클릭(또는 Shift+클릭)으로 제거합니다.
+      <strong>"재벌 추가" 버튼</strong>을 눌러 평균이 어떻게 변하는지 관찰하세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>실습 목표:</strong> 소수의 고소득자가 평균을 얼마나 끌어올리는지 직접 확인하세요.
+      중앙값과 비교하며 "어떤 대표값이 정직한지" 생각해 보세요.
+    </ExerciseBox>
+
+    <div style="position: relative;">
+      <ChartContainer id="income-chart" height="350px" />
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="인원 수" id="income-n" value="0" />
+      <StatBox label="평균 (만원)" id="income-mean" value="-" borderColor="var(--tb-danger)" />
+      <StatBox label="중앙값 (만원)" id="income-median" value="-" borderColor="var(--tb-primary)" />
+      <StatBox label="최빈값 (만원)" id="income-mode" value="-" borderColor="var(--tb-success)" />
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-danger" id="btn-add-chaebol">재벌 추가 (+100억)</button>
+      <button class="tb-btn tb-btn-primary" id="btn-preset-normal">정규 분포로 리셋</button>
+      <button class="tb-btn tb-btn-warning" id="btn-preset-skewed">오른쪽 꼬리 분포</button>
+      <button class="tb-btn" id="btn-clear-income" style="background: var(--tb-g200); color: var(--tb-g800);">전체 초기화</button>
+    </SimControls>
+
+    <WarningBox>
+      <strong>평균의 함정:</strong>
+      "재벌 추가" 버튼을 몇 번 누르면 평균은 급격히 올라가지만, 중앙값은 거의 변하지 않습니다.
+      이것이 바로 "평균 연봉"이 대부분의 사람을 대변하지 못하는 이유입니다.
+      이런 현상을 <strong>심슨의 역설(Simpson's Paradox)</strong>이라 부르기도 하며,
+      다음 파트에서 더 깊이 다룹니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Robustness Tester ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 대표값의 강건성 테스트</h2>
+    <p>
+      데이터 분포를 선택하고 이상치(outlier)를 추가하면서,
+      평균/중앙값/최빈값이 얼마나 "흔들리는지" 관찰하세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>실습 목표:</strong> 이상치 슬라이더를 움직이면서 세 대표값의 반응 차이를 비교하세요.
+      어떤 대표값이 "강건(robust)"한지 느껴보세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>분포 유형:</label>
+      <select id="robust-dist">
+        <option value="normal">정규분포</option>
+        <option value="skewed">오른쪽 꼬리(양의 왜도)</option>
+        <option value="bimodal">쌍봉분포</option>
+        <option value="uniform">균등분포</option>
+      </select>
+      <label>데이터 수:</label>
+      <select id="robust-n">
+        <option value="50">50개</option>
+        <option value="100" selected>100개</option>
+        <option value="500">500개</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-robust-gen">데이터 생성</button>
+    </SimControls>
+
+    <ChartContainer id="robust-chart" height="320px" />
+
+    <div style="margin: 14px 0;">
+      <label style="font-weight: 700; font-size: .9rem;">이상치 추가: <span id="outlier-label">0개</span></label>
+      <input type="range" id="outlier-slider" min="0" max="10" value="0" style="width: 100%; margin-top: 6px;">
+      <div style="display: flex; justify-content: space-between; font-size: .8rem; color: var(--tb-g600);">
+        <span>이상치 없음</span>
+        <span>극단적 이상치 10개</span>
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="평균" id="robust-mean" borderColor="var(--tb-danger)" />
+      <StatBox label="중앙값" id="robust-median" borderColor="var(--tb-primary)" />
+      <StatBox label="최빈값" id="robust-mode" borderColor="var(--tb-success)" />
+      <StatBox label="평균 변화율" id="robust-mean-change" sub="이상치 추가 후" />
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 어떤 대표값이 정직한가? ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 어떤 대표값이 정직한가?</h2>
+    <p>
+      5개의 실제 시나리오에서 가장 적절한 대표값을 선택하세요.
+      각 상황의 데이터 분포를 보고 판단합니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>실습 목표:</strong> 상황에 따라 적절한 대표값이 다릅니다. 5문제 모두 맞혀 보세요.
+    </ExerciseBox>
+
+    <div id="honest-quiz" style="margin: 16px 0;"></div>
+
+    <div class="tb-stat-row" id="honest-results" style="display: none;">
+      <StatBox label="정답" id="honest-correct" borderColor="var(--tb-success)" />
+      <StatBox label="전체" id="honest-total" value="5" />
+      <StatBox label="정답률" id="honest-rate" />
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-check-honest">정답 확인</button>
+    </SimControls>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: Trimmed Mean Explorer ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 절사평균 탐색기</h2>
+    <p>
+      절사평균(trimmed mean)은 데이터의 양 끝을 일정 비율 잘라낸 후 계산하는 평균입니다.
+      올림픽 체조 점수 채점에서도 최고점/최저점을 제외하고 평균하는 방식이 이와 같습니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>실습 목표:</strong> 절사 비율 슬라이더를 조절하면서 절사평균이
+      일반 평균과 중앙값 사이 어디에 위치하는지 관찰하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-trim-gen">새 데이터 생성 (오른쪽 꼬리)</button>
+      <button class="tb-btn tb-btn-danger" id="btn-trim-outlier">극단 이상치 3개 추가</button>
+    </SimControls>
+
+    <ChartContainer id="trim-chart" height="320px" />
+
+    <div style="margin: 14px 0;">
+      <label style="font-weight: 700; font-size: .9rem;">절사 비율: <span id="trim-label">0%</span></label>
+      <input type="range" id="trim-slider" min="0" max="25" value="0" style="width: 100%; margin-top: 6px;">
+      <div style="display: flex; justify-content: space-between; font-size: .8rem; color: var(--tb-g600);">
+        <span>0% (일반 평균)</span>
+        <span>25% (양쪽 25% 제거)</span>
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="일반 평균" id="trim-mean" borderColor="var(--tb-danger)" />
+      <StatBox label="절사평균" id="trim-trimmed" borderColor="var(--tb-warning)" />
+      <StatBox label="중앙값" id="trim-median" borderColor="var(--tb-primary)" />
+      <StatBox label="제거된 데이터" id="trim-removed" sub="양쪽 합계" />
+    </div>
+
+    <ExplainBox>
+      <strong>왜 절사평균을 사용하는가?</strong>
+      일반 평균은 극단값에 너무 민감하고, 중앙값은 데이터의 전체적인 크기 정보를 무시합니다.
+      절사평균은 이 둘 사이의 타협점입니다.
+      절사 비율이 0%이면 일반 평균과 같고, 50%이면 중앙값과 같아집니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== BUSINESS APPLICATION ===== -->
+  <div class="tb-card">
+    <h2>경영에서 어떤 대표값을 쓸까?</h2>
+
+    <BusinessBox>
+      <strong>매출 분석:</strong> 일별 매출의 <strong>평균</strong>을 사용합니다.
+      전체 매출 합계를 일수로 나눈 것이므로, 총 매출 추정에 유용합니다.<br><br>
+      <strong>고객 만족도:</strong> <strong>중앙값</strong>을 사용합니다.
+      1점(매우 불만)을 주는 소수의 극단적 고객이 평균을 왜곡하기 때문입니다.<br><br>
+      <strong>제품 카테고리 분석:</strong> <strong>최빈값</strong>을 사용합니다.
+      "가장 많이 팔리는 카테고리가 무엇인가?"는 최빈값의 질문입니다.<br><br>
+      <strong>부동산 시세:</strong> <strong>중앙값</strong>을 사용합니다.
+      한남동 100억 펜트하우스 한 채가 동네 평균을 2배로 끌어올릴 수 있습니다.<br><br>
+      <strong>응답 시간(서버, 콜센터):</strong> <strong>중앙값 또는 백분위수(P95, P99)</strong>를 사용합니다.
+      평균 응답 시간이 2초여도, 상위 5% 고객이 30초를 기다릴 수 있습니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>평균은 모든 데이터에 민감하며, 극단값에 의해 크게 왜곡될 수 있다.</li>
+      <li>중앙값은 극단값에 강건하며, 비대칭 분포에서 "전형적인 값"을 더 잘 나타낸다.</li>
+      <li>최빈값은 범주형 데이터와 다봉분포에서 유용하다.</li>
+      <li>절사평균은 평균과 중앙값의 타협점으로, 실무에서 유용하게 활용된다.</li>
+      <li>상황에 맞는 대표값을 선택하는 것이 정직한 데이터 분석의 시작이다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 중심을 알았으니, 이제 "퍼짐"을 배울 차례입니다.
+      같은 평균이어도 전혀 다른 세상일 수 있습니다 -- 분산과 표준편차의 세계로 들어갑니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  Chart.register(...registerables);
+  ChartJS = Chart;
+  return Chart;
+}
+
+// ==================== UTILITY FUNCTIONS ====================
+function calcMean(arr) {
+  if (arr.length === 0) return 0;
+  return arr.reduce((a, b) => a + b, 0) / arr.length;
+}
+function calcMedian(arr) {
+  if (arr.length === 0) return 0;
+  const sorted = [...arr].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+function calcMode(arr) {
+  if (arr.length === 0) return 0;
+  const counts = {};
+  arr.forEach(v => { const k = Math.round(v); counts[k] = (counts[k] || 0) + 1; });
+  let maxCount = 0, mode = arr[0];
+  for (const [k, c] of Object.entries(counts)) {
+    if (c > maxCount) { maxCount = c; mode = Number(k); }
+  }
+  return mode;
+}
+function calcTrimmedMean(arr, pct) {
+  if (arr.length === 0) return 0;
+  const sorted = [...arr].sort((a, b) => a - b);
+  const trim = Math.floor(sorted.length * pct / 100);
+  if (trim * 2 >= sorted.length) return calcMedian(arr);
+  const trimmed = sorted.slice(trim, sorted.length - trim);
+  return calcMean(trimmed);
+}
+
+function fmt(v) {
+  if (v === null || v === undefined || isNaN(v)) return '-';
+  return Math.round(v).toLocaleString();
+}
+
+// ==================== INTERACTIVE 1: INCOME DISTRIBUTION ====================
+const INCOME_BINS = [
+  { label: '1,000', min: 0, max: 1500 },
+  { label: '2,000', min: 1500, max: 2500 },
+  { label: '3,000', min: 2500, max: 3500 },
+  { label: '4,000', min: 3500, max: 4500 },
+  { label: '5,000', min: 4500, max: 5500 },
+  { label: '6,000', min: 5500, max: 6500 },
+  { label: '7,000', min: 6500, max: 7500 },
+  { label: '8,000', min: 7500, max: 8500 },
+  { label: '9,000', min: 8500, max: 9500 },
+  { label: '10,000+', min: 9500, max: 15000 },
+];
+
+let incomeCounts = new Array(10).fill(0);
+let incomeChaebolCount = 0;
+let incomeChart = null;
+
+function getIncomeFlatData() {
+  const data = [];
+  incomeCounts.forEach((count, i) => {
+    const mid = (INCOME_BINS[i].min + INCOME_BINS[i].max) / 2;
+    for (let j = 0; j < count; j++) data.push(mid);
+  });
+  for (let i = 0; i < incomeChaebolCount; i++) data.push(1000000); // 100억 = 1,000,000만원
+  return data;
+}
+
+async function drawIncomeChart() {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('income-chart');
+  if (incomeChart) { incomeChart.destroy(); incomeChart = null; }
+
+  const labels = INCOME_BINS.map(b => b.label);
+  const data = [...incomeCounts];
+
+  incomeChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: '인원 수',
+        data,
+        backgroundColor: '#2563eb88',
+        borderColor: '#2563eb',
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      onClick: (evt, elements, chart) => {
+        const points = chart.getElementsAtEventForMode(evt, 'index', { intersect: false }, false);
+        if (points.length > 0) {
+          const idx = points[0].index;
+          if (evt.native.shiftKey) {
+            incomeCounts[idx] = Math.max(0, incomeCounts[idx] - 1);
+          } else {
+            incomeCounts[idx]++;
+          }
+          updateIncomeDisplay();
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '소득 분포 (막대 클릭으로 인원 추가, Shift+클릭으로 제거)', font: { size: 12, family: "'Paperlogy'" } },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.parsed.y}명`
+          }
+        }
+      },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: '인원 수' } },
+        x: { title: { display: true, text: '연봉 (만원)' } }
+      }
+    }
+  });
+}
+
+function updateIncomeDisplay() {
+  if (incomeChart) {
+    incomeChart.data.datasets[0].data = [...incomeCounts];
+    incomeChart.update('none');
+  }
+
+  const flat = getIncomeFlatData();
+  document.getElementById('income-n').textContent = flat.length;
+  document.getElementById('income-mean').textContent = flat.length > 0 ? fmt(calcMean(flat)) : '-';
+  document.getElementById('income-median').textContent = flat.length > 0 ? fmt(calcMedian(flat)) : '-';
+  document.getElementById('income-mode').textContent = flat.length > 0 ? fmt(calcMode(flat)) : '-';
+}
+
+function presetNormal() {
+  incomeCounts = [3, 8, 15, 25, 20, 12, 8, 5, 3, 1];
+  incomeChaebolCount = 0;
+  updateIncomeDisplay();
+  drawIncomeChart();
+}
+
+function presetSkewed() {
+  incomeCounts = [5, 18, 25, 20, 12, 8, 5, 4, 2, 1];
+  incomeChaebolCount = 0;
+  updateIncomeDisplay();
+  drawIncomeChart();
+}
+
+function addChaebol() {
+  incomeChaebolCount++;
+  updateIncomeDisplay();
+}
+
+function clearIncome() {
+  incomeCounts = new Array(10).fill(0);
+  incomeChaebolCount = 0;
+  updateIncomeDisplay();
+  drawIncomeChart();
+}
+
+// ==================== INTERACTIVE 2: ROBUSTNESS TESTER ====================
+let robustData = [];
+let robustBaseData = [];
+let robustBaseMean = 0;
+let robustChart = null;
+
+function generateRobustData() {
+  const dist = document.getElementById('robust-dist').value;
+  const n = parseInt(document.getElementById('robust-n').value);
+  const data = [];
+
+  for (let i = 0; i < n; i++) {
+    let val;
+    if (dist === 'normal') {
+      // Box-Muller
+      const u1 = Math.random(), u2 = Math.random();
+      val = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+      val = val * 15 + 50;
+    } else if (dist === 'skewed') {
+      val = Math.pow(Math.random(), 0.3) * 80 + 10;
+    } else if (dist === 'bimodal') {
+      if (Math.random() < 0.5) val = (Math.random() * 20 + 20);
+      else val = (Math.random() * 20 + 60);
+    } else { // uniform
+      val = Math.random() * 80 + 10;
+    }
+    data.push(Math.round(val * 10) / 10);
+  }
+
+  robustBaseData = [...data];
+  robustBaseMean = calcMean(data);
+  robustData = [...data];
+  document.getElementById('outlier-slider').value = 0;
+  document.getElementById('outlier-label').textContent = '0개';
+  updateRobustDisplay();
+}
+
+function updateRobustWithOutliers() {
+  const count = parseInt(document.getElementById('outlier-slider').value);
+  document.getElementById('outlier-label').textContent = count + '개';
+
+  robustData = [...robustBaseData];
+  const max = Math.max(...robustBaseData);
+  for (let i = 0; i < count; i++) {
+    robustData.push(max * 3 + i * max);
+  }
+  updateRobustDisplay();
+}
+
+async function updateRobustDisplay() {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('robust-chart');
+  if (robustChart) { robustChart.destroy(); robustChart = null; }
+
+  const sorted = [...robustData].sort((a, b) => a - b);
+  const min = sorted[0], max = sorted[sorted.length - 1];
+  const bins = 20;
+  const bw = (max - min) / bins || 1;
+  const hist = new Array(bins).fill(0);
+  sorted.forEach(v => {
+    const idx = Math.min(bins - 1, Math.floor((v - min) / bw));
+    hist[idx]++;
+  });
+  const labels = hist.map((_, i) => Math.round(min + i * bw + bw / 2));
+
+  const mean = calcMean(robustData);
+  const median = calcMedian(robustData);
+  const mode = calcMode(robustData);
+
+  robustChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: '빈도',
+        data: hist,
+        backgroundColor: '#2563eb44',
+        borderColor: '#2563eb',
+        borderWidth: 1,
+        borderRadius: 2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        annotation: undefined,
+      },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: '빈도' } },
+        x: { title: { display: true, text: '값' } }
+      }
+    }
+  });
+
+  document.getElementById('robust-mean').textContent = fmt(mean);
+  document.getElementById('robust-median').textContent = fmt(median);
+  document.getElementById('robust-mode').textContent = fmt(mode);
+
+  const change = robustBaseMean > 0 ? Math.round((mean - robustBaseMean) / robustBaseMean * 100) : 0;
+  document.getElementById('robust-mean-change').textContent = (change >= 0 ? '+' : '') + change + '%';
+}
+
+// ==================== INTERACTIVE 3: HONEST REPRESENTATIVE QUIZ ====================
+const HONEST_SCENARIOS = [
+  {
+    title: '서울 아파트 매매가',
+    desc: '강남구에 50억 이상 아파트들이 있고, 대부분은 5-10억대. 분포가 극도로 오른쪽으로 치우침.',
+    answer: 'median',
+    hint: '소수의 초고가 아파트가 평균을 끌어올립니다. 중앙값이 실제 시세를 더 잘 반영합니다.',
+    dist: [2, 5, 12, 25, 30, 15, 6, 3, 1, 1]
+  },
+  {
+    title: '대학 시험 점수 (정규분포)',
+    desc: '종형 곡선에 가까운 대칭 분포. 60-70점대에 가장 많이 몰림.',
+    answer: 'mean',
+    hint: '대칭 분포에서는 평균 = 중앙값. 평균이 학급의 전체 수준을 가장 효율적으로 요약합니다.',
+    dist: [1, 3, 8, 15, 25, 25, 15, 5, 2, 1]
+  },
+  {
+    title: '중소기업 직원 연봉',
+    desc: '대부분 3,000-4,000만원대이지만 CEO 연봉이 3억원.',
+    answer: 'median',
+    hint: 'CEO의 고액 연봉이 평균을 왜곡합니다. 직원 대부분의 수준은 중앙값이 더 정확합니다.',
+    dist: [5, 20, 35, 25, 8, 4, 2, 0, 0, 1]
+  },
+  {
+    title: '웹사이트 응답 시간',
+    desc: '대부분 0.1-0.5초이지만, 가끔 10초 이상 걸리는 요청이 있음.',
+    answer: 'median',
+    hint: '소수의 느린 응답이 평균을 올립니다. 실무에서는 P50(중앙값)이나 P95를 사용합니다.',
+    dist: [40, 30, 15, 8, 3, 2, 1, 0, 0, 1]
+  },
+  {
+    title: '온라인 쇼핑몰 인기 카테고리',
+    desc: '의류, 식품, 전자제품, 화장품 등 카테고리별 판매 건수를 분석.',
+    answer: 'mode',
+    hint: '카테고리는 범주형 데이터입니다. "가장 많이 팔리는 카테고리"가 최빈값입니다.',
+    dist: [8, 25, 12, 30, 5, 10, 6, 2, 1, 1]
+  },
+];
+
+function initHonestQuiz() {
+  const container = document.getElementById('honest-quiz');
+  container.innerHTML = '';
+  document.getElementById('honest-results').style.display = 'none';
+
+  HONEST_SCENARIOS.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'padding: 14px 0; border-bottom: 1px solid var(--tb-g200);';
+    div.innerHTML = `
+      <p style="font-weight: 700; margin-bottom: 4px;">${i + 1}. ${s.title}</p>
+      <p style="font-size: .88rem; color: var(--tb-g600); margin-bottom: 8px;">${s.desc}</p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px;">
+        <canvas id="honest-mini-${i}" width="240" height="80" style="border: 1px solid var(--tb-g200); border-radius: 6px;"></canvas>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <label class="honest-option"><input type="radio" name="honest${i}" value="mean"> 평균</label>
+        <label class="honest-option"><input type="radio" name="honest${i}" value="median"> 중앙값</label>
+        <label class="honest-option"><input type="radio" name="honest${i}" value="mode"> 최빈값</label>
+      </div>
+      <div class="honest-feedback" data-idx="${i}" style="display: none; margin-top: 6px; font-size: .88rem;"></div>
+    `;
+    container.appendChild(div);
+  });
+
+  // Draw mini distribution charts
+  setTimeout(() => {
+    HONEST_SCENARIOS.forEach((s, i) => {
+      const miniCanvas = document.getElementById(`honest-mini-${i}`);
+      if (!miniCanvas) return;
+      const ctx = miniCanvas.getContext('2d');
+      const w = miniCanvas.width, h = miniCanvas.height;
+      const maxVal = Math.max(...s.dist);
+
+      s.dist.forEach((val, j) => {
+        const barW = w / s.dist.length - 2;
+        const barH = (val / maxVal) * (h - 10);
+        ctx.fillStyle = '#2563eb88';
+        ctx.fillRect(j * (barW + 2) + 1, h - barH - 5, barW, barH);
+      });
+    });
+  }, 100);
+}
+
+function checkHonestQuiz() {
+  let correct = 0;
+
+  HONEST_SCENARIOS.forEach((s, i) => {
+    const selected = document.querySelector(`input[name="honest${i}"]:checked`);
+    const fb = document.querySelector(`.honest-feedback[data-idx="${i}"]`);
+    fb.style.display = '';
+
+    if (!selected) {
+      fb.textContent = '선택하지 않았습니다.';
+      fb.style.color = 'var(--tb-g600)';
+      return;
+    }
+
+    if (selected.value === s.answer) {
+      correct++;
+      fb.textContent = '정답! ' + s.hint;
+      fb.style.color = 'var(--tb-success)';
+      selected.parentElement.style.background = '#dcfce7';
+    } else {
+      fb.textContent = '오답. ' + s.hint;
+      fb.style.color = 'var(--tb-danger)';
+      selected.parentElement.style.background = '#fee2e2';
+    }
+  });
+
+  document.getElementById('honest-results').style.display = '';
+  document.getElementById('honest-correct').textContent = correct;
+  document.getElementById('honest-rate').textContent = Math.round(correct / 5 * 100) + '%';
+}
+
+// ==================== INTERACTIVE 4: TRIMMED MEAN ====================
+let trimData = [];
+let trimChart = null;
+
+function generateTrimData() {
+  trimData = [];
+  for (let i = 0; i < 80; i++) {
+    // Right-skewed distribution
+    const val = Math.pow(Math.random(), 0.4) * 8000 + 2000;
+    trimData.push(Math.round(val));
+  }
+  document.getElementById('trim-slider').value = 0;
+  document.getElementById('trim-label').textContent = '0%';
+  updateTrimDisplay();
+}
+
+function addTrimOutliers() {
+  trimData.push(95000, 120000, 200000);
+  updateTrimDisplay();
+}
+
+async function updateTrimDisplay() {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('trim-chart');
+  if (trimChart) { trimChart.destroy(); trimChart = null; }
+
+  const pct = parseInt(document.getElementById('trim-slider').value);
+  document.getElementById('trim-label').textContent = pct + '%';
+
+  const sorted = [...trimData].sort((a, b) => a - b);
+  const trim = Math.floor(sorted.length * pct / 100);
+  const removed = trim * 2;
+
+  // Histogram
+  const min = sorted[0], max = sorted[sorted.length - 1];
+  const bins = 20;
+  const bw = (max - min) / bins || 1;
+  const hist = new Array(bins).fill(0);
+  sorted.forEach(v => {
+    const idx = Math.min(bins - 1, Math.floor((v - min) / bw));
+    hist[idx]++;
+  });
+  const labels = hist.map((_, i) => Math.round((min + i * bw + bw / 2) / 100) * 100);
+
+  // Coloring: highlight trimmed regions
+  const bgColors = hist.map((_, i) => {
+    const binCenter = min + i * bw + bw / 2;
+    if (trim > 0) {
+      const lowBound = sorted[trim];
+      const highBound = sorted[sorted.length - 1 - trim];
+      if (binCenter < lowBound || binCenter > highBound) return '#ef444466';
+    }
+    return '#2563eb44';
+  });
+
+  trimChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: '빈도',
+        data: hist,
+        backgroundColor: bgColors,
+        borderColor: bgColors.map(c => c.replace('44', 'cc').replace('66', 'cc')),
+        borderWidth: 1,
+        borderRadius: 2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '빨간 영역 = 절사된 데이터', font: { size: 11, family: "'Paperlogy'" } }
+      },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: '빈도' } },
+        x: { title: { display: true, text: '값' } }
+      }
+    }
+  });
+
+  const mean = calcMean(trimData);
+  const trimmedMean = calcTrimmedMean(trimData, pct);
+  const median = calcMedian(trimData);
+
+  document.getElementById('trim-mean').textContent = fmt(mean);
+  document.getElementById('trim-trimmed').textContent = fmt(trimmedMean);
+  document.getElementById('trim-median').textContent = fmt(median);
+  document.getElementById('trim-removed').textContent = removed + '개';
+}
+
+// ==================== INIT ====================
+function init() {
+  try {
+    import('../../textbook/lib/progress').then(m => m.markVisited('03-central-tendency')).catch(() => {});
+  } catch(e) {}
+
+  // Interactive 1: Income
+  presetNormal();
+
+  // Interactive 2: Robustness
+  generateRobustData();
+
+  // Interactive 3: Honest quiz
+  initHonestQuiz();
+
+  // Interactive 4: Trimmed mean
+  generateTrimData();
+
+  // Event listeners
+  document.getElementById('btn-add-chaebol').addEventListener('click', addChaebol);
+  document.getElementById('btn-preset-normal').addEventListener('click', presetNormal);
+  document.getElementById('btn-preset-skewed').addEventListener('click', presetSkewed);
+  document.getElementById('btn-clear-income').addEventListener('click', clearIncome);
+
+  document.getElementById('btn-robust-gen').addEventListener('click', generateRobustData);
+  document.getElementById('outlier-slider').addEventListener('input', updateRobustWithOutliers);
+
+  document.getElementById('btn-check-honest').addEventListener('click', checkHonestQuiz);
+
+  document.getElementById('btn-trim-gen').addEventListener('click', generateTrimData);
+  document.getElementById('btn-trim-outlier').addEventListener('click', addTrimOutliers);
+  document.getElementById('trim-slider').addEventListener('input', updateTrimDisplay);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .honest-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    background: var(--tb-g100);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.15s;
+    font-family: var(--tb-font);
+  }
+  .honest-option:hover {
+    background: var(--tb-primary-light);
+  }
+</style>

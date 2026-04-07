@@ -12,19 +12,49 @@ import ChartContainer from '../../components/textbook/ChartContainer.astro';
 import SimControls from '../../components/textbook/SimControls.astro';
 ---
 
-<TextbookLayout
-  title="캡스톤 III: 부동산 가격 예측기"
-  subtitle="실거래가 기반 완전 예측 파이프라인"
-  chapterNum={20}
-  part={3}
->
+<TextbookLayout title="캡스톤 III: 부동산 가격 예측기" subtitle="실거래가 기반 완전 예측 파이프라인" chapterNum={20} part={3}>
+
+  <!-- ===== PIPELINE PROGRESS BAR ===== -->
+  <div class="pipeline-wrap">
+    <div class="pipeline-steps" id="pipeline-steps">
+      <div class="pipe-step active" data-step="1">
+        <span class="step-num">1</span>
+        <span class="step-label">데이터 탐색</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="pipe-step" data-step="2">
+        <span class="step-num">2</span>
+        <span class="step-label">특성 선택</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="pipe-step" data-step="3">
+        <span class="step-num">3</span>
+        <span class="step-label">데이터 분할</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="pipe-step" data-step="4">
+        <span class="step-num">4</span>
+        <span class="step-label">모델 비교</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="pipe-step" data-step="5">
+        <span class="step-num">5</span>
+        <span class="step-label">잔차 진단</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="pipe-step" data-step="6">
+        <span class="step-num">6</span>
+        <span class="step-label">가격 예측</span>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== INTRO ===== -->
   <div class="tb-card">
     <h2>지금까지 배운 모든 것을 동원합니다</h2>
     <p>
-      Part III에서 우리는 회귀분석의 기본(14장), 다중회귀(15장), 모델 진단(16장),
-      변수 선택(17장), 그리고 정규화(18장)까지 단계별로 쌓아 올렸습니다.
+      Part III에서 회귀분석의 기본(14장), 다중회귀(15장), 모델 진단(16장),
+      변수 선택(17장), 정규화(18장)까지 단계별로 쌓아 올렸습니다.
       이 캡스톤에서는 그 모든 도구를 하나의 파이프라인으로 엮어,
       <strong>서울 아파트 실거래가를 예측하는 완전한 모델</strong>을 직접 만듭니다.
     </p>
@@ -36,38 +66,10 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <ExplainBox>
       <strong>예측 파이프라인의 6단계:</strong><br>
       (1) 데이터 탐색(EDA) -- (2) 특성 선택 -- (3) 학습/검증 분할
-      -- (4) 모델 학습 및 비교 -- (5) 잔차 진단 -- (6) 새 데이터 예측.
-      아래에서 각 단계를 순서대로 직접 실행합니다.
+      -- (4) 모델 학습 및 비교 -- (5) 잔차 진단 -- (6) 새 데이터 예측.<br>
+      각 단계를 완료하면 상단 진행 표시줄이 갱신됩니다.
+      모든 회귀 모델은 <strong>경사하강법(Gradient Descent)</strong>으로 학습합니다.
     </ExplainBox>
-  </div>
-
-  <!-- ===== DATASET OVERVIEW ===== -->
-  <div class="tb-card">
-    <h2>데이터셋: 서울 아파트 실거래 기록</h2>
-    <p>
-      아래 데이터는 서울 5개 구의 아파트 400건 실거래 기록을 모사한 합성 데이터입니다.
-      실제 국토교통부 실거래가 공개 데이터의 구조와 분포를 반영했습니다.
-    </p>
-
-    <div class="tb-data-table-wrap" style="max-height:280px;">
-      <table class="tb-data-table" id="data-preview-table">
-        <thead>
-          <tr>
-            <th>번호</th><th>구</th><th>면적(m2)</th><th>층</th>
-            <th>건축년도</th><th>역거리(m)</th><th>학군지수</th>
-            <th>주차비율</th><th>실거래가(만원)</th>
-          </tr>
-        </thead>
-        <tbody id="data-preview-tbody"></tbody>
-      </table>
-    </div>
-
-    <div class="tb-stat-row" style="margin-top:14px;">
-      <StatBox label="총 관측치" id="stat-n" />
-      <StatBox label="변수 수" value="8" />
-      <StatBox label="범주형 변수" value="1 (구)" />
-      <StatBox label="수치형 변수" value="7" />
-    </div>
 
     <SimControls>
       <button class="tb-btn tb-btn-primary" id="btn-regen-data">데이터 재생성</button>
@@ -78,92 +80,116 @@ import SimControls from '../../components/textbook/SimControls.astro';
         <option value="600">600건</option>
       </select>
     </SimControls>
-  </div>
 
-  <!-- ===== STEP 1: EDA DASHBOARD ===== -->
-  <div class="tb-card">
-    <h2>Step 1. 탐색적 데이터 분석 (EDA)</h2>
-    <p>
-      모델을 만들기 전에 데이터의 분포와 변수 간 관계를 반드시 파악해야 합니다.
-      아무리 정교한 모델이라도 데이터의 특성을 모르면 쓸모없는 결과를 냅니다.
-    </p>
-
-    <ExerciseBox>
-      <strong>실습 1 -- 변수별 분포 탐색:</strong>
-      아래 드롭다운에서 변수를 선택하면 히스토그램과 요약 통계량이 자동으로 표시됩니다.
-      각 변수의 분포 형태(대칭? 치우침? 이상치?)를 관찰하세요.
-    </ExerciseBox>
-
-    <SimControls>
-      <label>변수 선택:</label>
-      <select id="sel-eda-var">
-        <option value="area_m2">면적(m2)</option>
-        <option value="floor">층수</option>
-        <option value="built_year">건축년도</option>
-        <option value="station_dist_m">역거리(m)</option>
-        <option value="school_score">학군지수</option>
-        <option value="parking">주차비율</option>
-        <option value="price_10k">실거래가(만원)</option>
-      </select>
-    </SimControls>
-
-    <ChartContainer id="chart-eda-hist" height="320px" />
-
-    <div class="tb-data-table-wrap" style="max-height:none; margin-top:14px;">
-      <table class="tb-data-table" id="eda-summary-table">
+    <div class="tb-data-table-wrap" style="max-height:260px;">
+      <table class="tb-data-table" id="data-preview-table">
         <thead>
-          <tr><th>통계량</th><th>N</th><th>평균</th><th>중앙값</th><th>표준편차</th><th>최솟값</th><th>최댓값</th></tr>
+          <tr>
+            <th>번호</th><th>구</th><th>면적(m2)</th><th>층</th>
+            <th>건축년도</th><th>역거리(m)</th><th>학군지수</th>
+            <th>실거래가(만원)</th>
+          </tr>
         </thead>
-        <tbody id="eda-summary-tbody"></tbody>
+        <tbody id="data-preview-tbody"></tbody>
       </table>
     </div>
 
-    <h3 style="margin-top:20px;">산점도: 선택 변수 vs 실거래가</h3>
-    <p>X축 변수를 바꿔가며 실거래가와의 관계를 살펴보세요. 어떤 변수가 가격과 강한 선형 관계를 보입니까?</p>
+    <div class="tb-stat-row" style="margin-top:14px;">
+      <StatBox label="총 관측치" id="stat-n" />
+      <StatBox label="변수 수" value="7" />
+      <StatBox label="범주형 변수" value="1 (구)" />
+      <StatBox label="수치형 변수" value="6" />
+    </div>
+  </div>
 
+  <!-- ===== STEP 1: EDA DASHBOARD ===== -->
+  <div class="tb-card" id="card-step1">
+    <h2>
+      <span class="step-badge">Step 1</span>
+      탐색적 데이터 분석 (EDA)
+    </h2>
+
+    <ExerciseBox>
+      <strong>실습 1 -- 변수별 분포 탐색:</strong>
+      변수를 선택하면 히스토그램(수치형) 또는 막대 그래프(범주형)가 자동으로 표시됩니다.
+      산점도에서는 구별 색상으로 가격과의 관계를 관찰하세요.
+    </ExerciseBox>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <!-- Left: histogram / bar -->
+      <div>
+        <SimControls>
+          <label>변수 선택:</label>
+          <select id="sel-eda-var">
+            <option value="district">구 (범주형)</option>
+            <option value="area_m2" selected>면적(m2)</option>
+            <option value="floor">층수</option>
+            <option value="built_year">건축년도</option>
+            <option value="station_dist_m">역거리(m)</option>
+            <option value="school_score">학군지수</option>
+            <option value="price_10k">실거래가(만원)</option>
+          </select>
+        </SimControls>
+        <ChartContainer id="chart-eda-hist" height="300px" />
+      </div>
+      <!-- Right: summary stats -->
+      <div>
+        <h3>요약 통계량</h3>
+        <div class="tb-data-table-wrap" style="max-height:none;">
+          <table class="tb-data-table" id="eda-summary-table">
+            <thead><tr><th>통계량</th><th>값</th></tr></thead>
+            <tbody id="eda-summary-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:20px;">산점도: 선택 변수 vs 실거래가 (구별 색상)</h3>
     <SimControls>
       <label>X축 변수:</label>
       <select id="sel-scatter-x">
-        <option value="area_m2">면적(m2)</option>
+        <option value="area_m2" selected>면적(m2)</option>
         <option value="floor">층수</option>
         <option value="built_year">건축년도</option>
         <option value="station_dist_m">역거리(m)</option>
         <option value="school_score">학군지수</option>
-        <option value="parking">주차비율</option>
       </select>
     </SimControls>
-
     <ChartContainer id="chart-eda-scatter" height="360px" />
 
     <h3 style="margin-top:20px;">상관계수 히트맵</h3>
-    <p>모든 수치형 변수 쌍의 피어슨 상관계수를 색상으로 표현합니다. 빨간색에 가까울수록 강한 양의 상관, 파란색에 가까울수록 강한 음의 상관입니다.</p>
-
+    <p>빨간색이 강한 양의 상관, 파란색이 강한 음의 상관입니다.</p>
     <div style="position:relative; margin:14px 0;">
-      <canvas id="canvas-heatmap" width="560" height="560" style="width:100%; max-width:560px; display:block; margin:0 auto;"></canvas>
+      <canvas id="canvas-heatmap" width="520" height="520" style="width:100%; max-width:520px; display:block; margin:0 auto;"></canvas>
     </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-success" id="btn-eda-done">Step 1 완료 -- 다음으로</button>
+    </SimControls>
 
     <InsightBox>
       <strong>관찰 포인트:</strong>
-      면적(area_m2)과 실거래가의 상관계수가 가장 높을 가능성이 큽니다.
-      역거리는 음의 상관(멀수록 저렴)을 보일 것입니다.
-      변수 간 상관이 높은 쌍이 있다면, 다중공선성을 의심해야 합니다(17장 복습).
+      면적(area_m2)과 실거래가의 상관이 가장 높을 것입니다.
+      역거리는 음의 상관(멀수록 저렴)을 보이고,
+      변수 간 상관이 높은 쌍이 있다면 다중공선성을 의심해야 합니다(17장 복습).
     </InsightBox>
   </div>
 
   <!-- ===== STEP 2: FEATURE SELECTION ===== -->
-  <div class="tb-card">
-    <h2>Step 2. 특성 선택 워크벤치</h2>
+  <div class="tb-card" id="card-step2">
+    <h2>
+      <span class="step-badge">Step 2</span>
+      특성 선택 워크벤치
+    </h2>
     <p>
       어떤 변수를 모델에 포함할지는 분석가의 판단입니다.
       변수가 너무 많으면 과적합, 너무 적으면 과소적합.
-      아래에서 변수를 선택하고 회귀분석을 실행하면서 R-제곱이 어떻게 변하는지 확인하세요.
     </p>
 
     <ExerciseBox>
       <strong>실습 2 -- 변수 선택과 R-제곱 변화:</strong>
-      체크박스로 예측 변수를 선택한 뒤 "회귀분석 실행" 버튼을 누르세요.
-      변수를 하나씩 추가/제거하면서 R-제곱과 수정 R-제곱의 변화를 추적하세요.
-      VIF가 5를 넘는 변수가 있다면 다중공선성 경고가 표시됩니다.
+      체크박스로 변수를 토글하고 "회귀분석 실행"을 누르세요.
+      R-제곱 막대 차트가 실시간으로 갱신되며, VIF가 5를 넘으면 빨간색으로 경고합니다.
     </ExerciseBox>
 
     <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0; padding:16px; background:var(--tb-g100); border-radius:var(--tb-radius);">
@@ -183,9 +209,6 @@ import SimControls from '../../components/textbook/SimControls.astro';
         <input type="checkbox" class="feat-check" value="school_score" checked> 학군지수
       </label>
       <label style="display:flex;align-items:center;gap:6px;font-size:.9rem;font-weight:600;cursor:pointer;">
-        <input type="checkbox" class="feat-check" value="parking"> 주차비율
-      </label>
-      <label style="display:flex;align-items:center;gap:6px;font-size:.9rem;font-weight:600;cursor:pointer;">
         <input type="checkbox" class="feat-check" value="district_code"> 구 더미변수
       </label>
     </div>
@@ -194,94 +217,121 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <button class="tb-btn tb-btn-primary" id="btn-run-reg">회귀분석 실행</button>
     </SimControls>
 
-    <div class="tb-stat-row" id="reg-stats" style="display:none;">
-      <StatBox label="R-제곱" id="stat-r2" />
-      <StatBox label="수정 R-제곱" id="stat-adj-r2" />
-      <StatBox label="RMSE" id="stat-rmse" />
-      <StatBox label="변수 수 (p)" id="stat-p" />
-    </div>
+    <div id="reg-results" style="display:none;">
+      <div class="tb-stat-row">
+        <StatBox label="R-제곱" id="stat-r2" />
+        <StatBox label="수정 R-제곱" id="stat-adj-r2" />
+        <StatBox label="RMSE" id="stat-rmse" />
+        <StatBox label="변수 수 (p)" id="stat-p" />
+      </div>
 
-    <div id="reg-coef-wrap" style="display:none; margin-top:14px;">
-      <h3>회귀계수 및 VIF</h3>
-      <div class="tb-data-table-wrap" style="max-height:300px;">
-        <table class="tb-data-table" id="reg-coef-table">
-          <thead><tr><th>변수</th><th>계수</th><th>VIF</th><th>상태</th></tr></thead>
-          <tbody id="reg-coef-tbody"></tbody>
-        </table>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px;">
+        <div>
+          <h3>회귀계수 및 VIF</h3>
+          <div class="tb-data-table-wrap" style="max-height:300px;">
+            <table class="tb-data-table" id="reg-coef-table">
+              <thead><tr><th>변수</th><th>계수</th><th>VIF</th><th>상태</th></tr></thead>
+              <tbody id="reg-coef-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h3>R-제곱 변화</h3>
+          <ChartContainer id="chart-r2-bar" height="260px" />
+        </div>
+      </div>
+
+      <div id="vif-warning" style="display:none;">
+        <WarningBox>
+          <strong>다중공선성 경고:</strong>
+          VIF가 5를 넘는 변수가 있습니다. 계수 추정이 불안정해질 수 있으므로
+          변수 제거나 정규화를 고려하세요 (17-18장 참조).
+        </WarningBox>
       </div>
     </div>
 
-    <div id="vif-warning" style="display:none;">
-      <WarningBox>
-        <strong>다중공선성 경고:</strong>
-        VIF가 5를 넘는 변수가 있습니다. 해당 변수들이 서로 높은 상관관계를 가지고 있어
-        계수 추정이 불안정해질 수 있습니다. 변수 제거나 정규화를 고려하세요 (17-18장 참조).
-      </WarningBox>
-    </div>
+    <SimControls>
+      <button class="tb-btn tb-btn-success" id="btn-feat-done" style="display:none;">Step 2 완료 -- 다음으로</button>
+    </SimControls>
   </div>
 
   <!-- ===== STEP 3: TRAIN/TEST SPLIT ===== -->
-  <div class="tb-card">
-    <h2>Step 3. 학습/검증 데이터 분할</h2>
+  <div class="tb-card" id="card-step3">
+    <h2>
+      <span class="step-badge">Step 3</span>
+      학습/검증 데이터 분할
+    </h2>
     <p>
       모델의 진짜 성능은 <strong>한 번도 본 적 없는 데이터</strong>에서 측정해야 합니다.
-      학습 데이터로 모델을 만들고, 별도의 검증 데이터로 평가하는 것이 핵심입니다 (18장 복습).
     </p>
 
     <ExerciseBox>
       <strong>실습 3 -- 분할 비율 실험:</strong>
-      슬라이더로 학습 비율을 조절하고 "데이터 분할" 버튼을 누르세요.
-      학습 비율이 너무 낮으면 모델이 충분히 학습하지 못하고,
-      너무 높으면 검증이 불안정해집니다. 적절한 균형점을 찾아보세요.
+      슬라이더를 드래그하면 분할 막대가 실시간으로 갱신됩니다.
+      "데이터 분할"을 누르면 학습/검증 세트가 확정됩니다.
     </ExerciseBox>
 
     <SimControls>
       <label>학습 비율:</label>
       <input type="range" id="slider-train" min="60" max="90" value="80" step="5">
       <span class="tb-speed-label" id="lbl-train-ratio">80%</span>
+      <label style="margin-left:16px;">랜덤 시드:</label>
+      <input type="number" id="input-seed" value="42" min="1" max="9999" style="width:70px; padding:6px 8px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font); font-size:.9rem;">
       <button class="tb-btn tb-btn-primary" id="btn-split">데이터 분할</button>
     </SimControls>
 
     <div id="split-visual" style="margin:14px 0; display:none;">
-      <div style="display:flex; height:36px; border-radius:8px; overflow:hidden; box-shadow:var(--tb-shadow);">
-        <div id="split-bar-train" style="background:#2563eb; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:.85rem;"></div>
-        <div id="split-bar-test" style="background:#ef4444; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:.85rem;"></div>
+      <div style="display:flex; height:40px; border-radius:10px; overflow:hidden; box-shadow:var(--tb-shadow);">
+        <div id="split-bar-train" style="background:linear-gradient(135deg,#2563eb,#3b82f6); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:.85rem; transition:width .4s;"></div>
+        <div id="split-bar-test" style="background:linear-gradient(135deg,#ef4444,#f87171); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:.85rem; transition:width .4s;"></div>
       </div>
       <div class="tb-stat-row" style="margin-top:10px;">
         <StatBox label="학습 데이터" id="stat-train-n" borderColor="#2563eb" />
         <StatBox label="검증 데이터" id="stat-test-n" borderColor="#ef4444" />
       </div>
+
+      <SimControls>
+        <button class="tb-btn tb-btn-success" id="btn-split-done">Step 3 완료 -- 다음으로</button>
+      </SimControls>
     </div>
   </div>
 
   <!-- ===== STEP 4: MODEL COMPARISON ===== -->
-  <div class="tb-card">
-    <h2>Step 4. 모델 비교: OLS vs Ridge vs Lasso</h2>
+  <div class="tb-card" id="card-step4">
+    <h2>
+      <span class="step-badge">Step 4</span>
+      모델 비교: OLS vs Ridge vs Lasso
+    </h2>
     <p>
-      같은 데이터에 세 가지 회귀 모델을 적합합니다.
-      <strong>OLS</strong>는 제약 없는 최소제곱법(14장),
-      <strong>Ridge</strong>는 L2 페널티로 계수를 축소(18장),
-      <strong>Lasso</strong>는 L1 페널티로 불필요한 계수를 0으로 만듭니다.
+      세 가지 회귀 모델을 경사하강법으로 학습합니다.
+      <strong>OLS</strong>는 제약 없는 최소제곱(14장),
+      <strong>Ridge</strong>는 L2 페널티(18장),
+      <strong>Lasso</strong>는 L1 페널티로 계수를 축소합니다.
     </p>
 
     <FormulaBox>
-      OLS: min ||y - X&#946;||&#178;<br>
-      Ridge: min ||y - X&#946;||&#178; + &#955; * ||&#946;||&#178; (L2)<br>
-      Lasso: min ||y - X&#946;||&#178; + &#955; * ||&#946;|| (L1)
+      OLS Loss: L = (1/n) * sum( (y_i - X_i * beta)^2 )<br>
+      Ridge Loss: L + lambda * sum( beta_j^2 )&nbsp;&nbsp;[L2 penalty]<br>
+      Lasso Loss: L + lambda * sum( |beta_j| )&nbsp;&nbsp;[L1 penalty, proximal gradient]
     </FormulaBox>
 
     <ExerciseBox>
       <strong>실습 4 -- 정규화 강도에 따른 모델 변화:</strong>
       lambda 슬라이더를 조절하면서 Ridge와 Lasso의 계수가 어떻게 변하는지 관찰하세요.
-      lambda가 커질수록 계수가 0에 가까워지며, Lasso는 일부 계수를 정확히 0으로 만듭니다.
-      "모델 비교 실행" 버튼을 눌러 세 모델의 성능을 비교하세요.
+      학습 과정의 손실 곡선(loss curve)도 함께 표시됩니다.
     </ExerciseBox>
 
     <SimControls>
-      <label>Lambda (&#955;):</label>
+      <label>Lambda:</label>
       <input type="range" id="slider-lambda" min="0" max="500" value="50" step="10">
       <span class="tb-speed-label" id="lbl-lambda">50</span>
-      <button class="tb-btn tb-btn-primary" id="btn-compare">모델 비교 실행</button>
+      <label style="margin-left:12px;">학습률:</label>
+      <select id="sel-lr">
+        <option value="0.01">0.01</option>
+        <option value="0.05" selected>0.05</option>
+        <option value="0.1">0.1</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-compare">모델 학습 실행</button>
     </SimControls>
 
     <div id="compare-results" style="display:none;">
@@ -293,42 +343,55 @@ import SimControls from '../../components/textbook/SimControls.astro';
         </table>
       </div>
 
-      <ChartContainer id="chart-compare-rmse" height="300px" />
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px;">
+        <div>
+          <h3>RMSE 비교</h3>
+          <ChartContainer id="chart-compare-rmse" height="280px" />
+        </div>
+        <div>
+          <h3>학습 손실 곡선</h3>
+          <ChartContainer id="chart-loss-curve" height="280px" />
+        </div>
+      </div>
 
-      <h3 style="margin-top:16px;">계수 비교 (어떤 변수가 축소되었는가?)</h3>
+      <h3 style="margin-top:16px;">계수 비교 (Lasso의 0 계수는 빨간색 강조)</h3>
       <div class="tb-data-table-wrap" style="max-height:300px;">
         <table class="tb-data-table" id="compare-coef-table">
           <thead><tr><th>변수</th><th>OLS</th><th>Ridge</th><th>Lasso</th></tr></thead>
           <tbody id="compare-coef-tbody"></tbody>
         </table>
       </div>
+
+      <SimControls>
+        <button class="tb-btn tb-btn-success" id="btn-compare-done">Step 4 완료 -- 다음으로</button>
+      </SimControls>
     </div>
   </div>
 
   <!-- ===== STEP 5: RESIDUAL DIAGNOSTICS ===== -->
-  <div class="tb-card">
-    <h2>Step 5. 잔차 진단</h2>
+  <div class="tb-card" id="card-step5">
+    <h2>
+      <span class="step-badge">Step 5</span>
+      잔차 진단
+    </h2>
     <p>
       모델이 학습을 마쳤다고 끝이 아닙니다.
-      잔차(실제값 - 예측값)의 패턴을 점검해야 모델의 가정이 충족되는지 확인할 수 있습니다 (16장 복습).
-      좋은 모델이라면 잔차에 체계적 패턴이 없어야 합니다.
+      잔차(실제값 - 예측값)의 패턴을 점검해야 모델 가정이 충족되는지 확인할 수 있습니다 (16장 복습).
     </p>
 
     <ExerciseBox>
       <strong>실습 5 -- 잔차 진단 3종 세트:</strong>
-      "진단 실행" 버튼을 누르면 세 가지 잔차 그래프가 표시됩니다.
-      (1) 예측값 vs 실제값, (2) 잔차 vs 예측값, (3) 잔차 히스토그램.
-      각 그래프에서 무엇을 확인해야 하는지 아래 설명을 참고하세요.
+      모델을 선택하면 자동으로 세 가지 진단 차트가 표시됩니다.
     </ExerciseBox>
 
     <SimControls>
-      <button class="tb-btn tb-btn-primary" id="btn-diagnose">진단 실행</button>
       <label>모델 선택:</label>
       <select id="sel-diag-model">
         <option value="ols">OLS</option>
         <option value="ridge">Ridge</option>
         <option value="lasso">Lasso</option>
       </select>
+      <button class="tb-btn tb-btn-primary" id="btn-diagnose">진단 실행</button>
     </SimControls>
 
     <div id="diag-results" style="display:none;">
@@ -344,26 +407,34 @@ import SimControls from '../../components/textbook/SimControls.astro';
       </div>
 
       <h3 style="margin-top:16px;">잔차 분포</h3>
-      <ChartContainer id="chart-diag-hist" height="280px" />
+      <ChartContainer id="chart-diag-hist" height="260px" />
 
       <div class="tb-stat-row" style="margin-top:14px;">
         <StatBox label="잔차 평균" id="stat-resid-mean" />
         <StatBox label="잔차 표준편차" id="stat-resid-std" />
         <StatBox label="MAE" id="stat-mae" />
+        <StatBox label="최대 절대오차" id="stat-max-err" />
       </div>
+
+      <SimControls>
+        <button class="tb-btn tb-btn-success" id="btn-diag-done">Step 5 완료 -- 다음으로</button>
+      </SimControls>
     </div>
 
     <InsightBox>
       <strong>진단 기준:</strong>
       잔차 평균은 0에 가까워야 합니다.
-      잔차 vs 예측값 그래프에 깔때기 형태(이분산성)나 곡선 패턴이 보이면 모델 가정에 문제가 있습니다.
+      잔차 vs 예측값에 깔때기 형태(이분산성)나 곡선 패턴이 보이면 모델 가정에 문제가 있습니다.
       잔차 히스토그램이 정규분포에 가까울수록 예측 구간의 신뢰도가 높아집니다.
     </InsightBox>
   </div>
 
   <!-- ===== STEP 6: PRICE PREDICTOR ===== -->
-  <div class="tb-card">
-    <h2>Step 6. 가격 예측 도구</h2>
+  <div class="tb-card" id="card-step6">
+    <h2>
+      <span class="step-badge">Step 6</span>
+      가격 예측 도구
+    </h2>
     <p>
       드디어 최종 단계입니다. 학습된 모델에 새로운 아파트 정보를 입력하면
       예측 가격과 95% 예측 구간을 보여줍니다.
@@ -371,75 +442,69 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     <ExerciseBox>
       <strong>실습 6 -- 나만의 아파트 가격 예측:</strong>
-      아래 입력란에 아파트 조건을 입력하고 "가격 예측" 버튼을 누르세요.
-      예측 결과와 함께, 유사 조건 매물의 실거래가도 비교합니다.
+      아래 조건을 입력하고 "가격 예측" 버튼을 누르세요.
+      유사 조건 매물의 실거래가도 함께 비교합니다.
     </ExerciseBox>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:12px; margin:14px 0; padding:16px; background:var(--tb-g100); border-radius:var(--tb-radius);">
-      <div>
-        <label style="font-size:.85rem; font-weight:600; display:block; margin-bottom:4px;">구</label>
-        <select id="pred-district" style="width:100%; padding:8px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font);">
-          <option value="강남">강남</option>
-          <option value="서초">서초</option>
-          <option value="마포">마포</option>
-          <option value="용산">용산</option>
-          <option value="성동">성동</option>
+    <div class="predictor-form" id="predictor-form">
+      <div class="pred-field">
+        <label>구</label>
+        <select id="pred-district">
+          <option value="강남">강남구</option>
+          <option value="서초">서초구</option>
+          <option value="마포">마포구</option>
+          <option value="용산">용산구</option>
+          <option value="성동">성동구</option>
         </select>
       </div>
-      <div>
-        <label style="font-size:.85rem; font-weight:600; display:block; margin-bottom:4px;">면적(m2)</label>
-        <input type="number" id="pred-area" value="84" min="15" max="150" style="width:100%; padding:8px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font);">
+      <div class="pred-field">
+        <label>면적 (m2)</label>
+        <input type="number" id="pred-area" value="84" min="15" max="150">
       </div>
-      <div>
-        <label style="font-size:.85rem; font-weight:600; display:block; margin-bottom:4px;">층수</label>
-        <input type="number" id="pred-floor" value="12" min="1" max="30" style="width:100%; padding:8px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font);">
+      <div class="pred-field">
+        <label>층수</label>
+        <input type="number" id="pred-floor" value="12" min="1" max="30">
       </div>
-      <div>
-        <label style="font-size:.85rem; font-weight:600; display:block; margin-bottom:4px;">건축년도</label>
-        <input type="number" id="pred-year" value="2015" min="1985" max="2024" style="width:100%; padding:8px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font);">
+      <div class="pred-field">
+        <label>건축년도</label>
+        <input type="number" id="pred-year" value="2015" min="1985" max="2024">
       </div>
-      <div>
-        <label style="font-size:.85rem; font-weight:600; display:block; margin-bottom:4px;">역거리(m)</label>
-        <input type="number" id="pred-station" value="500" min="50" max="3000" style="width:100%; padding:8px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font);">
+      <div class="pred-field">
+        <label>역거리 (m)</label>
+        <input type="number" id="pred-station" value="500" min="50" max="3000">
       </div>
-      <div>
-        <label style="font-size:.85rem; font-weight:600; display:block; margin-bottom:4px;">학군지수(1-10)</label>
-        <input type="number" id="pred-school" value="7" min="1" max="10" style="width:100%; padding:8px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font);">
-      </div>
-      <div>
-        <label style="font-size:.85rem; font-weight:600; display:block; margin-bottom:4px;">주차비율</label>
-        <input type="number" id="pred-parking" value="1.2" min="0.5" max="2.0" step="0.1" style="width:100%; padding:8px; border:2px solid var(--tb-g300); border-radius:8px; font-family:var(--tb-font);">
+      <div class="pred-field">
+        <label>학군지수 (1-10)</label>
+        <input type="number" id="pred-school" value="7" min="1" max="10">
       </div>
     </div>
 
     <SimControls>
-      <button class="tb-btn tb-btn-primary" id="btn-predict">가격 예측</button>
       <label>예측 모델:</label>
       <select id="sel-pred-model">
         <option value="ols">OLS</option>
         <option value="ridge">Ridge</option>
         <option value="lasso">Lasso</option>
       </select>
+      <button class="tb-btn tb-btn-primary pred-btn-big" id="btn-predict">가격 예측</button>
     </SimControls>
 
     <div id="pred-result" style="display:none; margin-top:14px;">
-      <div style="background:linear-gradient(135deg, #059669, #10b981); color:#fff; padding:24px; border-radius:var(--tb-radius); text-align:center;">
-        <div style="font-size:.9rem; opacity:.85;">예측 실거래가</div>
-        <div id="pred-price" style="font-size:2.2rem; font-weight:800; margin:8px 0;"></div>
-        <div id="pred-interval" style="font-size:.9rem; opacity:.85;"></div>
+      <div class="pred-result-card">
+        <div class="pred-result-header">예측 실거래가</div>
+        <div class="pred-result-price" id="pred-price">-</div>
+        <div class="pred-result-interval" id="pred-interval">-</div>
       </div>
 
-      <div id="pred-similar" style="margin-top:14px;">
-        <h3>유사 매물 비교</h3>
-        <div class="tb-data-table-wrap" style="max-height:200px;">
-          <table class="tb-data-table" id="pred-similar-table">
-            <thead><tr><th>구</th><th>면적</th><th>층</th><th>건축년도</th><th>실거래가</th></tr></thead>
-            <tbody id="pred-similar-tbody"></tbody>
-          </table>
-        </div>
-      </div>
+      <div id="pred-verdict" class="pred-verdict"></div>
 
-      <div id="pred-verdict" style="margin-top:14px; padding:16px; border-radius:var(--tb-radius); font-weight:600;"></div>
+      <h3 style="margin-top:16px;">유사 매물 5건</h3>
+      <div class="tb-data-table-wrap" style="max-height:220px;">
+        <table class="tb-data-table" id="pred-similar-table">
+          <thead><tr><th>구</th><th>면적</th><th>층</th><th>건축년도</th><th>역거리</th><th>실거래가</th><th>차이</th></tr></thead>
+          <tbody id="pred-similar-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -472,20 +537,19 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 <script>
 // ========================================================================
-//  Chapter 20: Capstone III - Real Estate Price Predictor
-//  All regression math in vanilla JS. Chart.js loaded from CDN.
+//  Chapter 20: Capstone III -- Real Estate Price Predictor
+//  All regression via GRADIENT DESCENT. Chart.js loaded from CDN.
 // ========================================================================
 
 // ======================== UTILITIES ========================
 
 function seededRandom(seed) {
-  let s = seed;
+  let s = seed | 0;
   return function() {
     s = (s * 16807 + 0) % 2147483647;
     return (s - 1) / 2147483646;
   };
 }
-
 function shuffle(arr, rng) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -494,9 +558,9 @@ function shuffle(arr, rng) {
   }
   return a;
 }
-
 function mean(arr) { return arr.reduce((s,v) => s+v, 0) / arr.length; }
 function std(arr) {
+  if (arr.length < 2) return 0;
   const m = mean(arr);
   return Math.sqrt(arr.reduce((s,v) => s + (v-m)*(v-m), 0) / (arr.length - 1));
 }
@@ -515,114 +579,66 @@ function corrCoef(x, y) {
   }
   return dx === 0 || dy === 0 ? 0 : num / Math.sqrt(dx*dy);
 }
+function fmt(v, d) { return typeof v === 'number' ? v.toFixed(d) : '-'; }
+function fmtK(v) { return Math.round(v).toLocaleString(); }
 
-// ======================== MATRIX OPS ========================
-
-function matCreate(rows, cols, fill=0) {
-  return Array.from({length:rows}, () => Array(cols).fill(fill));
-}
-function matTranspose(A) {
-  const r = A.length, c = A[0].length;
-  const T = matCreate(c, r);
-  for (let i = 0; i < r; i++) for (let j = 0; j < c; j++) T[j][i] = A[i][j];
-  return T;
-}
-function matMul(A, B) {
-  const r = A.length, c = B[0].length, k = B.length;
-  const C = matCreate(r, c);
-  for (let i = 0; i < r; i++)
-    for (let j = 0; j < c; j++)
-      for (let p = 0; p < k; p++) C[i][j] += A[i][p] * B[p][j];
-  return C;
-}
-function matInverse(M) {
-  const n = M.length;
-  const aug = M.map((row, i) => {
-    const r = [...row];
-    for (let j = 0; j < n; j++) r.push(i === j ? 1 : 0);
-    return r;
-  });
-  for (let col = 0; col < n; col++) {
-    let maxRow = col;
-    for (let row = col+1; row < n; row++)
-      if (Math.abs(aug[row][col]) > Math.abs(aug[maxRow][col])) maxRow = row;
-    [aug[col], aug[maxRow]] = [aug[maxRow], aug[col]];
-    const pivot = aug[col][col];
-    if (Math.abs(pivot) < 1e-12) {
-      for (let j = 0; j < 2*n; j++) aug[col][j] = 0;
-      continue;
-    }
-    for (let j = 0; j < 2*n; j++) aug[col][j] /= pivot;
-    for (let row = 0; row < n; row++) {
-      if (row === col) continue;
-      const f = aug[row][col];
-      for (let j = 0; j < 2*n; j++) aug[row][j] -= f * aug[col][j];
-    }
-  }
-  return aug.map(row => row.slice(n));
-}
-
-// ======================== DATASET GENERATION ========================
+// ======================== DATASET ========================
 
 const DISTRICTS = ['강남', '서초', '마포', '용산', '성동'];
 const DIST_BASE = { '강남': 18000, '서초': 15000, '마포': 10000, '용산': 12000, '성동': 9000 };
-const VAR_NAMES = ['area_m2','floor','built_year','station_dist_m','school_score','parking','price_10k'];
-const VAR_LABELS = {'area_m2':'면적(m2)','floor':'층수','built_year':'건축년도','station_dist_m':'역거리(m)',
-  'school_score':'학군지수','parking':'주차비율','price_10k':'실거래가(만원)'};
+const DIST_COLORS = { '강남': '#ef4444', '서초': '#f59e0b', '마포': '#22c55e', '용산': '#3b82f6', '성동': '#8b5cf6' };
+const NUM_VARS = ['area_m2','floor','built_year','station_dist_m','school_score','price_10k'];
+const VAR_LABELS = {
+  'area_m2':'면적(m2)','floor':'층수','built_year':'건축년도',
+  'station_dist_m':'역거리(m)','school_score':'학군지수',
+  'price_10k':'실거래가(만원)','district':'구'
+};
 
 let dataset = [];
 let trainSet = [], testSet = [];
 let fittedModels = { ols: null, ridge: null, lasso: null };
+let lossHistory = { ols: [], ridge: [], lasso: [] };
 let chartInstances = {};
+let r2History = [];
+let completedSteps = new Set();
 
-function generateApartmentData(n) {
+function generateData(n) {
   const rng = seededRandom(Date.now() % 100000);
   const data = [];
   for (let i = 0; i < n; i++) {
     const district = DISTRICTS[Math.floor(rng() * DISTRICTS.length)];
-    const area = Math.round(15 + rng() * 135);
+    const area = Math.round(20 + rng() * 130);
     const floor = Math.round(1 + rng() * 29);
     const builtYear = Math.round(1985 + rng() * 39);
     const stationDist = Math.round(50 + rng() * 2950);
     const schoolScore = Math.round(1 + rng() * 9);
-    const parking = Math.round((0.5 + rng() * 1.5) * 10) / 10;
 
-    const age = 2025 - builtYear;
     const base = DIST_BASE[district];
     const price = base
       + 120 * area
       + 50 * floor
-      - 40 * age
-      + 800000 / Math.max(stationDist, 50)
-      + 200 * schoolScore
-      + 500 * parking
-      + (rng() - 0.5) * 3000;
+      - 80 * (2024 - builtYear)
+      - 2 * stationDist
+      + 500 * schoolScore
+      + (rng() - 0.5) * 4000;
 
     data.push({
-      id: i + 1,
-      district,
-      area_m2: area,
-      floor,
-      built_year: builtYear,
-      station_dist_m: stationDist,
-      school_score: schoolScore,
-      parking,
-      price_10k: Math.round(Math.max(price, 2000))
+      id: i + 1, district,
+      area_m2: area, floor, built_year: builtYear,
+      station_dist_m: stationDist, school_score: schoolScore,
+      price_10k: Math.round(Math.max(price, 1500))
     });
   }
   return data;
 }
 
-// ======================== REGRESSION CLASSES ========================
+// ======================== GRADIENT DESCENT REGRESSION ========================
 
-function prepareFeatureMatrix(data, featureNames) {
-  const n = data.length;
+function prepareFeatures(data, featureNames) {
   const cols = [];
   const colNames = [];
-
   for (const f of featureNames) {
     if (f === 'district_code') {
-      // one-hot: use all but first district as reference
       for (let d = 1; d < DISTRICTS.length; d++) {
         cols.push(data.map(r => r.district === DISTRICTS[d] ? 1 : 0));
         colNames.push('구_' + DISTRICTS[d]);
@@ -632,155 +648,189 @@ function prepareFeatureMatrix(data, featureNames) {
       colNames.push(VAR_LABELS[f] || f);
     }
   }
-
-  // Standardize
   const means = cols.map(c => mean(c));
   const stds = cols.map(c => { const s = std(c); return s === 0 ? 1 : s; });
   const X = data.map((_, i) => {
-    const row = [1]; // intercept
+    const row = [1];
     for (let j = 0; j < cols.length; j++) row.push((cols[j][i] - means[j]) / stds[j]);
     return row;
   });
   const y = data.map(r => r.price_10k);
-
   return { X, y, means, stds, colNames: ['절편', ...colNames] };
 }
 
-function olsFit(X, y) {
-  const Xt = matTranspose(X);
-  const XtX = matMul(Xt, X);
-  const XtXinv = matInverse(XtX);
-  const Xty = matMul(Xt, y.map(v => [v]));
-  const beta = matMul(XtXinv, Xty).map(r => r[0]);
-  return beta;
-}
-
-function ridgeFit(X, y, alpha) {
-  const p = X[0].length;
-  const Xt = matTranspose(X);
-  const XtX = matMul(Xt, X);
-  // Add alpha * I (skip intercept penalty)
-  for (let i = 1; i < p; i++) XtX[i][i] += alpha;
-  const XtXinv = matInverse(XtX);
-  const Xty = matMul(Xt, y.map(v => [v]));
-  const beta = matMul(XtXinv, Xty).map(r => r[0]);
-  return beta;
-}
-
-function lassoFit(X, y, alpha, maxIter = 500) {
-  const n = X.length, p = X[0].length;
-  const beta = new Array(p).fill(0);
-
-  // Precompute column norms
-  const colNorms = [];
-  for (let j = 0; j < p; j++) {
-    let s = 0;
-    for (let i = 0; i < n; i++) s += X[i][j] * X[i][j];
-    colNorms.push(s);
-  }
-
-  for (let iter = 0; iter < maxIter; iter++) {
-    let maxChange = 0;
-    for (let j = 0; j < p; j++) {
-      // Compute residual without j-th feature
-      let rho = 0;
-      for (let i = 0; i < n; i++) {
-        let pred = 0;
-        for (let k = 0; k < p; k++) {
-          if (k !== j) pred += X[i][k] * beta[k];
-        }
-        rho += X[i][j] * (y[i] - pred);
+function standardizeTestRow(row, feats, prep) {
+  const r = [1];
+  let ci = 0;
+  for (const f of feats) {
+    if (f === 'district_code') {
+      for (let d = 1; d < DISTRICTS.length; d++) {
+        r.push(((row.district === DISTRICTS[d] ? 1 : 0) - prep.means[ci]) / prep.stds[ci]);
+        ci++;
       }
-
-      let newBeta;
-      if (j === 0) {
-        // Don't penalize intercept
-        newBeta = rho / colNorms[j];
-      } else {
-        // Soft threshold
-        if (rho > alpha) newBeta = (rho - alpha) / colNorms[j];
-        else if (rho < -alpha) newBeta = (rho + alpha) / colNorms[j];
-        else newBeta = 0;
-      }
-
-      maxChange = Math.max(maxChange, Math.abs(newBeta - beta[j]));
-      beta[j] = newBeta;
+    } else {
+      r.push((row[f] - prep.means[ci]) / prep.stds[ci]);
+      ci++;
     }
-    if (maxChange < 1e-6) break;
   }
-  return beta;
+  return r;
 }
 
-function predict(X, beta) {
+// --- Gradient Descent for OLS ---
+function gdOLS(X, y, lr, maxIter) {
+  const n = X.length, p = X[0].length;
+  const w = new Array(p).fill(0);
+  const losses = [];
+  for (let it = 0; it < maxIter; it++) {
+    const grad = new Array(p).fill(0);
+    let loss = 0;
+    for (let i = 0; i < n; i++) {
+      let pred = 0;
+      for (let j = 0; j < p; j++) pred += X[i][j] * w[j];
+      const err = pred - y[i];
+      loss += err * err;
+      for (let j = 0; j < p; j++) grad[j] += (2 / n) * err * X[i][j];
+    }
+    for (let j = 0; j < p; j++) w[j] -= lr * grad[j];
+    losses.push(loss / n);
+    if (it > 10 && Math.abs(losses[it] - losses[it - 1]) < 1e-4) break;
+  }
+  return { w: [...w], losses };
+}
+
+// --- Gradient Descent for Ridge ---
+function gdRidge(X, y, lr, lambda, maxIter) {
+  const n = X.length, p = X[0].length;
+  const w = new Array(p).fill(0);
+  const losses = [];
+  for (let it = 0; it < maxIter; it++) {
+    const grad = new Array(p).fill(0);
+    let loss = 0;
+    for (let i = 0; i < n; i++) {
+      let pred = 0;
+      for (let j = 0; j < p; j++) pred += X[i][j] * w[j];
+      const err = pred - y[i];
+      loss += err * err;
+      for (let j = 0; j < p; j++) grad[j] += (2 / n) * err * X[i][j];
+    }
+    // L2 penalty gradient (skip intercept j=0)
+    let penLoss = 0;
+    for (let j = 1; j < p; j++) {
+      grad[j] += (2 * lambda / n) * w[j];
+      penLoss += w[j] * w[j];
+    }
+    for (let j = 0; j < p; j++) w[j] -= lr * grad[j];
+    losses.push(loss / n + (lambda / n) * penLoss);
+    if (it > 10 && Math.abs(losses[it] - losses[it - 1]) < 1e-4) break;
+  }
+  return { w: [...w], losses };
+}
+
+// --- Proximal Gradient Descent for Lasso ---
+function gdLasso(X, y, lr, lambda, maxIter) {
+  const n = X.length, p = X[0].length;
+  const w = new Array(p).fill(0);
+  const losses = [];
+  function softThresh(val, th) {
+    if (val > th) return val - th;
+    if (val < -th) return val + th;
+    return 0;
+  }
+  for (let it = 0; it < maxIter; it++) {
+    const grad = new Array(p).fill(0);
+    let loss = 0;
+    for (let i = 0; i < n; i++) {
+      let pred = 0;
+      for (let j = 0; j < p; j++) pred += X[i][j] * w[j];
+      const err = pred - y[i];
+      loss += err * err;
+      for (let j = 0; j < p; j++) grad[j] += (2 / n) * err * X[i][j];
+    }
+    // Gradient step
+    for (let j = 0; j < p; j++) w[j] -= lr * grad[j];
+    // Proximal step (soft thresholding, skip intercept)
+    let penLoss = 0;
+    for (let j = 1; j < p; j++) {
+      w[j] = softThresh(w[j], lr * lambda / n);
+      penLoss += Math.abs(w[j]);
+    }
+    losses.push(loss / n + (lambda / n) * penLoss);
+    if (it > 10 && Math.abs(losses[it] - losses[it - 1]) < 1e-4) break;
+  }
+  return { w: [...w], losses };
+}
+
+function predict(X, w) {
   return X.map(row => {
     let s = 0;
-    for (let j = 0; j < beta.length; j++) s += row[j] * beta[j];
+    for (let j = 0; j < w.length; j++) s += row[j] * w[j];
     return s;
   });
 }
-
-function calcRMSE(actual, predicted) {
-  let s = 0;
-  for (let i = 0; i < actual.length; i++) s += (actual[i]-predicted[i])**2;
-  return Math.sqrt(s / actual.length);
+function calcRMSE(a, p) { let s = 0; for (let i = 0; i < a.length; i++) s += (a[i]-p[i])**2; return Math.sqrt(s/a.length); }
+function calcMAE(a, p) { let s = 0; for (let i = 0; i < a.length; i++) s += Math.abs(a[i]-p[i]); return s/a.length; }
+function calcR2(a, p) {
+  const m = mean(a);
+  let t = 0, r = 0;
+  for (let i = 0; i < a.length; i++) { t += (a[i]-m)**2; r += (a[i]-p[i])**2; }
+  return t === 0 ? 0 : 1 - r/t;
 }
+function calcAdjR2(r2, n, p) { return n-p-1 <= 0 ? r2 : 1 - (1-r2)*(n-1)/(n-p-1); }
 
-function calcMAE(actual, predicted) {
-  let s = 0;
-  for (let i = 0; i < actual.length; i++) s += Math.abs(actual[i]-predicted[i]);
-  return s / actual.length;
-}
-
-function calcR2(actual, predicted) {
-  const m = mean(actual);
-  let ssTot = 0, ssRes = 0;
-  for (let i = 0; i < actual.length; i++) {
-    ssTot += (actual[i]-m)**2;
-    ssRes += (actual[i]-predicted[i])**2;
-  }
-  return ssTot === 0 ? 0 : 1 - ssRes/ssTot;
-}
-
-function calcAdjR2(r2, n, p) {
-  if (n - p - 1 <= 0) return r2;
-  return 1 - (1 - r2) * (n - 1) / (n - p - 1);
-}
-
+// VIF: regress X_j on others via simple OLS GD
 function calcVIF(X, colIdx) {
-  // Regress X[colIdx] on all other columns (excluding intercept col 0)
-  const n = X.length;
-  const p = X[0].length;
+  const n = X.length, p = X[0].length;
   if (p <= 2) return 1;
-
   const yCol = X.map(r => r[colIdx]);
-  const Xother = X.map(r => {
+  const Xo = X.map(r => {
     const row = [1];
     for (let j = 1; j < p; j++) if (j !== colIdx) row.push(r[j]);
     return row;
   });
-
-  const beta = olsFit(Xother, yCol);
-  const pred = predict(Xother, beta);
+  const res = gdOLS(Xo, yCol, 0.05, 200);
+  const pred = predict(Xo, res.w);
   const r2 = calcR2(yCol, pred);
-  return r2 >= 1 ? 100 : 1 / (1 - r2);
+  return r2 >= 0.999 ? 100 : 1 / (1 - r2);
 }
 
-// ======================== CHART.JS LOADING ========================
+// ======================== CHART.JS ========================
 
 let chartJSLoaded = false;
 function loadChartJS() {
   return new Promise((resolve) => {
-    if (chartJSLoaded) { resolve(); return; }
-    if (window.Chart) { chartJSLoaded = true; resolve(); return; }
+    if (chartJSLoaded || window.Chart) { chartJSLoaded = true; resolve(); return; }
     const s = document.createElement('script');
     s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js';
     s.onload = () => { chartJSLoaded = true; resolve(); };
     document.head.appendChild(s);
   });
 }
-
 function destroyChart(id) {
   if (chartInstances[id]) { chartInstances[id].destroy(); delete chartInstances[id]; }
+}
+
+// ======================== PIPELINE PROGRESS ========================
+
+function markStepDone(stepNum) {
+  completedSteps.add(stepNum);
+  const steps = document.querySelectorAll('.pipe-step');
+  const lines = document.querySelectorAll('.step-line');
+  steps.forEach(el => {
+    const s = parseInt(el.dataset.step);
+    if (completedSteps.has(s)) {
+      el.classList.add('done');
+      el.classList.remove('active');
+    }
+    if (s === stepNum + 1 && s <= 6) {
+      el.classList.add('active');
+    }
+  });
+  lines.forEach((line, i) => {
+    if (completedSteps.has(i + 1)) line.classList.add('done');
+  });
+  // Scroll to next card
+  const next = document.getElementById('card-step' + (stepNum + 1));
+  if (next) next.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ======================== DATA PREVIEW ========================
@@ -793,85 +843,109 @@ function renderPreview() {
   show.forEach(row => {
     if (!row) {
       tbody.insertAdjacentHTML('beforeend',
-        '<tr><td colspan="9" style="color:var(--tb-g600);font-style:italic">... (중략) ...</td></tr>');
+        '<tr><td colspan="8" style="color:var(--tb-g600);font-style:italic">... (중략) ...</td></tr>');
       return;
     }
     tbody.insertAdjacentHTML('beforeend', `<tr>
       <td>${row.id}</td><td>${row.district}</td><td>${row.area_m2}</td><td>${row.floor}</td>
       <td>${row.built_year}</td><td>${row.station_dist_m}</td><td>${row.school_score}</td>
-      <td>${row.parking}</td><td>${row.price_10k.toLocaleString()}</td>
+      <td>${fmtK(row.price_10k)}</td>
     </tr>`);
   });
   const el = document.getElementById('stat-n');
   if (el) el.textContent = dataset.length;
 }
 
-// ======================== EDA ========================
+// ======================== STEP 1: EDA ========================
 
 async function renderEDAHist() {
   await loadChartJS();
   const varName = document.getElementById('sel-eda-var').value;
-  const values = dataset.map(r => r[varName]);
-  const mn = Math.min(...values), mx = Math.max(...values);
-  const binCount = 20;
-  const binWidth = (mx - mn) / binCount || 1;
-  const bins = Array(binCount).fill(0);
-  const labels = [];
-  for (let i = 0; i < binCount; i++) {
-    const lo = mn + i * binWidth;
-    labels.push(Math.round(lo));
-  }
-  values.forEach(v => {
-    let idx = Math.floor((v - mn) / binWidth);
-    if (idx >= binCount) idx = binCount - 1;
-    if (idx < 0) idx = 0;
-    bins[idx]++;
-  });
-
   destroyChart('chart-eda-hist');
   const ctx = document.getElementById('chart-eda-hist');
-  chartInstances['chart-eda-hist'] = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{ label: VAR_LABELS[varName] || varName, data: bins, backgroundColor: 'rgba(37,99,235,0.6)', borderColor: '#2563eb', borderWidth: 1 }]
-    },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-      scales: { y: { title: { display: true, text: '빈도' } }, x: { title: { display: true, text: VAR_LABELS[varName] || varName } } }
-    }
-  });
-
-  // Summary stats
   const tbody = document.getElementById('eda-summary-tbody');
-  if (tbody) {
-    tbody.innerHTML = `<tr>
-      <td>${VAR_LABELS[varName]||varName}</td>
-      <td>${values.length}</td>
-      <td>${mean(values).toFixed(1)}</td>
-      <td>${median(values).toFixed(1)}</td>
-      <td>${std(values).toFixed(1)}</td>
-      <td>${Math.min(...values).toFixed(1)}</td>
-      <td>${Math.max(...values).toFixed(1)}</td>
-    </tr>`;
+
+  if (varName === 'district') {
+    // categorical bar chart
+    const counts = {};
+    DISTRICTS.forEach(d => counts[d] = 0);
+    dataset.forEach(r => counts[r.district]++);
+    const labels = DISTRICTS.map(d => d + '구');
+    const values = DISTRICTS.map(d => counts[d]);
+    const colors = DISTRICTS.map(d => DIST_COLORS[d]);
+    chartInstances['chart-eda-hist'] = new Chart(ctx, {
+      type: 'bar',
+      data: { labels, datasets: [{ label: '건수', data: values, backgroundColor: colors }] },
+      options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { title: { display: true, text: '건수' }, beginAtZero: true } }
+      }
+    });
+    if (tbody) {
+      tbody.innerHTML = DISTRICTS.map(d =>
+        `<tr><td>${d}구</td><td>${counts[d]}건 (${(counts[d]/dataset.length*100).toFixed(1)}%)</td></tr>`
+      ).join('');
+    }
+  } else {
+    // numeric histogram
+    const values = dataset.map(r => r[varName]);
+    const mn = Math.min(...values), mx = Math.max(...values);
+    const binCount = 20;
+    const bw = (mx - mn) / binCount || 1;
+    const bins = Array(binCount).fill(0);
+    const labels = [];
+    for (let i = 0; i < binCount; i++) labels.push(Math.round(mn + i * bw));
+    values.forEach(v => {
+      let idx = Math.floor((v - mn) / bw);
+      if (idx >= binCount) idx = binCount - 1;
+      if (idx < 0) idx = 0;
+      bins[idx]++;
+    });
+    chartInstances['chart-eda-hist'] = new Chart(ctx, {
+      type: 'bar',
+      data: { labels, datasets: [{ label: VAR_LABELS[varName], data: bins,
+        backgroundColor: 'rgba(37,99,235,0.6)', borderColor: '#2563eb', borderWidth: 1 }] },
+      options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { title: { display: true, text: '빈도' } },
+                  x: { title: { display: true, text: VAR_LABELS[varName] } } }
+      }
+    });
+    if (tbody) {
+      const m = mean(values), s = std(values), med = median(values);
+      tbody.innerHTML = `
+        <tr><td>N</td><td>${values.length}</td></tr>
+        <tr><td>평균</td><td>${m.toFixed(1)}</td></tr>
+        <tr><td>중앙값</td><td>${med.toFixed(1)}</td></tr>
+        <tr><td>표준편차</td><td>${s.toFixed(1)}</td></tr>
+        <tr><td>최솟값</td><td>${Math.min(...values).toFixed(1)}</td></tr>
+        <tr><td>최댓값</td><td>${Math.max(...values).toFixed(1)}</td></tr>`;
+    }
   }
 }
 
-async function renderEDAScatter() {
+async function renderScatter() {
   await loadChartJS();
   const xVar = document.getElementById('sel-scatter-x').value;
-  const points = dataset.map(r => ({ x: r[xVar], y: r.price_10k }));
-  const r = corrCoef(dataset.map(d => d[xVar]), dataset.map(d => d.price_10k));
-
   destroyChart('chart-eda-scatter');
   const ctx = document.getElementById('chart-eda-scatter');
+
+  const datasets = DISTRICTS.map(d => ({
+    label: d + '구',
+    data: dataset.filter(r => r.district === d).map(r => ({ x: r[xVar], y: r.price_10k })),
+    backgroundColor: DIST_COLORS[d] + '99',
+    pointRadius: 3
+  }));
+
+  const r = corrCoef(dataset.map(r => r[xVar]), dataset.map(r => r.price_10k));
   chartInstances['chart-eda-scatter'] = new Chart(ctx, {
     type: 'scatter',
-    data: {
-      datasets: [{ label: `r = ${r.toFixed(3)}`, data: points, backgroundColor: 'rgba(37,99,235,0.4)', pointRadius: 3 }]
-    },
+    data: { datasets },
     options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } },
+        title: { display: true, text: 'r = ' + r.toFixed(3), font: { size: 13 } } },
       scales: {
-        x: { title: { display: true, text: VAR_LABELS[xVar] || xVar } },
+        x: { title: { display: true, text: VAR_LABELS[xVar] } },
         y: { title: { display: true, text: '실거래가(만원)' } }
       }
     }
@@ -882,27 +956,26 @@ function renderHeatmap() {
   const canvas = document.getElementById('canvas-heatmap');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const vars = VAR_NAMES;
-  const labels = vars.map(v => VAR_LABELS[v] || v);
+  const vars = NUM_VARS;
+  const labels = vars.map(v => VAR_LABELS[v]);
   const n = vars.length;
 
-  const corrMatrix = [];
+  const corr = [];
   for (let i = 0; i < n; i++) {
-    corrMatrix.push([]);
+    corr.push([]);
     for (let j = 0; j < n; j++) {
-      corrMatrix[i].push(corrCoef(dataset.map(r => r[vars[i]]), dataset.map(r => r[vars[j]])));
+      corr[i].push(corrCoef(dataset.map(r => r[vars[i]]), dataset.map(r => r[vars[j]])));
     }
   }
 
   const size = canvas.width;
   const pad = 90;
-  const cellSize = (size - pad) / n;
+  const cell = (size - pad) / n;
   ctx.clearRect(0, 0, size, size);
 
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
-      const val = corrMatrix[i][j];
-      // Color: red for positive, blue for negative
+      const val = corr[i][j];
       let r, g, b;
       if (val >= 0) {
         r = 239; g = Math.round(239 - val * 171); b = Math.round(239 - val * 171);
@@ -911,27 +984,22 @@ function renderHeatmap() {
         r = Math.round(239 - av * 202); g = Math.round(239 - av * 140); b = 239;
       }
       ctx.fillStyle = `rgb(${r},${g},${b})`;
-      ctx.fillRect(pad + j * cellSize, pad + i * cellSize, cellSize - 1, cellSize - 1);
-
-      // Text
+      ctx.fillRect(pad + j * cell, pad + i * cell, cell - 1, cell - 1);
       ctx.fillStyle = Math.abs(val) > 0.5 ? '#fff' : '#1e293b';
       ctx.font = '11px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(val.toFixed(2), pad + j * cellSize + cellSize/2, pad + i * cellSize + cellSize/2);
+      ctx.fillText(val.toFixed(2), pad + j * cell + cell/2, pad + i * cell + cell/2);
     }
   }
-
-  // Labels
   ctx.fillStyle = '#1e293b';
-  ctx.font = '12px sans-serif';
+  ctx.font = '11px sans-serif';
   for (let i = 0; i < n; i++) {
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
-    ctx.fillText(labels[i], pad - 6, pad + i * cellSize + cellSize/2);
-
+    ctx.fillText(labels[i], pad - 6, pad + i * cell + cell/2);
     ctx.save();
-    ctx.translate(pad + i * cellSize + cellSize/2, pad - 6);
+    ctx.translate(pad + i * cell + cell/2, pad - 6);
     ctx.rotate(-Math.PI / 4);
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
@@ -940,20 +1008,20 @@ function renderHeatmap() {
   }
 }
 
-// ======================== FEATURE SELECTION ========================
+// ======================== STEP 2: FEATURE SELECTION ========================
 
 function getSelectedFeatures() {
-  const checks = document.querySelectorAll('.feat-check:checked');
-  return Array.from(checks).map(c => c.value);
+  return Array.from(document.querySelectorAll('.feat-check:checked')).map(c => c.value);
 }
 
-function runFeatureSelection() {
+async function runFeatureSelection() {
   const feats = getSelectedFeatures();
   if (feats.length === 0) { alert('하나 이상의 변수를 선택하세요.'); return; }
+  await loadChartJS();
 
-  const { X, y, colNames } = prepareFeatureMatrix(dataset, feats);
-  const beta = olsFit(X, y);
-  const pred = predict(X, beta);
+  const { X, y, colNames } = prepareFeatures(dataset, feats);
+  const res = gdOLS(X, y, 0.05, 300);
+  const pred = predict(X, res.w);
   const r2 = calcR2(y, pred);
   const p = colNames.length - 1;
   const adjR2 = calcAdjR2(r2, y.length, p);
@@ -961,39 +1029,60 @@ function runFeatureSelection() {
 
   document.getElementById('stat-r2').textContent = r2.toFixed(4);
   document.getElementById('stat-adj-r2').textContent = adjR2.toFixed(4);
-  document.getElementById('stat-rmse').textContent = Math.round(rmseVal).toLocaleString();
+  document.getElementById('stat-rmse').textContent = fmtK(rmseVal);
   document.getElementById('stat-p').textContent = p;
-  document.getElementById('reg-stats').style.display = '';
 
   // Coefficients + VIF
   const tbody = document.getElementById('reg-coef-tbody');
   tbody.innerHTML = '';
   let hasHighVIF = false;
   for (let j = 0; j < colNames.length; j++) {
-    let vif = '-';
-    let status = '';
+    let vif = '-', status = '';
     if (j > 0 && colNames.length > 2) {
       const v = calcVIF(X, j);
       vif = v.toFixed(2);
-      if (v > 5) { status = 'WARN'; hasHighVIF = true; }
+      if (v >= 5) { status = 'HIGH'; hasHighVIF = true; }
       else status = 'OK';
     }
+    const vifColor = status === 'HIGH' ? 'var(--tb-danger)' : status === 'OK' ? 'var(--tb-success)' : '';
     tbody.insertAdjacentHTML('beforeend', `<tr>
       <td>${colNames[j]}</td>
-      <td>${beta[j].toFixed(2)}</td>
-      <td>${vif}</td>
-      <td style="color:${status==='WARN'?'var(--tb-danger)':'var(--tb-success)'}; font-weight:700;">${status}</td>
+      <td>${res.w[j].toFixed(2)}</td>
+      <td style="color:${vifColor};font-weight:${status==='HIGH'?'700':'400'}">${vif}</td>
+      <td style="color:${vifColor};font-weight:700;">${status}</td>
     </tr>`);
   }
-  document.getElementById('reg-coef-wrap').style.display = '';
   document.getElementById('vif-warning').style.display = hasHighVIF ? '' : 'none';
+
+  // R2 history bar chart
+  r2History.push({ label: feats.length + '변수', r2: r2, adjR2: adjR2 });
+  if (r2History.length > 8) r2History = r2History.slice(-8);
+  destroyChart('chart-r2-bar');
+  chartInstances['chart-r2-bar'] = new Chart(document.getElementById('chart-r2-bar'), {
+    type: 'bar',
+    data: {
+      labels: r2History.map(h => h.label),
+      datasets: [
+        { label: 'R2', data: r2History.map(h => h.r2), backgroundColor: 'rgba(37,99,235,0.6)' },
+        { label: 'Adj-R2', data: r2History.map(h => h.adjR2), backgroundColor: 'rgba(124,58,237,0.5)' }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      scales: { y: { min: 0, max: 1, title: { display: true, text: 'R-제곱' } } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  document.getElementById('reg-results').style.display = '';
+  document.getElementById('btn-feat-done').style.display = '';
 }
 
-// ======================== TRAIN/TEST SPLIT ========================
+// ======================== STEP 3: SPLIT ========================
 
 function splitData() {
   const ratio = parseInt(document.getElementById('slider-train').value) / 100;
-  const rng = seededRandom(42);
+  const seed = parseInt(document.getElementById('input-seed').value) || 42;
+  const rng = seededRandom(seed);
   const shuffled = shuffle(dataset, rng);
   const splitIdx = Math.round(shuffled.length * ratio);
   trainSet = shuffled.slice(0, splitIdx);
@@ -1003,74 +1092,50 @@ function splitData() {
   const trainBar = document.getElementById('split-bar-train');
   const testBar = document.getElementById('split-bar-test');
   trainBar.style.width = (ratio * 100) + '%';
-  trainBar.textContent = `학습 ${(ratio*100).toFixed(0)}%`;
+  trainBar.textContent = '학습 ' + Math.round(ratio * 100) + '%';
   testBar.style.width = ((1-ratio)*100) + '%';
-  testBar.textContent = `검증 ${((1-ratio)*100).toFixed(0)}%`;
-
+  testBar.textContent = '검증 ' + Math.round((1-ratio)*100) + '%';
   document.getElementById('stat-train-n').textContent = trainSet.length;
   document.getElementById('stat-test-n').textContent = testSet.length;
 }
 
-// ======================== MODEL COMPARISON ========================
+// ======================== STEP 4: MODEL COMPARISON ========================
 
 async function runComparison() {
-  if (trainSet.length === 0) {
-    alert('먼저 Step 3에서 데이터를 분할하세요.');
-    return;
-  }
+  if (trainSet.length === 0) { alert('먼저 Step 3에서 데이터를 분할하세요.'); return; }
   await loadChartJS();
-
   const feats = getSelectedFeatures();
   if (feats.length === 0) { alert('Step 2에서 변수를 선택하세요.'); return; }
 
   const lambda = parseFloat(document.getElementById('slider-lambda').value);
+  const lr = parseFloat(document.getElementById('sel-lr').value);
+  const maxIter = 500;
 
-  const trainPrep = prepareFeatureMatrix(trainSet, feats);
-  // Use train stats to standardize test data
-  const testX = testSet.map(row => {
-    const r = [1];
-    let ci = 0;
-    for (const f of feats) {
-      if (f === 'district_code') {
-        for (let d = 1; d < DISTRICTS.length; d++) {
-          r.push(((row.district === DISTRICTS[d] ? 1 : 0) - trainPrep.means[ci]) / trainPrep.stds[ci]);
-          ci++;
-        }
-      } else {
-        r.push((row[f] - trainPrep.means[ci]) / trainPrep.stds[ci]);
-        ci++;
-      }
-    }
-    return r;
-  });
+  const trainPrep = prepareFeatures(trainSet, feats);
+  const testX = testSet.map(r => standardizeTestRow(r, feats, trainPrep));
   const testY = testSet.map(r => r.price_10k);
 
-  // Fit models
-  const betaOLS = olsFit(trainPrep.X, trainPrep.y);
-  const betaRidge = ridgeFit(trainPrep.X, trainPrep.y, lambda);
-  const betaLasso = lassoFit(trainPrep.X, trainPrep.y, lambda);
+  // Fit all three models via gradient descent
+  const olsRes = gdOLS(trainPrep.X, trainPrep.y, lr, maxIter);
+  const ridgeRes = gdRidge(trainPrep.X, trainPrep.y, lr, lambda, maxIter);
+  const lassoRes = gdLasso(trainPrep.X, trainPrep.y, lr, lambda, maxIter);
 
-  fittedModels.ols = { beta: betaOLS, prep: trainPrep, feats };
-  fittedModels.ridge = { beta: betaRidge, prep: trainPrep, feats };
-  fittedModels.lasso = { beta: betaLasso, prep: trainPrep, feats };
+  fittedModels.ols = { w: olsRes.w, prep: trainPrep, feats };
+  fittedModels.ridge = { w: ridgeRes.w, prep: trainPrep, feats };
+  fittedModels.lasso = { w: lassoRes.w, prep: trainPrep, feats };
+  lossHistory = { ols: olsRes.losses, ridge: ridgeRes.losses, lasso: lassoRes.losses };
 
   const results = [
-    { name: 'OLS', beta: betaOLS },
-    { name: 'Ridge', beta: betaRidge },
-    { name: 'Lasso', beta: betaLasso }
+    { name: 'OLS', w: olsRes.w },
+    { name: 'Ridge', w: ridgeRes.w },
+    { name: 'Lasso', w: lassoRes.w }
   ].map(m => {
-    const trainPred = predict(trainPrep.X, m.beta);
-    const testPred = predict(testX, m.beta);
-    return {
-      ...m,
-      trainRMSE: calcRMSE(trainPrep.y, trainPred),
-      testRMSE: calcRMSE(testY, testPred),
-      trainR2: calcR2(trainPrep.y, trainPred),
-      testR2: calcR2(testY, testPred)
-    };
+    const trP = predict(trainPrep.X, m.w);
+    const teP = predict(testX, m.w);
+    return { ...m,
+      trainRMSE: calcRMSE(trainPrep.y, trP), testRMSE: calcRMSE(testY, teP),
+      trainR2: calcR2(trainPrep.y, trP), testR2: calcR2(testY, teP) };
   });
-
-  // Best model = lowest test RMSE
   const bestIdx = results.reduce((bi, r, i) => r.testRMSE < results[bi].testRMSE ? i : bi, 0);
 
   // Performance table
@@ -1078,19 +1143,15 @@ async function runComparison() {
   tbody.innerHTML = '';
   results.forEach((r, i) => {
     tbody.insertAdjacentHTML('beforeend', `<tr style="${i===bestIdx?'background:var(--tb-accent-light);font-weight:700':''}">
-      <td>${r.name}</td>
-      <td>${Math.round(r.trainRMSE).toLocaleString()}</td>
-      <td>${Math.round(r.testRMSE).toLocaleString()}</td>
-      <td>${r.trainR2.toFixed(4)}</td>
-      <td>${r.testR2.toFixed(4)}</td>
+      <td>${r.name}</td><td>${fmtK(r.trainRMSE)}</td><td>${fmtK(r.testRMSE)}</td>
+      <td>${r.trainR2.toFixed(4)}</td><td>${r.testR2.toFixed(4)}</td>
       <td>${i===bestIdx?'BEST':''}</td>
     </tr>`);
   });
 
   // RMSE bar chart
   destroyChart('chart-compare-rmse');
-  const ctx = document.getElementById('chart-compare-rmse');
-  chartInstances['chart-compare-rmse'] = new Chart(ctx, {
+  chartInstances['chart-compare-rmse'] = new Chart(document.getElementById('chart-compare-rmse'), {
     type: 'bar',
     data: {
       labels: results.map(r => r.name),
@@ -1099,8 +1160,32 @@ async function runComparison() {
         { label: 'Test RMSE', data: results.map(r => Math.round(r.testRMSE)), backgroundColor: 'rgba(239,68,68,0.6)' }
       ]
     },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
       scales: { y: { title: { display: true, text: 'RMSE (만원)' }, beginAtZero: true } }
+    }
+  });
+
+  // Loss curves
+  destroyChart('chart-loss-curve');
+  const maxLen = Math.max(olsRes.losses.length, ridgeRes.losses.length, lassoRes.losses.length);
+  const epochLabels = Array.from({ length: maxLen }, (_, i) => i + 1);
+  chartInstances['chart-loss-curve'] = new Chart(document.getElementById('chart-loss-curve'), {
+    type: 'line',
+    data: {
+      labels: epochLabels,
+      datasets: [
+        { label: 'OLS', data: olsRes.losses, borderColor: '#2563eb', fill: false, pointRadius: 0, borderWidth: 2 },
+        { label: 'Ridge', data: ridgeRes.losses, borderColor: '#22c55e', fill: false, pointRadius: 0, borderWidth: 2 },
+        { label: 'Lasso', data: lassoRes.losses, borderColor: '#f59e0b', fill: false, pointRadius: 0, borderWidth: 2 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
+      scales: {
+        x: { title: { display: true, text: '반복 횟수' }, ticks: { maxTicksLimit: 10 } },
+        y: { title: { display: true, text: 'Loss (MSE)' }, type: 'logarithmic' }
+      }
     }
   });
 
@@ -1108,19 +1193,20 @@ async function runComparison() {
   const ctbody = document.getElementById('compare-coef-tbody');
   ctbody.innerHTML = '';
   for (let j = 0; j < trainPrep.colNames.length; j++) {
-    const lassoStyle = Math.abs(betaLasso[j]) < 0.01 && j > 0 ? 'color:var(--tb-danger); font-weight:700;' : '';
+    const lassoZero = Math.abs(lassoRes.w[j]) < 0.01 && j > 0;
+    const ls = lassoZero ? 'color:var(--tb-danger);font-weight:700;background:#fef2f2;' : '';
     ctbody.insertAdjacentHTML('beforeend', `<tr>
       <td>${trainPrep.colNames[j]}</td>
-      <td>${betaOLS[j].toFixed(2)}</td>
-      <td>${betaRidge[j].toFixed(2)}</td>
-      <td style="${lassoStyle}">${betaLasso[j].toFixed(2)}</td>
+      <td>${olsRes.w[j].toFixed(2)}</td>
+      <td>${ridgeRes.w[j].toFixed(2)}</td>
+      <td style="${ls}">${lassoRes.w[j].toFixed(2)}${lassoZero ? ' [0]' : ''}</td>
     </tr>`);
   }
 
   document.getElementById('compare-results').style.display = '';
 }
 
-// ======================== RESIDUAL DIAGNOSTICS ========================
+// ======================== STEP 5: DIAGNOSTICS ========================
 
 async function runDiagnostics() {
   await loadChartJS();
@@ -1128,40 +1214,22 @@ async function runDiagnostics() {
   const model = fittedModels[modelKey];
   if (!model) { alert('먼저 Step 4에서 모델을 학습시키세요.'); return; }
 
-  const feats = model.feats;
-  const prep = model.prep;
-
-  // Use test set for diagnostics
-  const testX = testSet.map(row => {
-    const r = [1];
-    let ci = 0;
-    for (const f of feats) {
-      if (f === 'district_code') {
-        for (let d = 1; d < DISTRICTS.length; d++) {
-          r.push(((row.district === DISTRICTS[d] ? 1 : 0) - prep.means[ci]) / prep.stds[ci]);
-          ci++;
-        }
-      } else {
-        r.push((row[f] - prep.means[ci]) / prep.stds[ci]);
-        ci++;
-      }
-    }
-    return r;
-  });
+  const testX = testSet.map(r => standardizeTestRow(r, model.feats, model.prep));
   const actual = testSet.map(r => r.price_10k);
-  const predicted = predict(testX, model.beta);
+  const predicted = predict(testX, model.w);
   const residuals = actual.map((a, i) => a - predicted[i]);
 
-  // 1. Actual vs Predicted
-  destroyChart('chart-diag-actual');
   const allVals = [...actual, ...predicted];
   const lo = Math.min(...allVals), hi = Math.max(...allVals);
+
+  // Actual vs Predicted
+  destroyChart('chart-diag-actual');
   chartInstances['chart-diag-actual'] = new Chart(document.getElementById('chart-diag-actual'), {
     type: 'scatter',
     data: {
       datasets: [
-        { label: '데이터', data: predicted.map((p, i) => ({x: p, y: actual[i]})), backgroundColor: 'rgba(37,99,235,0.4)', pointRadius: 3 },
-        { label: 'y=x', data: [{x:lo,y:lo},{x:hi,y:hi}], type: 'line', borderColor: '#ef4444', borderDash: [6,3], pointRadius: 0, borderWidth: 2 }
+        { label: '데이터', data: predicted.map((p, i) => ({ x: p, y: actual[i] })), backgroundColor: 'rgba(37,99,235,0.4)', pointRadius: 3 },
+        { label: 'y=x', data: [{ x: lo, y: lo }, { x: hi, y: hi }], type: 'line', borderColor: '#ef4444', borderDash: [6,3], pointRadius: 0, borderWidth: 2 }
       ]
     },
     options: { responsive: true, maintainAspectRatio: false,
@@ -1169,14 +1237,14 @@ async function runDiagnostics() {
     }
   });
 
-  // 2. Residuals vs Fitted
+  // Residuals vs Fitted
   destroyChart('chart-diag-resid');
   chartInstances['chart-diag-resid'] = new Chart(document.getElementById('chart-diag-resid'), {
     type: 'scatter',
     data: {
       datasets: [
-        { label: '잔차', data: predicted.map((p, i) => ({x: p, y: residuals[i]})), backgroundColor: 'rgba(124,58,237,0.4)', pointRadius: 3 },
-        { label: '0선', data: [{x: lo, y: 0}, {x: hi, y: 0}], type: 'line', borderColor: '#ef4444', borderDash: [6,3], pointRadius: 0, borderWidth: 2 }
+        { label: '잔차', data: predicted.map((p, i) => ({ x: p, y: residuals[i] })), backgroundColor: 'rgba(124,58,237,0.4)', pointRadius: 3 },
+        { label: '0선', data: [{ x: lo, y: 0 }, { x: hi, y: 0 }], type: 'line', borderColor: '#ef4444', borderDash: [6,3], pointRadius: 0, borderWidth: 2 }
       ]
     },
     options: { responsive: true, maintainAspectRatio: false,
@@ -1184,7 +1252,7 @@ async function runDiagnostics() {
     }
   });
 
-  // 3. Residual Histogram
+  // Residual Histogram
   destroyChart('chart-diag-hist');
   const rMin = Math.min(...residuals), rMax = Math.max(...residuals);
   const binCount = 20;
@@ -1201,19 +1269,22 @@ async function runDiagnostics() {
   chartInstances['chart-diag-hist'] = new Chart(document.getElementById('chart-diag-hist'), {
     type: 'bar',
     data: { labels, datasets: [{ label: '잔차 빈도', data: bins, backgroundColor: 'rgba(124,58,237,0.5)', borderColor: '#7c3aed', borderWidth: 1 }] },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
       scales: { y: { title: { display: true, text: '빈도' } }, x: { title: { display: true, text: '잔차 (만원)' } } }
     }
   });
 
   // Stats
+  const maxAbsErr = Math.max(...residuals.map(Math.abs));
   document.getElementById('stat-resid-mean').textContent = mean(residuals).toFixed(1);
   document.getElementById('stat-resid-std').textContent = std(residuals).toFixed(1);
-  document.getElementById('stat-mae').textContent = Math.round(calcMAE(actual, predicted)).toLocaleString();
+  document.getElementById('stat-mae').textContent = fmtK(calcMAE(actual, predicted));
+  document.getElementById('stat-max-err').textContent = fmtK(maxAbsErr);
   document.getElementById('diag-results').style.display = '';
 }
 
-// ======================== PRICE PREDICTOR ========================
+// ======================== STEP 6: PREDICTOR ========================
 
 function predictPrice() {
   const modelKey = document.getElementById('sel-pred-model').value;
@@ -1221,109 +1292,110 @@ function predictPrice() {
   if (!model) { alert('먼저 Step 4에서 모델을 학습시키세요.'); return; }
 
   const district = document.getElementById('pred-district').value;
-  const area = parseFloat(document.getElementById('pred-area').value);
-  const floor = parseFloat(document.getElementById('pred-floor').value);
-  const year = parseFloat(document.getElementById('pred-year').value);
-  const station = parseFloat(document.getElementById('pred-station').value);
-  const school = parseFloat(document.getElementById('pred-school').value);
-  const parking = parseFloat(document.getElementById('pred-parking').value);
+  const inputRow = {
+    district,
+    area_m2: parseFloat(document.getElementById('pred-area').value),
+    floor: parseFloat(document.getElementById('pred-floor').value),
+    built_year: parseFloat(document.getElementById('pred-year').value),
+    station_dist_m: parseFloat(document.getElementById('pred-station').value),
+    school_score: parseFloat(document.getElementById('pred-school').value)
+  };
 
-  const inputRow = { district, area_m2: area, floor, built_year: year,
-    station_dist_m: station, school_score: school, parking };
+  const row = standardizeTestRow(inputRow, model.feats, model.prep);
+  const predPrice = predict([row], model.w)[0];
 
-  const feats = model.feats;
-  const prep = model.prep;
-  const row = [1];
-  let ci = 0;
-  for (const f of feats) {
-    if (f === 'district_code') {
-      for (let d = 1; d < DISTRICTS.length; d++) {
-        row.push(((district === DISTRICTS[d] ? 1 : 0) - prep.means[ci]) / prep.stds[ci]);
-        ci++;
-      }
-    } else {
-      row.push((inputRow[f] - prep.means[ci]) / prep.stds[ci]);
-      ci++;
-    }
-  }
-
-  const predPrice = predict([row], model.beta)[0];
-
-  // Prediction interval using residual SE from training data
-  const trainPred = predict(prep.X, model.beta);
-  const trainResid = prep.y.map((y, i) => y - trainPred[i]);
+  // Prediction interval
+  const trainPred = predict(model.prep.X, model.w);
+  const trainResid = model.prep.y.map((y, i) => y - trainPred[i]);
   const residSE = std(trainResid);
   const lower = predPrice - 1.96 * residSE;
   const upper = predPrice + 1.96 * residSE;
 
-  document.getElementById('pred-price').textContent =
-    Math.round(predPrice).toLocaleString() + ' 만원';
+  document.getElementById('pred-price').textContent = fmtK(predPrice) + ' 만원';
   document.getElementById('pred-interval').textContent =
-    `95% 예측 구간: ${Math.round(lower).toLocaleString()} ~ ${Math.round(upper).toLocaleString()} 만원`;
+    '95% 예측 구간: ' + fmtK(Math.max(lower, 0)) + ' ~ ' + fmtK(upper) + ' 만원';
   document.getElementById('pred-result').style.display = '';
 
-  // Similar apartments
-  const similar = dataset.filter(r =>
-    r.district === district &&
-    Math.abs(r.area_m2 - area) < 20 &&
-    Math.abs(r.floor - floor) < 5
-  ).slice(0, 5);
+  // Similar apartments (by Euclidean distance in feature space)
+  const dists = dataset.map((r, i) => {
+    let d = 0;
+    d += ((r.area_m2 - inputRow.area_m2) / 30) ** 2;
+    d += ((r.floor - inputRow.floor) / 10) ** 2;
+    d += ((r.built_year - inputRow.built_year) / 10) ** 2;
+    d += ((r.station_dist_m - inputRow.station_dist_m) / 500) ** 2;
+    d += ((r.school_score - inputRow.school_score) / 3) ** 2;
+    d += r.district === district ? 0 : 4;
+    return { idx: i, dist: d };
+  });
+  dists.sort((a, b) => a.dist - b.dist);
+  const similar = dists.slice(0, 5).map(d => dataset[d.idx]);
 
   const stbody = document.getElementById('pred-similar-tbody');
   stbody.innerHTML = '';
-  if (similar.length === 0) {
-    stbody.insertAdjacentHTML('beforeend', '<tr><td colspan="5" style="color:var(--tb-g600);">유사 매물 없음</td></tr>');
-  } else {
-    similar.forEach(r => {
-      stbody.insertAdjacentHTML('beforeend', `<tr>
-        <td>${r.district}</td><td>${r.area_m2}</td><td>${r.floor}</td>
-        <td>${r.built_year}</td><td>${r.price_10k.toLocaleString()}</td>
-      </tr>`);
-    });
-  }
+  similar.forEach(r => {
+    const diff = r.price_10k - predPrice;
+    const diffStr = (diff >= 0 ? '+' : '') + fmtK(diff);
+    const diffColor = diff >= 0 ? 'var(--tb-danger)' : 'var(--tb-success)';
+    stbody.insertAdjacentHTML('beforeend', `<tr>
+      <td>${r.district}</td><td>${r.area_m2}</td><td>${r.floor}</td>
+      <td>${r.built_year}</td><td>${r.station_dist_m}</td>
+      <td>${fmtK(r.price_10k)}</td>
+      <td style="color:${diffColor};font-weight:600;">${diffStr}</td>
+    </tr>`);
+  });
 
   // Verdict
-  const avgSimilar = similar.length > 0 ? mean(similar.map(r => r.price_10k)) : predPrice;
+  const avgSim = similar.length > 0 ? mean(similar.map(r => r.price_10k)) : predPrice;
   const verdictEl = document.getElementById('pred-verdict');
   if (similar.length > 0) {
-    const diff = ((predPrice - avgSimilar) / avgSimilar * 100).toFixed(1);
-    if (predPrice < avgSimilar * 0.95) {
-      verdictEl.style.background = 'linear-gradient(135deg, #dcfce7, #bbf7d0)';
-      verdictEl.style.color = '#166534';
-      verdictEl.textContent = `유사 매물 평균(${Math.round(avgSimilar).toLocaleString()}만원) 대비 ${Math.abs(diff)}% 저렴합니다. 합리적 가격대로 판단됩니다.`;
-    } else if (predPrice > avgSimilar * 1.05) {
-      verdictEl.style.background = 'linear-gradient(135deg, #fef2f2, #fecaca)';
-      verdictEl.style.color = '#991b1b';
-      verdictEl.textContent = `유사 매물 평균(${Math.round(avgSimilar).toLocaleString()}만원) 대비 ${diff}% 높습니다. 프리미엄 요인을 확인하세요.`;
+    const pct = ((predPrice - avgSim) / avgSim * 100).toFixed(1);
+    if (predPrice < avgSim * 0.95) {
+      verdictEl.className = 'pred-verdict verdict-low';
+      verdictEl.innerHTML = '<span class="verdict-tag">시세 대비 저렴</span> ' +
+        '유사 매물 평균(' + fmtK(avgSim) + '만원) 대비 ' + Math.abs(pct) + '% 낮습니다.';
+    } else if (predPrice > avgSim * 1.05) {
+      verdictEl.className = 'pred-verdict verdict-high';
+      verdictEl.innerHTML = '<span class="verdict-tag">시세 대비 고가</span> ' +
+        '유사 매물 평균(' + fmtK(avgSim) + '만원) 대비 ' + pct + '% 높습니다.';
     } else {
-      verdictEl.style.background = 'linear-gradient(135deg, #dbeafe, #bfdbfe)';
-      verdictEl.style.color = '#1e40af';
-      verdictEl.textContent = `유사 매물 평균(${Math.round(avgSimilar).toLocaleString()}만원)과 비슷한 수준입니다.`;
+      verdictEl.className = 'pred-verdict verdict-ok';
+      verdictEl.innerHTML = '<span class="verdict-tag">적정 가격</span> ' +
+        '유사 매물 평균(' + fmtK(avgSim) + '만원)과 비슷한 수준입니다.';
     }
   } else {
-    verdictEl.style.background = 'var(--tb-g100)';
-    verdictEl.style.color = 'var(--tb-g600)';
-    verdictEl.textContent = '동일 조건의 유사 매물이 없어 비교가 어렵습니다.';
+    verdictEl.className = 'pred-verdict verdict-ok';
+    verdictEl.textContent = '유사 매물이 부족하여 비교가 어렵습니다.';
   }
+
+  markStepDone(6);
 }
 
 // ======================== INITIALIZATION ========================
 
 function init() {
   const n = parseInt(document.getElementById('sel-data-size').value);
-  dataset = generateApartmentData(n);
+  dataset = generateData(n);
   trainSet = [];
   testSet = [];
   fittedModels = { ols: null, ridge: null, lasso: null };
+  r2History = [];
+  completedSteps = new Set();
+
+  // Reset pipeline
+  document.querySelectorAll('.pipe-step').forEach(el => {
+    el.classList.remove('done', 'active');
+    if (el.dataset.step === '1') el.classList.add('active');
+  });
+  document.querySelectorAll('.step-line').forEach(el => el.classList.remove('done'));
+
   renderPreview();
   renderEDAHist();
-  renderEDAScatter();
+  renderScatter();
   renderHeatmap();
 
-  // Reset downstream displays
-  document.getElementById('reg-stats').style.display = 'none';
-  document.getElementById('reg-coef-wrap').style.display = 'none';
-  document.getElementById('vif-warning').style.display = 'none';
+  // Reset downstream
+  document.getElementById('reg-results').style.display = 'none';
+  document.getElementById('btn-feat-done').style.display = 'none';
   document.getElementById('split-visual').style.display = 'none';
   document.getElementById('compare-results').style.display = 'none';
   document.getElementById('diag-results').style.display = 'none';
@@ -1337,37 +1409,244 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-regen-data').addEventListener('click', init);
   document.getElementById('sel-data-size').addEventListener('change', init);
 
-  // EDA
+  // Step 1: EDA
   document.getElementById('sel-eda-var').addEventListener('change', renderEDAHist);
-  document.getElementById('sel-scatter-x').addEventListener('change', renderEDAScatter);
+  document.getElementById('sel-scatter-x').addEventListener('change', renderScatter);
+  document.getElementById('btn-eda-done').addEventListener('click', () => markStepDone(1));
 
-  // Feature selection
+  // Step 2: Feature Selection
   document.getElementById('btn-run-reg').addEventListener('click', runFeatureSelection);
+  document.getElementById('btn-feat-done').addEventListener('click', () => markStepDone(2));
 
-  // Train/test split
+  // Step 3: Split
   document.getElementById('slider-train').addEventListener('input', (e) => {
     document.getElementById('lbl-train-ratio').textContent = e.target.value + '%';
   });
   document.getElementById('btn-split').addEventListener('click', splitData);
+  document.getElementById('btn-split-done').addEventListener('click', () => markStepDone(3));
 
-  // Model comparison
+  // Step 4: Model comparison
   document.getElementById('slider-lambda').addEventListener('input', (e) => {
     document.getElementById('lbl-lambda').textContent = e.target.value;
   });
   document.getElementById('btn-compare').addEventListener('click', runComparison);
+  document.getElementById('btn-compare-done').addEventListener('click', () => markStepDone(4));
 
-  // Diagnostics
+  // Step 5: Diagnostics
   document.getElementById('btn-diagnose').addEventListener('click', runDiagnostics);
+  document.getElementById('btn-diag-done').addEventListener('click', () => markStepDone(5));
 
-  // Predictor
+  // Step 6: Predictor
   document.getElementById('btn-predict').addEventListener('click', predictPrice);
+
+  // Mark visited
+  import('../../textbook/lib/progress').then(m => m.markVisited('20-capstone-prediction')).catch(() => {});
 });
 </script>
 
 <style>
+  /* ===== Pipeline Progress Bar ===== */
+  .pipeline-wrap {
+    background: #fff;
+    border-radius: var(--tb-radius);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--tb-shadow);
+    overflow-x: auto;
+  }
+  .dark .pipeline-wrap { background: var(--tb-g100); }
+
+  .pipeline-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    min-width: 600px;
+  }
+  .pipe-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: default;
+    flex-shrink: 0;
+  }
+  .pipe-step .step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    background: var(--tb-g200);
+    color: var(--tb-g600);
+    transition: all 0.3s;
+  }
+  .pipe-step .step-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--tb-g600);
+    transition: color 0.3s;
+  }
+  .pipe-step.active .step-num {
+    background: var(--tb-primary);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(37,99,235,0.2);
+  }
+  .pipe-step.active .step-label { color: var(--tb-primary); }
+
+  .pipe-step.done .step-num {
+    background: var(--tb-success);
+    color: #fff;
+  }
+  .pipe-step.done .step-label { color: var(--tb-success); }
+
+  .step-line {
+    flex: 1;
+    height: 3px;
+    background: var(--tb-g200);
+    min-width: 30px;
+    max-width: 80px;
+    margin: 0 4px;
+    margin-bottom: 22px;
+    border-radius: 2px;
+    transition: background 0.3s;
+  }
+  .step-line.done { background: var(--tb-success); }
+
+  /* ===== Step Badge ===== */
+  .step-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--tb-accent, var(--tb-primary)), #059669);
+    color: #fff;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== Predictor Form ===== */
+  .predictor-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+    margin: 14px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--tb-g100), var(--tb-g50));
+    border-radius: var(--tb-radius);
+    border: 2px solid var(--tb-g200);
+  }
+  .pred-field label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--tb-g600);
+    margin-bottom: 4px;
+  }
+  .pred-field select,
+  .pred-field input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid var(--tb-g300);
+    border-radius: 8px;
+    font-family: var(--tb-font);
+    font-size: 0.93rem;
+    background: #fff;
+    color: var(--tb-g800);
+    transition: border-color 0.2s;
+  }
+  .pred-field select:focus,
+  .pred-field input:focus {
+    border-color: var(--tb-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+  }
+  .dark .pred-field select,
+  .dark .pred-field input {
+    background: var(--tb-g100);
+    border-color: var(--tb-g300);
+    color: var(--tb-g800);
+  }
+
+  .pred-btn-big {
+    padding: 12px 32px !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== Prediction Result Card ===== */
+  .pred-result-card {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #fff;
+    padding: 28px 24px;
+    border-radius: var(--tb-radius);
+    text-align: center;
+    box-shadow: var(--tb-shadow-lg);
+  }
+  .pred-result-header {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    font-weight: 600;
+  }
+  .pred-result-price {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin: 8px 0;
+    letter-spacing: -0.5px;
+  }
+  .pred-result-interval {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    font-weight: 500;
+  }
+
+  /* ===== Verdict ===== */
+  .pred-verdict {
+    padding: 16px 20px;
+    border-radius: var(--tb-radius);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .verdict-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+  .verdict-low {
+    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    color: #166534;
+  }
+  .verdict-low .verdict-tag { background: #166534; color: #fff; }
+  .verdict-high {
+    background: linear-gradient(135deg, #fef2f2, #fecaca);
+    color: #991b1b;
+  }
+  .verdict-high .verdict-tag { background: #991b1b; color: #fff; }
+  .verdict-ok {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    color: #1e40af;
+  }
+  .verdict-ok .verdict-tag { background: #1e40af; color: #fff; }
+
+  /* ===== Responsive ===== */
   @media (max-width: 768px) {
-    #canvas-heatmap {
-      max-width: 100% !important;
-    }
+    .pipeline-steps { min-width: 500px; }
+    .pipe-step .step-num { width: 30px; height: 30px; font-size: 0.82rem; }
+    .pipe-step .step-label { font-size: 0.7rem; }
+    .predictor-form { grid-template-columns: 1fr 1fr; }
+    .pred-result-price { font-size: 2rem; }
+    #canvas-heatmap { max-width: 100% !important; }
+  }
+  @media (max-width: 480px) {
+    .predictor-form { grid-template-columns: 1fr; }
   }
 </style>

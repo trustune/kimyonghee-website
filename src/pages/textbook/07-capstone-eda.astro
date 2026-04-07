@@ -1,0 +1,962 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="캡스톤 I: 한국 경제 데이터 탐색기"
+  subtitle="기술통계 종합 실습"
+  chapterNum={7}
+  part={1}
+>
+
+  <!-- ===== INTRO ===== -->
+  <div class="tb-card">
+    <h2>기술통계의 모든 것을 한 곳에서</h2>
+    <p>
+      3장(요약통계), 4장(시각화), 5장(분포), 6장(상관)에서 배운 모든 기법을
+      <strong>한국 경제 데이터</strong>에 직접 적용하는 종합 실습입니다.
+    </p>
+    <p style="margin-top: 12px;">
+      1995년부터 2024년까지 30년간의 한국 경제/사회 지표 10개를 담은 데이터셋을 탐색합니다.
+      IMF 외환위기(1997), 글로벌 금융위기(2008), COVID-19(2020) --
+      데이터에 역사가 새겨져 있습니다. 숫자만으로 그 이야기를 꺼내보세요.
+    </p>
+
+    <ExplainBox>
+      <strong>데이터 출처:</strong>
+      아래 데이터는 한국은행, 통계청, 국제기구 발표 자료를 기반으로
+      교육 목적에 맞게 구성한 합성 데이터입니다.
+      실제 수치와 유사하지만 정확한 공식 통계는 아닙니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== DATASET OVERVIEW ===== -->
+  <div class="tb-card">
+    <h2>데이터셋 개요</h2>
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table" id="dataset-overview">
+        <thead>
+          <tr>
+            <th>변수</th>
+            <th>설명</th>
+            <th>단위</th>
+            <th>기간</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>GDP 성장률</strong></td><td>실질 국내총생산 증가율</td><td>%</td><td>1995-2024</td></tr>
+          <tr><td><strong>실업률</strong></td><td>경제활동인구 대비 실업자 비율</td><td>%</td><td>1995-2024</td></tr>
+          <tr><td><strong>소비자물가상승률</strong></td><td>CPI 전년 대비 상승률</td><td>%</td><td>1995-2024</td></tr>
+          <tr><td><strong>가계부채비율</strong></td><td>GDP 대비 가계부채</td><td>%</td><td>1995-2024</td></tr>
+          <tr><td><strong>출생률</strong></td><td>인구 1,000명당 출생아 수</td><td>천분율</td><td>1995-2024</td></tr>
+          <tr><td><strong>주택가격지수</strong></td><td>전국 주택가격 지수 (2020=100)</td><td>지수</td><td>1995-2024</td></tr>
+          <tr><td><strong>지니계수</strong></td><td>소득 불평등 지표 (0=완전평등)</td><td>0-1</td><td>1995-2024</td></tr>
+          <tr><td><strong>수출증가율</strong></td><td>상품 수출 전년 대비 증가율</td><td>%</td><td>1995-2024</td></tr>
+          <tr><td><strong>원/달러 환율</strong></td><td>연평균 환율</td><td>원</td><td>1995-2024</td></tr>
+          <tr><td><strong>KOSPI 수익률</strong></td><td>종합주가지수 연간 수익률</td><td>%</td><td>1995-2024</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tb-stat-row" style="margin-top: 14px;">
+      <StatBox label="관측 기간" value="30년" />
+      <StatBox label="변수 수" value="10개" />
+      <StatBox label="관측치 수" value="300개" sub="30년 x 10변수" />
+      <StatBox label="위기 이벤트" value="3회" sub="1997, 2008, 2020" />
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Variable Explorer ===== -->
+  <div class="tb-card">
+    <h2>Interactive 1: 변수 탐색기</h2>
+    <p>
+      변수를 선택하면 히스토그램, 시계열 그래프, 요약통계를 한눈에 볼 수 있습니다.
+    </p>
+
+    <SimControls>
+      <label>변수 선택:</label>
+      <select id="var-select">
+        <option value="gdp">GDP 성장률 (%)</option>
+        <option value="unemp">실업률 (%)</option>
+        <option value="cpi">소비자물가상승률 (%)</option>
+        <option value="debt">가계부채비율 (%)</option>
+        <option value="birth">출생률 (천분율)</option>
+        <option value="housing">주택가격지수</option>
+        <option value="gini">지니계수</option>
+        <option value="export">수출증가율 (%)</option>
+        <option value="exchange">원/달러 환율</option>
+        <option value="kospi">KOSPI 수익률 (%)</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-var-explore">탐색</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div>
+        <div style="font-weight: 700; font-size: .85rem; text-align: center; margin-bottom: 4px;">히스토그램</div>
+        <ChartContainer id="var-hist-chart" height="280px" />
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: .85rem; text-align: center; margin-bottom: 4px;">시계열 추이</div>
+        <ChartContainer id="var-time-chart" height="280px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row" id="var-stats">
+      <StatBox label="평균" id="var-mean" />
+      <StatBox label="중앙값" id="var-median" />
+      <StatBox label="표준편차" id="var-sd" />
+      <StatBox label="최소" id="var-min" sub="" />
+      <StatBox label="최대" id="var-max" sub="" />
+      <StatBox label="왜도" id="var-skew" />
+    </div>
+
+    <ExerciseBox>
+      <strong>실습 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li>GDP 성장률의 시계열을 보세요. 급격히 떨어진 해가 보이나요? 그 해에 무슨 일이 있었나요?</li>
+        <li>출생률의 추이를 확인하세요. 어떤 패턴이 보이나요?</li>
+        <li>가계부채비율의 히스토그램은 어떤 모양인가요? 정규분포에 가까운가요?</li>
+        <li>KOSPI 수익률의 왜도를 확인하세요. 양의 왜도인가요, 음의 왜도인가요?</li>
+      </ol>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Two-Variable Relationship ===== -->
+  <div class="tb-card">
+    <h2>Interactive 2: 두 변수의 관계</h2>
+    <p>
+      X축과 Y축 변수를 선택하면 산점도, 회귀선, 상관계수가 자동으로 표시됩니다.
+      각 점 위에 마우스를 올리면 해당 연도를 확인할 수 있습니다.
+    </p>
+
+    <SimControls>
+      <label>X축:</label>
+      <select id="scatter-x-var">
+        <option value="gdp" selected>GDP 성장률</option>
+        <option value="unemp">실업률</option>
+        <option value="cpi">물가상승률</option>
+        <option value="debt">가계부채비율</option>
+        <option value="birth">출생률</option>
+        <option value="housing">주택가격지수</option>
+        <option value="gini">지니계수</option>
+        <option value="export">수출증가율</option>
+        <option value="exchange">환율</option>
+        <option value="kospi">KOSPI 수익률</option>
+      </select>
+      <label>Y축:</label>
+      <select id="scatter-y-var">
+        <option value="gdp">GDP 성장률</option>
+        <option value="unemp" selected>실업률</option>
+        <option value="cpi">물가상승률</option>
+        <option value="debt">가계부채비율</option>
+        <option value="birth">출생률</option>
+        <option value="housing">주택가격지수</option>
+        <option value="gini">지니계수</option>
+        <option value="export">수출증가율</option>
+        <option value="exchange">환율</option>
+        <option value="kospi">KOSPI 수익률</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-scatter-draw">산점도 그리기</button>
+    </SimControls>
+
+    <ChartContainer id="scatter-two-chart" height="400px" />
+
+    <div class="tb-stat-row">
+      <StatBox label="Pearson r" id="scatter-r" borderColor="var(--tb-primary)" />
+      <StatBox label="R-squared" id="scatter-r2" sub="설명된 분산 비율" />
+      <StatBox label="회귀식" id="scatter-eq" />
+    </div>
+
+    <ExerciseBox>
+      <strong>실습 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li>GDP 성장률(X) vs 실업률(Y): 상관계수의 부호는? 오쿤의 법칙과 일치하나요?</li>
+        <li>가계부채비율(X) vs 주택가격지수(Y): 어떤 관계가 보이나요?</li>
+        <li>산점도에서 유독 떨어져 있는 점(이상치)은 어떤 연도인가요?</li>
+        <li>출생률(X) vs 지니계수(Y): 관계가 있나요? 있다면 인과관계일까요?</li>
+      </ol>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: Correlation Dashboard ===== -->
+  <div class="tb-card">
+    <h2>Interactive 3: 상관관계 대시보드</h2>
+    <p>
+      여러 변수를 동시에 선택하여 상관행렬 히트맵을 생성합니다.
+      어떤 변수끼리 강하게 연결되어 있는지 한눈에 파악하세요.
+    </p>
+
+    <div id="dashboard-vars" style="display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0;">
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-dashboard-gen">대시보드 생성</button>
+      <span style="font-size: .85rem; color: var(--tb-g600);" id="dashboard-msg">3~6개 변수를 선택하세요</span>
+    </SimControls>
+
+    <ChartContainer id="dashboard-heatmap" height="380px" />
+
+    <div id="dashboard-top3" style="margin: 14px 0;"></div>
+
+    <InsightBox>
+      <strong>상관행렬 읽는 법:</strong>
+      파란색은 양의 상관(함께 증가), 빨간색은 음의 상관(하나 증가 시 다른 하나 감소).
+      원의 크기가 클수록 상관의 절대값이 큽니다.
+      대각선은 항상 r=1 (자기 자신과의 상관)입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: EDA Report Generator ===== -->
+  <div class="tb-card">
+    <h2>Interactive 4: EDA 보고서 생성기</h2>
+    <p>
+      버튼 하나로 전체 데이터에 대한 탐색적 데이터 분석(EDA) 보고서를 자동 생성합니다.
+      실제 데이터 분석가가 작성하는 보고서의 형식을 경험하세요.
+    </p>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-gen-report" style="font-size: 1rem; padding: 12px 28px;">보고서 생성</button>
+    </SimControls>
+
+    <div id="eda-report" style="display: none; margin: 14px 0;"></div>
+
+    <ExerciseBox>
+      <strong>실습 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li>보고서를 생성하고, "가장 강한 상관관계 Top 3"를 확인하세요.</li>
+        <li>이상치 연도로 표시된 해에 실제로 어떤 경제적 사건이 있었는지 조사해보세요.</li>
+        <li>보고서의 "핵심 발견" 섹션을 읽고, 추가로 궁금한 점을 3가지 적어보세요.</li>
+      </ol>
+    </ExerciseBox>
+
+    <BusinessBox>
+      <strong>데이터 분석가의 첫 단계:</strong>
+      실무에서 새 데이터셋을 받으면 가장 먼저 하는 것이 EDA입니다.
+      각 변수의 분포를 확인하고, 변수 간 관계를 파악하고, 이상치를 탐지합니다.
+      이 과정 없이 곧바로 모델을 만드는 것은 지도 없이 여행을 떠나는 것과 같습니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: Crisis Detector ===== -->
+  <div class="tb-card">
+    <h2>Interactive 5: 위기 감지기</h2>
+    <p>
+      여러 지표가 동시에 평균에서 크게 벗어난(+/- 2 표준편차) 해를 자동으로 감지합니다.
+      과거 경제 위기가 데이터에 어떤 흔적을 남겼는지 확인하세요.
+    </p>
+
+    <SimControls>
+      <label>기준 (표준편차 배수):</label>
+      <select id="crisis-threshold">
+        <option value="1.5">1.5 SD</option>
+        <option value="2" selected>2.0 SD</option>
+        <option value="2.5">2.5 SD</option>
+      </select>
+      <button class="tb-btn tb-btn-danger" id="btn-crisis-detect">위기 감지 실행</button>
+    </SimControls>
+
+    <ChartContainer id="crisis-chart" height="400px" />
+
+    <div id="crisis-results" style="margin: 14px 0;"></div>
+
+    <div class="tb-stat-row" id="crisis-stats" style="display: none;">
+      <StatBox label="감지된 위기 연도" id="crisis-years" borderColor="var(--tb-danger)" />
+      <StatBox label="가장 심한 해" id="crisis-worst" />
+      <StatBox label="이탈 지표 수 (최대)" id="crisis-max-dev" />
+    </div>
+
+    <ExerciseBox>
+      <strong>실습 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li>기준을 2.0 SD로 설정하고 위기를 감지하세요. 1997, 2008, 2020이 잡히나요?</li>
+        <li>기준을 1.5 SD로 낮추면 추가로 어떤 해가 감지되나요?</li>
+        <li>각 위기 연도에서 가장 크게 이탈한 지표는 무엇인가요?</li>
+        <li>세 차례 위기의 성격이 어떻게 다른지 데이터로 설명해보세요.</li>
+      </ol>
+    </ExerciseBox>
+
+    <WarningBox>
+      <strong>주의:</strong>
+      통계적 이상치가 반드시 "위기"를 의미하지는 않습니다.
+      반대로, 점진적으로 진행된 구조적 문제(예: 저출산)는 급격한 이탈로 나타나지 않을 수 있습니다.
+      정량적 감지와 맥락적 해석을 함께 해야 합니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>기술통계만으로도 이렇게 많은 이야기를 꺼낼 수 있습니다.</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>하나의 변수: 분포, 중심, 퍼짐, 이상치를 파악합니다.</li>
+      <li>두 변수: 상관관계와 산점도로 관계를 탐색합니다.</li>
+      <li>여러 변수: 상관행렬로 전체적인 구조를 봅니다.</li>
+      <li>시계열: 추세, 변동, 구조적 변화를 감지합니다.</li>
+      <li>위기 감지: 여러 지표의 동시 이탈로 체계적 위험을 포착합니다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      다음 Part에서는 표본에서 모집단을 추론하는 방법을 배웁니다.
+      "이 30년 데이터가 더 넓은 맥락에서 무엇을 말해주는가?" --
+      신뢰구간과 가설검정이 그 답을 줍니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  Chart.register(...registerables);
+  ChartJS = Chart;
+  return Chart;
+}
+
+// ==================== DATASET ====================
+const YEARS = [];
+for (let y = 1995; y <= 2024; y++) YEARS.push(y);
+
+const DATA = {
+  gdp:      { label: 'GDP 성장률 (%)', data: [9.6,7.2,5.9,-5.1,11.3,8.9,4.5,7.4,2.9,4.9,4.3,5.2,5.5,2.8,-0.7,6.5,3.7,2.4,3.2,3.2,2.8,2.9,3.2,2.9,2.2,-0.7,4.3,2.6,1.4,2.2], unit: '%' },
+  unemp:    { label: '실업률 (%)', data: [2.1,2.0,2.6,6.8,6.3,4.4,4.0,3.3,3.6,3.7,3.7,3.5,3.2,3.2,3.6,3.7,3.4,3.2,3.1,3.5,3.6,3.7,3.8,3.8,3.8,4.0,3.6,2.9,2.7,2.8], unit: '%' },
+  cpi:      { label: '소비자물가상승률 (%)', data: [4.5,4.9,4.4,7.5,0.8,2.3,4.1,2.8,3.5,3.6,2.8,2.2,2.5,4.7,2.8,2.9,4.0,2.2,1.3,1.3,0.7,1.0,1.9,1.5,0.4,0.5,2.5,5.1,3.6,2.3], unit: '%' },
+  debt:     { label: '가계부채비율 (%)', data: [38,40,42,44,48,52,56,60,62,64,68,72,75,78,80,82,85,88,90,93,96,98,101,105,104,106,109,108,106,105], unit: '%' },
+  birth:    { label: '출생률 (천분율)', data: [16.0,15.2,14.8,13.8,13.2,13.4,11.6,11.0,10.2,9.8,9.0,8.6,9.0,9.4,9.0,9.4,9.6,9.6,8.6,8.6,8.2,7.2,6.4,5.8,5.3,5.1,5.3,4.9,4.6,4.2], unit: '천분율' },
+  housing:  { label: '주택가격지수 (2020=100)', data: [60,62,65,55,52,54,58,68,75,78,82,88,90,85,83,80,78,76,78,82,88,95,100,112,118,110,105,102,98,100], unit: '지수' },
+  gini:     { label: '지니계수', data: [0.284,0.291,0.283,0.316,0.320,0.317,0.319,0.312,0.306,0.310,0.310,0.306,0.316,0.314,0.314,0.310,0.311,0.307,0.302,0.302,0.295,0.304,0.355,0.333,0.339,0.331,0.333,0.324,0.320,0.315], unit: '' },
+  export:   { label: '수출증가율 (%)', data: [30.3,3.7,5.0,-2.8,8.6,19.9,12.6,-8.0,19.3,31.0,12.0,14.4,14.1,13.6,-13.9,28.3,19.0,10.7,2.1,2.3,-8.0,-5.9,15.8,5.4,-10.4,-5.5,25.7,6.1,-7.4,10.2], unit: '%' },
+  exchange: { label: '원/달러 환율 (원)', data: [771,804,951,1401,1189,1131,1291,1251,1192,1145,1024,956,929,1103,1276,1156,1108,1127,1095,1053,1131,1161,1130,1100,1166,1180,1145,1292,1305,1350], unit: '원' },
+  kospi:    { label: 'KOSPI 수익률 (%)', data: [-14.1,26.2,-42.2,-39.5,82.8,51.0,-37.5,9.5,29.2,10.5,54.0,3.9,32.3,-40.7,49.7,21.9,-11.0,9.4,0.7,-4.8,2.4,3.3,21.8,-17.3,7.7,2.5,3.6,-24.9,18.7,5.2], unit: '%' },
+};
+
+const VAR_KEYS = Object.keys(DATA);
+
+// ==================== MATH UTILITIES ====================
+function pearsonR(xs, ys) {
+  const n = xs.length;
+  if (n < 2) return 0;
+  const mx = xs.reduce((a, b) => a + b, 0) / n;
+  const my = ys.reduce((a, b) => a + b, 0) / n;
+  let num = 0, dx = 0, dy = 0;
+  for (let i = 0; i < n; i++) {
+    num += (xs[i] - mx) * (ys[i] - my);
+    dx += (xs[i] - mx) ** 2;
+    dy += (ys[i] - my) ** 2;
+  }
+  return dx && dy ? num / Math.sqrt(dx * dy) : 0;
+}
+
+function linReg(xs, ys) {
+  const n = xs.length;
+  const mx = xs.reduce((a, b) => a + b, 0) / n;
+  const my = ys.reduce((a, b) => a + b, 0) / n;
+  let ssxy = 0, ssxx = 0;
+  for (let i = 0; i < n; i++) { ssxy += (xs[i] - mx) * (ys[i] - my); ssxx += (xs[i] - mx) ** 2; }
+  const b = ssxx ? ssxy / ssxx : 0;
+  const a = my - b * mx;
+  return { a, b };
+}
+
+function computeStats(arr) {
+  const n = arr.length;
+  const sorted = [...arr].sort((a, b) => a - b);
+  const mean = arr.reduce((a, b) => a + b, 0) / n;
+  const median = n % 2 ? sorted[Math.floor(n / 2)] : (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
+  const variance = arr.reduce((a, v) => a + (v - mean) ** 2, 0) / n;
+  const sd = Math.sqrt(variance);
+  const skewness = n > 2 ? arr.reduce((a, v) => a + ((v - mean) / sd) ** 3, 0) / n : 0;
+  return { mean, median, sd, min: sorted[0], max: sorted[n - 1], skewness };
+}
+
+function fmt(v, precision = 2) {
+  if (typeof v !== 'number' || isNaN(v)) return '-';
+  return v.toFixed(precision);
+}
+
+function makeHistogram(data, bins = 15) {
+  const min = Math.min(...data), max = Math.max(...data);
+  const bw = (max - min) / bins || 1;
+  const hist = new Array(bins).fill(0);
+  data.forEach(v => { hist[Math.min(bins - 1, Math.floor((v - min) / bw))]++; });
+  const labels = hist.map((_, i) => (min + (i + 0.5) * bw).toFixed(1));
+  return { hist, labels, min, max, bw };
+}
+
+// ==================== INTERACTIVE 1: VARIABLE EXPLORER ====================
+let varHistChart = null, varTimeChart = null;
+
+async function exploreVariable() {
+  const Chart = await loadChart();
+  const key = document.getElementById('var-select').value;
+  const v = DATA[key];
+  const arr = v.data;
+  const stats = computeStats(arr);
+
+  // Stats
+  document.getElementById('var-mean').textContent = fmt(stats.mean);
+  document.getElementById('var-median').textContent = fmt(stats.median);
+  document.getElementById('var-sd').textContent = fmt(stats.sd);
+  document.getElementById('var-min').textContent = fmt(stats.min);
+  document.getElementById('var-max').textContent = fmt(stats.max);
+  document.getElementById('var-skew').textContent = fmt(stats.skewness, 3);
+
+  // Min/max year labels
+  const minIdx = arr.indexOf(stats.min);
+  const maxIdx = arr.indexOf(stats.max);
+  const minSub = document.getElementById('var-min').parentElement.querySelector('.sub');
+  const maxSub = document.getElementById('var-max').parentElement.querySelector('.sub');
+  if (minSub) minSub.textContent = YEARS[minIdx] + '년';
+  if (maxSub) maxSub.textContent = YEARS[maxIdx] + '년';
+
+  // Histogram
+  const canvasHist = document.getElementById('var-hist-chart');
+  if (varHistChart) { varHistChart.destroy(); varHistChart = null; }
+  const { hist, labels } = makeHistogram(arr, 12);
+
+  varHistChart = new Chart(canvasHist, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: '빈도',
+        data: hist,
+        backgroundColor: '#2563eb55',
+        borderColor: '#2563eb',
+        borderWidth: 1,
+        borderRadius: 2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, title: { display: true, text: v.label + ' 분포', font: { size: 12, family: "'Paperlogy'" } } },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: '빈도' } },
+        x: { ticks: { maxTicksLimit: 8 } },
+      }
+    }
+  });
+
+  // Time series
+  const canvasTime = document.getElementById('var-time-chart');
+  if (varTimeChart) { varTimeChart.destroy(); varTimeChart = null; }
+
+  // Color by decade
+  const decadeColors = YEARS.map(y => {
+    if (y < 2000) return '#ef4444';
+    if (y < 2010) return '#f59e0b';
+    if (y < 2020) return '#22c55e';
+    return '#2563eb';
+  });
+
+  varTimeChart = new Chart(canvasTime, {
+    type: 'line',
+    data: {
+      labels: YEARS.map(String),
+      datasets: [{
+        label: v.label,
+        data: arr,
+        borderColor: '#2563eb',
+        backgroundColor: '#2563eb22',
+        borderWidth: 2,
+        pointRadius: 4,
+        pointBackgroundColor: decadeColors,
+        fill: true,
+        tension: 0.2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: v.label + ' 추이 (1995-2024)', font: { size: 12, family: "'Paperlogy'" } },
+        tooltip: { callbacks: { title: (items) => items[0].label + '년' } }
+      },
+      scales: {
+        y: { title: { display: true, text: v.unit || '' } },
+        x: { ticks: { maxTicksLimit: 10 } },
+      }
+    }
+  });
+}
+
+// ==================== INTERACTIVE 2: TWO-VARIABLE SCATTER ====================
+let scatterTwoChart = null;
+
+async function drawTwoVarScatter() {
+  const Chart = await loadChart();
+  const xKey = document.getElementById('scatter-x-var').value;
+  const yKey = document.getElementById('scatter-y-var').value;
+  const xData = DATA[xKey].data;
+  const yData = DATA[yKey].data;
+
+  const canvas = document.getElementById('scatter-two-chart');
+  if (scatterTwoChart) { scatterTwoChart.destroy(); scatterTwoChart = null; }
+
+  const decadeColors = YEARS.map(y => {
+    if (y < 2000) return '#ef4444';
+    if (y < 2010) return '#f59e0b';
+    if (y < 2020) return '#22c55e';
+    return '#2563eb';
+  });
+
+  const points = YEARS.map((y, i) => ({ x: xData[i], y: yData[i], year: y }));
+
+  // Regression line
+  const reg = linReg(xData, yData);
+  const xMin = Math.min(...xData), xMax = Math.max(...xData);
+
+  scatterTwoChart = new Chart(canvas, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: '연도별 데이터',
+          data: points,
+          backgroundColor: decadeColors,
+          pointRadius: 7,
+          pointHoverRadius: 10,
+          order: 2,
+        },
+        {
+          label: '회귀선',
+          type: 'line',
+          data: [{ x: xMin, y: reg.a + reg.b * xMin }, { x: xMax, y: reg.a + reg.b * xMax }],
+          borderColor: '#64748b',
+          borderWidth: 2,
+          borderDash: [6, 4],
+          pointRadius: 0,
+          fill: false,
+          order: 1,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              if (ctx.datasetIndex === 0) {
+                const p = ctx.raw;
+                return `${p.year}년: X=${fmt(p.x)}, Y=${fmt(p.y)}`;
+              }
+              return '';
+            }
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: DATA[xKey].label } },
+        y: { title: { display: true, text: DATA[yKey].label } },
+      }
+    }
+  });
+
+  // Stats
+  const r = pearsonR(xData, yData);
+  document.getElementById('scatter-r').textContent = fmt(r, 3);
+  document.getElementById('scatter-r2').textContent = fmt(r * r * 100, 1) + '%';
+  document.getElementById('scatter-eq').textContent = `Y = ${fmt(reg.a, 1)} + ${fmt(reg.b, 3)}X`;
+}
+
+// ==================== INTERACTIVE 3: CORRELATION DASHBOARD ====================
+let dashboardChart = null;
+
+function initDashboardVars() {
+  const container = document.getElementById('dashboard-vars');
+  container.innerHTML = '';
+  VAR_KEYS.forEach(key => {
+    const v = DATA[key];
+    const label = document.createElement('label');
+    label.style.cssText = 'display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--tb-g100);border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;transition:0.15s;border:2px solid transparent;';
+    label.innerHTML = `<input type="checkbox" class="dash-cb" value="${key}" /> ${v.label.split('(')[0].split('/')[0].trim()}`;
+    label.addEventListener('change', () => {
+      const count = document.querySelectorAll('.dash-cb:checked').length;
+      document.getElementById('dashboard-msg').textContent = `${count}개 선택됨`;
+      label.style.borderColor = label.querySelector('input').checked ? 'var(--tb-primary)' : 'transparent';
+      label.style.background = label.querySelector('input').checked ? 'var(--tb-primary-light)' : 'var(--tb-g100)';
+    });
+    container.appendChild(label);
+  });
+}
+
+async function generateDashboard() {
+  const Chart = await loadChart();
+  const selected = Array.from(document.querySelectorAll('.dash-cb:checked')).map(cb => cb.value);
+  if (selected.length < 3) {
+    document.getElementById('dashboard-msg').textContent = '3개 이상 선택하세요!';
+    return;
+  }
+
+  const vars = selected.map(k => ({ key: k, ...DATA[k] }));
+  const n = vars.length;
+
+  // Correlation matrix
+  const matrix = [];
+  for (let i = 0; i < n; i++) {
+    matrix[i] = [];
+    for (let j = 0; j < n; j++) {
+      matrix[i][j] = pearsonR(vars[i].data, vars[j].data);
+    }
+  }
+
+  // Heatmap
+  const canvas = document.getElementById('dashboard-heatmap');
+  if (dashboardChart) { dashboardChart.destroy(); dashboardChart = null; }
+
+  const heatData = [];
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      heatData.push({ x: j, y: n - 1 - i, r: matrix[i][j] });
+    }
+  }
+  const labels = vars.map(v => v.label.split('(')[0].split('/')[0].trim());
+
+  dashboardChart = new Chart(canvas, {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: '상관계수',
+        data: heatData.map(d => ({ x: d.x, y: d.y })),
+        backgroundColor: heatData.map(d => {
+          const rv = d.r;
+          if (rv > 0) return `rgba(37, 99, 235, ${Math.abs(rv) * 0.8 + 0.1})`;
+          if (rv < 0) return `rgba(239, 68, 68, ${Math.abs(rv) * 0.8 + 0.1})`;
+          return 'rgba(100, 116, 139, 0.2)';
+        }),
+        pointRadius: heatData.map(d => 12 + Math.abs(d.r) * 16),
+        pointStyle: 'rectRounded',
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '상관행렬 (파랑=양의 상관, 빨강=음의 상관)', font: { size: 13, family: "'Paperlogy'" } },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const idx = ctx.dataIndex;
+              const i = n - 1 - heatData[idx].y;
+              const j = heatData[idx].x;
+              return `${labels[i]} vs ${labels[j]}: r = ${matrix[i][j].toFixed(3)}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { min: -0.5, max: n - 0.5, ticks: { callback: (v) => labels[v] || '', stepSize: 1, font: { size: 9 } } },
+        y: { min: -0.5, max: n - 0.5, ticks: { callback: (v) => labels[n - 1 - v] || '', stepSize: 1, font: { size: 9 } } },
+      }
+    }
+  });
+
+  // Top 3 correlations
+  const pairs = [];
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      pairs.push({ i, j, r: matrix[i][j] });
+    }
+  }
+  pairs.sort((a, b) => Math.abs(b.r) - Math.abs(a.r));
+
+  const top3Div = document.getElementById('dashboard-top3');
+  top3Div.innerHTML = '<h3 style="margin-bottom: 8px;">가장 강한 상관관계 Top 3</h3>';
+  const top3 = pairs.slice(0, 3);
+  top3.forEach((p, idx) => {
+    const color = p.r > 0 ? 'var(--tb-primary)' : 'var(--tb-danger)';
+    const direction = p.r > 0 ? '양의 상관' : '음의 상관';
+    top3Div.insertAdjacentHTML('beforeend', `
+      <div style="padding: 10px 16px; background: var(--tb-g100); border-radius: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+        <span><strong>${idx + 1}.</strong> ${vars[p.i].label.split('(')[0].trim()} vs ${vars[p.j].label.split('(')[0].trim()}</span>
+        <span style="color: ${color}; font-weight: 700;">r = ${p.r.toFixed(3)} (${direction})</span>
+      </div>
+    `);
+  });
+}
+
+// ==================== INTERACTIVE 4: EDA REPORT GENERATOR ====================
+async function generateReport() {
+  const Chart = await loadChart();
+  const reportDiv = document.getElementById('eda-report');
+  reportDiv.style.display = '';
+
+  // 1. Dataset overview
+  let html = `
+    <div style="background: linear-gradient(135deg, var(--tb-primary-light), #fff); border-radius: var(--tb-radius); padding: 20px; margin-bottom: 16px;">
+      <h3 style="color: var(--tb-primary); margin-bottom: 12px;">EDA 보고서: 한국 경제 지표 (1995-2024)</h3>
+      <p style="font-size: .9rem; color: var(--tb-g600);">자동 생성됨 | 변수 10개 | 관측치 30개 (연도)</p>
+    </div>
+  `;
+
+  // 2. Summary table
+  html += `<h3 style="margin-bottom: 8px;">1. 변수별 요약통계</h3>
+    <div class="tb-data-table-wrap" style="max-height: none;">
+      <table class="tb-data-table">
+        <thead><tr><th>변수</th><th>평균</th><th>중앙값</th><th>SD</th><th>최소</th><th>최소 연도</th><th>최대</th><th>최대 연도</th><th>왜도</th></tr></thead>
+        <tbody>`;
+
+  VAR_KEYS.forEach(key => {
+    const v = DATA[key];
+    const s = computeStats(v.data);
+    const minIdx = v.data.indexOf(s.min);
+    const maxIdx = v.data.indexOf(s.max);
+    html += `<tr>
+      <td><strong>${v.label.split('(')[0].trim()}</strong></td>
+      <td>${fmt(s.mean)}</td><td>${fmt(s.median)}</td><td>${fmt(s.sd)}</td>
+      <td>${fmt(s.min)}</td><td>${YEARS[minIdx]}</td>
+      <td>${fmt(s.max)}</td><td>${YEARS[maxIdx]}</td>
+      <td>${fmt(s.skewness, 3)}</td>
+    </tr>`;
+  });
+
+  html += `</tbody></table></div>`;
+
+  // 3. Top correlations
+  const allPairs = [];
+  VAR_KEYS.forEach((k1, i) => {
+    VAR_KEYS.forEach((k2, j) => {
+      if (j > i) {
+        allPairs.push({ k1, k2, r: pearsonR(DATA[k1].data, DATA[k2].data) });
+      }
+    });
+  });
+  allPairs.sort((a, b) => Math.abs(b.r) - Math.abs(a.r));
+
+  html += `<h3 style="margin-top: 20px; margin-bottom: 8px;">2. 가장 강한 상관관계 Top 5</h3>`;
+  html += `<div class="tb-data-table-wrap" style="max-height: none;">
+    <table class="tb-data-table">
+      <thead><tr><th>순위</th><th>변수 1</th><th>변수 2</th><th>Pearson r</th><th>방향</th></tr></thead>
+      <tbody>`;
+  allPairs.slice(0, 5).forEach((p, i) => {
+    const color = p.r > 0 ? 'var(--tb-primary)' : 'var(--tb-danger)';
+    const dir = p.r > 0 ? '양의 상관' : '음의 상관';
+    html += `<tr><td>${i + 1}</td><td>${DATA[p.k1].label.split('(')[0].trim()}</td><td>${DATA[p.k2].label.split('(')[0].trim()}</td><td style="color:${color};font-weight:700">${p.r.toFixed(3)}</td><td>${dir}</td></tr>`;
+  });
+  html += `</tbody></table></div>`;
+
+  // 4. Outlier years
+  html += `<h3 style="margin-top: 20px; margin-bottom: 8px;">3. 이상치 연도 (2SD 이상 이탈한 지표가 2개 이상)</h3>`;
+  const outlierYears = [];
+  YEARS.forEach((year, yi) => {
+    let deviations = 0;
+    const devVars = [];
+    VAR_KEYS.forEach(key => {
+      const v = DATA[key];
+      const s = computeStats(v.data);
+      const z = Math.abs((v.data[yi] - s.mean) / s.sd);
+      if (z > 2) { deviations++; devVars.push(v.label.split('(')[0].trim() + ' (Z=' + z.toFixed(1) + ')'); }
+    });
+    if (deviations >= 2) outlierYears.push({ year, deviations, devVars });
+  });
+
+  if (outlierYears.length > 0) {
+    html += `<div style="margin-bottom: 14px;">`;
+    outlierYears.forEach(o => {
+      html += `<div style="padding: 10px 16px; background: linear-gradient(135deg, #fef2f2, #fee2e2); border-radius: 8px; margin-bottom: 6px;">
+        <strong style="color: var(--tb-danger);">${o.year}년</strong> -- ${o.deviations}개 지표 이탈: ${o.devVars.join(', ')}
+      </div>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<p style="color: var(--tb-g600); font-size: .9rem;">2SD 이상 이탈 지표가 2개 이상인 연도가 없습니다.</p>`;
+  }
+
+  // 5. Key findings
+  html += `<h3 style="margin-top: 20px; margin-bottom: 8px;">4. 핵심 발견</h3>`;
+  html += `<div class="tb-insight">
+    <ol style="padding-left: 20px; margin: 0;">
+      <li style="margin-bottom: 6px;"><strong>출생률의 지속적 하락:</strong> 1995년 16.0에서 2024년 4.2로, 30년간 약 74% 감소했습니다. 가장 일관된 추세를 보이는 변수입니다.</li>
+      <li style="margin-bottom: 6px;"><strong>가계부채의 구조적 증가:</strong> GDP 대비 가계부채비율이 38%에서 105%로 거의 3배 증가했습니다. 이는 주택가격지수와 강한 양의 상관을 보입니다.</li>
+      <li style="margin-bottom: 6px;"><strong>세 차례 위기의 다른 성격:</strong> 1997년(IMF)은 환율과 실업률 급등, 2008년(GFC)은 주가 폭락과 수출 급감, 2020년(COVID)은 전반적 경기 위축으로 각각 다른 양상을 보입니다.</li>
+      <li><strong>GDP 성장률의 추세적 둔화:</strong> 1990년대 평균 약 6%대에서 2020년대 약 2%대로 성장률이 구조적으로 하락하고 있습니다.</li>
+    </ol>
+  </div>`;
+
+  reportDiv.innerHTML = html;
+}
+
+// ==================== INTERACTIVE 5: CRISIS DETECTOR ====================
+let crisisChart = null;
+
+async function detectCrisis() {
+  const Chart = await loadChart();
+  const threshold = parseFloat(document.getElementById('crisis-threshold').value);
+
+  // Calculate Z-scores for each variable and year
+  const zScores = {};
+  VAR_KEYS.forEach(key => {
+    const v = DATA[key];
+    const s = computeStats(v.data);
+    zScores[key] = v.data.map(val => (val - s.mean) / s.sd);
+  });
+
+  // Count deviations per year
+  const yearDeviations = YEARS.map((year, yi) => {
+    let count = 0;
+    const details = [];
+    VAR_KEYS.forEach(key => {
+      const z = zScores[key][yi];
+      if (Math.abs(z) > threshold) {
+        count++;
+        details.push({ var: DATA[key].label.split('(')[0].trim(), z: z.toFixed(2) });
+      }
+    });
+    return { year, count, details };
+  });
+
+  // Draw time series with crisis bands
+  const canvas = document.getElementById('crisis-chart');
+  if (crisisChart) { crisisChart.destroy(); crisisChart = null; }
+
+  // Use GDP growth as main indicator, highlight crisis years
+  const crisisYears = yearDeviations.filter(y => y.count >= 2);
+  const bgColors = YEARS.map((_, i) => yearDeviations[i].count >= 2 ? '#ef444433' : 'transparent');
+
+  crisisChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: YEARS.map(String),
+      datasets: [
+        {
+          label: '이탈 지표 수',
+          data: yearDeviations.map(y => y.count),
+          backgroundColor: yearDeviations.map(y => y.count >= 2 ? '#ef4444cc' : y.count >= 1 ? '#f59e0b88' : '#22c55e55'),
+          borderRadius: 3,
+          order: 2,
+          yAxisID: 'y',
+        },
+        {
+          label: 'GDP 성장률 (%)',
+          type: 'line',
+          data: DATA.gdp.data,
+          borderColor: '#2563eb',
+          backgroundColor: '#2563eb22',
+          borderWidth: 2,
+          pointRadius: 3,
+          fill: false,
+          tension: 0.2,
+          order: 1,
+          yAxisID: 'y1',
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { position: 'top' },
+        title: { display: true, text: `위기 감지 (기준: ${threshold} SD 이상 이탈)`, font: { size: 14, family: "'Paperlogy'" } },
+        tooltip: {
+          callbacks: {
+            afterLabel: (ctx) => {
+              if (ctx.datasetIndex === 0) {
+                const yd = yearDeviations[ctx.dataIndex];
+                if (yd.details.length > 0) {
+                  return yd.details.map(d => `  ${d.var}: Z=${d.z}`).join('\n');
+                }
+              }
+              return '';
+            }
+          }
+        }
+      },
+      scales: {
+        y: { beginAtZero: true, position: 'left', title: { display: true, text: '이탈 지표 수' }, max: 10 },
+        y1: { position: 'right', title: { display: true, text: 'GDP 성장률 (%)' }, grid: { drawOnChartArea: false } },
+        x: { ticks: { maxTicksLimit: 15 } },
+      }
+    }
+  });
+
+  // Results
+  const resultsDiv = document.getElementById('crisis-results');
+  if (crisisYears.length === 0) {
+    resultsDiv.innerHTML = '<div class="tb-explain">해당 기준에서 감지된 위기 연도가 없습니다. 기준을 낮춰보세요.</div>';
+  } else {
+    let rHtml = '<h3 style="margin-bottom: 8px;">감지된 위기 연도</h3>';
+    crisisYears.sort((a, b) => b.count - a.count);
+    crisisYears.forEach(cy => {
+      const eventName = cy.year === 1997 || cy.year === 1998 ? 'IMF 외환위기'
+        : cy.year === 2008 || cy.year === 2009 ? '글로벌 금융위기'
+        : cy.year === 2020 ? 'COVID-19 팬데믹'
+        : '';
+      const badge = eventName ? `<span style="background:#fee2e2;color:var(--tb-danger);padding:2px 8px;border-radius:10px;font-size:.78rem;font-weight:700;margin-left:8px;">${eventName}</span>` : '';
+
+      rHtml += `<div style="padding: 12px 16px; background: var(--tb-g100); border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--tb-danger);">
+        <div style="font-weight: 700; margin-bottom: 4px;">${cy.year}년 -- ${cy.count}개 지표 이탈${badge}</div>
+        <div style="font-size: .85rem; color: var(--tb-g600);">
+          ${cy.details.map(d => `${d.var} (Z=${d.z})`).join(' | ')}
+        </div>
+      </div>`;
+    });
+    resultsDiv.innerHTML = rHtml;
+  }
+
+  // Stats
+  document.getElementById('crisis-stats').style.display = '';
+  document.getElementById('crisis-years').textContent = crisisYears.length + '개';
+  if (crisisYears.length > 0) {
+    document.getElementById('crisis-worst').textContent = crisisYears[0].year + '년';
+    document.getElementById('crisis-max-dev').textContent = crisisYears[0].count + '개';
+  }
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('07-capstone-eda')).catch(() => {});
+
+  // Interactive 1
+  document.getElementById('btn-var-explore').addEventListener('click', exploreVariable);
+  exploreVariable();
+
+  // Interactive 2
+  document.getElementById('btn-scatter-draw').addEventListener('click', drawTwoVarScatter);
+  drawTwoVarScatter();
+
+  // Interactive 3
+  initDashboardVars();
+  document.getElementById('btn-dashboard-gen').addEventListener('click', generateDashboard);
+
+  // Interactive 4
+  document.getElementById('btn-gen-report').addEventListener('click', generateReport);
+
+  // Interactive 5
+  document.getElementById('btn-crisis-detect').addEventListener('click', detectCrisis);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .decade-legend {
+    display: flex;
+    gap: 16px;
+    margin: 8px 0;
+    font-size: 0.82rem;
+    flex-wrap: wrap;
+  }
+  .decade-legend span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .decade-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+</style>

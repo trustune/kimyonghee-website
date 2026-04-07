@@ -1,0 +1,1071 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="데이터 사이언스 로드맵"
+  subtitle="이 교재의 전체 지도"
+  chapterNum={2}
+  part={0}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>35개 장, 7개 파트 -- 어디서부터 시작할까?</h2>
+    <p>
+      이 교재는 데이터 리터러시부터 딥러닝까지, 경영학도가 알아야 할 데이터 사이언스의 핵심을
+      35개 장에 걸쳐 다룹니다. 하지만 처음부터 끝까지 순서대로 읽을 필요는 없습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장은 <strong>전체 교재의 지도</strong>입니다.
+      아래 커리큘럼 맵에서 각 장의 위치와 선수 관계를 확인하고,
+      내 연구 질문에 맞는 분석 경로를 찾아보세요.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 데이터 사이언스 워크플로 ===== -->
+  <div class="tb-card">
+    <h2>데이터 사이언스 워크플로</h2>
+    <p>
+      어떤 분석이든 기본 흐름은 동일합니다. 여섯 단계를 순환하며 반복합니다.
+    </p>
+
+    <div id="workflow-container" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 20px 0;">
+      <div class="workflow-step" data-step="question">
+        <div class="wf-icon">?</div>
+        <div class="wf-label">Question</div>
+        <div class="wf-desc">연구 질문 설정</div>
+      </div>
+      <div class="workflow-arrow">&#8594;</div>
+      <div class="workflow-step" data-step="data">
+        <div class="wf-icon">D</div>
+        <div class="wf-label">Data</div>
+        <div class="wf-desc">데이터 수집/정제</div>
+      </div>
+      <div class="workflow-arrow">&#8594;</div>
+      <div class="workflow-step" data-step="eda">
+        <div class="wf-icon">E</div>
+        <div class="wf-label">EDA</div>
+        <div class="wf-desc">탐색적 데이터 분석</div>
+      </div>
+      <div class="workflow-arrow">&#8594;</div>
+      <div class="workflow-step" data-step="model">
+        <div class="wf-icon">M</div>
+        <div class="wf-label">Model</div>
+        <div class="wf-desc">모델 구축</div>
+      </div>
+      <div class="workflow-arrow">&#8594;</div>
+      <div class="workflow-step" data-step="evaluate">
+        <div class="wf-icon">V</div>
+        <div class="wf-label">Evaluate</div>
+        <div class="wf-desc">모델 평가</div>
+      </div>
+      <div class="workflow-arrow">&#8594;</div>
+      <div class="workflow-step" data-step="communicate">
+        <div class="wf-icon">C</div>
+        <div class="wf-label">Communicate</div>
+        <div class="wf-desc">결과 전달</div>
+      </div>
+    </div>
+
+    <div id="workflow-detail" class="tb-explain" style="display:none;"></div>
+
+    <ExplainBox>
+      <strong>각 단계를 클릭하면</strong> 해당 단계에서 어떤 작업을 하고, 교재의 어떤 파트가 관련되는지 확인할 수 있습니다.
+      실제 분석에서는 이 흐름을 여러 번 반복(iterate)합니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION 3: 파트별 소개 ===== -->
+  <div class="tb-card">
+    <h2>7개 파트 한눈에 보기</h2>
+    <p>교재의 전체 구조를 파트별로 살펴봅니다. 각 파트를 클릭하면 포함된 장과 핵심 개념이 나타납니다.</p>
+
+    <div id="parts-overview" style="margin: 16px 0;">
+      <div class="part-overview-item" data-partid="0" style="border-left-color: #2563eb;">
+        <div class="poi-header">
+          <span class="poi-badge" style="background: #2563eb;">0</span>
+          <div>
+            <strong>출발점 (Part 0)</strong>
+            <span class="poi-subtitle">1-2장 | 데이터 사이언스의 세계로 첫 발을 내딛다</span>
+          </div>
+        </div>
+        <div class="poi-content" style="display:none;">
+          <p>데이터의 정의, 유형 분류, 측정 척도를 배우고, 교재 전체의 로드맵을 파악합니다.</p>
+          <p><strong>핵심 도구:</strong> 데이터 리터러시, 변수 분류, 척도 이해</p>
+          <p><strong>포함 장:</strong> 1장 데이터란 무엇인가, 2장 로드맵(현재)</p>
+        </div>
+      </div>
+
+      <div class="part-overview-item" data-partid="1" style="border-left-color: #2563eb;">
+        <div class="poi-header">
+          <span class="poi-badge" style="background: #2563eb;">1</span>
+          <div>
+            <strong>기술통계 (Part 1)</strong>
+            <span class="poi-subtitle">3-7장 | 데이터의 모양을 눈으로 확인하다</span>
+          </div>
+        </div>
+        <div class="poi-content" style="display:none;">
+          <p>평균/중앙값/최빈값, 분산/표준편차, 분포의 모양, 상관관계를 다룹니다. 데이터를 요약하고 시각화하는 기초 역량을 기릅니다.</p>
+          <p><strong>핵심 도구:</strong> 히스토그램, 상자그림, 산점도, 기술통계량</p>
+          <p><strong>포함 장:</strong> 3장 중심경향, 4장 산포, 5장 분포, 6장 상관, 7장 캡스톤 EDA</p>
+        </div>
+      </div>
+
+      <div class="part-overview-item" data-partid="2" style="border-left-color: #7c3aed;">
+        <div class="poi-header">
+          <span class="poi-badge" style="background: #7c3aed;">2</span>
+          <div>
+            <strong>추론통계 (Part 2)</strong>
+            <span class="poi-subtitle">8-14장 | 표본에서 모집단의 진실에 다가가다</span>
+          </div>
+        </div>
+        <div class="poi-content" style="display:none;">
+          <p>표본추출, 신뢰구간, 가설검정, t-검정, 카이제곱, ANOVA 등 추론 통계의 핵심을 배웁니다.</p>
+          <p><strong>핵심 도구:</strong> 표본추출, 신뢰구간, p-값, 가설검정 프레임워크</p>
+          <p><strong>포함 장:</strong> 8장 표본과 모집단, 9장 신뢰구간, 10장 가설검정, 11장 t-검정, 12장 카이제곱, 13장 ANOVA, 14장 캡스톤</p>
+        </div>
+      </div>
+
+      <div class="part-overview-item" data-partid="3" style="border-left-color: #059669;">
+        <div class="poi-header">
+          <span class="poi-badge" style="background: #059669;">3</span>
+          <div>
+            <strong>회귀와 예측 (Part 3)</strong>
+            <span class="poi-subtitle">15-21장 | 데이터로 미래를 예측하다</span>
+          </div>
+        </div>
+        <div class="poi-content" style="display:none;">
+          <p>단순/다중 회귀, 로지스틱 회귀, 시계열 분석 등 예측 모델의 기초부터 심화까지 다룹니다.</p>
+          <p><strong>핵심 도구:</strong> 회귀분석, 잔차 분석, 예측, 시계열</p>
+          <p><strong>포함 장:</strong> 15장 단순회귀, 16장 다중회귀, 17장 회귀진단, 18장 로지스틱회귀, 19장 정규화, 20장 시계열, 21장 캡스톤</p>
+        </div>
+      </div>
+
+      <div class="part-overview-item" data-partid="4" style="border-left-color: #ea580c;">
+        <div class="poi-header">
+          <span class="poi-badge" style="background: #ea580c;">4</span>
+          <div>
+            <strong>분류와 머신러닝 (Part 4)</strong>
+            <span class="poi-subtitle">22-28장 | 기계가 패턴을 학습하다</span>
+          </div>
+        </div>
+        <div class="poi-content" style="display:none;">
+          <p>의사결정나무, 랜덤포레스트, SVM, 앙상블 등 분류/예측 머신러닝 기법을 체험합니다.</p>
+          <p><strong>핵심 도구:</strong> 의사결정나무, 랜덤포레스트, 교차검증, 특성 중요도</p>
+          <p><strong>포함 장:</strong> 22장 KNN, 23장 의사결정나무, 24장 랜덤포레스트, 25장 SVM, 26장 앙상블, 27장 평가지표, 28장 캡스톤</p>
+        </div>
+      </div>
+
+      <div class="part-overview-item" data-partid="5" style="border-left-color: #06b6d4;">
+        <div class="poi-header">
+          <span class="poi-badge" style="background: #06b6d4;">5</span>
+          <div>
+            <strong>비지도학습과 차원축소 (Part 5)</strong>
+            <span class="poi-subtitle">29-32장 | 라벨 없이 구조를 발견하다</span>
+          </div>
+        </div>
+        <div class="poi-content" style="display:none;">
+          <p>K-means, 계층적 군집, PCA, 차원축소 등 비지도 학습 기법으로 숨겨진 패턴을 발견합니다.</p>
+          <p><strong>핵심 도구:</strong> 군집분석, PCA, 차원축소, 실루엣 분석</p>
+          <p><strong>포함 장:</strong> 29장 K-means, 30장 계층적 군집, 31장 PCA, 32장 캡스톤</p>
+        </div>
+      </div>
+
+      <div class="part-overview-item" data-partid="6" style="border-left-color: #dc2626;">
+        <div class="poi-header">
+          <span class="poi-badge" style="background: #dc2626;">6</span>
+          <div>
+            <strong>딥러닝과 AI (Part 6)</strong>
+            <span class="poi-subtitle">33-35장 | 인공지능의 원리를 체험하다</span>
+          </div>
+        </div>
+        <div class="poi-content" style="display:none;">
+          <p>신경망, CNN, 자연어처리 등 딥러닝의 기초 원리를 인터랙티브하게 체험합니다.</p>
+          <p><strong>핵심 도구:</strong> 신경망, 활성화 함수, 역전파, CNN</p>
+          <p><strong>포함 장:</strong> 33장 신경망, 34장 CNN, 35장 최종 캡스톤</p>
+        </div>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>Part 0-1은 필수입니다.</strong>
+      기술통계를 제대로 이해해야 이후 모든 분석이 의미를 갖습니다.
+      Part 2 이후는 관심사와 연구 질문에 따라 선택적으로 깊이 들어갈 수 있습니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 4: 인터랙티브 커리큘럼 맵 ===== -->
+  <div class="tb-card">
+    <h2>인터랙티브 커리큘럼 맵</h2>
+    <p>
+      35개 장이 어떤 선수 관계로 연결되는지 한눈에 볼 수 있는 지도입니다.
+      노드를 클릭하면 해당 장의 상세 정보가 나타납니다.
+    </p>
+
+    <div id="progress-summary" class="tb-stat-row">
+      <StatBox label="전체 장" id="stat-total" value="35" />
+      <StatBox label="완료한 장" id="stat-completed" value="0" borderColor="var(--tb-success)" />
+      <StatBox label="진행률" id="stat-progress" value="0%" />
+    </div>
+
+    <div style="overflow-x: auto; margin: 16px 0;">
+      <canvas id="curriculum-canvas" width="1100" height="720" style="border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); cursor: pointer; max-width: 100%;"></canvas>
+    </div>
+
+    <div id="chapter-detail-panel" style="display: none; margin-top: 12px;">
+      <div class="tb-explain">
+        <strong id="detail-title"></strong>
+        <p id="detail-subtitle" style="margin-top: 4px; font-size: .9rem; color: var(--tb-g600);"></p>
+        <p id="detail-prereqs" style="margin-top: 8px; font-size: .88rem;"></p>
+        <p id="detail-learn" style="margin-top: 8px; font-size: .88rem;"></p>
+        <p id="detail-status" style="margin-top: 8px; font-size: .85rem;"></p>
+      </div>
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-show-prereqs">선수 관계 화살표 표시</button>
+      <button class="tb-btn tb-btn-success" id="btn-where-am-i">내 현재 위치 보기</button>
+    </SimControls>
+  </div>
+
+  <!-- ===== SECTION 5: 연구 질문 분류기 ===== -->
+  <div class="tb-card">
+    <h2>연구 질문 분류기</h2>
+    <p>
+      분석의 출발점은 항상 <strong>질문</strong>입니다.
+      여러분의 연구 질문을 입력하면, 그것이 어떤 유형의 분석에 해당하는지 분류하고
+      관련 장을 추천해 드립니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>실습:</strong> 아래 입력창에 연구 질문을 자유롭게 입력해 보세요.
+      한국어로 작성하면 됩니다.
+    </ExerciseBox>
+
+    <div style="margin: 16px 0;">
+      <textarea id="question-input"
+        style="width: 100%; min-height: 80px; padding: 14px; border: 2px solid var(--tb-g300); border-radius: var(--tb-radius); font-family: var(--tb-font); font-size: 0.95rem; resize: vertical;"
+        placeholder="예: '광고비 지출이 매출에 영향을 미치는가?' 또는 '고객을 유형별로 분류하려면?'"></textarea>
+      <SimControls>
+        <button class="tb-btn tb-btn-primary" id="btn-classify-q">질문 분류하기</button>
+        <button class="tb-btn tb-btn-danger" id="btn-example-q">예시 질문 보기</button>
+      </SimControls>
+    </div>
+
+    <div id="classification-result" style="display: none; margin-top: 12px;"></div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px;">
+      <div class="q-type-card" data-type="descriptive">
+        <h3>기술적(Descriptive)</h3>
+        <p>"현재 상태가 어떠한가?"</p>
+        <p class="q-type-example">예: 고객의 평균 연령은? 매출 분포는?</p>
+        <p class="q-type-chapters">관련: 3-7장</p>
+      </div>
+      <div class="q-type-card" data-type="inferential">
+        <h3>추론적(Inferential)</h3>
+        <p>"표본 결과가 모집단에도 적용되는가?"</p>
+        <p class="q-type-example">예: 두 그룹의 평균 차이가 통계적으로 유의한가?</p>
+        <p class="q-type-chapters">관련: 8-14장</p>
+      </div>
+      <div class="q-type-card" data-type="predictive">
+        <h3>예측적(Predictive)</h3>
+        <p>"미래에 무슨 일이 일어날까?"</p>
+        <p class="q-type-example">예: 다음 분기 매출은 얼마일까?</p>
+        <p class="q-type-chapters">관련: 15-28장</p>
+      </div>
+      <div class="q-type-card" data-type="causal">
+        <h3>인과적(Causal)</h3>
+        <p>"X가 Y를 일으키는가?"</p>
+        <p class="q-type-example">예: 교육 프로그램이 생산성을 높이는가?</p>
+        <p class="q-type-chapters">관련: 10-11장, 15-18장</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 6: 분석 방법 매칭 퀴즈 ===== -->
+  <div class="tb-card">
+    <h2>퀴즈: 분석 방법과 질문 유형 매칭</h2>
+
+    <ExerciseBox>
+      <strong>실습:</strong> 5개의 분석 질문이 주어집니다.
+      각 질문이 기술적/추론적/예측적/인과적 중 어느 유형에 해당하는지 선택하세요.
+    </ExerciseBox>
+
+    <div id="matching-quiz" style="margin: 16px 0;"></div>
+
+    <div class="tb-stat-row" id="quiz-results" style="display: none;">
+      <StatBox label="정답" id="match-correct" borderColor="var(--tb-success)" />
+      <StatBox label="전체" id="match-total" />
+      <StatBox label="정답률" id="match-rate" />
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-check-match">정답 확인</button>
+      <button class="tb-btn tb-btn-danger" id="btn-reset-match">새 문제</button>
+    </SimControls>
+  </div>
+
+  <!-- ===== SECTION 7: 나만의 학습 경로 설계 ===== -->
+  <div class="tb-card">
+    <h2>나만의 학습 경로 설계</h2>
+    <p>관심 분야를 선택하면 추천 학습 순서를 안내합니다.</p>
+
+    <ExerciseBox>
+      <strong>실습:</strong> 아래에서 관심 있는 분석 목표를 선택하세요.
+    </ExerciseBox>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0;">
+      <button class="path-btn tb-btn" data-path="business-analyst">경영 데이터 분석가</button>
+      <button class="path-btn tb-btn" data-path="market-researcher">마케팅 리서처</button>
+      <button class="path-btn tb-btn" data-path="finance-analyst">재무/투자 분석가</button>
+      <button class="path-btn tb-btn" data-path="ml-engineer">머신러닝 엔지니어</button>
+      <button class="path-btn tb-btn" data-path="academic-researcher">학술 연구자</button>
+    </div>
+
+    <div id="path-result" style="display: none;"></div>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>데이터 사이언스 워크플로는 질문 -> 데이터 -> EDA -> 모델 -> 평가 -> 소통의 순환 구조이다.</li>
+      <li>교재는 7개 파트(기초 -> 기술통계 -> 추론통계 -> 회귀 -> ML -> 비지도 -> 딥러닝)로 구성된다.</li>
+      <li>연구 질문의 유형(기술/추론/예측/인과)에 따라 필요한 분석 방법이 달라진다.</li>
+      <li>커리큘럼 맵에서 선수 관계를 확인하고, 본인의 목표에 맞는 경로를 설계하자.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 전체 지도를 파악했으니,
+      이제 본격적인 통계의 첫 관문 -- "데이터의 중심"을 배웁니다.
+      평균이 왜 거짓말을 하는지 직접 확인해 보세요.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== CHAPTER DATA ====================
+const PARTS = [
+  { id: 0, title: '출발점', color: '#2563eb', chapters: [1, 2] },
+  { id: 1, title: '기술통계', color: '#2563eb', chapters: [3, 4, 5, 6, 7] },
+  { id: 2, title: '추론통계', color: '#7c3aed', chapters: [8, 9, 10, 11, 12, 13, 14] },
+  { id: 3, title: '회귀와 예측', color: '#059669', chapters: [15, 16, 17, 18, 19, 20, 21] },
+  { id: 4, title: '분류와 ML', color: '#ea580c', chapters: [22, 23, 24, 25, 26, 27, 28] },
+  { id: 5, title: '비지도학습', color: '#06b6d4', chapters: [29, 30, 31, 32] },
+  { id: 6, title: '딥러닝과 AI', color: '#dc2626', chapters: [33, 34, 35] },
+];
+
+const CHAPTERS = [
+  { num: 1, title: '데이터란 무엇인가?', slug: '01-what-is-data', part: 0, prereqs: [], desc: '데이터의 정의, 유형, 측정 척도를 학습합니다.', learn: '행과 열, 범주형/수치형, 명목/서열/등간/비율 척도' },
+  { num: 2, title: '데이터 사이언스 로드맵', slug: '02-roadmap', part: 0, prereqs: [1], desc: '교재 전체의 구조와 학습 경로를 파악합니다.', learn: '워크플로, 질문 유형 분류, 커리큘럼 맵' },
+  { num: 3, title: '데이터의 중심', slug: '03-central-tendency', part: 1, prereqs: [2], desc: '평균, 중앙값, 최빈값의 특성과 한계를 배웁니다.', learn: '평균 vs 중앙값, 왜도의 영향, 절사평균' },
+  { num: 4, title: '데이터의 퍼짐', slug: '04-spread', part: 1, prereqs: [3], desc: '분산, 표준편차, IQR로 데이터의 퍼짐 정도를 측정합니다.', learn: '분산, 표준편차, 변동계수, 상자그림' },
+  { num: 5, title: '분포의 모양', slug: '05-distributions', part: 1, prereqs: [3, 4], desc: '정규분포와 중심극한정리의 마법을 체험합니다.', learn: '정규분포, 왜도/첨도, 중심극한정리' },
+  { num: 6, title: '두 변수의 관계', slug: '06-correlation', part: 1, prereqs: [3, 4], desc: '상관관계와 인과관계의 차이를 이해합니다.', learn: '산점도, 상관계수, 심슨의 역설' },
+  { num: 7, title: '캡스톤 I: EDA', slug: '07-capstone-eda', part: 1, prereqs: [3, 4, 5, 6], desc: '기술통계 종합 실습입니다.', learn: '실제 데이터로 탐색적 분석 수행' },
+  { num: 8, title: '표본과 모집단', slug: '08-sampling', part: 2, prereqs: [5], desc: '표본추출의 원리를 배웁니다.', learn: '무작위 표본, 표본 오차, 편향' },
+  { num: 9, title: '신뢰구간', slug: '09-confidence-intervals', part: 2, prereqs: [8], desc: '95% 신뢰의 진짜 의미를 이해합니다.', learn: '신뢰구간 구축, 표본 크기, 오차 범위' },
+  { num: 10, title: '가설검정', slug: '10-hypothesis-testing', part: 2, prereqs: [9], desc: 'p-값과 가설검정 프레임워크를 배웁니다.', learn: '귀무가설, 대립가설, 유의수준, 검정력' },
+  { num: 11, title: 't-검정', slug: '11-t-tests', part: 2, prereqs: [10], desc: '두 그룹 비교의 기본 도구를 익힙니다.', learn: '독립표본, 대응표본, 단측/양측 검정' },
+  { num: 12, title: '카이제곱 검정', slug: '12-chi-square', part: 2, prereqs: [10], desc: '범주형 변수의 관련성을 검정합니다.', learn: '적합도 검정, 독립성 검정, 기대빈도' },
+  { num: 13, title: 'ANOVA', slug: '13-anova', part: 2, prereqs: [11], desc: '세 그룹 이상의 평균 비교를 수행합니다.', learn: '일원 ANOVA, 사후검정, 효과크기' },
+  { num: 14, title: '캡스톤 II: 추론', slug: '14-capstone-inference', part: 2, prereqs: [11, 12, 13], desc: '추론통계 종합 실습입니다.', learn: '실제 데이터로 가설검정 수행' },
+  { num: 15, title: '단순 회귀', slug: '15-simple-regression', part: 3, prereqs: [6, 10], desc: '두 변수 간 선형 관계를 모델링합니다.', learn: '최소자승법, 기울기, 절편, R-squared' },
+  { num: 16, title: '다중 회귀', slug: '16-multiple-regression', part: 3, prereqs: [15], desc: '여러 독립변수로 예측합니다.', learn: '다중 회귀, 다중공선성, 변수 선택' },
+  { num: 17, title: '회귀 진단', slug: '17-regression-diagnostics', part: 3, prereqs: [16], desc: '회귀 모델의 가정을 점검합니다.', learn: '잔차 분석, 정규성, 등분산성' },
+  { num: 18, title: '로지스틱 회귀', slug: '18-logistic-regression', part: 3, prereqs: [16], desc: '범주형 결과변수를 예측합니다.', learn: '오즈비, 로짓 변환, 분류 확률' },
+  { num: 19, title: '정규화', slug: '19-regularization', part: 3, prereqs: [16], desc: '과적합을 방지하는 기법을 배웁니다.', learn: 'Ridge, Lasso, 편향-분산 트레이드오프' },
+  { num: 20, title: '시계열', slug: '20-time-series', part: 3, prereqs: [16], desc: '시간에 따른 패턴을 분석합니다.', learn: '추세, 계절성, ARIMA' },
+  { num: 21, title: '캡스톤 III: 예측', slug: '21-capstone-prediction', part: 3, prereqs: [16, 17, 18], desc: '회귀 분석 종합 실습입니다.', learn: '실제 데이터로 예측 모델 구축' },
+  { num: 22, title: 'KNN', slug: '22-knn', part: 4, prereqs: [4, 18], desc: '가장 가까운 이웃으로 분류합니다.', learn: 'K 선택, 거리 측정, 차원의 저주' },
+  { num: 23, title: '의사결정나무', slug: '23-decision-tree', part: 4, prereqs: [18], desc: '규칙 기반 분류를 배웁니다.', learn: '정보 이득, 가지치기, 시각화' },
+  { num: 24, title: '랜덤포레스트', slug: '24-random-forest', part: 4, prereqs: [23], desc: '앙상블의 힘을 체험합니다.', learn: '배깅, 특성 중요도, OOB 오차' },
+  { num: 25, title: 'SVM', slug: '25-svm', part: 4, prereqs: [22], desc: '최적의 결정 경계를 찾습니다.', learn: '마진, 커널 트릭, 소프트 마진' },
+  { num: 26, title: '앙상블', slug: '26-ensemble', part: 4, prereqs: [24], desc: '여러 모델을 결합합니다.', learn: '부스팅, 스태킹, XGBoost' },
+  { num: 27, title: '평가지표', slug: '27-evaluation', part: 4, prereqs: [18], desc: '모델 성능을 올바르게 평가합니다.', learn: '정밀도, 재현율, F1, ROC-AUC' },
+  { num: 28, title: '캡스톤 IV: 분류', slug: '28-capstone-classification', part: 4, prereqs: [23, 24, 27], desc: '머신러닝 분류 종합 실습입니다.', learn: '실제 데이터로 분류 모델 비교' },
+  { num: 29, title: 'K-means', slug: '29-kmeans', part: 5, prereqs: [4, 22], desc: '데이터를 그룹으로 나눕니다.', learn: 'K 선택, 엘보우 기법, 실루엣 분석' },
+  { num: 30, title: '계층적 군집', slug: '30-hierarchical', part: 5, prereqs: [29], desc: '덴드로그램으로 구조를 파악합니다.', learn: '거리 행렬, 연결법, 군집 수 결정' },
+  { num: 31, title: 'PCA', slug: '31-pca', part: 5, prereqs: [4, 6], desc: '차원을 줄여 패턴을 발견합니다.', learn: '고유값, 주성분, 설명 분산' },
+  { num: 32, title: '캡스톤 V: 비지도', slug: '32-capstone-unsupervised', part: 5, prereqs: [29, 30, 31], desc: '비지도학습 종합 실습입니다.', learn: '고객 세분화 프로젝트' },
+  { num: 33, title: '신경망', slug: '33-neural-networks', part: 6, prereqs: [18, 19], desc: '딥러닝의 기초를 배웁니다.', learn: '퍼셉트론, 활성화 함수, 역전파' },
+  { num: 34, title: 'CNN', slug: '34-cnn', part: 6, prereqs: [33], desc: '이미지 인식의 원리를 체험합니다.', learn: '합성곱, 풀링, 필터 시각화' },
+  { num: 35, title: '최종 캡스톤', slug: '35-final-capstone', part: 6, prereqs: [28, 32, 33], desc: '전체 과정을 아우르는 종합 프로젝트입니다.', learn: '문제 정의에서 발표까지' },
+];
+
+// ==================== PROGRESS TRACKING ====================
+function getVisited() {
+  try {
+    return JSON.parse(localStorage.getItem('textbook-visited') || '[]');
+  } catch { return []; }
+}
+
+function updateProgressStats() {
+  const visited = getVisited();
+  const completed = CHAPTERS.filter(c => visited.includes(c.slug)).length;
+  const el = (id) => document.getElementById(id);
+  if (el('stat-completed')) el('stat-completed').textContent = completed;
+  if (el('stat-progress')) el('stat-progress').textContent = Math.round(completed / 35 * 100) + '%';
+}
+
+// ==================== WORKFLOW INTERACTIVITY ====================
+const WORKFLOW_DETAILS = {
+  question: {
+    title: '1단계: 연구 질문 설정',
+    desc: '무엇을 알고 싶은가? 명확한 질문이 없으면 분석은 방향을 잃습니다. 기술적/추론적/예측적/인과적 질문 중 어디에 해당하는지 먼저 분류하세요.',
+    parts: 'Part 0 (1-2장)에서 질문 유형 분류를 배웁니다.'
+  },
+  data: {
+    title: '2단계: 데이터 수집과 정제',
+    desc: '설문, 실험, 공공 데이터, 크롤링 등으로 데이터를 수집합니다. 결측값, 이상치, 입력 오류를 정리하는 것이 분석의 80%입니다.',
+    parts: 'Part 0 (1장)에서 데이터 구조와 품질을 배웁니다.'
+  },
+  eda: {
+    title: '3단계: 탐색적 데이터 분석 (EDA)',
+    desc: '시각화와 기술통계로 데이터의 특성을 파악합니다. 분포, 이상치, 변수 간 관계를 먼저 눈으로 확인하세요.',
+    parts: 'Part 1 (3-7장)에서 기술통계와 시각화를 배웁니다.'
+  },
+  model: {
+    title: '4단계: 모델 구축',
+    desc: '질문의 유형에 맞는 통계 모델이나 머신러닝 알고리즘을 선택하고 적용합니다.',
+    parts: 'Part 2 (추론), Part 3 (회귀), Part 4 (ML), Part 5 (비지도), Part 6 (딥러닝)'
+  },
+  evaluate: {
+    title: '5단계: 모델 평가',
+    desc: '모델이 현실을 잘 설명하는지, 예측이 정확한지, 가정이 충족되는지 검증합니다.',
+    parts: 'Part 3 (17장 회귀진단), Part 4 (27장 평가지표)에서 자세히 배웁니다.'
+  },
+  communicate: {
+    title: '6단계: 결과 전달',
+    desc: '분석 결과를 이해관계자가 이해할 수 있도록 시각화하고 설명합니다. 숫자만 나열하는 것이 아니라 의사결정에 도움이 되는 이야기를 만듭니다.',
+    parts: '모든 파트의 캡스톤 장(7, 14, 21, 28, 32, 35장)에서 실습합니다.'
+  }
+};
+
+function initWorkflow() {
+  document.querySelectorAll('.workflow-step').forEach(step => {
+    step.addEventListener('click', () => {
+      const key = step.dataset.step;
+      const info = WORKFLOW_DETAILS[key];
+      const detail = document.getElementById('workflow-detail');
+      detail.style.display = '';
+      detail.innerHTML = `<strong>${info.title}</strong><p style="margin-top:6px;">${info.desc}</p><p style="margin-top:6px;font-size:.88rem;color:var(--tb-g600);">${info.parts}</p>`;
+
+      document.querySelectorAll('.workflow-step').forEach(s => s.classList.remove('wf-active'));
+      step.classList.add('wf-active');
+    });
+  });
+}
+
+// ==================== PARTS OVERVIEW ACCORDION ====================
+function initPartsOverview() {
+  document.querySelectorAll('.part-overview-item').forEach(item => {
+    item.querySelector('.poi-header').addEventListener('click', () => {
+      const content = item.querySelector('.poi-content');
+      const isOpen = content.style.display !== 'none';
+      // Close all
+      document.querySelectorAll('.poi-content').forEach(c => c.style.display = 'none');
+      document.querySelectorAll('.part-overview-item').forEach(i => i.classList.remove('poi-open'));
+      if (!isOpen) {
+        content.style.display = '';
+        item.classList.add('poi-open');
+      }
+    });
+  });
+}
+
+// ==================== CURRICULUM MAP (Canvas) ====================
+let showArrows = true;
+let selectedChapter = null;
+
+function getNodePositions() {
+  const positions = {};
+  const canvasW = 1100;
+  const startY = 40;
+  const rowH = 90;
+
+  PARTS.forEach((part, pi) => {
+    const chapters = part.chapters;
+    const y = startY + pi * rowH;
+    const totalW = canvasW - 160;
+    const spacing = chapters.length > 1 ? totalW / (chapters.length - 1) : 0;
+    const startX = chapters.length > 1 ? 130 : canvasW / 2;
+
+    chapters.forEach((cnum, ci) => {
+      positions[cnum] = {
+        x: startX + ci * spacing,
+        y: y + 30,
+        part: pi,
+        color: part.color
+      };
+    });
+  });
+
+  return positions;
+}
+
+function drawCurriculumMap() {
+  const canvas = document.getElementById('curriculum-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width;
+  const h = canvas.height;
+
+  // Handle DPI
+  const dpr = window.devicePixelRatio || 1;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+
+  ctx.clearRect(0, 0, w, h);
+
+  const positions = getNodePositions();
+  const visited = getVisited();
+  const rowH = 90;
+  const startY = 40;
+
+  // Draw part backgrounds
+  PARTS.forEach((part, pi) => {
+    const y = startY + pi * rowH - 15;
+    ctx.fillStyle = part.color + '10';
+    ctx.fillRect(0, y, w, rowH - 8);
+
+    // Part label
+    ctx.fillStyle = part.color;
+    ctx.font = 'bold 12px Paperlogy, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(`P${part.id}: ${part.title}`, 10, y + 40);
+  });
+
+  // Draw prerequisite arrows
+  if (showArrows) {
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 1;
+    CHAPTERS.forEach(ch => {
+      const to = positions[ch.num];
+      if (!to) return;
+      ch.prereqs.forEach(pre => {
+        const from = positions[pre];
+        if (!from) return;
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y + 15);
+        ctx.lineTo(to.x, to.y - 15);
+        ctx.stroke();
+
+        // Arrow head
+        const angle = Math.atan2(to.y - 15 - (from.y + 15), to.x - from.x);
+        ctx.beginPath();
+        ctx.moveTo(to.x, to.y - 15);
+        ctx.lineTo(to.x - 8 * Math.cos(angle - 0.4), to.y - 15 - 8 * Math.sin(angle - 0.4));
+        ctx.lineTo(to.x - 8 * Math.cos(angle + 0.4), to.y - 15 - 8 * Math.sin(angle + 0.4));
+        ctx.closePath();
+        ctx.fillStyle = '#94a3b8';
+        ctx.fill();
+      });
+    });
+  }
+
+  // Draw nodes
+  CHAPTERS.forEach(ch => {
+    const pos = positions[ch.num];
+    if (!pos) return;
+    const isVisited = visited.includes(ch.slug);
+    const isSelected = selectedChapter === ch.num;
+    const r = 16;
+
+    // Node circle
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, r, 0, Math.PI * 2);
+    if (isSelected) {
+      ctx.fillStyle = pos.color;
+      ctx.fill();
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    } else if (isVisited) {
+      ctx.fillStyle = '#22c55e';
+      ctx.fill();
+      ctx.strokeStyle = '#16a34a';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.strokeStyle = pos.color;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    // Chapter number
+    ctx.fillStyle = isSelected || isVisited ? '#ffffff' : pos.color;
+    ctx.font = 'bold 11px Paperlogy, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(ch.num), pos.x, pos.y);
+  });
+}
+
+function handleCanvasClick(e) {
+  const canvas = document.getElementById('curriculum-canvas');
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const mx = (e.clientX - rect.left) * scaleX;
+  const my = (e.clientY - rect.top) * scaleY;
+
+  const positions = getNodePositions();
+  let clicked = null;
+
+  for (const ch of CHAPTERS) {
+    const pos = positions[ch.num];
+    if (!pos) continue;
+    const dist = Math.sqrt((mx - pos.x) ** 2 + (my - pos.y) ** 2);
+    if (dist < 20) {
+      clicked = ch;
+      break;
+    }
+  }
+
+  if (clicked) {
+    selectedChapter = clicked.num;
+    drawCurriculumMap();
+    showChapterDetail(clicked);
+  }
+}
+
+function showChapterDetail(ch) {
+  const panel = document.getElementById('chapter-detail-panel');
+  panel.style.display = '';
+  const visited = getVisited();
+  const isVisited = visited.includes(ch.slug);
+  const part = PARTS.find(p => p.chapters.includes(ch.num));
+
+  document.getElementById('detail-title').textContent = `${ch.num}장: ${ch.title}`;
+  document.getElementById('detail-subtitle').textContent = ch.desc;
+  document.getElementById('detail-prereqs').innerHTML =
+    ch.prereqs.length > 0
+      ? '<strong>선수 과목:</strong> ' + ch.prereqs.map(p => {
+          const pre = CHAPTERS.find(c => c.num === p);
+          return `${p}장 (${pre ? pre.title : ''})`;
+        }).join(', ')
+      : '<strong>선수 과목:</strong> 없음 (시작 가능)';
+  document.getElementById('detail-learn').innerHTML = `<strong>배울 내용:</strong> ${ch.learn}`;
+  document.getElementById('detail-status').innerHTML = isVisited
+    ? '<span style="color:var(--tb-success);font-weight:700;">완료</span>'
+    : `<span style="color:var(--tb-g600);">Part ${part ? part.id : '?'} - ${part ? part.title : ''}</span>`;
+}
+
+// ==================== RESEARCH QUESTION CLASSIFIER ====================
+const QUESTION_KEYWORDS = {
+  descriptive: {
+    keywords: ['평균', '분포', '현황', '어떤', '얼마나', '현재', '비율', '빈도', '몇', '상태', '추이', '요약', '기술'],
+    label: '기술적 (Descriptive)',
+    desc: '현재 상태를 요약하고 설명하는 질문입니다.',
+    chapters: [3, 4, 5, 6, 7],
+    color: '#2563eb'
+  },
+  inferential: {
+    keywords: ['차이', '유의', '검정', '비교', '통계적', '다른가', '같은가', '효과', '관계', '달라', '신뢰', '유의미'],
+    label: '추론적 (Inferential)',
+    desc: '표본 결과로부터 모집단에 대한 결론을 도출하는 질문입니다.',
+    chapters: [8, 9, 10, 11, 12, 13, 14],
+    color: '#7c3aed'
+  },
+  predictive: {
+    keywords: ['예측', '미래', '전망', '다음', '얼마', '될까', '예상', '추정', '분류', '판별', '예보', '모델'],
+    label: '예측적 (Predictive)',
+    desc: '미래의 결과를 예측하거나 새로운 데이터를 분류하는 질문입니다.',
+    chapters: [15, 16, 17, 18, 22, 23, 24, 25, 26, 27, 28],
+    color: '#ea580c'
+  },
+  causal: {
+    keywords: ['영향', '원인', '인과', '때문', '때문에', '일으키', '효과', '미치', '변화시', '개선', '증가시', '감소시', '처리', '실험'],
+    label: '인과적 (Causal)',
+    desc: 'X가 Y를 일으키는지, 원인-결과 관계를 파악하는 질문입니다.',
+    chapters: [10, 11, 15, 16, 17, 18],
+    color: '#059669'
+  }
+};
+
+function classifyQuestion() {
+  const input = document.getElementById('question-input').value.trim();
+  if (!input) return;
+
+  const scores = {};
+  for (const [type, info] of Object.entries(QUESTION_KEYWORDS)) {
+    scores[type] = 0;
+    info.keywords.forEach(kw => {
+      if (input.includes(kw)) scores[type]++;
+    });
+  }
+
+  // Find best match (default to descriptive)
+  let bestType = 'descriptive';
+  let bestScore = 0;
+  for (const [type, score] of Object.entries(scores)) {
+    if (score > bestScore) {
+      bestType = type;
+      bestScore = score;
+    }
+  }
+
+  const info = QUESTION_KEYWORDS[bestType];
+  const resultDiv = document.getElementById('classification-result');
+  resultDiv.style.display = '';
+  resultDiv.innerHTML = `
+    <div class="tb-explain" style="border-left-color: ${info.color};">
+      <strong style="color: ${info.color};">${info.label}</strong>
+      <p style="margin-top: 6px;">${info.desc}</p>
+      <p style="margin-top: 8px; font-size: .9rem;">
+        <strong>추천 장:</strong> ${info.chapters.map(n => {
+          const ch = CHAPTERS.find(c => c.num === n);
+          return `${n}장 (${ch ? ch.title : ''})`;
+        }).join(', ')}
+      </p>
+      ${bestScore === 0 ? '<p style="margin-top:8px;font-size:.85rem;color:var(--tb-g600);">키워드가 명확하지 않아 기본적으로 기술적 분석으로 분류했습니다. 질문을 더 구체적으로 작성해 보세요.</p>' : ''}
+    </div>
+  `;
+
+  // Highlight matching type card
+  document.querySelectorAll('.q-type-card').forEach(card => {
+    card.classList.remove('q-type-active');
+    if (card.dataset.type === bestType) card.classList.add('q-type-active');
+  });
+}
+
+const EXAMPLE_QUESTIONS = [
+  '우리 회사 직원의 평균 연봉과 분포는 어떠한가?',
+  '마케팅 캠페인 전후로 매출에 유의미한 차이가 있는가?',
+  '다음 분기 매출은 얼마나 될 것인가?',
+  '광고비 지출이 매출 증가에 영향을 미치는가?',
+  '고객을 구매 패턴에 따라 몇 개 그룹으로 나눌 수 있는가?',
+  '온라인 리뷰 점수가 구매 전환율과 관련이 있는가?',
+  '신제품 가격을 어떻게 설정해야 수익을 극대화할 수 있는가?',
+  'A/B 테스트 결과 새 디자인이 기존보다 더 효과적인가?'
+];
+
+function showExampleQuestion() {
+  const q = EXAMPLE_QUESTIONS[Math.floor(Math.random() * EXAMPLE_QUESTIONS.length)];
+  document.getElementById('question-input').value = q;
+}
+
+// ==================== MATCHING QUIZ ====================
+const QUIZ_POOL = [
+  { q: '우리 회사 고객의 연령대별 분포는 어떠한가?', a: 'descriptive', hint: '현재 상태를 파악하는 기술적 질문' },
+  { q: '남성 고객과 여성 고객의 평균 구매액에 통계적으로 유의한 차이가 있는가?', a: 'inferential', hint: '두 그룹 비교 -- 추론적 질문' },
+  { q: '이번 고객이 다음 달에 이탈할 확률은?', a: 'predictive', hint: '미래 행동을 예측하는 질문' },
+  { q: '할인 쿠폰 제공이 재구매율을 높이는가?', a: 'causal', hint: '원인-결과를 밝히는 인과적 질문' },
+  { q: '지난 분기 제품별 판매량 순위는?', a: 'descriptive', hint: '현황 파악 -- 기술적 질문' },
+  { q: '교육 프로그램 수료 후 직원 성과가 향상되었는가?', a: 'causal', hint: '교육이 성과를 "변화시키는지" -- 인과적' },
+  { q: '표본 조사 결과를 전체 고객에게 일반화할 수 있는가?', a: 'inferential', hint: '표본에서 모집단으로의 추론' },
+  { q: '내년 매출 전망치를 회귀 모델로 산출하라', a: 'predictive', hint: '미래 예측 -- 예측적 질문' },
+  { q: '온라인 광고의 클릭률과 전환율 사이에 관계가 있는가?', a: 'inferential', hint: '관계 검증 -- 추론적 질문' },
+  { q: '신규 매장 위치에 따라 첫해 매출이 얼마나 될지 추정하라', a: 'predictive', hint: '새로운 상황에 대한 예측' },
+];
+
+let currentQuizItems = [];
+
+function initMatchingQuiz() {
+  const container = document.getElementById('matching-quiz');
+  container.innerHTML = '';
+  document.getElementById('quiz-results').style.display = 'none';
+
+  const shuffled = [...QUIZ_POOL].sort(() => Math.random() - 0.5);
+  currentQuizItems = shuffled.slice(0, 5);
+
+  currentQuizItems.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'padding: 12px 0; border-bottom: 1px solid var(--tb-g200);';
+    div.innerHTML = `
+      <p style="font-weight: 600; margin-bottom: 8px;">${i + 1}. ${item.q}</p>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <label class="quiz-option"><input type="radio" name="mq${i}" value="descriptive"> 기술적</label>
+        <label class="quiz-option"><input type="radio" name="mq${i}" value="inferential"> 추론적</label>
+        <label class="quiz-option"><input type="radio" name="mq${i}" value="predictive"> 예측적</label>
+        <label class="quiz-option"><input type="radio" name="mq${i}" value="causal"> 인과적</label>
+      </div>
+      <div class="mq-feedback" data-idx="${i}" style="display:none; margin-top: 6px; font-size: .88rem;"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function checkMatchingQuiz() {
+  let correct = 0;
+
+  currentQuizItems.forEach((item, i) => {
+    const selected = document.querySelector(`input[name="mq${i}"]:checked`);
+    const fb = document.querySelector(`.mq-feedback[data-idx="${i}"]`);
+    fb.style.display = '';
+
+    if (!selected) {
+      fb.textContent = '선택하지 않았습니다.';
+      fb.style.color = 'var(--tb-g600)';
+      return;
+    }
+
+    if (selected.value === item.a) {
+      correct++;
+      fb.textContent = '정답! ' + item.hint;
+      fb.style.color = 'var(--tb-success)';
+      selected.parentElement.style.background = '#dcfce7';
+    } else {
+      fb.textContent = '오답. ' + item.hint;
+      fb.style.color = 'var(--tb-danger)';
+      selected.parentElement.style.background = '#fee2e2';
+    }
+  });
+
+  document.getElementById('quiz-results').style.display = '';
+  document.getElementById('match-correct').textContent = correct;
+  document.getElementById('match-total').textContent = currentQuizItems.length;
+  document.getElementById('match-rate').textContent = Math.round(correct / currentQuizItems.length * 100) + '%';
+}
+
+// ==================== LEARNING PATH RECOMMENDER ====================
+const LEARNING_PATHS = {
+  'business-analyst': {
+    title: '경영 데이터 분석가',
+    desc: 'Excel/Python으로 비즈니스 데이터를 분석하고 인사이트를 도출하는 역할',
+    path: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16],
+    focus: 'Part 0-2를 탄탄히 하고, 회귀분석까지. 기술통계와 추론통계가 핵심입니다.'
+  },
+  'market-researcher': {
+    title: '마케팅 리서처',
+    desc: '소비자 조사, 설문 분석, 시장 세분화를 수행하는 역할',
+    path: [1, 2, 3, 4, 5, 6, 8, 10, 11, 12, 13, 14, 29, 30],
+    focus: '기술통계 + 추론통계(특히 카이제곱, ANOVA) + 군집분석. 설문 데이터 분석에 필수입니다.'
+  },
+  'finance-analyst': {
+    title: '재무/투자 분석가',
+    desc: '주식, 채권, 포트폴리오 성과를 분석하는 역할',
+    path: [1, 2, 3, 4, 5, 6, 7, 15, 16, 17, 19, 20, 21],
+    focus: '기술통계 + 회귀분석 + 시계열. 표준편차(변동성)와 상관관계가 특히 중요합니다.'
+  },
+  'ml-engineer': {
+    title: '머신러닝 엔지니어',
+    desc: '데이터로 예측/분류 모델을 만들고 배포하는 역할',
+    path: [1, 2, 3, 4, 5, 6, 15, 16, 18, 19, 22, 23, 24, 25, 26, 27, 28, 29, 31, 33, 34, 35],
+    focus: '기초 통계 빠르게 마치고, Part 3-6 전체를 순서대로. 모든 알고리즘을 체험합니다.'
+  },
+  'academic-researcher': {
+    title: '학술 연구자',
+    desc: '논문 작성을 위한 통계 분석을 수행하는 역할',
+    path: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+    focus: 'Part 0-3을 모두 깊이 있게. 특히 가설검정, 회귀진단, 로지스틱 회귀가 논문의 핵심 도구입니다.'
+  }
+};
+
+function showLearningPath(pathKey) {
+  const info = LEARNING_PATHS[pathKey];
+  if (!info) return;
+
+  const resultDiv = document.getElementById('path-result');
+  resultDiv.style.display = '';
+  resultDiv.innerHTML = `
+    <div class="tb-explain">
+      <strong>${info.title}</strong>
+      <p style="margin-top:4px;font-size:.9rem;color:var(--tb-g600);">${info.desc}</p>
+      <p style="margin-top:10px;"><strong>추천 학습 순서:</strong></p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
+        ${info.path.map(n => {
+          const ch = CHAPTERS.find(c => c.num === n);
+          const part = PARTS.find(p => p.chapters.includes(n));
+          return `<span style="display:inline-block;padding:4px 10px;background:${part ? part.color : '#666'}20;color:${part ? part.color : '#666'};border-radius:6px;font-size:.85rem;font-weight:600;">${n}장</span>`;
+        }).join('')}
+      </div>
+      <p style="margin-top:10px;font-size:.9rem;"><strong>학습 전략:</strong> ${info.focus}</p>
+      <p style="margin-top:6px;font-size:.85rem;color:var(--tb-g600);">총 ${info.path.length}장 / 전체 35장 중 ${Math.round(info.path.length / 35 * 100)}% 커버</p>
+    </div>
+  `;
+
+  // Highlight path buttons
+  document.querySelectorAll('.path-btn').forEach(btn => {
+    btn.style.background = btn.dataset.path === pathKey ? 'var(--tb-primary)' : '';
+    btn.style.color = btn.dataset.path === pathKey ? '#fff' : '';
+  });
+}
+
+// ==================== INIT ====================
+function init() {
+  try {
+    import('../../textbook/lib/progress').then(m => m.markVisited('02-roadmap')).catch(() => {});
+  } catch(e) {}
+
+  updateProgressStats();
+  initWorkflow();
+  initPartsOverview();
+  drawCurriculumMap();
+  initMatchingQuiz();
+
+  // Canvas click
+  const canvas = document.getElementById('curriculum-canvas');
+  if (canvas) canvas.addEventListener('click', handleCanvasClick);
+
+  // Toggle arrows
+  document.getElementById('btn-show-prereqs').addEventListener('click', () => {
+    showArrows = !showArrows;
+    document.getElementById('btn-show-prereqs').textContent = showArrows ? '화살표 숨기기' : '선수 관계 화살표 표시';
+    drawCurriculumMap();
+  });
+
+  // Where am I
+  document.getElementById('btn-where-am-i').addEventListener('click', () => {
+    const visited = getVisited();
+    const completedNums = CHAPTERS.filter(c => visited.includes(c.slug)).map(c => c.num);
+    const nextUp = CHAPTERS.find(c =>
+      !visited.includes(c.slug) &&
+      c.prereqs.every(p => completedNums.includes(p))
+    );
+    if (nextUp) {
+      selectedChapter = nextUp.num;
+      drawCurriculumMap();
+      showChapterDetail(nextUp);
+    }
+  });
+
+  // Question classifier
+  document.getElementById('btn-classify-q').addEventListener('click', classifyQuestion);
+  document.getElementById('btn-example-q').addEventListener('click', showExampleQuestion);
+
+  // Quiz
+  document.getElementById('btn-check-match').addEventListener('click', checkMatchingQuiz);
+  document.getElementById('btn-reset-match').addEventListener('click', initMatchingQuiz);
+
+  // Learning paths
+  document.querySelectorAll('.path-btn').forEach(btn => {
+    btn.addEventListener('click', () => showLearningPath(btn.dataset.path));
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  /* Workflow steps */
+  .workflow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--tb-g100);
+    border-radius: var(--tb-radius);
+    cursor: pointer;
+    transition: 0.2s;
+    min-width: 100px;
+    text-align: center;
+    border: 2px solid transparent;
+  }
+  .workflow-step:hover, .workflow-step.wf-active {
+    border-color: var(--tb-primary);
+    background: var(--tb-primary-light);
+    transform: translateY(-2px);
+  }
+  .wf-icon {
+    width: 36px; height: 36px;
+    background: var(--tb-primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1rem;
+    margin-bottom: 6px;
+  }
+  .wf-label { font-weight: 700; font-size: 0.88rem; }
+  .wf-desc { font-size: 0.78rem; color: var(--tb-g600); margin-top: 2px; }
+  .workflow-arrow {
+    display: flex; align-items: center;
+    font-size: 1.4rem; color: var(--tb-g300); font-weight: 700;
+  }
+  @media (max-width: 768px) {
+    .workflow-arrow { font-size: 1rem; }
+    .workflow-step { min-width: 70px; padding: 8px 10px; }
+    .wf-desc { display: none; }
+  }
+
+  /* Parts overview */
+  .part-overview-item {
+    border-left: 4px solid var(--tb-g300);
+    margin-bottom: 8px;
+    border-radius: 0 var(--tb-radius) var(--tb-radius) 0;
+    background: #fff;
+    transition: 0.2s;
+  }
+  :global(.dark) .part-overview-item { background: var(--tb-g100); }
+  .part-overview-item:hover { box-shadow: var(--tb-shadow); }
+  .poi-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    cursor: pointer;
+  }
+  .poi-badge {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .poi-subtitle {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--tb-g600);
+    margin-top: 2px;
+  }
+  .poi-content {
+    padding: 0 18px 14px 62px;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  .poi-content p { margin-bottom: 6px; }
+
+  /* Question type cards */
+  .q-type-card {
+    background: var(--tb-g100);
+    padding: 16px;
+    border-radius: var(--tb-radius);
+    border: 2px solid transparent;
+    transition: 0.2s;
+  }
+  .q-type-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .q-type-card p { font-size: 0.85rem; color: var(--tb-g600); margin-top: 4px; }
+  .q-type-example { font-style: italic; }
+  .q-type-chapters { font-weight: 600; color: var(--tb-primary) !important; }
+  .q-type-card.q-type-active {
+    border-color: var(--tb-primary);
+    background: var(--tb-primary-light);
+  }
+
+  /* Quiz options */
+  .quiz-option {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 6px 12px;
+    background: var(--tb-g100);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: 0.15s;
+  }
+  .quiz-option:hover { background: var(--tb-primary-light); }
+
+  /* Path buttons */
+  .path-btn {
+    background: var(--tb-g100);
+    color: var(--tb-g800);
+    border: 2px solid var(--tb-g200);
+  }
+  .path-btn:hover {
+    border-color: var(--tb-primary);
+    background: var(--tb-primary-light);
+    color: var(--tb-primary);
+  }
+</style>

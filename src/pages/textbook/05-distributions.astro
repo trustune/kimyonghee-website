@@ -1,0 +1,1076 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="분포의 모양 -- 정규분포는 왜 특별한가?"
+  subtitle="중심극한정리의 마법"
+  chapterNum={5}
+  part={1}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>왜 세상의 그렇게 많은 것들이 종 모양 곡선을 따르는가?</h2>
+    <p>
+      사람의 키, 시험 점수, 공장에서 생산되는 부품의 무게, 주식의 일일 수익률 --
+      전혀 관련 없어 보이는 현상들이 놀랍도록 비슷한 형태의 분포를 보입니다.
+      가운데가 볼록하고 양쪽이 대칭적으로 내려가는 <strong>종 모양(bell curve)</strong>.
+    </p>
+    <p style="margin-top: 12px;">
+      이것은 우연이 아닙니다. 그 뒤에는 <strong>중심극한정리(Central Limit Theorem)</strong>라는
+      통계학에서 가장 강력하고 아름다운 정리가 숨어 있습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 다양한 확률분포를 직접 탐험하고,
+      중심극한정리가 작동하는 과정을 눈으로 확인하며,
+      정규분포를 자유자재로 다루는 능력을 키웁니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 1: 분포란 무엇인가 ===== -->
+  <div class="tb-card">
+    <h2>확률분포란 무엇인가</h2>
+    <p>
+      <strong>확률분포(probability distribution)</strong>는 어떤 변수가 가질 수 있는 값들과
+      각 값이 나타날 확률을 체계적으로 정리한 것입니다.
+      히스토그램을 떠올리면 됩니다 -- 데이터가 무한히 많아지면 히스토그램은 매끈한 곡선이 됩니다.
+      그것이 바로 확률밀도함수(PDF)입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>왜 분포가 중요한가:</strong>
+      분포를 알면 아직 관측하지 않은 값이 나올 확률을 예측할 수 있습니다.
+      "이 공장 제품의 불량률이 3% 이하일 확률은?", "이번 달 매출이 1억을 넘길 확률은?"
+      -- 이런 질문에 답하려면 데이터의 분포를 알아야 합니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Distribution Gallery ===== -->
+  <div class="tb-card">
+    <h2>Interactive 1: 분포 갤러리</h2>
+    <p>
+      다양한 확률분포를 직접 생성하고 비교해보세요.
+      분포를 선택하면 1,000개의 난수를 생성하여 히스토그램과 이론적 곡선을 함께 보여줍니다.
+    </p>
+
+    <SimControls>
+      <label>분포 선택:</label>
+      <select id="dist-select">
+        <option value="uniform">균등분포 (Uniform)</option>
+        <option value="exponential">지수분포 (Exponential)</option>
+        <option value="binomial">이항분포 (Binomial)</option>
+        <option value="poisson">포아송분포 (Poisson)</option>
+        <option value="normal" selected>정규분포 (Normal)</option>
+      </select>
+    </SimControls>
+
+    <div id="dist-params" class="tb-controls" style="margin-top: 8px;"></div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-gen-dist">분포 생성</button>
+      <button class="tb-btn tb-btn-danger" id="btn-reset-dist">초기화</button>
+    </SimControls>
+
+    <ChartContainer id="dist-gallery-chart" height="380px" />
+
+    <div class="tb-stat-row" id="dist-stats">
+      <StatBox label="평균 (Mean)" id="dist-mean" />
+      <StatBox label="표준편차 (SD)" id="dist-sd" />
+      <StatBox label="왜도 (Skewness)" id="dist-skew" />
+      <StatBox label="첨도 (Kurtosis)" id="dist-kurt" />
+    </div>
+
+    <ExerciseBox>
+      <strong>실습 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li>다섯 가지 분포를 모두 생성해보고, 모양의 차이를 관찰하세요.</li>
+        <li>지수분포에서 lambda를 1, 3, 10으로 바꿔보세요. 어떤 변화가 생기나요?</li>
+        <li>이항분포에서 p=0.5일 때와 p=0.1일 때, 분포의 대칭성이 어떻게 달라지나요?</li>
+        <li>어떤 분포가 정규분포와 가장 비슷한 모양인가요? 조건은 무엇인가요?</li>
+      </ol>
+    </ExerciseBox>
+
+    <InsightBox>
+      <strong>핵심 관찰:</strong>
+      균등분포는 평평하고, 지수분포는 오른쪽 꼬리가 길며, 정규분포는 대칭적인 종 모양입니다.
+      이항분포에서 n이 크고 p가 0.5에 가까우면 정규분포와 비슷해집니다 --
+      이것이 중심극한정리의 단서입니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Central Limit Theorem Machine ===== -->
+  <div class="tb-card">
+    <h2>Interactive 2: 중심극한정리 실험실</h2>
+    <p>
+      통계학에서 가장 놀라운 정리를 직접 눈으로 확인합니다.
+      <strong>어떤 모양의 모집단에서 표본을 뽑든, 표본평균의 분포는 정규분포에 수렴합니다.</strong>
+    </p>
+
+    <ExplainBox>
+      <strong>중심극한정리 (CLT):</strong>
+      모집단의 분포가 무엇이든, 표본 크기 n이 충분히 크면
+      표본평균 X의 분포는 평균 mu, 표준편차 sigma/sqrt(n)인 정규분포에 근사합니다.
+      모집단이 정규분포가 아니어도 됩니다. 이것이 "마법"입니다.
+    </ExplainBox>
+
+    <SimControls>
+      <label>모집단 형태:</label>
+      <button class="tb-btn tb-btn-primary pop-btn active" data-pop="uniform">균등분포</button>
+      <button class="tb-btn tb-btn-warning pop-btn" data-pop="exponential">지수분포</button>
+      <button class="tb-btn tb-btn-danger pop-btn" data-pop="bimodal">이봉분포</button>
+    </SimControls>
+
+    <SimControls>
+      <label>표본 크기 (n):</label>
+      <input type="range" id="clt-n" min="1" max="100" value="30" />
+      <span class="tb-speed-label" id="clt-n-label">n=30</span>
+      <label style="margin-left: 16px;">속도:</label>
+      <input type="range" id="clt-speed" min="1" max="100" value="50" />
+      <span class="tb-speed-label" id="clt-speed-label">50ms</span>
+    </SimControls>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-clt-draw">표본 1개 추출</button>
+      <button class="tb-btn tb-btn-success" id="btn-clt-auto">자동 추출 시작</button>
+      <button class="tb-btn tb-btn-danger" id="btn-clt-reset">초기화</button>
+      <span style="font-size: .85rem; color: var(--tb-g600);" id="clt-count">추출 횟수: 0</span>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div>
+        <div style="font-weight: 700; font-size: .9rem; margin-bottom: 4px; text-align: center;">모집단 분포</div>
+        <ChartContainer id="clt-population-chart" height="280px" />
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: .9rem; margin-bottom: 4px; text-align: center;">표본평균의 분포 (쌓이는 중...)</div>
+        <ChartContainer id="clt-sampling-chart" height="280px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="모집단 평균" id="clt-pop-mean" />
+      <StatBox label="모집단 SD" id="clt-pop-sd" />
+      <StatBox label="표본평균의 평균" id="clt-sample-mean" />
+      <StatBox label="표본평균의 SD" id="clt-sample-sd" sub="이론값: sigma/sqrt(n)" />
+    </div>
+
+    <div class="tb-progress-bar" style="margin-top: 8px;">
+      <div class="fill" id="clt-progress" style="width: 0%;"></div>
+    </div>
+
+    <ExerciseBox>
+      <strong>실습 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li>"지수분포"를 선택하고 n=2로 설정하세요. 500번 추출 후 표본평균의 분포가 정규분포인가요?</li>
+        <li>같은 지수분포에서 n=30으로 바꾸세요. 차이가 보이나요?</li>
+        <li>"이봉분포"(낙타등 모양)에서 n=50으로 실험하세요. 원래 분포와 표본평균 분포를 비교하세요.</li>
+        <li>표본평균의 표준편차(실측값)와 이론값(sigma/sqrt(n))을 비교하세요. 얼마나 가까운가요?</li>
+      </ol>
+    </ExerciseBox>
+
+    <FormulaBox>
+      <span class="hl">중심극한정리:</span><br>
+      X ~ (mu, sigma^2) 일 때, 표본평균 X_bar의 분포:<br>
+      <span class="res">X_bar ~ N(mu, sigma^2 / n)</span> (n이 충분히 클 때)<br>
+      표준오차(SE) = sigma / sqrt(n)
+    </FormulaBox>
+
+    <BusinessBox>
+      <strong>비즈니스 의미:</strong>
+      "이번 달 평균 매출이 정상 범위인가?" 같은 질문에 답하려면,
+      표본평균이 어떤 분포를 따르는지 알아야 합니다.
+      CLT 덕분에 모집단이 정규분포가 아니어도 표본평균에 대해 정규분포 기반 추론을 할 수 있습니다.
+      이것이 신뢰구간, 가설검정 등 거의 모든 추론 통계의 기초입니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: Normal Distribution Explorer ===== -->
+  <div class="tb-card">
+    <h2>Interactive 3: 정규분포 탐색기</h2>
+    <p>
+      정규분포의 핵심 두 매개변수 -- 평균(mu)과 표준편차(sigma) --를 조절하면서
+      곡선의 변화를 관찰하고, 특정 구간의 확률을 계산합니다.
+    </p>
+
+    <SimControls>
+      <label>평균 (mu):</label>
+      <input type="range" id="norm-mu" min="-50" max="150" value="50" />
+      <span class="tb-speed-label" id="norm-mu-label">mu=50</span>
+      <label style="margin-left: 16px;">표준편차 (sigma):</label>
+      <input type="range" id="norm-sigma" min="1" max="40" value="15" />
+      <span class="tb-speed-label" id="norm-sigma-label">sigma=15</span>
+    </SimControls>
+
+    <SimControls>
+      <label>구간 시작 (a):</label>
+      <input type="number" id="norm-a" value="35" style="width: 80px;" />
+      <label>구간 끝 (b):</label>
+      <input type="number" id="norm-b" value="65" style="width: 80px;" />
+      <button class="tb-btn tb-btn-primary" id="btn-norm-update">계산</button>
+    </SimControls>
+
+    <ChartContainer id="norm-explorer-chart" height="350px" />
+
+    <div class="tb-stat-row">
+      <StatBox label="P(a < X < b)" id="norm-prob" borderColor="var(--tb-primary)" />
+      <StatBox label="Z(a)" id="norm-za" sub="하한 Z점수" />
+      <StatBox label="Z(b)" id="norm-zb" sub="상한 Z점수" />
+    </div>
+
+    <FormulaBox>
+      <span class="hl">정규분포 확률밀도함수 (PDF):</span><br>
+      f(x) = (1 / (sigma * sqrt(2*pi))) * exp(-(x - mu)^2 / (2 * sigma^2))<br><br>
+      <span class="hl">Z점수 변환:</span><br>
+      <span class="res">Z = (X - mu) / sigma</span><br>
+      Z점수는 "평균에서 표준편차 몇 개만큼 떨어져 있는가"를 나타냅니다.
+    </FormulaBox>
+
+    <!-- Z-score calculator -->
+    <h3>Z점수 계산기</h3>
+    <p style="font-size: .9rem; color: var(--tb-g600);">
+      원점수를 입력하면 Z점수와 백분위를 계산합니다 (위 슬라이더의 mu, sigma 기준).
+    </p>
+
+    <SimControls>
+      <label>원점수 (X):</label>
+      <input type="number" id="zscore-x" value="65" style="width: 80px;" />
+      <button class="tb-btn tb-btn-primary" id="btn-zscore">계산</button>
+    </SimControls>
+
+    <div class="tb-stat-row" id="zscore-result">
+      <StatBox label="Z점수" id="zscore-z" borderColor="var(--tb-warning)" />
+      <StatBox label="백분위" id="zscore-pct" sub="해당 값 이하의 비율" />
+      <StatBox label="해석" id="zscore-interp" />
+    </div>
+
+    <ExerciseBox>
+      <strong>실습 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li>mu=100, sigma=15 (IQ 분포)로 설정하세요. IQ 130 이상의 비율은?</li>
+        <li>68-95-99.7 규칙을 확인하세요: mu +/- 1*sigma, 2*sigma, 3*sigma 구간의 확률을 계산하세요.</li>
+        <li>sigma를 5에서 30으로 바꿔보세요. 곡선의 모양이 어떻게 변하나요?</li>
+        <li>Z점수가 2 이상인 점수는 무엇인가요? 그것이 "이상치"로 간주될 수 있을까요?</li>
+      </ol>
+    </ExerciseBox>
+
+    <InsightBox>
+      <strong>68-95-99.7 규칙:</strong>
+      정규분포에서 평균을 중심으로 +/- 1 표준편차 안에 약 68%,
+      +/- 2 표준편차 안에 약 95%, +/- 3 표준편차 안에 약 99.7%의 데이터가 포함됩니다.
+      이 규칙만으로도 많은 실무적 판단이 가능합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: QQ-Plot Builder ===== -->
+  <div class="tb-card">
+    <h2>Interactive 4: QQ-Plot으로 정규성 진단</h2>
+    <p>
+      데이터가 정규분포를 따르는지 시각적으로 판단하는 가장 효과적인 도구가
+      <strong>QQ-플롯(Quantile-Quantile Plot)</strong>입니다.
+      점들이 대각선에 가까우면 정규분포, 벗어나면 비정규입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>QQ-플롯 읽는 법:</strong>
+      X축은 이론적 정규분포의 분위수, Y축은 실제 데이터의 분위수입니다.
+      점들이 대각선 위에 착 달라붙으면 정규분포.
+      S자 형태면 꼬리가 두꺼운 분포.
+      위로 휘어지면 오른쪽 꼬리가 긴 양의 왜도.
+    </ExplainBox>
+
+    <SimControls>
+      <label>데이터 생성:</label>
+      <select id="qq-dist">
+        <option value="normal">정규분포 (대각선에 착!)</option>
+        <option value="exponential">지수분포 (양의 왜도)</option>
+        <option value="uniform">균등분포 (S자 형태)</option>
+        <option value="t3">t분포 (df=3, 두꺼운 꼬리)</option>
+        <option value="bimodal">이봉분포 (계단 형태)</option>
+      </select>
+      <label>데이터 수:</label>
+      <select id="qq-n">
+        <option value="50">50</option>
+        <option value="100" selected>100</option>
+        <option value="300">300</option>
+        <option value="1000">1000</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-qq-gen">생성</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div>
+        <div style="font-weight: 700; font-size: .9rem; margin-bottom: 4px; text-align: center;">히스토그램</div>
+        <ChartContainer id="qq-hist-chart" height="300px" />
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: .9rem; margin-bottom: 4px; text-align: center;">QQ-Plot (vs 정규분포)</div>
+        <ChartContainer id="qq-plot-chart" height="300px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="왜도" id="qq-skew" />
+      <StatBox label="첨도" id="qq-kurt" />
+      <StatBox label="정규성 판정" id="qq-verdict" borderColor="var(--tb-success)" />
+    </div>
+
+    <ExerciseBox>
+      <strong>실습 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li>정규분포 데이터의 QQ-플롯을 확인하세요. 대각선에 얼마나 가까운가요?</li>
+        <li>지수분포 데이터의 QQ-플롯은 어떤 형태인가요? 왜 그런가요?</li>
+        <li>같은 분포에서 n=50과 n=1000을 비교하세요. 데이터 수가 많을수록 패턴이 선명한가요?</li>
+        <li>t분포(df=3)의 QQ-플롯에서 양 끝이 대각선에서 벗어나는 이유를 생각해보세요.</li>
+      </ol>
+    </ExerciseBox>
+
+    <WarningBox>
+      <strong>주의:</strong>
+      QQ-플롯은 시각적 판단 도구이므로 주관적일 수 있습니다.
+      공식적인 정규성 검정(Shapiro-Wilk, Kolmogorov-Smirnov 등)과 함께 사용하는 것이 좋습니다.
+      하지만 검정 결과보다 QQ-플롯이 더 많은 정보를 줄 때가 많습니다 --
+      "어떻게" 비정규인지를 보여주기 때문입니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>확률분포는 데이터가 취할 수 있는 값과 그 확률을 체계화한 것이다.</li>
+      <li>정규분포는 평균과 표준편차 두 매개변수로 완전히 결정된다.</li>
+      <li>Z점수는 원점수를 표준화하여 서로 다른 척도의 값을 비교 가능하게 한다.</li>
+      <li>중심극한정리: 모집단의 형태와 무관하게 표본평균은 정규분포에 수렴한다.</li>
+      <li>QQ-플롯으로 데이터의 정규성을 시각적으로 진단할 수 있다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 정규분포를 이해했으니,
+      이제 두 변수 사이의 관계를 탐구합니다.
+      산점도, 상관계수, 그리고 "상관은 인과가 아니다"라는 통계학의 가장 중요한 경고를 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  Chart.register(...registerables);
+  ChartJS = Chart;
+  return Chart;
+}
+
+// ==================== MATH UTILITIES ====================
+function randNormal(mu = 0, sigma = 1) {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return mu + sigma * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+function randExponential(lambda) {
+  return -Math.log(1 - Math.random()) / lambda;
+}
+
+function randBinomial(n, p) {
+  let s = 0;
+  for (let i = 0; i < n; i++) if (Math.random() < p) s++;
+  return s;
+}
+
+function randPoisson(lambda) {
+  let L = Math.exp(-lambda), k = 0, p = 1;
+  do { k++; p *= Math.random(); } while (p > L);
+  return k - 1;
+}
+
+function randBimodal() {
+  return Math.random() < 0.5 ? randNormal(-3, 1) : randNormal(3, 1);
+}
+
+function randT(df) {
+  // Using ratio of normals method for t-distribution
+  const u = randNormal(0, 1);
+  let s = 0;
+  for (let i = 0; i < df; i++) { const z = randNormal(0, 1); s += z * z; }
+  return u / Math.sqrt(s / df);
+}
+
+function computeStats(arr) {
+  const n = arr.length;
+  const mean = arr.reduce((a, b) => a + b, 0) / n;
+  const variance = arr.reduce((a, v) => a + (v - mean) ** 2, 0) / n;
+  const sd = Math.sqrt(variance);
+  const m3 = arr.reduce((a, v) => a + ((v - mean) / sd) ** 3, 0) / n;
+  const m4 = arr.reduce((a, v) => a + ((v - mean) / sd) ** 4, 0) / n;
+  return { mean, sd, skewness: m3, kurtosis: m4 - 3 };
+}
+
+function makeHistogram(data, bins = 30) {
+  const min = Math.min(...data), max = Math.max(...data);
+  const bw = (max - min) / bins || 1;
+  const hist = new Array(bins).fill(0);
+  data.forEach(v => { hist[Math.min(bins - 1, Math.floor((v - min) / bw))]++; });
+  const labels = hist.map((_, i) => (min + (i + 0.5) * bw).toFixed(1));
+  return { hist, labels, min, max, bw };
+}
+
+function normalPDF(x, mu, sigma) {
+  return (1 / (sigma * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * ((x - mu) / sigma) ** 2);
+}
+
+// Standard normal CDF approximation (Abramowitz and Stegun)
+function normalCDF(z) {
+  if (z < -8) return 0;
+  if (z > 8) return 1;
+  const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741, a4 = -1.453152027, a5 = 1.061405429;
+  const p = 0.3275911;
+  const sign = z < 0 ? -1 : 1;
+  z = Math.abs(z);
+  const t = 1 / (1 + p * z);
+  const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-z * z / 2);
+  return 0.5 * (1 + sign * y);
+}
+
+// Inverse normal CDF (rational approximation)
+function normalQuantile(p) {
+  if (p <= 0) return -Infinity;
+  if (p >= 1) return Infinity;
+  if (p === 0.5) return 0;
+  const a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02,
+             1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00];
+  const b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,
+             6.680131188771972e+01, -1.328068155288572e+01];
+  const c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00,
+             -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00];
+  const d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00, 3.754408661907416e+00];
+  const pLow = 0.02425, pHigh = 1 - pLow;
+  let q, r;
+  if (p < pLow) {
+    q = Math.sqrt(-2 * Math.log(p));
+    return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+  } else if (p <= pHigh) {
+    q = p - 0.5; r = q * q;
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q / (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  } else {
+    q = Math.sqrt(-2 * Math.log(1 - p));
+    return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+  }
+}
+
+// ==================== INTERACTIVE 1: DISTRIBUTION GALLERY ====================
+let distChart = null;
+
+function updateDistParams() {
+  const sel = document.getElementById('dist-select').value;
+  const container = document.getElementById('dist-params');
+  const configs = {
+    uniform: '<label>최소값 (a):</label><input type="number" id="dp-a" value="0" style="width:70px" /> <label>최대값 (b):</label><input type="number" id="dp-b" value="10" style="width:70px" />',
+    exponential: '<label>Lambda:</label><input type="range" id="dp-lambda" min="0.5" max="10" step="0.5" value="2" /><span class="tb-speed-label" id="dp-lambda-label">2</span>',
+    binomial: '<label>시행 횟수 (n):</label><input type="number" id="dp-bn" value="20" min="1" max="100" style="width:70px" /> <label>성공 확률 (p):</label><input type="range" id="dp-bp" min="0.01" max="0.99" step="0.01" value="0.5" /><span class="tb-speed-label" id="dp-bp-label">0.5</span>',
+    poisson: '<label>Lambda:</label><input type="range" id="dp-plambda" min="0.5" max="30" step="0.5" value="5" /><span class="tb-speed-label" id="dp-plambda-label">5</span>',
+    normal: '<label>평균 (mu):</label><input type="number" id="dp-mu" value="0" style="width:70px" /> <label>표준편차 (sigma):</label><input type="range" id="dp-sigma" min="0.5" max="20" step="0.5" value="5" /><span class="tb-speed-label" id="dp-sigma-label">5</span>',
+  };
+  container.innerHTML = configs[sel] || '';
+
+  // Bind sliders
+  const sliders = container.querySelectorAll('input[type="range"]');
+  sliders.forEach(s => {
+    const label = container.querySelector(`#${s.id}-label`);
+    if (label) {
+      s.addEventListener('input', () => { label.textContent = s.value; });
+    }
+  });
+}
+
+async function generateDistribution() {
+  const Chart = await loadChart();
+  const sel = document.getElementById('dist-select').value;
+  const N = 1000;
+  let data = [];
+  let theoryCurve = null;
+
+  if (sel === 'uniform') {
+    const a = parseFloat(document.getElementById('dp-a').value) || 0;
+    const b = parseFloat(document.getElementById('dp-b').value) || 10;
+    for (let i = 0; i < N; i++) data.push(a + Math.random() * (b - a));
+  } else if (sel === 'exponential') {
+    const lam = parseFloat(document.getElementById('dp-lambda').value) || 2;
+    for (let i = 0; i < N; i++) data.push(randExponential(lam));
+  } else if (sel === 'binomial') {
+    const n = parseInt(document.getElementById('dp-bn').value) || 20;
+    const p = parseFloat(document.getElementById('dp-bp').value) || 0.5;
+    for (let i = 0; i < N; i++) data.push(randBinomial(n, p));
+  } else if (sel === 'poisson') {
+    const lam = parseFloat(document.getElementById('dp-plambda').value) || 5;
+    for (let i = 0; i < N; i++) data.push(randPoisson(lam));
+  } else {
+    const mu = parseFloat(document.getElementById('dp-mu').value) || 0;
+    const sig = parseFloat(document.getElementById('dp-sigma').value) || 5;
+    for (let i = 0; i < N; i++) data.push(randNormal(mu, sig));
+  }
+
+  const stats = computeStats(data);
+  document.getElementById('dist-mean').textContent = stats.mean.toFixed(2);
+  document.getElementById('dist-sd').textContent = stats.sd.toFixed(2);
+  document.getElementById('dist-skew').textContent = stats.skewness.toFixed(3);
+  document.getElementById('dist-kurt').textContent = stats.kurtosis.toFixed(3);
+
+  // Histogram
+  const bins = 30;
+  const { hist, labels, min, max, bw } = makeHistogram(data, bins);
+  // Normalize histogram to density
+  const totalArea = data.length * bw;
+  const density = hist.map(h => h / totalArea);
+
+  // Theory curve
+  const theoryLabels = [];
+  const theoryData = [];
+  const step = (max - min) / 100;
+  for (let x = min; x <= max; x += step) {
+    theoryLabels.push(x.toFixed(1));
+    if (sel === 'normal') {
+      const mu = parseFloat(document.getElementById('dp-mu').value) || 0;
+      const sig = parseFloat(document.getElementById('dp-sigma').value) || 5;
+      theoryData.push(normalPDF(x, mu, sig));
+    } else if (sel === 'exponential') {
+      const lam = parseFloat(document.getElementById('dp-lambda').value) || 2;
+      theoryData.push(x >= 0 ? lam * Math.exp(-lam * x) : 0);
+    } else if (sel === 'uniform') {
+      const a = parseFloat(document.getElementById('dp-a').value) || 0;
+      const b = parseFloat(document.getElementById('dp-b').value) || 10;
+      theoryData.push(x >= a && x <= b ? 1 / (b - a) : 0);
+    } else {
+      theoryData.push(normalPDF(x, stats.mean, stats.sd));
+    }
+  }
+
+  const canvas = document.getElementById('dist-gallery-chart');
+  if (distChart) { distChart.destroy(); distChart = null; }
+
+  distChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '히스토그램 (밀도)',
+          data: density,
+          backgroundColor: '#2563eb55',
+          borderColor: '#2563eb',
+          borderWidth: 1,
+          borderRadius: 2,
+          order: 2,
+        },
+        {
+          label: '이론 곡선',
+          type: 'line',
+          data: labels.map(l => {
+            const x = parseFloat(l);
+            if (sel === 'normal') {
+              const mu = parseFloat(document.getElementById('dp-mu').value) || 0;
+              const sig = parseFloat(document.getElementById('dp-sigma').value) || 5;
+              return normalPDF(x, mu, sig);
+            } else if (sel === 'exponential') {
+              const lam = parseFloat(document.getElementById('dp-lambda').value) || 2;
+              return x >= 0 ? lam * Math.exp(-lam * x) : 0;
+            } else if (sel === 'uniform') {
+              const a = parseFloat(document.getElementById('dp-a').value) || 0;
+              const b = parseFloat(document.getElementById('dp-b').value) || 10;
+              return x >= a && x <= b ? 1 / (b - a) : 0;
+            } else {
+              return normalPDF(x, stats.mean, stats.sd);
+            }
+          }),
+          borderColor: '#ef4444',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+          order: 1,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { position: 'top' } },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: '밀도' } },
+        x: { title: { display: true, text: '값' }, ticks: { maxTicksLimit: 15 } },
+      }
+    }
+  });
+}
+
+// ==================== INTERACTIVE 2: CLT MACHINE ====================
+let cltPopChart = null, cltSampChart = null;
+let cltMeans = [];
+let cltAutoInterval = null;
+let cltPopulation = [];
+let cltPopType = 'uniform';
+let cltPopStats = { mean: 0, sd: 1 };
+
+function generatePopulation(type) {
+  const N = 10000;
+  const pop = [];
+  if (type === 'uniform') {
+    for (let i = 0; i < N; i++) pop.push(Math.random() * 10);
+  } else if (type === 'exponential') {
+    for (let i = 0; i < N; i++) pop.push(randExponential(1));
+  } else {
+    for (let i = 0; i < N; i++) pop.push(randBimodal());
+  }
+  return pop;
+}
+
+async function drawPopulation() {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('clt-population-chart');
+  if (cltPopChart) { cltPopChart.destroy(); cltPopChart = null; }
+
+  const { hist, labels } = makeHistogram(cltPopulation, 25);
+
+  cltPopChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: '모집단',
+        data: hist,
+        backgroundColor: '#f59e0b66',
+        borderColor: '#f59e0b',
+        borderWidth: 1,
+        borderRadius: 2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: '빈도' } },
+        x: { ticks: { maxTicksLimit: 8 } },
+      }
+    }
+  });
+
+  const stats = computeStats(cltPopulation);
+  cltPopStats = stats;
+  document.getElementById('clt-pop-mean').textContent = stats.mean.toFixed(2);
+  document.getElementById('clt-pop-sd').textContent = stats.sd.toFixed(2);
+}
+
+async function drawSamplingDist() {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('clt-sampling-chart');
+  if (cltSampChart) { cltSampChart.destroy(); cltSampChart = null; }
+
+  if (cltMeans.length < 2) {
+    cltSampChart = new Chart(canvas, {
+      type: 'bar',
+      data: { labels: [], datasets: [{ data: [], backgroundColor: '#2563eb55' }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+    return;
+  }
+
+  const { hist, labels } = makeHistogram(cltMeans, Math.min(30, Math.ceil(Math.sqrt(cltMeans.length))));
+
+  // Normal overlay
+  const stats = computeStats(cltMeans);
+  const overlayData = labels.map(l => {
+    const x = parseFloat(l);
+    const bw = (Math.max(...cltMeans) - Math.min(...cltMeans)) / hist.length || 1;
+    return normalPDF(x, stats.mean, stats.sd) * cltMeans.length * bw;
+  });
+
+  cltSampChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '표본평균 분포',
+          data: hist,
+          backgroundColor: '#2563eb55',
+          borderColor: '#2563eb',
+          borderWidth: 1,
+          borderRadius: 2,
+          order: 2,
+        },
+        {
+          label: '정규곡선 (이론)',
+          type: 'line',
+          data: overlayData,
+          borderColor: '#ef4444',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+          order: 1,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { position: 'top' } },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: '빈도' } },
+        x: { ticks: { maxTicksLimit: 8 } },
+      }
+    }
+  });
+
+  document.getElementById('clt-sample-mean').textContent = stats.mean.toFixed(3);
+  document.getElementById('clt-sample-sd').textContent = stats.sd.toFixed(3);
+
+  const n = parseInt(document.getElementById('clt-n').value);
+  const theorySE = cltPopStats.sd / Math.sqrt(n);
+  const seLabel = document.getElementById('clt-sample-sd').parentElement.querySelector('.sub');
+  if (seLabel) seLabel.textContent = 'sigma/sqrt(n) = ' + theorySE.toFixed(3);
+}
+
+function drawOneSample() {
+  const n = parseInt(document.getElementById('clt-n').value);
+  const sample = [];
+  for (let i = 0; i < n; i++) {
+    sample.push(cltPopulation[Math.floor(Math.random() * cltPopulation.length)]);
+  }
+  const mean = sample.reduce((a, b) => a + b, 0) / n;
+  cltMeans.push(mean);
+
+  document.getElementById('clt-count').textContent = '추출 횟수: ' + cltMeans.length;
+  const progress = Math.min(100, (cltMeans.length / 500) * 100);
+  document.getElementById('clt-progress').style.width = progress + '%';
+
+  if (cltMeans.length % 10 === 0 || cltMeans.length <= 20) {
+    drawSamplingDist();
+  }
+}
+
+function toggleAutoSample() {
+  const btn = document.getElementById('btn-clt-auto');
+  if (cltAutoInterval) {
+    clearInterval(cltAutoInterval);
+    cltAutoInterval = null;
+    btn.textContent = '자동 추출 시작';
+    btn.className = 'tb-btn tb-btn-success';
+    drawSamplingDist();
+  } else {
+    const speed = 101 - parseInt(document.getElementById('clt-speed').value);
+    cltAutoInterval = setInterval(() => {
+      drawOneSample();
+      if (cltMeans.length >= 2000) {
+        clearInterval(cltAutoInterval);
+        cltAutoInterval = null;
+        btn.textContent = '자동 추출 시작';
+        btn.className = 'tb-btn tb-btn-success';
+        drawSamplingDist();
+      }
+    }, speed * 2);
+    btn.textContent = '자동 추출 중지';
+    btn.className = 'tb-btn tb-btn-danger';
+  }
+}
+
+function resetCLT() {
+  if (cltAutoInterval) { clearInterval(cltAutoInterval); cltAutoInterval = null; }
+  cltMeans = [];
+  document.getElementById('clt-count').textContent = '추출 횟수: 0';
+  document.getElementById('clt-progress').style.width = '0%';
+  document.getElementById('clt-sample-mean').textContent = '-';
+  document.getElementById('clt-sample-sd').textContent = '-';
+  document.getElementById('btn-clt-auto').textContent = '자동 추출 시작';
+  document.getElementById('btn-clt-auto').className = 'tb-btn tb-btn-success';
+  cltPopulation = generatePopulation(cltPopType);
+  drawPopulation();
+  drawSamplingDist();
+}
+
+// ==================== INTERACTIVE 3: NORMAL EXPLORER ====================
+let normChart = null;
+
+async function drawNormalExplorer() {
+  const Chart = await loadChart();
+  const mu = parseFloat(document.getElementById('norm-mu').value);
+  const sigma = parseFloat(document.getElementById('norm-sigma').value);
+  const a = parseFloat(document.getElementById('norm-a').value);
+  const b = parseFloat(document.getElementById('norm-b').value);
+
+  const xMin = mu - 4 * sigma, xMax = mu + 4 * sigma;
+  const step = (xMax - xMin) / 200;
+  const xs = [], ys = [], fills = [];
+  for (let x = xMin; x <= xMax; x += step) {
+    xs.push(x.toFixed(1));
+    const y = normalPDF(x, mu, sigma);
+    ys.push(y);
+    fills.push(x >= a && x <= b ? y : 0);
+  }
+
+  const canvas = document.getElementById('norm-explorer-chart');
+  if (normChart) { normChart.destroy(); normChart = null; }
+
+  normChart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: xs,
+      datasets: [
+        {
+          label: '정규분포 곡선',
+          data: ys,
+          borderColor: '#2563eb',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+          order: 1,
+        },
+        {
+          label: `P(${a} < X < ${b})`,
+          data: fills,
+          backgroundColor: '#2563eb33',
+          borderColor: 'transparent',
+          pointRadius: 0,
+          fill: 'origin',
+          order: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { position: 'top' } },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: 'f(x)' } },
+        x: { title: { display: true, text: 'X' }, ticks: { maxTicksLimit: 12 } },
+      }
+    }
+  });
+
+  // Calculate probability
+  const za = (a - mu) / sigma;
+  const zb = (b - mu) / sigma;
+  const prob = normalCDF(zb) - normalCDF(za);
+
+  document.getElementById('norm-prob').textContent = (prob * 100).toFixed(2) + '%';
+  document.getElementById('norm-za').textContent = za.toFixed(3);
+  document.getElementById('norm-zb').textContent = zb.toFixed(3);
+}
+
+function calcZScore() {
+  const mu = parseFloat(document.getElementById('norm-mu').value);
+  const sigma = parseFloat(document.getElementById('norm-sigma').value);
+  const x = parseFloat(document.getElementById('zscore-x').value);
+  const z = (x - mu) / sigma;
+  const pct = normalCDF(z);
+
+  document.getElementById('zscore-z').textContent = z.toFixed(3);
+  document.getElementById('zscore-pct').textContent = (pct * 100).toFixed(1) + '%';
+
+  let interp = '';
+  const absZ = Math.abs(z);
+  if (absZ < 1) interp = '평균 근처 (보통)';
+  else if (absZ < 2) interp = '약간 벗어남';
+  else if (absZ < 3) interp = '상당히 극단적';
+  else interp = '매우 극단적 (이상치?)';
+  document.getElementById('zscore-interp').textContent = interp;
+}
+
+// ==================== INTERACTIVE 4: QQ-PLOT ====================
+let qqHistChart = null, qqPlotChart = null;
+
+async function generateQQData() {
+  const Chart = await loadChart();
+  const dist = document.getElementById('qq-dist').value;
+  const n = parseInt(document.getElementById('qq-n').value);
+  let data = [];
+
+  if (dist === 'normal') {
+    for (let i = 0; i < n; i++) data.push(randNormal(0, 1));
+  } else if (dist === 'exponential') {
+    for (let i = 0; i < n; i++) data.push(randExponential(1));
+  } else if (dist === 'uniform') {
+    for (let i = 0; i < n; i++) data.push(Math.random() * 10);
+  } else if (dist === 't3') {
+    for (let i = 0; i < n; i++) data.push(randT(3));
+  } else {
+    for (let i = 0; i < n; i++) data.push(randBimodal());
+  }
+
+  const stats = computeStats(data);
+  document.getElementById('qq-skew').textContent = stats.skewness.toFixed(3);
+  document.getElementById('qq-kurt').textContent = stats.kurtosis.toFixed(3);
+
+  // Verdict
+  const isNormal = Math.abs(stats.skewness) < 0.5 && Math.abs(stats.kurtosis) < 1;
+  document.getElementById('qq-verdict').textContent = isNormal ? '정규 의심' : '비정규 의심';
+  document.getElementById('qq-verdict').style.color = isNormal ? 'var(--tb-success)' : 'var(--tb-danger)';
+
+  // Histogram
+  const canvasHist = document.getElementById('qq-hist-chart');
+  if (qqHistChart) { qqHistChart.destroy(); qqHistChart = null; }
+  const { hist, labels } = makeHistogram(data, 20);
+
+  qqHistChart = new Chart(canvasHist, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: '빈도',
+        data: hist,
+        backgroundColor: '#7c3aed55',
+        borderColor: '#7c3aed',
+        borderWidth: 1,
+        borderRadius: 2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true },
+        x: { ticks: { maxTicksLimit: 8 } },
+      }
+    }
+  });
+
+  // QQ-Plot
+  const sorted = [...data].sort((a, b) => a - b);
+  const theoretical = sorted.map((_, i) => {
+    const p = (i + 0.5) / n;
+    return normalQuantile(p);
+  });
+
+  // Standardize data for comparison
+  const dataMean = stats.mean;
+  const dataSd = stats.sd;
+  const standardized = sorted.map(v => (v - dataMean) / dataSd);
+
+  const canvasQQ = document.getElementById('qq-plot-chart');
+  if (qqPlotChart) { qqPlotChart.destroy(); qqPlotChart = null; }
+
+  const minVal = Math.min(Math.min(...theoretical), Math.min(...standardized));
+  const maxVal = Math.max(Math.max(...theoretical), Math.max(...standardized));
+
+  qqPlotChart = new Chart(canvasQQ, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: 'QQ점',
+          data: theoretical.map((t, i) => ({ x: t, y: standardized[i] })),
+          backgroundColor: '#2563eb88',
+          pointRadius: 3,
+          order: 2,
+        },
+        {
+          label: '대각선 (정규)',
+          type: 'line',
+          data: [{ x: minVal, y: minVal }, { x: maxVal, y: maxVal }],
+          borderColor: '#ef4444',
+          borderWidth: 2,
+          borderDash: [5, 5],
+          pointRadius: 0,
+          fill: false,
+          order: 1,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { position: 'top' } },
+      scales: {
+        x: { title: { display: true, text: '이론적 분위수 (정규)' } },
+        y: { title: { display: true, text: '표본 분위수 (표준화)' } },
+      }
+    }
+  });
+}
+
+// ==================== INIT & EVENT BINDING ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('05-distributions')).catch(() => {});
+
+  // Interactive 1
+  updateDistParams();
+  document.getElementById('dist-select').addEventListener('change', updateDistParams);
+  document.getElementById('btn-gen-dist').addEventListener('click', generateDistribution);
+  document.getElementById('btn-reset-dist').addEventListener('click', () => {
+    if (distChart) { distChart.destroy(); distChart = null; }
+    document.getElementById('dist-mean').textContent = '-';
+    document.getElementById('dist-sd').textContent = '-';
+    document.getElementById('dist-skew').textContent = '-';
+    document.getElementById('dist-kurt').textContent = '-';
+  });
+
+  // Interactive 2 - CLT
+  document.querySelectorAll('.pop-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pop-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      cltPopType = btn.dataset.pop;
+      resetCLT();
+    });
+  });
+
+  document.getElementById('clt-n').addEventListener('input', (e) => {
+    document.getElementById('clt-n-label').textContent = 'n=' + e.target.value;
+  });
+  document.getElementById('clt-speed').addEventListener('input', (e) => {
+    document.getElementById('clt-speed-label').textContent = (101 - parseInt(e.target.value)) * 2 + 'ms';
+  });
+
+  document.getElementById('btn-clt-draw').addEventListener('click', drawOneSample);
+  document.getElementById('btn-clt-auto').addEventListener('click', toggleAutoSample);
+  document.getElementById('btn-clt-reset').addEventListener('click', resetCLT);
+
+  cltPopulation = generatePopulation('uniform');
+  drawPopulation();
+  drawSamplingDist();
+
+  // Interactive 3 - Normal Explorer
+  const updateNormLabels = () => {
+    document.getElementById('norm-mu-label').textContent = 'mu=' + document.getElementById('norm-mu').value;
+    document.getElementById('norm-sigma-label').textContent = 'sigma=' + document.getElementById('norm-sigma').value;
+  };
+  document.getElementById('norm-mu').addEventListener('input', updateNormLabels);
+  document.getElementById('norm-sigma').addEventListener('input', updateNormLabels);
+  document.getElementById('btn-norm-update').addEventListener('click', drawNormalExplorer);
+  document.getElementById('btn-zscore').addEventListener('click', calcZScore);
+
+  // Interactive 4 - QQ-Plot
+  document.getElementById('btn-qq-gen').addEventListener('click', generateQQData);
+
+  // Auto-generate initial views
+  generateDistribution();
+  drawNormalExplorer();
+  generateQQData();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .pop-btn {
+    transition: 0.2s;
+    opacity: 0.6;
+  }
+  .pop-btn.active {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  }
+</style>

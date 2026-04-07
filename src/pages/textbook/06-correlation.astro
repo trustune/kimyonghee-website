@@ -1,0 +1,897 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="두 변수의 관계 -- 상관은 인과가 아니다"
+  subtitle="산점도, 상관계수, 심슨의 역설"
+  chapterNum={6}
+  part={1}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>아이스크림이 사람을 죽이는가?</h2>
+    <p>
+      아이스크림 판매량과 익사 사고 건수의 상관계수는 r = 0.87로 매우 높습니다.
+      그렇다면 아이스크림이 사람을 익사시키는 걸까요?
+      아니면 익사 사고가 아이스크림 소비를 촉진하는 걸까요?
+    </p>
+    <p style="margin-top: 12px;">
+      물론 둘 다 아닙니다.
+      <strong>기온</strong>이라는 숨겨진 변수(교란변수)가 두 변수를 동시에 끌어올리는 것입니다.
+      기온이 오르면 아이스크림도 많이 팔리고, 수영하는 사람도 많아져 익사도 늘어납니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 두 변수 사이의 관계를 측정하는 방법을 배우고,
+      <strong>"상관은 인과가 아니다(Correlation is not causation)"</strong>라는
+      통계학의 가장 중요한 경고를 깊이 이해합니다.
+    </p>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Anscombe's Quartet ===== -->
+  <div class="tb-card">
+    <h2>Interactive 1: Anscombe의 사중주</h2>
+    <p>
+      1973년, 통계학자 Francis Anscombe는 네 개의 데이터셋을 만들었습니다.
+      이 네 데이터셋은 평균, 분산, 상관계수, 회귀선이 거의 동일합니다.
+      하지만 산점도는 전혀 다릅니다.
+    </p>
+
+    <ExplainBox>
+      <strong>핵심 교훈:</strong>
+      요약 통계량만으로는 데이터의 진짜 모습을 알 수 없습니다.
+      <strong>항상 시각화를 먼저 하세요.</strong>
+      이것은 1973년의 교훈이지만, 오늘날에도 가장 자주 무시되는 원칙입니다.
+    </ExplainBox>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div>
+        <div style="font-weight: 700; font-size: .85rem; text-align: center; margin-bottom: 4px;">Dataset I</div>
+        <ChartContainer id="anscombe-1" height="250px" />
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: .85rem; text-align: center; margin-bottom: 4px;">Dataset II</div>
+        <ChartContainer id="anscombe-2" height="250px" />
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: .85rem; text-align: center; margin-bottom: 4px;">Dataset III</div>
+        <ChartContainer id="anscombe-3" height="250px" />
+      </div>
+      <div>
+        <div style="font-weight: 700; font-size: .85rem; text-align: center; margin-bottom: 4px;">Dataset IV</div>
+        <ChartContainer id="anscombe-4" height="250px" />
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="X 평균" value="9.0" />
+      <StatBox label="Y 평균" value="7.50" />
+      <StatBox label="상관계수 r" value="0.816" borderColor="var(--tb-primary)" />
+      <StatBox label="회귀선" value="Y = 3.0 + 0.5X" />
+    </div>
+
+    <InsightBox>
+      <strong>네 데이터셋의 통계량은 소수 둘째자리까지 동일합니다.</strong>
+      그런데 산점도를 보세요:
+      I은 전형적 선형관계, II는 곡선관계, III는 이상치 하나가 회귀선을 왜곡,
+      IV는 X가 한 곳에 몰린 데이터에 이상치 하나가 상관을 만들어냈습니다.
+    </InsightBox>
+
+    <ExerciseBox>
+      <strong>생각해보기:</strong>
+      만약 Dataset III에서 이상치 한 점을 제거하면 상관계수는 어떻게 변할까요?
+      Dataset IV에서 오른쪽 끝 점 하나를 제거하면? 요약 통계량에만 의존하면 이런 차이를 놓칩니다.
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: Correlation Playground ===== -->
+  <div class="tb-card">
+    <h2>Interactive 2: 상관계수 놀이터</h2>
+    <p>
+      산점도 위에 직접 점을 찍어보세요. Pearson 상관계수(r)가 실시간으로 계산됩니다.
+      r이 어떤 상황에서 높거나 낮은지, 그리고 r의 한계가 무엇인지 체감하세요.
+    </p>
+
+    <div style="position: relative; margin: 14px 0;">
+      <canvas id="corr-playground" width="600" height="400" style="border: 2px solid var(--tb-g200); border-radius: var(--tb-radius); cursor: crosshair; max-width: 100%; background: #fff;"></canvas>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="점의 개수" id="corr-n" />
+      <StatBox label="Pearson r" id="corr-r" borderColor="var(--tb-primary)" />
+      <StatBox label="r-squared" id="corr-r2" sub="설명된 분산 비율" />
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-danger" id="btn-corr-clear">모두 지우기</button>
+      <button class="tb-btn tb-btn-primary" id="btn-corr-undo">마지막 점 취소</button>
+    </SimControls>
+
+    <ExerciseBox>
+      <strong>도전 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li><strong>r > 0.9</strong>를 만들되, 직선이 아닌 <strong>곡선 관계</strong>의 데이터를 찍어보세요. r은 높지만 선형관계가 아닌 경우입니다.</li>
+        <li><strong>r = 0 (거의)</strong>이지만 <strong>확실한 패턴</strong>이 있는 데이터를 만들어보세요. (힌트: U자형 또는 원형)</li>
+        <li><strong>5개의 점만</strong>으로 r = 0.5 근처를 만들어보세요. 점 하나의 위치를 바꾸면 r이 급변하는 것을 확인하세요.</li>
+        <li>점을 30개 정도 찍어서 r = 0.7 정도를 만들고, 한쪽 구석에 이상치 하나를 추가해보세요. r이 얼마나 변하나요?</li>
+      </ol>
+    </ExerciseBox>
+
+    <WarningBox>
+      <strong>Pearson r의 한계:</strong>
+      Pearson 상관계수는 오직 <strong>선형 관계의 강도</strong>만 측정합니다.
+      완벽한 곡선 관계(예: U자형, 원형)에서도 r = 0이 될 수 있습니다.
+      따라서 상관계수를 보고하기 전에 반드시 산점도를 먼저 확인하세요.
+    </WarningBox>
+
+    <FormulaBox>
+      <span class="hl">Pearson 상관계수 (r):</span><br>
+      r = SUM[(Xi - X_bar)(Yi - Y_bar)] / sqrt(SUM[(Xi - X_bar)^2] * SUM[(Yi - Y_bar)^2])<br><br>
+      <span class="res">-1 &lt;= r &lt;= 1</span><br>
+      r = 1: 완벽한 양의 선형관계 | r = -1: 완벽한 음의 선형관계 | r = 0: 선형관계 없음
+    </FormulaBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: Spurious Correlation Gallery ===== -->
+  <div class="tb-card">
+    <h2>Interactive 3: 허위상관 갤러리</h2>
+    <p>
+      실제로 높은 상관계수를 보이지만 인과관계가 전혀 없는 사례들입니다.
+      각 사례를 보고 "왜 인과가 아닌지" 생각해보세요.
+    </p>
+
+    <div id="spurious-gallery" style="margin: 14px 0;"></div>
+
+    <WarningBox>
+      <strong>"상관은 인과가 아니다" -- 인과 추론의 3가지 조건:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li><strong>공변(Covariation):</strong> X가 변할 때 Y도 변한다 (상관은 이것만 확인).</li>
+        <li><strong>시간적 선행(Temporal precedence):</strong> X의 변화가 Y의 변화보다 먼저 일어난다.</li>
+        <li><strong>대안 설명의 배제(No confounders):</strong> 제3의 변수가 둘 다를 야기한 것이 아니다.</li>
+      </ol>
+      <p style="margin-top: 8px;">
+        관찰 연구에서는 3번 조건을 완벽하게 충족하기 매우 어렵습니다.
+        이것이 무작위 통제 실험(RCT)이 인과 추론의 "황금 기준"인 이유입니다.
+      </p>
+    </WarningBox>
+
+    <ExerciseBox>
+      <strong>실습:</strong> 각 허위상관 사례에서 "숨겨진 제3의 변수(교란변수)"가 무엇인지 찾아보세요.
+      "설명 보기"를 클릭하면 답을 확인할 수 있습니다.
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: Simpson's Paradox ===== -->
+  <div class="tb-card">
+    <h2>Interactive 4: 심슨의 역설</h2>
+    <p>
+      전체 데이터를 보면 한 방향의 관계가 보이는데,
+      집단별로 나누면 관계가 <strong>반대 방향</strong>으로 뒤집히는 현상입니다.
+      실제 대학 입시 데이터에서 발생한 유명한 사례를 재현합니다.
+    </p>
+
+    <ExplainBox>
+      <strong>시나리오: 대학 입시 성별 차별 논란</strong><br>
+      한 대학의 전체 합격률: 남성 45%, 여성 30%. 성차별인가?
+      그런데 학과별로 나눠보면...
+    </ExplainBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary simpson-view active" data-view="aggregated">전체 보기</button>
+      <button class="tb-btn tb-btn-warning simpson-view" data-view="disaggregated">학과별로 나누기</button>
+    </SimControls>
+
+    <ChartContainer id="simpson-chart" height="380px" />
+
+    <div id="simpson-explanation" style="margin: 14px 0;"></div>
+
+    <div class="tb-data-table-wrap" style="max-height: none; margin-top: 14px;">
+      <table class="tb-data-table" id="simpson-table">
+        <thead>
+          <tr>
+            <th>학과</th>
+            <th>남성 지원</th>
+            <th>남성 합격률</th>
+            <th>여성 지원</th>
+            <th>여성 합격률</th>
+          </tr>
+        </thead>
+        <tbody id="simpson-tbody"></tbody>
+      </table>
+    </div>
+
+    <InsightBox>
+      <strong>핵심:</strong>
+      여성이 합격률이 낮은 학과(경쟁이 치열한 학과)에 더 많이 지원했기 때문에
+      전체적으로는 여성 합격률이 낮아 보였습니다.
+      학과 내에서는 오히려 여성 합격률이 같거나 더 높았습니다.
+      데이터를 어떤 수준에서 보느냐에 따라 결론이 뒤집힐 수 있습니다.
+    </InsightBox>
+
+    <ExerciseBox>
+      <strong>실습 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li>"전체 보기"와 "학과별로 나누기"를 번갈아 클릭하며 추세가 뒤집히는 것을 확인하세요.</li>
+        <li>아래 표에서 각 학과의 합격률을 비교하세요. 어떤 학과가 가장 경쟁이 치열한가요?</li>
+        <li>실생활에서 심슨의 역설이 나타날 수 있는 상황을 하나 생각해보세요.</li>
+      </ol>
+    </ExerciseBox>
+
+    <BusinessBox>
+      <strong>비즈니스 함의:</strong>
+      매출 데이터를 전체로 보면 하락 추세인데, 지역별로 나누면 모든 지역이 성장 중일 수 있습니다
+      (성장률이 낮은 대형 지역의 비중이 커졌기 때문).
+      "어떤 단위로 데이터를 집계하는가"는 분석 결론을 완전히 바꿀 수 있습니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: Correlation Matrix ===== -->
+  <div class="tb-card">
+    <h2>Interactive 5: 상관행렬 탐색기</h2>
+    <p>
+      한국 경제 지표 데이터에서 변수들을 선택하여
+      상관행렬(히트맵)과 산점도 행렬을 자동 생성합니다.
+      어떤 변수 쌍이 강한 상관을 보이는지 탐색하세요.
+    </p>
+
+    <div id="corrmat-vars" style="display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0;">
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-corrmat-gen">상관행렬 생성</button>
+      <span style="font-size: .85rem; color: var(--tb-g600);" id="corrmat-msg">3~6개 변수를 선택하세요</span>
+    </SimControls>
+
+    <ChartContainer id="corrmat-heatmap" height="400px" />
+
+    <div id="corrmat-pairs" style="margin: 14px 0;"></div>
+
+    <ExplainBox>
+      <strong>Spearman 순위상관 vs Pearson:</strong>
+      Pearson r은 <strong>선형 관계</strong>만 잡아냅니다.
+      Spearman rho는 데이터를 <strong>순위</strong>로 바꾼 뒤 상관을 계산합니다.
+      따라서 단조증가/단조감소 관계(곡선이어도)를 잡아낼 수 있으며,
+      이상치에도 더 강건합니다.
+      서열 척도 데이터나 비선형 단조관계가 의심될 때 Spearman을 사용하세요.
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>실습 과제:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li>GDP 성장률과 실업률의 상관을 확인하세요. 부호가 음수인가요? 왜 그런가요?</li>
+        <li>상관이 가장 높은 변수 쌍은 무엇인가요? 그 관계가 인과관계라고 말할 수 있나요?</li>
+        <li>6개 변수를 모두 선택하고 히트맵의 패턴을 관찰하세요. 변수 그룹이 보이나요?</li>
+      </ol>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>산점도는 두 변수의 관계를 파악하는 가장 기본적이고 강력한 도구이다.</li>
+      <li>Pearson r은 선형 관계의 강도와 방향만 측정한다. 곡선 관계는 감지하지 못한다.</li>
+      <li>항상 시각화를 먼저 하라 (Anscombe의 교훈).</li>
+      <li>상관은 인과가 아니다 -- 교란변수, 역인과, 우연의 일치가 존재할 수 있다.</li>
+      <li>심슨의 역설: 집계 수준에 따라 결론이 뒤집힐 수 있다.</li>
+      <li>Spearman 순위상관은 비선형 단조관계와 서열 데이터에 적합하다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 지금까지 배운 기술통계를 종합하여
+      한국 경제 데이터를 직접 탐색하는 캡스톤 프로젝트에 도전합니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  Chart.register(...registerables);
+  ChartJS = Chart;
+  return Chart;
+}
+
+// ==================== MATH UTILITIES ====================
+function pearsonR(xs, ys) {
+  const n = xs.length;
+  if (n < 2) return 0;
+  const mx = xs.reduce((a, b) => a + b, 0) / n;
+  const my = ys.reduce((a, b) => a + b, 0) / n;
+  let num = 0, dx = 0, dy = 0;
+  for (let i = 0; i < n; i++) {
+    num += (xs[i] - mx) * (ys[i] - my);
+    dx += (xs[i] - mx) ** 2;
+    dy += (ys[i] - my) ** 2;
+  }
+  return dx && dy ? num / Math.sqrt(dx * dy) : 0;
+}
+
+function spearmanR(xs, ys) {
+  const rank = arr => {
+    const sorted = [...arr].map((v, i) => ({ v, i })).sort((a, b) => a.v - b.v);
+    const ranks = new Array(arr.length);
+    sorted.forEach((item, r) => { ranks[item.i] = r + 1; });
+    return ranks;
+  };
+  return pearsonR(rank(xs), rank(ys));
+}
+
+function linReg(xs, ys) {
+  const n = xs.length;
+  const mx = xs.reduce((a, b) => a + b, 0) / n;
+  const my = ys.reduce((a, b) => a + b, 0) / n;
+  let ssxy = 0, ssxx = 0;
+  for (let i = 0; i < n; i++) {
+    ssxy += (xs[i] - mx) * (ys[i] - my);
+    ssxx += (xs[i] - mx) ** 2;
+  }
+  const b = ssxx ? ssxy / ssxx : 0;
+  const a = my - b * mx;
+  return { a, b };
+}
+
+// ==================== INTERACTIVE 1: ANSCOMBE'S QUARTET ====================
+const ANSCOMBE = {
+  I:  { x: [10,8,13,9,11,14,6,4,12,7,5], y: [8.04,6.95,7.58,8.81,8.33,9.96,7.24,4.26,10.84,4.82,5.68] },
+  II: { x: [10,8,13,9,11,14,6,4,12,7,5], y: [9.14,8.14,8.74,8.77,9.26,8.10,6.13,3.10,9.13,7.26,4.74] },
+  III:{ x: [10,8,13,9,11,14,6,4,12,7,5], y: [7.46,6.77,12.74,7.11,7.81,8.84,6.08,5.39,8.15,6.42,5.73] },
+  IV: { x: [8,8,8,8,8,8,8,19,8,8,8],     y: [6.58,5.76,7.71,8.84,8.47,7.04,5.25,12.50,5.56,7.91,6.89] },
+};
+
+let anscombeCharts = [];
+
+async function drawAnscombe() {
+  const Chart = await loadChart();
+  const keys = ['I', 'II', 'III', 'IV'];
+  const palette = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b'];
+
+  anscombeCharts.forEach(c => c.destroy());
+  anscombeCharts = [];
+
+  keys.forEach((key, idx) => {
+    const ds = ANSCOMBE[key];
+    const canvas = document.getElementById(`anscombe-${idx + 1}`);
+    if (!canvas) return;
+
+    const reg = linReg(ds.x, ds.y);
+    const minX = Math.min(...ds.x) - 1, maxX = Math.max(...ds.x) + 1;
+
+    const chart = new Chart(canvas, {
+      type: 'scatter',
+      data: {
+        datasets: [
+          {
+            label: `Dataset ${key}`,
+            data: ds.x.map((x, i) => ({ x, y: ds.y[i] })),
+            backgroundColor: palette[idx] + '99',
+            pointRadius: 6,
+            order: 2,
+          },
+          {
+            label: '회귀선',
+            type: 'line',
+            data: [{ x: minX, y: reg.a + reg.b * minX }, { x: maxX, y: reg.a + reg.b * maxX }],
+            borderColor: '#64748b',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            pointRadius: 0,
+            fill: false,
+            order: 1,
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { min: 2, max: 20, title: { display: true, text: 'X' } },
+          y: { min: 2, max: 14, title: { display: true, text: 'Y' } },
+        }
+      }
+    });
+    anscombeCharts.push(chart);
+  });
+}
+
+// ==================== INTERACTIVE 2: CORRELATION PLAYGROUND ====================
+let corrPoints = [];
+
+function drawCorrPlayground() {
+  const canvas = document.getElementById('corr-playground');
+  const ctx = canvas.getContext('2d');
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Grid
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 1;
+  for (let x = 0; x <= canvas.width; x += 60) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+  }
+  for (let y = 0; y <= canvas.height; y += 40) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+  }
+
+  // Points
+  corrPoints.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 6, 0, 2 * Math.PI);
+    ctx.fillStyle = '#2563eb99';
+    ctx.fill();
+    ctx.strokeStyle = '#2563eb';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  // Regression line
+  if (corrPoints.length >= 2) {
+    const xs = corrPoints.map(p => p.x);
+    const ys = corrPoints.map(p => p.y);
+    const reg = linReg(xs, ys);
+    ctx.beginPath();
+    ctx.moveTo(0, reg.a + reg.b * 0);
+    ctx.lineTo(canvas.width, reg.a + reg.b * canvas.width);
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Stats
+  const n = corrPoints.length;
+  document.getElementById('corr-n').textContent = n;
+  if (n >= 2) {
+    const xs = corrPoints.map(p => p.x);
+    const ys = corrPoints.map(p => canvas.height - p.y); // Flip Y for intuitive direction
+    const r = pearsonR(xs, ys);
+    document.getElementById('corr-r').textContent = r.toFixed(3);
+    document.getElementById('corr-r2').textContent = (r * r * 100).toFixed(1) + '%';
+  } else {
+    document.getElementById('corr-r').textContent = '-';
+    document.getElementById('corr-r2').textContent = '-';
+  }
+}
+
+function setupCorrPlayground() {
+  const canvas = document.getElementById('corr-playground');
+
+  canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+    corrPoints.push({ x, y });
+    drawCorrPlayground();
+  });
+
+  document.getElementById('btn-corr-clear').addEventListener('click', () => {
+    corrPoints = [];
+    drawCorrPlayground();
+  });
+
+  document.getElementById('btn-corr-undo').addEventListener('click', () => {
+    corrPoints.pop();
+    drawCorrPlayground();
+  });
+
+  drawCorrPlayground();
+}
+
+// ==================== INTERACTIVE 3: SPURIOUS CORRELATIONS ====================
+const SPURIOUS_DATA = [
+  {
+    title: '치킨 소비량 vs 대학 진학률',
+    r: 0.91, period: '2000-2020',
+    explanation: '교란변수: 소득 수준. 소득이 높아지면 치킨도 더 많이 먹고, 대학 진학률도 올라갑니다. 두 변수 모두 경제 성장의 결과입니다.',
+    data: { x: [15,17,19,21,23,25,27,29,31,33,35], y: [52,54,57,60,63,66,69,72,74,76,78] },
+    xLabel: '1인당 치킨 소비량(마리/년)', yLabel: '대학 진학률(%)'
+  },
+  {
+    title: '스마트폰 보급률 vs 근시 유병률',
+    r: 0.94, period: '2010-2022',
+    explanation: '교란변수: 시간의 흐름(실내 활동 증가). 스마트폰이 직접 근시를 유발한다고 단정할 수 없습니다. 실내에서 보내는 시간 증가, 학업 부담 증가 등 복합적 요인이 작용합니다.',
+    data: { x: [20,30,45,60,70,78,85,88,92,95,97,98], y: [30,32,35,38,41,44,48,51,53,55,57,58] },
+    xLabel: '스마트폰 보급률(%)', yLabel: '근시 유병률(%)'
+  },
+  {
+    title: '유기농 식품 매출 vs 자폐 진단율',
+    r: 0.99, period: '1998-2012',
+    explanation: '교란변수: 시간의 흐름. 유기농 식품 시장이 성장하는 동안, 자폐 진단 기준이 확대되고 인식이 높아져 진단율도 올랐습니다. 두 추세가 우연히 같은 방향일 뿐입니다.',
+    data: { x: [1,2,3,4,5,7,9,12,15,19,23,28,33,38], y: [0.4,0.5,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.4,1.5,1.6,1.7] },
+    xLabel: '유기농 매출(조원)', yLabel: '자폐 진단율(%)'
+  },
+  {
+    title: '영화 니콜라스 케이지 출연작 수 vs 수영장 익사 사고',
+    r: 0.87, period: '1999-2009',
+    explanation: '순전한 우연의 일치입니다. 충분히 많은 변수를 비교하면 아무 관계 없는 것들 사이에서도 높은 상관이 발견됩니다. 이것을 "데이터 드레징(data dredging)"이라고 합니다.',
+    data: { x: [2,2,2,3,1,1,2,3,4,1,4], y: [109,102,102,98,85,95,96,98,123,94,102] },
+    xLabel: '케이지 출연작 수', yLabel: '수영장 익사(건)'
+  },
+  {
+    title: '1인당 커피 소비량 vs 노벨상 수상자 수',
+    r: 0.89, period: '국가 단위',
+    explanation: '교란변수: 국가의 부유함과 연구 인프라. 부유한 나라일수록 커피 소비도 많고, 연구 투자도 많아 노벨상 수상자도 많습니다. 커피가 천재를 만드는 것이 아닙니다.',
+    data: { x: [2.5,3.0,4.5,5.0,6.0,7.5,8.0,9.0,10.5,12.0], y: [1,3,5,8,11,15,20,25,30,32] },
+    xLabel: '1인당 커피(kg/년)', yLabel: '노벨상 수상자(명)'
+  },
+];
+
+async function drawSpuriousGallery() {
+  const Chart = await loadChart();
+  const container = document.getElementById('spurious-gallery');
+  container.innerHTML = '';
+
+  SPURIOUS_DATA.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.style.cssText = 'background: var(--tb-g100); border-radius: var(--tb-radius); padding: 16px; margin-bottom: 14px;';
+    card.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <h3 style="font-size: .95rem; font-weight: 700; margin: 0;">${item.title}</h3>
+        <span style="font-size: .85rem; font-weight: 700; color: var(--tb-danger);">r = ${item.r.toFixed(2)}</span>
+      </div>
+      <div style="font-size: .82rem; color: var(--tb-g600); margin-bottom: 8px;">${item.period}</div>
+      <div class="tb-chart-box" style="height: 200px;">
+        <canvas id="spurious-chart-${idx}"></canvas>
+      </div>
+      <button class="tb-btn tb-btn-primary" style="margin-top: 8px; font-size: .85rem; padding: 6px 14px;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? '' : 'none'">
+        설명 보기
+      </button>
+      <div style="display: none; margin-top: 8px; padding: 12px; background: linear-gradient(135deg, #fef2f2, #fee2e2); border-radius: 8px; font-size: .88rem;">
+        <strong>왜 인과가 아닌가:</strong> ${item.explanation}
+      </div>
+    `;
+    container.appendChild(card);
+
+    // Draw mini chart
+    setTimeout(() => {
+      const canvas = document.getElementById(`spurious-chart-${idx}`);
+      if (!canvas) return;
+      new Chart(canvas, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: item.title,
+            data: item.data.x.map((x, i) => ({ x, y: item.data.y[i] })),
+            backgroundColor: '#ef444488',
+            pointRadius: 5,
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { title: { display: true, text: item.xLabel, font: { size: 10 } } },
+            y: { title: { display: true, text: item.yLabel, font: { size: 10 } } },
+          }
+        }
+      });
+    }, 100);
+  });
+}
+
+// ==================== INTERACTIVE 4: SIMPSON'S PARADOX ====================
+const SIMPSON_DATA = {
+  departments: [
+    { name: 'A (이공계)', maleApply: 825, maleAdmit: 0.62, femaleApply: 108, femaleAdmit: 0.82 },
+    { name: 'B (이공계)', maleApply: 560, maleAdmit: 0.63, femaleApply: 25,  femaleAdmit: 0.68 },
+    { name: 'C (인문계)', maleApply: 325, maleAdmit: 0.37, femaleApply: 593, femaleAdmit: 0.34 },
+    { name: 'D (인문계)', maleApply: 417, maleAdmit: 0.33, femaleApply: 375, femaleAdmit: 0.35 },
+    { name: 'E (사회계)', maleApply: 191, maleAdmit: 0.28, femaleApply: 393, femaleAdmit: 0.24 },
+    { name: 'F (예체능)', maleApply: 373, maleAdmit: 0.06, femaleApply: 341, femaleAdmit: 0.07 },
+  ]
+};
+
+let simpsonChart = null;
+
+async function drawSimpson(view) {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('simpson-chart');
+  if (simpsonChart) { simpsonChart.destroy(); simpsonChart = null; }
+  const expDiv = document.getElementById('simpson-explanation');
+
+  if (view === 'aggregated') {
+    let totalMaleApply = 0, totalMaleAdmit = 0, totalFemaleApply = 0, totalFemaleAdmit = 0;
+    SIMPSON_DATA.departments.forEach(d => {
+      totalMaleApply += d.maleApply;
+      totalMaleAdmit += d.maleApply * d.maleAdmit;
+      totalFemaleApply += d.femaleApply;
+      totalFemaleAdmit += d.femaleApply * d.femaleAdmit;
+    });
+    const mRate = ((totalMaleAdmit / totalMaleApply) * 100).toFixed(1);
+    const fRate = ((totalFemaleAdmit / totalFemaleApply) * 100).toFixed(1);
+
+    simpsonChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: ['남성', '여성'],
+        datasets: [{
+          label: '전체 합격률 (%)',
+          data: [mRate, fRate],
+          backgroundColor: ['#2563eb88', '#ef444488'],
+          borderColor: ['#2563eb', '#ef4444'],
+          borderWidth: 2,
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '전체 합격률: 남성이 더 높다?', font: { size: 14, family: "'Paperlogy'" } },
+        },
+        scales: {
+          y: { beginAtZero: true, max: 60, title: { display: true, text: '합격률 (%)' } },
+        }
+      }
+    });
+
+    expDiv.innerHTML = `<div class="tb-warning-box">
+      <strong>전체 합격률:</strong> 남성 ${mRate}%, 여성 ${fRate}%.
+      남성이 더 높습니다. 성차별인가요? "학과별로 나누기"를 눌러보세요.
+    </div>`;
+  } else {
+    const labels = SIMPSON_DATA.departments.map(d => d.name);
+    const maleRates = SIMPSON_DATA.departments.map(d => (d.maleAdmit * 100).toFixed(1));
+    const femaleRates = SIMPSON_DATA.departments.map(d => (d.femaleAdmit * 100).toFixed(1));
+
+    simpsonChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: '남성 합격률 (%)',
+            data: maleRates,
+            backgroundColor: '#2563eb88',
+            borderColor: '#2563eb',
+            borderWidth: 2,
+            borderRadius: 4,
+          },
+          {
+            label: '여성 합격률 (%)',
+            data: femaleRates,
+            backgroundColor: '#ef444488',
+            borderColor: '#ef4444',
+            borderWidth: 2,
+            borderRadius: 4,
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: '학과별 합격률: 여성이 같거나 더 높다!', font: { size: 14, family: "'Paperlogy'" } },
+        },
+        scales: {
+          y: { beginAtZero: true, max: 100, title: { display: true, text: '합격률 (%)' } },
+        }
+      }
+    });
+
+    expDiv.innerHTML = `<div class="tb-insight">
+      <strong>역설 해소:</strong>
+      학과별로 보면 4개 학과에서 여성 합격률이 같거나 더 높습니다.
+      전체에서 남성이 높아 보인 이유는 남성이 합격률 높은 학과(A, B)에 집중 지원했고,
+      여성이 합격률 낮은 학과(C, D, E, F)에 많이 지원했기 때문입니다.
+    </div>`;
+  }
+
+  // Fill table
+  const tbody = document.getElementById('simpson-tbody');
+  tbody.innerHTML = '';
+  SIMPSON_DATA.departments.forEach(d => {
+    tbody.insertAdjacentHTML('beforeend', `<tr>
+      <td><strong>${d.name}</strong></td>
+      <td>${d.maleApply}</td>
+      <td>${(d.maleAdmit * 100).toFixed(0)}%</td>
+      <td>${d.femaleApply}</td>
+      <td>${(d.femaleAdmit * 100).toFixed(0)}%</td>
+    </tr>`);
+  });
+}
+
+// ==================== INTERACTIVE 5: CORRELATION MATRIX ====================
+const ECON_VARS = [
+  { key: 'gdp', label: 'GDP 성장률(%)', data: [9.7,7.2,5.9,3.4,-5.1,10.7,4.5,7.4,3.1,2.2,4.7,3.7,2.3,3.2,3.2,2.8,2.9,3.2,2.7,2.0,6.5,-0.7,3.6,2.3,2.8,2.8,2.9,2.0,2.2,-0.9] },
+  { key: 'unemp', label: '실업률(%)', data: [2.4,2.5,2.1,2.6,6.8,6.3,4.4,3.8,3.3,3.6,3.7,3.4,3.2,3.5,3.7,3.7,3.2,3.2,3.1,3.6,3.7,3.8,3.1,3.1,3.5,3.6,3.7,3.8,3.9,3.6] },
+  { key: 'cpi', label: '소비자물가상승률(%)', data: [6.1,4.5,4.4,7.5,0.8,2.3,4.1,2.8,3.5,3.6,2.8,4.2,2.5,3.5,3.6,2.8,2.2,1.9,1.3,0.4,0.5,0.9,1.5,1.5,0.4,0.5,2.5,5.1,3.6,2.0] },
+  { key: 'export', label: '수출증가율(%)', data: [12.5,5.8,3.2,-2.8,-9.6,20.9,0.2,7.9,15.7,21.4,19.3,31.0,14.1,12.0,13.9,12.0,-5.9,15.8,5.5,-8.0,-5.4,25.7,6.1,-7.5,10.1,-5.4,25.8,6.1,-7.5,7.0] },
+  { key: 'housing', label: '주택가격지수(2020=100)', data: [55,58,62,65,60,62,65,68,72,76,82,88,85,83,82,80,78,76,78,82,85,90,100,110,115,108,102,98,95,96] },
+  { key: 'birth', label: '출생률(천분율)', data: [15.3,14.8,14.2,13.6,13.1,12.6,11.6,10.3,10.0,9.9,9.0,8.6,9.0,8.5,9.4,8.6,8.4,7.2,6.4,5.9,5.3,5.1,4.9,4.7,4.5,4.3,4.1,3.9,3.7,3.5] },
+];
+
+let corrmatChart = null;
+
+function initCorrmatVars() {
+  const container = document.getElementById('corrmat-vars');
+  container.innerHTML = '';
+  ECON_VARS.forEach(v => {
+    const label = document.createElement('label');
+    label.style.cssText = 'display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--tb-g100);border-radius:8px;cursor:pointer;font-size:.88rem;font-weight:600;transition:0.15s;border:2px solid transparent;';
+    label.innerHTML = `<input type="checkbox" class="corrmat-cb" value="${v.key}" /> ${v.label}`;
+    label.addEventListener('change', () => {
+      const checked = document.querySelectorAll('.corrmat-cb:checked').length;
+      document.getElementById('corrmat-msg').textContent = `${checked}개 선택됨 (3~6개 필요)`;
+      label.style.borderColor = label.querySelector('input').checked ? 'var(--tb-primary)' : 'transparent';
+      label.style.background = label.querySelector('input').checked ? 'var(--tb-primary-light)' : 'var(--tb-g100)';
+    });
+    container.appendChild(label);
+  });
+}
+
+async function generateCorrMatrix() {
+  const Chart = await loadChart();
+  const selected = Array.from(document.querySelectorAll('.corrmat-cb:checked')).map(cb => cb.value);
+  if (selected.length < 3) {
+    document.getElementById('corrmat-msg').textContent = '3개 이상의 변수를 선택하세요!';
+    return;
+  }
+
+  const vars = selected.map(key => ECON_VARS.find(v => v.key === key));
+  const n = vars.length;
+  const minLen = Math.min(...vars.map(v => v.data.length));
+
+  // Compute correlation matrix
+  const matrix = [];
+  for (let i = 0; i < n; i++) {
+    matrix[i] = [];
+    for (let j = 0; j < n; j++) {
+      matrix[i][j] = pearsonR(
+        vars[i].data.slice(0, minLen),
+        vars[j].data.slice(0, minLen)
+      );
+    }
+  }
+
+  // Draw heatmap using scatter with colored points
+  const canvas = document.getElementById('corrmat-heatmap');
+  if (corrmatChart) { corrmatChart.destroy(); corrmatChart = null; }
+
+  const heatData = [];
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      heatData.push({ x: j, y: n - 1 - i, r: matrix[i][j] });
+    }
+  }
+
+  const labels = vars.map(v => v.label.split('(')[0].trim());
+
+  corrmatChart = new Chart(canvas, {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: '상관계수',
+        data: heatData.map(d => ({ x: d.x, y: d.y })),
+        backgroundColor: heatData.map(d => {
+          const r = d.r;
+          if (r > 0) return `rgba(37, 99, 235, ${Math.abs(r) * 0.8 + 0.1})`;
+          if (r < 0) return `rgba(239, 68, 68, ${Math.abs(r) * 0.8 + 0.1})`;
+          return 'rgba(100, 116, 139, 0.2)';
+        }),
+        pointRadius: heatData.map(d => 15 + Math.abs(d.r) * 15),
+        pointStyle: 'rectRounded',
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '상관행렬 히트맵 (파랑=양, 빨강=음, 크기=강도)', font: { size: 13, family: "'Paperlogy'" } },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const idx = ctx.dataIndex;
+              const i = n - 1 - heatData[idx].y;
+              const j = heatData[idx].x;
+              return `${labels[i]} vs ${labels[j]}: r = ${matrix[i][j].toFixed(3)}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          min: -0.5, max: n - 0.5,
+          ticks: { callback: (v) => labels[v] || '', stepSize: 1, font: { size: 10 } },
+        },
+        y: {
+          min: -0.5, max: n - 0.5,
+          ticks: { callback: (v) => labels[n - 1 - v] || '', stepSize: 1, font: { size: 10 } },
+        }
+      }
+    }
+  });
+
+  // Pairs display
+  const pairsDiv = document.getElementById('corrmat-pairs');
+  pairsDiv.innerHTML = '<h3 style="margin-bottom: 12px;">주요 상관관계</h3>';
+  const pairs = [];
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      pairs.push({ i, j, r: matrix[i][j] });
+    }
+  }
+  pairs.sort((a, b) => Math.abs(b.r) - Math.abs(a.r));
+
+  const table = document.createElement('div');
+  table.className = 'tb-data-table-wrap';
+  table.style.maxHeight = 'none';
+  table.innerHTML = `<table class="tb-data-table">
+    <thead><tr><th>변수 1</th><th>변수 2</th><th>Pearson r</th><th>강도</th></tr></thead>
+    <tbody>${pairs.map(p => {
+      const absR = Math.abs(p.r);
+      let strength = '';
+      if (absR >= 0.7) strength = '강한';
+      else if (absR >= 0.4) strength = '보통';
+      else if (absR >= 0.2) strength = '약한';
+      else strength = '거의 없음';
+      const color = p.r > 0 ? 'var(--tb-primary)' : 'var(--tb-danger)';
+      return `<tr><td>${vars[p.i].label}</td><td>${vars[p.j].label}</td><td style="color:${color};font-weight:700">${p.r.toFixed(3)}</td><td>${strength}</td></tr>`;
+    }).join('')}</tbody>
+  </table>`;
+  pairsDiv.appendChild(table);
+}
+
+// ==================== INIT ====================
+function init() {
+  import('../../textbook/lib/progress').then(m => m.markVisited('06-correlation')).catch(() => {});
+
+  // Anscombe
+  drawAnscombe();
+
+  // Correlation Playground
+  setupCorrPlayground();
+
+  // Spurious Gallery
+  drawSpuriousGallery();
+
+  // Simpson's Paradox
+  document.querySelectorAll('.simpson-view').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.simpson-view').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      drawSimpson(btn.dataset.view);
+    });
+  });
+  drawSimpson('aggregated');
+
+  // Correlation Matrix
+  initCorrmatVars();
+  document.getElementById('btn-corrmat-gen').addEventListener('click', generateCorrMatrix);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .simpson-view {
+    transition: 0.2s;
+    opacity: 0.6;
+  }
+  .simpson-view.active {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  }
+</style>

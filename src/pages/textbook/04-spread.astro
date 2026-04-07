@@ -1,0 +1,888 @@
+---
+import TextbookLayout from '../../layouts/TextbookLayout.astro';
+import ExplainBox from '../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../components/textbook/StatBox.astro';
+import ChartContainer from '../../components/textbook/ChartContainer.astro';
+import SimControls from '../../components/textbook/SimControls.astro';
+---
+
+<TextbookLayout
+  title="데이터의 퍼짐 — 같은 평균, 전혀 다른 세상"
+  subtitle="분산, 표준편차, 변동계수"
+  chapterNum={4}
+  part={1}
+>
+
+  <!-- ===== SECTION 1: HOOK ===== -->
+  <div class="tb-card">
+    <h2>두 펀드의 평균 수익률이 같은데 왜 하나는 안전하고 하나는 위험한가?</h2>
+    <p>
+      A펀드와 B펀드의 연평균 수익률이 모두 8%입니다.
+      투자자 입장에서 둘은 같은 상품일까요?
+    </p>
+    <p style="margin-top: 12px;">
+      A펀드의 월별 수익률: 7%, 8%, 9%, 7%, 8%, 9%, 7%, 8%, 9%, 7%, 8%, 9%<br>
+      B펀드의 월별 수익률: -20%, 30%, -15%, 25%, -10%, 20%, 40%, -25%, 15%, 10%, -5%, 31%
+    </p>
+    <p style="margin-top: 12px;">
+      평균은 같지만 B펀드는 <strong>롤러코스터</strong>입니다.
+      투자금이 반토막 날 위험이 있습니다.
+      이 "위험"을 숫자로 측정하는 것이 바로 <strong>산포도(spread)</strong>입니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 장에서는 분산, 표준편차, IQR, 변동계수를 배우고,
+      <strong>"같은 평균이라도 퍼짐이 다르면 완전히 다른 세상"</strong>이라는 것을 체험합니다.
+    </p>
+  </div>
+
+  <!-- ===== SECTION 2: 공식 ===== -->
+  <div class="tb-card">
+    <h2>산포를 측정하는 도구들</h2>
+
+    <FormulaBox>
+      <span class="hl">분산(Variance)</span> = &#931;(x&#7522; - x&#772;)&#178; / n<br>
+      <span class="hl">표준편차(SD)</span> = &#8730;분산 = &#8730;&#123;&#931;(x&#7522; - x&#772;)&#178; / n&#125;<br>
+      <span class="hl">변동계수(CV)</span> = 표준편차 / 평균 x 100%
+    </FormulaBox>
+
+    <ExplainBox>
+      <strong>왜 제곱하는가?</strong>
+      각 값에서 평균을 뺀 "편차(deviation)"를 그냥 더하면 양수와 음수가 상쇄되어 0이 됩니다.
+      절댓값을 쓸 수도 있지만(MAD), 제곱은 수학적 성질이 더 좋습니다:
+      미분이 가능하고, 큰 편차에 더 큰 가중치를 부여합니다.
+      이것이 분산의 핵심 아이디어입니다.
+    </ExplainBox>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
+      <div style="background: var(--tb-primary-light); padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 6px;">범위(Range)</h3>
+        <p style="font-size: .9rem;">최대값 - 최소값. 가장 단순하지만 극단값에 매우 민감.</p>
+      </div>
+      <div style="background: var(--tb-primary-light); padding: 16px; border-radius: var(--tb-radius);">
+        <h3 style="color: var(--tb-primary); margin-bottom: 6px;">IQR (사분위간 범위)</h3>
+        <p style="font-size: .9rem;">Q3 - Q1. 가운데 50% 데이터의 퍼짐. 이상치에 강건.</p>
+      </div>
+    </div>
+
+    <InsightBox>
+      <strong>표준편차가 큰 것이 나쁜 것은 아닙니다.</strong>
+      투자에서 표준편차가 크면 "위험"이지만, 신약 개발에서 효과의 표준편차가 크면
+      "일부 환자에게 매우 효과적"일 수 있습니다. 맥락이 중요합니다.
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: DUAL DISTRIBUTION ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 같은 평균, 다른 퍼짐</h2>
+    <p>
+      두 데이터셋의 평균을 동일하게 유지하면서 표준편차(퍼짐)만 조절합니다.
+      슬라이더로 각 분포의 퍼짐을 바꿔보세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>실습 목표:</strong> 두 분포의 퍼짐이 달라지면 어떤 통계량이 바뀌는지 관찰하세요.
+      분산, 표준편차, IQR, 범위가 각각 어떻게 반응하는지 비교합니다.
+    </ExerciseBox>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <h3 style="text-align: center; color: var(--tb-primary);">분포 A</h3>
+        <ChartContainer id="dual-chart-a" height="250px" />
+        <div style="margin: 8px 0;">
+          <label style="font-weight: 600; font-size: .88rem;">퍼짐 (SD): <span id="dual-sd-a-label">10</span></label>
+          <input type="range" id="dual-sd-a" min="2" max="40" value="10" style="width: 100%;">
+        </div>
+      </div>
+      <div>
+        <h3 style="text-align: center; color: var(--tb-danger);">분포 B</h3>
+        <ChartContainer id="dual-chart-b" height="250px" />
+        <div style="margin: 8px 0;">
+          <label style="font-weight: 600; font-size: .88rem;">퍼짐 (SD): <span id="dual-sd-b-label">25</span></label>
+          <input type="range" id="dual-sd-b" min="2" max="40" value="25" style="width: 100%;">
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px;">
+      <div class="tb-stat-row" style="margin: 0;">
+        <StatBox label="평균 A" id="dual-mean-a" borderColor="var(--tb-primary)" />
+        <StatBox label="SD A" id="dual-sd-a-val" borderColor="var(--tb-primary)" />
+        <StatBox label="IQR A" id="dual-iqr-a" borderColor="var(--tb-primary)" />
+        <StatBox label="범위 A" id="dual-range-a" borderColor="var(--tb-primary)" />
+      </div>
+      <div class="tb-stat-row" style="margin: 0;">
+        <StatBox label="평균 B" id="dual-mean-b" borderColor="var(--tb-danger)" />
+        <StatBox label="SD B" id="dual-sd-b-val" borderColor="var(--tb-danger)" />
+        <StatBox label="IQR B" id="dual-iqr-b" borderColor="var(--tb-danger)" />
+        <StatBox label="범위 B" id="dual-range-b" borderColor="var(--tb-danger)" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: STOCK VOLATILITY ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 주식 변동성 시뮬레이터</h2>
+    <p>
+      삼성전자(안정형)와 가상 스타트업(고변동)의 1년(252거래일) 주가를 시뮬레이션합니다.
+      두 종목의 <strong>평균 일별 수익률은 동일(+0.03%)</strong>하지만, 변동성이 다릅니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>실습 목표:</strong> "실행" 버튼을 여러 번 눌러보세요. 같은 평균 수익률이라도
+      결과가 매번 크게 달라지는 종목은 어느 쪽인가요?
+    </ExerciseBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-stock-run">시뮬레이션 실행</button>
+      <label>삼성전자 변동성:</label>
+      <select id="stock-vol-stable">
+        <option value="0.01">낮음 (1%)</option>
+        <option value="0.015" selected>보통 (1.5%)</option>
+        <option value="0.02">높음 (2%)</option>
+      </select>
+      <label>스타트업 변동성:</label>
+      <select id="stock-vol-startup">
+        <option value="0.04">보통 (4%)</option>
+        <option value="0.06" selected>높음 (6%)</option>
+        <option value="0.10">극단 (10%)</option>
+      </select>
+    </SimControls>
+
+    <ChartContainer id="stock-chart" height="380px" />
+
+    <div class="tb-stat-row">
+      <StatBox label="삼성전자 최종 수익률" id="stock-ret-stable" borderColor="var(--tb-primary)" />
+      <StatBox label="스타트업 최종 수익률" id="stock-ret-startup" borderColor="var(--tb-danger)" />
+      <StatBox label="삼성전자 최대 낙폭" id="stock-dd-stable" sub="Max Drawdown" />
+      <StatBox label="스타트업 최대 낙폭" id="stock-dd-startup" sub="Max Drawdown" />
+    </div>
+
+    <div id="stock-run-count" style="font-size: .85rem; color: var(--tb-g600); margin-top: 8px;"></div>
+
+    <WarningBox>
+      <strong>변동성 끌림(Volatility Drag):</strong>
+      수학적으로 -50% 후 +50%는 원금 회복이 아니라 -25%입니다.
+      (100만원 -> 50만원 -> 75만원)
+      변동성이 클수록 이 "끌림" 효과가 커져서, 같은 평균 수익률이라도
+      누적 수익률은 낮아집니다. 이것이 분산의 실질적 위험입니다.
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: CHEBYSHEV & EMPIRICAL RULE ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 체비셰프 부등식과 경험적 규칙</h2>
+    <p>
+      데이터가 평균에서 1, 2, 3 표준편차 안에 몇 %가 들어가는지 확인합니다.
+      <strong>정규분포</strong>에서는 유명한 68-95-99.7 규칙이 적용됩니다.
+      비정규분포에서는 <strong>체비셰프 부등식</strong>이 최소 보장을 제공합니다.
+    </p>
+
+    <ExerciseBox>
+      <strong>실습 목표:</strong> 분포를 바꿔가며 경험적 규칙(68-95-99.7)이
+      정규분포에서만 정확하고, 다른 분포에서는 체비셰프 부등식이 적용되는 것을 확인하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>분포 선택:</label>
+      <select id="cheb-dist">
+        <option value="normal">정규분포</option>
+        <option value="skewed">왜도 분포 (오른쪽 꼬리)</option>
+        <option value="uniform">균등분포</option>
+        <option value="bimodal">쌍봉분포</option>
+      </select>
+      <label>데이터 수:</label>
+      <select id="cheb-n">
+        <option value="200">200개</option>
+        <option value="1000" selected>1,000개</option>
+        <option value="5000">5,000개</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-cheb-gen">생성 및 확인</button>
+    </SimControls>
+
+    <ChartContainer id="cheb-chart" height="320px" />
+
+    <div class="tb-data-table-wrap" style="max-height: none; margin-top: 14px;">
+      <table class="tb-data-table" id="cheb-table">
+        <thead>
+          <tr>
+            <th>범위</th>
+            <th>실제 비율</th>
+            <th>경험적 규칙 (정규분포)</th>
+            <th>체비셰프 하한</th>
+            <th>판정</th>
+          </tr>
+        </thead>
+        <tbody id="cheb-tbody"></tbody>
+      </table>
+    </div>
+
+    <ExplainBox>
+      <strong>체비셰프 부등식:</strong>
+      어떤 분포든 (형태에 상관없이) 평균에서 k 표준편차 이내에
+      <strong>최소 1 - 1/k&#178;</strong>의 데이터가 존재합니다.
+      k=2일 때 최소 75%, k=3일 때 최소 89%.
+      정규분포가 아닌 데이터에서 특히 유용한 보장입니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: BOX PLOT BUILDER ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 상자그림(Box Plot) 만들기</h2>
+    <p>
+      데이터를 입력하거나 자동 생성하여 상자그림을 그립니다.
+      Q1, Q2(중앙값), Q3, 수염(whisker), 이상치가 어떻게 결정되는지 직접 확인하세요.
+    </p>
+
+    <ExerciseBox>
+      <strong>실습 목표:</strong> 두 그룹의 상자그림을 나란히 비교합니다.
+      상자의 너비(IQR), 중앙선 위치, 수염 길이, 이상치 점의 의미를 이해하세요.
+    </ExerciseBox>
+
+    <SimControls>
+      <label>그룹 A 분포:</label>
+      <select id="box-dist-a">
+        <option value="normal">정규분포</option>
+        <option value="skewed">오른쪽 꼬리</option>
+        <option value="uniform">균등분포</option>
+      </select>
+      <label>그룹 B 분포:</label>
+      <select id="box-dist-b">
+        <option value="normal">정규분포</option>
+        <option value="skewed" selected>오른쪽 꼬리</option>
+        <option value="uniform">균등분포</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" id="btn-box-gen">상자그림 생성</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+      <div>
+        <canvas id="box-canvas-a" width="400" height="300" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius);"></canvas>
+        <div class="tb-stat-row" style="margin-top: 8px;">
+          <StatBox label="Q1" id="box-q1-a" borderColor="var(--tb-primary)" />
+          <StatBox label="Q2 (중앙값)" id="box-q2-a" borderColor="var(--tb-primary)" />
+          <StatBox label="Q3" id="box-q3-a" borderColor="var(--tb-primary)" />
+          <StatBox label="IQR" id="box-iqr-a" borderColor="var(--tb-primary)" />
+        </div>
+      </div>
+      <div>
+        <canvas id="box-canvas-b" width="400" height="300" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius);"></canvas>
+        <div class="tb-stat-row" style="margin-top: 8px;">
+          <StatBox label="Q1" id="box-q1-b" borderColor="var(--tb-danger)" />
+          <StatBox label="Q2 (중앙값)" id="box-q2-b" borderColor="var(--tb-danger)" />
+          <StatBox label="Q3" id="box-q3-b" borderColor="var(--tb-danger)" />
+          <StatBox label="IQR" id="box-iqr-b" borderColor="var(--tb-danger)" />
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 14px;">
+      <h3>직접 데이터 입력</h3>
+      <p style="font-size: .88rem; color: var(--tb-g600); margin-bottom: 8px;">
+        쉼표로 구분하여 숫자를 입력하세요. 입력한 데이터로 그룹 A의 상자그림을 그립니다.
+      </p>
+      <div style="display: flex; gap: 8px;">
+        <input type="text" id="box-manual-input"
+          style="flex: 1; padding: 10px 14px; border: 2px solid var(--tb-g300); border-radius: 8px; font-family: var(--tb-font); font-size: .9rem;"
+          placeholder="예: 10, 15, 20, 25, 30, 100">
+        <button class="tb-btn tb-btn-primary" id="btn-box-manual">적용</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BUSINESS APPLICATION ===== -->
+  <div class="tb-card">
+    <h2>경영에서 산포의 활용</h2>
+
+    <BusinessBox>
+      <strong>품질 관리:</strong> 제조업에서 제품 규격의 표준편차가 작을수록 품질이 안정적입니다.
+      6시그마(Six Sigma) 경영은 "불량률을 100만 개당 3.4개 이하로"라는 목표이며,
+      이는 프로세스의 산포를 극도로 줄이는 것입니다.<br><br>
+      <strong>투자 위험:</strong> 포트폴리오의 표준편차 = 위험. 샤프 비율(Sharpe Ratio)은
+      수익률 / 표준편차로, "위험 한 단위당 얼마의 수익을 얻는가"를 측정합니다.<br><br>
+      <strong>인사 관리:</strong> 직원 성과 평가 점수의 변동계수(CV)를 부서별로 비교하면,
+      어느 부서가 성과 편차가 큰지 파악할 수 있습니다.
+      평균이 다른 부서를 비교할 때는 표준편차가 아니라 CV를 사용해야 합니다.<br><br>
+      <strong>마케팅:</strong> A/B 테스트에서 전환율의 표준편차가 크면
+      "아직 데이터가 부족하다"는 신호입니다. 표준오차가 작아질 때까지 실험을 계속해야 합니다.
+    </BusinessBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox>
+    <strong>이 장의 핵심</strong>
+    <ul style="margin-top: 8px; padding-left: 20px;">
+      <li>평균만으로는 데이터를 이해할 수 없다. 반드시 퍼짐도 함께 보아야 한다.</li>
+      <li>분산은 편차의 제곱 평균이고, 표준편차는 그 제곱근이다.</li>
+      <li>IQR은 이상치에 강건한 산포 측정치이다.</li>
+      <li>변동계수(CV)는 평균이 다른 그룹의 퍼짐을 비교할 때 사용한다.</li>
+      <li>체비셰프 부등식은 분포 형태에 관계없이 적용되는 최소 보장이다.</li>
+      <li>상자그림은 중심, 퍼짐, 비대칭성, 이상치를 한눈에 보여주는 강력한 도구이다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 중심과 퍼짐을 알았으니,
+      이제 분포의 "모양" 전체를 배울 차례입니다.
+      정규분포가 왜 특별한지, 중심극한정리의 마법을 체험합니다.
+    </p>
+  </ConclusionBox>
+
+</TextbookLayout>
+
+<script>
+// ==================== CHART.JS LOADER ====================
+let ChartJS = null;
+async function loadChart() {
+  if (ChartJS) return ChartJS;
+  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  Chart.register(...registerables);
+  ChartJS = Chart;
+  return Chart;
+}
+
+// ==================== UTILITY FUNCTIONS ====================
+function calcMean(arr) { return arr.length ? arr.reduce((a,b) => a+b, 0) / arr.length : 0; }
+function calcVariance(arr) {
+  if (arr.length === 0) return 0;
+  const m = calcMean(arr);
+  return arr.reduce((a, v) => a + (v - m) ** 2, 0) / arr.length;
+}
+function calcSD(arr) { return Math.sqrt(calcVariance(arr)); }
+function calcMedian(arr) {
+  if (arr.length === 0) return 0;
+  const s = [...arr].sort((a,b) => a-b);
+  const mid = Math.floor(s.length / 2);
+  return s.length % 2 ? s[mid] : (s[mid-1]+s[mid]) / 2;
+}
+function calcQ(arr, q) {
+  const s = [...arr].sort((a,b) => a-b);
+  const pos = (s.length - 1) * q;
+  const lo = Math.floor(pos), hi = Math.ceil(pos);
+  return s[lo] + (s[hi] - s[lo]) * (pos - lo);
+}
+function fmt(v) { return Math.round(v).toLocaleString(); }
+function fmtDec(v, d) { return v.toFixed(d); }
+
+function genNormal(n, mean, sd) {
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    const u1 = Math.random(), u2 = Math.random();
+    const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+    data.push(z * sd + mean);
+  }
+  return data;
+}
+function genSkewed(n, mean) {
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    const val = Math.pow(Math.random(), 0.3) * mean * 1.5;
+    data.push(val);
+  }
+  return data;
+}
+function genUniform(n, mean, range) {
+  return Array.from({length: n}, () => mean - range/2 + Math.random() * range);
+}
+function genBimodal(n) {
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    if (Math.random() < 0.5) data.push(30 + Math.random() * 20);
+    else data.push(70 + Math.random() * 20);
+  }
+  return data;
+}
+
+function makeHistogram(data, bins) {
+  const min = Math.min(...data), max = Math.max(...data);
+  const bw = (max - min) / bins || 1;
+  const hist = new Array(bins).fill(0);
+  data.forEach(v => { hist[Math.min(bins - 1, Math.floor((v - min) / bw))]++; });
+  const labels = hist.map((_, i) => Math.round(min + i * bw + bw / 2));
+  return { hist, labels, min, max, bw };
+}
+
+// ==================== INTERACTIVE 1: DUAL DISTRIBUTION ====================
+let dualChartA = null, dualChartB = null;
+
+function genDistData(mean, sd, n) {
+  return genNormal(n || 200, mean, sd);
+}
+
+async function updateDual() {
+  const Chart = await loadChart();
+  const sdA = parseInt(document.getElementById('dual-sd-a').value);
+  const sdB = parseInt(document.getElementById('dual-sd-b').value);
+  document.getElementById('dual-sd-a-label').textContent = sdA;
+  document.getElementById('dual-sd-b-label').textContent = sdB;
+
+  const dataA = genDistData(50, sdA, 300);
+  const dataB = genDistData(50, sdB, 300);
+
+  // Chart A
+  const canvasA = document.getElementById('dual-chart-a');
+  if (dualChartA) dualChartA.destroy();
+  const hA = makeHistogram(dataA, 18);
+  dualChartA = new Chart(canvasA, {
+    type: 'bar',
+    data: { labels: hA.labels, datasets: [{ data: hA.hist, backgroundColor: '#2563eb44', borderColor: '#2563eb', borderWidth: 1, borderRadius: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true }, x: { display: false } } }
+  });
+
+  // Chart B
+  const canvasB = document.getElementById('dual-chart-b');
+  if (dualChartB) dualChartB.destroy();
+  const hB = makeHistogram(dataB, 18);
+  dualChartB = new Chart(canvasB, {
+    type: 'bar',
+    data: { labels: hB.labels, datasets: [{ data: hB.hist, backgroundColor: '#ef444444', borderColor: '#ef4444', borderWidth: 1, borderRadius: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true }, x: { display: false } } }
+  });
+
+  // Stats A
+  document.getElementById('dual-mean-a').textContent = fmtDec(calcMean(dataA), 1);
+  document.getElementById('dual-sd-a-val').textContent = fmtDec(calcSD(dataA), 1);
+  document.getElementById('dual-iqr-a').textContent = fmtDec(calcQ(dataA, 0.75) - calcQ(dataA, 0.25), 1);
+  document.getElementById('dual-range-a').textContent = fmtDec(Math.max(...dataA) - Math.min(...dataA), 1);
+
+  // Stats B
+  document.getElementById('dual-mean-b').textContent = fmtDec(calcMean(dataB), 1);
+  document.getElementById('dual-sd-b-val').textContent = fmtDec(calcSD(dataB), 1);
+  document.getElementById('dual-iqr-b').textContent = fmtDec(calcQ(dataB, 0.75) - calcQ(dataB, 0.25), 1);
+  document.getElementById('dual-range-b').textContent = fmtDec(Math.max(...dataB) - Math.min(...dataB), 1);
+}
+
+// ==================== INTERACTIVE 2: STOCK VOLATILITY ====================
+let stockChart = null;
+let stockRunCount = 0;
+
+async function runStockSim() {
+  const Chart = await loadChart();
+  const canvas = document.getElementById('stock-chart');
+  if (stockChart) stockChart.destroy();
+  stockRunCount++;
+
+  const dailyReturn = 0.0003; // 0.03% per day -> ~8% annual
+  const volStable = parseFloat(document.getElementById('stock-vol-stable').value);
+  const volStartup = parseFloat(document.getElementById('stock-vol-startup').value);
+  const days = 252;
+
+  const priceStable = [100], priceStartup = [100];
+  let maxStable = 100, maxStartup = 100;
+  let ddStable = 0, ddStartup = 0;
+
+  for (let i = 0; i < days; i++) {
+    const u1 = Math.random(), u2 = Math.random();
+    const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+    const z2 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
+
+    const retS = dailyReturn + volStable * z1;
+    const retU = dailyReturn + volStartup * z2;
+
+    const newS = priceStable[priceStable.length - 1] * (1 + retS);
+    const newU = priceStartup[priceStartup.length - 1] * (1 + retU);
+
+    priceStable.push(newS);
+    priceStartup.push(newU);
+
+    maxStable = Math.max(maxStable, newS);
+    maxStartup = Math.max(maxStartup, newU);
+    ddStable = Math.max(ddStable, (maxStable - newS) / maxStable);
+    ddStartup = Math.max(ddStartup, (maxStartup - newU) / maxStartup);
+  }
+
+  const labels = Array.from({length: days + 1}, (_, i) => i);
+
+  stockChart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '삼성전자 (안정)',
+          data: priceStable,
+          borderColor: '#2563eb',
+          backgroundColor: '#2563eb22',
+          fill: false,
+          pointRadius: 0,
+          borderWidth: 2,
+        },
+        {
+          label: '가상 스타트업 (고변동)',
+          data: priceStartup,
+          borderColor: '#ef4444',
+          backgroundColor: '#ef444422',
+          fill: false,
+          pointRadius: 0,
+          borderWidth: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { position: 'top' },
+        title: { display: true, text: '1년 주가 시뮬레이션 (시작가 100)', font: { size: 13, family: "'Paperlogy'" } }
+      },
+      scales: {
+        y: { title: { display: true, text: '가격' } },
+        x: { title: { display: true, text: '거래일' }, ticks: { maxTicksLimit: 10 } }
+      }
+    }
+  });
+
+  const retStable = ((priceStable[days] - 100) / 100 * 100).toFixed(1);
+  const retStartup = ((priceStartup[days] - 100) / 100 * 100).toFixed(1);
+
+  document.getElementById('stock-ret-stable').textContent = retStable + '%';
+  document.getElementById('stock-ret-startup').textContent = retStartup + '%';
+  document.getElementById('stock-dd-stable').textContent = '-' + (ddStable * 100).toFixed(1) + '%';
+  document.getElementById('stock-dd-startup').textContent = '-' + (ddStartup * 100).toFixed(1) + '%';
+
+  document.getElementById('stock-run-count').textContent =
+    `${stockRunCount}회 시뮬레이션 완료. 여러 번 실행하여 결과의 변동성을 비교해 보세요.`;
+}
+
+// ==================== INTERACTIVE 3: CHEBYSHEV ====================
+let chebChart = null;
+
+async function runChebyshev() {
+  const Chart = await loadChart();
+  const dist = document.getElementById('cheb-dist').value;
+  const n = parseInt(document.getElementById('cheb-n').value);
+
+  let data;
+  if (dist === 'normal') data = genNormal(n, 50, 15);
+  else if (dist === 'skewed') data = genSkewed(n, 40);
+  else if (dist === 'uniform') data = genUniform(n, 50, 60);
+  else data = genBimodal(n);
+
+  const mean = calcMean(data);
+  const sd = calcSD(data);
+
+  // Histogram with sigma bands
+  const canvas = document.getElementById('cheb-chart');
+  if (chebChart) chebChart.destroy();
+  const h = makeHistogram(data, 25);
+
+  // Color bins by sigma
+  const bgColors = h.labels.map(label => {
+    const dist = Math.abs(label - mean);
+    if (dist <= sd) return '#22c55e66';
+    if (dist <= 2 * sd) return '#f59e0b66';
+    if (dist <= 3 * sd) return '#ef444466';
+    return '#94a3b844';
+  });
+
+  chebChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: h.labels,
+      datasets: [{
+        data: h.hist,
+        backgroundColor: bgColors,
+        borderColor: bgColors.map(c => c.replace('66', 'cc')),
+        borderWidth: 1,
+        borderRadius: 2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '녹색=1SD, 노랑=2SD, 빨강=3SD, 회색=3SD 밖', font: { size: 11, family: "'Paperlogy'" } }
+      },
+      scales: {
+        y: { beginAtZero: true },
+        x: { ticks: { maxTicksLimit: 12 } }
+      }
+    }
+  });
+
+  // Calculate percentages
+  const within1 = data.filter(v => Math.abs(v - mean) <= sd).length / n * 100;
+  const within2 = data.filter(v => Math.abs(v - mean) <= 2 * sd).length / n * 100;
+  const within3 = data.filter(v => Math.abs(v - mean) <= 3 * sd).length / n * 100;
+
+  const tbody = document.getElementById('cheb-tbody');
+  tbody.innerHTML = '';
+
+  const rows = [
+    { range: 'x-bar +/- 1 SD', actual: within1, empirical: 68, cheb: 0 },
+    { range: 'x-bar +/- 2 SD', actual: within2, empirical: 95, cheb: 75 },
+    { range: 'x-bar +/- 3 SD', actual: within3, empirical: 99.7, cheb: 88.9 },
+  ];
+
+  rows.forEach(r => {
+    const matchEmpirical = Math.abs(r.actual - r.empirical) < 5;
+    const passCheb = r.actual >= r.cheb;
+    tbody.insertAdjacentHTML('beforeend', `<tr>
+      <td><strong>${r.range}</strong></td>
+      <td style="font-weight: 700;">${r.actual.toFixed(1)}%</td>
+      <td>${r.empirical}%</td>
+      <td>${r.cheb > 0 ? r.cheb.toFixed(1) + '%' : '-'}</td>
+      <td>
+        ${dist === 'normal' && matchEmpirical
+          ? '<span style="color:var(--tb-success);font-weight:700;">경험적 규칙 적합</span>'
+          : passCheb
+            ? '<span style="color:var(--tb-primary);font-weight:700;">체비셰프 충족</span>'
+            : '<span style="color:var(--tb-danger);">확인 필요</span>'
+        }
+      </td>
+    </tr>`);
+  });
+}
+
+// ==================== INTERACTIVE 4: BOX PLOT ====================
+function drawBoxPlot(canvasId, data, color, prefix) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  if (data.length < 5) {
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '14px Paperlogy, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('데이터가 부족합니다 (최소 5개)', w/2, h/2);
+    return;
+  }
+
+  const sorted = [...data].sort((a, b) => a - b);
+  const q1 = calcQ(sorted, 0.25);
+  const q2 = calcQ(sorted, 0.5);
+  const q3 = calcQ(sorted, 0.75);
+  const iqr = q3 - q1;
+  const lowerFence = q1 - 1.5 * iqr;
+  const upperFence = q3 + 1.5 * iqr;
+
+  const minWhisker = Math.max(sorted[0], lowerFence);
+  const maxWhisker = Math.min(sorted[sorted.length - 1], upperFence);
+  const outliers = sorted.filter(v => v < lowerFence || v > upperFence);
+
+  const dataMin = Math.min(sorted[0], lowerFence) - iqr * 0.3;
+  const dataMax = Math.max(sorted[sorted.length - 1], upperFence) + iqr * 0.3;
+  const range = dataMax - dataMin || 1;
+
+  const pad = 60;
+  const plotW = w - 2 * pad;
+  const plotH = h - 80;
+  const cx = w / 2;
+  const boxW = 80;
+
+  function scaleY(v) {
+    return pad + plotH - ((v - dataMin) / range) * plotH;
+  }
+
+  // Background
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, w, h);
+
+  // Y axis labels
+  ctx.fillStyle = '#475569';
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'right';
+  const ticks = 6;
+  for (let i = 0; i <= ticks; i++) {
+    const val = dataMin + (range * i / ticks);
+    const y = scaleY(val);
+    ctx.fillText(Math.round(val).toString(), pad - 8, y + 4);
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    ctx.moveTo(pad, y);
+    ctx.lineTo(w - pad, y);
+    ctx.stroke();
+  }
+
+  // Whisker (lower)
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx, scaleY(minWhisker));
+  ctx.lineTo(cx, scaleY(q1));
+  ctx.stroke();
+  // Whisker cap (lower)
+  ctx.beginPath();
+  ctx.moveTo(cx - 20, scaleY(minWhisker));
+  ctx.lineTo(cx + 20, scaleY(minWhisker));
+  ctx.stroke();
+
+  // Whisker (upper)
+  ctx.beginPath();
+  ctx.moveTo(cx, scaleY(q3));
+  ctx.lineTo(cx, scaleY(maxWhisker));
+  ctx.stroke();
+  // Whisker cap (upper)
+  ctx.beginPath();
+  ctx.moveTo(cx - 20, scaleY(maxWhisker));
+  ctx.lineTo(cx + 20, scaleY(maxWhisker));
+  ctx.stroke();
+
+  // Box
+  const boxTop = scaleY(q3);
+  const boxBottom = scaleY(q1);
+  ctx.fillStyle = color + '33';
+  ctx.fillRect(cx - boxW/2, boxTop, boxW, boxBottom - boxTop);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.strokeRect(cx - boxW/2, boxTop, boxW, boxBottom - boxTop);
+
+  // Median line
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(cx - boxW/2, scaleY(q2));
+  ctx.lineTo(cx + boxW/2, scaleY(q2));
+  ctx.stroke();
+
+  // Outliers
+  outliers.forEach(v => {
+    ctx.beginPath();
+    ctx.arc(cx, scaleY(v), 4, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+  });
+
+  // Labels
+  ctx.fillStyle = '#475569';
+  ctx.font = '11px Paperlogy, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Q3: ' + Math.round(q3), cx + boxW/2 + 8, boxTop + 4);
+  ctx.fillText('Q2: ' + Math.round(q2), cx + boxW/2 + 8, scaleY(q2) + 4);
+  ctx.fillText('Q1: ' + Math.round(q1), cx + boxW/2 + 8, boxBottom + 4);
+  ctx.fillText('IQR: ' + Math.round(iqr), cx + boxW/2 + 8, (boxTop + boxBottom)/2 + 4);
+
+  if (outliers.length > 0) {
+    ctx.fillStyle = '#ef4444';
+    ctx.fillText('이상치: ' + outliers.length + '개', cx + boxW/2 + 8, scaleY(outliers[outliers.length - 1]) + 4);
+  }
+
+  // Update stat boxes
+  const el = (id) => document.getElementById(id);
+  if (el(prefix + '-q1')) el(prefix + '-q1').textContent = Math.round(q1);
+  if (el(prefix + '-q2')) el(prefix + '-q2').textContent = Math.round(q2);
+  if (el(prefix + '-q3')) el(prefix + '-q3').textContent = Math.round(q3);
+  if (el(prefix + '-iqr')) el(prefix + '-iqr').textContent = Math.round(iqr);
+}
+
+function genBoxData(dist) {
+  if (dist === 'normal') return genNormal(80, 50, 15);
+  if (dist === 'skewed') return genSkewed(80, 40);
+  return genUniform(80, 50, 60);
+}
+
+function updateBoxPlots() {
+  const distA = document.getElementById('box-dist-a').value;
+  const distB = document.getElementById('box-dist-b').value;
+  drawBoxPlot('box-canvas-a', genBoxData(distA), '#2563eb', 'box-q1-a,box-q2-a,box-q3-a,box-iqr-a'.split(',')[0] ? 'box' : 'box');
+  const dataA = genBoxData(distA);
+  const dataB = genBoxData(distB);
+  drawBoxPlot('box-canvas-a', dataA, '#2563eb', 'box');
+
+  // Prefix adjustment for B
+  drawBoxPlotB(dataB);
+}
+
+function drawBoxPlotB(data) {
+  drawBoxPlot('box-canvas-b', data, '#ef4444', 'box');
+  // Override B stats manually
+  if (data.length >= 5) {
+    const q1 = calcQ(data, 0.25);
+    const q2 = calcQ(data, 0.5);
+    const q3 = calcQ(data, 0.75);
+    document.getElementById('box-q1-b').textContent = Math.round(q1);
+    document.getElementById('box-q2-b').textContent = Math.round(q2);
+    document.getElementById('box-q3-b').textContent = Math.round(q3);
+    document.getElementById('box-iqr-b').textContent = Math.round(q3 - q1);
+  }
+}
+
+function generateBoxPlots() {
+  const distA = document.getElementById('box-dist-a').value;
+  const distB = document.getElementById('box-dist-b').value;
+  const dataA = genBoxData(distA);
+  const dataB = genBoxData(distB);
+
+  drawBoxPlot('box-canvas-a', dataA, '#2563eb', 'box');
+  // For A stats
+  if (dataA.length >= 5) {
+    const q1 = calcQ(dataA, 0.25);
+    const q2 = calcQ(dataA, 0.5);
+    const q3 = calcQ(dataA, 0.75);
+    document.getElementById('box-q1-a').textContent = Math.round(q1);
+    document.getElementById('box-q2-a').textContent = Math.round(q2);
+    document.getElementById('box-q3-a').textContent = Math.round(q3);
+    document.getElementById('box-iqr-a').textContent = Math.round(q3 - q1);
+  }
+
+  drawBoxPlot('box-canvas-b', dataB, '#ef4444', 'box');
+  if (dataB.length >= 5) {
+    const q1 = calcQ(dataB, 0.25);
+    const q2 = calcQ(dataB, 0.5);
+    const q3 = calcQ(dataB, 0.75);
+    document.getElementById('box-q1-b').textContent = Math.round(q1);
+    document.getElementById('box-q2-b').textContent = Math.round(q2);
+    document.getElementById('box-q3-b').textContent = Math.round(q3);
+    document.getElementById('box-iqr-b').textContent = Math.round(q3 - q1);
+  }
+}
+
+function applyManualData() {
+  const input = document.getElementById('box-manual-input').value;
+  const vals = input.split(',').map(s => parseFloat(s.trim())).filter(v => !isNaN(v));
+  if (vals.length < 5) {
+    alert('최소 5개의 숫자를 쉼표로 구분하여 입력하세요.');
+    return;
+  }
+  drawBoxPlot('box-canvas-a', vals, '#2563eb', 'box');
+  const q1 = calcQ(vals, 0.25);
+  const q2 = calcQ(vals, 0.5);
+  const q3 = calcQ(vals, 0.75);
+  document.getElementById('box-q1-a').textContent = Math.round(q1);
+  document.getElementById('box-q2-a').textContent = Math.round(q2);
+  document.getElementById('box-q3-a').textContent = Math.round(q3);
+  document.getElementById('box-iqr-a').textContent = Math.round(q3 - q1);
+}
+
+// ==================== INIT ====================
+function init() {
+  try {
+    import('../../textbook/lib/progress').then(m => m.markVisited('04-spread')).catch(() => {});
+  } catch(e) {}
+
+  // Interactive 1: Dual distribution
+  updateDual();
+
+  // Interactive 2: Stock sim
+  runStockSim();
+
+  // Interactive 3: Chebyshev
+  runChebyshev();
+
+  // Interactive 4: Box plot
+  generateBoxPlots();
+
+  // Event listeners
+  document.getElementById('dual-sd-a').addEventListener('input', updateDual);
+  document.getElementById('dual-sd-b').addEventListener('input', updateDual);
+
+  document.getElementById('btn-stock-run').addEventListener('click', runStockSim);
+
+  document.getElementById('btn-cheb-gen').addEventListener('click', runChebyshev);
+
+  document.getElementById('btn-box-gen').addEventListener('click', generateBoxPlots);
+  document.getElementById('btn-box-manual').addEventListener('click', applyManualData);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  /* No additional custom styles needed -- using textbook.css classes */
+</style>
