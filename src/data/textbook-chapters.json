@@ -68,8 +68,10 @@
       "title": "데이터 사이언스 로드맵",
       "subtitle": "이 교재의 전체 지도",
       "interactiveCount": 2,
-      "prerequisites": [1],
-      "status": "planned"
+      "prerequisites": [
+        1
+      ],
+      "status": "published"
     },
     {
       "num": 3,
@@ -78,8 +80,10 @@
       "title": "데이터의 중심 — 평균은 거짓말을 한다",
       "subtitle": "평균, 중앙값, 최빈값의 함정",
       "interactiveCount": 2,
-      "prerequisites": [2],
-      "status": "planned"
+      "prerequisites": [
+        2
+      ],
+      "status": "published"
     },
     {
       "num": 4,
@@ -88,8 +92,10 @@
       "title": "데이터의 퍼짐 — 같은 평균, 전혀 다른 세상",
       "subtitle": "분산, 표준편차, 변동계수",
       "interactiveCount": 2,
-      "prerequisites": [3],
-      "status": "planned"
+      "prerequisites": [
+        3
+      ],
+      "status": "published"
     },
     {
       "num": 5,
@@ -98,8 +104,11 @@
       "title": "분포의 모양 — 정규분포는 왜 특별한가?",
       "subtitle": "중심극한정리의 마법",
       "interactiveCount": 2,
-      "prerequisites": [3, 4],
-      "status": "planned"
+      "prerequisites": [
+        3,
+        4
+      ],
+      "status": "published"
     },
     {
       "num": 6,
@@ -108,8 +117,11 @@
       "title": "두 변수의 관계 — 상관은 인과가 아니다",
       "subtitle": "산점도, 상관계수, 심슨의 역설",
       "interactiveCount": 3,
-      "prerequisites": [3, 4],
-      "status": "planned"
+      "prerequisites": [
+        3,
+        4
+      ],
+      "status": "published"
     },
     {
       "num": 7,
@@ -118,9 +130,14 @@
       "title": "캡스톤 I: 한국 경제 데이터 탐색기",
       "subtitle": "기술통계 종합 실습",
       "interactiveCount": 1,
-      "prerequisites": [3, 4, 5, 6],
+      "prerequisites": [
+        3,
+        4,
+        5,
+        6
+      ],
       "capstone": true,
-      "status": "planned"
+      "status": "published"
     },
     {
       "num": 8,
@@ -129,7 +146,9 @@
       "title": "표본과 모집단 — 전수조사 없이 진실에 다가가기",
       "subtitle": "표본추출의 원리",
       "interactiveCount": 2,
-      "prerequisites": [5],
+      "prerequisites": [
+        5
+      ],
       "status": "planned"
     },
     {
@@ -139,7 +158,10 @@
       "title": "신뢰구간 — '95% 확신'의 진짜 의미",
       "subtitle": "구간추정과 오차한계",
       "interactiveCount": 2,
-      "prerequisites": [5, 8],
+      "prerequisites": [
+        5,
+        8
+      ],
       "status": "planned"
     },
     {
@@ -149,7 +171,10 @@
       "title": "가설검정의 논리 — p-value는 무엇을 말하는가?",
       "subtitle": "영가설, 대립가설, 그리고 p-해킹",
       "interactiveCount": 3,
-      "prerequisites": [8, 9],
+      "prerequisites": [
+        8,
+        9
+      ],
       "status": "planned"
     },
     {
@@ -159,7 +184,9 @@
       "title": "주요 검정법 — 어떤 검정을 써야 하나?",
       "subtitle": "t-검정, 카이제곱, ANOVA 선택 가이드",
       "interactiveCount": 2,
-      "prerequisites": [10],
+      "prerequisites": [
+        10
+      ],
       "status": "planned"
     },
     {
@@ -169,7 +196,10 @@
       "title": "효과크기와 재현성 위기 — p-value를 넘어서",
       "subtitle": "통계적 유의성 vs 실질적 중요성",
       "interactiveCount": 2,
-      "prerequisites": [10, 11],
+      "prerequisites": [
+        10,
+        11
+      ],
       "status": "planned"
     },
     {
@@ -179,7 +209,10 @@
       "title": "로또로 배우는 확률과 가설검정",
       "subtitle": "AI로 로또를 예측할 수 있을까? — 추론통계 종합 체험",
       "interactiveCount": 8,
-      "prerequisites": [10, 11],
+      "prerequisites": [
+        10,
+        11
+      ],
       "status": "published"
     },
     {
@@ -189,7 +222,14 @@
       "title": "캡스톤 II: 설문조사 분석 종합실습",
       "subtitle": "CSV → 완전 추론분석 파이프라인",
       "interactiveCount": 1,
-      "prerequisites": [8, 9, 10, 11, 12, 13],
+      "prerequisites": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
       "capstone": true,
       "status": "planned"
     },
@@ -200,7 +240,9 @@
       "title": "단순선형회귀 — 최적의 직선 찾기",
       "subtitle": "OLS, 잔차, R-squared",
       "interactiveCount": 2,
-      "prerequisites": [6],
+      "prerequisites": [
+        6
+      ],
       "status": "planned"
     },
     {
@@ -210,7 +252,9 @@
       "title": "다중회귀분석 — 변수를 추가하면 무엇이 달라지나?",
       "subtitle": "다중공선성, 조정 R², 변수 선택",
       "interactiveCount": 2,
-      "prerequisites": [15],
+      "prerequisites": [
+        15
+      ],
       "status": "planned"
     },
     {
@@ -220,7 +264,10 @@
       "title": "로지스틱 회귀 — 확률을 예측하는 회귀",
       "subtitle": "시그모이드, 오즈비, ROC 곡선",
       "interactiveCount": 2,
-      "prerequisites": [15, 10],
+      "prerequisites": [
+        15,
+        10
+      ],
       "status": "planned"
     },
     {
@@ -230,7 +277,10 @@
       "title": "정규화와 과적합 — 왜 완벽한 학습이 나쁜가?",
       "subtitle": "편향-분산 트레이드오프, Ridge, Lasso",
       "interactiveCount": 2,
-      "prerequisites": [15, 16],
+      "prerequisites": [
+        15,
+        16
+      ],
       "status": "planned"
     },
     {
@@ -240,7 +290,10 @@
       "title": "시계열 기초 — 시간에 숨겨진 패턴",
       "subtitle": "추세, 계절성, 자기상관",
       "interactiveCount": 2,
-      "prerequisites": [6, 10],
+      "prerequisites": [
+        6,
+        10
+      ],
       "status": "planned"
     },
     {
@@ -250,7 +303,13 @@
       "title": "캡스톤 III: 부동산 가격 예측기",
       "subtitle": "실거래가 기반 완전 예측 파이프라인",
       "interactiveCount": 6,
-      "prerequisites": [15, 16, 17, 18, 19],
+      "prerequisites": [
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
       "capstone": true,
       "status": "published"
     },
@@ -261,7 +320,10 @@
       "title": "K-최근접 이웃 — '유유상종'의 알고리즘",
       "subtitle": "거리 메트릭, K 선택, 차원의 저주",
       "interactiveCount": 2,
-      "prerequisites": [6, 17],
+      "prerequisites": [
+        6,
+        17
+      ],
       "status": "planned"
     },
     {
@@ -271,7 +333,9 @@
       "title": "의사결정트리 — AI가 '20 질문 게임'을 하는 법",
       "subtitle": "지니 불순도, 엔트로피, 가지치기",
       "interactiveCount": 2,
-      "prerequisites": [17],
+      "prerequisites": [
+        17
+      ],
       "status": "planned"
     },
     {
@@ -281,7 +345,9 @@
       "title": "앙상블 학습 — 약한 모델의 연합",
       "subtitle": "배깅, 랜덤 포레스트, 부스팅",
       "interactiveCount": 2,
-      "prerequisites": [22],
+      "prerequisites": [
+        22
+      ],
       "status": "planned"
     },
     {
@@ -291,7 +357,10 @@
       "title": "모델 평가와 선택 — 좋은 모델은 어떻게 고르나?",
       "subtitle": "정밀도, 재현율, ROC/AUC, 교차검증",
       "interactiveCount": 2,
-      "prerequisites": [17, 21],
+      "prerequisites": [
+        17,
+        21
+      ],
       "status": "planned"
     },
     {
@@ -301,7 +370,10 @@
       "title": "서포트 벡터 머신 — 마진을 최대화하는 경계선",
       "subtitle": "소프트 마진, 커널 트릭",
       "interactiveCount": 2,
-      "prerequisites": [17, 24],
+      "prerequisites": [
+        17,
+        24
+      ],
       "status": "planned"
     },
     {
@@ -311,7 +383,13 @@
       "title": "캡스톤 IV: 고객 이탈 예측 대시보드",
       "subtitle": "완전 ML 분류 파이프라인",
       "interactiveCount": 1,
-      "prerequisites": [21, 22, 23, 24, 25],
+      "prerequisites": [
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
       "capstone": true,
       "status": "planned"
     },
@@ -322,7 +400,9 @@
       "title": "K-평균 클러스터링 — 라벨 없이 그룹 찾기",
       "subtitle": "K-means 알고리즘, 엘보 기법",
       "interactiveCount": 2,
-      "prerequisites": [6],
+      "prerequisites": [
+        6
+      ],
       "status": "planned"
     },
     {
@@ -332,7 +412,9 @@
       "title": "계층적 클러스터링과 DBSCAN",
       "subtitle": "덴드로그램, 밀도 기반 군집",
       "interactiveCount": 5,
-      "prerequisites": [26],
+      "prerequisites": [
+        26
+      ],
       "status": "published"
     },
     {
@@ -342,7 +424,10 @@
       "title": "주성분 분석 (PCA) — 차원을 줄이는 마법",
       "subtitle": "분산 최대화, 바이플롯",
       "interactiveCount": 2,
-      "prerequisites": [4, 6],
+      "prerequisites": [
+        4,
+        6
+      ],
       "status": "planned"
     },
     {
@@ -352,7 +437,9 @@
       "title": "연관규칙과 추천시스템 — '이 상품도 샀습니다'",
       "subtitle": "장바구니 분석, 협업 필터링",
       "interactiveCount": 2,
-      "prerequisites": [10],
+      "prerequisites": [
+        10
+      ],
       "status": "planned"
     },
     {
@@ -362,7 +449,10 @@
       "title": "신경망 기초 — 뉴런에서 네트워크로",
       "subtitle": "퍼셉트론, 활성화 함수, 경사하강법",
       "interactiveCount": 5,
-      "prerequisites": [16, 17],
+      "prerequisites": [
+        16,
+        17
+      ],
       "status": "published"
     },
     {
@@ -372,7 +462,9 @@
       "title": "신경망 실전 — TensorFlow Playground 따라하기",
       "subtitle": "은닉층, 드롭아웃, 역전파",
       "interactiveCount": 2,
-      "prerequisites": [30],
+      "prerequisites": [
+        30
+      ],
       "status": "planned"
     },
     {
@@ -382,7 +474,9 @@
       "title": "컴퓨터 비전과 CNN — 컴퓨터는 이미지를 어떻게 보는가?",
       "subtitle": "합성곱, 필터, 특성맵",
       "interactiveCount": 2,
-      "prerequisites": [31],
+      "prerequisites": [
+        31
+      ],
       "status": "planned"
     },
     {
@@ -392,7 +486,9 @@
       "title": "자연어처리와 순환신경망 — 기계가 언어를 이해하는 법",
       "subtitle": "워드 임베딩, LSTM, 감성 분석",
       "interactiveCount": 2,
-      "prerequisites": [31],
+      "prerequisites": [
+        31
+      ],
       "status": "planned"
     },
     {
@@ -402,7 +498,9 @@
       "title": "Transformer와 LLM — ChatGPT는 어떻게 작동하는가?",
       "subtitle": "어텐션 메커니즘, GPT, 한계와 윤리",
       "interactiveCount": 3,
-      "prerequisites": [33],
+      "prerequisites": [
+        33
+      ],
       "status": "planned"
     }
   ]
