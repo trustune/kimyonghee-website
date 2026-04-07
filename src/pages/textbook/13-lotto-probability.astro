@@ -534,9 +534,17 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 </TextbookLayout>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
+// ==================== CHART.JS LOADER ====================
+let Chart = null;
+async function loadChartJS() {
+  if (Chart) return Chart;
+  const mod = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
+  mod.Chart.register(...mod.registerables);
+  Chart = mod.Chart;
+  return Chart;
+}
+
 // ==================== SHARED UTILITIES ====================
 const MAX=45,DRAW_SIZE=6,THEO=DRAW_SIZE/MAX;
 function rng(c,m){const s=new Set();while(s.size<c)s.add(Math.floor(Math.random()*m)+1);return[...s].sort((a,b)=>a-b);}
@@ -634,7 +642,10 @@ async function runBattle2(){const split=Math.floor(draws.length*.8),train=draws.
 function resetBattle2(){['bt-markov','bt-random','bt-diff'].forEach(id=>document.getElementById(id).textContent='-');document.getElementById('bt-stats').style.display='none';document.getElementById('perm-card').style.display='none';document.getElementById('bt-pb').style.display='none';if(permChart){permChart.destroy();permChart=null;}}
 
 // ==================== INIT ====================
-function lottoInit(){
+async function lottoInit(){
+  // Load Chart.js first
+  await loadChartJS();
+
   // Mark visited for progress tracking
   import('../../textbook/lib/progress').then(m => m.markVisited('13-lotto-probability'));
 
@@ -661,7 +672,6 @@ function lottoInit(){
   document.getElementById('btn-battle2-reset')?.addEventListener('click',resetBattle2);
 }
 
-document.addEventListener('astro:page-load', lottoInit);
 document.addEventListener('astro:page-load', lottoInit);
 </script>
 
