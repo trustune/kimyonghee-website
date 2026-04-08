@@ -40,6 +40,9 @@ const partInfo = chaptersData.parts.find(p => p.id === part);
   description={description || subtitle || title}
   image={image}
 >
+  <!-- Chart.js loaded globally for all textbook chapters -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
   <div class="textbook-page" data-part={part} data-pagefind-body>
     {!noHeader && (
       <header class="tb-header" style={`background: linear-gradient(135deg, ${partInfo?.color || '#2563eb'}, var(--tb-purple))`}>

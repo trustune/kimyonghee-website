@@ -365,14 +365,6 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 <script is:inline>
 // ==================== CHART.JS LOADER ====================
-let ChartJS = null;
-async function loadChart() {
-  if (ChartJS) return ChartJS;
-  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
-  Chart.register(...registerables);
-  ChartJS = Chart;
-  return Chart;
-}
 
 // ==================== MATH UTILITIES ====================
 function randNormal(mu = 0, sigma = 1) {
@@ -498,7 +490,7 @@ function updateDistParams() {
 }
 
 async function generateDistribution() {
-  const Chart = await loadChart();
+  
   const sel = document.getElementById('dist-select').value;
   const N = 1000;
   let data = [];
@@ -637,7 +629,7 @@ function generatePopulation(type) {
 }
 
 async function drawPopulation() {
-  const Chart = await loadChart();
+  
   const canvas = document.getElementById('clt-population-chart');
   if (cltPopChart) { cltPopChart.destroy(); cltPopChart = null; }
 
@@ -673,7 +665,7 @@ async function drawPopulation() {
 }
 
 async function drawSamplingDist() {
-  const Chart = await loadChart();
+  
   const canvas = document.getElementById('clt-sampling-chart');
   if (cltSampChart) { cltSampChart.destroy(); cltSampChart = null; }
 
@@ -805,7 +797,7 @@ function resetCLT() {
 let normChart = null;
 
 async function drawNormalExplorer() {
-  const Chart = await loadChart();
+  
   const mu = parseFloat(document.getElementById('norm-mu').value);
   const sigma = parseFloat(document.getElementById('norm-sigma').value);
   const a = parseFloat(document.getElementById('norm-a').value);
@@ -892,7 +884,7 @@ function calcZScore() {
 let qqHistChart = null, qqPlotChart = null;
 
 async function generateQQData() {
-  const Chart = await loadChart();
+  
   const dist = document.getElementById('qq-dist').value;
   const n = parseInt(document.getElementById('qq-n').value);
   let data = [];

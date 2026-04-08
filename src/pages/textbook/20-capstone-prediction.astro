@@ -796,15 +796,6 @@ function calcVIF(X, colIdx) {
 // ======================== CHART.JS ========================
 
 let chartJSLoaded = false;
-function loadChartJS() {
-  return new Promise((resolve) => {
-    if (chartJSLoaded || window.Chart) { chartJSLoaded = true; resolve(); return; }
-    const s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js';
-    s.onload = () => { chartJSLoaded = true; resolve(); };
-    document.head.appendChild(s);
-  });
-}
 function destroyChart(id) {
   if (chartInstances[id]) { chartInstances[id].destroy(); delete chartInstances[id]; }
 }
@@ -859,7 +850,7 @@ function renderPreview() {
 // ======================== STEP 1: EDA ========================
 
 async function renderEDAHist() {
-  await loadChartJS();
+  
   const varName = document.getElementById('sel-eda-var').value;
   destroyChart('chart-eda-hist');
   const ctx = document.getElementById('chart-eda-hist');
@@ -925,7 +916,7 @@ async function renderEDAHist() {
 }
 
 async function renderScatter() {
-  await loadChartJS();
+  
   const xVar = document.getElementById('sel-scatter-x').value;
   destroyChart('chart-eda-scatter');
   const ctx = document.getElementById('chart-eda-scatter');
@@ -1017,7 +1008,7 @@ function getSelectedFeatures() {
 async function runFeatureSelection() {
   const feats = getSelectedFeatures();
   if (feats.length === 0) { alert('하나 이상의 변수를 선택하세요.'); return; }
-  await loadChartJS();
+  
 
   const { X, y, colNames } = prepareFeatures(dataset, feats);
   const res = gdOLS(X, y, 0.05, 300);
@@ -1103,7 +1094,7 @@ function splitData() {
 
 async function runComparison() {
   if (trainSet.length === 0) { alert('먼저 Step 3에서 데이터를 분할하세요.'); return; }
-  await loadChartJS();
+  
   const feats = getSelectedFeatures();
   if (feats.length === 0) { alert('Step 2에서 변수를 선택하세요.'); return; }
 
@@ -1209,7 +1200,7 @@ async function runComparison() {
 // ======================== STEP 5: DIAGNOSTICS ========================
 
 async function runDiagnostics() {
-  await loadChartJS();
+  
   const modelKey = document.getElementById('sel-diag-model').value;
   const model = fittedModels[modelKey];
   if (!model) { alert('먼저 Step 4에서 모델을 학습시키세요.'); return; }

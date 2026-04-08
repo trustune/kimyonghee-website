@@ -658,16 +658,10 @@ function updateQuizScore() {
 // ==================== VISUALIZATION ====================
 let vizChart = null;
 
-async function initVizChart() {
-  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
-  Chart.register(...registerables);
-  return Chart;
-}
 
-let ChartJS = null;
 
 async function drawViz() {
-  if (!ChartJS) ChartJS = await initVizChart();
+  
 
   const varName = document.getElementById('viz-variable').value;
   const canvas = document.getElementById('viz-chart');
@@ -773,14 +767,14 @@ async function drawViz() {
 
   document.getElementById('viz-n').textContent = n;
   document.getElementById('viz-stats').style.display = '';
-  vizChart = new ChartJS(canvas, config);
+  vizChart = new Chart(canvas, config);
 }
 
 // ==================== SCATTER PLOT ====================
 let scatterChart = null;
 
 async function drawScatter() {
-  if (!ChartJS) ChartJS = await initVizChart();
+  
   const canvas = document.getElementById('scatter-chart');
   if (scatterChart) { scatterChart.destroy(); scatterChart = null; }
 
@@ -820,7 +814,7 @@ async function drawScatter() {
   const xLabel = xVar === 'salary' ? '연봉(만원)' : xVar === 'years' ? '근속연수' : '만족도';
   const yLabel = yVar === 'salary' ? '연봉(만원)' : yVar === 'years' ? '근속연수' : '만족도';
 
-  scatterChart = new ChartJS(canvas, {
+  scatterChart = new Chart(canvas, {
     type: 'scatter',
     data: { datasets },
     options: {
@@ -923,7 +917,7 @@ function showDirtyIssues() {
 let summaryChart = null;
 
 async function generateSummary() {
-  if (!ChartJS) ChartJS = await initVizChart();
+  
   document.getElementById('summary-output').style.display = '';
 
   // Numeric summary
@@ -989,7 +983,7 @@ async function generateSummary() {
     salaries.forEach(v => { hist[Math.min(bins-1, Math.floor((v-min)/bw))]++; });
     const labels = hist.map((_,i) => Math.round(min+i*bw));
 
-    summaryChart = new ChartJS(canvas, {
+    summaryChart = new Chart(canvas, {
       type: 'bar',
       data: {
         labels,

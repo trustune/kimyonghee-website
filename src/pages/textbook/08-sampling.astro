@@ -517,16 +517,8 @@ function drawSample() {
 }
 
 // ==================== SAMPLING METHODS ====================
-let ChartJS = null;
 let methodChart = null;
 
-async function loadChart() {
-  if (ChartJS) return ChartJS;
-  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
-  Chart.register(...registerables);
-  ChartJS = Chart;
-  return Chart;
-}
 
 function sampleByMethod(method, n) {
   const sample = [];
@@ -585,7 +577,7 @@ function sampleByMethod(method, n) {
 }
 
 async function runMethodComparison() {
-  await loadChart();
+  
   const method = document.getElementById('method-select').value;
   const n = parseInt(document.getElementById('method-n-select').value);
 
@@ -660,7 +652,7 @@ async function runMethodComparison() {
 
   const trueProp = popProportions['A당'];
 
-  methodChart = new ChartJS(canvasEl, {
+  methodChart = new Chart(canvasEl, {
     type: 'bar',
     data: {
       labels,
@@ -701,7 +693,7 @@ async function runMethodComparison() {
 let seChart = null;
 
 async function runSESimulation() {
-  await loadChart();
+  
   const n = parseInt(document.getElementById('se-n-slider').value);
 
   // Generate a population of incomes (right-skewed)
@@ -742,7 +734,7 @@ async function runSESimulation() {
   });
   const labels = hist.map((_, i) => Math.round(minV + i * binW + binW / 2));
 
-  seChart = new ChartJS(canvasEl, {
+  seChart = new Chart(canvasEl, {
     type: 'bar',
     data: {
       labels,

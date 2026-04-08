@@ -390,12 +390,6 @@ import SimControls from '../../components/textbook/SimControls.astro';
 const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
 
 // ==================== CHART.JS LOADER ====================
-let ChartJS = null;
-async function loadChart() {
-  if (ChartJS) return;
-  const mod = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
-  ChartJS = mod.Chart;
-}
 
 // ==================== INTERACTIVE 1: ATTENTION VISUALIZER ====================
 const SENTENCES = [
@@ -581,7 +575,7 @@ function applyTemperature(probs, temp) {
 }
 
 async function setupNextToken() {
-  await loadChart();
+  
 
   const runPredict = () => {
     const input = document.getElementById('gen-input')?.value?.trim() || '';
@@ -650,7 +644,7 @@ async function setupNextToken() {
 
 function updateGenChart(top5) {
   const canvas = document.getElementById('gen-prob-chart');
-  if (!canvas || !ChartJS) return;
+  if (!canvas || !Chart) return;
 
   const labels = top5.map(([w]) => w);
   const data = top5.map(([, p]) => (p * 100));
@@ -661,7 +655,7 @@ function updateGenChart(top5) {
     genChart.data.datasets[0].data = data;
     genChart.update('none');
   } else {
-    genChart = new ChartJS(canvas, {
+    genChart = new Chart(canvas, {
       type: 'bar',
       data: {
         labels,

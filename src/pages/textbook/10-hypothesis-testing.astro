@@ -419,16 +419,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
 // ==================== COIN FAIRNESS TESTER ====================
 let coinFlips = [];
 let pvalueHistory = [];
-let ChartJS = null;
 let pvalueChart = null;
 
-async function loadChart() {
-  if (ChartJS) return ChartJS;
-  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
-  Chart.register(...registerables);
-  ChartJS = Chart;
-  return Chart;
-}
 
 function binomialPValue(heads, total) {
   // Two-sided binomial test approximation using normal approximation
@@ -476,14 +468,14 @@ function flipCoins(count) {
 }
 
 async function updatePvalueChart() {
-  await loadChart();
+  
   const canvas = document.getElementById('pvalue-chart');
   if (pvalueChart) { pvalueChart.destroy(); pvalueChart = null; }
 
   const labels = pvalueHistory.map(h => h.n);
   const data = pvalueHistory.map(h => h.pval);
 
-  pvalueChart = new ChartJS(canvas, {
+  pvalueChart = new Chart(canvas, {
     type: 'line',
     data: {
       labels,

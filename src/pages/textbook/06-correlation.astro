@@ -297,14 +297,6 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 <script is:inline>
 // ==================== CHART.JS LOADER ====================
-let ChartJS = null;
-async function loadChart() {
-  if (ChartJS) return ChartJS;
-  const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
-  Chart.register(...registerables);
-  ChartJS = Chart;
-  return Chart;
-}
 
 // ==================== MATH UTILITIES ====================
 function pearsonR(xs, ys) {
@@ -356,7 +348,7 @@ const ANSCOMBE = {
 let anscombeCharts = [];
 
 async function drawAnscombe() {
-  const Chart = await loadChart();
+  
   const keys = ['I', 'II', 'III', 'IV'];
   const palette = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b'];
 
@@ -537,7 +529,7 @@ const SPURIOUS_DATA = [
 ];
 
 async function drawSpuriousGallery() {
-  const Chart = await loadChart();
+  
   const container = document.getElementById('spurious-gallery');
   container.innerHTML = '';
 
@@ -604,7 +596,7 @@ const SIMPSON_DATA = {
 let simpsonChart = null;
 
 async function drawSimpson(view) {
-  const Chart = await loadChart();
+  
   const canvas = document.getElementById('simpson-chart');
   if (simpsonChart) { simpsonChart.destroy(); simpsonChart = null; }
   const expDiv = document.getElementById('simpson-explanation');
@@ -741,7 +733,7 @@ function initCorrmatVars() {
 }
 
 async function generateCorrMatrix() {
-  const Chart = await loadChart();
+  
   const selected = Array.from(document.querySelectorAll('.corrmat-cb:checked')).map(cb => cb.value);
   if (selected.length < 3) {
     document.getElementById('corrmat-msg').textContent = '3개 이상의 변수를 선택하세요!';

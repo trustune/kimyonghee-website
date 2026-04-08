@@ -701,17 +701,10 @@ function setupNeuronPlayground() {
 // ==================== INTERACTIVE 2: ACTIVATION FUNCTION EXPLORER ====================
 let actFuncChart = null;
 let actDerivChart = null;
-let ChartJS = null;
 
-async function loadChart() {
-  if (ChartJS) return;
-  const mod = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
-  ChartJS = mod.Chart;
-  mod.Chart.register(...mod.registerables);
-}
 
 async function drawActivationCharts() {
-  await loadChart();
+  
 
   const showSigmoid = document.getElementById('chk-sigmoid')?.checked;
   const showRelu = document.getElementById('chk-relu')?.checked;
@@ -784,14 +777,14 @@ async function drawActivationCharts() {
   // Function chart
   const funcCanvas = document.getElementById('act-func-chart');
   if (actFuncChart) actFuncChart.destroy();
-  actFuncChart = new ChartJS(funcCanvas, {
+  actFuncChart = new Chart(funcCanvas, {
     type: 'line', data: { labels, datasets }, options: chartOpts, plugins: [vertLine]
   });
 
   // Derivative chart
   const derivCanvas = document.getElementById('act-deriv-chart');
   if (actDerivChart) actDerivChart.destroy();
-  actDerivChart = new ChartJS(derivCanvas, {
+  actDerivChart = new Chart(derivCanvas, {
     type: 'line', data: { labels, datasets: derivDatasets }, options: chartOpts, plugins: [vertLine]
   });
 
@@ -1107,7 +1100,7 @@ function drawXORBoundary() {
 }
 
 async function setupXORTraining() {
-  await loadChart();
+  
 
   xorNet = new SimpleNetwork(2, 4, 1);
   drawXORBoundary();
@@ -1184,7 +1177,7 @@ async function setupXORTraining() {
 
 function updateXORLossChart(history) {
   const canvas = document.getElementById('xor-loss-chart');
-  if (!canvas || !ChartJS) return;
+  if (!canvas || !Chart) return;
 
   // Subsample for performance
   const maxPoints = 200;
@@ -1203,7 +1196,7 @@ function updateXORLossChart(history) {
     xorLossChart.data.datasets[0].data = data;
     xorLossChart.update('none');
   } else {
-    xorLossChart = new ChartJS(canvas, {
+    xorLossChart = new Chart(canvas, {
       type: 'line',
       data: { labels, datasets: [{ label: '손실', data, borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', fill: true, pointRadius: 0, borderWidth: 2 }] },
       options: {
@@ -1268,7 +1261,7 @@ function drawNNBoundary() {
 
 function updateNNLossChart(history) {
   const canvas = document.getElementById('nn-loss-chart');
-  if (!canvas || !ChartJS) return;
+  if (!canvas || !Chart) return;
 
   const maxPoints = 200;
   let data, labels;
@@ -1286,7 +1279,7 @@ function updateNNLossChart(history) {
     nnLossChart.data.datasets[0].data = data;
     nnLossChart.update('none');
   } else {
-    nnLossChart = new ChartJS(canvas, {
+    nnLossChart = new Chart(canvas, {
       type: 'line',
       data: { labels, datasets: [{ label: '손실', data, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, pointRadius: 0, borderWidth: 2 }] },
       options: {
@@ -1302,7 +1295,7 @@ function updateNNLossChart(history) {
 }
 
 async function setupNNClassification() {
-  await loadChart();
+  
 
   function createNet() {
     const hidden = parseInt(document.getElementById('sel-hidden')?.value || '4');

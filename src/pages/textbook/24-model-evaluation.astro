@@ -829,8 +829,6 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
   // ====================== CHART INITIALIZATION ======================
   async function initCharts() {
-    const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
-    Chart.register(...registerables);
 
     // Threshold metrics chart
     const ctxThreshold = (document.getElementById('chart-threshold-metrics'))?.getContext('2d');

@@ -664,12 +664,6 @@ function drawBoundary(canvasId, net, data) {
 }
 
 // ==================== CHART.JS LOADER ====================
-let ChartJS = null;
-async function loadChart() {
-  if (ChartJS) return;
-  const mod = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
-  ChartJS = mod.Chart;
-}
 
 // ==================== INTERACTIVE 1: MINI PLAYGROUND ====================
 let pgNet = null;
@@ -686,7 +680,7 @@ function buildLayers(numLayers, neuronsPerLayer) {
 }
 
 async function setupPlayground() {
-  await loadChart();
+  
 
   function createNet() {
     const layers = parseInt(document.getElementById('pg-layers').value);
@@ -766,14 +760,14 @@ async function setupPlayground() {
 
 function updatePgLossChart(hist) {
   const canvas = document.getElementById('pg-loss-chart');
-  if (!canvas || !ChartJS) return;
+  if (!canvas || !Chart) return;
   const labels = hist.map((_, i) => i + 1);
   if (pgLossChart) {
     pgLossChart.data.labels = labels;
     pgLossChart.data.datasets[0].data = hist;
     pgLossChart.update('none');
   } else {
-    pgLossChart = new ChartJS(canvas, {
+    pgLossChart = new Chart(canvas, {
       type: 'line',
       data: { labels, datasets: [{ label: '손실', data: hist, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, pointRadius: 0, borderWidth: 2 }] },
       options: {
@@ -794,7 +788,7 @@ let depthTraining = false;
 let depthAnimFrame = null;
 
 async function setupDepthExperiment() {
-  await loadChart();
+  
 
   document.getElementById('btn-depth-run').addEventListener('click', () => {
     if (depthTraining) return;
@@ -875,7 +869,7 @@ async function setupDepthExperiment() {
 
 function updateDepthChart(histories, configs) {
   const canvas = document.getElementById('depth-chart');
-  if (!canvas || !ChartJS) return;
+  if (!canvas || !Chart) return;
   const colors = ['#2563eb', '#22c55e', '#f59e0b'];
   const labels = histories[0].map((_, i) => i + 1);
   const datasets = histories.map((h, i) => ({
@@ -892,7 +886,7 @@ function updateDepthChart(histories, configs) {
     depthChart.data.datasets = datasets;
     depthChart.update('none');
   } else {
-    depthChart = new ChartJS(canvas, {
+    depthChart = new Chart(canvas, {
       type: 'line',
       data: { labels, datasets },
       options: {
@@ -913,7 +907,7 @@ let doRunning = false;
 let doAnimFrame = null;
 
 async function setupDropoutDemo() {
-  await loadChart();
+  
 
   document.getElementById('do-rate').addEventListener('input', function () {
     el('do-rate-val', parseFloat(this.value).toFixed(2));
@@ -984,7 +978,7 @@ async function setupDropoutDemo() {
 
 function updateDoChart(trOff, tsOff, trOn, tsOn) {
   const canvas = document.getElementById('do-chart');
-  if (!canvas || !ChartJS) return;
+  if (!canvas || !Chart) return;
   const labels = trOff.map((_, i) => i + 1);
   const datasets = [
     { label: 'OFF: 훈련', data: trOff, borderColor: '#ef4444', borderDash: [], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' },
@@ -998,7 +992,7 @@ function updateDoChart(trOff, tsOff, trOn, tsOn) {
     doChart.data.datasets = datasets;
     doChart.update('none');
   } else {
-    doChart = new ChartJS(canvas, {
+    doChart = new Chart(canvas, {
       type: 'line',
       data: { labels, datasets },
       options: {
@@ -1019,7 +1013,7 @@ let lrfRunning = false;
 let lrfAnimFrame = null;
 
 async function setupLRFinder() {
-  await loadChart();
+  
 
   const midSlider = document.getElementById('lrf-mid');
   midSlider.addEventListener('input', function () {
@@ -1096,7 +1090,7 @@ async function setupLRFinder() {
 
 function updateLRFChart(histories, lrs) {
   const canvas = document.getElementById('lrf-chart');
-  if (!canvas || !ChartJS) return;
+  if (!canvas || !Chart) return;
   const labels = histories[0].map((_, i) => i + 1);
   const colors = ['#94a3b8', '#2563eb', '#ef4444'];
   const names = ['lr=' + lrs[0].toFixed(4) + ' (작음)', 'lr=' + lrs[1].toFixed(3) + ' (적절)', 'lr=' + lrs[2].toFixed(3) + ' (큼)'];
@@ -1110,7 +1104,7 @@ function updateLRFChart(histories, lrs) {
     lrfChart.data.datasets = datasets;
     lrfChart.update('none');
   } else {
-    lrfChart = new ChartJS(canvas, {
+    lrfChart = new Chart(canvas, {
       type: 'line',
       data: { labels, datasets },
       options: {
