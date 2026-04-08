@@ -1212,7 +1212,7 @@ function randn() {
 }
 
 // ==================== INITIALIZATION ====================
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
   // Coin flipper
   document.getElementById('btn-flip-1').addEventListener('click', () => flipCoins(1));
   document.getElementById('btn-flip-10').addEventListener('click', () => flipCoins(10));
@@ -1247,7 +1247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = document.getElementById('guided-canvas').getContext('2d');
     ctx.clearRect(0, 0, 800, 300);
   });
-});
+})();
 </script>
 
 <style>

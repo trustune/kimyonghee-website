@@ -923,7 +923,7 @@ async function runCV(animate = false) {
 }
 
 // ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
   generatePolyData();
   generateBVData();
   generateRegData();
@@ -969,7 +969,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // CV controls
   document.getElementById('btn-cv-run').addEventListener('click', () => runCV(false));
   document.getElementById('btn-cv-animate').addEventListener('click', () => runCV(true));
-});
+})();
 </script>
 
 <style>

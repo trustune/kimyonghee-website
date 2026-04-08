@@ -750,7 +750,7 @@ function resetQuiz() {
 }
 
 // ==================== INITIALIZATION ====================
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
   // 100 CIs
   document.getElementById('btn-run-ci').addEventListener('click', run100CIs);
 
@@ -767,7 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuiz();
   document.getElementById('btn-check-quiz').addEventListener('click', checkQuiz);
   document.getElementById('btn-reset-quiz').addEventListener('click', resetQuiz);
-});
+})();
 </script>
 
 <style>

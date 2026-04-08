@@ -806,7 +806,7 @@ async function drawForecast() {
 }
 
 // ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
   generateTSData();
   generateFCData();
 
@@ -842,7 +842,7 @@ document.addEventListener('DOMContentLoaded', () => {
     generateFCData();
     drawForecast();
   });
-});
+})();
 </script>
 
 <style>

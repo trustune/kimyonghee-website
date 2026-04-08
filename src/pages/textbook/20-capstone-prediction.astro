@@ -1393,7 +1393,7 @@ function init() {
   document.getElementById('pred-result').style.display = 'none';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
   init();
 
   // Data regen
@@ -1431,7 +1431,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-predict').addEventListener('click', predictPrice);
 
   // Mark visited
-});
+})();
 </script>
 
 <style>

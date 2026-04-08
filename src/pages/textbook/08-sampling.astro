@@ -802,7 +802,7 @@ function calculateSampleSize() {
 }
 
 // ==================== INITIALIZATION ====================
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
   initPopulation();
   drawPopulation();
 
@@ -832,7 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Sample size calculator
   document.getElementById('btn-calc-n').addEventListener('click', calculateSampleSize);
-});
+})();
 </script>
 
 <style>

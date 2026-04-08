@@ -990,7 +990,7 @@ function runScaleComparison() {
 }
 
 // ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
   // Interactive 1: KNN Canvas
   const knnCanvas = document.getElementById('knn-canvas');
   knnCanvas.addEventListener('click', (e) => {
@@ -1065,7 +1065,7 @@ document.addEventListener('DOMContentLoaded', () => {
     runCurseSim();
     runScaleComparison();
   }, 300);
-});
+})();
 </script>
 
 <style>
