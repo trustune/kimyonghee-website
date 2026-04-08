@@ -386,6 +386,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
+
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
 // ==================== UTILITY ====================
 const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
 
@@ -972,7 +980,7 @@ function init() {
   setupEthics();
 }
 
-init();
+waitForChart(init);
 </script>
 
 <style>

@@ -411,6 +411,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
+
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
 // ==================== DATA GENERATION ====================
 const DEPTS = ['영업', '마케팅', '인사', 'IT', '재무'];
 const RANKS = ['사원', '주임', '대리', '과장', '차장', '부장'];
@@ -1042,7 +1050,7 @@ function init() {
   document.getElementById('btn-summary').addEventListener('click', generateSummary);
 }
 
-init();
+waitForChart(init);
 </script>
 
 <style>

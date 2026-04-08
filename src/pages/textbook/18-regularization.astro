@@ -373,6 +373,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
+
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeoutwaitForChart(function() { waitForChart(fn); }, 50);
+}
+
 // ==================== UTILITY ====================
 
 function destroyChart(ref) {
@@ -969,7 +977,7 @@ async function runCV(animate = false) {
   // CV controls
   document.getElementById('btn-cv-run').addEventListener('click', () => runCV(false));
   document.getElementById('btn-cv-animate').addEventListener('click', () => runCV(true));
-})();
+});
 </script>
 
 <style>

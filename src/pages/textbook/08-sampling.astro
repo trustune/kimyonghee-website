@@ -405,6 +405,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
+
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeoutwaitForChart(function() { waitForChart(fn); }, 50);
+}
+
 // ==================== POPULATION DATA ====================
 const PARTIES = [
   { name: 'A당', color: '#2563eb', ratio: 0.38 },
@@ -832,7 +840,7 @@ function calculateSampleSize() {
 
   // Sample size calculator
   document.getElementById('btn-calc-n').addEventListener('click', calculateSampleSize);
-})();
+});
 </script>
 
 <style>

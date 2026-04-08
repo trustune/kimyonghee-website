@@ -395,6 +395,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
+
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeoutwaitForChart(function() { waitForChart(fn); }, 50);
+}
+
 // ==================== UTILITY ====================
 
 function destroyChart(ref) {
@@ -1065,7 +1073,7 @@ function runScaleComparison() {
     runCurseSim();
     runScaleComparison();
   }, 300);
-})();
+});
 </script>
 
 <style>

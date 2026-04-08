@@ -434,6 +434,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
+
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
 // ==================== CHART.JS LOADER ====================
 
 // ==================== STATISTICAL HELPER FUNCTIONS ====================
@@ -1240,7 +1248,7 @@ function init() {
   document.getElementById('btn-ref-lookup').addEventListener('click', lookupRef);
 }
 
-init();
+waitForChart(init);
 </script>
 
 <style>

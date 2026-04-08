@@ -535,6 +535,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
+
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
 // ==================== CHART.JS LOADER ====================
 
 // ==================== SHARED UTILITIES ====================
@@ -663,7 +671,7 @@ async function lottoInit(){
   document.getElementById('btn-battle2-reset')?.addEventListener('click',resetBattle2);
 }
 
-lottoInit();
+waitForChart(lottoInit);
 </script>
 
 <style>

@@ -414,6 +414,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
+
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
 // ==================== UTILITY FUNCTIONS ====================
 function sigmoid(x) { return 1 / (1 + Math.exp(-Math.max(-500, Math.min(500, x)))); }
 function relu(x) { return Math.max(0, x); }
@@ -1409,7 +1417,7 @@ function init() {
   setupNNClassification();
 }
 
-init();
+waitForChart(init);
 </script>
 
 <style>

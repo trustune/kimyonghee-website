@@ -536,6 +536,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
+
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeoutwaitForChart(function() { waitForChart(fn); }, 50);
+}
+
 // ========================================================================
 //  Chapter 20: Capstone III -- Real Estate Price Predictor
 //  All regression via GRADIENT DESCENT. Chart.js loaded from CDN.
@@ -1431,7 +1439,7 @@ function init() {
   document.getElementById('btn-predict').addEventListener('click', predictPrice);
 
   // Mark visited
-})();
+});
 </script>
 
 <style>
