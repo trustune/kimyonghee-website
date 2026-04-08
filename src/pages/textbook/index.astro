@@ -125,6 +125,11 @@ const publishedCount = chapters.filter(c => c.status === 'published').length;
       } catch {}
     }
 
+    // Force full page reload for all textbook links (ViewTransitions breaks inline scripts)
+    document.querySelectorAll('a[href*="/textbook/"]').forEach(function(a) {
+      a.setAttribute('data-astro-reload', '');
+    });
+
     document.addEventListener('DOMContentLoaded', updateHubProgress);
     document.addEventListener('astro:page-load', updateHubProgress);
   </script>

@@ -126,6 +126,7 @@ const currentPath = Astro.url.pathname;
             href="/textbook"
             class={currentPath.startsWith('/textbook') ? 'active' : ''}
             aria-current={currentPath.startsWith('/textbook') ? 'page' : undefined}
+            data-astro-reload
           >Textbook</a>
           <a
             href="/mediaint"

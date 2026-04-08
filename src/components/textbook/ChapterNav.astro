@@ -7,18 +7,18 @@ const { prev, next } = Astro.props;
 ---
 <nav class="tb-chapter-nav" aria-label="Chapter navigation">
   {prev ? (
-    <a href={`/textbook/${prev.slug}/`}>
+    <a href={`/textbook/${prev.slug}/`} data-astro-reload>
       <div class="nav-label">&larr; 이전</div>
       <div class="nav-title">{prev.num}장. {prev.title}</div>
     </a>
   ) : <div></div>}
   {next ? (
-    <a href={`/textbook/${next.slug}/`} class="next">
+    <a href={`/textbook/${next.slug}/`} class="next" data-astro-reload>
       <div class="nav-label">다음 &rarr;</div>
       <div class="nav-title">{next.num}장. {next.title}</div>
     </a>
   ) : <div></div>}
 </nav>
 <div class="tb-back-link">
-  <a href="/textbook/">&larr; 목차로 돌아가기</a>
+  <a href="/textbook/" data-astro-reload>&larr; 목차로 돌아가기</a>
 </div>
