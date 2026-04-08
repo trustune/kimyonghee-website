@@ -411,10 +411,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
-  markVisited('24-model-evaluation');
 
   // ====================== INTERACTIVE 1: IMBALANCED DATA ======================
-  let fraudData: { score: number; actual: number }[] = [];
+  let fraudData = [];
 
   function generateFraudData(n = 1000) {
     fraudData = [];
@@ -429,11 +428,11 @@ import SimControls from '../../components/textbook/SimControls.astro';
     }
   }
 
-  let chartThresholdMetrics: any = null;
+  let chartThresholdMetrics = null;
 
   function updateFraudMetrics() {
-    const threshold = parseInt((document.getElementById('range-threshold') as HTMLInputElement).value) / 100;
-    document.getElementById('label-threshold')!.textContent = threshold.toFixed(2);
+    const threshold = parseInt((document.getElementById('range-threshold')).value) / 100;
+    document.getElementById('label-threshold').textContent = threshold.toFixed(2);
 
     let tp = 0, fp = 0, fn = 0, tn = 0;
     for (const d of fraudData) {
@@ -458,14 +457,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
     setStat('stat-fp-count', String(fp));
     setStat('stat-fn-cost', (fn * 100).toFixed(0) + '만원');
     setStat('stat-fp-cost', (fp * 1).toFixed(0) + '만원');
-    document.getElementById('stat-total-cost')!.textContent = ((fn * 100) + (fp * 1)).toFixed(0) + '만원';
+    document.getElementById('stat-total-cost').textContent = ((fn * 100) + (fp * 1)).toFixed(0) + '만원';
 
     // Update threshold metrics chart
     if (chartThresholdMetrics) {
-      const thresholds: number[] = [];
-      const precisions: number[] = [];
-      const recalls: number[] = [];
-      const f1s: number[] = [];
+      const thresholds = [];
+      const precisions = [];
+      const recalls = [];
+      const f1s = [];
       for (let t = 0; t <= 100; t += 2) {
         const th = t / 100;
         thresholds.push(th);
@@ -493,10 +492,10 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
   // ====================== INTERACTIVE 2: CONFUSION MATRIX BUILDER ======================
   function updateConfusionMatrix() {
-    const tp = parseInt((document.getElementById('input-tp') as HTMLInputElement).value) || 0;
-    const fn = parseInt((document.getElementById('input-fn') as HTMLInputElement).value) || 0;
-    const fp = parseInt((document.getElementById('input-fp') as HTMLInputElement).value) || 0;
-    const tn = parseInt((document.getElementById('input-tn') as HTMLInputElement).value) || 0;
+    const tp = parseInt((document.getElementById('input-tp')).value) || 0;
+    const fn = parseInt((document.getElementById('input-fn')).value) || 0;
+    const fp = parseInt((document.getElementById('input-fp')).value) || 0;
+    const tn = parseInt((document.getElementById('input-tn')).value) || 0;
 
     const total = tp + fn + fp + tn;
     const accuracy = total > 0 ? (tp + tn) / total : 0;
@@ -515,11 +514,11 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== INTERACTIVE 3: ROC CURVE ======================
-  let chartRocCurves: any = null;
+  let chartRocCurves = null;
 
-  function generateROCData(quality: number) {
+  function generateROCData(quality) {
     // Generate scores that approximate a model of given AUC quality
-    const points: { score: number; actual: number }[] = [];
+    const points = [];
     for (let i = 0; i < 500; i++) {
       const actual = Math.random() > 0.5 ? 1 : 0;
       const noise = (1 - quality) * 2;
@@ -531,7 +530,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     return points;
   }
 
-  function computeROC(data: { score: number; actual: number }[]) {
+  function computeROC(data) {
     const sorted = [...data].sort((a, b) => b.score - a.score);
     const totalP = data.filter(d => d.actual === 1).length;
     const totalN = data.length - totalP;
@@ -554,8 +553,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     // Subsample for chart
     const step = Math.max(1, Math.floor(fprList.length / 100));
-    const sampledFpr: number[] = [];
-    const sampledTpr: number[] = [];
+    const sampledFpr = [];
+    const sampledTpr = [];
     for (let i = 0; i < fprList.length; i += step) {
       sampledFpr.push(fprList[i]);
       sampledTpr.push(tprList[i]);
@@ -569,8 +568,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   function updateROC() {
-    const qualA = parseFloat((document.getElementById('select-model-a') as HTMLSelectElement).value);
-    const qualB = parseFloat((document.getElementById('select-model-b') as HTMLSelectElement).value);
+    const qualA = parseFloat((document.getElementById('select-model-a')).value);
+    const qualB = parseFloat((document.getElementById('select-model-b')).value);
 
     const dataA = generateROCData(qualA);
     const dataB = generateROCData(qualB);
@@ -592,12 +591,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== INTERACTIVE 4: K-FOLD CV ======================
-  let chartCvComparison: any = null;
+  let chartCvComparison = null;
 
-  function simulateCV(k: number) {
+  function simulateCV(k) {
     // Generate a dataset
     const n = 200;
-    const data: { x: number; y: number; cls: number }[] = [];
+    const data = [];
     for (let i = 0; i < n; i++) {
       const x = Math.random() * 10;
       const y = Math.random() * 10;
@@ -607,7 +606,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     // K-fold
     const foldSize = Math.floor(n / k);
-    const accuracies: number[] = [];
+    const accuracies = [];
 
     for (let fold = 0; fold < k; fold++) {
       const testStart = fold * foldSize;
@@ -635,10 +634,10 @@ import SimControls from '../../components/textbook/SimControls.astro';
     return { accuracies, mean, std };
   }
 
-  function drawKFoldVisual(k: number) {
-    const canvas = document.getElementById('canvas-kfold') as HTMLCanvasElement;
+  function drawKFoldVisual(k) {
+    const canvas = document.getElementById('canvas-kfold');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
 
@@ -693,7 +692,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   function runCV() {
-    const k = parseInt((document.getElementById('select-kfold') as HTMLSelectElement).value);
+    const k = parseInt((document.getElementById('select-kfold')).value);
     drawKFoldVisual(k);
 
     const result = simulateCV(k);
@@ -705,7 +704,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     setStat('stat-cv-holdout', (holdout.accuracies[0] * 100).toFixed(1) + '%');
 
     // Display fold results
-    const container = document.getElementById('cv-results')!;
+    const container = document.getElementById('cv-results');
     container.innerHTML = `<div style="display:flex; gap:8px; flex-wrap:wrap;">` +
       result.accuracies.map((acc, i) =>
         `<span style="padding:6px 14px; background:var(--tb-g100); border-radius:20px; font-size:0.85rem; font-weight:600;">Fold ${i + 1}: ${(acc * 100).toFixed(1)}%</span>`
@@ -714,7 +713,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   function compareCV() {
-    const results: { k: number; mean: number; std: number; accs: number[] }[] = [];
+    const results = [];
     for (const k of [3, 5, 10]) {
       const r = simulateCV(k);
       results.push({ k, mean: r.mean, std: r.std, accs: r.accuracies });
@@ -729,15 +728,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== INTERACTIVE 5: MODEL SELECTION CHECKLIST ======================
-  let checklistAnswers: Record<string, string> = {};
+  let checklistAnswers = {};
 
-  function handleChecklistClick(step: string, answer: string) {
+  function handleChecklistClick(step, answer) {
     checklistAnswers[step] = answer;
 
     // Highlight selected button
     const stepEl = document.getElementById(`step-${step}`);
     if (stepEl) {
-      stepEl.querySelectorAll('.checklist-btn').forEach((btn: any) => {
+      stepEl.querySelectorAll('.checklist-btn').forEach((btn) => {
         btn.style.opacity = btn.dataset.answer === answer ? '1' : '0.4';
       });
     }
@@ -756,7 +755,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   function showChecklistResult() {
-    const result = document.getElementById('checklist-result')!;
+    const result = document.getElementById('checklist-result');
     result.style.display = 'block';
 
     const isBalanced = checklistAnswers['1'] === 'balanced';
@@ -807,9 +806,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
       cv = '<strong>단일 홀드아웃 (80/20)</strong>으로 충분 (데이터가 많으면 분산이 자연히 낮음)';
     }
 
-    document.getElementById('recommend-model')!.innerHTML = '추천 모델: ' + model;
-    document.getElementById('recommend-metric')!.innerHTML = '추천 평가 지표: ' + metric;
-    document.getElementById('recommend-cv')!.innerHTML = '검증 방법: ' + cv;
+    document.getElementById('recommend-model').innerHTML = '추천 모델: ' + model;
+    document.getElementById('recommend-metric').innerHTML = '추천 평가 지표: ' + metric;
+    document.getElementById('recommend-cv').innerHTML = '검증 방법: ' + cv;
   }
 
   function resetChecklist() {
@@ -818,12 +817,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
       const el = document.getElementById(`step-${i}`);
       if (el) el.style.display = 'none';
     }
-    document.getElementById('checklist-result')!.style.display = 'none';
-    document.querySelectorAll('.checklist-btn').forEach((btn: any) => { btn.style.opacity = '1'; });
+    document.getElementById('checklist-result').style.display = 'none';
+    document.querySelectorAll('.checklist-btn').forEach((btn) => { btn.style.opacity = '1'; });
   }
 
   // ====================== UTILITY ======================
-  function setStat(id: string, val: string) {
+  function setStat(id, val) {
     const el = document.getElementById(id);
     if (el) el.textContent = val;
   }
@@ -834,7 +833,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     Chart.register(...registerables);
 
     // Threshold metrics chart
-    const ctxThreshold = (document.getElementById('chart-threshold-metrics') as HTMLCanvasElement)?.getContext('2d');
+    const ctxThreshold = (document.getElementById('chart-threshold-metrics'))?.getContext('2d');
     if (ctxThreshold) {
       chartThresholdMetrics = new Chart(ctxThreshold, {
         type: 'line',
@@ -859,7 +858,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     }
 
     // ROC curves chart
-    const ctxRoc = (document.getElementById('chart-roc-curves') as HTMLCanvasElement)?.getContext('2d');
+    const ctxRoc = (document.getElementById('chart-roc-curves'))?.getContext('2d');
     if (ctxRoc) {
       chartRocCurves = new Chart(ctxRoc, {
         type: 'scatter',
@@ -882,7 +881,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     }
 
     // CV comparison chart
-    const ctxCv = (document.getElementById('chart-cv-comparison') as HTMLCanvasElement)?.getContext('2d');
+    const ctxCv = (document.getElementById('chart-cv-comparison'))?.getContext('2d');
     if (ctxCv) {
       chartCvComparison = new Chart(ctxCv, {
         type: 'bar',
@@ -930,7 +929,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     document.getElementById('btn-compare-cv')?.addEventListener('click', compareCV);
 
     // Interactive 5: Checklist
-    document.querySelectorAll('.checklist-btn').forEach((btn: any) => {
+    document.querySelectorAll('.checklist-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         handleChecklistClick(btn.dataset.step, btn.dataset.answer);
       });

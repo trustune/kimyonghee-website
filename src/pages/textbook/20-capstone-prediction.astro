@@ -596,7 +596,7 @@ const VAR_LABELS = {
 
 let dataset = [];
 let trainSet = [], testSet = [];
-let fittedModels = { ols: null, ridge: null, lasso: null };
+let fittedModels = { ols, ridge, lasso };
 let lossHistory = { ols: [], ridge: [], lasso: [] };
 let chartInstances = {};
 let r2History = [];
@@ -1377,7 +1377,7 @@ function init() {
   dataset = generateData(n);
   trainSet = [];
   testSet = [];
-  fittedModels = { ols: null, ridge: null, lasso: null };
+  fittedModels = { ols, ridge, lasso };
   r2History = [];
   completedSteps = new Set();
 

@@ -412,10 +412,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
-  markVisited('23-ensemble');
 
   // ====================== SHARED DATA ======================
-  function generate2DData(n: number) {
+  function generate2DData(n) {
     const data = [];
     for (let i = 0; i < n; i++) {
       const x = Math.random() * 10;
@@ -432,16 +431,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
   let forestTestData = generate2DData(60);
 
   // ====================== SIMPLE TREE ======================
-  interface TreeNode {
-    feature?: string;
-    threshold?: number;
-    left?: TreeNode;
-    right?: TreeNode;
-    prediction?: number;
-    counts?: number[];
-  }
-
-  function gini(counts: number[]) {
+  function gini(counts) {
     const total = counts.reduce((a, b) => a + b, 0);
     if (total === 0) return 0;
     let s = 0;
@@ -449,8 +439,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
     return 1 - s;
   }
 
-  function buildSimpleTree(data: any[], depth = 0, maxDepth = 4, features = ['x', 'y'], subsampleFeatures = false): TreeNode {
-    const c0 = data.filter((d: any) => d.cls === 0).length;
+  function buildSimpleTree(data, depth = 0, maxDepth = 4, features = ['x', 'y'], subsampleFeatures = false) {
+    const c0 = data.filter((d) => d.cls === 0).length;
     const c1 = data.length - c0;
     const pred = c0 >= c1 ? 0 : 1;
     const g = gini([c0, c1]);
@@ -467,15 +457,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     let bestGain = -1, bestFeat = 'x', bestThresh = 0;
     for (const feat of usedFeatures) {
-      const vals = data.map((d: any) => d[feat]).sort((a: number, b: number) => a - b);
+      const vals = data.map((d) => d[feat]).sort((a, b) => a - b);
       const step = Math.max(1, Math.floor(vals.length / 15));
       for (let i = 0; i < vals.length - 1; i += step) {
         const thresh = (vals[i] + vals[i + 1]) / 2;
-        const left = data.filter((d: any) => d[feat] <= thresh);
-        const right = data.filter((d: any) => d[feat] > thresh);
+        const left = data.filter((d) => d[feat] <= thresh);
+        const right = data.filter((d) => d[feat] > thresh);
         if (left.length === 0 || right.length === 0) continue;
-        const lc = [left.filter((d: any) => d.cls === 0).length, left.filter((d: any) => d.cls === 1).length];
-        const rc = [right.filter((d: any) => d.cls === 0).length, right.filter((d: any) => d.cls === 1).length];
+        const lc = [left.filter((d) => d.cls === 0).length, left.filter((d) => d.cls === 1).length];
+        const rc = [right.filter((d) => d.cls === 0).length, right.filter((d) => d.cls === 1).length];
         const wg = (left.length * gini(lc) + right.length * gini(rc)) / data.length;
         const gain = g - wg;
         if (gain > bestGain) { bestGain = gain; bestFeat = feat; bestThresh = thresh; }
@@ -484,8 +474,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     if (bestGain <= 0) return { prediction: pred, counts: [c0, c1] };
 
-    const leftD = data.filter((d: any) => d[bestFeat] <= bestThresh);
-    const rightD = data.filter((d: any) => d[bestFeat] > bestThresh);
+    const leftD = data.filter((d) => d[bestFeat] <= bestThresh);
+    const rightD = data.filter((d) => d[bestFeat] > bestThresh);
 
     return {
       feature: bestFeat, threshold: bestThresh,
@@ -495,12 +485,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
     };
   }
 
-  function predictNode(node: TreeNode, sample: any): number {
-    if (node.feature === undefined) return node.prediction!;
-    return sample[node.feature!] <= node.threshold! ? predictNode(node.left!, sample) : predictNode(node.right!, sample);
+  function predictNode(node, sample) {
+    if (node.feature === undefined) return node.prediction;
+    return sample[node.feature] <= node.threshold ? predictNode(node.left, sample) : predictNode(node.right, sample);
   }
 
-  function bootstrapSample(data: any[]) {
+  function bootstrapSample(data) {
     const n = data.length;
     const sample = [];
     for (let i = 0; i < n; i++) sample.push(data[Math.floor(Math.random() * n)]);
@@ -508,29 +498,29 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== ENSEMBLE PREDICT ======================
-  function ensemblePredict(trees: TreeNode[], sample: any): number {
+  function ensemblePredict(trees, sample) {
     let votes = 0;
     for (const t of trees) votes += predictNode(t, sample);
     return votes > trees.length / 2 ? 1 : 0;
   }
 
-  function calcAccuracy(trees: TreeNode[], data: any[]) {
+  function calcAccuracy(trees, data) {
     let correct = 0;
     for (const d of data) if (ensemblePredict(trees, d) === d.cls) correct++;
     return data.length > 0 ? correct / data.length : 0;
   }
 
-  function singleAccuracy(tree: TreeNode, data: any[]) {
+  function singleAccuracy(tree, data) {
     let correct = 0;
     for (const d of data) if (predictNode(tree, d) === d.cls) correct++;
     return data.length > 0 ? correct / data.length : 0;
   }
 
   // ====================== DRAW BOUNDARY ======================
-  function drawBoundaryOnCanvas(canvasId: string, predictor: (sample: any) => number, trainData: any[], testData?: any[]) {
-    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+  function drawBoundaryOnCanvas(canvasId, predictor, trainData, testData) {
+    const canvas = document.getElementById(canvasId);
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
 
@@ -570,15 +560,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== INTERACTIVE 1: FOREST GROWTH ======================
-  let forestTrees: TreeNode[] = [];
-  let forestAccHistory: number[] = [];
-  let chartForestAccuracy: any = null;
+  let forestTrees = [];
+  let forestAccHistory = [];
+  let chartForestAccuracy = null;
 
   async function initForestChart() {
     const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
     Chart.register(...registerables);
 
-    const ctx = (document.getElementById('chart-forest-accuracy') as HTMLCanvasElement)?.getContext('2d');
+    const ctx = (document.getElementById('chart-forest-accuracy'))?.getContext('2d');
     if (!ctx) return;
 
     chartForestAccuracy = new Chart(ctx, {
@@ -598,7 +588,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     });
   }
 
-  function addTrees(count: number) {
+  function addTrees(count) {
     for (let i = 0; i < count; i++) {
       const sample = bootstrapSample(forestTrainData);
       const tree = buildSimpleTree(sample, 0, 4 + Math.floor(Math.random() * 3), ['x', 'y'], true);
@@ -611,7 +601,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
   function updateForestDisplay() {
     const n = forestTrees.length;
-    document.getElementById('label-tree-count')!.textContent = String(n);
+    document.getElementById('label-tree-count').textContent = String(n);
     setStat('stat-forest-trees', String(n));
 
     if (n > 0) {
@@ -632,36 +622,36 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
   // ====================== INTERACTIVE 2: BAGGING VS SINGLE ======================
   function runBaggingComparison() {
-    const singleDepth = parseInt((document.getElementById('select-single-depth') as HTMLSelectElement).value);
-    const bagCount = parseInt((document.getElementById('select-bag-count') as HTMLSelectElement).value);
+    const singleDepth = parseInt((document.getElementById('select-single-depth')).value);
+    const bagCount = parseInt((document.getElementById('select-bag-count')).value);
 
-    document.getElementById('label-single-depth')!.textContent = String(singleDepth);
-    document.getElementById('label-bag-trees')!.textContent = String(bagCount);
+    document.getElementById('label-single-depth').textContent = String(singleDepth);
+    document.getElementById('label-bag-trees').textContent = String(bagCount);
 
     // Single tree
     const singleTree = buildSimpleTree(forestTrainData, 0, singleDepth);
     const singleAcc = singleAccuracy(singleTree, forestTestData);
-    document.getElementById('label-single-acc')!.textContent = (singleAcc * 100).toFixed(1) + '%';
+    document.getElementById('label-single-acc').textContent = (singleAcc * 100).toFixed(1) + '%';
     drawBoundaryOnCanvas('canvas-single-tree', (s) => predictNode(singleTree, s), forestTrainData);
 
     // Bagging
-    const bagTrees: TreeNode[] = [];
+    const bagTrees = [];
     for (let i = 0; i < bagCount; i++) {
       const sample = bootstrapSample(forestTrainData);
       bagTrees.push(buildSimpleTree(sample, 0, singleDepth, ['x', 'y'], true));
     }
     const bagAcc = calcAccuracy(bagTrees, forestTestData);
-    document.getElementById('label-bag-acc')!.textContent = (bagAcc * 100).toFixed(1) + '%';
+    document.getElementById('label-bag-acc').textContent = (bagAcc * 100).toFixed(1) + '%';
     drawBoundaryOnCanvas('canvas-bagging', (s) => ensemblePredict(bagTrees, s), forestTrainData);
   }
 
   // ====================== INTERACTIVE 3: BOOSTING ======================
-  let boostData: any[] = [];
-  let boostWeights: number[] = [];
-  let boostLearners: { tree: TreeNode; alpha: number }[] = [];
+  let boostData = [];
+  let boostWeights = [];
+  let boostLearners = [];
   let boostRound = 0;
-  let chartBoostProgress: any = null;
-  let boostAccHistory: number[] = [];
+  let chartBoostProgress = null;
+  let boostAccHistory = [];
 
   function initBoosting() {
     boostData = generate2DData(80);
@@ -669,7 +659,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     boostLearners = [];
     boostRound = 0;
     boostAccHistory = [];
-    document.getElementById('label-boost-round')!.textContent = '0';
+    document.getElementById('label-boost-round').textContent = '0';
     setStat('stat-boost-error', '--');
     setStat('stat-boost-alpha', '--');
     setStat('stat-boost-acc', '--');
@@ -687,7 +677,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     boostRound++;
 
     // Weight-based sampling
-    const sample: any[] = [];
+    const sample = [];
     for (let i = 0; i < boostData.length; i++) {
       if (Math.random() < boostWeights[i] * boostData.length) {
         sample.push(boostData[i]);
@@ -723,10 +713,10 @@ import SimControls from '../../components/textbook/SimControls.astro';
     for (let i = 0; i < boostWeights.length; i++) boostWeights[i] /= wSum;
 
     // Compute ensemble accuracy
-    const ensAcc = boostData.filter((d: any) => boostEnsemblePredict(d) === d.cls).length / boostData.length;
+    const ensAcc = boostData.filter((d) => boostEnsemblePredict(d) === d.cls).length / boostData.length;
     boostAccHistory.push(ensAcc);
 
-    document.getElementById('label-boost-round')!.textContent = String(boostRound);
+    document.getElementById('label-boost-round').textContent = String(boostRound);
     setStat('stat-boost-error', (err * 100).toFixed(1) + '%');
     setStat('stat-boost-alpha', alpha.toFixed(3));
     setStat('stat-boost-acc', (ensAcc * 100).toFixed(1) + '%');
@@ -741,7 +731,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     }
   }
 
-  function boostEnsemblePredict(sample: any): number {
+  function boostEnsemblePredict(sample) {
     let score = 0;
     for (const { tree, alpha } of boostLearners) {
       const pred = predictNode(tree, sample);
@@ -751,9 +741,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   function drawBoostingCurrent() {
-    const canvas = document.getElementById('canvas-boost-current') as HTMLCanvasElement;
+    const canvas = document.getElementById('canvas-boost-current');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
 
@@ -789,9 +779,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
   function drawBoostingEnsemble() {
     if (boostLearners.length === 0) {
-      const canvas = document.getElementById('canvas-boost-ensemble') as HTMLCanvasElement;
+      const canvas = document.getElementById('canvas-boost-ensemble');
       if (!canvas) return;
-      const ctx = canvas.getContext('2d')!;
+      const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#94a3b8';
       ctx.font = '13px Paperlogy, sans-serif';
@@ -806,7 +796,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
     Chart.register(...registerables);
 
-    const ctx = (document.getElementById('chart-boost-progress') as HTMLCanvasElement)?.getContext('2d');
+    const ctx = (document.getElementById('chart-boost-progress'))?.getContext('2d');
     if (!ctx) return;
 
     chartBoostProgress = new Chart(ctx, {
@@ -829,12 +819,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
   // ====================== INTERACTIVE 4: RF FEATURE IMPORTANCE ======================
   const BIZ_FEATURES = ['tenure', 'fee', 'satisfaction', 'inquiries', 'contract'];
   const BIZ_LABELS = ['가입기간', '월 이용료', '고객만족도', '문의횟수', '계약유형'];
-  let bizData: any[] = [];
-  let rfTrees: TreeNode[] = [];
+  let bizData = [];
+  let rfTrees = [];
   let rfOriginalAcc = 0;
-  let chartRfImportance: any = null;
+  let chartRfImportance = null;
 
-  function generateBizData(n: number) {
+  function generateBizData(n) {
     const data = [];
     for (let i = 0; i < n; i++) {
       const tenure = Math.round(Math.random() * 60); // months
@@ -853,8 +843,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
     return data;
   }
 
-  function buildBizTree(data: any[], depth = 0, maxDepth = 4): TreeNode {
-    const c0 = data.filter((d: any) => d.cls === 0).length;
+  function buildBizTree(data, depth = 0, maxDepth = 4) {
+    const c0 = data.filter((d) => d.cls === 0).length;
     const c1 = data.length - c0;
     if (depth >= maxDepth || data.length < 5 || gini([c0, c1]) === 0) {
       return { prediction: c0 >= c1 ? 0 : 1, counts: [c0, c1] };
@@ -869,14 +859,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
     const g = gini([c0, c1]);
     for (const fi of featIndices) {
       const key = BIZ_FEATURES[fi];
-      const vals = [...new Set(data.map((d: any) => d[key]))].sort((a: number, b: number) => a - b);
+      const vals = [...new Set(data.map((d) => d[key]))].sort((a, b) => a - b);
       for (let vi = 0; vi < vals.length - 1; vi += Math.max(1, Math.floor(vals.length / 10))) {
         const thresh = (vals[vi] + vals[vi + 1]) / 2;
-        const left = data.filter((d: any) => d[key] <= thresh);
-        const right = data.filter((d: any) => d[key] > thresh);
+        const left = data.filter((d) => d[key] <= thresh);
+        const right = data.filter((d) => d[key] > thresh);
         if (left.length === 0 || right.length === 0) continue;
-        const lc = [left.filter((d: any) => d.cls === 0).length, left.length - left.filter((d: any) => d.cls === 0).length];
-        const rc = [right.filter((d: any) => d.cls === 0).length, right.length - right.filter((d: any) => d.cls === 0).length];
+        const lc = [left.filter((d) => d.cls === 0).length, left.length - left.filter((d) => d.cls === 0).length];
+        const rc = [right.filter((d) => d.cls === 0).length, right.length - right.filter((d) => d.cls === 0).length];
         const wg = (left.length * gini(lc) + right.length * gini(rc)) / data.length;
         const gain = g - wg;
         if (gain > bestGain) { bestGain = gain; bestFeat = key; bestThresh = thresh; }
@@ -885,8 +875,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     if (bestGain <= 0) return { prediction: c0 >= c1 ? 0 : 1, counts: [c0, c1] };
 
-    const leftD = data.filter((d: any) => d[bestFeat] <= bestThresh);
-    const rightD = data.filter((d: any) => d[bestFeat] > bestThresh);
+    const leftD = data.filter((d) => d[bestFeat] <= bestThresh);
+    const rightD = data.filter((d) => d[bestFeat] > bestThresh);
 
     return {
       feature: bestFeat, threshold: bestThresh,
@@ -911,7 +901,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     setStat('stat-rf-drop', '--');
 
     // Compute permutation importance for all features
-    const importances: number[] = [];
+    const importances = [];
     for (let fi = 0; fi < 5; fi++) {
       const shuffled = testData.map(d => {
         const nd = { ...d };
@@ -930,7 +920,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
   function shuffleFeature() {
     if (rfTrees.length === 0) return;
-    const fi = parseInt((document.getElementById('select-shuffle-feature') as HTMLSelectElement).value);
+    const fi = parseInt((document.getElementById('select-shuffle-feature')).value);
     const testData = generateBizData(100);
     const shuffled = testData.map(d => {
       const nd = { ...d };
@@ -948,7 +938,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
     Chart.register(...registerables);
 
-    const ctx = (document.getElementById('chart-rf-importance') as HTMLCanvasElement)?.getContext('2d');
+    const ctx = (document.getElementById('chart-rf-importance'))?.getContext('2d');
     if (!ctx) return;
 
     chartRfImportance = new Chart(ctx, {
@@ -967,10 +957,10 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== INTERACTIVE 5: MODEL ZOO ======================
-  let chartZooComparison: any = null;
+  let chartZooComparison = null;
 
   function runModelZoo() {
-    const n = parseInt((document.getElementById('select-zoo-size') as HTMLSelectElement).value);
+    const n = parseInt((document.getElementById('select-zoo-size')).value);
     const train = generate2DData(n);
     const test = generate2DData(Math.floor(n * 0.4));
 
@@ -980,22 +970,22 @@ import SimControls from '../../components/textbook/SimControls.astro';
     const singleTestAcc = singleAccuracy(singleTree, test);
 
     // 2. Bagged trees (30 trees, depth 5)
-    const bagTrees: TreeNode[] = [];
+    const bagTrees = [];
     for (let i = 0; i < 30; i++) bagTrees.push(buildSimpleTree(bootstrapSample(train), 0, 5));
     const bagTrainAcc = calcAccuracy(bagTrees, train);
     const bagTestAcc = calcAccuracy(bagTrees, test);
 
     // 3. Random Forest (50 trees, depth 5, feature subsampling)
-    const rfTreesLocal: TreeNode[] = [];
+    const rfTreesLocal = [];
     for (let i = 0; i < 50; i++) rfTreesLocal.push(buildSimpleTree(bootstrapSample(train), 0, 5, ['x', 'y'], true));
     const rfTrainAcc = calcAccuracy(rfTreesLocal, train);
     const rfTestAcc = calcAccuracy(rfTreesLocal, test);
 
     // 4. Gradient Boosting (simulated: sequential residual fitting)
-    const gbLearners: { tree: TreeNode; alpha: number }[] = [];
+    const gbLearners = [];
     let gbWeights = new Array(train.length).fill(1 / train.length);
     for (let r = 0; r < 20; r++) {
-      const sample: any[] = [];
+      const sample = [];
       for (let i = 0; i < train.length; i++) {
         if (Math.random() < gbWeights[i] * train.length) sample.push(train[i]);
       }
@@ -1015,7 +1005,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
       const wSum = gbWeights.reduce((a, b) => a + b, 0);
       for (let i = 0; i < gbWeights.length; i++) gbWeights[i] /= wSum;
     }
-    const gbPredict = (sample: any) => {
+    const gbPredict = (sample) => {
       let score = 0;
       for (const { tree, alpha } of gbLearners) score += alpha * (predictNode(tree, sample) === 1 ? 1 : -1);
       return score >= 0 ? 1 : 0;
@@ -1033,7 +1023,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     results.sort((a, b) => b.testAcc - a.testAcc);
 
-    const tbody = document.getElementById('zoo-result-tbody')!;
+    const tbody = document.getElementById('zoo-result-tbody');
     tbody.innerHTML = '';
     results.forEach((r, i) => {
       const tr = document.createElement('tr');
@@ -1056,7 +1046,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
     Chart.register(...registerables);
 
-    const ctx = (document.getElementById('chart-zoo-comparison') as HTMLCanvasElement)?.getContext('2d');
+    const ctx = (document.getElementById('chart-zoo-comparison'))?.getContext('2d');
     if (!ctx) return;
 
     chartZooComparison = new Chart(ctx, {
@@ -1080,7 +1070,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== UTILITY ======================
-  function setStat(id: string, val: string) {
+  function setStat(id, val) {
     const el = document.getElementById(id);
     if (el) el.textContent = val;
   }

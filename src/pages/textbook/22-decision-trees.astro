@@ -410,7 +410,6 @@ import SimControls from '../../components/textbook/SimControls.astro';
 </TextbookLayout>
 
 <script is:inline>
-  markVisited('22-decision-trees');
 
   // ====================== DATA GENERATION ======================
   function generateEmployeeData(n = 30) {
@@ -436,11 +435,11 @@ import SimControls from '../../components/textbook/SimControls.astro';
   const FEATURES = ['salary', 'tenure', 'satisfaction', 'overtime', 'promoted'];
   const FEATURE_LABELS = ['연봉', '근속연수', '만족도', '야근시간', '승진여부'];
   let employeeData = generateEmployeeData(30);
-  let userTree: any = null;
-  let optimalTree: any = null;
+  let userTree = null;
+  let optimalTree = null;
 
   // ====================== GINI / ENTROPY ======================
-  function gini(counts: number[]) {
+  function gini(counts) {
     const total = counts.reduce((a, b) => a + b, 0);
     if (total === 0) return 0;
     let sum = 0;
@@ -448,7 +447,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     return 1 - sum;
   }
 
-  function entropy(counts: number[]) {
+  function entropy(counts) {
     const total = counts.reduce((a, b) => a + b, 0);
     if (total === 0) return 0;
     let sum = 0;
@@ -460,26 +459,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
     return sum;
   }
 
-  function countClasses(data: any[]) {
+  function countClasses(data) {
     let c0 = 0, c1 = 0;
     for (const d of data) { if (d.left === 0) c0++; else c1++; }
     return [c0, c1];
   }
 
   // ====================== TREE BUILDING (ID3-like) ======================
-  interface TreeNode {
-    feature?: number;
-    threshold?: number;
-    left?: TreeNode;
-    right?: TreeNode;
-    prediction?: number;
-    counts?: number[];
-    giniVal?: number;
-    depth?: number;
-    samples?: number;
-  }
 
-  function findBestSplit(data: any[], features: number[]) {
+  function findBestSplit(data, features) {
     const parentCounts = countClasses(data);
     const parentGini = gini(parentCounts);
     let bestGain = -1, bestFeature = -1, bestThreshold = 0;
@@ -505,7 +493,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     return { bestFeature, bestThreshold, bestGain };
   }
 
-  function buildTree(data: any[], depth = 0, maxDepth = 5, minSamples = 2): TreeNode {
+  function buildTree(data, depth = 0, maxDepth = 5, minSamples = 2) {
     const counts = countClasses(data);
     const prediction = counts[0] >= counts[1] ? 0 : 1;
     const g = gini(counts);
@@ -535,26 +523,26 @@ import SimControls from '../../components/textbook/SimControls.astro';
     };
   }
 
-  function predictTree(node: TreeNode, sample: any): number {
-    if (node.feature === undefined) return node.prediction!;
-    const val = sample[FEATURES[node.feature!]];
-    return val <= node.threshold! ? predictTree(node.left!, sample) : predictTree(node.right!, sample);
+  function predictTree(node, sample) {
+    if (node.feature === undefined) return node.prediction;
+    const val = sample[FEATURES[node.feature]];
+    return val <= node.threshold ? predictTree(node.left, sample) : predictTree(node.right, sample);
   }
 
-  function treeAccuracy(node: TreeNode, data: any[]) {
+  function treeAccuracy(node, data) {
     let correct = 0;
     for (const d of data) if (predictTree(node, d) === d.left) correct++;
     return data.length > 0 ? correct / data.length : 0;
   }
 
-  function countLeaves(node: TreeNode): number {
+  function countLeaves(node) {
     if (node.feature === undefined) return 1;
-    return countLeaves(node.left!) + countLeaves(node.right!);
+    return countLeaves(node.left) + countLeaves(node.right);
   }
 
-  function treeDepthFn(node: TreeNode): number {
+  function treeDepthFn(node) {
     if (node.feature === undefined) return 0;
-    return 1 + Math.max(treeDepthFn(node.left!), treeDepthFn(node.right!));
+    return 1 + Math.max(treeDepthFn(node.left), treeDepthFn(node.right));
   }
 
   // ====================== RENDER DATA TABLE ======================
@@ -572,16 +560,16 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== INTERACTIVE 1: MANUAL TREE BUILDER ======================
-  let currentBuildData: any[] = [];
-  let buildPath: any[] = [];
+  let currentBuildData = [];
+  let buildPath = [];
 
   function initTreeBuilder() {
     currentBuildData = [...employeeData];
     buildPath = [];
     renderSplitCandidates(currentBuildData);
     renderUserTreeCanvas();
-    document.getElementById('current-node-info')!.textContent = `루트 (${currentBuildData.length}개 샘플)`;
-    document.getElementById('selected-feature-label')!.textContent = '--';
+    document.getElementById('current-node-info').textContent = `루트 (${currentBuildData.length}개 샘플)`;
+    document.getElementById('selected-feature-label').textContent = '--';
     setStat('stat-user-acc', '--');
     setStat('stat-optimal-acc', '--');
     setStat('stat-tree-depth', '--');
@@ -589,7 +577,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
   let selectedSplitFeature = -1;
 
-  function renderSplitCandidates(data: any[]) {
+  function renderSplitCandidates(data) {
     const container = document.getElementById('split-candidates');
     if (!container) return;
     container.innerHTML = '';
@@ -600,12 +588,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     for (let fi = 0; fi < 5; fi++) {
       const key = FEATURES[fi];
-      const values = [...new Set(data.map((d: any) => d[key]))].sort((a: number, b: number) => a - b);
+      const values = [...new Set(data.map((d) => d[key]))].sort((a, b) => a - b);
       let bestGain = 0, bestThresh = 0;
       for (let vi = 0; vi < values.length - 1; vi++) {
         const thresh = (values[vi] + values[vi + 1]) / 2;
-        const leftD = data.filter((d: any) => d[key] <= thresh);
-        const rightD = data.filter((d: any) => d[key] > thresh);
+        const leftD = data.filter((d) => d[key] <= thresh);
+        const rightD = data.filter((d) => d[key] > thresh);
         if (leftD.length === 0 || rightD.length === 0) continue;
         const wg = (leftD.length * gini(countClasses(leftD)) + rightD.length * gini(countClasses(rightD))) / data.length;
         const gain = parentGini - wg;
@@ -619,11 +607,11 @@ import SimControls from '../../components/textbook/SimControls.astro';
         `<div style="font-size:0.78rem; color:var(--tb-g600);">최적 분할점: ${bestThresh.toFixed(1)}</div>`;
 
       card.addEventListener('click', () => {
-        container.querySelectorAll('div').forEach((c: any) => { c.style.borderColor = 'var(--tb-g200)'; c.style.background = ''; });
+        container.querySelectorAll('div').forEach((c) => { c.style.borderColor = 'var(--tb-g200)'; c.style.background = ''; });
         card.style.borderColor = 'var(--tb-primary)';
         card.style.background = 'var(--tb-primary-light)';
         selectedSplitFeature = fi;
-        document.getElementById('selected-feature-label')!.textContent = `${FEATURE_LABELS[fi]} (Gain: ${bestGain.toFixed(4)})`;
+        document.getElementById('selected-feature-label').textContent = `${FEATURE_LABELS[fi]} (Gain: ${bestGain.toFixed(4)})`;
       });
 
       container.appendChild(card);
@@ -631,9 +619,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   function renderUserTreeCanvas() {
-    const canvas = document.getElementById('canvas-user-tree') as HTMLCanvasElement;
+    const canvas = document.getElementById('canvas-user-tree');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = '13px Paperlogy, sans-serif';
     ctx.textAlign = 'center';
@@ -645,7 +633,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     }
 
     // Simple tree rendering
-    const drawNode = (x: number, y: number, text: string, isLeaf: boolean) => {
+    const drawNode = (x, y, text, isLeaf) => {
       ctx.fillStyle = isLeaf ? '#dcfce7' : '#dbeafe';
       ctx.strokeStyle = isLeaf ? '#22c55e' : '#2563eb';
       ctx.lineWidth = 2;
@@ -686,14 +674,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
   // ====================== EXAMPLE TREE VISUAL ======================
   function drawExampleTree() {
-    const canvas = document.getElementById('canvas-tree-example') as HTMLCanvasElement;
+    const canvas = document.getElementById('canvas-tree-example');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = '12px Paperlogy, sans-serif';
     ctx.textAlign = 'center';
 
-    const drawBox = (x: number, y: number, text: string, color: string, bg: string) => {
+    const drawBox = (x, y, text, color, bg) => {
       const w = 130, h = 32;
       ctx.fillStyle = bg;
       ctx.strokeStyle = color;
@@ -706,7 +694,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
       ctx.fillText(text, x, y + 4);
     };
 
-    const drawLine = (x1: number, y1: number, x2: number, y2: number, label: string) => {
+    const drawLine = (x1, y1, x2, y2, label) => {
       ctx.strokeStyle = '#94a3b8';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
@@ -750,12 +738,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== INTERACTIVE 2: GINI vs ENTROPY COMPARISON ======================
-  let chartGiniEntropy: any = null;
+  let chartGiniEntropy = null;
 
-  function drawPieChart(canvasId: string, ratio: number, color1: string, color2: string) {
-    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+  function drawPieChart(canvasId, ratio, color1, color2) {
+    const canvas = document.getElementById(canvasId);
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
     const cx = canvas.width / 2, cy = canvas.height / 2, r = 80;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -782,9 +770,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   function updateGiniEntropyComparison() {
-    const slider = document.getElementById('range-class-ratio') as HTMLInputElement;
+    const slider = document.getElementById('range-class-ratio');
     const ratio = parseInt(slider.value) / 100;
-    document.getElementById('label-class-ratio')!.textContent = `${Math.round(ratio * 100)}%`;
+    document.getElementById('label-class-ratio').textContent = `${Math.round(ratio * 100)}%`;
 
     const g = gini([ratio * 100, (1 - ratio) * 100]);
     const e = entropy([ratio * 100, (1 - ratio) * 100]);
@@ -792,17 +780,17 @@ import SimControls from '../../components/textbook/SimControls.astro';
     drawPieChart('canvas-gini-pie', ratio, '#3b82f6', '#f97316');
     drawPieChart('canvas-entropy-pie', ratio, '#3b82f6', '#f97316');
 
-    document.getElementById('gini-values')!.innerHTML = `Gini = <strong>${g.toFixed(4)}</strong>`;
-    document.getElementById('entropy-values')!.innerHTML = `Entropy = <strong>${e.toFixed(4)}</strong>`;
+    document.getElementById('gini-values').innerHTML = `Gini = <strong>${g.toFixed(4)}</strong>`;
+    document.getElementById('entropy-values').innerHTML = `Entropy = <strong>${e.toFixed(4)}</strong>`;
   }
 
   async function initGiniEntropyChart() {
     const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
     Chart.register(...registerables);
 
-    const labels: number[] = [];
-    const giniData: number[] = [];
-    const entropyData: number[] = [];
+    const labels = [];
+    const giniData = [];
+    const entropyData = [];
     for (let p = 0; p <= 100; p += 2) {
       const r = p / 100;
       labels.push(r);
@@ -810,7 +798,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
       entropyData.push(entropy([p, 100 - p]));
     }
 
-    const ctx = (document.getElementById('chart-gini-entropy') as HTMLCanvasElement)?.getContext('2d');
+    const ctx = (document.getElementById('chart-gini-entropy'))?.getContext('2d');
     if (!ctx) return;
 
     chartGiniEntropy = new Chart(ctx, {
@@ -834,11 +822,11 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== INTERACTIVE 3: OVERFITTING DEPTH ======================
-  let overfitTrainData: any[] = [];
-  let overfitTestData: any[] = [];
-  let chartDepthAccuracy: any = null;
+  let overfitTrainData = [];
+  let overfitTestData = [];
+  let chartDepthAccuracy = null;
 
-  function generate2DData(n: number) {
+  function generate2DData(n) {
     const data = [];
     for (let i = 0; i < n; i++) {
       const x = Math.random() * 10;
@@ -851,7 +839,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     return data;
   }
 
-  function buildTree2D(data: any[], depth: number, maxDepth: number): TreeNode {
+  function buildTree2D(data, depth, maxDepth) {
     const c0 = data.filter(d => d.cls === 0).length;
     const c1 = data.length - c0;
     const pred = c0 >= c1 ? 0 : 1;
@@ -863,7 +851,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     let bestGain = -1, bestFeat = 'x', bestThresh = 0;
     for (const feat of ['x', 'y']) {
-      const vals = data.map(d => d[feat]).sort((a: number, b: number) => a - b);
+      const vals = data.map(d => d[feat]).sort((a, b) => a - b);
       for (let i = 0; i < vals.length - 1; i += Math.max(1, Math.floor(vals.length / 20))) {
         const thresh = (vals[i] + vals[i + 1]) / 2;
         const left = data.filter(d => d[feat] <= thresh);
@@ -890,21 +878,21 @@ import SimControls from '../../components/textbook/SimControls.astro';
     };
   }
 
-  function countClasses2D(data: any[]) {
+  function countClasses2D(data) {
     const c0 = data.filter(d => d.cls === 0).length;
     return [c0, data.length - c0];
   }
 
-  function predict2D(node: TreeNode, sample: any): number {
-    if (node.feature === undefined) return node.prediction!;
+  function predict2D(node, sample) {
+    if (node.feature === undefined) return node.prediction;
     const feat = node.feature === 0 ? 'x' : 'y';
-    return sample[feat] <= node.threshold! ? predict2D(node.left!, sample) : predict2D(node.right!, sample);
+    return sample[feat] <= node.threshold ? predict2D(node.left, sample) : predict2D(node.right, sample);
   }
 
-  function drawBoundary(tree: TreeNode) {
-    const canvas = document.getElementById('canvas-boundary') as HTMLCanvasElement;
+  function drawBoundary(tree) {
+    const canvas = document.getElementById('canvas-boundary');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
 
@@ -943,7 +931,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
     Chart.register(...registerables);
 
-    const ctx = (document.getElementById('chart-depth-accuracy') as HTMLCanvasElement)?.getContext('2d');
+    const ctx = (document.getElementById('chart-depth-accuracy'))?.getContext('2d');
     if (!ctx) return;
 
     chartDepthAccuracy = new Chart(ctx, {
@@ -967,8 +955,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   function updateDepthDemo() {
-    const maxDepth = parseInt((document.getElementById('range-depth') as HTMLInputElement).value);
-    document.getElementById('label-depth')!.textContent = String(maxDepth);
+    const maxDepth = parseInt((document.getElementById('range-depth')).value);
+    document.getElementById('label-depth').textContent = String(maxDepth);
 
     const tree = buildTree2D(overfitTrainData, 0, maxDepth);
     const trainAcc = overfitTrainData.filter(d => predict2D(tree, d) === d.cls).length / overfitTrainData.length;
@@ -980,8 +968,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
     setStat('stat-leaf-count', String(countLeaves(tree)));
 
     // Compute all depths for chart
-    const trainAccs: number[] = [];
-    const testAccs: number[] = [];
+    const trainAccs = [];
+    const testAccs = [];
     let bestD = 1, bestTestAcc = 0;
     for (let d = 1; d <= 20; d++) {
       const t = buildTree2D(overfitTrainData, 0, d);
@@ -1001,15 +989,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== INTERACTIVE 4: PRUNING ======================
-  let pruneFullTree: TreeNode | null = null;
-  let pruneTrainData: any[] = [];
-  let pruneTestData: any[] = [];
-  let chartAlphaAccuracy: any = null;
+  let pruneFullTree = null;
+  let pruneTrainData = [];
+  let pruneTestData = [];
+  let chartAlphaAccuracy = null;
 
-  function pruneTree(node: TreeNode, alpha: number): TreeNode {
+  function pruneTree(node, alpha) {
     if (node.feature === undefined) return { ...node };
-    const leftPruned = pruneTree(node.left!, alpha);
-    const rightPruned = pruneTree(node.right!, alpha);
+    const leftPruned = pruneTree(node.left, alpha);
+    const rightPruned = pruneTree(node.right, alpha);
 
     // Cost of keeping subtree
     const subLeaves = countLeaves(leftPruned) + countLeaves(rightPruned);
@@ -1019,8 +1007,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
     const leafError = total > 0 ? 1 - Math.max(counts[0], counts[1]) / total : 0;
 
     // Effective alpha: collapse if simplicity gain outweighs error
-    const subError = computeTreeError(leftPruned, pruneTrainData.filter(d => d[FEATURES[node.feature!]] <= node.threshold!))
-      + computeTreeError(rightPruned, pruneTrainData.filter(d => d[FEATURES[node.feature!]] > node.threshold!));
+    const subError = computeTreeError(leftPruned, pruneTrainData.filter(d => d[FEATURES[node.feature]] <= node.threshold))
+      + computeTreeError(rightPruned, pruneTrainData.filter(d => d[FEATURES[node.feature]] > node.threshold));
 
     if (leafError <= subError + alpha * (subLeaves - 1) || subLeaves <= 1) {
       return { prediction: counts[0] >= counts[1] ? 0 : 1, counts, giniVal: gini(counts), depth: node.depth, samples: total };
@@ -1028,30 +1016,30 @@ import SimControls from '../../components/textbook/SimControls.astro';
     return { ...node, left: leftPruned, right: rightPruned };
   }
 
-  function computeTreeError(node: TreeNode, data: any[]): number {
+  function computeTreeError(node, data) {
     let errors = 0;
     for (const d of data) if (predictTree(node, d) !== d.left) errors++;
     return data.length > 0 ? errors / data.length : 0;
   }
 
-  function drawPrunedTree(node: TreeNode) {
-    const canvas = document.getElementById('canvas-pruned-tree') as HTMLCanvasElement;
+  function drawPrunedTree(node) {
+    const canvas = document.getElementById('canvas-pruned-tree');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = '11px Paperlogy, sans-serif';
     ctx.textAlign = 'center';
 
-    function getWidth(n: TreeNode): number {
+    function getWidth(n) {
       if (n.feature === undefined) return 1;
-      return getWidth(n.left!) + getWidth(n.right!);
+      return getWidth(n.left) + getWidth(n.right);
     }
 
     const totalWidth = getWidth(node);
     const xScale = canvas.width / (totalWidth + 1);
     const yStep = 55;
 
-    function draw(n: TreeNode, x: number, y: number, leftBound: number, rightBound: number) {
+    function draw(n, x, y, leftBound, rightBound) {
       const isLeaf = n.feature === undefined;
       const w = isLeaf ? 60 : 100;
       const h = 28;
@@ -1067,12 +1055,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
       if (isLeaf) {
         ctx.fillText(n.prediction === 1 ? '이탈' : '잔류', x, y + 4);
       } else {
-        ctx.fillText(`${FEATURE_LABELS[n.feature!]}`, x, y + 4);
+        ctx.fillText(`${FEATURE_LABELS[n.feature]}`, x, y + 4);
       }
 
       if (!isLeaf) {
-        const leftW = getWidth(n.left!);
-        const rightW = getWidth(n.right!);
+        const leftW = getWidth(n.left);
+        const rightW = getWidth(n.right);
         const mid = leftBound + leftW;
         const leftX = leftBound + leftW / 2;
         const rightX = mid + rightW / 2;
@@ -1091,8 +1079,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
         ctx.lineTo(rx, ny - h/2);
         ctx.stroke();
 
-        draw(n.left!, lx, ny, leftBound, mid);
-        draw(n.right!, rx, ny, mid, rightBound);
+        draw(n.left, lx, ny, leftBound, mid);
+        draw(n.right, rx, ny, mid, rightBound);
       }
     }
 
@@ -1103,7 +1091,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
     Chart.register(...registerables);
 
-    const ctx = (document.getElementById('chart-alpha-accuracy') as HTMLCanvasElement)?.getContext('2d');
+    const ctx = (document.getElementById('chart-alpha-accuracy'))?.getContext('2d');
     if (!ctx) return;
 
     chartAlphaAccuracy = new Chart(ctx, {
@@ -1127,8 +1115,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   function updatePruningDemo() {
-    const alphaVal = parseInt((document.getElementById('range-alpha') as HTMLInputElement).value) / 2000;
-    document.getElementById('label-alpha')!.textContent = alphaVal.toFixed(3);
+    const alphaVal = parseInt((document.getElementById('range-alpha')).value) / 2000;
+    document.getElementById('label-alpha').textContent = alphaVal.toFixed(3);
 
     if (!pruneFullTree) return;
 
@@ -1143,13 +1131,13 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     // Update alpha chart
     if (chartAlphaAccuracy) {
-      const alphas: number[] = [];
-      const trainAccs: number[] = [];
-      const testAccs: number[] = [];
+      const alphas = [];
+      const trainAccs = [];
+      const testAccs = [];
       for (let a = 0; a <= 100; a += 2) {
         const av = a / 2000;
         alphas.push(av);
-        const pt = pruneTree(pruneFullTree!, av);
+        const pt = pruneTree(pruneFullTree, av);
         trainAccs.push(treeAccuracy(pt, pruneTrainData));
         testAccs.push(treeAccuracy(pt, pruneTestData));
       }
@@ -1161,22 +1149,22 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== INTERACTIVE 5: FEATURE IMPORTANCE ======================
-  let chartFeatureImportance: any = null;
+  let chartFeatureImportance = null;
 
-  function computeFeatureImportance(node: TreeNode, totalSamples: number): number[] {
+  function computeFeatureImportance(node, totalSamples) {
     const importance = [0, 0, 0, 0, 0];
-    function traverse(n: TreeNode) {
+    function traverse(n) {
       if (n.feature === undefined) return;
-      const parentGini = gini(n.counts!);
-      const leftGini = gini(n.left!.counts!);
-      const rightGini = gini(n.right!.counts!);
-      const leftN = n.left!.samples || 0;
-      const rightN = n.right!.samples || 0;
+      const parentGini = gini(n.counts);
+      const leftGini = gini(n.left.counts);
+      const rightGini = gini(n.right.counts);
+      const leftN = n.left.samples || 0;
+      const rightN = n.right.samples || 0;
       const nSamples = n.samples || 1;
       const gain = (nSamples / totalSamples) * (parentGini - (leftN / nSamples) * leftGini - (rightN / nSamples) * rightGini);
-      importance[n.feature!] += gain;
-      traverse(n.left!);
-      traverse(n.right!);
+      importance[n.feature] += gain;
+      traverse(n.left);
+      traverse(n.right);
     }
     traverse(node);
     // Normalize
@@ -1189,7 +1177,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     const { Chart, registerables } = await import('https://cdn.jsdelivr.net/npm/chart.js@4/+esm');
     Chart.register(...registerables);
 
-    const ctx = (document.getElementById('chart-feature-importance') as HTMLCanvasElement)?.getContext('2d');
+    const ctx = (document.getElementById('chart-feature-importance'))?.getContext('2d');
     if (!ctx) return;
 
     chartFeatureImportance = new Chart(ctx, {
@@ -1252,7 +1240,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
   }
 
   // ====================== UTILITY ======================
-  function setStat(id: string, val: string) {
+  function setStat(id, val) {
     const el = document.getElementById(id);
     if (el) el.textContent = val;
   }
@@ -1287,7 +1275,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     const alphaSlider = document.getElementById('range-alpha');
     alphaSlider?.addEventListener('input', updatePruningDemo);
     document.getElementById('btn-full-tree')?.addEventListener('click', () => {
-      (document.getElementById('range-alpha') as HTMLInputElement).value = '0';
+      (document.getElementById('range-alpha')).value = '0';
       updatePruningDemo();
     });
     document.getElementById('btn-best-alpha')?.addEventListener('click', () => {
@@ -1295,11 +1283,11 @@ import SimControls from '../../components/textbook/SimControls.astro';
       let bestAlpha = 0, bestAcc = 0;
       for (let a = 0; a <= 100; a += 1) {
         const av = a / 2000;
-        const pt = pruneTree(pruneFullTree!, av);
+        const pt = pruneTree(pruneFullTree, av);
         const acc = treeAccuracy(pt, pruneTestData);
         if (acc > bestAcc) { bestAcc = acc; bestAlpha = a; }
       }
-      (document.getElementById('range-alpha') as HTMLInputElement).value = String(bestAlpha);
+      (document.getElementById('range-alpha')).value = String(bestAlpha);
       updatePruningDemo();
     });
 
@@ -1307,7 +1295,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     document.getElementById('btn-confirm-split')?.addEventListener('click', () => {
       if (selectedSplitFeature < 0) return;
       const key = FEATURES[selectedSplitFeature];
-      const vals = [...new Set(currentBuildData.map(d => d[key]))].sort((a: number, b: number) => a - b);
+      const vals = [...new Set(currentBuildData.map(d => d[key]))].sort((a, b) => a - b);
       let bestThresh = 0, bestGain = -1;
       const pc = countClasses(currentBuildData);
       const pg = gini(pc);
@@ -1323,7 +1311,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
       currentBuildData = currentBuildData.filter(d => d[key] <= bestThresh);
       renderSplitCandidates(currentBuildData);
       renderUserTreeCanvas();
-      document.getElementById('current-node-info')!.textContent = `깊이 ${buildPath.length} (${currentBuildData.length}개 샘플)`;
+      document.getElementById('current-node-info').textContent = `깊이 ${buildPath.length} (${currentBuildData.length}개 샘플)`;
     });
 
     document.getElementById('btn-auto-build')?.addEventListener('click', () => {
@@ -1343,7 +1331,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     // Interactive 5: Feature importance
     document.getElementById('btn-fit-importance')?.addEventListener('click', () => updateFeatureImportance());
     document.getElementById('btn-shuffle-importance')?.addEventListener('click', () => {
-      const idx = parseInt((document.getElementById('select-remove-feature') as HTMLSelectElement).value);
+      const idx = parseInt((document.getElementById('select-remove-feature')).value);
       updateFeatureImportance(idx);
     });
 
