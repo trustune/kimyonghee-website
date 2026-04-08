@@ -243,10 +243,17 @@ import SimControls from '../../components/textbook/SimControls.astro';
   <div class="tb-card">
     <h2>실습 3: 경사하강법 시각화</h2>
     <p>
-      2차원 손실 곡면 위에서 경사하강법이 어떻게 최솟값을 찾아가는지 관찰합니다.
-      등고선이 진할수록 손실이 높은 지점입니다.
-      캔버스를 클릭해 출발점을 지정한 뒤 "하강 시작" 버튼을 누르세요.
+      2차원 손실 곡면 위에서 경사하강법이 어떻게 최솟값(초록 점)을 찾아가는지 관찰합니다.
+      색이 진할수록 손실이 높은 지점입니다.
     </p>
+
+    <ExplainBox>
+      <strong>사용 방법:</strong>
+      (1) 아래 등고선 그래프에서 원하는 출발점을 클릭하세요 (파란 점이 찍힙니다).
+      (2) 학습률을 조절하세요 (작으면 천천히, 크면 빠르지만 불안정).
+      (3) "하강 시작" 버튼을 누르면 빨간 경로가 최솟값을 향해 이동합니다.
+      출발점을 지정하지 않으면 랜덤 위치에서 시작합니다.
+    </ExplainBox>
 
     <SimControls>
       <label>학습률:</label>
@@ -1010,7 +1017,12 @@ function setupGradientDescent() {
   });
 
   document.getElementById('btn-gd-run')?.addEventListener('click', () => {
-    if (gdRunning || !gdStartPoint) return;
+    if (gdRunning) return;
+    if (!gdStartPoint) {
+      // Auto-set a random start point if user hasn't clicked
+      gdStartPoint = [-1 + Math.random() * 6, -1 + Math.random() * 6];
+      gdPath = [gdStartPoint.slice()];
+    }
     if (gdPath.length <= 1) gdPath = [gdStartPoint.slice()];
     gdRunning = true;
     const lr = parseFloat(document.getElementById('slider-lr')?.value || '0.05');
