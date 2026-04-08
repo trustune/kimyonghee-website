@@ -39,6 +39,50 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
   </div>
 
+  <!-- ===== SECTION 1.5: 데이터란 무엇인가 — 일상 속 데이터 ===== -->
+  <div class="tb-card">
+    <h2>잠깐, "데이터"가 정확히 뭔가요?</h2>
+    <p>
+      "데이터"라는 단어를 들으면 복잡한 숫자표나 컴퓨터 화면을 떠올리기 쉽습니다.
+      하지만 사실 여러분은 이미 매일 데이터를 만들고, 사용하고 있습니다.
+    </p>
+
+    <ExplainBox>
+      <strong>쉽게 말하면:</strong>
+      데이터(data)란 <strong>어떤 사실을 기록한 것</strong>입니다.
+      숫자일 수도 있고, 글자일 수도 있고, 사진이나 영상일 수도 있습니다.
+      핵심은 "관찰하거나 측정한 결과를 체계적으로 적어 둔 것"이라는 점입니다.
+    </ExplainBox>
+
+    <p style="margin-top: 14px;">
+      여러분의 하루를 생각해 보세요.
+    </p>
+    <ul style="margin: 10px 0 10px 20px; line-height: 1.8;">
+      <li><strong>스마트폰 스크린 타임</strong> -- "오늘 4시간 23분 사용" → 이것이 데이터입니다.</li>
+      <li><strong>배달 앱 주문 내역</strong> -- 메뉴명, 가격, 주문 시각, 배달 시간 → 모두 데이터입니다.</li>
+      <li><strong>시험 성적표</strong> -- 과목별 점수, 석차, 평균 → 데이터입니다.</li>
+      <li><strong>카드 결제 문자</strong> -- "OO마트 15,800원 결제" → 소비 데이터입니다.</li>
+      <li><strong>운동 앱 기록</strong> -- 걸음 수, 심박수, 칼로리 → 건강 데이터입니다.</li>
+    </ul>
+
+    <InsightBox>
+      <strong>왜 이것이 중요한가?</strong>
+      데이터는 더 이상 전문가만의 것이 아닙니다.
+      뉴스에서 "코로나 확진자 수 추이", 스포츠에서 "타율 .320", 유튜브에서 "조회수 100만" --
+      우리는 이미 데이터로 가득한 세상에 살고 있습니다.
+      이 데이터를 <strong>제대로 읽고 해석하는 능력</strong>이 바로 "데이터 리터러시"이며,
+      이 교재의 출발점입니다.
+    </InsightBox>
+
+    <BusinessBox>
+      <strong>실생활 예시: 데이터가 세상을 움직이는 방법</strong><br><br>
+      <strong>뉴스:</strong> "물가 상승률 3.2%" -- 통계청이 수천 개 품목의 가격 데이터를 수집하여 계산합니다.<br>
+      <strong>비즈니스:</strong> 편의점은 날씨 데이터와 판매 데이터를 결합하여 도시락 발주량을 결정합니다.<br>
+      <strong>스포츠:</strong> 야구에서 OPS(출루율+장타율)라는 데이터로 선수의 가치를 평가합니다.<br>
+      <strong>의료:</strong> 혈압, 혈당, 콜레스테롤 수치라는 데이터로 건강 상태를 판단합니다.
+    </BusinessBox>
+  </div>
+
   <!-- ===== SECTION 2: 데이터의 구조 — 행과 열 ===== -->
   <div class="tb-card">
     <h2>데이터의 구조: 행과 열</h2>
@@ -48,9 +92,23 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
-      <strong>행(row)</strong>은 하나의 관측치(observation)입니다. 설문조사라면 응답자 한 명, 판매 데이터라면 거래 한 건.
-      <strong>열(column)</strong>은 하나의 변수(variable)입니다. 이름, 나이, 매출액 같은 측정 항목.
+      <strong>학급 명부로 이해하는 행과 열</strong><br><br>
+      중학교 학급 명부를 떠올려 보세요. 명부에는 가로줄(행)마다 학생 한 명의 정보가 적혀 있고,
+      세로줄(열)에는 "이름", "출석번호", "키", "몸무게" 같은 항목이 있습니다.<br><br>
+      <strong>행(row) = 관측치 하나.</strong> 학급 명부에서 "김철수" 한 줄 전체가 하나의 행입니다.
+      설문조사라면 응답자 한 명, 판매 데이터라면 거래 한 건이 됩니다.<br><br>
+      <strong>열(column) = 변수 하나.</strong> "키"라는 세로줄 전체가 하나의 열입니다.
+      이름, 나이, 매출액 같은 측정 항목 하나하나가 열입니다.<br><br>
+      <strong>쉽게 말하면:</strong> 행은 "누구(또는 무엇)에 대한 기록"이고,
+      열은 "무엇을 측정했는지"입니다.
     </ExplainBox>
+
+    <WarningBox>
+      <strong>왜 이 구조가 중요한가?</strong>
+      모든 통계 분석 도구(엑셀, SPSS, R, Python)는 데이터가 이 "행 = 관측치, 열 = 변수" 구조로
+      정리되어 있다고 가정합니다. 구조가 엉망이면 아무리 좋은 분석 기법도 쓸 수 없습니다.
+      데이터 정리의 첫 번째 원칙: <strong>한 행에 하나의 관측치, 한 열에 하나의 변수</strong>.
+    </WarningBox>
 
     <p style="margin: 14px 0; font-weight: 700;">아래 표를 직접 살펴보세요. 행과 열의 의미를 확인합니다.</p>
 
@@ -106,10 +164,26 @@ import SimControls from '../../components/textbook/SimControls.astro';
   <!-- ===== SECTION 3: 변수의 유형 분류 실습 ===== -->
   <div class="tb-card">
     <h2>변수의 유형: 범주형 vs 수치형</h2>
+
+    <p style="margin-bottom: 14px;">
+      이제 데이터의 구조(행과 열)를 이해했습니다.
+      다음 질문은 이것입니다: <strong>각 열(변수)에 담긴 값의 성격이 무엇인가?</strong>
+      이 성격에 따라 사용할 수 있는 분석 방법이 완전히 달라지기 때문입니다.
+    </p>
+
     <p>
       모든 변수는 크게 두 가지로 나뉩니다.
       이 구분을 정확히 하는 것이 올바른 분석 방법을 선택하는 출발점입니다.
     </p>
+
+    <ExplainBox>
+      <strong>일상 비유로 이해하기</strong><br><br>
+      냉장고 속 음식을 정리한다고 생각해 보세요.
+      어떤 것은 <strong>"종류"</strong>로 구분합니다 -- 과일, 채소, 음료, 유제품 (이것이 <strong>범주형</strong>).
+      어떤 것은 <strong>"숫자"</strong>로 측정합니다 -- 무게 500g, 유통기한까지 3일 (이것이 <strong>수치형</strong>).<br><br>
+      "음료 + 채소 = ?"는 말이 안 됩니다. 하지만 "500g + 300g = 800g"은 의미가 있습니다.
+      바로 이것이 범주형과 수치형의 핵심 차이입니다: <strong>산술 연산(더하기, 빼기 등)이 의미가 있는가?</strong>
+    </ExplainBox>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
       <div style="background: var(--tb-primary-light); padding: 18px; border-radius: var(--tb-radius);">
@@ -129,6 +203,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
         </p>
       </div>
     </div>
+
+    <WarningBox>
+      <strong>변수 유형을 잘못 구분하면 분석 결과가 완전히 달라집니다</strong><br>
+      예를 들어 설문에서 "성별"을 남자=1, 여자=2로 코딩했다고 합시다.
+      이 숫자에 평균을 구하면 1.5가 나옵니다. "평균 성별이 1.5"라니, 전혀 의미가 없습니다.
+      이처럼 범주형 변수에 수치형 분석을 적용하면 <strong>엉터리 결론</strong>이 나옵니다.
+      반대로, 연봉 데이터를 "고/중/저"로만 분류하면 정밀한 분석 기회를 잃게 됩니다.
+      <strong>올바른 유형 분류 = 올바른 분석 = 올바른 결론</strong>. 이것이 출발점입니다.
+    </WarningBox>
 
     <ExerciseBox>
       <strong>분류 실습:</strong>
@@ -171,6 +254,22 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </WarningBox>
   </div>
 
+  <!-- ===== SECTION 3.5: 변수 유형과 분석의 연결 ===== -->
+  <div class="tb-card">
+    <h2>왜 다음으로 "측정 척도"를 배우는가?</h2>
+    <p>
+      범주형과 수치형의 구분은 <strong>큰 그림</strong>입니다.
+      하지만 실제 분석에서는 더 세밀한 구분이 필요합니다.
+      같은 "숫자"라도 그 숫자가 담고 있는 정보의 수준이 다르기 때문입니다.
+    </p>
+    <ExplainBox>
+      <strong>비유:</strong> 운전면허를 따려면 "자동차"와 "자전거"를 구분하는 것만으로는 부족합니다.
+      자동차 안에서도 승용차, 화물차, 버스가 다르듯이,
+      변수 안에서도 <strong>명목, 서열, 등간, 비율</strong>이라는 네 가지 수준이 있습니다.
+      이 수준에 따라 "어떤 계산이 의미 있는가"가 결정됩니다.
+    </ExplainBox>
+  </div>
+
   <!-- ===== SECTION 4: 측정 척도 ===== -->
   <div class="tb-card">
     <h2>측정 척도: 같은 숫자, 다른 의미</h2>
@@ -198,6 +297,26 @@ import SimControls from '../../components/textbook/SimControls.astro';
       </table>
     </div>
 
+    <ExplainBox>
+      <strong>일상에서 만나는 네 가지 척도 -- 자세한 예시</strong><br><br>
+      <strong>명목 척도:</strong> 스마트폰 브랜드(삼성, 애플, LG), 좋아하는 색깔, 거주 지역.
+      이 값들에 "순서"란 없습니다. "삼성 > 애플"이라고 말할 수 없습니다.<br><br>
+      <strong>서열 척도:</strong> 학교 성적 등급(수/우/미/양/가), 영화 별점(1~5개), 반장 선거 순위(1등, 2등, 3등).
+      순서는 있지만, 수와 우의 "차이"와 우와 미의 "차이"가 같다고 보장할 수 없습니다.<br><br>
+      <strong>등간 척도:</strong> 온도(섭씨). 10도에서 20도로 올라간 차이와 20도에서 30도로 올라간 차이는 같은 10도입니다.
+      하지만 "20도는 10도의 두 배로 덥다"고는 말할 수 없습니다 -- 0도가 "온도가 전혀 없는 상태"가 아니기 때문입니다.<br><br>
+      <strong>비율 척도:</strong> 키(cm), 몸무게(kg), 용돈(원). 0원은 진짜로 돈이 없는 상태이고,
+      2만원은 1만원의 "2배"라고 말할 수 있습니다. 가장 많은 연산이 가능한 척도입니다.
+    </ExplainBox>
+
+    <InsightBox>
+      <strong>왜 이것이 중요한가?</strong>
+      명목 척도 변수에는 "빈도"만 셀 수 있습니다 (가장 많이 선택된 브랜드가 무엇인가).
+      서열 척도에서는 "중앙값"까지 쓸 수 있습니다.
+      등간/비율 척도에서만 "평균"과 "표준편차"를 의미 있게 계산할 수 있습니다.
+      척도를 모르면, 쓸 수 없는 분석을 쓰거나, 쓸 수 있는 분석을 놓치게 됩니다.
+    </InsightBox>
+
     <ExerciseBox>
       <strong>척도 퀴즈:</strong>
       아래 변수들의 측정 척도를 맞춰보세요. 변수를 클릭하면 선택지가 나타납니다.
@@ -223,6 +342,21 @@ import SimControls from '../../components/textbook/SimControls.astro';
   <!-- ===== SECTION 5: 데이터 시각화 첫걸음 ===== -->
   <div class="tb-card">
     <h2>데이터를 눈으로 보기: 변수 유형별 시각화</h2>
+
+    <p style="margin-bottom: 14px;">
+      지금까지 데이터의 구조(행과 열), 변수의 유형(범주형/수치형), 측정 척도(명목~비율)를 배웠습니다.
+      이 지식이 <strong>실제로 쓰이는 첫 번째 장면</strong>이 바로 시각화입니다.
+      변수 유형에 따라 적절한 그래프를 선택해야 데이터의 패턴이 눈에 들어옵니다.
+    </p>
+
+    <ExplainBox>
+      <strong>비유:</strong> 옷을 고를 때 상의/하의/신발에 맞는 옷장 칸이 따로 있듯이,
+      데이터에도 변수 유형에 맞는 "그래프 칸"이 있습니다.
+      범주형 변수에는 <strong>막대 그래프</strong>, 수치형 변수에는 <strong>히스토그램</strong>,
+      두 변수의 관계를 볼 때는 <strong>산점도</strong>가 기본입니다.
+      잘못된 그래프를 선택하면 패턴이 숨어 버리거나, 없는 패턴이 보이는 착시가 생깁니다.
+    </ExplainBox>
+
     <p>
       변수의 유형에 따라 적절한 그래프가 다릅니다.
       아래에서 변수를 선택하면 자동으로 적합한 차트가 그려집니다.
@@ -262,6 +396,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
   <!-- ===== SECTION 6: 두 변수의 관계 맛보기 ===== -->
   <div class="tb-card">
     <h2>두 변수를 동시에 보기</h2>
+
+    <p style="margin-bottom: 14px;">
+      지금까지는 변수 하나씩을 따로 살펴보았습니다.
+      하지만 현실의 질문은 대부분 <strong>"A와 B 사이에 관계가 있는가?"</strong>입니다.
+      예를 들어, "근속연수가 길면 연봉이 높은가?", "만족도가 낮으면 이직을 더 많이 하는가?"
+      이런 질문에 답하려면 두 변수를 <strong>동시에</strong> 봐야 합니다.
+    </p>
+
     <p>
       하나의 변수만 보면 놓치는 이야기가 있습니다.
       두 변수를 동시에 놓고 보면 관계(relationship)가 드러납니다.
@@ -308,10 +450,25 @@ import SimControls from '../../components/textbook/SimControls.astro';
   <!-- ===== SECTION 7: 데이터 품질 실습 ===== -->
   <div class="tb-card">
     <h2>데이터 품질: 쓰레기가 들어가면 쓰레기가 나온다</h2>
+
+    <p style="margin-bottom: 14px;">
+      지금까지 데이터의 구조, 변수 유형, 시각화를 배웠습니다.
+      하지만 현실에서는 한 가지 문제가 더 있습니다 --
+      데이터 자체가 <strong>깨끗하지 않을 수 있다</strong>는 것입니다.
+      아무리 완벽한 분석 기법을 사용해도, 입력된 데이터가 엉망이면 결과도 엉망이 됩니다.
+    </p>
+
     <p>
       현실의 데이터에는 결측값, 이상치, 입력 오류가 항상 존재합니다.
       "Garbage In, Garbage Out" -- 아무리 정교한 분석 기법도 나쁜 데이터 앞에서는 무력합니다.
     </p>
+
+    <InsightBox>
+      <strong>왜 이것이 중요한가?</strong>
+      실무 데이터 분석가들은 전체 작업 시간의 60~80%를 데이터 정제에 사용한다고 말합니다.
+      화려한 분석 기법보다 <strong>깨끗한 데이터를 만드는 능력</strong>이 더 중요한 경우가 많습니다.
+      이 절에서는 "나쁜 데이터"를 눈으로 발견하는 연습을 합니다.
+    </InsightBox>
 
     <ExplainBox>
       <strong>결측값(Missing Value):</strong> 비어 있는 칸. 설문 무응답, 시스템 오류, 수집 실패 등.<br>

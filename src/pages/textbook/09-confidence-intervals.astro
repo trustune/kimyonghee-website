@@ -27,19 +27,34 @@ import SimControls from '../../components/textbook/SimControls.astro';
       "A 후보 지지율 48%, B 후보 45%, 오차범위 +-3.1%p, 신뢰수준 95%."
       그런데 이 문장을 정확히 이해하는 사람은 의외로 적습니다.
     </p>
+
+    <ExplainBox>
+      <strong>신뢰구간이 뭔가?</strong>
+      한마디로 말하면, <strong>참값이 이 범위 안에 있을 것으로 기대하는 구간</strong>입니다.
+      표본에서 계산한 값(예: 48%)은 정확한 모수가 아닙니다.
+      그래서 "정확히 48%입니다"라고 말하는 대신,
+      "대략 44.9%에서 51.1% 사이에 있을 것입니다"라고 범위를 제시하는 것입니다.
+      이 범위가 바로 신뢰구간(confidence interval, CI)입니다.
+    </ExplainBox>
+
     <p style="margin-top: 12px;">
       "95% 확신"이란 무엇일까요? 이것을 이해하려면 <strong>낚시 비유</strong>가 도움이 됩니다.
     </p>
 
     <ExplainBox>
-      <strong>낚시 비유:</strong>
+      <strong>낚시 그물 비유:</strong>
       호수에 물고기가 딱 한 마리 있습니다 (모수 = 진짜 지지율).
       물고기의 정확한 위치는 모릅니다.
-      우리가 할 수 있는 것은 <strong>그물(신뢰구간)</strong>을 던지는 것입니다.
+      우리가 할 수 있는 것은 <strong>그물(신뢰구간)</strong>을 던지는 것입니다.<br><br>
       그물을 100번 던지면, 약 95번은 물고기를 잡습니다.
+      나머지 5번은 물고기를 놓칩니다.
       즉, 95%는 <strong>그물(구간)이 물고기(모수)를 포함할 확률</strong>이지,
       물고기가 그물 안에 있을 확률이 아닙니다.
-      물고기는 항상 같은 자리에 있고, 움직이는 것은 그물입니다.
+      물고기는 항상 같은 자리에 있고, 움직이는 것은 그물입니다.<br><br>
+      <strong>그물의 크기를 바꿀 수도 있습니다:</strong><br>
+      -- 아주 큰 그물(99% 신뢰구간): 거의 항상 물고기를 잡지만, 그물이 커서 "호수 어딘가에 있다"는 것밖에 모릅니다.<br>
+      -- 작은 그물(80% 신뢰구간): 위치를 정밀하게 알 수 있지만, 자주 놓칩니다.<br>
+      -- 적당한 그물(95% 신뢰구간): 정밀도와 안전성의 균형. 그래서 95%가 관행적 기준입니다.
     </ExplainBox>
 
     <p style="margin-top: 12px;">
@@ -58,8 +73,19 @@ import SimControls from '../../components/textbook/SimControls.astro';
       신뢰구간은 "모수가 이 범위 안에 있을 것이다"라는 구간 추정(interval estimation)입니다.
     </p>
 
+    <WarningBox>
+      <strong>가장 흔한 오해를 미리 짚고 넘어갑시다:</strong>
+      "이 구간에 참값이 있을 확률이 95%이다" -- <strong>이 해석은 틀렸습니다!</strong><br><br>
+      참값(모수)은 고정된 하나의 숫자입니다. 구간 안에 있거나 없거나, 둘 중 하나입니다.
+      동전처럼 확률적으로 들어갔다 나갔다 하지 않습니다.<br><br>
+      올바른 해석: "이 방법(절차)으로 구간을 100번 만들면, 약 95개의 구간이 참값을 포함할 것이다."
+      <strong>무작위인 것은 구간이지, 참값이 아닙니다.</strong>
+    </WarningBox>
+
     <FormulaBox>
-      신뢰구간 = <span class="hl">표본평균</span> +- <span class="hl">z</span> * (<span class="hl">sigma</span> / sqrt(<span class="hl">n</span>))
+      신뢰구간 = <span class="hl">표본평균</span> +- <span class="hl">z</span> * (<span class="hl">sigma</span> / sqrt(<span class="hl">n</span>))<br><br>
+      쉽게 말하면: "우리가 가진 최선의 추정값(표본평균)을 중심으로,
+      오차가 있을 수 있는 범위(z * SE)만큼 양쪽으로 여유를 준 것"입니다.
     </FormulaBox>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
@@ -187,6 +213,19 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <StatBox label="CI 폭" id="width-total" value="-" sub="상한 - 하한" />
     </div>
 
+    <ExplainBox>
+      <strong>신뢰구간의 폭을 결정하는 3가지 요인:</strong><br>
+      (1) <strong>표본 크기 (n):</strong> n이 커지면 구간이 좁아집니다. 더 많이 조사하면 더 정밀해지니까요.
+      n이 4배가 되면 구간 폭은 절반으로 줄어듭니다 (sqrt(n) 때문).<br>
+      (2) <strong>신뢰수준:</strong> 95%에서 99%로 높이면 구간이 넓어집니다.
+      "더 확실하게" 잡으려면 더 넓은 그물을 던져야 합니다.
+      90% 신뢰구간이 가장 좁고, 99% 신뢰구간이 가장 넓습니다.<br>
+      (3) <strong>모집단의 변동성 (sigma):</strong> 데이터가 많이 흩어져 있을수록(sigma가 클수록) 구간이 넓어집니다.
+      사람들의 의견이 50:50으로 갈리면 불확실성이 크고, 90:10으로 쏠리면 불확실성이 작습니다.<br><br>
+      쉽게 말하면: 구간을 좁히고 싶으면 (1) 표본을 늘리거나, (2) 신뢰수준을 낮추면 됩니다.
+      하지만 (2)는 놓칠 위험을 높이고, (1)은 비용이 듭니다. 이것이 통계의 딜레마입니다.
+    </ExplainBox>
+
     <InsightBox>
       <strong>실무적 딜레마:</strong>
       신뢰수준을 높이면 "더 안전하지만" 구간이 넓어져 정보가 부정확해집니다.
@@ -309,6 +348,18 @@ import SimControls from '../../components/textbook/SimControls.astro';
       95% 신뢰수준에서 p-hat = 0.5, n = 1000이면:
       1.96 * sqrt(0.5 * 0.5 / 1000) = 1.96 * 0.0158 = 0.031, 즉 +-3.1%p입니다.
     </InsightBox>
+
+    <ExplainBox>
+      <strong>선거 여론조사에서 "오차범위 +-3%p"의 정확한 의미:</strong><br>
+      "A 후보 지지율 48%, 오차범위 +-3%p"라고 하면,
+      A 후보의 신뢰구간은 [45%, 51%]입니다.<br><br>
+      이것이 뜻하는 바는: "같은 방식으로 여론조사를 100번 반복하면,
+      약 95번은 구간 [표본값-3, 표본값+3]이 진짜 지지율을 포함할 것이다."<br><br>
+      따라서 "A 48%, B 45%, 오차범위 +-3%p"라는 결과에서:
+      A의 구간 [45%, 51%]와 B의 구간 [42%, 48%]가 겹칩니다.
+      이 경우 "통계적으로 의미 있는 차이가 없다", 즉 <strong>접전</strong>입니다.
+      3%p 차이가 있어 보이지만, 오차범위를 고려하면 실제로는 B가 앞서고 있을 가능성도 배제할 수 없습니다.
+    </ExplainBox>
   </div>
 
   <!-- ===== CONCLUSION ===== -->

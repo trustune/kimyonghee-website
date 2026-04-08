@@ -38,20 +38,84 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
   </div>
 
+  <!-- ===== SECTION 1.5: 시험 점수 이야기 ===== -->
+  <div class="tb-card">
+    <h2>이야기: 반 평균이 75점인데, 평균이 "나"를 대변하는가?</h2>
+    <p>
+      중간고사 수학 시험 결과가 나왔습니다. 선생님이 말합니다: "반 평균은 75점입니다."
+    </p>
+    <p style="margin-top: 10px;">
+      민수는 90점을 받았습니다. "나는 평균보다 훨씬 잘했네."<br>
+      지영이는 40점을 받았습니다. "평균이 75점인데 나는 40점이라니..."<br>
+      하지만 잠깐 -- 이 반의 점수 분포를 자세히 보면:
+    </p>
+    <ul style="margin: 10px 0 10px 20px; line-height: 1.8;">
+      <li>90점대: 5명</li>
+      <li>80점대: 3명</li>
+      <li>70점대: 2명</li>
+      <li>60점대: 5명</li>
+      <li>50점대: 8명</li>
+      <li>40점대: 7명</li>
+    </ul>
+    <p style="margin-top: 10px;">
+      30명 중 20명이 70점 미만입니다. 그런데 평균은 75점?
+      상위 8명의 높은 점수가 평균을 <strong>위로 끌어올린</strong> 것입니다.
+    </p>
+
+    <InsightBox>
+      <strong>이 이야기의 교훈:</strong>
+      "평균"은 데이터를 한 숫자로 요약하는 편리한 도구이지만,
+      <strong>모든 사람의 상황을 공정하게 대변하지 않을 수 있습니다</strong>.
+      그래서 평균 하나만으로 판단하면 위험하고,
+      중앙값, 최빈값 같은 다른 대표값과 함께 봐야 합니다.
+      이것이 이 장의 핵심 메시지입니다.
+    </InsightBox>
+  </div>
+
   <!-- ===== SECTION 2: 공식 ===== -->
   <div class="tb-card">
     <h2>세 가지 대표값</h2>
 
     <ExplainBox>
-      <strong>평균(Mean):</strong> 모든 값을 더해서 개수로 나눈 값. 모든 데이터가 영향을 줍니다.<br>
-      <strong>중앙값(Median):</strong> 데이터를 크기 순으로 정렬했을 때 정가운데 값. 극단값에 강합니다.<br>
-      <strong>최빈값(Mode):</strong> 가장 자주 나타나는 값. 범주형 데이터에서 특히 유용합니다.
+      <strong>평균(Mean) -- "골고루 나누면 각자 얼마?"</strong><br><br>
+      <strong>쉽게 말하면:</strong> 모든 값을 더해서 개수로 나눈 것입니다.
+      5명이 피자를 먹는데, 각자 1조각, 2조각, 3조각, 4조각, 5조각을 먹었다면,
+      전부 합치면 15조각이고, 5명으로 나누면 한 사람당 3조각이 "평균"입니다.<br><br>
+      <strong>단계별로 계산해 봅시다:</strong><br>
+      데이터: 60, 70, 80, 80, 100 (시험 점수 5명)<br>
+      1단계: 모두 더한다 → 60 + 70 + 80 + 80 + 100 = 390<br>
+      2단계: 개수로 나눈다 → 390 / 5 = <strong>78</strong><br>
+      평균 점수는 78점입니다. 모든 데이터가 계산에 영향을 줍니다.
+    </ExplainBox>
+
+    <ExplainBox>
+      <strong>중앙값(Median) -- "줄 서서 가운데 사람"</strong><br><br>
+      <strong>쉽게 말하면:</strong> 데이터를 작은 것부터 큰 것 순서로 줄 세운 뒤, 정가운데 서 있는 값입니다.<br><br>
+      5명이 키 순서로 한 줄로 섭니다:
+      155cm, 160cm, <strong>165cm</strong>, 170cm, 190cm.<br>
+      가운데(3번째) 사람의 키가 165cm이므로, 중앙값은 <strong>165cm</strong>입니다.<br><br>
+      만약 6명이라면? 가운데 두 사람의 평균을 구합니다.<br>
+      155, 160, <strong>165, 170</strong>, 175, 190 → 중앙값 = (165+170)/2 = <strong>167.5cm</strong><br><br>
+      <strong>핵심:</strong> 맨 끝에 서 있는 190cm 사람이 250cm(농구 선수)로 바뀌어도
+      가운데 사람은 변하지 않습니다. 이것이 "극단값에 강건하다"는 의미입니다.
+    </ExplainBox>
+
+    <ExplainBox>
+      <strong>최빈값(Mode) -- "가장 인기 있는 메뉴"</strong><br><br>
+      <strong>쉽게 말하면:</strong> 가장 자주 나타나는 값입니다.
+      학교 앞 분식집에서 오늘 주문된 메뉴: 떡볶이, 떡볶이, 순대, 떡볶이, 김밥, 순대, 떡볶이.<br>
+      떡볶이가 4번으로 가장 많으니 최빈값은 <strong>"떡볶이"</strong>입니다.<br><br>
+      <strong>핵심:</strong> 최빈값은 숫자가 아닌 범주형 데이터에서도 사용할 수 있는 유일한 대표값입니다.
+      "평균 메뉴"는 계산할 수 없지만, "가장 인기 있는 메뉴"는 알 수 있습니다.
     </ExplainBox>
 
     <FormulaBox>
       <span class="hl">평균</span> = (x&#8321; + x&#8322; + ... + x&#8345;) / n = &#931;x&#7522; / n<br>
+      <span style="font-size: .88rem; color: var(--tb-g600);">쉽게 말하면: 전부 더해서 개수로 나누기</span><br><br>
       <span class="hl">중앙값</span> = 정렬 후 &#123;(n+1)/2&#125;번째 값 (n이 홀수) 또는 가운데 두 값의 평균 (n이 짝수)<br>
-      <span class="hl">최빈값</span> = 가장 빈도가 높은 값
+      <span style="font-size: .88rem; color: var(--tb-g600);">쉽게 말하면: 줄 세우고 정가운데 값 찾기</span><br><br>
+      <span class="hl">최빈값</span> = 가장 빈도가 높은 값<br>
+      <span style="font-size: .88rem; color: var(--tb-g600);">쉽게 말하면: 가장 많이 나타난 값</span>
     </FormulaBox>
 
     <InsightBox>
@@ -60,6 +124,41 @@ import SimControls from '../../components/textbook/SimControls.astro';
       중앙값은 <strong>위치만 보기 때문에 극단값에 강건</strong>(robust)합니다.
       최빈값은 <strong>분포의 봉우리</strong>를 나타냅니다.
     </InsightBox>
+
+    <WarningBox>
+      <strong>왜 평균이 "거짓말"을 하는가 -- 소득 불평등 예시</strong><br><br>
+      마을에 10명이 삽니다. 9명은 연봉 3,000만원, 1명은 연봉 30억원입니다.<br>
+      <strong>평균 연봉:</strong> (3,000만 x 9 + 300,000만 x 1) / 10 = <strong>3억 2,700만원</strong><br>
+      <strong>중앙값 연봉:</strong> 5번째와 6번째의 평균 = <strong>3,000만원</strong><br><br>
+      평균 연봉은 3억이 넘지만, 10명 중 9명은 3,000만원입니다.
+      "이 마을의 평균 연봉은 3억 2,700만원"이라는 말은 사실이지만,
+      대부분의 주민의 현실과는 완전히 동떨어져 있습니다.
+      이런 경우 중앙값이 "전형적인 사람"을 훨씬 잘 대변합니다.
+    </WarningBox>
+
+    <div style="margin: 18px 0;">
+      <h3>언제 어떤 대표값을 사용해야 하는가?</h3>
+      <div class="tb-data-table-wrap" style="max-height: none;">
+        <table class="tb-data-table">
+          <thead>
+            <tr>
+              <th>상황</th>
+              <th>적절한 대표값</th>
+              <th>이유</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>시험 점수 (정규분포에 가까움)</td><td>평균</td><td>극단값이 적고 분포가 대칭적</td></tr>
+            <tr><td>연봉, 집값 (오른쪽 꼬리 분포)</td><td>중앙값</td><td>소수의 고소득자/고가 주택이 평균을 왜곡</td></tr>
+            <tr><td>좋아하는 음식, 브랜드 선호</td><td>최빈값</td><td>범주형 데이터에 평균/중앙값은 계산 불가</td></tr>
+            <tr><td>옷 사이즈 결정 (제조업)</td><td>최빈값</td><td>가장 많은 고객이 원하는 사이즈를 알아야 함</td></tr>
+            <tr><td>서버 응답 시간</td><td>중앙값 또는 백분위수</td><td>소수의 매우 느린 응답이 평균을 왜곡</td></tr>
+            <tr><td>올림픽 체조 점수</td><td>절사평균</td><td>최고점/최저점을 제거하여 극단값 영향을 줄임</td></tr>
+            <tr><td>일별 매출 합계 추정</td><td>평균</td><td>평균 x 일수 = 전체 합계 추정에 활용</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   <!-- ===== INTERACTIVE 1: Income Distribution Builder ===== -->

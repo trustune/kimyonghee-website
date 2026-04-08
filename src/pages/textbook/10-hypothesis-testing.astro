@@ -36,12 +36,31 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
-      <strong>재판 비유:</strong>
-      법정에서 피고인은 <strong>무죄로 추정</strong>됩니다 (영가설 H0: 효과 없음).
-      검사(연구자)는 충분한 증거(데이터)를 제시하여 유죄(H0 기각)를 입증해야 합니다.
-      증거가 압도적이면 유죄 선고(H0 기각, 효과 있음).
-      증거가 부족하면 무죄 방면(H0 기각 실패) -- 이것은 "무죄(효과 없음이 확실)"가 아니라
-      <strong>"유죄를 증명하지 못함(효과 없음을 부정할 수 없음)"</strong>입니다.
+      <strong>재판 비유로 완전히 이해하기:</strong>
+      가설검정은 법정 재판과 놀라울 정도로 닮아 있습니다. 이 비유를 머릿속에 넣어두면 가설검정의 논리가 한 번에 이해됩니다.
+      <br><br>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 8px 0;">
+        <div style="background: rgba(255,255,255,0.5); padding: 12px; border-radius: 8px;">
+          <strong>법정 재판</strong><br>
+          - 피고인은 <strong>무죄로 추정</strong><br>
+          - <strong>검사</strong>가 증거를 모아서 유죄를 입증<br>
+          - <strong>증거</strong>가 압도적이면 유죄 선고<br>
+          - 증거 부족하면 무죄 방면<br>
+          - 무죄 방면 = "결백이 증명됨"이 아님
+        </div>
+        <div style="background: rgba(255,255,255,0.5); padding: 12px; border-radius: 8px;">
+          <strong>가설검정</strong><br>
+          - 영가설(H0)은 <strong>참으로 가정</strong><br>
+          - <strong>연구자</strong>가 데이터를 모아서 H0 반박<br>
+          - <strong>데이터</strong>가 압도적이면 H0 기각<br>
+          - 데이터 부족하면 H0 기각 실패<br>
+          - 기각 실패 = "효과 없음이 확인됨"이 아님
+        </div>
+      </div>
+      <strong>쉽게 말하면:</strong> 연구자는 검사 역할입니다. "효과가 있다"는 것을 증명하고 싶지만,
+      먼저 "효과가 없다(H0)"고 가정한 뒤, 데이터라는 증거를 들이밀어 그 가정을 무너뜨려야 합니다.
+      증거가 부족하다고 피고인이 정말 무죄인 것은 아니듯,
+      <strong>"H0을 기각하지 못했다"는 "효과가 없음을 증명했다"와 전혀 다른 말입니다.</strong>
     </ExplainBox>
   </div>
 
@@ -63,7 +82,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <div style="background: var(--tb-primary-light); padding: 14px; border-radius: var(--tb-radius);">
         <h3 style="color: var(--tb-primary); margin: 0 0 4px;">유의수준 결정</h3>
         <p style="font-size: .9rem;">
-          alpha = 0.05가 관례입니다. "무고한 사람을 유죄로 판결할 위험"을 5% 이하로 통제하겠다는 뜻입니다.
+          alpha = 0.05가 관례입니다. "무고한 사람을 유죄로 판결할 위험"을 5% 이하로 통제하겠다는 뜻입니다.<br>
+          <span style="color: var(--tb-g600); font-size: .83rem;">
+            왜 하필 0.05일까? 1920년대 통계학자 R.A. Fisher가 "편리한 기준"으로 제안한 것이지,
+            자연 법칙이나 수학적 필연이 아닙니다. 분야에 따라 0.01이나 0.001을 쓰기도 합니다.
+            입자물리학에서는 새 입자를 발견했다고 주장하려면 "5 sigma"(p &lt; 0.0000003)를 요구합니다!
+          </span>
         </p>
       </div>
 
@@ -96,6 +120,23 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <FormulaBox>
       p-value = P(현재 데이터 또는 더 극단적인 데이터 | <span class="hl">H0이 참</span>)
     </FormulaBox>
+
+    <ExplainBox>
+      <strong>p-value란 무엇인가?</strong><br>
+      p-value는 "영가설(H0)이 참이라고 가정했을 때, 지금 관찰한 데이터만큼 극단적이거나 더 극단적인 결과가 나올 확률"입니다.<br><br>
+      <strong>쉽게 말하면:</strong> "만약 정말로 효과가 없다면, 이 정도 결과가 순전히 운으로 나올 확률이 얼마나 되는가?"입니다.
+      그 확률이 아주 낮으면(예: 5% 미만) "이건 우연이라고 보기 어렵다"고 판단하는 것입니다.<br><br>
+      <strong>일상 비유:</strong> 친구가 동전 던지기에서 10번 연속 앞면을 나오게 했다고 합시다.
+      "공정한 동전이라면 10번 연속 앞면이 나올 확률은 0.1%도 안 돼. 이건 우연이 아니야!"라고 생각하는 것 -- 이것이 p-value의 직관입니다.
+    </ExplainBox>
+
+    <InsightBox>
+      <strong>"p &lt; 0.05의 의미"를 정확하게 이해하기:</strong><br>
+      많은 사람이 p &lt; 0.05를 "효과가 있을 확률이 95%"라고 오해합니다. <strong>이것은 완전히 틀린 해석입니다.</strong><br><br>
+      p &lt; 0.05의 올바른 의미: "H0이 참일 때, 이 정도로 극단적인 결과가 <strong>우연히</strong> 나올 확률이 5% 미만이다."<br><br>
+      즉, "효과가 있을 확률"이 아니라, "우연의 산물일 가능성이 낮다"는 뜻입니다.
+      미묘하지만 매우 중요한 차이입니다.
+    </InsightBox>
 
     <WarningBox>
       <strong>"p-value가 작다 = 효과가 크다"는 틀린 해석입니다.</strong>
@@ -176,22 +217,33 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
       <div style="background: #fef2f2; padding: 16px; border-radius: var(--tb-radius);">
-        <h3 style="color: var(--tb-danger); margin-bottom: 6px;">제1종 오류 (alpha)</h3>
+        <h3 style="color: var(--tb-danger); margin-bottom: 6px;">제1종 오류 (alpha) -- 무고한 사람을 유죄로</h3>
         <p style="font-size: .85rem;">
           H0이 참인데 기각하는 것.<br>
-          재판 비유: 무고한 사람에게 유죄 선고.<br>
+          <strong>재판 비유:</strong> 실제로는 무고한 사람인데, 증거를 잘못 해석해서 유죄 선고를 내리는 것.<br>
+          <strong>현실 예시:</strong> 신약에 효과가 없는데 "효과 있다"고 승인하면, 환자들이 효과 없는 약을 복용하게 됩니다. 부작용만 남고 치료 효과는 없는 최악의 상황이 됩니다.<br>
           확률 = alpha (보통 0.05)
         </p>
       </div>
       <div style="background: #fef3c7; padding: 16px; border-radius: var(--tb-radius);">
-        <h3 style="color: #92400e; margin-bottom: 6px;">제2종 오류 (beta)</h3>
+        <h3 style="color: #92400e; margin-bottom: 6px;">제2종 오류 (beta) -- 진짜 범인을 놓침</h3>
         <p style="font-size: .85rem;">
           H0이 거짓인데 기각하지 못하는 것.<br>
-          재판 비유: 범인을 무죄 방면.<br>
+          <strong>재판 비유:</strong> 실제 범인인데 증거가 부족해서 무죄 방면하는 것.<br>
+          <strong>현실 예시:</strong> 정말 효과가 있는 항암제인데 "효과 없다"고 판정하면, 암 환자들이 생명을 구할 수 있는 약을 쓰지 못하게 됩니다.<br>
           확률 = beta. 검정력(Power) = 1 - beta
         </p>
       </div>
     </div>
+
+    <ExplainBox>
+      <strong>어떤 오류가 더 심각한가?</strong><br>
+      상황에 따라 다릅니다. 형사 재판에서는 "무고한 사람을 감옥에 보내는 것(Type I)"이 더 심각하므로 증거 기준이 매우 높습니다 ("합리적 의심의 여지가 없을 정도로").
+      반면 전염병 검사에서는 "감염자를 놓치는 것(Type II)"이 더 위험하므로 기준을 느슨하게 합니다 (양성 판정을 넉넉하게).
+      <br><br>
+      <strong>쉽게 말하면:</strong> 제1종 오류는 "허위 경보"이고, 제2종 오류는 "탐지 실패"입니다.
+      공항 보안검색에서 일반인을 잡아세우는 것(Type I)과, 진짜 위험인물을 통과시키는 것(Type II) -- 둘 다 줄이려면 검색 기술(표본 크기)을 높여야 합니다.
+    </ExplainBox>
 
     <div class="tb-data-table-wrap" style="max-height: none;">
       <table class="tb-data-table">
@@ -277,6 +329,18 @@ import SimControls from '../../components/textbook/SimControls.astro';
       20개 변수를 검정하면, 모두 무작위라 하더라도 평균 1개는 p &lt; 0.05가 됩니다.
       (20 * 0.05 = 1). 이것은 과학계의 심각한 문제입니다.
     </WarningBox>
+
+    <ExplainBox>
+      <strong>p-해킹을 일상 언어로 설명하면:</strong><br>
+      주사위를 20번 던지면서 "6이 나오면 내가 초능력이 있는 것"이라고 합시다.
+      20번 중 한두 번은 6이 나올 겁니다. 그 순간만 촬영해서 "나는 초능력자"라고 유튜브에 올리는 것 -- 이것이 p-해킹입니다.<br><br>
+      <strong>학계에서의 p-해킹 수법들:</strong><br>
+      - "유의한 결과가 나올 때까지" 데이터를 추가로 수집한다<br>
+      - 여러 변수를 검정하고, 유의한 것만 보고한다<br>
+      - 이상치를 제거했다 포함했다 하면서 p &lt; 0.05가 되는 조합을 찾는다<br>
+      - 하위 그룹을 이리저리 나누어 유의한 조합을 찾는다<br><br>
+      <strong>쉽게 말하면:</strong> 활을 먼저 쏘고 나서 화살이 꽂힌 곳에 과녁을 그리는 것입니다.
+    </ExplainBox>
 
     <ExerciseBox>
       <strong>직접 체험:</strong>

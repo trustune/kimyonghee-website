@@ -41,34 +41,107 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
   </div>
 
+  <!-- ===== SECTION 1.5: 시험 점수 비유 ===== -->
+  <div class="tb-card">
+    <h2>평균이 같아도 분포가 다르다: 시험 점수 비유</h2>
+    <p>
+      두 반이 수학 시험을 봤습니다. 두 반 모두 평균이 75점입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>A반:</strong> 73, 74, 75, 76, 77 → 모든 학생이 비슷한 점수. 차이가 거의 없음.<br>
+      <strong>B반:</strong> 30, 50, 75, 100, 120 → 점수가 천차만별. 어떤 학생은 30점, 어떤 학생은 120점.<br><br>
+      평균은 둘 다 75점이지만, A반은 "모두가 비슷한 실력"이고
+      B반은 "잘하는 학생과 못하는 학생이 극단적으로 갈린 상태"입니다.<br><br>
+      <strong>쉽게 말하면:</strong> 평균이 데이터의 "중심"을 알려준다면,
+      산포(퍼짐)는 데이터가 그 중심에서 <strong>얼마나 흩어져 있는지</strong>를 알려줍니다.
+      중심만 보면 A반과 B반이 같지만, 퍼짐까지 보면 <strong>전혀 다른 세상</strong>입니다.
+    </ExplainBox>
+
+    <InsightBox>
+      <strong>왜 이것이 중요한가?</strong>
+      평균만 보고 의사결정을 하면 큰 실수를 합니다.
+      "평균 배달 시간 30분"이라는 정보만으로는 부족합니다.
+      A업체가 항상 28~32분에 도착하고, B업체가 10분에 오기도 하고 60분에 오기도 한다면,
+      여러분은 어느 업체를 선택하시겠습니까?
+      <strong>산포를 아는 것 = 불확실성을 아는 것 = 더 현명한 결정</strong>입니다.
+    </InsightBox>
+  </div>
+
   <!-- ===== SECTION 2: 공식 ===== -->
   <div class="tb-card">
     <h2>산포를 측정하는 도구들</h2>
 
+    <ExplainBox>
+      <strong>분산을 단계별로 계산해 봅시다 -- 아주 작은 예시</strong><br><br>
+      데이터: 2, 4, 4, 4, 6 (5개의 숫자)<br><br>
+      <strong>1단계: 평균을 구한다.</strong><br>
+      (2+4+4+4+6) / 5 = 20/5 = <strong>4</strong><br><br>
+      <strong>2단계: 각 값에서 평균을 뺀다 (편차).</strong><br>
+      2-4 = -2, 4-4 = 0, 4-4 = 0, 4-4 = 0, 6-4 = +2<br><br>
+      <strong>3단계: 편차를 제곱한다.</strong><br>
+      (-2)&#178; = 4, 0&#178; = 0, 0&#178; = 0, 0&#178; = 0, (+2)&#178; = 4<br><br>
+      <strong>4단계: 제곱한 값의 평균을 구한다 → 이것이 분산.</strong><br>
+      (4+0+0+0+4) / 5 = 8/5 = <strong>1.6</strong><br><br>
+      <strong>5단계: 분산에 제곱근을 씌운다 → 이것이 표준편차.</strong><br>
+      &#8730;1.6 = <strong>1.26</strong><br><br>
+      <strong>쉽게 말하면:</strong> 표준편차 1.26이란, 각 데이터가 평균(4)에서
+      <strong>평균적으로 약 1.26만큼 떨어져 있다</strong>는 뜻입니다.
+    </ExplainBox>
+
     <FormulaBox>
       <span class="hl">분산(Variance)</span> = &#931;(x&#7522; - x&#772;)&#178; / n<br>
+      <span style="font-size: .88rem; color: var(--tb-g600);">쉽게 말하면: "각 값이 평균에서 얼마나 떨어져 있는지"의 제곱 평균</span><br><br>
       <span class="hl">표준편차(SD)</span> = &#8730;분산 = &#8730;&#123;&#931;(x&#7522; - x&#772;)&#178; / n&#125;<br>
-      <span class="hl">변동계수(CV)</span> = 표준편차 / 평균 x 100%
+      <span style="font-size: .88rem; color: var(--tb-g600);">쉽게 말하면: "평균으로부터 평균적으로 얼마나 떨어져 있는가" -- 원래 단위로 되돌린 것</span><br><br>
+      <span class="hl">변동계수(CV)</span> = 표준편차 / 평균 x 100%<br>
+      <span style="font-size: .88rem; color: var(--tb-g600);">쉽게 말하면: "평균 대비 몇 %나 흩어져 있는가" -- 단위가 다른 것끼리 비교할 때 사용</span>
     </FormulaBox>
 
     <ExplainBox>
-      <strong>왜 제곱하는가?</strong>
-      각 값에서 평균을 뺀 "편차(deviation)"를 그냥 더하면 양수와 음수가 상쇄되어 0이 됩니다.
-      절댓값을 쓸 수도 있지만(MAD), 제곱은 수학적 성질이 더 좋습니다:
-      미분이 가능하고, 큰 편차에 더 큰 가중치를 부여합니다.
-      이것이 분산의 핵심 아이디어입니다.
+      <strong>왜 제곱하는가? -- 두 가지 이유</strong><br><br>
+      각 값에서 평균을 뺀 "편차(deviation)"를 그냥 더하면 양수와 음수가 상쇄되어 <strong>항상 0</strong>이 됩니다.
+      (위 예시에서: -2 + 0 + 0 + 0 + 2 = 0)<br><br>
+      이 문제를 해결하는 방법은 두 가지입니다:<br>
+      <strong>방법 1 -- 절댓값 사용 (MAD):</strong> |-2| + |0| + |0| + |0| + |2| = 4. 이것도 작동합니다.<br>
+      <strong>방법 2 -- 제곱 사용 (분산):</strong> (-2)&#178; + 0 + 0 + 0 + (+2)&#178; = 8. 이것도 작동합니다.<br><br>
+      통계학에서 제곱을 선호하는 이유:<br>
+      1. <strong>수학적 편의성:</strong> 제곱 함수는 미분이 깔끔하여 수학적 증명에 유리합니다.<br>
+      2. <strong>큰 편차에 더 큰 벌점:</strong> 평균에서 2만큼 떨어진 값은 1만큼 떨어진 값의 4배(2&#178;=4) 벌점을 받습니다.
+      즉, 극단적으로 튀는 값에 더 민감하게 반응합니다.
     </ExplainBox>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;">
       <div style="background: var(--tb-primary-light); padding: 16px; border-radius: var(--tb-radius);">
         <h3 style="color: var(--tb-primary); margin-bottom: 6px;">범위(Range)</h3>
         <p style="font-size: .9rem;">최대값 - 최소값. 가장 단순하지만 극단값에 매우 민감.</p>
+        <p style="font-size: .85rem; color: var(--tb-g600); margin-top: 6px;">
+          위 예시: 6 - 2 = 4. 하지만 하나의 극단값이 범위를 크게 바꿀 수 있습니다.
+        </p>
       </div>
       <div style="background: var(--tb-primary-light); padding: 16px; border-radius: var(--tb-radius);">
         <h3 style="color: var(--tb-primary); margin-bottom: 6px;">IQR (사분위간 범위)</h3>
         <p style="font-size: .9rem;">Q3 - Q1. 가운데 50% 데이터의 퍼짐. 이상치에 강건.</p>
+        <p style="font-size: .85rem; color: var(--tb-g600); margin-top: 6px;">
+          <strong>쉽게 말하면:</strong> 데이터를 4등분했을 때, 하위 25%~상위 25%를 제외한
+          <strong>중간 50% 데이터가 차지하는 범위</strong>입니다.
+          양 끝의 극단값을 무시하므로 이상치의 영향을 받지 않습니다.
+        </p>
       </div>
     </div>
+
+    <ExplainBox>
+      <strong>변동계수(CV): 키와 체중을 비교할 수 없는 이유</strong><br><br>
+      반 학생들의 키의 표준편차가 5cm이고, 체중의 표준편차가 5kg이라고 합시다.
+      "둘 다 표준편차가 5이니 퍼짐이 같다"고 말할 수 있을까요?<br><br>
+      <strong>그렇지 않습니다.</strong> 키 평균이 170cm일 때 5cm는 약 3%의 변동이지만,
+      체중 평균이 60kg일 때 5kg은 약 8%의 변동입니다.
+      체중이 키보다 상대적으로 훨씬 더 흩어져 있는 것입니다.<br><br>
+      이처럼 <strong>단위가 다르거나 평균이 크게 다른 변수</strong>의 퍼짐을 비교하려면,
+      표준편차를 평균으로 나눈 <strong>변동계수(CV)</strong>를 사용해야 합니다.<br>
+      키 CV = 5/170 x 100% = 2.9%, 체중 CV = 5/60 x 100% = 8.3%
+      → 체중이 상대적으로 약 3배 더 흩어져 있습니다.
+    </ExplainBox>
 
     <InsightBox>
       <strong>표준편차가 큰 것이 나쁜 것은 아닙니다.</strong>
@@ -123,6 +196,23 @@ import SimControls from '../../components/textbook/SimControls.astro';
         <StatBox label="범위 B" id="dual-range-b" borderColor="var(--tb-danger)" />
       </div>
     </div>
+  </div>
+
+  <!-- ===== SECTION: STANDARD DEVIATION INTUITION ===== -->
+  <div class="tb-card">
+    <h2>표준편차를 직관적으로 이해하기</h2>
+
+    <ExplainBox>
+      <strong>"평균으로부터 평균적으로 얼마나 떨어져 있는가"</strong><br><br>
+      표준편차의 정의를 한 문장으로 요약하면 이것입니다.
+      분산은 편차의 제곱 평균이므로 단위가 "제곱"이 되어 직관적이지 않습니다.
+      (시험 점수의 분산은 "점&#178;"이라는 이상한 단위가 됩니다.)<br><br>
+      표준편차는 여기에 제곱근을 씌워서 <strong>원래 단위로 되돌린 것</strong>입니다.
+      시험 점수의 표준편차가 10점이면, "학생들의 점수는 평균에서 대략 10점 정도 떨어져 있다"고 해석합니다.<br><br>
+      <strong>비유:</strong> 표준편차는 "대략적인 평균 거리"와 같습니다.
+      학교에서 집까지의 거리가 학생마다 다를 때,
+      "평균적으로 학교에서 약 2km 떨어진 곳에 산다"라고 말하는 것과 비슷합니다.
+    </ExplainBox>
   </div>
 
   <!-- ===== INTERACTIVE 2: STOCK VOLATILITY ===== -->
@@ -229,6 +319,56 @@ import SimControls from '../../components/textbook/SimControls.astro';
       k=2일 때 최소 75%, k=3일 때 최소 89%.
       정규분포가 아닌 데이터에서 특히 유용한 보장입니다.
     </ExplainBox>
+
+    <ExplainBox>
+      <strong>쉽게 말하면 -- 표준편차의 "거리 보증서"</strong><br><br>
+      표준편차를 "거리의 단위"로 생각해 보세요.
+      평균이 100이고 표준편차가 10이라면, "1 표준편차"는 90~110 범위입니다.<br><br>
+      <strong>경험적 규칙 (정규분포일 때만):</strong><br>
+      -- 1 표준편차 이내 (90~110): 약 68%의 데이터<br>
+      -- 2 표준편차 이내 (80~120): 약 95%의 데이터<br>
+      -- 3 표준편차 이내 (70~130): 약 99.7%의 데이터<br><br>
+      <strong>체비셰프 부등식 (어떤 분포든):</strong><br>
+      -- 2 표준편차 이내: <strong>최소</strong> 75%의 데이터 (정규분포면 95%)<br>
+      -- 3 표준편차 이내: <strong>최소</strong> 89%의 데이터 (정규분포면 99.7%)<br><br>
+      분포 모양을 모를 때에도 체비셰프 부등식은 "최소한 이 정도는 보장한다"고 말해 줍니다.
+    </ExplainBox>
+  </div>
+
+  <!-- ===== SECTION: BOX PLOT ANATOMY ===== -->
+  <div class="tb-card">
+    <h2>상자그림(Box Plot)의 해부학</h2>
+
+    <p>
+      상자그림은 데이터의 중심, 퍼짐, 비대칭성, 이상치를 <strong>한 장의 그림</strong>으로 보여주는 강력한 도구입니다.
+      복잡해 보이지만, 각 부분의 의미를 알면 매우 직관적입니다.
+    </p>
+
+    <ExplainBox>
+      <strong>상자그림의 5가지 구성 요소</strong><br><br>
+      <strong>1. 상자(Box)의 아래쪽 변 = Q1 (제1사분위수)</strong><br>
+      데이터를 작은 순서로 정렬했을 때, 하위 25% 지점입니다.
+      "하위 25%의 학생까지는 이 점수 이하"라는 의미입니다.<br><br>
+      <strong>2. 상자 안의 선 = Q2 (중앙값)</strong><br>
+      데이터의 정가운데 값입니다. 50% 지점.<br><br>
+      <strong>3. 상자의 위쪽 변 = Q3 (제3사분위수)</strong><br>
+      상위 25% 지점입니다. "상위 25%의 학생은 이 점수 이상"이라는 의미입니다.<br><br>
+      <strong>4. 수염(Whisker) = 상자에서 최대 1.5 x IQR까지 뻗어나간 선</strong><br>
+      수염의 끝은 "극단적이지 않은 데이터의 범위"를 나타냅니다.<br><br>
+      <strong>5. 점(Outlier) = 수염 밖의 데이터</strong><br>
+      수염보다 더 멀리 떨어진 값은 이상치로 표시됩니다. 입력 오류이거나, 진짜 특이한 사례일 수 있습니다.<br><br>
+      <strong>IQR(사분위간 범위) = Q3 - Q1:</strong> 상자의 높이가 바로 IQR입니다.
+      이것이 <strong>중간 50% 데이터가 차지하는 범위</strong>입니다.
+    </ExplainBox>
+
+    <InsightBox>
+      <strong>상자그림 읽는 법 요약</strong><br>
+      -- 상자가 좁으면: 데이터가 중심 근처에 모여 있음 (퍼짐이 작음)<br>
+      -- 상자가 넓으면: 데이터가 넓게 퍼져 있음<br>
+      -- 중앙선이 상자 가운데 있으면: 대칭 분포<br>
+      -- 중앙선이 아래쪽에 치우쳐 있으면: 오른쪽 꼬리 분포 (고소득 분포처럼)<br>
+      -- 점(이상치)이 많으면: 극단값이 자주 발생하는 데이터
+    </InsightBox>
   </div>
 
   <!-- ===== INTERACTIVE 4: BOX PLOT BUILDER ===== -->

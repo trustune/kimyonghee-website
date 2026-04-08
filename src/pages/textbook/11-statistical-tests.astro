@@ -39,12 +39,28 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
-      <strong>핵심 아이디어:</strong>
+      <strong>핵심 아이디어 -- "요리 도구 선택법":</strong>
       검정 선택의 90%는 딱 세 가지 질문으로 결정된다.
       (1) 결과변수가 연속형인가, 범주형인가?
       (2) 비교 그룹이 몇 개인가?
       (3) 그룹이 독립적인가, 대응(짝지어진)인가?
     </ExplainBox>
+
+    <InsightBox>
+      <strong>"어떤 검정을 써야 하나?" -- 요리책(Cookbook) 접근법:</strong><br>
+      복잡하게 생각할 필요 없습니다. 다음 질문에 순서대로 답하면 검정법이 자동으로 결정됩니다.<br><br>
+      <strong>1단계:</strong> "내가 비교하려는 것이 숫자(평균)인가, 아니면 분류(비율)인가?"<br>
+      &nbsp;&nbsp;- 숫자(키, 점수, 매출 등) --> t-검정 또는 ANOVA<br>
+      &nbsp;&nbsp;- 분류(남/여, 선호도A/B/C 등) --> 카이제곱 검정<br><br>
+      <strong>2단계:</strong> (숫자인 경우) "비교 그룹이 몇 개인가?"<br>
+      &nbsp;&nbsp;- 1개(기준값과 비교) --> 일표본 t-검정<br>
+      &nbsp;&nbsp;- 2개 --> 독립 or 대응표본 t-검정<br>
+      &nbsp;&nbsp;- 3개 이상 --> ANOVA<br><br>
+      <strong>3단계:</strong> (2개 그룹인 경우) "같은 사람을 두 번 측정했나, 다른 사람인가?"<br>
+      &nbsp;&nbsp;- 같은 사람(전/후 비교) --> 대응표본 t-검정<br>
+      &nbsp;&nbsp;- 다른 사람 --> 독립표본 t-검정<br><br>
+      <strong>쉽게 말하면:</strong> 통계 검정 선택은 레시피를 고르는 것과 같습니다. "재료(데이터)가 뭔지"만 알면 적합한 레시피(검정법)는 거의 자동으로 결정됩니다.
+    </InsightBox>
   </div>
 
   <!-- ===== SECTION 2: TEST SELECTOR DECISION TREE ===== -->
@@ -140,6 +156,17 @@ import SimControls from '../../components/textbook/SimControls.astro';
       해당 검정의 가정(정규성, 등분산 등)이 충족되는지 반드시 확인해야 한다.
       가정이 심하게 위반되면 비모수 검정(Mann-Whitney, Kruskal-Wallis 등)을 고려한다.
     </InsightBox>
+
+    <WarningBox>
+      <strong>비모수 검정은 언제 쓰나? -- "데이터가 정규분포를 따르지 않을 때":</strong><br>
+      t-검정과 ANOVA는 데이터가 정규분포(종 모양)를 따른다고 가정한다.
+      하지만 현실 데이터는 종종 이 가정을 위반한다:<br>
+      - 소득 데이터: 소수의 고소득자 때문에 오른쪽으로 꼬리가 긴 분포<br>
+      - 고객 평점: 1점 아니면 5점에 몰리는 U자 분포<br>
+      - 반응시간: 극단적으로 느린 응답이 꼬리를 형성<br><br>
+      이런 경우 비모수 검정을 사용한다: <strong>Mann-Whitney U 검정</strong>(독립 2그룹), <strong>Wilcoxon 부호순위 검정</strong>(대응 2그룹), <strong>Kruskal-Wallis 검정</strong>(3그룹 이상).
+      비모수 검정은 정규성을 가정하지 않는 대신, 통계적 검정력이 약간 낮아지는 단점이 있다.
+    </WarningBox>
   </div>
 
   <!-- ===== SECTION 3: T-TEST CALCULATOR ===== -->
@@ -150,6 +177,17 @@ import SimControls from '../../components/textbook/SimControls.astro';
       "우리 회사 직원의 평균 급여가 업계 평균(3,500만원)보다 높은가?"라는 질문에는 <strong>일표본 t-검정</strong>을,
       "A팀과 B팀의 성과가 다른가?"라는 질문에는 <strong>독립표본 t-검정</strong>을 쓴다.
     </p>
+
+    <ExplainBox>
+      <strong>"두 그룹의 평균이 다른가?" -- t-검정의 핵심 질문:</strong><br>
+      t-검정은 한마디로 <strong>"이 차이가 우연인가, 진짜인가?"</strong>를 판단하는 도구이다.<br><br>
+      <strong>비즈니스 A/B 테스트 예시:</strong><br>
+      온라인 쇼핑몰에서 버튼 색상을 빨간색(A)과 파란색(B)으로 나누어 테스트했다.
+      A그룹의 구매 전환율은 3.2%, B그룹은 3.8%였다. 이 0.6%p 차이는 진짜 효과인가, 아니면 그날 우연히 그랬을 뿐인가?<br><br>
+      <strong>쉽게 말하면:</strong> t-검정은 "두 숫자의 차이"를 "데이터의 흔들림(분산)"으로 나눈 것이다.
+      차이가 크고 흔들림이 적으면 t값이 커져서 "진짜 차이"라고 판단하고,
+      차이가 작거나 흔들림이 크면 t값이 작아서 "우연일 수 있다"고 판단한다.
+    </ExplainBox>
 
     <FormulaBox>
       <span class="hl">일표본 t</span> = (x&#772; - &#956;&#8320;) / (s / &#8730;n)<br>
@@ -235,6 +273,18 @@ import SimControls from '../../components/textbook/SimControls.astro';
       핵심 아이디어는 단순하다: 두 변수가 독립이라면 관측빈도와 기대빈도가 비슷해야 한다.
     </p>
 
+    <ExplainBox>
+      <strong>"두 범주형 변수가 관련 있는가?" -- 카이제곱 검정의 핵심:</strong><br>
+      t-검정이 "숫자의 평균"을 비교한다면, 카이제곱 검정은 "분류의 비율"이 관련 있는지를 검정한다.<br><br>
+      <strong>마케팅 예시:</strong><br>
+      SNS 광고를 통해 유입된 고객 1,000명의 데이터가 있다.
+      "20대는 인스타그램 광고를 더 선호하고, 40대는 유튜브 광고를 더 선호하는가?"
+      이 질문은 "연령대"와 "선호 채널"이라는 두 범주형 변수의 관련성을 묻는 것이다.
+      만약 연령과 채널 선호가 아무 관련이 없다면(독립이라면), 각 셀의 관측빈도는 기대빈도와 비슷해야 한다.
+      관측값과 기대값의 차이가 크면 클수록 카이제곱 통계량이 커지고, "두 변수는 관련이 있다"고 판단하게 된다.<br><br>
+      <strong>쉽게 말하면:</strong> "만약 두 변수가 정말 상관없다면 이런 결과가 나왔을 리 없다"는 논리이다.
+    </ExplainBox>
+
     <FormulaBox>
       <span class="hl">&#967;&#178;</span> = &#931; (O&#7522; - E&#7522;)&#178; / E&#7522;<br>
       <span style="font-size:0.85rem; color:#94a3b8;">O = 관측빈도, E = 기대빈도 = (행합계 x 열합계) / 전체합계</span>
@@ -307,6 +357,21 @@ import SimControls from '../../components/textbook/SimControls.astro';
       "영업, 마케팅, IT 세 부서의 만족도에 차이가 있는가?"처럼
       t-검정을 반복하면 발생하는 <strong>다중비교 문제</strong>를 ANOVA가 해결한다.
     </p>
+
+    <ExplainBox>
+      <strong>"세 개 이상의 그룹 비교" -- ANOVA가 필요한 이유:</strong><br>
+      회사에 영업부, 마케팅부, IT부, 인사부, 재무부 5개 부서가 있다고 하자.
+      "어느 부서의 직원 만족도가 가장 높은가?"를 알고 싶다.
+      두 부서씩 짝지어서 t-검정을 반복하면 10번(5C2=10)이나 해야 하고,
+      그만큼 "우연히 유의한 결과"(거짓 양성)가 나올 확률도 높아진다.<br><br>
+      ANOVA는 이 문제를 한 번의 검정으로 해결한다. 핵심 아이디어는 이렇다:
+      "그룹 간의 차이(집단 간 분산)"가 "그룹 내부의 흔들림(집단 내 분산)"보다 충분히 크면, "그룹 간에 진짜 차이가 있다"고 판단한다.<br><br>
+      <strong>쉽게 말하면:</strong> 학교에서 반별 시험 성적을 비교한다고 하자.
+      1반 평균 75점, 2반 80점, 3반 85점이라면 반 사이에 차이가 있어 보인다.
+      하지만 각 반 안에서도 점수가 50점부터 100점까지 크게 흩어져 있다면?
+      "반 사이의 차이"가 "반 안의 차이"에 비해 별것 아닌 것이 된다.
+      ANOVA의 F-통계량은 바로 이 비율(반 사이 / 반 안)을 계산하는 것이다.
+    </ExplainBox>
 
     <ExplainBox>
       <strong>왜 t-검정을 반복하면 안 되나?</strong>

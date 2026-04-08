@@ -37,6 +37,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <strong>"상관은 인과가 아니다(Correlation is not causation)"</strong>라는
       통계학의 가장 중요한 경고를 깊이 이해합니다.
     </p>
+
+    <ExplainBox>
+      <strong>"상관"이란 쉽게 말하면:</strong>
+      두 변수가 <strong>함께 움직이는 경향</strong>을 말합니다.
+      기온이 올라가면 아이스크림 판매량도 올라간다 -- 이것이 양의 상관입니다.
+      기온이 올라가면 핫초코 판매량은 내려간다 -- 이것이 음의 상관입니다.
+      기온이 올라가도 책 판매량은 별 변화가 없다 -- 이것은 상관이 거의 없는 경우입니다.<br><br>
+      핵심은 "한 변수가 움직일 때 다른 변수도 규칙적으로 따라 움직이는가"입니다.
+    </ExplainBox>
   </div>
 
   <!-- ===== INTERACTIVE 1: Anscombe's Quartet ===== -->
@@ -141,6 +150,19 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <span class="res">-1 &lt;= r &lt;= 1</span><br>
       r = 1: 완벽한 양의 선형관계 | r = -1: 완벽한 음의 선형관계 | r = 0: 선형관계 없음
     </FormulaBox>
+
+    <ExplainBox>
+      <strong>Pearson r을 단계별로 이해하기:</strong><br>
+      (1) 각 데이터 점에서 X의 평균과 Y의 평균을 빼서, "평균에서 얼마나 벗어났는가"를 구합니다.<br>
+      (2) X가 평균보다 클 때 Y도 평균보다 크면 곱이 양수 (+), X가 클 때 Y가 작으면 곱이 음수 (-)가 됩니다.<br>
+      (3) 이 곱들을 모두 더하면: 양수끼리 많으면 양의 상관, 음수끼리 많으면 음의 상관, 뒤섞이면 0에 가까워집니다.<br>
+      (4) 마지막으로 X와 Y 각각의 퍼짐 정도로 나누어 -1과 +1 사이로 표준화합니다.<br><br>
+      <strong>r 값의 크기 해석:</strong><br>
+      |r| = 0.0 ~ 0.3: 약한 상관 (두 변수가 거의 독립적으로 움직임)<br>
+      |r| = 0.3 ~ 0.7: 중간 상관 (함께 움직이는 경향이 있지만 예외도 많음)<br>
+      |r| = 0.7 ~ 1.0: 강한 상관 (하나를 알면 다른 하나를 꽤 잘 예측할 수 있음)<br><br>
+      쉽게 말하면, r은 "두 변수가 직선적으로 얼마나 손발이 맞는가"를 -1에서 +1 사이 숫자 하나로 요약한 것입니다.
+    </ExplainBox>
   </div>
 
   <!-- ===== INTERACTIVE 3: Spurious Correlation Gallery ===== -->
@@ -154,7 +176,29 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <div id="spurious-gallery" style="margin: 14px 0;"></div>
 
     <WarningBox>
-      <strong>"상관은 인과가 아니다" -- 인과 추론의 3가지 조건:</strong>
+      <strong>"상관이 높다"가 "원인과 결과"를 의미하지 않는 3가지 예:</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li><strong>아이스크림 판매량과 익사 사고 (r=0.87):</strong>
+          아이스크림이 익사를 일으키는 게 아닙니다. 숨은 변수 "여름 기온"이 둘 다 높이는 것입니다.</li>
+        <li><strong>소방관 출동 수와 화재 피해 규모 (양의 상관):</strong>
+          소방관이 많이 출동할수록 피해가 크다고 해서, 소방관이 피해를 키우는 것이 아닙니다.
+          큰 불이 나면 소방관도 많이 출동하고 피해도 큰 것입니다.</li>
+        <li><strong>한 나라의 초콜릿 소비량과 노벨상 수상자 수 (r=0.79):</strong>
+          초콜릿을 먹는다고 노벨상을 받는 것이 아닙니다. 부유한 나라일수록 초콜릿도 많이 소비하고
+          연구 인프라도 좋아서 노벨상 수상자가 많은 것입니다.</li>
+      </ol>
+    </WarningBox>
+
+    <ExplainBox>
+      <strong>숨은 제3의 변수 -- 교란변수(Confounding Variable):</strong>
+      위 세 사례에서 "기온", "화재 규모", "국가의 부유함"이 바로 교란변수입니다.
+      교란변수란, X와 Y 둘 다에 영향을 미치면서 X와 Y 사이에 가짜 상관을 만들어내는 변수입니다.<br><br>
+      쉽게 말하면, 두 변수가 함께 움직이는 것처럼 보이는 진짜 이유가 "제3의 숨은 원인" 때문인 경우가 많습니다.
+      마치 그림자 인형극에서 두 인형이 함께 움직이는 것 같지만, 실은 뒤에서 한 사람이 조종하는 것과 같습니다.
+    </ExplainBox>
+
+    <WarningBox>
+      <strong>인과 추론의 3가지 조건:</strong>
       <ol style="margin-top: 8px; padding-left: 20px;">
         <li><strong>공변(Covariation):</strong> X가 변할 때 Y도 변한다 (상관은 이것만 확인).</li>
         <li><strong>시간적 선행(Temporal precedence):</strong> X의 변화가 Y의 변화보다 먼저 일어난다.</li>
@@ -180,6 +224,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
       집단별로 나누면 관계가 <strong>반대 방향</strong>으로 뒤집히는 현상입니다.
       실제 대학 입시 데이터에서 발생한 유명한 사례를 재현합니다.
     </p>
+
+    <ExplainBox>
+      <strong>심슨의 역설을 한마디로:</strong>
+      "전체를 보면 A가 낫지만, 부분을 보면 B가 낫다."
+      이런 일이 실제로 일어납니다. 데이터를 어떤 수준에서 집계하느냐에 따라 결론이 완전히 뒤집히는 현상입니다.<br><br>
+      비유하자면, 학급 전체 평균은 A반이 높은데, 남학생끼리 비교하면 B반이 높고 여학생끼리 비교해도 B반이 높은 경우입니다.
+      이런 모순이 가능한 이유는 A반에 원래 성적이 높은 학생(예: 여학생)의 비율이 월등히 높기 때문입니다.
+    </ExplainBox>
 
     <ExplainBox>
       <strong>시나리오: 대학 입시 성별 차별 논란</strong><br>
