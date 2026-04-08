@@ -111,6 +111,16 @@ import SimControls from '../../components/textbook/SimControls.astro';
       필터의 값에 따라 가장자리, 질감, 윤곽 등 다양한 특징이 추출됩니다.
     </p>
 
+    <ExplainBox>
+      <strong>쉽게 말하면 -- 돋보기로 이미지의 작은 부분씩 살펴보기:</strong>
+      이미지 전체를 한꺼번에 보는 대신, 작은 돋보기(3x3 필터)를 들고
+      왼쪽 위부터 오른쪽 아래까지 한 칸씩 이동하며 살펴봅니다.
+      이 돋보기는 보통 돋보기가 아니라 <strong>특정 패턴을 감지하는 탐지기</strong>입니다.
+      가로선 탐지기, 세로선 탐지기, 대각선 탐지기 등 다양한 필터가 있어서
+      각각이 이미지에서 자기가 맡은 패턴을 찾아냅니다.
+      가로선 필터를 적용하면 가로 경계가 밝게 나타나고, 세로선 필터를 적용하면 세로 경계가 밝게 나타납니다.
+    </ExplainBox>
+
     <FormulaBox>
       <span class="hl">합성곱 연산:</span><br>
       output[i][j] = SUM(image[i+m][j+n] * kernel[m][n])<br>
@@ -178,6 +188,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
+      <strong>쉽게 말하면 -- 축소 복사:</strong>
+      A4 문서를 A5 크기로 축소 복사하면 글자는 작아지지만 내용은 그대로입니다.
+      풀링도 마찬가지입니다. 중요한 것만 남기고 크기를 줄입니다.
       <strong>최대 풀링 (Max Pooling):</strong>
       2x2 영역에서 가장 큰 값만 취합니다. 크기는 절반으로 줄고,
       가장 강한 특징만 살아남습니다.
@@ -246,11 +259,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </div>
 
     <ExplainBox>
-      <strong>계층적 특징 학습:</strong>
-      첫 번째 합성곱층은 가장자리(edge)를 감지합니다.
-      두 번째 층은 가장자리를 조합하여 질감(texture)과 모서리를 인식합니다.
+      <strong>CNN 전체 구조는 "부분 -> 조합 -> 판단"입니다:</strong>
+      사람이 고양이를 인식하는 과정을 생각해보세요.
+      먼저 <strong>부분</strong>을 봅니다 -- 선, 곡선, 가장자리 같은 기초 특징.
+      다음으로 이 부분들을 <strong>조합</strong>합니다 -- "이 곡선과 저 선이 합쳐지면 귀 모양이다."
+      마지막으로 조합된 패턴으로 <strong>판단</strong>합니다 -- "귀 + 수염 + 동그란 눈 = 고양이."
+      CNN의 층도 정확히 이 순서를 따릅니다.
+      첫 번째 합성곱층은 가장자리(edge)를 감지하고,
+      두 번째 층은 가장자리를 조합하여 질감(texture)과 모서리를 인식하며,
       깊은 층으로 갈수록 눈, 코, 얼굴 같은 고수준 특징을 학습합니다.
-      이것이 "딥" 러닝의 핵심입니다.
     </ExplainBox>
 
     <BusinessBox>

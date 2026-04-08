@@ -35,6 +35,16 @@ import SimControls from '../../components/textbook/SimControls.astro';
       특히 데이터가 불균형할 때, 정확도는 완전히 잘못된 안도감을 줍니다.
       이 장에서는 상황에 맞는 평가 지표를 고르는 법을 배웁니다.
     </p>
+
+    <WarningBox>
+      <strong>99% 정확도가 쓸모없는 경우 -- 신용카드 사기 탐지:</strong><br>
+      10,000건의 거래 중 사기가 100건(1%)이라고 합시다.
+      모델이 아무 학습도 하지 않고 "전부 정상"이라고 찍으면 어떻게 될까요?
+      정확도 = 9,900 / 10,000 = <strong>99%</strong>입니다. 하지만 사기를 단 하나도 잡지 못합니다.
+      이 모델은 완전히 쓸모없는데도 정확도만 보면 훌륭해 보입니다.
+      쉽게 말하면, 정확도는 "많은 쪽에 편승하면 높아지는" 지표이기 때문에
+      불균형 데이터에서는 반드시 정밀도, 재현율, F1 등을 함께 확인해야 합니다.
+    </WarningBox>
   </div>
 
   <!-- ===== SECTION 2: 혼동 행렬 ===== -->
@@ -64,6 +74,17 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <strong>TN:</strong> 건강한 사람을 건강하다고 맞춤 (정확한 음성)
     </ExplainBox>
 
+    <InsightBox>
+      <strong>쉽게 말하면 -- 혼동행렬은 "암 검진 결과표"입니다:</strong><br>
+      병원에서 암 검진을 받았다고 생각해보세요. 결과는 네 가지 중 하나입니다:<br>
+      (1) 실제로 암이 있고, 검사도 양성 = <strong>TP</strong> -- 올바른 발견, 치료 가능<br>
+      (2) 실제로 암이 없는데, 검사가 양성 = <strong>FP</strong> -- 괜한 걱정과 추가 검사 비용<br>
+      (3) 실제로 암이 있는데, 검사가 음성 = <strong>FN</strong> -- 가장 위험! 암을 놓침<br>
+      (4) 실제로 암이 없고, 검사도 음성 = <strong>TN</strong> -- 안심<br>
+      혼동행렬은 이 네 가지 경우가 각각 몇 건인지 한눈에 정리한 표입니다.
+      이 표 하나에서 정확도, 정밀도, 재현율 등 모든 평가 지표가 나옵니다.
+    </InsightBox>
+
     <h3>핵심 지표들</h3>
     <FormulaBox>
       정확도(Accuracy) = (<span class="hl">TP + TN</span>) / (TP + FP + FN + TN)<br>
@@ -78,6 +99,17 @@ import SimControls from '../../components/textbook/SimControls.astro';
       암 검진: 재현율 우선 (환자를 놓치면 안 됨).
       두 지표는 시소 관계입니다 -- 하나를 올리면 다른 하나가 내려갑니다.
     </InsightBox>
+
+    <ExplainBox>
+      <strong>쉽게 말하면 -- "스팸 필터 vs 암 검진"으로 이해하는 정밀도와 재현율:</strong><br>
+      <strong>스팸 필터</strong>에서 가장 나쁜 상황은? 중요한 업무 메일이 스팸함으로 들어가는 것(FP)입니다.
+      계약서가 스팸으로 분류되면 큰일입니다. 그래서 "스팸이라고 판단한 것 중 진짜 스팸인 비율", 즉 <strong>정밀도</strong>를 높여야 합니다.
+      스팸을 몇 개 놓치는 것(FN)은 괜찮습니다 -- 받은편지함에서 직접 삭제하면 됩니다.<br><br>
+      <strong>암 검진</strong>에서 가장 나쁜 상황은? 암 환자를 "정상"이라고 보내는 것(FN)입니다.
+      치료 시기를 놓치면 생명이 위험합니다. 그래서 "실제 암 환자 중 찾아낸 비율", 즉 <strong>재현율</strong>을 높여야 합니다.
+      건강한 사람에게 "재검사 필요"라고 하는 것(FP)은 비용이 들지만 생명에는 지장이 없습니다.<br><br>
+      이처럼 <strong>어떤 종류의 오류가 더 심각한가</strong>에 따라 중시해야 할 지표가 달라집니다.
+    </ExplainBox>
   </div>
 
   <!-- ===== INTERACTIVE 1: Imbalanced Data Simulator ===== -->
@@ -212,8 +244,13 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </FormulaBox>
 
     <ExplainBox>
-      <strong>비유:</strong> ROC 곡선은 "민감도를 올리면 오탐이 얼마나 늘어나는가"의 트레이드오프를 보여줍니다.
-      좋은 모델은 왼쪽 위 모서리에 가깝고(TPR 높고 FPR 낮고), 나쁜 모델은 대각선에 가깝습니다.
+      <strong>쉽게 말하면 -- ROC는 "검사의 성능 곡선"입니다:</strong><br>
+      의사가 "혈당 몇 이상이면 당뇨"라고 기준을 정합니다.
+      기준을 낮추면(예: 100) 환자를 더 많이 잡지만(TPR 상승), 건강한 사람도 많이 걸립니다(FPR 상승).
+      기준을 높이면(예: 150) 확실한 환자만 잡지만, 초기 환자를 놓칩니다.
+      이 기준을 0부터 끝까지 변화시키면서 TPR과 FPR의 관계를 그린 것이 ROC 곡선입니다.
+      곡선 아래 면적(AUC)이 넓을수록, 즉 왼쪽 위 모서리에 가까울수록 좋은 검사(모델)입니다.
+      AUC = 1.0은 완벽한 분류, AUC = 0.5는 동전 던지기와 같습니다.
     </ExplainBox>
 
     <ChartContainer id="chart-roc-curves" height="380px" />
@@ -257,9 +294,13 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
-      <strong>비유:</strong> 5명의 학생이 돌아가면서 발표 평가를 받습니다.
-      1명만 평가하면 그 사람의 운에 따라 달라지지만,
-      5명 모두 한 번씩 평가받으면 전체 실력을 더 정확히 알 수 있습니다.
+      <strong>쉽게 말하면 -- "돌아가며 시험보기"입니다:</strong><br>
+      반에 학생 50명이 있고, 시험으로 실력을 평가하려 합니다.
+      한 번만 시험보면, 그날 컨디션이 좋았는지 나빴는지에 따라 점수가 들쭉날쭉합니다.
+      그래서 5번에 걸쳐, 매번 다른 10명이 시험관이 되고 나머지 40명이 응시합니다.
+      5번의 점수를 평균 내면 한 번 시험보다 훨씬 신뢰할 수 있는 실력 추정치를 얻습니다.
+      교차검증도 같은 논리입니다 -- 데이터를 K등분하고, 매번 다른 등분을 테스트 세트로 돌아가며 사용합니다.
+      이렇게 하면 "우연히 좋은 테스트 세트를 뽑았나?"라는 걱정을 덜 수 있습니다.
     </ExplainBox>
 
     <!-- K-fold 시각화 -->

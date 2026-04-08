@@ -42,6 +42,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <h2>K-평균의 네 단계</h2>
     <p>알고리즘은 놀랍도록 단순합니다. 딱 네 단계의 반복입니다.</p>
 
+    <ExplainBox>
+      <strong>쉽게 말하면 -- 학교에서 모둠 나누기</strong><br>
+      선생님이 "오늘 3모둠으로 활동합니다"라고 선언하고, 교실 세 곳에 깃발을 꽂습니다.
+      학생들은 가장 가까운 깃발로 모입니다. 그런 다음 각 모둠의 한가운데로 깃발을 옮기고,
+      다시 가까운 깃발로 모이라고 합니다. 이 과정을 반복하면 자연스러운 모둠이 만들어집니다.
+      K-평균은 정확히 이 "모둠 나누기"를 수학적으로 수행하는 알고리즘입니다.
+    </ExplainBox>
+
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0;">
       <div style="background:var(--tb-primary-light);padding:14px;border-radius:var(--tb-radius);text-align:center;">
         <div style="font-size:1.5rem;font-weight:800;color:var(--tb-primary);">1</div>
@@ -66,10 +74,10 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </div>
 
     <ExplainBox>
-      <strong>비유:</strong> 교실에 학생 30명이 서 있고, 선생님이 깃발 3개를 아무 데나 꽂았습니다.
-      "가장 가까운 깃발 쪽으로 모여라!" -- 학생들이 이동합니다.
-      그러면 각 그룹의 <strong>한가운데</strong>로 깃발을 옮깁니다.
-      다시 "가장 가까운 깃발로!" -- 몇 번 반복하면 그룹이 안정됩니다.
+      <strong>일상 언어로 풀어보는 알고리즘 3단계:</strong><br>
+      <strong>1단계 -- "대충 시작":</strong> K개의 대표 점(중심점)을 아무 데나 놓습니다. 학교에서 조장 자리를 임의로 정하는 것과 같습니다.<br>
+      <strong>2단계 -- "가까운 쪽으로 모여":</strong> 모든 데이터 점이 자기에게 가장 가까운 중심점 쪽으로 배정됩니다. 학생들이 가장 가까운 조장에게 붙는 것입니다.<br>
+      <strong>3단계 -- "조장 자리 다시 잡기":</strong> 각 조의 구성원들의 평균 위치로 중심점을 이동합니다. 이 2-3단계를 중심점이 더 이상 움직이지 않을 때까지 반복합니다.
     </ExplainBox>
 
     <FormulaBox>
@@ -137,6 +145,13 @@ import SimControls from '../../components/textbook/SimControls.astro';
       두 가지 방법으로 최적 K를 찾습니다.
     </p>
 
+    <ExplainBox>
+      <strong>쉽게 말하면 -- "더 나눠봐도 개선이 없으면 그만":</strong>
+      피자를 2조각으로 나누면 큰 차이가 있고, 4조각으로 나누면 또 편리해집니다.
+      하지만 100조각으로 나누면? 8조각이나 100조각이나 별 차이가 없습니다.
+      엘보우 방법은 "더 나눠봐도 별로 나아지지 않는 지점"을 찾아서 거기서 멈추는 것입니다.
+    </ExplainBox>
+
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0;">
       <div style="background:var(--tb-primary-light);padding:16px;border-radius:var(--tb-radius);">
         <h3 style="color:var(--tb-primary);margin-bottom:6px;">엘보우 방법</h3>
@@ -181,6 +196,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
       K-평균의 결과는 <strong>초기 중심점 위치에 따라 달라집니다</strong>.
       같은 데이터, 같은 K로 5번 실행하면 결과가 매번 다를 수 있습니다!
     </p>
+
+    <InsightBox>
+      <strong>출발점에 따라 결과가 달라진다:</strong>
+      네비게이션 없이 처음 보는 도시에서 맛집을 찾는 상황을 생각해보세요.
+      어디서 탐색을 시작하느냐에 따라 찾게 되는 맛집이 달라집니다.
+      K-평균도 마찬가지입니다. 중심점의 초기 위치가 나쁘면 "진짜 최적"이 아니라
+      "그 근처에서 가장 좋은 결과(로컬 최적)"에 갇힐 수 있습니다.
+      그래서 여러 번 실행하거나, K-means++처럼 똑똑한 초기화 방법을 사용합니다.
+    </InsightBox>
 
     <ExerciseBox>
       <strong>해보기:</strong>

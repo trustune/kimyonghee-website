@@ -51,6 +51,16 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
+      <strong>쉽게 말하면 -- 가까운 사람끼리 모이고, 그 모임끼리 또 모이는 것:</strong>
+      입학 첫날을 떠올려 보세요. 처음에는 모두가 혼자입니다.
+      옆자리에 앉은 두 사람이 먼저 친해지고(2인 그룹),
+      그 옆의 2인 그룹과 합쳐 4인 그룹이 됩니다.
+      이런 식으로 가까운 사람끼리 모이고, 그 모임끼리 또 모여서
+      결국 반 전체가 하나의 큰 그룹이 될 때까지 합쳐지는 과정이
+      바로 계층적 클러스터링입니다.
+    </ExplainBox>
+
+    <ExplainBox>
       <strong>알고리즘 순서:</strong><br>
       1. N개의 점 각각을 독립 군집으로 시작한다.<br>
       2. 모든 군집 쌍 사이의 거리를 계산한다.<br>
@@ -130,6 +140,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
       세로축은 합병 시점의 거리(높이)를 나타내고, 아래쪽에서 위로 올라갈수록 더 먼 군집들이 합쳐집니다.
     </p>
 
+    <InsightBox>
+      <strong>덴드로그램은 가계도와 비슷한 합류 기록입니다:</strong>
+      가계도(족보)를 생각해보세요. 아래쪽에 개인이 있고, 위로 올라가면 형제, 사촌, 먼 친척 순서로 합쳐집니다.
+      덴드로그램도 같은 원리입니다. 아래쪽에 개별 데이터 점이 있고,
+      가까운 것끼리 먼저 만나 가지가 합쳐지며, 맨 위에서 모든 데이터가 하나로 합류합니다.
+      어느 높이에서 "칼로 잘라" 분리하느냐에 따라 군집의 수가 결정됩니다.
+    </InsightBox>
+
     <ExplainBox>
       <strong>절단선(cut line)의 의미:</strong>
       덴드로그램에 수평선을 그으면, 그 높이에서 교차하는 가지의 수가 곧 군집의 수입니다.
@@ -180,6 +198,16 @@ import SimControls from '../../components/textbook/SimControls.astro';
       어디에도 속하지 않는 <strong>노이즈(이상치)</strong>를 자동으로 식별합니다.
     </p>
 
+    <ExplainBox>
+      <strong>쉽게 말하면 -- 밀집 지역은 같은 동네, 외딴 집은 소음:</strong>
+      지도를 펼쳐놓고 집들을 바라보세요.
+      아파트 단지처럼 집이 빽빽한 곳은 하나의 "동네"로 인식됩니다.
+      동네와 동네 사이에 떨어져 있는 외딴 집은 어느 동네에도 속하지 않는 "이상치(노이즈)"입니다.
+      DBSCAN은 바로 이 직관을 수학적으로 구현합니다.
+      집이 많이 모여 있는 밀집 지역을 찾아 하나의 군집으로 묶고,
+      어디에도 붙지 못하는 외딴 점은 노이즈로 분류합니다.
+    </ExplainBox>
+
     <h3>핵심 개념: 세 종류의 점</h3>
     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0;">
       <div style="background: var(--tb-primary-light); padding: 16px; border-radius: var(--tb-radius); text-align: center;">
@@ -204,6 +232,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <span class="hl">minPts:</span> 핵심점이 되기 위한 최소 이웃 수 (자기 자신 포함)<br>
       N_eps(p) = &#123; q in D | dist(p, q) &lt;= eps &#125; &nbsp;&nbsp; |N_eps(p)| &gt;= minPts 이면 p는 핵심점
     </FormulaBox>
+
+    <BusinessBox>
+      <strong>epsilon과 minPts를 직관적으로 이해하기 -- "동네의 크기와 최소 가구 수":</strong><br>
+      <strong>epsilon</strong>은 "동네의 반경"입니다. "이 집에서 반경 500m 안에 있는 집이 이웃"이라고 정의하는 것과 같습니다.
+      epsilon이 크면 넓은 범위를 하나의 동네로 보고, 작으면 좁은 범위만 동네로 봅니다.<br>
+      <strong>minPts</strong>는 "동네로 인정받으려면 최소 몇 가구가 있어야 하는가"입니다.
+      minPts가 5이면 반경 안에 5가구 이상 있어야 그곳이 "동네의 중심(핵심점)"으로 인정됩니다.
+      이 두 값을 적절히 설정하는 것이 DBSCAN 성공의 열쇠입니다.
+    </BusinessBox>
 
     <ExplainBox>
       <strong>알고리즘 순서:</strong><br>

@@ -39,6 +39,16 @@ import SimControls from '../../components/textbook/SimControls.astro';
   <!-- ===== SECTION 2: 회귀의 아이디어 ===== -->
   <div class="tb-card">
     <h2>산점도 위의 직선: 회귀의 기본 아이디어</h2>
+
+    <InsightBox>
+      <strong>"회귀"라는 이름은 어디서 왔을까?</strong><br>
+      1886년 영국의 프랜시스 갈턴(Francis Galton)은 부모와 자녀의 키를 조사했습니다.
+      키가 큰 부모의 자녀는 부모보다 약간 작고, 키가 작은 부모의 자녀는 부모보다 약간 컸습니다.
+      즉, 자녀의 키가 전체 평균 쪽으로 "되돌아간다"는 것을 발견했습니다.
+      갈턴은 이 현상을 "평균으로의 회귀(regression toward the mean)"라 불렀고,
+      여기서 "회귀분석"이라는 이름이 탄생했습니다.
+    </InsightBox>
+
     <p>
       두 변수 X(원인)와 Y(결과)가 있을 때, 산점도를 그리면 점들이 흩어져 있습니다.
       이 점들 사이를 관통하는 직선을 하나 그을 수 있다면,
@@ -46,6 +56,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
+      <strong>쉽게 말하면:</strong> 산점도 위에 투명한 자를 올려놓고,
+      점들 한가운데를 관통하도록 자를 기울여보는 것을 상상하세요.
+      그 자의 기울기가 바로 "X가 변할 때 Y가 얼마나 변하는가"를 알려줍니다.<br><br>
       <strong>회귀 직선의 방정식:</strong>
       Y = b0 + b1 * X. 여기서 b0은 절편(intercept)으로 X가 0일 때 Y의 예측값,
       b1은 기울기(slope)로 X가 1 증가할 때 Y의 변화량입니다.
@@ -60,6 +73,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <FormulaBox>
       <span class="hl">SSE</span> = Sum of (yi - y-hat_i)^2 = Sum of (잔차)^2 --> <span class="res">최소화!</span>
     </FormulaBox>
+
+    <ExplainBox>
+      <strong>쉽게 말하면:</strong> OLS는 "고무줄 비유"로 이해할 수 있습니다.
+      각 데이터 점에서 직선까지 고무줄이 연결되어 있다고 상상하세요.
+      고무줄이 길수록(잔차가 클수록) 직선을 세게 당깁니다.
+      모든 고무줄의 장력(잔차의 제곱합)이 가장 적어지는 위치에 직선이 놓이는 것 --
+      그것이 OLS가 찾는 "최적의 직선"입니다.
+    </ExplainBox>
 
     <p style="margin-top: 12px;">
       각 데이터 점에서 직선까지의 수직 거리를 <strong>잔차(residual)</strong>라고 합니다.
@@ -198,6 +219,11 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </FormulaBox>
 
     <ExplainBox>
+      <strong>쉽게 말하면:</strong> R-squared는 "모델이 설명하는 비율"입니다.
+      학생의 성적을 예측하는 상황을 생각해보세요.
+      "이 학생의 성적은 아마 평균 정도일 것이다"라고만 말하면 설명력이 0입니다.
+      하지만 "공부 시간을 알면 성적을 꽤 정확히 맞출 수 있다"라면 설명력이 높은 것입니다.
+      R-squared = 0.85라면, Y의 총 변동 중 85%를 X로 설명할 수 있고 나머지 15%는 아직 미스터리라는 뜻입니다.<br><br>
       <strong>SST (총 변동):</strong> Y의 전체 흩어짐 = Sum(yi - y-bar)^2<br>
       <strong>SSE (잔차 변동):</strong> 직선으로 설명 못 한 부분<br>
       <strong>SSR (회귀 변동):</strong> 직선이 설명한 부분 = SST - SSE<br>
@@ -247,6 +273,16 @@ import SimControls from '../../components/textbook/SimControls.astro';
       회귀분석의 결과를 신뢰하려면, 데이터가 몇 가지 가정을 만족해야 합니다.
       가정이 위반되면 추정치가 편향되거나 신뢰구간이 무의미해질 수 있습니다.
     </p>
+
+    <InsightBox>
+      <strong>요리 후 맛보기 비유:</strong>
+      잔차 진단은 "요리를 만든 뒤 맛을 보는 것"과 같습니다.
+      아무리 레시피(모형)가 좋아도, 완성된 요리를 맛보지 않으면 제대로 됐는지 모릅니다.
+      잔차는 "모형이 설명하지 못하고 남긴 찌꺼기"입니다.
+      이 찌꺼기에 패턴이 있다면 -- 예를 들어 한쪽으로 치우쳐 있거나, 점점 커지거나 --
+      레시피에 빠진 재료가 있다는 뜻입니다.
+      잔차 진단을 건너뛰는 것은, 요리를 맛보지 않고 손님에게 내놓는 것과 같습니다.
+    </InsightBox>
 
     <ExplainBox>
       <strong>회귀의 4가지 가정 (LINE):</strong><br>

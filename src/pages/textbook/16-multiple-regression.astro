@@ -40,6 +40,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
   <!-- ===== SECTION 2: 다중회귀의 구조 ===== -->
   <div class="tb-card">
     <h2>단순회귀에서 다중회귀로</h2>
+
+    <InsightBox>
+      <strong>하나의 원인에서 여러 원인으로:</strong>
+      단순회귀는 "열이 나는 이유가 감기 때문이다"라고 말하는 것과 같습니다.
+      하지만 현실에서 열의 원인은 다양합니다 -- 감기, 스트레스, 수면 부족, 탈수 등.
+      다중회귀는 이 여러 원인을 동시에 고려하여 "각 원인이 열에 얼마나 기여하는가"를
+      분리해내는 도구입니다.
+    </InsightBox>
+
     <p>
       단순회귀가 2차원 산점도 위의 직선이라면,
       다중회귀는 <strong>다차원 공간의 평면(또는 초평면)</strong>입니다.
@@ -54,6 +63,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <strong>각 계수의 의미:</strong>
       b1은 "X2, X3, ..., Xp를 모두 고정한 상태에서 X1이 1 증가할 때 Y의 변화량"입니다.
       이것을 편회귀계수(partial regression coefficient)라고 합니다.<br><br>
+      <strong>쉽게 말하면 -- 실험 비유:</strong>
+      "다른 변수를 고정했을 때"란, 마치 과학 실험에서 하나의 조건만 바꾸고 나머지는 통제하는 것과 같습니다.
+      식물 실험에서 물, 햇빛, 비료를 동시에 바꾸면 무엇이 효과를 냈는지 알 수 없습니다.
+      물의 양만 바꾸고 나머지를 고정해야 "물의 순수한 효과"를 측정할 수 있습니다.
+      다중회귀의 계수도 정확히 이 원리입니다 -- 수학적으로 다른 변수의 영향을 "고정(통제)"한 후
+      해당 변수만의 순수한 효과를 분리해냅니다.<br><br>
       일상 비유: 아파트 가격 모형에서 b_면적 = 120이라면,
       "층수, 역세권, 학군 등 다른 조건이 동일할 때, 면적이 1m2 넓어지면 가격이 약 120만원 상승"이라는 뜻입니다.
     </ExplainBox>
@@ -142,9 +157,25 @@ import SimControls from '../../components/textbook/SimControls.astro';
       따라서 모형 비교에는 Adjusted R-squared를 사용해야 합니다.
     </InsightBox>
 
+    <WarningBox>
+      <strong>왜 R-squared만 보면 위험한가?</strong>
+      뷔페에서 접시에 음식을 무한정 담는다고 상상해보세요.
+      음식 가짓수(변수 수)가 늘면 접시의 "총량(R-squared)"은 항상 올라갑니다.
+      하지만 이미 배가 부른데 더 담으면 소화불량(과적합)에 걸립니다.
+      수정 R-squared는 "접시에 음식을 하나 더 담을 때, 그게 정말 먹을 만한 것인가?"를 따져줍니다.
+      가치 없는 음식(변수)을 추가하면 수정 R-squared는 오히려 내려가서
+      "그 변수는 넣지 마라"는 신호를 보냅니다.
+    </WarningBox>
+
     <FormulaBox>
       Adj R-squared = 1 - (1 - R-squared) * <span class="hl">(n - 1) / (n - p - 1)</span>
     </FormulaBox>
+
+    <ExplainBox>
+      <strong>쉽게 말하면:</strong> 이 공식에서 (n - 1) / (n - p - 1) 부분이 벌칙 역할을 합니다.
+      변수 수 p가 커질수록 이 비율이 커지면서 R-squared를 깎아내립니다.
+      변수를 추가해서 얻는 설명력 향상이 벌칙보다 클 때만 Adj R-squared가 올라갑니다.
+    </ExplainBox>
   </div>
 
   <!-- ===== SECTION 4: 다중공선성 ===== -->
@@ -156,6 +187,13 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
+      <strong>쉽게 말하면 -- 쌍둥이 변수 문제:</strong>
+      축구 경기에서 쌍둥이 선수가 항상 같이 뛰고, 항상 같은 방향으로 움직인다고 합시다.
+      경기가 끝난 후 "이번 골은 형 덕분인가, 동생 덕분인가?"를 구분할 수 있을까요?
+      둘 다 똑같이 움직였으니 각자의 기여를 분리하는 것이 불가능합니다.
+      다중공선성도 마찬가지입니다. 서로 거의 똑같은 정보를 담은 변수를 둘 다 넣으면,
+      컴퓨터는 "이 효과가 A 변수의 것인지 B 변수의 것인지" 혼란에 빠지고,
+      계수가 불안정하고 해석 불가능해집니다.<br><br>
       <strong>다중공선성의 증상:</strong><br>
       - 계수의 부호가 직관과 반대로 나옴 (면적이 넓을수록 가격이 낮다?)<br>
       - 표준오차가 비정상적으로 커짐<br>

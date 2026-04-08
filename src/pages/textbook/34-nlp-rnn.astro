@@ -51,7 +51,10 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
-      <strong>세 가지 토큰화 방식:</strong><br>
+      <strong>쉽게 말하면 -- 문장을 단어(또는 글자)로 쪼개기:</strong>
+      레고 블록을 조립하려면 먼저 블록 하나하나를 분리해야 합니다.
+      토큰화는 문장이라는 "완성품"을 의미 있는 조각(토큰)으로 분리하는 작업입니다.
+      "나는 학생입니다"를 어떻게 쪼갤 것인가? 세 가지 방식이 있습니다.<br><br>
       <strong>글자 단위:</strong> 각 글자를 하나의 토큰으로. 어휘가 작지만 의미 파악이 어렵다.<br>
       <strong>단어 단위:</strong> 공백/형태소 기준. 직관적이지만 어휘가 폭증할 수 있다.<br>
       <strong>서브워드 (BPE):</strong> 자주 나오는 글자 조합을 묶어 토큰으로. 현대 NLP의 표준.
@@ -188,11 +191,13 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
-      <strong>비유: 의미의 지도</strong><br>
-      단어 임베딩은 모든 단어를 거대한 지도 위에 배치하는 것과 같습니다.
-      "사과"와 "배"는 가까이, "사과"와 "자동차"는 멀리 있습니다.
+      <strong>쉽게 말하면 -- 단어를 숫자 좌표로 변환하되, 비슷한 뜻의 단어는 가까운 위치에:</strong>
+      지도에서 서울과 인천은 가깝고, 서울과 부산은 멀리 떨어져 있습니다.
+      단어 임베딩은 모든 단어를 이런 "의미의 지도" 위에 배치합니다.
+      "사과"와 "배"는 가까이(둘 다 과일), "사과"와 "자동차"는 멀리 있습니다.
       놀랍게도 이 지도에서는 방향도 의미를 가집니다.
       "왕"에서 "남자" 방향을 빼고 "여자" 방향을 더하면 "여왕" 근처에 도달합니다.
+      컴퓨터는 이 좌표(벡터)를 사용하여 단어 간의 의미적 거리를 계산합니다.
     </ExplainBox>
 
     <FormulaBox>
@@ -306,10 +311,14 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </FormulaBox>
 
     <ExplainBox>
-      <strong>비유: 독서하는 사람</strong><br>
+      <strong>쉽게 말하면 -- 순서대로 읽으며 기억을 유지하는 모델:</strong>
       사람이 소설을 읽을 때, 각 문장을 이해하면서 이전 내용의 요약을 머릿속에 유지합니다.
       새 문장을 읽으면 기존 요약과 합쳐 업데이트합니다.
-      RNN의 숨겨진 상태가 바로 이 "머릿속 요약"입니다.
+      RNN의 숨겨진 상태(hidden state)가 바로 이 "머릿속 요약"입니다.
+      일반 신경망은 각 입력을 독립적으로 처리하지만,
+      RNN은 "방금 전에 무엇을 읽었는가"라는 기억을 다음 단계에 전달합니다.
+      그래서 "나는 프랑스에서 태어났다"를 읽고 나면,
+      이후에 "그래서 나는 __어를 잘 한다"에서 빈칸을 채울 수 있습니다.
     </ExplainBox>
 
     <WarningBox>
@@ -319,6 +328,17 @@ import SimControls from '../../components/textbook/SimControls.astro';
       여기서 "프랑스"를 기억해야 하지만 기본 RNN은 이를 놓칩니다.
       이 문제를 해결하기 위해 LSTM(Long Short-Term Memory)이 개발되었습니다.
     </WarningBox>
+
+    <InsightBox>
+      <strong>LSTM -- 중요한 것은 오래 기억하고 불필요한 것은 잊는 메모리:</strong>
+      LSTM은 RNN에 "메모장"을 추가한 것입니다.
+      이 메모장에는 세 가지 문(gate)이 있습니다.
+      <strong>입력 문:</strong> "이 정보는 중요하니 메모장에 적어둬."
+      <strong>망각 문:</strong> "이 정보는 이제 필요 없으니 지워."
+      <strong>출력 문:</strong> "메모장에서 이것만 꺼내서 다음에 전달해."
+      이 세 문 덕분에 LSTM은 문장이 길어져도
+      중요한 정보(예: 주어가 "프랑스")를 수백 단어 뒤까지 유지할 수 있습니다.
+    </InsightBox>
   </div>
 
   <!-- ===== INTERACTIVE 5: RNN Sequence Demo ===== -->

@@ -66,11 +66,13 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </div>
 
     <ExplainBox>
-      <strong>Transformer의 해결책: Self-Attention</strong><br>
-      Transformer는 모든 단어를 동시에 처리합니다.
+      <strong>Transformer -- 모든 단어를 동시에 보는 모델:</strong>
+      RNN이 소설을 처음부터 끝까지 한 줄씩 읽는 독자라면,
+      Transformer는 책의 모든 페이지를 한 번에 펼쳐놓고 보는 독자입니다.
       각 단어가 문장의 다른 모든 단어와 직접 "대화"할 수 있으므로,
       거리에 관계없이 관련 정보를 즉시 참조할 수 있습니다.
-      마치 회의에서 모든 참석자가 서로 직접 소통할 수 있는 것과 같습니다.
+      RNN의 순차 처리 한계를 근본적으로 극복한 것이 Transformer입니다.
+      마치 회의에서 모든 참석자가 중간 전달자 없이 서로 직접 소통할 수 있는 것과 같습니다.
     </ExplainBox>
 
     <FormulaBox>
@@ -80,7 +82,10 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </FormulaBox>
 
     <BusinessBox>
-      <strong>비유: 도서관의 검색 시스템</strong><br>
+      <strong>어텐션의 비유 -- 문장을 읽을 때 어떤 단어에 주목할지 결정하는 메커니즘:</strong><br>
+      "나는 은행에서 돈을 빌렸다"를 읽을 때, "은행"이 금융기관인지 나무인지 어떻게 알 수 있을까요?
+      주변 단어를 봐야 합니다. "돈"과 "빌렸다"가 있으니 금융기관입니다.
+      어텐션 메커니즘은 바로 이것을 수학적으로 구현합니다.<br>
       각 단어는 "나에게 관련 있는 정보가 뭐지?"라는 <strong>질문(Query)</strong>을 던집니다.
       다른 모든 단어는 "나는 이런 정보를 가지고 있어"라는 <strong>열쇠(Key)</strong>를 제시합니다.
       질문과 열쇠가 잘 맞는 단어의 <strong>값(Value)</strong>을 가져옵니다.
@@ -265,6 +270,16 @@ import SimControls from '../../components/textbook/SimControls.astro';
       인터넷의 방대한 텍스트로 사전 훈련한 모델입니다.
     </p>
 
+    <ExplainBox>
+      <strong>쉽게 말하면 -- "다음 단어를 예측하는 것"을 거대하게 반복:</strong>
+      GPT의 학습 목표는 놀라울 정도로 단순합니다.
+      "오늘 날씨가 [?]" -- 빈칸에 들어갈 단어를 맞추는 것입니다.
+      이 빈칸 맞추기를 수십억 개의 문장에서 수백만 번 반복하면,
+      문법, 사실 지식, 추론 능력까지 자연스럽게 습득하게 됩니다.
+      마치 수만 권의 책을 읽은 사람이 문장 완성을 잘하는 것처럼,
+      GPT는 방대한 텍스트에서 "다음에 올 가능성이 가장 높은 단어"의 패턴을 학습한 것입니다.
+    </ExplainBox>
+
     <div class="tb-data-table-wrap" style="max-height: none;">
       <table class="tb-data-table">
         <thead>
@@ -287,10 +302,13 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </ExplainBox>
 
     <WarningBox>
-      <strong>LLM이 실제로 하는 것:</strong>
-      LLM은 "이해"나 "사고"가 아니라, 학습 데이터에서 본 패턴의 통계적 재조합입니다.
-      놀라운 결과를 내지만, 그것이 진정한 이해인지는
-      인공지능 철학의 핵심 질문으로 남아 있습니다.
+      <strong>LLM의 한계 -- 통계적 패턴이지 이해가 아니다:</strong>
+      LLM이 놀라운 결과를 내지만, 그 본질은 "이해"나 "사고"가 아닙니다.
+      학습 데이터에서 본 패턴의 통계적 재조합입니다.
+      "2+3=5"를 아는 것이 아니라, "2+3=" 다음에 "5"가 올 확률이 높다는 패턴을 학습한 것입니다.
+      그래서 학습 데이터에 없거나 모호한 정보는 그럴듯하게 지어내기도 합니다(환각, hallucination).
+      LLM의 출력을 무조건 신뢰하는 것이 아니라,
+      비판적으로 검증하는 태도가 AI 시대의 핵심 리터러시입니다.
     </WarningBox>
   </div>
 

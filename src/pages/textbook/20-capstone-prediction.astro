@@ -63,10 +63,22 @@ import SimControls from '../../components/textbook/SimControls.astro';
       그리고 최종 예측까지 -- 실무에서 데이터 분석가가 매일 반복하는 작업 흐름 전체를 경험합니다.
     </p>
 
+    <InsightBox>
+      <strong>머신러닝 파이프라인은 요리 레시피와 같습니다:</strong>
+      좋은 요리사는 레시피를 순서대로 따릅니다. 재료를 확인하고(EDA), 필요한 재료만 골라내고(특성 선택),
+      일부는 시식용으로 따로 빼두고(데이터 분할), 여러 조리법을 시도해보고(모델 비교),
+      맛을 보며 간을 조정하고(잔차 진단), 최종 완성된 요리를 내놓습니다(예측).
+      어느 단계도 건너뛸 수 없으며, 순서가 뒤바뀌면 실패합니다.
+    </InsightBox>
+
     <ExplainBox>
-      <strong>예측 파이프라인의 6단계:</strong><br>
-      (1) 데이터 탐색(EDA) -- (2) 특성 선택 -- (3) 학습/검증 분할
-      -- (4) 모델 학습 및 비교 -- (5) 잔차 진단 -- (6) 새 데이터 예측.<br>
+      <strong>예측 파이프라인의 6단계 -- 각 단계의 목적:</strong><br>
+      (1) <strong>데이터 탐색(EDA):</strong> 데이터의 분포, 이상치, 변수 간 관계를 눈으로 확인합니다. 데이터를 모르면 모델도 모릅니다.<br>
+      (2) <strong>특성 선택:</strong> 모델에 넣을 변수를 고릅니다. 재료가 너무 많으면 맛이 섞입니다.<br>
+      (3) <strong>학습/검증 분할:</strong> 데이터의 일부를 시험용으로 남겨둡니다. 시험 문제를 미리 보여주면 실력을 알 수 없습니다.<br>
+      (4) <strong>모델 학습 및 비교:</strong> 같은 재료로 다른 요리사(OLS, Ridge, Lasso)가 만든 결과를 비교합니다.<br>
+      (5) <strong>잔차 진단:</strong> 모델이 놓친 패턴이 있는지 점검합니다. 요리 후 맛보기와 같습니다.<br>
+      (6) <strong>새 데이터 예측:</strong> 검증된 모델로 실전 예측을 수행합니다.<br><br>
       각 단계를 완료하면 상단 진행 표시줄이 갱신됩니다.
       모든 회귀 모델은 <strong>경사하강법(Gradient Descent)</strong>으로 학습합니다.
     </ExplainBox>
@@ -167,6 +179,17 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <button class="tb-btn tb-btn-success" id="btn-eda-done">Step 1 완료 -- 다음으로</button>
     </SimControls>
 
+    <WarningBox>
+      <strong>EDA의 중요성 -- 데이터를 모르면 모델도 모릅니다:</strong>
+      초보 분석가가 가장 많이 하는 실수는 EDA를 건너뛰고 바로 모델을 돌리는 것입니다.
+      이것은 지도도 보지 않고 낯선 도시에서 운전하는 것과 같습니다.
+      EDA를 통해 반드시 확인해야 할 것들:<br>
+      - 변수의 분포가 치우쳐 있지는 않은가? (로그 변환이 필요할 수 있음)<br>
+      - 이상치(극단값)가 있는가? (한 건의 이상치가 회귀선을 크게 왜곡할 수 있음)<br>
+      - 변수 간 상관이 높은 쌍이 있는가? (다중공선성 가능성)<br>
+      - 범주형 변수의 빈도가 균등한가? (특정 범주에 데이터가 편중되면 예측이 불안정)
+    </WarningBox>
+
     <InsightBox>
       <strong>관찰 포인트:</strong>
       면적(area_m2)과 실거래가의 상관이 가장 높을 것입니다.
@@ -185,6 +208,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
       어떤 변수를 모델에 포함할지는 분석가의 판단입니다.
       변수가 너무 많으면 과적합, 너무 적으면 과소적합.
     </p>
+
+    <ExplainBox>
+      <strong>쉽게 말하면 -- 재료가 너무 많으면 맛이 섞인다:</strong>
+      라면을 끓이는데 파, 계란, 치즈까지는 맛있습니다.
+      하지만 여기에 잼, 초콜릿, 된장을 더 넣으면? 맛이 이상해집니다.
+      변수도 마찬가지입니다. 관련 있는 변수(면적, 층수, 역세권)는 예측력을 높이지만,
+      관련 없는 변수(예: 단지 내 벤치 개수)를 넣으면 모델이 노이즈까지 학습하여 오히려 성능이 떨어집니다.
+      "넣을 수 있다"와 "넣어야 한다"는 전혀 다릅니다.
+    </ExplainBox>
 
     <ExerciseBox>
       <strong>실습 2 -- 변수 선택과 R-제곱 변화:</strong>
@@ -308,6 +340,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <strong>Ridge</strong>는 L2 페널티(18장),
       <strong>Lasso</strong>는 L1 페널티로 계수를 축소합니다.
     </p>
+
+    <InsightBox>
+      <strong>같은 재료, 다른 요리사:</strong>
+      OLS, Ridge, Lasso는 같은 데이터(재료)를 받지만 조리법이 다릅니다.
+      OLS는 자유분방한 요리사 -- 재료를 마음껏 사용합니다 (계수에 제한 없음).
+      Ridge는 신중한 요리사 -- 모든 재료를 쓰되 양을 조금씩 줄입니다.
+      Lasso는 미니멀리스트 요리사 -- 불필요한 재료는 아예 빼버립니다.
+      어떤 요리사가 최고인지는 데이터(재료)에 달려 있으며, 그래서 비교가 필요합니다.
+    </InsightBox>
 
     <FormulaBox>
       OLS Loss: L = (1/n) * sum( (y_i - X_i * beta)^2 )<br>

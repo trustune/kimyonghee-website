@@ -33,10 +33,13 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <BusinessBox>
-      <strong>비즈니스 임팩트:</strong>
+      <strong>비즈니스 임팩트 -- 추천이 곧 매출이다:</strong>
+      아마존 매출의 약 35%가 추천 시스템에서 발생하며,
       넷플릭스 시청의 80%가 추천에서 시작됩니다.
-      편의점의 상품 배치는 연관규칙 분석 결과를 반영합니다.
+      편의점의 상품 배치는 연관규칙 분석 결과를 반영하여
+      함께 사는 상품을 가까이 진열합니다.
       "맥주 옆에 기저귀"라는 유명한 이야기도 장바구니 분석에서 나왔습니다.
+      추천 시스템은 단순한 편의 기능이 아니라, 현대 이커머스의 핵심 수익 엔진입니다.
     </BusinessBox>
   </div>
 
@@ -47,6 +50,15 @@ import SimControls from '../../components/textbook/SimControls.astro';
       연관규칙은 트랜잭션(거래) 데이터에서 "함께 구매되는 패턴"을 찾습니다.
       규칙의 유용성을 평가하는 세 가지 지표가 있습니다.
     </p>
+
+    <ExplainBox>
+      <strong>쉽게 말하면 -- 마트 계산대 데이터에서 패턴 찾기:</strong>
+      편의점 사장님이 1년치 영수증을 쌓아놓고 이런 질문을 합니다.
+      "삼각김밥 사는 사람이 컵라면도 같이 사는 경우가 얼마나 되지?"
+      이것이 연관규칙 분석의 출발점입니다.
+      수만 건의 영수증에서 "A를 사면 B도 산다"는 패턴을 자동으로 찾아내고,
+      그 패턴이 얼마나 의미 있는지를 수치로 평가합니다.
+    </ExplainBox>
 
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0;">
       <div style="background:var(--tb-primary-light);padding:16px;border-radius:var(--tb-radius);text-align:center;">
@@ -184,10 +196,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
-      <strong>비유:</strong> 친구 A가 나와 영화 취향이 90% 일치합니다.
+      <strong>쉽게 말하면 -- 나와 취향이 비슷한 사람이 좋아한 것을 추천:</strong>
+      친구 A가 나와 영화 취향이 90% 일치합니다.
       A가 재미있게 본 영화 중 내가 아직 안 본 것이 있다면?
       높은 확률로 나도 좋아할 것입니다.
       이것이 <strong>사용자 기반 협업 필터링</strong>의 핵심입니다.
+      핵심 전제는 "과거에 취향이 비슷했다면, 미래에도 비슷할 것이다"입니다.
     </ExplainBox>
 
     <FormulaBox>
@@ -282,9 +296,10 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <div id="cold-start-msg" style="display:none;" class="tb-warning-box" style="margin-top:14px;"></div>
 
     <WarningBox>
-      <strong>콜드 스타트 문제:</strong>
-      협업 필터링은 평점 데이터가 없는 신규 사용자/신규 아이템에 무력합니다.
-      콘텐츠 기반은 아이템 속성만 있으면 추천 가능합니다.
+      <strong>콜드 스타트 문제 -- 신규 사용자/신규 상품에 대한 데이터가 없다:</strong>
+      새로 가입한 사용자에게는 평점 데이터가 전혀 없습니다. 비교할 "취향 이력"이 없으니 추천이 불가능합니다.
+      마찬가지로 새로 등록된 상품도 아무도 평가하지 않았으므로 협업 필터링의 사각지대에 놓입니다.
+      콘텐츠 기반은 아이템 속성(장르, 카테고리 등)만 있으면 추천 가능하므로 콜드 스타트에 상대적으로 강합니다.
       실무에서는 두 방식을 결합한 <strong>하이브리드 추천</strong>을 사용합니다.
     </WarningBox>
   </div>

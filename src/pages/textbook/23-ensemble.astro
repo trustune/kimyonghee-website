@@ -32,6 +32,16 @@ import SimControls from '../../components/textbook/SimControls.astro';
       앙상블 학습은 이 원리를 머신러닝에 적용합니다.
       하나의 뛰어난 모델 대신, <strong>여러 개의 평범한 모델을 결합</strong>하면 더 강력한 모델이 됩니다.
     </p>
+
+    <ExplainBox>
+      <strong>쉽게 말하면 -- 집단지성:</strong><br>
+      퀴즈 대회에서 한 명의 천재에게 모든 것을 맡기는 것과, 100명의 보통 사람에게 투표시키는 것 중 어느 쪽이 더 정확할까요?
+      놀랍게도 100명의 다수결이 대부분의 경우 천재 한 명보다 낫습니다.
+      천재도 실수할 수 있지만, 100명이 동시에 같은 실수를 할 확률은 매우 낮기 때문입니다.
+      앙상블 학습은 이 "집단지성"을 알고리즘화한 것입니다.
+      각각의 모델이 완벽하지 않아도, 서로 다른 방식으로 틀리기 때문에 합치면 오류가 상쇄됩니다.
+    </ExplainBox>
+
     <p style="margin-top: 12px;">
       이전 장에서 의사결정트리의 약점을 보았습니다: 불안정하고 과적합에 취약합니다.
       하지만 트리 100개를 결합하면? 놀랍게도 가장 강력한 알고리즘 중 하나가 됩니다.
@@ -51,7 +61,10 @@ import SimControls from '../../components/textbook/SimControls.astro';
           각각에 독립적으로 모델을 학습시킨 뒤, 다수결(분류) 또는 평균(회귀)으로 결합합니다.
         </p>
         <p style="font-size: 0.85rem; color: #374151; margin-top: 8px;">
-          비유: 같은 시험을 여러 학생이 독립적으로 풀고, 가장 많이 고른 답을 제출.
+          <strong>쉽게 말하면:</strong> 여러 명이 독립적으로 같은 시험을 치릅니다.
+          각자 다른 교재로 공부했기 때문에 틀리는 문제가 서로 다릅니다.
+          다수결로 가장 많이 고른 답을 최종 답안으로 제출하면, 개인보다 정확합니다.
+          핵심은 "독립적으로" -- 서로 상의하지 않고 각자의 판단을 내리는 것입니다.
         </p>
         <p style="font-size: 0.85rem; margin-top: 6px; font-weight: 700;">
           대표 알고리즘: 랜덤 포레스트
@@ -65,7 +78,11 @@ import SimControls from '../../components/textbook/SimControls.astro';
           이렇게 실수를 보완하며 점점 강해집니다.
         </p>
         <p style="font-size: 0.85rem; color: #374151; margin-top: 8px;">
-          비유: 선생님이 학생의 오답만 모아서 다음 시험에 출제. 반복할수록 약점이 사라짐.
+          <strong>쉽게 말하면:</strong> 시험을 보고 틀린 문제만 복습하는 학생을 떠올리세요.
+          1차 시험에서 미적분을 틀렸으면, 미적분을 집중 복습하고 2차 시험을 봅니다.
+          2차에서 통계를 틀렸으면, 통계를 집중 복습하고 3차 시험을 봅니다.
+          반복할수록 약점이 하나씩 사라지면서 점수가 올라갑니다.
+          부스팅은 이처럼 <strong>이전 모델의 실수에 집중</strong>하여 순차적으로 보완합니다.
         </p>
         <p style="font-size: 0.85rem; margin-top: 6px; font-weight: 700;">
           대표 알고리즘: AdaBoost, Gradient Boosting, XGBoost
@@ -95,10 +112,22 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </p>
 
     <ExplainBox>
-      <strong>비유:</strong> 30명이 퀴즈를 푸는데, 모두 같은 교과서만 보면 같은 실수를 합니다.
+      <strong>비유 -- 다양한 관점의 나무들:</strong><br>
+      30명이 퀴즈를 푸는데, 모두 같은 교과서만 보면 같은 실수를 합니다.
       하지만 각자 다른 장만 공부하면(무작위 특성), 실수가 서로 다릅니다.
       다수결로 합치면 개인의 실수가 상쇄됩니다.
     </ExplainBox>
+
+    <InsightBox>
+      <strong>쉽게 말하면 -- 왜 "랜덤"이 중요한가:</strong><br>
+      같은 데이터로 트리 100개를 만들면 100개가 거의 같은 트리가 됩니다 -- 이것은 1명이 100번 투표하는 것과 같습니다.
+      랜덤 포레스트는 두 가지 무작위성을 주입합니다:
+      (1) <strong>데이터를 무작위로 뽑고</strong> (부트스트랩), (2) <strong>변수도 무작위로 뽑습니다</strong>.
+      마치 30명의 분석가에게 각자 다른 데이터 샘플과 다른 변수 집합을 주는 것과 같습니다.
+      한 사람은 매출과 광고비만 보고, 다른 사람은 계절과 경쟁사 가격만 봅니다.
+      각자의 관점은 불완전하지만, 30명의 판단을 종합하면 놀랍도록 정확한 결론이 나옵니다.
+      이것이 랜덤 포레스트가 실무에서 가장 많이 쓰이는 알고리즘 중 하나인 이유입니다.
+    </InsightBox>
 
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0;">
       <div style="background: var(--tb-g100); padding: 16px; border-radius: var(--tb-radius); text-align: center;">
