@@ -245,6 +245,67 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </ExerciseBox>
   </div>
 
+  <!-- ===== INTERACTIVE 5: 센터피드(지네) 게임 ===== -->
+  <div class="tb-card">
+    <h2>5. 센터피드 게임 (지네 게임)</h2>
+    <p>
+      두 사람이 번갈아 선택합니다: <strong>"계속"</strong>하면 전체 보상이 커지고,
+      <strong>"가져가기"</strong>하면 게임이 끝나고 현재 보상을 나눕니다.
+    </p>
+
+    <ExplainBox>
+      <strong>쉽게 말하면:</strong>
+      탁자 위에 동전 더미가 있습니다. 매 턴마다 동전이 2개씩 추가됩니다.
+      당신 차례에 "가져가기"를 선택하면 동전의 많은 쪽을 가져갑니다.
+      "계속"을 선택하면 상대에게 차례가 넘어가지만, 동전은 더 늘어납니다.
+      문제는: 마지막 턴까지 기다리면 둘 다 더 많이 받지만,
+      상대가 다음 턴에 가져갈까 봐 내가 먼저 가져가고 싶어진다는 것입니다.
+    </ExplainBox>
+
+    <ExerciseBox>
+      <strong>직접 플레이:</strong>
+      아래에서 6라운드 센터피드 게임을 플레이합니다.
+      당신(A)이 홀수 라운드, 상대(B)가 짝수 라운드에 결정합니다.
+      "계속" 또는 "가져가기"를 선택하세요.
+    </ExerciseBox>
+
+    <div style="margin: 14px 0;">
+      <div id="centipede-visual" style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap; padding: 16px; background: var(--tb-g100); border-radius: var(--tb-radius); min-height: 80px;"></div>
+    </div>
+
+    <div class="tb-stat-row" id="centipede-stats">
+      <StatBox label="현재 라운드" id="cent-round" value="1" />
+      <StatBox label="전체 보상" id="cent-total" value="2" />
+      <StatBox label="A의 보상" id="cent-pay-a" value="-" />
+      <StatBox label="B의 보상" id="cent-pay-b" value="-" />
+    </div>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="btn-cent-continue">계속 (보상 키우기)</button>
+      <button class="tb-btn tb-btn-danger" id="btn-cent-take">가져가기 (게임 종료)</button>
+      <button class="tb-btn" id="btn-cent-reset" style="margin-left: 12px;">다시 하기</button>
+    </SimControls>
+
+    <div id="centipede-result" style="display: none;"></div>
+
+    <InsightBox>
+      <strong>역진귀납법의 역설:</strong>
+      이론적으로, 마지막 라운드의 플레이어는 반드시 "가져가기"를 선택합니다 (기다릴 이유가 없으므로).
+      그러면 그 전 플레이어도 "가져가기"가 최선이 됩니다.
+      이 논리를 처음까지 거슬러 올라가면, <strong>1라운드에서 즉시 가져가는 것</strong>이 합리적입니다.
+      하지만 실제 실험에서는 대부분의 사람들이 몇 라운드는 "계속"을 선택합니다.
+      이것은 역진귀납법과 현실 행동 사이의 유명한 괴리입니다.
+    </InsightBox>
+
+    <WarningBox>
+      <strong>왜 이론과 현실이 다른가:</strong>
+      (1) 사람들은 상대방이 합리적이라고 100% 확신하지 않습니다.
+      (2) 협력을 통해 더 큰 보상을 얻으려는 성향이 있습니다.
+      (3) 불확실성이 존재하면 "좀 더 기다려보자"가 합리적일 수 있습니다.
+      이 게임은 신뢰, 합리성, 그리고 역진귀납법의 한계를 모두 보여주는 중요한 사례입니다.
+    </WarningBox>
+  </div>
+
   <!-- ===== 결론 ===== -->
   <ConclusionBox title="29장 정리: 순서가 중요하다">
     <p>
@@ -252,6 +313,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       위협이 신빙성 있으려면 실제로 실행하는 것이 합리적이어야 합니다.
     </p>
     <p style="margin-top: 8px;">
+      센터피드 게임은 역진귀납법이 이론적으로 옳지만 현실에서는 잘 맞지 않는 경우를 보여줍니다.
       최후통첩 게임은 합리성의 한계를 보여줍니다.
       다음 장에서는 같은 게임을 <strong>여러 번 반복</strong>하면 어떻게 달라지는지 탐구합니다.
     </p>
@@ -664,6 +726,99 @@ waitForChart(function init() {
   document.getElementById('ult-answer-btn').addEventListener('click', function() {
     document.getElementById('ult-answer').style.display = 'block';
   });
+
+  /* ===== INTERACTIVE 5: CENTIPEDE GAME ===== */
+  var centRound = 1;
+  var centMaxRounds = 6;
+  var centGameOver = false;
+  var centPayoffs = [
+    [1, 0], [0, 2], [3, 1], [2, 4], [5, 3], [4, 6], [6, 5]
+  ];
+
+  function drawCentipedeVisual() {
+    var container = document.getElementById('centipede-visual');
+    if (!container) return;
+    container.innerHTML = '';
+    for (var i = 1; i <= centMaxRounds; i++) {
+      var node = document.createElement('div');
+      var isA = (i % 2 === 1);
+      node.style.cssText = 'display:flex;flex-direction:column;align-items:center;min-width:60px;';
+      var circle = document.createElement('div');
+      circle.style.cssText = 'width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff;' +
+        (i < centRound ? 'background:#22c55e;' : i === centRound && !centGameOver ? 'background:' + (isA ? '#2563eb' : '#ef4444') + ';box-shadow:0 0 0 3px rgba(0,0,0,.2);' : 'background:#cbd5e1;');
+      circle.textContent = isA ? 'A' : 'B';
+      node.appendChild(circle);
+      var label = document.createElement('div');
+      label.style.cssText = 'font-size:.75rem;color:var(--tb-g600);margin-top:4px;';
+      label.textContent = 'R' + i;
+      node.appendChild(label);
+      var pay = document.createElement('div');
+      pay.style.cssText = 'font-size:.7rem;color:var(--tb-g600);';
+      pay.textContent = '(' + centPayoffs[i][0] + ',' + centPayoffs[i][1] + ')';
+      node.appendChild(pay);
+      container.appendChild(node);
+      if (i < centMaxRounds) {
+        var arrow = document.createElement('div');
+        arrow.style.cssText = 'font-size:1.2rem;color:' + (i < centRound ? '#22c55e' : '#cbd5e1') + ';';
+        arrow.textContent = '\u2192';
+        container.appendChild(arrow);
+      }
+    }
+    document.getElementById('cent-round').textContent = centGameOver ? '-' : centRound;
+    document.getElementById('cent-total').textContent = centPayoffs[Math.min(centRound, centMaxRounds)][0] + centPayoffs[Math.min(centRound, centMaxRounds)][1];
+  }
+
+  function centContinue() {
+    if (centGameOver || centRound > centMaxRounds) return;
+    var isPlayerTurn = (centRound % 2 === 1);
+    centRound++;
+    if (centRound > centMaxRounds) {
+      centGameOver = true;
+      var pay = centPayoffs[centMaxRounds];
+      document.getElementById('cent-pay-a').textContent = pay[0];
+      document.getElementById('cent-pay-b').textContent = pay[1];
+      document.getElementById('centipede-result').style.display = '';
+      document.getElementById('centipede-result').innerHTML = '<div class="tb-insight">마지막 라운드까지 도달! A는 ' + pay[0] + ', B는 ' + pay[1] + '을 받습니다. 서로 신뢰하여 최대 보상에 도달했습니다.</div>';
+    } else {
+      var isNextPlayer = (centRound % 2 === 1);
+      if (!isNextPlayer) {
+        setTimeout(function() {
+          if (Math.random() < 0.3) {
+            centTake();
+          } else {
+            drawCentipedeVisual();
+          }
+        }, 500);
+      }
+    }
+    drawCentipedeVisual();
+  }
+
+  function centTake() {
+    if (centGameOver) return;
+    centGameOver = true;
+    var pay = centPayoffs[centRound];
+    var taker = (centRound % 2 === 1) ? 'A (당신)' : 'B (상대)';
+    document.getElementById('cent-pay-a').textContent = pay[0];
+    document.getElementById('cent-pay-b').textContent = pay[1];
+    document.getElementById('centipede-result').style.display = '';
+    document.getElementById('centipede-result').innerHTML = '<div class="tb-warning-box"><strong>라운드 ' + centRound + '에서 ' + taker + '이 가져갔습니다.</strong> A는 ' + pay[0] + ', B는 ' + pay[1] + '. ' + (centRound <= 2 ? '역진귀납법의 예측과 비슷합니다. 하지만 기다렸으면 더 많이 받을 수 있었습니다.' : '몇 라운드를 기다린 덕에 더 높은 보상을 받았지만, 끝까지 기다렸으면 더 받을 수 있었습니다.') + '</div>';
+    drawCentipedeVisual();
+  }
+
+  function centReset() {
+    centRound = 1;
+    centGameOver = false;
+    document.getElementById('cent-pay-a').textContent = '-';
+    document.getElementById('cent-pay-b').textContent = '-';
+    document.getElementById('centipede-result').style.display = 'none';
+    drawCentipedeVisual();
+  }
+
+  drawCentipedeVisual();
+  document.getElementById('btn-cent-continue').addEventListener('click', centContinue);
+  document.getElementById('btn-cent-take').addEventListener('click', centTake);
+  document.getElementById('btn-cent-reset').addEventListener('click', centReset);
 
 });
 </script>
