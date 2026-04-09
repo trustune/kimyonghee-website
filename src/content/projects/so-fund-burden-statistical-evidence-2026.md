@@ -1,6 +1,6 @@
 ---
 title: "Statistical Evidence for Asymmetric Fund Burden on Cable SO Operators"
-subtitle: "Panel Data Analysis (215 firms, 2017-2024): Cox PH, Logit, Gini, and Nonparametric Tests"
+subtitle: "Panel Data Analysis (90 SO firms, 2017-2024): Cox PH, Logit, Gini, and Nonparametric Tests"
 date: "2026-04-09"
 category: "Broadcasting Policy"
 tags: ["Broadcasting Fund", "Cable TV", "SO", "IPTV", "Panel Data", "Cox PH", "Logit", "Gini", "Regulatory Asymmetry"]
@@ -20,8 +20,8 @@ data_sources:
 related_publications: []
 related_projects: ["broadcasting-revenue-2015-2024"]
 conference: ""
-description: "Panel analysis of 215 cable SO firms over 8 years reveals that fund burden significantly accelerates capital erosion (Cox HR=3.9, p=0.020), SO bears 3.8x higher effective burden than IPTV (Welch p=0.003), and the burden Gini reaches 0.513 (extreme inequality)."
-summary: "Using Cox PH, Logit, and nonparametric tests on a 215-firm panel (N=724), this study provides statistical evidence that Korea's uniform 1.5% Broadcasting Development Fund rate produces extreme burden asymmetry: SO operators face 3.9x higher capital erosion risk per 1%p fund increase (p=0.020), bear 3.8x higher effective burden than IPTV (p=0.003), and the system produces a Gini of 0.513 -- higher than OECD income inequality."
+description: "Panel analysis of 90 cable SO firms over 8 years (N=724) reveals that fund burden significantly accelerates capital erosion (Cox HR=3.9, p=0.020), SO bears 3.8x higher effective burden than IPTV (Welch p=0.003), and the burden Gini reaches 0.513 (extreme inequality)."
+summary: "Using Cox PH, Logit, and nonparametric tests on a 90-firm panel (N=724, 2017-2024), this study provides statistical evidence that Korea's uniform 1.5% Broadcasting Development Fund rate produces extreme burden asymmetry: SO operators face 3.9x higher capital erosion risk per 1%p fund increase (p=0.020), bear 3.8x higher effective burden than IPTV (p=0.003), and the system produces a Gini of 0.513 -- higher than OECD income inequality."
 key_findings:
   - "Cox PH: 1%p increase in fund/revenue ratio raises capital erosion hazard by 3.9x (HR=3.902, p=0.020)"
   - "Welch t-test: SO effective burden (22.1%) vs IPTV (5.8%), 3.8x gap (t=3.23, p=0.003)"
@@ -41,7 +41,7 @@ featured: false
 
 ## Overview
 
-Korea's Broadcasting Development Fund imposes a uniform 1.5% levy on broadcasting service revenue for both Cable SO operators and IPTV providers under Article 25 of the Broadcasting and Communications Development Act. This study tests whether this uniform rate produces equitable outcomes using panel data from 215 SO firms over 8 years (2017-2024, N=724).
+Korea's Broadcasting Development Fund imposes a uniform 1.5% levy on broadcasting service revenue for both Cable SO operators and IPTV providers under Article 25 of the Broadcasting and Communications Development Act. This study tests whether this uniform rate produces equitable outcomes using panel data from 90 SO firms over 8 years (2017-2024, N=724). Note: 215 unique firm names appear due to corporate renaming (e.g., CJ Hello -> LG HelloVision), but the actual number of operating SO licenses is 90 per year.
 
 ## Key Results
 
@@ -54,7 +54,7 @@ The survival analysis examines whether higher fund burden (fund/revenue %) predi
 | Fund/Revenue (%) | 1.3615 | (0.5866) | **3.902** | [1.236, 12.321] | **0.020*** |
 | Log(Revenue) | 0.0936 | (0.1145) | 1.098 | [0.877, 1.374] | 0.414 |
 
-- Events: 181 / 215 subjects
+- Events: 181 / 215 firm-names (90 active licenses per year)
 - Concordance: 0.4734
 
 **Interpretation**: A 1 percentage-point increase in the fund/revenue ratio is associated with a **3.9-fold increase** in the hazard of capital erosion (p=0.020). This is the strongest statistical evidence that the current levy structure accelerates SO industry decline.
@@ -121,7 +121,7 @@ SO operators invest 14 times more in public-interest local content per unit of r
 
 ## Methodology Notes
 
-- **Panel**: 215 unique SO firms, 2017-2024 (8 years), N=724. Fund contribution data available from 2017.
+- **Panel**: 90 SO licenses per year (215 unique firm names due to corporate renaming), 2017-2024 (8 years), N=724. Fund contribution data available from 2017.
 - **Cox PH**: Last-observation-per-firm design. Event = equity <= 0. Duration = years since 2017.
 - **Logit**: Pooled cross-section with robust standard errors. Deficit = operating income < 0.
 - **Welch t-test**: Does not assume equal variance. SO sample restricted to OI > 0 firms (N=52).
