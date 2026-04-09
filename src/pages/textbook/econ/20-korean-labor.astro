@@ -1,0 +1,712 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="한국 노동시장"
+  subtitle="최저임금, 청년실업, 고령화"
+  chapterNum={20}
+  part={3}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>대학 진학률 세계 1위, 그런데 청년 실업?</h2>
+    <p>
+      한국의 대학 진학률은 약 70%로 OECD 최고 수준입니다.
+      그런데 청년(15~29세) 실업률은 약 7%이고,
+      체감 실업률(확장 실업률)은 20%가 넘습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      왜 이런 일이 벌어질까요? 노동시장도 수요와 공급의 원리로 작동합니다.
+      하지만 일반 상품 시장과 다른 점이 많습니다.
+      이 장에서는 노동시장의 특수성과 한국 노동시장의 구조적 문제를 분석합니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>노동시장의 수요/공급 모형과 균형 임금</li>
+        <li>한국의 연령별/성별 경제활동 참가율</li>
+        <li>최저임금의 효과를 이론과 데이터로 분석</li>
+        <li>대학 교육의 경제적 가치(인적자본 투자)를 계산</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION: 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>노동시장의 기본 구조</h2>
+
+    <ExplainBox title="노동시장의 수요와 공급">
+      <p><strong>노동 수요 (기업):</strong> 기업은 노동자를 고용하여 생산합니다.
+        임금이 낮을수록 더 많은 노동자를 고용하려 합니다. 노동 수요곡선은 우하향.</p>
+      <p style="margin-top: 8px;"><strong>노동 공급 (근로자):</strong> 근로자는 임금을 받기 위해
+        노동력을 제공합니다. 임금이 높을수록 더 많은 사람이 일하려 합니다. 노동 공급곡선은 우상향.</p>
+      <p style="margin-top: 8px;"><strong>균형:</strong> 수요곡선과 공급곡선이 만나는 점에서
+        균형 임금과 균형 고용량이 결정됩니다.</p>
+    </ExplainBox>
+
+    <WarningBox title="노동시장이 특별한 이유">
+      <p>노동시장은 일반 상품 시장과 다릅니다.</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>최저임금:</strong> 정부가 최소 임금을 정합니다 (가격 하한제)</li>
+        <li><strong>정보 비대칭:</strong> 기업은 지원자의 실력을, 지원자는 회사의 환경을 잘 모릅니다</li>
+        <li><strong>탐색 비용:</strong> 일자리를 찾는 데 시간과 노력이 듭니다</li>
+        <li><strong>노동 조합:</strong> 근로자가 단체로 교섭하여 임금에 영향을 줍니다</li>
+      </ul>
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 노동시장 수요/공급 ===== -->
+  <div class="tb-card">
+    <h2>1. 노동시장 수요/공급 모형</h2>
+    <p>
+      노동시장에서 임금(가격)과 고용량(수량)이 어떻게 결정되는지 봅시다.
+      최저임금선을 추가하면 <strong>초과 공급(실업)</strong>이 발생하는 것을 확인할 수 있습니다.
+    </p>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="균형 임금" value="-" id="lm-wage" borderColor="#059669" />
+      <StatBox label="고용량" value="-" id="lm-employ" borderColor="#3b82f6" />
+      <StatBox label="실업" value="0명" id="lm-unemp" borderColor="#ef4444" />
+    </div>
+
+    <SimControls>
+      <label>경기 상황 (수요 이동): <span id="lm-demand-val">0</span></label>
+      <input type="range" id="lm-demand" min="-30" max="30" value="0" step="5" />
+      <label>인구 변화 (공급 이동): <span id="lm-supply-val">0</span></label>
+      <input type="range" id="lm-supply" min="-30" max="30" value="0" step="5" />
+      <label>최저임금 수준: <span id="lm-minwage-val">0</span> (0 = 없음)</label>
+      <input type="range" id="lm-minwage" min="0" max="80" value="0" step="5" />
+    </SimControls>
+
+    <canvas id="laborCanvas" style="width: 100%; height: 480px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fafafa;"></canvas>
+
+    <ExerciseBox title="최저임금과 실업">
+      <p>최저임금 슬라이더를 균형 임금보다 높게 설정하면 어떤 일이 일어나는가?</p>
+      <p>1) 고용량은 어떻게 변하는가?</p>
+      <p>2) 일하고 싶지만 일자리를 못 찾는 사람은 몇 명인가?</p>
+      <button class="tb-btn" id="lm-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="lm-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>최저임금이 균형 임금보다 높으면:</p>
+        <p>1) 기업의 노동 수요 감소 → 고용량 감소</p>
+        <p>2) 높은 임금에 일하려는 사람 증가 → 노동 공급 증가</p>
+        <p>결과: <strong>초과 공급 = 실업</strong> (공급량 - 수요량)</p>
+        <p>이것이 최저임금 인상에 대한 경제학적 우려입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 연령별 경제활동 참가율 ===== -->
+  <div class="tb-card">
+    <h2>2. 한국의 경제활동 참가율</h2>
+    <p>
+      경제활동 참가율은 생산가능인구(15세 이상) 중 실제로 일하거나
+      일자리를 찾고 있는 사람의 비율입니다.
+      한국에서는 남성과 여성의 참가율 패턴이 매우 다릅니다.
+    </p>
+
+    <ExplainBox title="M자 곡선이란?">
+      <p>한국 여성의 경제활동 참가율은 20대에 높다가 30대에 급락하고
+        (출산/육아로 경력 단절) 40대에 다시 올라갑니다.
+        이 모양이 알파벳 <strong>M</strong>과 비슷하여 'M자 곡선'이라 합니다.</p>
+      <p style="margin-top: 8px;">선진국에서는 M자가 점차 사라지고 있지만
+        한국에서는 아직 뚜렷합니다. 이는 일-가정 양립이 어렵기 때문입니다.</p>
+    </ExplainBox>
+
+    <SimControls>
+      <label>
+        <input type="checkbox" id="gender-male" checked /> 남성
+      </label>
+      <label style="margin-left: 16px;">
+        <input type="checkbox" id="gender-female" checked /> 여성
+      </label>
+      <label style="margin-left: 16px;">
+        <input type="checkbox" id="gender-oecd" /> OECD 평균 (여성)
+      </label>
+    </SimControls>
+
+    <ChartContainer id="participationChart" height="400px" />
+
+    <BusinessBox title="한국 노동시장 주요 통계 (2024년 기준)">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>고용률:</strong> 약 62% (15세 이상 인구 기준)</li>
+        <li><strong>실업률:</strong> 약 2.8% (ILO 기준, 체감보다 낮음)</li>
+        <li><strong>청년 실업률 (15~29세):</strong> 약 6.5%</li>
+        <li><strong>남성 경활 참가율:</strong> 약 73%</li>
+        <li><strong>여성 경활 참가율:</strong> 약 54%</li>
+        <li><strong>성별 임금 격차:</strong> OECD 최대 (약 31%)</li>
+      </ul>
+    </BusinessBox>
+
+    <ExerciseBox title="데이터 분석 연습">
+      <p>차트에서 남녀 모두를 켜고 다음 질문에 답하세요.</p>
+      <p>1) 30대에서 남녀 참가율 차이가 가장 큰 이유는?</p>
+      <p>2) OECD 평균과 비교하면 한국 여성은 어떤 특징이 있는가?</p>
+      <button class="tb-btn" id="part-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="part-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>1) 출산/육아로 인한 경력 단절. 한국은 육아 인프라(어린이집, 유연근무)가 부족하고, 장시간 근로 문화로 일-가정 양립이 어려움.</p>
+        <p>2) OECD 평균 여성은 M자가 거의 없고 역U자에 가까움. 한국은 30대 하락폭이 뚜렷함. 이 차이를 줄이면 GDP가 크게 늘어날 수 있음.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 최저임금 효과 시뮬레이터 ===== -->
+  <div class="tb-card">
+    <h2>3. 최저임금 효과 시뮬레이터</h2>
+    <p>
+      2024년 한국의 최저임금은 시급 9,860원입니다.
+      최저임금 인상은 저소득 근로자의 소득을 높이지만,
+      동시에 일부 일자리를 줄일 수 있습니다. 이 트레이드오프를 봅시다.
+    </p>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="최저시급" value="9,860원" id="mw-wage" borderColor="#059669" />
+      <StatBox label="고용 변화" value="0%" id="mw-employ" borderColor="#3b82f6" />
+      <StatBox label="총 임금소득" value="-" id="mw-total" borderColor="#f59e0b" />
+      <StatBox label="실업 변화" value="-" id="mw-unemp" borderColor="#ef4444" />
+    </div>
+
+    <SimControls>
+      <label>최저임금 수준: <span id="mw-level-val">9,860</span>원</label>
+      <input type="range" id="mw-level" min="6000" max="15000" value="9860" step="100" />
+      <label>노동수요 탄력성: <span id="mw-elast-val">-0.3</span></label>
+      <input type="range" id="mw-elast" min="-1" max="0" value="-0.3" step="0.1" />
+    </SimControls>
+
+    <ChartContainer id="minwageChart" height="380px" />
+
+    <InsightBox title="최저임금 논쟁: 양쪽의 주장">
+      <p><strong>인상 찬성:</strong> 저소득 근로자의 생활 수준 향상, 소비 증가, 소득 불평등 완화</p>
+      <p style="margin-top: 8px;"><strong>인상 반대:</strong> 고용 감소 (특히 영세 자영업), 물가 상승,
+        청년/비숙련 근로자에게 불리</p>
+      <p style="margin-top: 8px;"><strong>경제학의 답:</strong> '적정 수준'이 중요.
+        너무 낮으면 근로 빈곤 문제, 너무 높으면 고용 감소.
+        노동수요 탄력성에 따라 효과가 달라짐.</p>
+    </InsightBox>
+
+    <ExerciseBox title="탄력성과 최저임금">
+      <p>노동수요 탄력성을 -0.1(비탄력적)과 -0.8(탄력적)으로 각각 설정하고,
+        최저임금을 12,000원으로 올려보세요. 어떤 차이가 나는가?</p>
+      <button class="tb-btn" id="mw-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="mw-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>탄력성 -0.1:</strong> 고용 감소가 작음. 총 임금소득 증가. 최저임금 인상이 효과적.</p>
+        <p><strong>탄력성 -0.8:</strong> 고용이 크게 줄어듦. 총 임금소득이 오히려 감소할 수 있음.</p>
+        <p>결론: 탄력성이 작을수록 최저임금 인상의 부작용이 적습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 인적자본 투자 계산기 ===== -->
+  <div class="tb-card">
+    <h2>4. 대학 교육의 경제적 가치</h2>
+    <p>
+      대학 4년은 비용이 큽니다. 등록금뿐 아니라 4년간 벌 수 있었던 임금(기회비용)도 포기합니다.
+      그 대가로 더 높은 임금(대졸 프리미엄)을 받습니다.
+      과연 대학 교육은 경제적으로 투자할 가치가 있을까요?
+    </p>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">NPV = -투자비용 + 생애소득 차이의 현재가치</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center; font-size: 0.9em;">
+        투자비용 = 등록금 총액 + 4년간 포기 임금
+      </p>
+    </FormulaBox>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="총 투자비용" value="-" id="hc-cost" borderColor="#ef4444" />
+      <StatBox label="생애 소득 차이" value="-" id="hc-premium" borderColor="#059669" />
+      <StatBox label="NPV" value="-" id="hc-npv" borderColor="#3b82f6" />
+      <StatBox label="투자 수익률" value="-" id="hc-roi" borderColor="#f59e0b" />
+    </div>
+
+    <SimControls>
+      <label>연간 등록금: <span id="hc-tuition-val">800</span>만원</label>
+      <input type="range" id="hc-tuition" min="200" max="2000" value="800" step="50" />
+      <label>고졸 초봉 (월): <span id="hc-hs-val">200</span>만원</label>
+      <input type="range" id="hc-hs" min="150" max="350" value="200" step="10" />
+      <label>대졸 초봉 (월): <span id="hc-col-val">280</span>만원</label>
+      <input type="range" id="hc-col" min="200" max="500" value="280" step="10" />
+      <label>할인율: <span id="hc-disc-val">3</span>%</label>
+      <input type="range" id="hc-disc" min="1" max="8" value="3" step="0.5" />
+    </SimControls>
+
+    <ChartContainer id="hcChart" height="400px" />
+
+    <WarningBox title="주의: 평균의 함정">
+      <p>대졸 프리미엄은 <strong>평균</strong>입니다. 전공, 학교, 개인 역량에 따라 크게 다릅니다.
+        또한 직업 만족도, 네트워크, 자기 발전 등 금전적으로 측정할 수 없는 가치도 있습니다.
+        교육의 가치는 단순히 임금만으로 판단할 수 없습니다.</p>
+    </WarningBox>
+
+    <ExerciseBox title="인적자본 분석">
+      <p>다음 두 경우의 NPV를 비교해 보세요.</p>
+      <p><strong>A:</strong> 등록금 연 500만원, 고졸 초봉 220만원, 대졸 초봉 300만원</p>
+      <p><strong>B:</strong> 등록금 연 1,500만원, 고졸 초봉 220만원, 대졸 초봉 320만원</p>
+      <p>비싼 학비를 내는 대학(사례 B)이 그만한 가치가 있는가?</p>
+      <button class="tb-btn" id="hc-quiz-btn" style="margin-top: 8px;">힌트 보기</button>
+      <div id="hc-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>직접 슬라이더로 계산해 보세요. 등록금이 3배 차이나지만 초봉 차이는 20만원뿐입니다.</p>
+        <p>핵심: 비싼 등록금이 반드시 높은 투자 수익을 보장하지 않습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 노동시장 이슈 ===== -->
+  <div class="tb-card">
+    <h2>한국 노동시장의 구조적 문제</h2>
+
+    <ExplainBox title="이중 구조 문제">
+      <p>한국 노동시장은 <strong>대기업/정규직</strong>과 <strong>중소기업/비정규직</strong>
+        사이의 격차가 매우 큽니다.</p>
+      <p style="margin-top: 8px;">대기업 정규직 평균 임금은 중소기업 비정규직의 약 2배입니다.
+        복리후생, 고용 안정성까지 포함하면 격차는 더 큽니다.</p>
+      <p style="margin-top: 8px;">이 격차 때문에 모든 사람이 대기업 정규직을 원하고,
+        중소기업은 인력난을 겪습니다. 이것이 <strong>미스매치(mismatch)</strong> 문제입니다.</p>
+    </ExplainBox>
+
+    <InsightBox title="고령화와 노동시장의 미래">
+      <p>한국은 세계에서 가장 빠르게 고령화되고 있습니다.
+        2025년 합계출산율은 0.7명대로 세계 최저 수준입니다.</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>생산가능인구(15~64세)가 매년 약 30만 명씩 감소</li>
+        <li>노인 인구 증가로 복지 지출 급증</li>
+        <li>노동력 부족을 해소하기 위한 외국인 근로자 확대 필요</li>
+        <li>정년 연장, 여성 경제활동 확대 등 구조 개혁 필요</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="20장 정리: 한국 노동시장">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li>노동시장도 <strong>수요(기업)와 공급(근로자)</strong>으로 분석 가능</li>
+      <li><strong>최저임금</strong>은 가격 하한제: 저소득층 보호 vs 고용 감소의 트레이드오프</li>
+      <li>한국 여성의 경제활동 참가율은 <strong>M자 곡선</strong> (경력 단절 문제)</li>
+      <li>대학 교육의 경제적 가치는 <strong>투자비용 vs 대졸 프리미엄</strong>으로 분석</li>
+      <li>한국 노동시장의 <strong>이중 구조</strong>(대기업 vs 중소기업)와 <strong>고령화</strong>가 핵심 과제</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1. 노동시장 수요/공급 (Canvas) ========== */
+  var labCanvas = document.getElementById('laborCanvas');
+  var labCtx = labCanvas.getContext('2d');
+  var lmDemand = document.getElementById('lm-demand');
+  var lmSupply = document.getElementById('lm-supply');
+  var lmMinwage = document.getElementById('lm-minwage');
+
+  function drawLabor() {
+    var w = labCanvas.width = labCanvas.offsetWidth * (window.devicePixelRatio || 1);
+    var h = labCanvas.height = labCanvas.offsetHeight * (window.devicePixelRatio || 1);
+    var dpr = window.devicePixelRatio || 1;
+    labCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var cw = labCanvas.offsetWidth;
+    var ch = labCanvas.offsetHeight;
+    labCtx.clearRect(0, 0, cw, ch);
+
+    var margin = { top: 40, right: 40, bottom: 60, left: 80 };
+    var gw = cw - margin.left - margin.right;
+    var gh = ch - margin.top - margin.bottom;
+
+    var dShift = parseInt(lmDemand.value);
+    var sShift = parseInt(lmSupply.value);
+    var minW = parseInt(lmMinwage.value);
+
+    document.getElementById('lm-demand-val').textContent = dShift > 0 ? '+' + dShift : dShift;
+    document.getElementById('lm-supply-val').textContent = sShift > 0 ? '+' + sShift : sShift;
+    document.getElementById('lm-minwage-val').textContent = minW || '없음';
+
+    function toX(q) { return margin.left + (q / 100) * gw; }
+    function toY(p) { return margin.top + gh - (p / 100) * gh; }
+
+    /* 축 */
+    labCtx.strokeStyle = '#374151';
+    labCtx.lineWidth = 2;
+    labCtx.beginPath();
+    labCtx.moveTo(margin.left, margin.top);
+    labCtx.lineTo(margin.left, margin.top + gh);
+    labCtx.lineTo(margin.left + gw, margin.top + gh);
+    labCtx.stroke();
+
+    labCtx.fillStyle = '#374151';
+    labCtx.font = '14px sans-serif';
+    labCtx.textAlign = 'center';
+    labCtx.fillText('노동량 (L)', margin.left + gw / 2, ch - 10);
+    labCtx.save();
+    labCtx.translate(18, margin.top + gh / 2);
+    labCtx.rotate(-Math.PI / 2);
+    labCtx.fillText('임금 (W)', 0, 0);
+    labCtx.restore();
+
+    /* 수요: W = 85 + dShift*0.5 - 0.8L, 공급: W = 15 + sShift*0.3 + 0.5L */
+    var dInt = 85 + dShift * 0.5;
+    var sInt = 15 + sShift * 0.3;
+
+    /* 원래 곡선 점선 */
+    labCtx.setLineDash([6, 4]);
+    labCtx.lineWidth = 1.5;
+    labCtx.strokeStyle = '#93c5fd';
+    labCtx.beginPath();
+    labCtx.moveTo(toX(0), toY(85));
+    labCtx.lineTo(toX(100), toY(85 - 80));
+    labCtx.stroke();
+    labCtx.strokeStyle = '#fca5a5';
+    labCtx.beginPath();
+    labCtx.moveTo(toX(0), toY(15));
+    labCtx.lineTo(toX(100), toY(15 + 50));
+    labCtx.stroke();
+    labCtx.setLineDash([]);
+
+    /* 이동된 수요곡선 */
+    labCtx.strokeStyle = '#2563eb';
+    labCtx.lineWidth = 3;
+    labCtx.beginPath();
+    labCtx.moveTo(toX(0), toY(Math.min(100, Math.max(0, dInt))));
+    labCtx.lineTo(toX(100), toY(Math.min(100, Math.max(0, dInt - 80))));
+    labCtx.stroke();
+
+    /* 이동된 공급곡선 */
+    labCtx.strokeStyle = '#dc2626';
+    labCtx.lineWidth = 3;
+    labCtx.beginPath();
+    labCtx.moveTo(toX(0), toY(Math.min(100, Math.max(0, sInt))));
+    labCtx.lineTo(toX(100), toY(Math.min(100, Math.max(0, sInt + 50))));
+    labCtx.stroke();
+
+    /* 균형점: dInt - 0.8L = sInt + 0.5L → L = (dInt - sInt) / 1.3 */
+    var eqL = (dInt - sInt) / 1.3;
+    var eqW = sInt + 0.5 * eqL;
+
+    /* 최저임금 선 */
+    if (minW > 0) {
+      labCtx.strokeStyle = '#f59e0b';
+      labCtx.lineWidth = 2.5;
+      labCtx.setLineDash([8, 4]);
+      labCtx.beginPath();
+      labCtx.moveTo(toX(0), toY(minW));
+      labCtx.lineTo(toX(100), toY(minW));
+      labCtx.stroke();
+      labCtx.setLineDash([]);
+
+      labCtx.fillStyle = '#f59e0b';
+      labCtx.font = 'bold 13px sans-serif';
+      labCtx.textAlign = 'left';
+      labCtx.fillText('최저임금 = ' + minW, toX(2), toY(minW) - 8);
+
+      if (minW > eqW) {
+        /* 최저임금이 균형 위 → 초과공급 */
+        var Ld = (dInt - minW) / 0.8;
+        var Ls = (minW - sInt) / 0.5;
+
+        /* 실업 영역 표시 */
+        if (Ld > 0 && Ls > 0 && Ls > Ld) {
+          labCtx.fillStyle = 'rgba(239,68,68,0.15)';
+          labCtx.fillRect(toX(Ld), toY(minW) - 2, toX(Ls) - toX(Ld), 25);
+
+          labCtx.fillStyle = '#ef4444';
+          labCtx.font = 'bold 12px sans-serif';
+          labCtx.textAlign = 'center';
+          labCtx.fillText('실업 = ' + (Ls - Ld).toFixed(0) + '만명', (toX(Ld) + toX(Ls)) / 2, toY(minW) + 35);
+
+          /* 화살표 */
+          labCtx.strokeStyle = '#ef4444';
+          labCtx.lineWidth = 2;
+          labCtx.beginPath();
+          labCtx.moveTo(toX(Ld), toY(minW) + 18);
+          labCtx.lineTo(toX(Ls), toY(minW) + 18);
+          labCtx.stroke();
+
+          document.getElementById('lm-wage').textContent = minW + ' (최저임금)';
+          document.getElementById('lm-employ').textContent = Math.max(0, Ld).toFixed(0) + '만명';
+          document.getElementById('lm-unemp').textContent = Math.max(0, Ls - Ld).toFixed(0) + '만명';
+        }
+      } else {
+        document.getElementById('lm-wage').textContent = eqW.toFixed(0) + '만원';
+        document.getElementById('lm-employ').textContent = eqL.toFixed(0) + '만명';
+        document.getElementById('lm-unemp').textContent = '0명 (최저임금 무효)';
+      }
+    } else {
+      document.getElementById('lm-wage').textContent = eqW.toFixed(0) + '만원';
+      document.getElementById('lm-employ').textContent = eqL.toFixed(0) + '만명';
+      document.getElementById('lm-unemp').textContent = '0명';
+    }
+
+    /* 균형점 */
+    if (eqL > 0 && eqL < 100 && eqW > 0 && eqW < 100) {
+      if (minW <= 0 || minW <= eqW) {
+        labCtx.beginPath();
+        labCtx.arc(toX(eqL), toY(eqW), 8, 0, Math.PI * 2);
+        labCtx.fillStyle = '#059669';
+        labCtx.fill();
+        labCtx.strokeStyle = '#fff';
+        labCtx.lineWidth = 2;
+        labCtx.stroke();
+      }
+    }
+
+    /* 레이블 */
+    labCtx.font = 'bold 14px sans-serif';
+    labCtx.textAlign = 'left';
+    labCtx.fillStyle = '#2563eb';
+    labCtx.fillText('노동 수요 (D)', toX(70), toY(dInt - 56) + 20);
+    labCtx.fillStyle = '#dc2626';
+    labCtx.fillText('노동 공급 (S)', toX(70), toY(sInt + 35) - 10);
+  }
+
+  [lmDemand, lmSupply, lmMinwage].forEach(function(el) {
+    el.addEventListener('input', drawLabor);
+  });
+  window.addEventListener('resize', drawLabor);
+  drawLabor();
+
+  document.getElementById('lm-quiz-btn').addEventListener('click', function() {
+    document.getElementById('lm-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 2. 경제활동 참가율 ========== */
+  var ageGroups = ['15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65+'];
+  var maleRate = [7, 42, 75, 92, 94, 95, 94, 93, 88, 75, 38];
+  var femaleRate = [8, 55, 72, 55, 53, 62, 67, 65, 58, 45, 18];
+  var oecdFemale = [12, 52, 75, 74, 73, 76, 78, 76, 68, 52, 12];
+
+  var partCtx = document.getElementById('participationChart');
+  var partChart = new Chart(partCtx, {
+    type: 'line',
+    data: {
+      labels: ageGroups,
+      datasets: [
+        { label: '남성', data: maleRate, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', borderWidth: 3, tension: 0.4, fill: true, pointRadius: 4 },
+        { label: '여성', data: femaleRate, borderColor: '#ec4899', backgroundColor: 'rgba(236,72,153,0.1)', borderWidth: 3, tension: 0.4, fill: true, pointRadius: 4 },
+        { label: 'OECD 평균 (여성)', data: oecdFemale, borderColor: '#a855f7', borderWidth: 2, borderDash: [6, 3], tension: 0.4, fill: false, pointRadius: 3, hidden: true }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '연령대' } },
+        y: { title: { display: true, text: '경제활동 참가율 (%)' }, min: 0, max: 100 }
+      },
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + ctx.raw + '%'; } } }
+      }
+    }
+  });
+
+  document.getElementById('gender-male').addEventListener('change', function() {
+    partChart.data.datasets[0].hidden = !this.checked;
+    partChart.update();
+  });
+  document.getElementById('gender-female').addEventListener('change', function() {
+    partChart.data.datasets[1].hidden = !this.checked;
+    partChart.update();
+  });
+  document.getElementById('gender-oecd').addEventListener('change', function() {
+    partChart.data.datasets[2].hidden = !this.checked;
+    partChart.update();
+  });
+
+  document.getElementById('part-quiz-btn').addEventListener('click', function() {
+    document.getElementById('part-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 3. 최저임금 효과 시뮬레이터 ========== */
+  var mwLevel = document.getElementById('mw-level');
+  var mwElast = document.getElementById('mw-elast');
+  var mwCtx = document.getElementById('minwageChart');
+
+  var baseWage = 9860;
+  var baseEmploy = 100; /* 기준 지수 */
+
+  var mwChart = new Chart(mwCtx, {
+    type: 'bar',
+    data: {
+      labels: ['현재(9,860원)', '변경 후'],
+      datasets: [
+        { label: '고용 지수', data: [100, 100], backgroundColor: ['rgba(59,130,246,0.6)', 'rgba(59,130,246,0.6)'], borderRadius: 6 },
+        { label: '총 임금소득 지수', data: [100, 100], backgroundColor: ['rgba(5,150,105,0.6)', 'rgba(5,150,105,0.6)'], borderRadius: 6 },
+        { label: '실업 지수', data: [0, 0], backgroundColor: ['rgba(239,68,68,0.6)', 'rgba(239,68,68,0.6)'], borderRadius: 6 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '지수 (현재 = 100)' }, min: 0 } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updateMW() {
+    var wage = parseInt(mwLevel.value);
+    var elast = parseFloat(mwElast.value);
+
+    document.getElementById('mw-level-val').textContent = wage.toLocaleString();
+    document.getElementById('mw-elast-val').textContent = elast.toFixed(1);
+
+    var pctWageChange = (wage - baseWage) / baseWage;
+    var pctEmployChange = pctWageChange * elast;
+    var newEmploy = baseEmploy * (1 + pctEmployChange);
+    var totalWageIndex = (wage / baseWage) * (newEmploy / baseEmploy) * 100;
+    var unempIndex = Math.max(0, -pctEmployChange * 100);
+
+    document.getElementById('mw-wage').textContent = wage.toLocaleString() + '원';
+    document.getElementById('mw-employ').textContent = (pctEmployChange * 100).toFixed(1) + '%';
+    document.getElementById('mw-total').textContent = totalWageIndex.toFixed(0);
+    document.getElementById('mw-unemp').textContent = unempIndex.toFixed(1) + '%p';
+
+    mwChart.data.labels = ['현재(9,860원)', wage.toLocaleString() + '원'];
+    mwChart.data.datasets[0].data = [100, parseFloat(newEmploy.toFixed(1))];
+    mwChart.data.datasets[1].data = [100, parseFloat(totalWageIndex.toFixed(1))];
+    mwChart.data.datasets[2].data = [0, parseFloat(unempIndex.toFixed(1))];
+    mwChart.update();
+  }
+
+  [mwLevel, mwElast].forEach(function(el) {
+    el.addEventListener('input', updateMW);
+  });
+  updateMW();
+
+  document.getElementById('mw-quiz-btn').addEventListener('click', function() {
+    document.getElementById('mw-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 4. 인적자본 투자 계산기 ========== */
+  var hcTuition = document.getElementById('hc-tuition');
+  var hcHS = document.getElementById('hc-hs');
+  var hcCol = document.getElementById('hc-col');
+  var hcDisc = document.getElementById('hc-disc');
+  var hcCtx = document.getElementById('hcChart');
+
+  var hcChart = new Chart(hcCtx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '고졸 누적 소득 (만원)', data: [], borderColor: '#f59e0b', borderWidth: 2, tension: 0.1, fill: false, pointRadius: 0 },
+        { label: '대졸 누적 소득 (만원)', data: [], borderColor: '#3b82f6', borderWidth: 2, tension: 0.1, fill: false, pointRadius: 0 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '나이' } },
+        y: {
+          title: { display: true, text: '누적 소득 (만원)' },
+          ticks: { callback: function(v) { return (v / 10000).toFixed(0) + '억'; } }
+        }
+      },
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) { return ctx.dataset.label + ': ' + (ctx.raw / 10000).toFixed(1) + '억'; }
+          }
+        }
+      }
+    }
+  });
+
+  function updateHC() {
+    var tuition = parseInt(hcTuition.value); /* 연간 만원 */
+    var hsMonthly = parseInt(hcHS.value);
+    var colMonthly = parseInt(hcCol.value);
+    var disc = parseFloat(hcDisc.value) / 100;
+
+    document.getElementById('hc-tuition-val').textContent = tuition;
+    document.getElementById('hc-hs-val').textContent = hsMonthly;
+    document.getElementById('hc-col-val').textContent = colMonthly;
+    document.getElementById('hc-disc-val').textContent = hcDisc.value;
+
+    /* 투자비용 = 등록금 4년 + 포기임금 4년 */
+    var totalTuition = tuition * 4;
+    var forgoneIncome = hsMonthly * 12 * 4;
+    var totalCost = totalTuition + forgoneIncome;
+
+    /* 생애소득 시뮬레이션 (19세~60세) */
+    var labels = [];
+    var hsData = [];
+    var colData = [];
+    var hsCum = 0;
+    var colCum = 0;
+
+    /* 임금 상승률: 연 3% */
+    var growthRate = 0.03;
+
+    for (var age = 19; age <= 60; age++) {
+      labels.push(age);
+      var yearsFromStart = age - 19;
+
+      /* 고졸: 19세부터 근무 */
+      var hsAnnual = hsMonthly * 12 * Math.pow(1 + growthRate, yearsFromStart);
+      hsCum += hsAnnual;
+
+      /* 대졸: 23세부터 근무, 19~22세는 등록금 비용 */
+      if (age < 23) {
+        colCum -= tuition;
+      } else {
+        var colYears = age - 23;
+        var colAnnual = colMonthly * 12 * Math.pow(1 + growthRate, colYears);
+        colCum += colAnnual;
+      }
+
+      hsData.push(Math.round(hsCum));
+      colData.push(Math.round(colCum));
+    }
+
+    /* NPV 계산 (간이) */
+    var npv = 0;
+    for (var t = 0; t < labels.length; t++) {
+      var diff = (colData[t] - hsData[t]);
+      if (t > 0) {
+        var annualDiff = diff - (t > 0 ? colData[t-1] - hsData[t-1] : 0);
+        npv += annualDiff / Math.pow(1 + disc, t);
+      }
+    }
+
+    var lifetimeDiff = colCum - hsCum;
+
+    document.getElementById('hc-cost').textContent = (totalCost / 10000).toFixed(1) + '억';
+    document.getElementById('hc-premium').textContent = (lifetimeDiff / 10000).toFixed(1) + '억';
+    document.getElementById('hc-npv').textContent = (npv / 10000).toFixed(1) + '억';
+    document.getElementById('hc-roi').textContent = (lifetimeDiff / totalCost * 100).toFixed(0) + '%';
+
+    hcChart.data.labels = labels;
+    hcChart.data.datasets[0].data = hsData;
+    hcChart.data.datasets[1].data = colData;
+    hcChart.update();
+  }
+
+  [hcTuition, hcHS, hcCol, hcDisc].forEach(function(el) {
+    el.addEventListener('input', updateHC);
+  });
+  updateHC();
+
+  document.getElementById('hc-quiz-btn').addEventListener('click', function() {
+    document.getElementById('hc-quiz-ans').style.display = 'block';
+  });
+
+});
+</script>

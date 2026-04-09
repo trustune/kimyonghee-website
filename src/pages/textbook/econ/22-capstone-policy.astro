@@ -1,0 +1,580 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="캡스톤: 경제정책 시뮬레이터"
+  subtitle="내가 정책 결정자라면"
+  chapterNum={22}
+  part={3}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>당신이 경제 수장이 된다면?</h2>
+    <p>
+      지금까지 배운 경제학의 모든 도구를 총동원할 시간입니다.
+      당신은 한국 경제의 정책 결정자입니다.
+      예상치 못한 경제 상황이 주어지면, 당신이 직접 정책을 설계하고 실행합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      정책에는 항상 <strong>트레이드오프</strong>가 있습니다.
+      GDP를 높이면 물가가 오를 수 있고, 물가를 잡으면 경기가 식을 수 있습니다.
+      모든 목표를 동시에 달성하는 것은 불가능합니다.
+      당신은 얼마나 현명한 선택을 할 수 있을까요?
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>랜덤 경제 시나리오에서 상황을 진단</li>
+        <li>4가지 정책 도구를 조합하여 대응</li>
+        <li>12개월 시뮬레이션으로 정책 효과 확인</li>
+        <li>종합 성적표로 정책 판단력 평가</li>
+        <li>이전 시도와 비교하여 개선</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 역사적 맥락 ===== -->
+  <div class="tb-card">
+    <h2>역대 경제 정책의 교훈</h2>
+
+    <BusinessBox title="한국의 주요 정책 사례">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>1998 IMF 구조조정:</strong> 금리 25%까지 인상 + 긴축 재정 → 단기 고통, 장기 체질 개선</li>
+        <li><strong>2009 글로벌 금융위기:</strong> 추경 28조원 + 금리 인하 → V자 반등 성공</li>
+        <li><strong>2020 코로나 대응:</strong> 재난지원금 + 금리 인하 + 특별 대출 → 빠른 회복, 부동산 과열 부작용</li>
+        <li><strong>2022 인플레이션:</strong> 기준금리 인상(0.5% → 3.5%) → 물가 안정, 가계 부채 부담 증가</li>
+      </ul>
+    </BusinessBox>
+
+    <WarningBox title="정책 결정자의 딜레마">
+      <p>모든 문제를 동시에 해결하는 정책은 존재하지 않습니다.</p>
+      <p style="margin-top: 8px;"><strong>필립스 곡선:</strong> 물가 안정과 완전 고용은 동시에 달성하기 어려움</p>
+      <p><strong>불가능한 삼중:</strong> 자유로운 자본 이동, 독립적 통화정책, 고정 환율 중 2개만 선택 가능</p>
+      <p><strong>정치적 경기순환:</strong> 선거 전 확장 정책, 선거 후 긴축 → 경제 불안정</p>
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 경제 상황 생성기 ===== -->
+  <div class="tb-card">
+    <h2>1. 경제 상황 생성기</h2>
+    <p>
+      아래 버튼을 누르면 랜덤 경제 시나리오가 생성됩니다.
+      5대 경제 지표를 확인하고 현재 상황을 진단하세요.
+    </p>
+
+    <ExplainBox title="4가지 경제 시나리오 유형">
+      <p><strong>호황:</strong> GDP 성장률 높음, 실업률 낮음 → 경기 과열 주의</p>
+      <p><strong>불황:</strong> GDP 성장률 낮거나 마이너스, 실업률 높음 → 경기 부양 필요</p>
+      <p><strong>인플레이션:</strong> 물가 급등, 성장은 보통 → 물가 안정 우선</p>
+      <p><strong>스태그플레이션:</strong> 성장 둔화 + 물가 상승 → 가장 다루기 어려운 상황</p>
+    </ExplainBox>
+
+    <SimControls>
+      <button class="tb-btn" id="scenario-generate" style="font-size: 1.1em; padding: 12px 24px;">새로운 시나리오 생성</button>
+    </SimControls>
+
+    <div id="scenario-type" style="font-size: 1.3em; font-weight: bold; text-align: center; margin: 16px 0; padding: 12px; border-radius: 12px; background: #f1f5f9; color: #374151;">
+      버튼을 눌러 시나리오를 생성하세요
+    </div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="GDP 성장률" value="-" id="sc-gdp" borderColor="#059669" />
+      <StatBox label="물가상승률" value="-" id="sc-cpi" borderColor="#ef4444" />
+      <StatBox label="실업률" value="-" id="sc-unemp" borderColor="#f59e0b" />
+      <StatBox label="기준금리" value="-" id="sc-rate" borderColor="#3b82f6" />
+      <StatBox label="환율 (원/달러)" value="-" id="sc-fx" borderColor="#7c3aed" />
+    </div>
+
+    <div id="scenario-desc" style="padding: 16px; background: #fffbeb; border-radius: 12px; border-left: 4px solid #f59e0b; display: none;">
+    </div>
+
+    <ExerciseBox title="상황 진단 연습">
+      <p>시나리오를 생성한 후, 다음 질문에 답하세요.</p>
+      <p>1) 이 상황은 4가지 유형 중 어디에 해당하는가?</p>
+      <p>2) 가장 시급하게 해결해야 할 문제는?</p>
+      <p>3) 어떤 정책 도구가 가장 효과적일까?</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2 & 3: 정책 도구 + 시뮬레이션 ===== -->
+  <div class="tb-card">
+    <h2>2. 정책 도구 선택</h2>
+    <p>
+      4가지 정책 도구를 조합하세요. 각 도구에는 효과와 부작용이 있습니다.
+      슬라이더를 조절한 후 "시뮬레이션 실행" 버튼을 누르세요.
+    </p>
+
+    <WarningBox title="정책의 트레이드오프">
+      <p><strong>금리 인하:</strong> GDP 상승 + 물가 상승 + 환율 상승</p>
+      <p><strong>정부 지출 확대:</strong> GDP 상승 + 물가 상승 + 국가 부채 증가</p>
+      <p><strong>세율 인하:</strong> 소비 촉진 + 재정 적자 + 물가 소폭 상승</p>
+      <p><strong>규제 완화:</strong> 장기 성장 + 단기 불확실성 + 환경/안전 우려</p>
+    </WarningBox>
+
+    <SimControls>
+      <label>기준금리 조절: <span id="pol-rate-val">0</span>%p</label>
+      <input type="range" id="pol-rate" min="-3" max="3" value="0" step="0.25" />
+      <label>정부 지출 증감: <span id="pol-spend-val">0</span>조원</label>
+      <input type="range" id="pol-spend" min="-30" max="30" value="0" step="5" />
+      <label>세율 조정: <span id="pol-tax-val">0</span>%p</label>
+      <input type="range" id="pol-tax" min="-5" max="5" value="0" step="1" />
+      <label>규제 변화: <span id="pol-reg-val">0</span> (음수=완화, 양수=강화)</label>
+      <input type="range" id="pol-reg" min="-5" max="5" value="0" step="1" />
+    </SimControls>
+
+    <button class="tb-btn" id="simulate-btn" style="font-size: 1.1em; padding: 12px 24px; margin: 16px 0; width: 100%;">시뮬레이션 실행 (12개월)</button>
+
+    <h3 style="margin-top: 24px;">3. 시뮬레이션 결과</h3>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="GDP 변화" value="-" id="sim-gdp" borderColor="#059669" />
+      <StatBox label="물가 변화" value="-" id="sim-cpi" borderColor="#ef4444" />
+      <StatBox label="실업률 변화" value="-" id="sim-unemp" borderColor="#f59e0b" />
+      <StatBox label="환율 변화" value="-" id="sim-fx" borderColor="#3b82f6" />
+    </div>
+
+    <ChartContainer id="simChart" height="420px" />
+
+    <div id="side-effects" style="padding: 16px; background: #fef2f2; border-radius: 12px; border-left: 4px solid #ef4444; margin: 16px 0; display: none;">
+      <p style="font-weight: bold; color: #ef4444;">부작용 경고</p>
+      <ul id="side-effects-list" style="margin: 8px 0 0 16px; line-height: 1.8; color: #991b1b;"></ul>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 성적표 ===== -->
+  <div class="tb-card">
+    <h2>4. 정책 성적표</h2>
+    <p>
+      시뮬레이션 결과를 기반으로 당신의 정책 판단을 평가합니다.
+    </p>
+
+    <ChartContainer id="gradeChart" height="350px" />
+
+    <div id="grade-result" style="text-align: center; padding: 24px; margin: 16px 0; background: #f9fafb; border-radius: 16px;">
+      <p style="color: #6b7280;">시뮬레이션을 실행하면 성적표가 표시됩니다.</p>
+    </div>
+
+    <ExerciseBox title="정책 개선 연습">
+      <p>성적표를 확인한 후, 같은 시나리오에서 다른 정책 조합을 시도해 보세요.</p>
+      <p>목표: GDP 개선, 물가 안정, 고용 확대를 동시에 달성하기.</p>
+      <p>힌트: 한 가지 도구만 극단적으로 사용하기보다, 여러 도구를 적절히 조합하는 것이 효과적입니다.</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: 이전 시도 비교 ===== -->
+  <div class="tb-card">
+    <h2>5. 나의 정책 기록</h2>
+    <p>
+      이전 시도들이 여기에 저장됩니다. 점수가 어떻게 변하는지 추적하세요.
+      같은 유형의 시나리오에서 더 나은 결과를 낼 수 있을까요?
+    </p>
+
+    <div id="history-container" style="margin: 16px 0;"></div>
+
+    <SimControls>
+      <button class="tb-btn" id="clear-history">기록 초기화</button>
+    </SimControls>
+
+    <ChartContainer id="historyChart" height="300px" />
+  </div>
+
+  <!-- ===== 종합 가이드 ===== -->
+  <div class="tb-card">
+    <h2>경제 정책의 원칙</h2>
+
+    <InsightBox title="현실의 정책 결정은 더 복잡합니다">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>시차(lag):</strong> 정책 효과가 나타나기까지 6~18개월이 걸립니다</li>
+        <li><strong>기대(expectation):</strong> 사람들의 기대가 정책 효과를 바꿀 수 있습니다</li>
+        <li><strong>정치적 제약:</strong> 경제적으로 최적인 정책이 정치적으로 불가능할 수 있습니다</li>
+        <li><strong>글로벌 요인:</strong> 한국은 개방 경제이므로 외부 충격의 영향이 큽니다</li>
+        <li><strong>불확실성:</strong> 경제 모형은 현실의 단순화이며, 예측은 항상 불확실합니다</li>
+      </ul>
+    </InsightBox>
+
+    <ExerciseBox title="최종 종합 퀴즈">
+      <p><strong>Q1.</strong> 스태그플레이션(저성장 + 고물가)에서 금리를 인하하면?</p>
+      <button class="tb-btn" onclick="document.getElementById('cap-q1').style.display='block';">정답 보기</button>
+      <p id="cap-q1" style="display: none; margin-top: 8px; color: #ef4444; font-weight: bold;">
+        GDP는 개선되지만 물가가 더 오릅니다. 스태그플레이션에서는 정답이 없습니다.
+        공급 측 개혁(규제 완화, 생산성 향상)이 장기적 해법입니다.
+      </p>
+
+      <p style="margin-top: 16px;"><strong>Q2.</strong> 경기 침체 시 재정 지출과 금리 인하를 동시에 하면?</p>
+      <button class="tb-btn" onclick="document.getElementById('cap-q2').style.display='block';">정답 보기</button>
+      <p id="cap-q2" style="display: none; margin-top: 8px; color: #059669; font-weight: bold;">
+        정책 조합(policy mix)으로 효과가 극대화됩니다. 2020년 코로나 대응이 대표 사례입니다.
+        하지만 국가 부채 증가와 자산 버블이라는 부작용에 주의해야 합니다.
+      </p>
+
+      <p style="margin-top: 16px;"><strong>Q3.</strong> 한국처럼 소규모 개방 경제에서 환율이 급등하면 어떤 문제?</p>
+      <button class="tb-btn" onclick="document.getElementById('cap-q3').style.display='block';">정답 보기</button>
+      <p id="cap-q3" style="display: none; margin-top: 8px; color: #3b82f6; font-weight: bold;">
+        수입 물가 급등 → 인플레이션. 외채 상환 부담 증가. 외국인 투자자 이탈.
+        한국은행이 외환시장에 개입하거나 금리를 올려야 할 수 있습니다.
+      </p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="22장 정리: 경제정책 시뮬레이터">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li>경제 상황은 <strong>호황, 불황, 인플레이션, 스태그플레이션</strong>으로 분류</li>
+      <li>정책 도구: <strong>금리, 재정지출, 세율, 규제</strong> 4가지를 조합</li>
+      <li>모든 정책에는 <strong>트레이드오프</strong>가 있음 (효과 + 부작용)</li>
+      <li>정책 평가는 <strong>GDP, 물가, 고용</strong>을 종합적으로 판단</li>
+      <li>현실에서는 <strong>시차, 기대, 정치적 제약, 글로벌 요인</strong>도 고려해야 함</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>축하합니다!</strong> 한국 경제 응용 파트를 모두 완료했습니다.
+      다음 파트에서는 행동경제학을 배워 인간의 비합리적 선택을 탐구합니다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ===== 시나리오 유형 정의 ===== */
+  var scenarios = {
+    boom: {
+      name: '호황 (경기 과열)',
+      color: '#059669',
+      gdp: [4.5, 5.5], cpi: [3.5, 5.5], unemp: [2.0, 3.0], rate: [2.5, 4.0], fx: [1100, 1250],
+      desc: '경기가 과열되고 있습니다. GDP 성장률이 높지만 물가도 빠르게 오르고 있습니다. 자산 버블 우려도 있습니다. 과열을 진정시키되 경기를 꺼뜨리지 않아야 합니다.'
+    },
+    recession: {
+      name: '불황 (경기 침체)',
+      color: '#ef4444',
+      gdp: [-3.0, 0.5], cpi: [0.5, 2.0], unemp: [5.0, 8.0], rate: [1.0, 3.0], fx: [1200, 1400],
+      desc: '경기가 급격히 침체되고 있습니다. 기업이 투자를 줄이고 실업이 늘어나고 있습니다. 빠른 경기 부양이 필요하지만 재정 건전성도 고려해야 합니다.'
+    },
+    inflation: {
+      name: '인플레이션',
+      color: '#f59e0b',
+      gdp: [1.5, 3.5], cpi: [5.0, 8.0], unemp: [3.0, 4.5], rate: [3.0, 5.0], fx: [1250, 1450],
+      desc: '물가가 급등하고 있습니다. 에너지 가격 상승, 공급망 문제, 과도한 유동성이 원인입니다. 물가를 잡되 경기 둔화를 최소화해야 합니다.'
+    },
+    stagflation: {
+      name: '스태그플레이션',
+      color: '#7c3aed',
+      gdp: [-1.0, 1.0], cpi: [4.5, 7.0], unemp: [5.5, 8.0], rate: [3.5, 5.5], fx: [1300, 1500],
+      desc: '최악의 조합입니다. 경기가 나쁜데 물가도 오르고 있습니다. 경기를 살리면 물가가 더 오르고, 물가를 잡으면 경기가 더 나빠집니다. 신중한 판단이 필요합니다.'
+    }
+  };
+
+  var currentScenario = null;
+  var currentState = { gdp: 0, cpi: 0, unemp: 0, rate: 0, fx: 0 };
+
+  function rand(min, max) {
+    return Math.round((min + Math.random() * (max - min)) * 10) / 10;
+  }
+
+  /* ===== 1. 시나리오 생성 ===== */
+  document.getElementById('scenario-generate').addEventListener('click', function() {
+    var types = Object.keys(scenarios);
+    var typeKey = types[Math.floor(Math.random() * types.length)];
+    var sc = scenarios[typeKey];
+    currentScenario = typeKey;
+
+    currentState = {
+      gdp: rand(sc.gdp[0], sc.gdp[1]),
+      cpi: rand(sc.cpi[0], sc.cpi[1]),
+      unemp: rand(sc.unemp[0], sc.unemp[1]),
+      rate: rand(sc.rate[0], sc.rate[1]),
+      fx: Math.round(rand(sc.fx[0], sc.fx[1]))
+    };
+
+    document.getElementById('scenario-type').textContent = sc.name;
+    document.getElementById('scenario-type').style.background = sc.color;
+    document.getElementById('scenario-type').style.color = '#fff';
+
+    document.getElementById('sc-gdp').textContent = currentState.gdp + '%';
+    document.getElementById('sc-cpi').textContent = currentState.cpi + '%';
+    document.getElementById('sc-unemp').textContent = currentState.unemp + '%';
+    document.getElementById('sc-rate').textContent = currentState.rate + '%';
+    document.getElementById('sc-fx').textContent = currentState.fx + '원';
+
+    var descDiv = document.getElementById('scenario-desc');
+    descDiv.style.display = 'block';
+    descDiv.innerHTML = '<p style="font-weight: bold;">' + sc.name + ' 상황</p><p style="margin-top: 8px;">' + sc.desc + '</p>';
+
+    /* 정책 슬라이더 초기화 */
+    document.getElementById('pol-rate').value = 0;
+    document.getElementById('pol-spend').value = 0;
+    document.getElementById('pol-tax').value = 0;
+    document.getElementById('pol-reg').value = 0;
+    ['pol-rate-val', 'pol-spend-val', 'pol-tax-val', 'pol-reg-val'].forEach(function(id) {
+      document.getElementById(id).textContent = '0';
+    });
+  });
+
+  /* 슬라이더 값 표시 */
+  ['pol-rate', 'pol-spend', 'pol-tax', 'pol-reg'].forEach(function(id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', function() {
+      var v = parseFloat(el.value);
+      document.getElementById(id + '-val').textContent = v > 0 ? '+' + v : v;
+    });
+  });
+
+  /* ===== 2-3. 시뮬레이션 ===== */
+  var simCtx = document.getElementById('simChart');
+  var simChart = new Chart(simCtx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: 'GDP 성장률 (%)', data: [], borderColor: '#059669', borderWidth: 3, tension: 0.3, pointRadius: 3 },
+        { label: '물가상승률 (%)', data: [], borderColor: '#ef4444', borderWidth: 3, tension: 0.3, pointRadius: 3 },
+        { label: '실업률 (%)', data: [], borderColor: '#f59e0b', borderWidth: 3, tension: 0.3, pointRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '개월' } },
+        y: { title: { display: true, text: '%' } }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  /* ===== 4. 성적표 차트 ===== */
+  var gradeCtx = document.getElementById('gradeChart');
+  var gradeChart = new Chart(gradeCtx, {
+    type: 'radar',
+    data: {
+      labels: ['GDP 개선', '물가 안정', '고용 확대', '환율 안정', '종합 점수'],
+      datasets: [{
+        label: '정책 성적',
+        data: [0, 0, 0, 0, 0],
+        borderColor: '#059669',
+        backgroundColor: 'rgba(5,150,105,0.2)',
+        borderWidth: 2,
+        pointBackgroundColor: '#059669'
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: { r: { min: 0, max: 100, ticks: { stepSize: 20 } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  document.getElementById('simulate-btn').addEventListener('click', function() {
+    if (!currentScenario) {
+      alert('먼저 시나리오를 생성하세요!');
+      return;
+    }
+
+    var rateChg = parseFloat(document.getElementById('pol-rate').value);
+    var spendChg = parseFloat(document.getElementById('pol-spend').value);
+    var taxChg = parseFloat(document.getElementById('pol-tax').value);
+    var regChg = parseFloat(document.getElementById('pol-reg').value);
+
+    /* 12개월 시뮬레이션 */
+    var months = [];
+    var gdpSeries = [];
+    var cpiSeries = [];
+    var unempSeries = [];
+
+    var gdp = currentState.gdp;
+    var cpi = currentState.cpi;
+    var unemp = currentState.unemp;
+    var fx = currentState.fx;
+
+    for (var m = 0; m <= 12; m++) {
+      months.push(m + '개월');
+      gdpSeries.push(parseFloat(gdp.toFixed(1)));
+      cpiSeries.push(parseFloat(cpi.toFixed(1)));
+      unempSeries.push(parseFloat(unemp.toFixed(1)));
+
+      if (m < 12) {
+        /* 정책 효과 (점진적 반영, 시차 고려) */
+        var effectWeight = Math.min(1, (m + 1) / 6); /* 6개월에 걸쳐 점진적 반영 */
+
+        /* 금리 변화 효과 */
+        gdp += (-rateChg * 0.15) * effectWeight + (Math.random() - 0.5) * 0.2;
+        cpi += (-rateChg * 0.1) * effectWeight;
+        unemp += (rateChg * 0.08) * effectWeight;
+        fx += (rateChg * 15) * effectWeight;
+
+        /* 재정 지출 효과 */
+        gdp += (spendChg * 0.03) * effectWeight;
+        cpi += (spendChg * 0.015) * effectWeight;
+        unemp += (-spendChg * 0.02) * effectWeight;
+
+        /* 세율 변화 효과 */
+        gdp += (-taxChg * 0.12) * effectWeight;
+        cpi += (-taxChg * 0.05) * effectWeight;
+        unemp += (taxChg * 0.06) * effectWeight;
+
+        /* 규제 변화 효과 (장기적) */
+        var regEffect = m > 6 ? effectWeight : effectWeight * 0.3;
+        gdp += (-regChg * 0.08) * regEffect;
+        cpi += (regChg * 0.02) * regEffect;
+
+        /* 자연 회복/관성 */
+        gdp += (2.5 - gdp) * 0.02;
+        cpi += (2.0 - cpi) * 0.01;
+        unemp += (3.5 - unemp) * 0.01;
+      }
+    }
+
+    /* 차트 업데이트 */
+    simChart.data.labels = months;
+    simChart.data.datasets[0].data = gdpSeries;
+    simChart.data.datasets[1].data = cpiSeries;
+    simChart.data.datasets[2].data = unempSeries;
+    simChart.update();
+
+    var finalGdp = gdpSeries[12];
+    var finalCpi = cpiSeries[12];
+    var finalUnemp = unempSeries[12];
+    var finalFx = fx + (rateChg * 15 + spendChg * 2 - taxChg * 10) * 0.5;
+
+    document.getElementById('sim-gdp').textContent = (finalGdp > 0 ? '+' : '') + finalGdp.toFixed(1) + '%';
+    document.getElementById('sim-cpi').textContent = finalCpi.toFixed(1) + '%';
+    document.getElementById('sim-unemp').textContent = finalUnemp.toFixed(1) + '%';
+    document.getElementById('sim-fx').textContent = Math.round(finalFx) + '원';
+
+    /* 부작용 체크 */
+    var sideEffects = [];
+    if (finalCpi > 5) sideEffects.push('물가가 5%를 초과합니다. 국민 생활이 어려워집니다.');
+    if (finalUnemp > 6) sideEffects.push('실업률이 6%를 넘었습니다. 대량 실업 상태입니다.');
+    if (finalGdp < -2) sideEffects.push('GDP가 -2% 이하입니다. 심각한 경기 침체입니다.');
+    if (Math.abs(spendChg) > 20) sideEffects.push('과도한 재정 지출/삭감은 국가 부채 문제를 야기합니다.');
+    if (Math.abs(rateChg) > 2) sideEffects.push('급격한 금리 변동은 금융 시장 불안을 초래합니다.');
+    if (finalFx > 1500) sideEffects.push('환율이 1,500원을 넘었습니다. 수입 물가 급등 우려.');
+
+    var seDiv = document.getElementById('side-effects');
+    var seList = document.getElementById('side-effects-list');
+    if (sideEffects.length > 0) {
+      seDiv.style.display = 'block';
+      seList.innerHTML = sideEffects.map(function(s) { return '<li>' + s + '</li>'; }).join('');
+    } else {
+      seDiv.style.display = 'none';
+    }
+
+    /* ===== 성적표 계산 ===== */
+    var gdpScore = Math.max(0, Math.min(100, 50 + (finalGdp - currentState.gdp) * 15));
+    var cpiScore = Math.max(0, Math.min(100, 100 - Math.abs(finalCpi - 2) * 15));
+    var unempScore = Math.max(0, Math.min(100, 100 - (finalUnemp - 3) * 15));
+    var fxScore = Math.max(0, Math.min(100, 100 - Math.abs(finalFx - 1200) * 0.1));
+    var totalScore = (gdpScore + cpiScore + unempScore + fxScore) / 4;
+
+    gradeChart.data.datasets[0].data = [
+      Math.round(gdpScore), Math.round(cpiScore), Math.round(unempScore),
+      Math.round(fxScore), Math.round(totalScore)
+    ];
+    gradeChart.update();
+
+    var grade = totalScore >= 80 ? 'A' : totalScore >= 60 ? 'B' : totalScore >= 40 ? 'C' : 'D';
+    var gradeColor = totalScore >= 80 ? '#059669' : totalScore >= 60 ? '#3b82f6' : totalScore >= 40 ? '#f59e0b' : '#ef4444';
+    var gradeMsg = totalScore >= 80 ? '훌륭합니다! 균형 잡힌 정책 대응이었습니다.' :
+                   totalScore >= 60 ? '나쁘지 않습니다. 몇 가지 개선 여지가 있습니다.' :
+                   totalScore >= 40 ? '아쉽습니다. 부작용이 크거나 대응이 부족했습니다.' :
+                   '재도전이 필요합니다. 정책 방향을 근본적으로 재검토하세요.';
+
+    document.getElementById('grade-result').innerHTML =
+      '<div style="font-size: 3em; font-weight: bold; color: ' + gradeColor + ';">' + grade + '</div>' +
+      '<div style="font-size: 1.5em; margin: 8px 0;">' + Math.round(totalScore) + '점</div>' +
+      '<p>' + gradeMsg + '</p>';
+
+    /* localStorage에 기록 저장 */
+    var history = [];
+    try { history = JSON.parse(localStorage.getItem('econ22_history') || '[]'); } catch(e) {}
+    history.push({
+      time: new Date().toLocaleString('ko-KR'),
+      scenario: scenarios[currentScenario].name,
+      score: Math.round(totalScore),
+      grade: grade,
+      policies: { rate: rateChg, spend: spendChg, tax: taxChg, reg: regChg }
+    });
+    if (history.length > 20) history = history.slice(-20);
+    localStorage.setItem('econ22_history', JSON.stringify(history));
+    updateHistory();
+  });
+
+  /* ===== 5. 기록 관리 ===== */
+  var histCtx = document.getElementById('historyChart');
+  var histChart = new Chart(histCtx, {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [{
+        label: '종합 점수',
+        data: [],
+        backgroundColor: [],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { min: 0, max: 100, title: { display: true, text: '점수' } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function updateHistory() {
+    var history = [];
+    try { history = JSON.parse(localStorage.getItem('econ22_history') || '[]'); } catch(e) {}
+
+    var container = document.getElementById('history-container');
+    if (history.length === 0) {
+      container.innerHTML = '<p style="color: #6b7280; text-align: center;">아직 기록이 없습니다. 시뮬레이션을 실행해 보세요.</p>';
+      histChart.data.labels = [];
+      histChart.data.datasets[0].data = [];
+      histChart.update();
+      return;
+    }
+
+    var tableHTML = '<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">' +
+      '<tr style="background: #f1f5f9;"><th style="padding: 8px; text-align: left;">시간</th><th>시나리오</th><th>점수</th><th>등급</th></tr>';
+    history.slice().reverse().forEach(function(h) {
+      var c = h.score >= 80 ? '#059669' : h.score >= 60 ? '#3b82f6' : h.score >= 40 ? '#f59e0b' : '#ef4444';
+      tableHTML += '<tr style="border-bottom: 1px solid #e5e7eb;"><td style="padding: 6px 8px;">' + h.time + '</td><td style="text-align: center;">' + h.scenario + '</td><td style="text-align: center; font-weight: bold;">' + h.score + '</td><td style="text-align: center; color: ' + c + '; font-weight: bold;">' + h.grade + '</td></tr>';
+    });
+    tableHTML += '</table>';
+    container.innerHTML = tableHTML;
+
+    /* 히스토리 차트 */
+    var recent = history.slice(-10);
+    histChart.data.labels = recent.map(function(h, i) { return (i + 1) + '회'; });
+    histChart.data.datasets[0].data = recent.map(function(h) { return h.score; });
+    histChart.data.datasets[0].backgroundColor = recent.map(function(h) {
+      return h.score >= 80 ? 'rgba(5,150,105,0.6)' : h.score >= 60 ? 'rgba(59,130,246,0.6)' : h.score >= 40 ? 'rgba(245,158,11,0.6)' : 'rgba(239,68,68,0.6)';
+    });
+    histChart.update();
+  }
+
+  document.getElementById('clear-history').addEventListener('click', function() {
+    localStorage.removeItem('econ22_history');
+    updateHistory();
+  });
+
+  updateHistory();
+
+});
+</script>

@@ -1,0 +1,614 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="제한된 합리성"
+  subtitle="인간은 왜 비합리적 선택을 하는가"
+  chapterNum={23}
+  part={4}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>우리는 정말 합리적인가?</h2>
+    <p>
+      전통 경제학은 인간이 <strong>완벽하게 합리적</strong>이라고 가정합니다.
+      모든 정보를 수집하고, 모든 대안을 비교하고, 최적의 선택을 한다고요.
+      하지만 현실의 우리는 아침에 뭘 먹을지도 제대로 결정하지 못합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      심리학자 <strong>대니얼 카너먼</strong>과 <strong>아모스 트버스키</strong>는
+      인간이 체계적으로 비합리적 선택을 한다는 것을 증명하여 노벨 경제학상을 받았습니다.
+      이것이 <strong>행동경제학(behavioral economics)</strong>의 시작입니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>닻내림 효과, 프레이밍 효과를 직접 체험</li>
+        <li>확인 편향의 함정을 Wason 선택 과제로 경험</li>
+        <li>빠른 사고(System 1)와 느린 사고(System 2)의 차이</li>
+        <li>일상에서 사용하는 휴리스틱 식별</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>제한된 합리성이란?</h2>
+
+    <ExplainBox title="허버트 사이먼의 통찰">
+      <p>노벨상 수상자 <strong>허버트 사이먼(Herbert Simon)</strong>은
+        인간의 합리성이 <strong>제한적(bounded)</strong>이라고 주장했습니다.</p>
+      <p style="margin-top: 8px;"><strong>제한의 이유 3가지:</strong></p>
+      <p>1. <strong>정보의 한계:</strong> 모든 정보를 수집하는 것은 불가능 (비용과 시간)</p>
+      <p>2. <strong>인지의 한계:</strong> 인간의 뇌는 처리 능력에 한계가 있음</p>
+      <p>3. <strong>시간의 한계:</strong> 빠르게 결정해야 하는 상황이 많음</p>
+      <p style="margin-top: 8px;">결과: 인간은 '최적'이 아닌 <strong>'만족할 만한(satisficing)'</strong> 선택을 합니다.</p>
+    </ExplainBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 인지 편향 체험 ===== -->
+  <div class="tb-card">
+    <h2>1. 인지 편향 체험</h2>
+    <p>
+      직접 실험에 참여하세요. 먼저 답을 선택한 후 결과를 확인합니다.
+      당신도 편향에 빠지는지 확인해 봅시다.
+    </p>
+
+    <!-- 1A: 닻내림 효과 -->
+    <div style="padding: 20px; background: #f0f9ff; border-radius: 12px; margin: 20px 0; border: 2px solid #bfdbfe;">
+      <h3 style="margin: 0 0 12px;">실험 A: 닻내림 효과 (Anchoring)</h3>
+      <div id="anchor-phase1">
+        <p style="font-size: 1.1em; font-weight: bold;">질문: 아프리카에서 유엔에 가입한 국가의 비율은?</p>
+        <p style="margin-top: 8px;">먼저 아래 질문에 답해주세요.</p>
+        <p style="margin-top: 12px; font-weight: bold;" id="anchor-question"></p>
+        <div style="margin: 12px 0;">
+          <button class="tb-btn" id="anchor-yes">예, 그보다 많다</button>
+          <button class="tb-btn" id="anchor-no" style="margin-left: 8px;">아니오, 그보다 적다</button>
+        </div>
+      </div>
+      <div id="anchor-phase2" style="display: none;">
+        <p style="font-weight: bold;">정확한 비율을 추정해 주세요 (0~100%):</p>
+        <div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+          <input type="range" id="anchor-estimate" min="0" max="100" value="50" style="flex: 1;" />
+          <span id="anchor-est-val" style="font-weight: bold; font-size: 1.2em; min-width: 50px;">50%</span>
+        </div>
+        <button class="tb-btn" id="anchor-submit">제출</button>
+      </div>
+      <div id="anchor-result" style="display: none; margin-top: 16px; padding: 12px; background: #fff; border-radius: 8px;"></div>
+    </div>
+
+    <!-- 1B: 프레이밍 효과 -->
+    <div style="padding: 20px; background: #fefce8; border-radius: 12px; margin: 20px 0; border: 2px solid #fde68a;">
+      <h3 style="margin: 0 0 12px;">실험 B: 프레이밍 효과 (Framing)</h3>
+      <div id="frame-question">
+        <p style="font-size: 1.1em;">600명이 치명적인 질병에 걸렸습니다. 두 가지 치료법이 있습니다.</p>
+        <div id="frame-options" style="margin: 16px 0;"></div>
+      </div>
+      <div id="frame-result" style="display: none; margin-top: 16px; padding: 12px; background: #fff; border-radius: 8px;"></div>
+    </div>
+
+    <ExerciseBox title="편향 분석">
+      <p>두 실험의 결과를 통해 다음을 생각해 보세요.</p>
+      <p>1) 닻내림 효과에서, 처음에 제시된 숫자가 당신의 추정에 영향을 주었는가?</p>
+      <p>2) 프레이밍 효과에서, "살린다"와 "죽는다"는 같은 상황인데 선택이 달라지는가?</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 확인 편향 게임 (Wason) ===== -->
+  <div class="tb-card">
+    <h2>2. 확인 편향 게임</h2>
+    <p>
+      <strong>Wason 선택 과제</strong>는 인간의 확인 편향을 보여주는 유명한 실험입니다.
+      4장의 카드가 있습니다. 각 카드의 한쪽에는 문자, 다른 쪽에는 숫자가 적혀 있습니다.
+    </p>
+
+    <WarningBox title="규칙을 검증하세요">
+      <p style="font-size: 1.1em; font-weight: bold;">"한쪽이 모음(A, E, I, O, U)이면, 다른 쪽은 짝수이다."</p>
+      <p style="margin-top: 8px;">이 규칙이 맞는지 확인하려면 어떤 카드를 뒤집어 봐야 할까요?
+        <strong>최소한의 카드</strong>만 선택하세요.</p>
+    </WarningBox>
+
+    <div id="wason-cards" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin: 24px 0;"></div>
+
+    <div style="text-align: center; margin: 16px 0;">
+      <button class="tb-btn" id="wason-check" style="font-size: 1.1em; padding: 10px 24px;">선택 확인</button>
+    </div>
+
+    <div id="wason-result" style="display: none; padding: 16px; border-radius: 12px; margin: 16px 0;"></div>
+
+    <ExplainBox title="왜 대부분이 틀리는가?">
+      <p>대부분의 사람은 "A"와 "4"를 선택합니다. 하지만 이것은 <strong>확인 편향</strong>입니다.</p>
+      <p style="margin-top: 8px;">우리는 규칙을 <strong>확인</strong>하려 하지, <strong>반증</strong>하려 하지 않습니다.</p>
+      <p style="margin-top: 8px;">정답은 <strong>"A"와 "7"</strong>입니다.</p>
+      <p>- "A": 모음이므로 뒤에 짝수가 있어야 합니다 (확인)</p>
+      <p>- "7": 홀수인데, 뒤에 모음이 있으면 규칙이 깨집니다 (반증)</p>
+      <p>- "4": 짝수지만, 뒤에 뭐가 있든 규칙에 영향 없습니다</p>
+      <p>- "K": 자음이므로 뒤에 뭐가 있든 상관없습니다</p>
+    </ExplainBox>
+
+    <ExerciseBox title="확인 편향의 일상 사례">
+      <p>확인 편향은 일상에서도 자주 나타납니다. 다음 중 확인 편향의 예는?</p>
+      <p>a) 주식을 산 후 좋은 뉴스만 찾아보기</p>
+      <p>b) 새 식당을 갈 때 리뷰를 확인하기</p>
+      <p>c) 자기가 좋아하는 후보의 장점만 기억하기</p>
+      <button class="tb-btn" id="bias-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="bias-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>a)와 c)</strong>가 확인 편향입니다. 자신의 기존 믿음을 확인하는 정보만 선택적으로 찾거나 기억합니다.</p>
+        <p>b)는 의사결정을 위한 정보 수집이므로 편향이 아닙니다 (좋은/나쁜 리뷰 모두 본다면).</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 이중 처리 이론 ===== -->
+  <div class="tb-card">
+    <h2>3. 빠른 사고 vs 느린 사고</h2>
+    <p>
+      카너먼은 인간의 사고를 두 시스템으로 나눕니다.
+      <strong>System 1</strong>(빠르고 직관적)과 <strong>System 2</strong>(느리고 분석적).
+      아래 문제들을 풀어보면서 두 시스템의 차이를 체험하세요.
+    </p>
+
+    <ExplainBox title="두 가지 사고 시스템">
+      <p><strong>System 1 (빠른 사고):</strong> 자동적, 직관적, 노력 불필요.
+        예: 2+2=?, 화난 얼굴 인식, 모국어 읽기</p>
+      <p style="margin-top: 8px;"><strong>System 2 (느린 사고):</strong> 의식적, 분석적, 노력 필요.
+        예: 17x24=?, 복잡한 논리 문제, 외국어 문법</p>
+      <p style="margin-top: 8px;">문제: System 1이 너무 빨리 답을 내놓아서 System 2가 작동하지 않을 때
+        <strong>직관의 오류</strong>가 발생합니다.</p>
+    </ExplainBox>
+
+    <div id="thinking-quiz" style="margin: 20px 0;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="맞힌 문제" value="0/5" id="think-correct" borderColor="#059669" />
+      <StatBox label="System 1 함정" value="0회" id="think-traps" borderColor="#ef4444" />
+    </div>
+
+    <ChartContainer id="thinkChart" height="300px" />
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 휴리스틱 퀴즈 ===== -->
+  <div class="tb-card">
+    <h2>4. 일상의 휴리스틱</h2>
+    <p>
+      <strong>휴리스틱(heuristic)</strong>은 복잡한 문제를 빠르게 풀기 위한 정신적 지름길입니다.
+      대부분의 경우 유용하지만, 때로는 체계적 오류를 만듭니다.
+    </p>
+
+    <ExplainBox title="3대 휴리스틱">
+      <p><strong>1. 가용성 휴리스틱:</strong> 떠올리기 쉬운 것이 더 빈번하다고 판단.
+        예: 비행기 사고가 자동차 사고보다 위험하다고 느낌 (실제로는 반대)</p>
+      <p style="margin-top: 8px;"><strong>2. 대표성 휴리스틱:</strong> 전형적인 특징으로 판단.
+        예: "수학을 잘하고 조용한 사람"이면 회계사일 것이라고 추측</p>
+      <p style="margin-top: 8px;"><strong>3. 닻내림 휴리스틱:</strong> 처음 접한 정보에 판단이 끌림.
+        예: "정가 100만원, 세일가 50만원"이면 싸다고 느낌</p>
+    </ExplainBox>
+
+    <div id="heuristic-quiz" style="margin: 20px 0;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="정답 수" value="0/10" id="heur-score" borderColor="#059669" />
+      <StatBox label="정답률" value="0%" id="heur-pct" borderColor="#3b82f6" />
+    </div>
+
+    <ExerciseBox title="휴리스틱 적용">
+      <p>다음 상황에서 어떤 휴리스틱이 작용하는지 생각해 보세요.</p>
+      <p>1) 로또 1등 당첨자 뉴스를 본 후 로또를 산다</p>
+      <p>2) 의사 가운을 입은 사람의 건강 조언을 더 신뢰한다</p>
+      <p>3) 첫 직장의 연봉이 이후 연봉 협상의 기준이 된다</p>
+      <button class="tb-btn" id="heur-apply-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="heur-apply-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>1) <strong>가용성 휴리스틱</strong> - 당첨 뉴스가 쉽게 떠올라 확률을 과대평가</p>
+        <p>2) <strong>대표성 휴리스틱</strong> - 의사의 전형적 외모로 전문성 판단</p>
+        <p>3) <strong>닻내림 휴리스틱</strong> - 첫 연봉이 이후 협상의 닻(기준점)이 됨</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 편향 종합 정리 ===== -->
+  <div class="tb-card">
+    <h2>인지 편향 종합 카탈로그</h2>
+
+    <ExplainBox title="이 장에서 배운 편향들">
+      <p><strong>1. 닻내림 효과:</strong> 처음 접한 숫자에 판단이 끌림.
+        연봉 협상, 부동산 가격 협상에서 자주 발생.</p>
+      <p style="margin-top: 8px;"><strong>2. 프레이밍 효과:</strong> 같은 정보도 표현 방식에 따라 다르게 판단.
+        "생존률 90%" vs "사망률 10%".</p>
+      <p style="margin-top: 8px;"><strong>3. 확인 편향:</strong> 기존 믿음을 확인하는 정보만 탐색.
+        투자, 정치, 인간관계에서 광범위하게 발생.</p>
+      <p style="margin-top: 8px;"><strong>4. System 1/2 충돌:</strong> 직관이 분석을 압도.
+        야구 배트 문제, 복리 착각 등.</p>
+      <p style="margin-top: 8px;"><strong>5. 가용성 편향:</strong> 떠올리기 쉬운 것 = 빈번하다고 착각.
+        비행기 공포, 상어 공포.</p>
+      <p style="margin-top: 8px;"><strong>6. 대표성 편향:</strong> 전형적 특징에 의존한 판단.
+        직업 추측, 스테레오타입.</p>
+    </ExplainBox>
+
+    <ExerciseBox title="편향 극복 전략">
+      <p>인지 편향을 완전히 제거할 수는 없지만, 줄일 수 있습니다.</p>
+      <p>다음 전략 중 어떤 것이 효과적인가요?</p>
+      <p>a) 중요한 결정 전에 반대 의견을 적극적으로 찾기</p>
+      <p>b) 직감을 무조건 무시하기</p>
+      <p>c) 결정을 내리기 전 "다른 사람이라면 어떻게 했을까" 생각하기</p>
+      <p>d) 데이터와 통계를 확인한 후 결정하기</p>
+      <button class="tb-btn" id="overcome-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="overcome-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>a, c, d</strong>가 효과적입니다.</p>
+        <p>a) 확인 편향을 줄이는 "악마의 변호인" 전략</p>
+        <p>b) 직감(System 1)이 유용한 경우도 많습니다. 무조건 무시하면 안 됩니다.</p>
+        <p>c) 외부인 시점(outside view)으로 자기 편향을 감지할 수 있습니다.</p>
+        <p>d) 기저율(base rate)을 확인하면 대표성 편향을 줄일 수 있습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 경제학적 함의 ===== -->
+  <div class="tb-card">
+    <h2>행동경제학이 바꾼 경제학</h2>
+
+    <InsightBox title="전통 경제학 vs 행동경제학">
+      <p><strong>전통 경제학:</strong> 인간은 합리적(homo economicus). 모든 정보를 활용하여 효용을 극대화.</p>
+      <p style="margin-top: 8px;"><strong>행동경제학:</strong> 인간은 제한적으로 합리적. 체계적 편향이 있으며,
+        환경(선택 구조)에 영향을 받음.</p>
+      <p style="margin-top: 12px;">행동경제학은 전통 경제학을 부정하는 것이 아니라 <strong>보완</strong>합니다.
+        대부분의 경제 원리는 여전히 유효하지만, 인간의 실제 행동을 더 정확히 예측할 수 있습니다.</p>
+    </InsightBox>
+
+    <BusinessBox title="노벨 경제학상과 행동경제학">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>2002 대니얼 카너먼:</strong> 판단과 의사결정에 관한 연구</li>
+        <li><strong>2013 로버트 실러:</strong> 자산 가격의 비합리적 변동</li>
+        <li><strong>2017 리처드 탈러:</strong> 넛지와 행동경제학</li>
+      </ul>
+    </BusinessBox>
+
+    <ExerciseBox title="행동경제학과 일상">
+      <p>다음 상황에서 작용하는 편향이나 휴리스틱을 식별하세요.</p>
+      <p style="margin-top: 8px;">1) 마트에서 "1+1" 행사 상품을 필요 없는데도 산다.</p>
+      <p>2) "별점 4.8, 리뷰 10,000개" 상품을 리뷰 내용을 안 보고 산다.</p>
+      <p>3) 주식이 30% 떨어졌는데 "곧 오를 거야"라며 더 산다.</p>
+      <button class="tb-btn" id="daily-bias-btn" style="margin-top: 8px;">분석 보기</button>
+      <div id="daily-bias-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>1) <strong>손실회피 + 프레이밍:</strong> "무료"라는 프레이밍에 끌리고, 기회를 놓치면 손실이라고 느낌</p>
+        <p>2) <strong>사회적 증거 + 가용성:</strong> 많은 사람이 선택한 것은 좋을 것이라는 휴리스틱</p>
+        <p>3) <strong>확인 편향 + 매몰비용 오류:</strong> 이미 투자한 비용(매몰비용) 때문에 포기를 못 하고, 반등 신호만 찾음</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="23장 정리: 제한된 합리성">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li>인간의 합리성은 정보, 인지, 시간의 제약으로 <strong>제한적</strong></li>
+      <li><strong>닻내림 효과:</strong> 처음 접한 숫자에 판단이 끌림</li>
+      <li><strong>프레이밍 효과:</strong> 같은 정보도 표현 방식에 따라 다르게 판단</li>
+      <li><strong>확인 편향:</strong> 기존 믿음을 확인하는 정보만 선택적으로 탐색</li>
+      <li><strong>System 1(직관)</strong>과 <strong>System 2(분석)</strong>의 상호작용</li>
+      <li><strong>휴리스틱:</strong> 유용한 지름길이지만 체계적 오류 가능</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1A: 닻내림 효과 ========== */
+  var anchorValue = Math.random() > 0.5 ? 65 : 10;
+  var anchorQ = document.getElementById('anchor-question');
+  anchorQ.textContent = '유엔에 가입한 아프리카 국가의 비율이 ' + anchorValue + '%보다 많을까요, 적을까요?';
+
+  var anchorEstimate = document.getElementById('anchor-estimate');
+  document.getElementById('anchor-est-val').textContent = '50%';
+  anchorEstimate.addEventListener('input', function() {
+    document.getElementById('anchor-est-val').textContent = anchorEstimate.value + '%';
+  });
+
+  document.getElementById('anchor-yes').addEventListener('click', function() {
+    document.getElementById('anchor-phase1').style.display = 'none';
+    document.getElementById('anchor-phase2').style.display = 'block';
+  });
+  document.getElementById('anchor-no').addEventListener('click', function() {
+    document.getElementById('anchor-phase1').style.display = 'none';
+    document.getElementById('anchor-phase2').style.display = 'block';
+  });
+
+  document.getElementById('anchor-submit').addEventListener('click', function() {
+    var est = parseInt(anchorEstimate.value);
+    var result = document.getElementById('anchor-result');
+    result.style.display = 'block';
+
+    var actualPct = 28; /* 54개국 중 약 54/193 ≈ 28% */
+    var anchorEffect = anchorValue === 65 ? '높은 닻(65%)' : '낮은 닻(10%)';
+    var expectedBias = anchorValue === 65 ? '높게' : '낮게';
+
+    result.innerHTML =
+      '<p><strong>당신의 추정:</strong> ' + est + '%</p>' +
+      '<p><strong>실제 정답:</strong> 약 ' + actualPct + '% (아프리카 54개국 / UN 193개국)</p>' +
+      '<p style="margin-top: 12px;"><strong>당신에게 제시된 닻:</strong> ' + anchorValue + '%</p>' +
+      '<p><strong>닻내림 효과 분석:</strong> ' + anchorEffect + '이 제시되었으므로, ' +
+      '당신의 추정이 실제보다 ' + expectedBias + ' 나왔을 가능성이 높습니다.</p>' +
+      '<p style="margin-top: 8px; color: #6366f1; font-weight: bold;">실험에서 높은 닻(65%)을 받은 그룹의 평균 추정치는 45%, ' +
+      '낮은 닻(10%)을 받은 그룹은 25%였습니다. 무관한 숫자가 판단을 왜곡합니다!</p>';
+  });
+
+  /* ========== 1B: 프레이밍 효과 ========== */
+  var frameVersion = Math.random() > 0.5 ? 'gain' : 'loss';
+  var frameOpts = document.getElementById('frame-options');
+
+  if (frameVersion === 'gain') {
+    frameOpts.innerHTML =
+      '<p style="margin-bottom: 8px;"><strong>치료법 A:</strong> 200명을 확실히 살린다.</p>' +
+      '<p style="margin-bottom: 12px;"><strong>치료법 B:</strong> 1/3 확률로 600명 모두 살리고, 2/3 확률로 아무도 못 살린다.</p>' +
+      '<button class="tb-btn" id="frame-a">치료법 A 선택</button>' +
+      '<button class="tb-btn" id="frame-b" style="margin-left: 8px;">치료법 B 선택</button>';
+  } else {
+    frameOpts.innerHTML =
+      '<p style="margin-bottom: 8px;"><strong>치료법 A:</strong> 400명이 확실히 죽는다.</p>' +
+      '<p style="margin-bottom: 12px;"><strong>치료법 B:</strong> 1/3 확률로 아무도 안 죽고, 2/3 확률로 600명 모두 죽는다.</p>' +
+      '<button class="tb-btn" id="frame-a">치료법 A 선택</button>' +
+      '<button class="tb-btn" id="frame-b" style="margin-left: 8px;">치료법 B 선택</button>';
+  }
+
+  function handleFrameChoice(choice) {
+    var result = document.getElementById('frame-result');
+    result.style.display = 'block';
+
+    var yourVersion = frameVersion === 'gain' ? '"살린다" 프레임' : '"죽는다" 프레임';
+    result.innerHTML =
+      '<p><strong>당신의 선택:</strong> 치료법 ' + choice + '</p>' +
+      '<p><strong>당신에게 보인 버전:</strong> ' + yourVersion + '</p>' +
+      '<p style="margin-top: 12px;"><strong>핵심:</strong> 두 버전은 수학적으로 완전히 같은 상황입니다!</p>' +
+      '<p>"200명 살린다" = "400명 죽는다" (600명 중)</p>' +
+      '<p style="margin-top: 12px; color: #6366f1; font-weight: bold;">' +
+      '"살린다" 프레임에서는 72%가 확실한 A를 선택하고, ' +
+      '"죽는다" 프레임에서는 78%가 도박인 B를 선택합니다. ' +
+      '이것이 프레이밍 효과입니다. 이득 상황에서는 안전하게, 손실 상황에서는 위험하게 선택합니다.</p>';
+  }
+
+  setTimeout(function() {
+    var fa = document.getElementById('frame-a');
+    var fb = document.getElementById('frame-b');
+    if (fa) fa.addEventListener('click', function() { handleFrameChoice('A'); });
+    if (fb) fb.addEventListener('click', function() { handleFrameChoice('B'); });
+  }, 100);
+
+  /* ========== 2: Wason 선택 과제 ========== */
+  var wasonCards = [
+    { front: 'A', back: '4', type: 'vowel' },
+    { front: 'K', back: '7', type: 'consonant' },
+    { front: '4', back: 'A', type: 'even' },
+    { front: '7', back: 'E', type: 'odd' }
+  ];
+
+  var wasonContainer = document.getElementById('wason-cards');
+  var selectedCards = {};
+
+  wasonCards.forEach(function(card, i) {
+    var div = document.createElement('div');
+    div.style.cssText = 'width: 100px; height: 140px; border-radius: 12px; border: 3px solid #d1d5db; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 2.5em; font-weight: bold; cursor: pointer; user-select: none; transition: all 0.2s; color: #1e293b;';
+    div.textContent = card.front;
+    div.setAttribute('data-idx', i);
+
+    div.addEventListener('click', function() {
+      if (selectedCards[i]) {
+        selectedCards[i] = false;
+        div.style.borderColor = '#d1d5db';
+        div.style.background = '#fff';
+        div.style.color = '#1e293b';
+      } else {
+        selectedCards[i] = true;
+        div.style.borderColor = '#3b82f6';
+        div.style.background = '#eff6ff';
+        div.style.color = '#2563eb';
+      }
+    });
+
+    wasonContainer.appendChild(div);
+  });
+
+  document.getElementById('wason-check').addEventListener('click', function() {
+    var result = document.getElementById('wason-result');
+    result.style.display = 'block';
+
+    var selected = Object.keys(selectedCards).filter(function(k) { return selectedCards[k]; }).map(Number);
+    var correct = selected.length === 2 && selected.indexOf(0) !== -1 && selected.indexOf(3) !== -1;
+
+    if (correct) {
+      result.style.background = '#f0fdf4';
+      result.style.borderLeft = '4px solid #059669';
+      result.innerHTML = '<p style="font-weight: bold; color: #059669;">정답입니다! A와 7을 뒤집어야 합니다.</p>' +
+        '<p style="margin-top: 8px;">A(모음) 뒤에 짝수가 있는지 확인, 7(홀수) 뒤에 모음이 있으면 규칙 위반.</p>' +
+        '<p>전체 응답자 중 약 10%만 정답을 맞힙니다!</p>';
+    } else {
+      result.style.background = '#fef2f2';
+      result.style.borderLeft = '4px solid #ef4444';
+      var selectedLabels = selected.map(function(i) { return wasonCards[i].front; }).join(', ');
+      result.innerHTML = '<p style="font-weight: bold; color: #ef4444;">오답입니다. 당신의 선택: ' + (selectedLabels || '없음') + '</p>' +
+        '<p style="margin-top: 8px;"><strong>정답: A와 7</strong></p>' +
+        '<p>- A: 모음이므로 뒤에 짝수가 있어야 함 (규칙 확인)</p>' +
+        '<p>- 7: 홀수인데 뒤에 모음이 있으면 규칙 위반 (규칙 반증)</p>' +
+        '<p>- 4: 짝수지만 뒤에 뭐가 있든 규칙 위반이 아님</p>' +
+        '<p>- K: 자음이므로 규칙과 무관</p>' +
+        '<p style="margin-top: 8px; color: #6366f1;">약 90%의 사람이 틀립니다. 확인 편향의 강력함!</p>';
+    }
+  });
+
+  document.getElementById('bias-quiz-btn').addEventListener('click', function() {
+    document.getElementById('bias-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 3: 이중 처리 이론 (System 1 vs 2) ========== */
+  var thinkQuestions = [
+    { q: '야구 배트와 공의 가격이 합쳐서 1,100원입니다. 배트가 공보다 1,000원 더 비쌉니다. 공의 가격은?', intuitive: '100원', correct: '50원', explanation: 'System 1이 즉시 "100원"이라고 답합니다. 하지만 공이 100원이면 배트는 1,100원이고 합계가 1,200원이 됩니다. 정답: 공 50원, 배트 1,050원.' },
+    { q: '호수에 수련잎이 있습니다. 매일 면적이 2배로 늘어납니다. 48일 만에 호수를 다 덮었습니다. 호수의 절반을 덮는 데 며칠이 걸렸을까요?', intuitive: '24일', correct: '47일', explanation: '매일 2배이므로 47일에 절반, 48일에 전부입니다. 24일이 아닙니다!' },
+    { q: '5대의 기계가 5개의 제품을 만드는 데 5분 걸립니다. 100대의 기계가 100개를 만드는 데 얼마나 걸릴까요?', intuitive: '100분', correct: '5분', explanation: '기계 1대가 제품 1개를 5분에 만듭니다. 100대면 동시에 100개를 5분에 만듭니다.' },
+    { q: '서울에서 부산까지 KTX로 2시간 30분 걸립니다. 평균 속력이 시속 160km라면 거리는 약?', intuitive: '', correct: '약 400km', explanation: '160km/h x 2.5h = 400km. 이건 System 2를 사용해야 하는 단순 계산입니다.' },
+    { q: '동전을 5번 던져 모두 앞면이 나왔습니다. 6번째에 뒷면이 나올 확률은?', intuitive: '높다 (50% 이상)', correct: '정확히 50%', explanation: '도박사의 오류(gambler\'s fallacy). 이전 결과는 다음 결과에 영향을 주지 않습니다. 매 시행은 독립입니다.' }
+  ];
+
+  var thinkContainer = document.getElementById('thinking-quiz');
+  var correctCount = 0;
+  var trapCount = 0;
+  var thinkAnswered = 0;
+
+  var thinkCtx = document.getElementById('thinkChart');
+  var thinkChart = new Chart(thinkCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['정답 (System 2)', '직관 함정 (System 1)', '미답'],
+      datasets: [{
+        data: [0, 0, 5],
+        backgroundColor: ['rgba(5,150,105,0.7)', 'rgba(239,68,68,0.7)', 'rgba(209,213,219,0.5)'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+
+  thinkQuestions.forEach(function(tq, qi) {
+    var div = document.createElement('div');
+    div.style.cssText = 'margin-bottom: 16px; padding: 16px; background: #f9fafb; border-radius: 12px; border: 1px solid #e5e7eb;';
+    div.innerHTML = '<p style="font-weight: bold;">Q' + (qi + 1) + '. ' + tq.q + '</p>';
+
+    var inputDiv = document.createElement('div');
+    inputDiv.style.cssText = 'display: flex; gap: 8px; align-items: center; margin-top: 12px;';
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = '답을 입력하세요';
+    input.style.cssText = 'padding: 8px 12px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 1em; flex: 1;';
+
+    var btn = document.createElement('button');
+    btn.className = 'tb-btn';
+    btn.textContent = '확인';
+
+    inputDiv.appendChild(input);
+    inputDiv.appendChild(btn);
+    div.appendChild(inputDiv);
+
+    var fbDiv = document.createElement('div');
+    fbDiv.style.cssText = 'display: none; margin-top: 12px; padding: 10px; border-radius: 8px;';
+    div.appendChild(fbDiv);
+
+    btn.addEventListener('click', function() {
+      if (fbDiv.style.display === 'block') return;
+      thinkAnswered++;
+      var answer = input.value.trim();
+      fbDiv.style.display = 'block';
+
+      var isCorrect = answer.indexOf(tq.correct.replace('약 ', '').replace('정확히 ', '')) !== -1 || answer === tq.correct;
+      var isIntuitive = tq.intuitive && answer.indexOf(tq.intuitive.replace('높다 (50% 이상)', '')) !== -1;
+
+      if (isCorrect) {
+        correctCount++;
+        fbDiv.style.background = '#f0fdf4';
+        fbDiv.innerHTML = '<p style="color: #059669; font-weight: bold;">정답! ' + tq.correct + '</p><p>' + tq.explanation + '</p>';
+      } else {
+        if (isIntuitive || !isCorrect) trapCount++;
+        fbDiv.style.background = '#fef2f2';
+        fbDiv.innerHTML = '<p style="color: #ef4444; font-weight: bold;">오답. 정답: ' + tq.correct + '</p><p>' + tq.explanation + '</p>';
+      }
+
+      document.getElementById('think-correct').textContent = correctCount + '/5';
+      document.getElementById('think-traps').textContent = trapCount + '회';
+      thinkChart.data.datasets[0].data = [correctCount, trapCount, Math.max(0, 5 - thinkAnswered)];
+      thinkChart.update();
+    });
+
+    thinkContainer.appendChild(div);
+  });
+
+  /* ========== 4: 휴리스틱 퀴즈 ========== */
+  var heurQuestions = [
+    { q: '상어 공격과 낙뢰 중 어느 것이 더 위험한가?', answer: '가용성', options: ['가용성', '대표성', '닻내림'], explain: '상어 공격은 뉴스에 자주 나와 떠올리기 쉽지만, 실제로 낙뢰 사망이 훨씬 많습니다.' },
+    { q: '정가 50만원 노트북이 30만원에 세일. "20만원 절약!"이라 느낀다.', answer: '닻내림', options: ['가용성', '대표성', '닻내림'], explain: '50만원이라는 정가가 닻이 되어 30만원이 싸게 느껴집니다.' },
+    { q: '조용하고 꼼꼼한 사람이 있다. 사서 vs 영업사원 중 직업을 추측한다.', answer: '대표성', options: ['가용성', '대표성', '닻내림'], explain: '"사서"의 전형적 이미지와 일치하므로 사서라고 추측합니다. 하지만 영업사원이 사서보다 훨씬 많습니다.' },
+    { q: '최근 교통사고 뉴스를 본 후 운전이 무섭다고 느낀다.', answer: '가용성', options: ['가용성', '대표성', '닻내림'], explain: '최근 사고 뉴스가 쉽게 떠올라 사고 확률을 과대평가합니다.' },
+    { q: '부동산 중개인이 비싼 집을 먼저 보여준 후 적당한 집을 보여준다.', answer: '닻내림', options: ['가용성', '대표성', '닻내림'], explain: '비싼 집이 닻이 되어 다음 집이 상대적으로 저렴하게 느껴집니다.' },
+    { q: '로또 1등 당첨 뉴스를 보고 "나도 될 수 있다"고 생각한다.', answer: '가용성', options: ['가용성', '대표성', '닻내림'], explain: '당첨 사례가 미디어에 자주 노출되어 확률을 과대평가합니다.' },
+    { q: '키가 크고 운동을 좋아하는 사람을 보고 농구 선수일 것이라 추측한다.', answer: '대표성', options: ['가용성', '대표성', '닻내림'], explain: '농구 선수의 전형적 특징과 일치하므로 그렇게 판단합니다.' },
+    { q: '연봉 협상에서 먼저 높은 금액을 제시하는 것이 유리하다.', answer: '닻내림', options: ['가용성', '대표성', '닻내림'], explain: '먼저 제시한 금액이 닻이 되어 이후 협상의 기준점이 됩니다.' },
+    { q: '비행기 사고 뉴스 후 비행기 대신 자동차로 여행한다.', answer: '가용성', options: ['가용성', '대표성', '닻내림'], explain: '비행기 사고가 생생하게 기억나지만, 통계적으로 자동차가 더 위험합니다.' },
+    { q: '면접관이 지원자의 출신 대학을 보고 능력을 판단한다.', answer: '대표성', options: ['가용성', '대표성', '닻내림'], explain: '"좋은 대학 = 우수한 인재"라는 전형적 연관에 의존합니다.' }
+  ];
+
+  var heurContainer = document.getElementById('heuristic-quiz');
+  var heurCorrect = 0;
+  var heurAnswered = 0;
+
+  heurQuestions.forEach(function(hq, hi) {
+    var div = document.createElement('div');
+    div.style.cssText = 'margin-bottom: 12px; padding: 12px; background: #f9fafb; border-radius: 10px; border: 1px solid #e5e7eb;';
+
+    var qText = '<p style="font-weight: bold; margin-bottom: 8px;">' + (hi + 1) + '. ' + hq.q + '</p>';
+    var btns = '';
+    hq.options.forEach(function(opt) {
+      btns += '<button class="tb-btn heur-opt" data-q="' + hi + '" data-val="' + opt + '" style="margin-right: 6px; margin-bottom: 4px; font-size: 0.9em;">' + opt + '</button>';
+    });
+    div.innerHTML = qText + '<div>' + btns + '</div><div class="heur-fb" style="display: none; margin-top: 8px; padding: 8px; border-radius: 6px; font-size: 0.9em;"></div>';
+    heurContainer.appendChild(div);
+  });
+
+  heurContainer.addEventListener('click', function(e) {
+    if (!e.target.classList.contains('heur-opt')) return;
+    var qi = parseInt(e.target.getAttribute('data-q'));
+    var val = e.target.getAttribute('data-val');
+    var fb = heurContainer.querySelectorAll('.heur-fb')[qi];
+    if (fb.style.display === 'block') return;
+
+    heurAnswered++;
+    fb.style.display = 'block';
+
+    if (val === heurQuestions[qi].answer) {
+      heurCorrect++;
+      fb.style.background = '#f0fdf4';
+      fb.innerHTML = '<span style="color: #059669; font-weight: bold;">정답!</span> ' + heurQuestions[qi].explain;
+      e.target.style.background = '#059669';
+      e.target.style.color = '#fff';
+    } else {
+      fb.style.background = '#fef2f2';
+      fb.innerHTML = '<span style="color: #ef4444; font-weight: bold;">오답.</span> 정답: ' + heurQuestions[qi].answer + '. ' + heurQuestions[qi].explain;
+      e.target.style.background = '#ef4444';
+      e.target.style.color = '#fff';
+    }
+
+    document.getElementById('heur-score').textContent = heurCorrect + '/' + heurAnswered;
+    document.getElementById('heur-pct').textContent = (heurCorrect / heurAnswered * 100).toFixed(0) + '%';
+  });
+
+  document.getElementById('heur-apply-btn').addEventListener('click', function() {
+    document.getElementById('heur-apply-ans').style.display = 'block';
+  });
+
+  document.getElementById('overcome-btn').addEventListener('click', function() {
+    document.getElementById('overcome-ans').style.display = 'block';
+  });
+
+  document.getElementById('daily-bias-btn').addEventListener('click', function() {
+    document.getElementById('daily-bias-ans').style.display = 'block';
+  });
+
+});
+</script>

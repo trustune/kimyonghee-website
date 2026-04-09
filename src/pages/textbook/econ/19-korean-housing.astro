@@ -1,0 +1,792 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="한국 부동산 시장 분석"
+  subtitle="집값은 왜 오르는가"
+  chapterNum={19}
+  part={3}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>서울 아파트, 평균 10억의 시대</h2>
+    <p>
+      2024년 서울 아파트 평균 매매 가격이 10억 원을 넘었습니다.
+      30년 전 1억이면 살 수 있던 아파트가, 지금은 10배가 넘습니다.
+      월급은 3~4배 올랐는데, 집값은 왜 10배 이상 올랐을까요?
+    </p>
+    <p style="margin-top: 12px;">
+      부동산 시장은 우리가 배운 <strong>수요와 공급</strong> 이론으로 분석할 수 있습니다.
+      하지만 주택은 일반 상품과 다릅니다. 위치가 고정되어 있고,
+      공급에 시간이 오래 걸리며, 대출로 사기 때문에 금리에 민감합니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>서울 아파트 가격의 장기 추세를 데이터로 확인</li>
+        <li>주택 수요/공급 요인을 분석하고 균형 가격을 이해</li>
+        <li>대출 상환 구조를 직접 계산</li>
+        <li>부동산 정책의 효과를 시뮬레이션</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION: 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>주택 시장의 특수성</h2>
+
+    <ExplainBox title="주택은 왜 특별한 상품인가?">
+      <p><strong>1. 위치 고정:</strong> 삼성동 아파트와 지방 아파트는 대체재가 아닙니다.
+        같은 서울이라도 강남과 강북의 가격 차이가 큽니다.</p>
+      <p style="margin-top: 8px;"><strong>2. 공급의 비탄력성:</strong> 아파트를 짓는 데
+        최소 3~5년이 걸립니다. 수요가 갑자기 늘어도 공급이 바로 따라가지 못합니다.</p>
+      <p style="margin-top: 8px;"><strong>3. 대출 의존:</strong> 대부분의 사람은 주택 가격의
+        50~70%를 대출로 충당합니다. 따라서 금리가 집값에 큰 영향을 줍니다.</p>
+      <p style="margin-top: 8px;"><strong>4. 이중적 성격:</strong> 주택은 거주를 위한 소비재이면서
+        동시에 자산 가치 상승을 기대하는 투자재입니다.</p>
+    </ExplainBox>
+
+    <BusinessBox title="한국 부동산의 특징">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>아파트 선호:</strong> 한국은 전체 주택의 약 62%가 아파트 (2023년 기준)</li>
+        <li><strong>서울 집중:</strong> 인구의 약 50%가 수도권에 거주</li>
+        <li><strong>전세 제도:</strong> 세계적으로 거의 유일한 한국 특유의 제도</li>
+        <li><strong>재건축 기대:</strong> 오래된 아파트도 재건축 기대감으로 가격 유지</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 서울 아파트 가격 시계열 ===== -->
+  <div class="tb-card">
+    <h2>1. 서울 아파트 가격 35년의 기록</h2>
+    <p>
+      1990년부터 2025년까지 서울 아파트 평균 매매 가격의 변화를 봅시다.
+      주요 경제 이벤트가 집값에 어떤 영향을 미쳤는지 확인하세요.
+      차트 위의 마커를 살펴보면 각 시점의 이벤트를 알 수 있습니다.
+    </p>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="선택 연도" value="-" id="hp-year" borderColor="#059669" />
+      <StatBox label="평균 매매가" value="-" id="hp-price" borderColor="#3b82f6" />
+      <StatBox label="전년 대비" value="-" id="hp-change" borderColor="#f59e0b" />
+      <StatBox label="1990년 대비" value="-" id="hp-cumul" borderColor="#7c3aed" />
+    </div>
+
+    <SimControls>
+      <label>연도 선택: <span id="hp-year-val">2024</span></label>
+      <input type="range" id="hp-slider" min="1990" max="2025" value="2024" step="1" />
+    </SimControls>
+
+    <ChartContainer id="housingPriceChart" height="420px" />
+
+    <ExerciseBox title="데이터 읽기 연습">
+      <p>위 차트를 보고 다음 질문에 답하세요.</p>
+      <p style="margin-top: 8px;"><strong>Q1.</strong> 집값이 가장 크게 떨어진 시기는 언제인가?</p>
+      <p><strong>Q2.</strong> 2015~2021년 사이 집값 상승의 원인은 무엇일까?</p>
+      <button class="tb-btn" id="hp-answer-btn" style="margin-top: 8px;">힌트 보기</button>
+      <div id="hp-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>Q1:</strong> 1997~1998년 IMF 외환위기 시기 (약 -20% 하락)</p>
+        <p><strong>Q2:</strong> 초저금리(1%대) + 유동성 증가 + 수도권 공급 부족 + 투자 수요 증가</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 수요/공급 모형 ===== -->
+  <div class="tb-card">
+    <h2>2. 수요/공급으로 보는 집값 결정</h2>
+    <p>
+      주택 가격도 결국 수요와 공급이 결정합니다.
+      아래 슬라이더로 수요/공급 요인을 변경하면,
+      수요곡선과 공급곡선이 이동하고 균형 가격이 바뀝니다.
+    </p>
+
+    <ExplainBox title="주택 수요 요인">
+      <p><strong>인구:</strong> 인구가 늘면 (특히 수도권 유입) 주택 수요 증가</p>
+      <p><strong>금리:</strong> 금리가 내려가면 대출 부담이 줄어 수요 증가</p>
+      <p><strong>소득:</strong> 소득이 늘면 더 좋은 집, 더 넓은 집에 대한 수요 증가</p>
+    </ExplainBox>
+
+    <ExplainBox title="주택 공급 요인">
+      <p><strong>신규 건설:</strong> 아파트 공급 물량이 늘면 공급곡선이 오른쪽으로 이동</p>
+      <p><strong>규제:</strong> 건축 규제가 강해지면 공급이 줄어듦</p>
+    </ExplainBox>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="균형 가격" value="-" id="sd-price" borderColor="#059669" />
+      <StatBox label="균형 거래량" value="-" id="sd-qty" borderColor="#3b82f6" />
+      <StatBox label="가격 변화율" value="-" id="sd-change" borderColor="#ef4444" />
+    </div>
+
+    <SimControls>
+      <label>인구 유입 (수요): <span id="sd-pop-val">0</span></label>
+      <input type="range" id="sd-pop" min="-30" max="30" value="0" step="5" />
+      <label>금리 변화 (수요): <span id="sd-rate-val">0</span>%p</label>
+      <input type="range" id="sd-rate" min="-3" max="3" value="0" step="0.5" />
+      <label>소득 변화 (수요): <span id="sd-income-val">0</span>%</label>
+      <input type="range" id="sd-income" min="-20" max="20" value="0" step="5" />
+      <label>신규 공급 (공급): <span id="sd-supply-val">0</span></label>
+      <input type="range" id="sd-supply" min="-30" max="30" value="0" step="5" />
+      <label>건축 규제 (공급): <span id="sd-reg-val">0</span></label>
+      <input type="range" id="sd-reg" min="-20" max="20" value="0" step="5" />
+    </SimControls>
+
+    <canvas id="housingSDCanvas" style="width: 100%; height: 450px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fafafa;"></canvas>
+
+    <ExerciseBox title="시나리오 분석">
+      <p><strong>시나리오 1:</strong> 한국은행이 기준금리를 2%p 인하했다. 동시에 정부가 그린벨트를 해제하여
+        대규모 신규 공급이 예고되었다. 집값은 어떻게 되는가?</p>
+      <p style="margin-top: 8px;"><strong>시나리오 2:</strong> 인구 감소로 수도권 유입이 줄었고,
+        건축비 상승으로 공급도 줄었다. 결과는?</p>
+      <button class="tb-btn" id="sd-scenario-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="sd-scenario-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>시나리오 1:</strong> 금리 인하(수요 증가) + 공급 확대(공급 증가). 두 힘이 반대 방향이므로 가격 변화는 불확실. 거래량은 확실히 증가.</p>
+        <p><strong>시나리오 2:</strong> 수요 감소 + 공급 감소. 가격 변화는 불확실. 거래량은 확실히 감소.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 대출 상환 계산기 ===== -->
+  <div class="tb-card">
+    <h2>3. 주택 대출 상환 계산기</h2>
+    <p>
+      집을 살 때 대부분은 은행에서 대출을 받습니다.
+      대출 금액, 금리, 상환 기간에 따라 매달 얼마를 내야 하는지 직접 계산해 봅시다.
+      <strong>원리금균등상환</strong> 방식을 사용합니다.
+    </p>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">월 상환액 = P x r(1+r)^n / ((1+r)^n - 1)</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center; font-size: 0.9em;">
+        P = 대출 원금, r = 월 이자율(연이율/12), n = 총 상환 개월수
+      </p>
+    </FormulaBox>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="월 상환액" value="-" id="loan-monthly" borderColor="#059669" />
+      <StatBox label="총 이자" value="-" id="loan-interest" borderColor="#ef4444" />
+      <StatBox label="총 상환액" value="-" id="loan-total" borderColor="#3b82f6" />
+      <StatBox label="이자/원금 비율" value="-" id="loan-ratio" borderColor="#f59e0b" />
+    </div>
+
+    <SimControls>
+      <label>대출 금액: <span id="loan-amt-val">5</span>억 원</label>
+      <input type="range" id="loan-amt" min="1" max="15" value="5" step="0.5" />
+      <label>연 이자율: <span id="loan-rate-val">4.0</span>%</label>
+      <input type="range" id="loan-rate" min="1" max="8" value="4.0" step="0.25" />
+      <label>상환 기간: <span id="loan-period-val">30</span>년</label>
+      <input type="range" id="loan-period" min="5" max="40" value="30" step="5" />
+    </SimControls>
+
+    <ChartContainer id="loanChart" height="380px" />
+
+    <WarningBox title="금리 1%의 무서움">
+      <p>대출 5억 원, 30년 기준으로 금리가 3%에서 4%로 1%p만 올라도
+        총 이자가 약 1억 원 이상 늘어납니다. 금리는 작은 차이도
+        장기간에 걸치면 엄청난 비용 차이를 만듭니다.</p>
+    </WarningBox>
+
+    <ExerciseBox title="대출 비교 연습">
+      <p>같은 5억 원을 빌릴 때, 다음 두 조건을 비교해 보세요.</p>
+      <p><strong>A:</strong> 연 3%, 30년 상환</p>
+      <p><strong>B:</strong> 연 5%, 20년 상환</p>
+      <p>어느 쪽의 월 상환액이 더 높고, 총 이자는 어느 쪽이 더 많은가?</p>
+      <button class="tb-btn" id="loan-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="loan-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>A:</strong> 월 약 211만원, 총 이자 약 2.6억 원</p>
+        <p><strong>B:</strong> 월 약 330만원, 총 이자 약 2.9억 원</p>
+        <p>B가 월 상환액도 높고 총 이자도 더 많습니다. 낮은 금리가 매우 유리합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 정책 효과 시뮬레이터 ===== -->
+  <div class="tb-card">
+    <h2>4. 부동산 정책 효과 시뮬레이터</h2>
+    <p>
+      정부는 집값 안정을 위해 다양한 정책을 사용합니다.
+      각 정책이 수요, 공급, 가격에 어떤 영향을 미치는지 실험해 봅시다.
+    </p>
+
+    <ExplainBox title="주요 부동산 정책 도구">
+      <p><strong>LTV 규제:</strong> 주택담보대출비율. LTV 50%면 10억 집에 최대 5억만 대출 가능.</p>
+      <p><strong>종합부동산세:</strong> 고가 주택 보유자에게 추가 세금. 보유 비용 증가 → 투자 수요 억제.</p>
+      <p><strong>공급 확대:</strong> 신규 택지 개발, 재건축 규제 완화 등으로 주택 공급 확대.</p>
+      <p><strong>금리 조절:</strong> 한국은행의 기준금리 변경. 간접적이지만 강력한 효과.</p>
+    </ExplainBox>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="수요 변화" value="0%" id="pol-demand" borderColor="#3b82f6" />
+      <StatBox label="공급 변화" value="0%" id="pol-supply" borderColor="#059669" />
+      <StatBox label="예상 가격 변화" value="0%" id="pol-price-chg" borderColor="#ef4444" />
+    </div>
+
+    <SimControls>
+      <label>LTV 규제 강화: <span id="pol-ltv-val">0</span>%p 축소</label>
+      <input type="range" id="pol-ltv" min="0" max="30" value="0" step="5" />
+      <label>종부세 인상: <span id="pol-tax-val">0</span>단계</label>
+      <input type="range" id="pol-tax" min="0" max="5" value="0" step="1" />
+      <label>공급 확대: <span id="pol-build-val">0</span>만 호</label>
+      <input type="range" id="pol-build" min="0" max="50" value="0" step="5" />
+      <label>기준금리 변화: <span id="pol-rate-val">0</span>%p</label>
+      <input type="range" id="pol-rate" min="-2" max="2" value="0" step="0.25" />
+    </SimControls>
+
+    <ChartContainer id="policyChart" height="380px" />
+
+    <InsightBox title="정책의 한계">
+      <p>대부분의 부동산 정책은 <strong>수요 억제</strong>에 집중합니다.
+        하지만 서울의 근본적인 문제는 <strong>공급 부족</strong>입니다.
+        수요를 억제해도 공급이 부족하면 가격은 다시 오릅니다.
+        반대로 공급 확대는 효과가 나타나기까지 3~5년이 걸립니다.</p>
+    </InsightBox>
+
+    <ExerciseBox title="정책 조합 실험">
+      <p>다음 상황에서 최적의 정책 조합을 찾아보세요.</p>
+      <p><strong>상황:</strong> 집값이 1년 동안 20% 급등했다. 가계 부채도 급증했다.</p>
+      <p>단기와 장기로 나눠서 생각해 보세요.</p>
+      <button class="tb-btn" id="pol-combo-btn" style="margin-top: 8px;">모범 답안</button>
+      <div id="pol-combo-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>단기:</strong> LTV 규제 강화 + 종부세 인상 + 금리 인상 (수요 억제로 급등 진정)</p>
+        <p><strong>장기:</strong> 신규 공급 확대 (3기 신도시 등). 교통 인프라 투자로 수도권 외곽의 접근성 향상.</p>
+        <p>핵심: 단기 수요 억제 + 장기 공급 확대의 조합이 가장 효과적입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 소득 대비 집값 ===== -->
+  <div class="tb-card">
+    <h2>5. PIR: 소득 대비 집값 비율</h2>
+    <p>
+      <strong>PIR(Price to Income Ratio)</strong>은 연소득 대비 집값을 나타내는 지표입니다.
+      PIR 15면 소득을 한 푼도 안 쓰고 15년을 모아야 집을 살 수 있다는 뜻입니다.
+    </p>
+
+    <ChartContainer id="pirChart" height="350px" />
+
+    <ExerciseBox title="PIR 해석 연습">
+      <p>서울의 PIR은 약 15~18입니다. 이것은 무엇을 의미하는가?</p>
+      <p>참고: 뉴욕 약 10, 도쿄 약 12, 런던 약 14.</p>
+      <button class="tb-btn" id="pir-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="pir-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>서울은 세계 주요 도시와 비교해도 집값 부담이 매우 높습니다.
+          평균 연소득이 5천만 원이라면 집값은 7.5억~9억 원이라는 뜻입니다.
+          소비를 하나도 안 해도 15~18년을 모아야 합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="19장 정리: 한국 부동산 시장">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li>주택은 위치 고정, 공급 지연, 대출 의존의 <strong>특수한 상품</strong></li>
+      <li>집값은 <strong>수요(인구, 금리, 소득)</strong>와 <strong>공급(건설, 규제)</strong>으로 결정</li>
+      <li>금리 변화는 대출 비용을 통해 수요에 <strong>즉각적이고 강력한</strong> 영향</li>
+      <li>정책은 <strong>단기 수요 억제</strong>와 <strong>장기 공급 확대</strong>의 조합이 효과적</li>
+      <li>서울의 PIR은 15~18로 세계적으로도 <strong>주거 부담이 매우 높은</strong> 수준</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1. 서울 아파트 가격 시계열 ========== */
+  var years = [];
+  for (var y = 1990; y <= 2025; y++) years.push(y);
+
+  /* 합성 데이터: 서울 아파트 평균 매매가 (만원) */
+  var prices = [
+    5500, 6200, 7800, 8500, 8800, 8600, 9000, 8200, 6500, 6800,
+    7500, 8200, 9500, 10500, 11500, 12000, 13500, 15000, 16000, 14500,
+    17000, 19000, 21000, 24000, 28000, 32000, 38000, 45000, 52000, 48000,
+    55000, 62000, 72000, 80000, 90000, 95000
+  ];
+
+  /* 이벤트 마커 */
+  var events = {};
+  events[1997] = 'IMF 외환위기';
+  events[2003] = '카드 대란';
+  events[2008] = '글로벌 금융위기';
+  events[2017] = '문재인 정부 출범';
+  events[2020] = '코로나19 팬데믹';
+  events[2022] = '금리 급등기';
+
+  var bgColors = years.map(function(yr) {
+    return events[yr] ? 'rgba(239,68,68,0.8)' : 'rgba(59,130,246,0.6)';
+  });
+
+  var pointRadii = years.map(function(yr) {
+    return events[yr] ? 8 : 2;
+  });
+
+  var hpCtx = document.getElementById('housingPriceChart');
+  var hpChart = new Chart(hpCtx, {
+    type: 'line',
+    data: {
+      labels: years,
+      datasets: [{
+        label: '서울 아파트 평균 매매가 (만원)',
+        data: prices,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.1)',
+        borderWidth: 3,
+        tension: 0.3,
+        fill: true,
+        pointRadius: pointRadii,
+        pointBackgroundColor: bgColors,
+        pointBorderColor: bgColors
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '연도' } },
+        y: {
+          title: { display: true, text: '평균 매매가 (만원)' },
+          ticks: {
+            callback: function(v) { return (v / 10000).toFixed(1) + '억'; }
+          }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              var yr = years[ctx.dataIndex];
+              var p = (ctx.raw / 10000).toFixed(2) + '억 원';
+              var ev = events[yr];
+              return ev ? p + ' [' + ev + ']' : p;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  var hpSlider = document.getElementById('hp-slider');
+  function updateHP() {
+    var yr = parseInt(hpSlider.value);
+    var idx = yr - 1990;
+    document.getElementById('hp-year-val').textContent = yr;
+    document.getElementById('hp-year').textContent = yr + '년';
+    var p = prices[idx];
+    document.getElementById('hp-price').textContent = (p / 10000).toFixed(2) + '억';
+    if (idx > 0) {
+      var chg = ((p - prices[idx - 1]) / prices[idx - 1] * 100).toFixed(1);
+      document.getElementById('hp-change').textContent = (chg > 0 ? '+' : '') + chg + '%';
+    } else {
+      document.getElementById('hp-change').textContent = '-';
+    }
+    var cumul = ((p - prices[0]) / prices[0] * 100).toFixed(0);
+    document.getElementById('hp-cumul').textContent = '+' + cumul + '%';
+  }
+  hpSlider.addEventListener('input', updateHP);
+  updateHP();
+
+  document.getElementById('hp-answer-btn').addEventListener('click', function() {
+    document.getElementById('hp-answer').style.display = 'block';
+  });
+
+  /* ========== 2. 수요/공급 모형 (Canvas) ========== */
+  var sdCanvas = document.getElementById('housingSDCanvas');
+  var sdCtx2 = sdCanvas.getContext('2d');
+
+  var sdPop = document.getElementById('sd-pop');
+  var sdRate = document.getElementById('sd-rate');
+  var sdIncome = document.getElementById('sd-income');
+  var sdSupply = document.getElementById('sd-supply');
+  var sdReg = document.getElementById('sd-reg');
+
+  function drawSD() {
+    var w = sdCanvas.width = sdCanvas.offsetWidth * (window.devicePixelRatio || 1);
+    var h = sdCanvas.height = sdCanvas.offsetHeight * (window.devicePixelRatio || 1);
+    sdCtx2.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+    var cw = sdCanvas.offsetWidth;
+    var ch = sdCanvas.offsetHeight;
+    sdCtx2.clearRect(0, 0, cw, ch);
+
+    var margin = { top: 40, right: 40, bottom: 60, left: 70 };
+    var gw = cw - margin.left - margin.right;
+    var gh = ch - margin.top - margin.bottom;
+
+    /* 수요/공급 이동량 계산 */
+    var pop = parseInt(sdPop.value);
+    var rate = parseFloat(sdRate.value);
+    var income = parseInt(sdIncome.value);
+    var supply = parseInt(sdSupply.value);
+    var reg = parseInt(sdReg.value);
+
+    document.getElementById('sd-pop-val').textContent = pop > 0 ? '+' + pop : pop;
+    document.getElementById('sd-rate-val').textContent = rate > 0 ? '+' + rate : rate;
+    document.getElementById('sd-income-val').textContent = income > 0 ? '+' + income : income;
+    document.getElementById('sd-supply-val').textContent = supply > 0 ? '+' + supply : supply;
+    document.getElementById('sd-reg-val').textContent = reg > 0 ? '+' + reg : reg;
+
+    var demandShift = pop * 0.5 + (-rate) * 10 + income * 0.3;
+    var supplyShift = supply * 0.5 + (-reg) * 0.4;
+
+    /* 축 그리기 */
+    sdCtx2.strokeStyle = '#374151';
+    sdCtx2.lineWidth = 2;
+    sdCtx2.beginPath();
+    sdCtx2.moveTo(margin.left, margin.top);
+    sdCtx2.lineTo(margin.left, margin.top + gh);
+    sdCtx2.lineTo(margin.left + gw, margin.top + gh);
+    sdCtx2.stroke();
+
+    /* 축 레이블 */
+    sdCtx2.fillStyle = '#374151';
+    sdCtx2.font = '14px sans-serif';
+    sdCtx2.textAlign = 'center';
+    sdCtx2.fillText('거래량 (Q)', margin.left + gw / 2, ch - 10);
+    sdCtx2.save();
+    sdCtx2.translate(18, margin.top + gh / 2);
+    sdCtx2.rotate(-Math.PI / 2);
+    sdCtx2.fillText('가격 (P)', 0, 0);
+    sdCtx2.restore();
+
+    /* 좌표 변환 */
+    function toX(q) { return margin.left + (q / 100) * gw; }
+    function toY(p) { return margin.top + gh - (p / 100) * gh; }
+
+    /* 기본 수요곡선: P = 90 - 0.8Q, 공급곡선: P = 10 + 0.6Q */
+    /* 이동 반영 */
+    var dIntercept = 90 + demandShift * 0.5;
+    var sIntercept = 10 - supplyShift * 0.5;
+
+    /* 원래 곡선 (점선) */
+    sdCtx2.setLineDash([6, 4]);
+    sdCtx2.lineWidth = 1.5;
+    sdCtx2.strokeStyle = '#93c5fd';
+    sdCtx2.beginPath();
+    sdCtx2.moveTo(toX(0), toY(90));
+    sdCtx2.lineTo(toX(100), toY(90 - 80));
+    sdCtx2.stroke();
+
+    sdCtx2.strokeStyle = '#86efac';
+    sdCtx2.beginPath();
+    sdCtx2.moveTo(toX(0), toY(10));
+    sdCtx2.lineTo(toX(100), toY(10 + 60));
+    sdCtx2.stroke();
+    sdCtx2.setLineDash([]);
+
+    /* 이동된 수요곡선 */
+    sdCtx2.strokeStyle = '#2563eb';
+    sdCtx2.lineWidth = 3;
+    sdCtx2.beginPath();
+    var dStart = Math.max(0, Math.min(100, dIntercept));
+    var dEnd = Math.max(0, Math.min(100, dIntercept - 80));
+    sdCtx2.moveTo(toX(0), toY(dStart));
+    sdCtx2.lineTo(toX(100), toY(dEnd));
+    sdCtx2.stroke();
+
+    /* 이동된 공급곡선 */
+    sdCtx2.strokeStyle = '#16a34a';
+    sdCtx2.lineWidth = 3;
+    sdCtx2.beginPath();
+    var sStart = Math.max(0, Math.min(100, sIntercept));
+    var sEnd = Math.max(0, Math.min(100, sIntercept + 60));
+    sdCtx2.moveTo(toX(0), toY(sStart));
+    sdCtx2.lineTo(toX(100), toY(sEnd));
+    sdCtx2.stroke();
+
+    /* 균형점 계산: dIntercept - 0.8Q = sIntercept + 0.6Q */
+    var eqQ = (dIntercept - sIntercept) / 1.4;
+    var eqP = sIntercept + 0.6 * eqQ;
+
+    /* 기본 균형: Q=57.1, P=44.3 */
+    var baseEqQ = (90 - 10) / 1.4;
+    var baseEqP = 10 + 0.6 * baseEqQ;
+
+    if (eqQ > 0 && eqQ < 100 && eqP > 0 && eqP < 100) {
+      /* 균형점 표시 */
+      sdCtx2.beginPath();
+      sdCtx2.arc(toX(eqQ), toY(eqP), 8, 0, Math.PI * 2);
+      sdCtx2.fillStyle = '#ef4444';
+      sdCtx2.fill();
+      sdCtx2.strokeStyle = '#fff';
+      sdCtx2.lineWidth = 2;
+      sdCtx2.stroke();
+
+      /* 점선으로 축에 표시 */
+      sdCtx2.setLineDash([4, 3]);
+      sdCtx2.strokeStyle = '#ef4444';
+      sdCtx2.lineWidth = 1;
+      sdCtx2.beginPath();
+      sdCtx2.moveTo(toX(eqQ), toY(eqP));
+      sdCtx2.lineTo(toX(eqQ), toY(0));
+      sdCtx2.moveTo(toX(eqQ), toY(eqP));
+      sdCtx2.lineTo(toX(0), toY(eqP));
+      sdCtx2.stroke();
+      sdCtx2.setLineDash([]);
+
+      /* 가격을 억 원 단위로 환산 (P 50 = 5억 원) */
+      var priceInOk = (eqP / 10).toFixed(1);
+      var basePriceInOk = (baseEqP / 10).toFixed(1);
+      var pctChange = ((eqP - baseEqP) / baseEqP * 100).toFixed(1);
+
+      document.getElementById('sd-price').textContent = priceInOk + '억';
+      document.getElementById('sd-qty').textContent = eqQ.toFixed(0) + '만호';
+      document.getElementById('sd-change').textContent = (pctChange > 0 ? '+' : '') + pctChange + '%';
+    }
+
+    /* 레이블 */
+    sdCtx2.font = 'bold 14px sans-serif';
+    sdCtx2.fillStyle = '#2563eb';
+    sdCtx2.fillText('수요 (D)', toX(85), toY(dIntercept - 68) - 8);
+    sdCtx2.fillStyle = '#16a34a';
+    sdCtx2.fillText('공급 (S)', toX(85), toY(sIntercept + 51) + 20);
+  }
+
+  [sdPop, sdRate, sdIncome, sdSupply, sdReg].forEach(function(el) {
+    el.addEventListener('input', drawSD);
+  });
+  window.addEventListener('resize', drawSD);
+  drawSD();
+
+  document.getElementById('sd-scenario-btn').addEventListener('click', function() {
+    document.getElementById('sd-scenario-ans').style.display = 'block';
+  });
+
+  /* ========== 3. 대출 상환 계산기 ========== */
+  var loanAmt = document.getElementById('loan-amt');
+  var loanRate = document.getElementById('loan-rate');
+  var loanPeriod = document.getElementById('loan-period');
+  var loanCtx = document.getElementById('loanChart');
+
+  var loanChart = new Chart(loanCtx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '원금 잔액 (만원)', data: [], borderColor: '#3b82f6', borderWidth: 2, tension: 0.1, fill: false, pointRadius: 0 },
+        { label: '누적 이자 (만원)', data: [], borderColor: '#ef4444', borderWidth: 2, tension: 0.1, fill: true, backgroundColor: 'rgba(239,68,68,0.1)', pointRadius: 0 },
+        { label: '누적 원금 상환 (만원)', data: [], borderColor: '#059669', borderWidth: 2, tension: 0.1, fill: true, backgroundColor: 'rgba(5,150,105,0.1)', pointRadius: 0 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '년차' } },
+        y: {
+          title: { display: true, text: '금액 (만원)' },
+          ticks: { callback: function(v) { return (v / 10000).toFixed(1) + '억'; } }
+        }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updateLoan() {
+    var P = parseFloat(loanAmt.value) * 10000; /* 만원 */
+    var annRate = parseFloat(loanRate.value) / 100;
+    var monthRate = annRate / 12;
+    var yrs = parseInt(loanPeriod.value);
+    var n = yrs * 12;
+
+    document.getElementById('loan-amt-val').textContent = loanAmt.value;
+    document.getElementById('loan-rate-val').textContent = loanRate.value;
+    document.getElementById('loan-period-val').textContent = yrs;
+
+    /* 원리금균등상환 월 상환액 */
+    var monthly;
+    if (monthRate === 0) {
+      monthly = P / n;
+    } else {
+      monthly = P * monthRate * Math.pow(1 + monthRate, n) / (Math.pow(1 + monthRate, n) - 1);
+    }
+
+    var totalPayment = monthly * n;
+    var totalInterest = totalPayment - P;
+
+    document.getElementById('loan-monthly').textContent = Math.round(monthly).toLocaleString() + '만원';
+    document.getElementById('loan-interest').textContent = (totalInterest / 10000).toFixed(1) + '억';
+    document.getElementById('loan-total').textContent = (totalPayment / 10000).toFixed(1) + '억';
+    document.getElementById('loan-ratio').textContent = (totalInterest / P * 100).toFixed(0) + '%';
+
+    /* 연도별 잔액/누적이자 */
+    var labels = [];
+    var balanceData = [];
+    var cumInterestData = [];
+    var cumPrincipalData = [];
+    var balance = P;
+    var cumInterest = 0;
+    var cumPrincipal = 0;
+
+    for (var yr = 0; yr <= yrs; yr++) {
+      labels.push(yr + '년');
+      balanceData.push(Math.round(balance));
+      cumInterestData.push(Math.round(cumInterest));
+      cumPrincipalData.push(Math.round(cumPrincipal));
+
+      if (yr < yrs) {
+        for (var m = 0; m < 12; m++) {
+          var interestPay = balance * monthRate;
+          var principalPay = monthly - interestPay;
+          balance -= principalPay;
+          cumInterest += interestPay;
+          cumPrincipal += principalPay;
+          if (balance < 0) balance = 0;
+        }
+      }
+    }
+
+    loanChart.data.labels = labels;
+    loanChart.data.datasets[0].data = balanceData;
+    loanChart.data.datasets[1].data = cumInterestData;
+    loanChart.data.datasets[2].data = cumPrincipalData;
+    loanChart.update();
+  }
+
+  [loanAmt, loanRate, loanPeriod].forEach(function(el) {
+    el.addEventListener('input', updateLoan);
+  });
+  updateLoan();
+
+  document.getElementById('loan-quiz-btn').addEventListener('click', function() {
+    document.getElementById('loan-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 4. 정책 효과 시뮬레이터 ========== */
+  var polLtv = document.getElementById('pol-ltv');
+  var polTax = document.getElementById('pol-tax');
+  var polBuild = document.getElementById('pol-build');
+  var polRate2 = document.getElementById('pol-rate');
+  var polCtx = document.getElementById('policyChart');
+
+  var polChart = new Chart(polCtx, {
+    type: 'bar',
+    data: {
+      labels: ['LTV 규제', '종부세', '공급 확대', '금리 변화', '종합 효과'],
+      datasets: [
+        { label: '수요 변화 (%)', data: [0, 0, 0, 0, 0], backgroundColor: 'rgba(59,130,246,0.6)', borderRadius: 4 },
+        { label: '공급 변화 (%)', data: [0, 0, 0, 0, 0], backgroundColor: 'rgba(5,150,105,0.6)', borderRadius: 4 },
+        { label: '가격 변화 (%)', data: [0, 0, 0, 0, 0], backgroundColor: 'rgba(239,68,68,0.6)', borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '변화율 (%)' } } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updatePol() {
+    var ltv = parseInt(polLtv.value);
+    var tax = parseInt(polTax.value);
+    var build = parseInt(polBuild.value);
+    var rate = parseFloat(polRate2.value);
+
+    document.getElementById('pol-ltv-val').textContent = ltv;
+    document.getElementById('pol-tax-val').textContent = tax;
+    document.getElementById('pol-build-val').textContent = build;
+    document.getElementById('pol-rate-val').textContent = rate > 0 ? '+' + rate : rate;
+
+    /* 각 정책의 수요/공급 효과 */
+    var ltvDemand = -ltv * 0.5;
+    var ltvSupply = 0;
+    var ltvPrice = ltvDemand * 0.7;
+
+    var taxDemand = -tax * 3;
+    var taxSupply = 0;
+    var taxPrice = taxDemand * 0.7;
+
+    var buildDemand = 0;
+    var buildSupply = build * 0.6;
+    var buildPrice = -buildSupply * 0.5;
+
+    var rateDemand = rate * 8;
+    var rateSupply = 0;
+    var ratePrice = rateDemand * 0.7;
+
+    var totalDemand = ltvDemand + taxDemand + rateDemand;
+    var totalSupply = buildSupply;
+    var totalPrice = ltvPrice + taxPrice + buildPrice + ratePrice;
+
+    document.getElementById('pol-demand').textContent = (totalDemand > 0 ? '+' : '') + totalDemand.toFixed(1) + '%';
+    document.getElementById('pol-supply').textContent = (totalSupply > 0 ? '+' : '') + totalSupply.toFixed(1) + '%';
+    document.getElementById('pol-price-chg').textContent = (totalPrice > 0 ? '+' : '') + totalPrice.toFixed(1) + '%';
+
+    polChart.data.datasets[0].data = [ltvDemand, taxDemand, 0, rateDemand, totalDemand];
+    polChart.data.datasets[1].data = [ltvSupply, taxSupply, buildSupply, rateSupply, totalSupply];
+    polChart.data.datasets[2].data = [ltvPrice, taxPrice, buildPrice, ratePrice, totalPrice];
+    polChart.update();
+  }
+
+  [polLtv, polTax, polBuild, polRate2].forEach(function(el) {
+    el.addEventListener('input', updatePol);
+  });
+  updatePol();
+
+  document.getElementById('pol-combo-btn').addEventListener('click', function() {
+    document.getElementById('pol-combo-ans').style.display = 'block';
+  });
+
+  /* ========== 5. PIR 차트 ========== */
+  var pirCtx = document.getElementById('pirChart');
+  new Chart(pirCtx, {
+    type: 'bar',
+    data: {
+      labels: ['서울', '뉴욕', '도쿄', '런던', '시드니', '싱가포르', '홍콩', '밴쿠버'],
+      datasets: [{
+        label: 'PIR (소득 대비 집값)',
+        data: [18, 10, 12, 14, 13, 15, 25, 11],
+        backgroundColor: [
+          'rgba(239,68,68,0.7)',
+          'rgba(59,130,246,0.6)',
+          'rgba(59,130,246,0.6)',
+          'rgba(59,130,246,0.6)',
+          'rgba(59,130,246,0.6)',
+          'rgba(245,158,11,0.6)',
+          'rgba(239,68,68,0.7)',
+          'rgba(59,130,246,0.6)'
+        ],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      scales: {
+        x: { title: { display: true, text: 'PIR (배)' }, min: 0, max: 30 }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) { return '연소득 대비 ' + ctx.raw + '배'; }
+          }
+        }
+      }
+    }
+  });
+
+  document.getElementById('pir-quiz-btn').addEventListener('click', function() {
+    document.getElementById('pir-quiz-ans').style.display = 'block';
+  });
+
+});
+</script>

@@ -1,0 +1,675 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="전망이론과 손실회피"
+  subtitle="잃는 것이 얻는 것보다 두 배 아프다"
+  chapterNum={24}
+  part={4}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>10만원을 잃은 아픔 vs 10만원을 얻은 기쁨</h2>
+    <p>
+      오늘 길에서 10만원을 주웠다고 상상해 보세요. 기분이 좋겠죠?
+      이제 반대로, 지갑에서 10만원을 잃어버렸다고 상상해 보세요.
+      어느 쪽의 감정이 더 강할까요?
+    </p>
+    <p style="margin-top: 12px;">
+      대부분의 사람은 <strong>잃는 고통이 얻는 기쁨의 약 2배</strong>라고 느낍니다.
+      이것이 <strong>손실회피(loss aversion)</strong>이며,
+      카너먼과 트버스키의 <strong>전망이론(Prospect Theory)</strong>의 핵심입니다.
+      이 이론은 기대효용이론을 대체하여 2002년 노벨 경제학상의 기초가 되었습니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>전망이론의 가치함수를 시각화하고 이해</li>
+        <li>도박 선택 실험으로 손실회피를 체험</li>
+        <li>보유 효과의 가격 차이를 실험</li>
+        <li>현상유지 편향의 실제 사례를 분석</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>전망이론의 핵심</h2>
+
+    <ExplainBox title="기대효용이론 vs 전망이론">
+      <p><strong>기대효용이론 (전통):</strong> 사람은 기대값(확률 x 금액)을 계산하여
+        효용을 극대화하는 선택을 한다.</p>
+      <p style="margin-top: 8px;"><strong>전망이론 (행동경제학):</strong> 사람은
+        <strong>준거점(reference point)</strong>을 기준으로 이득과 손실을 판단하며,
+        손실에 더 민감하게 반응한다.</p>
+    </ExplainBox>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">전망이론 가치함수의 3가지 특징</span>
+      </p>
+      <p style="margin-top: 8px;">1. <strong>준거점 의존:</strong> 절대적 부가 아니라 변화(이득/손실)로 판단</p>
+      <p>2. <strong>체감 민감도:</strong> 이득이 커질수록 기쁨의 증가폭은 줄어듦 (오목)</p>
+      <p>3. <strong>손실회피:</strong> 손실 영역의 기울기가 이득 영역보다 가파름 (약 2배)</p>
+    </FormulaBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 가치함수 시각화 ===== -->
+  <div class="tb-card">
+    <h2>1. 전망이론의 가치함수</h2>
+    <p>
+      아래 그래프는 전망이론의 <strong>가치함수(value function)</strong>입니다.
+      가로축은 금액의 변화(이득/손실), 세로축은 주관적 가치(기쁨/고통)입니다.
+      슬라이더로 금액을 변경하면 이득과 손실의 주관적 가치가 표시됩니다.
+    </p>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="객관적 금액" value="0원" id="vf-amount" borderColor="#374151" />
+      <StatBox label="주관적 가치" value="0" id="vf-value" borderColor="#059669" />
+      <StatBox label="손실회피 계수" value="2.25" id="vf-lambda" borderColor="#ef4444" />
+    </div>
+
+    <SimControls>
+      <label>금액 변화: <span id="vf-amt-val">0</span>만원</label>
+      <input type="range" id="vf-amt" min="-100" max="100" value="0" step="5" />
+      <label>손실회피 계수 (lambda): <span id="vf-lam-val">2.25</span></label>
+      <input type="range" id="vf-lam" min="1" max="4" value="2.25" step="0.25" />
+    </SimControls>
+
+    <canvas id="valueCanvas" style="width: 100%; height: 480px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fafafa;"></canvas>
+
+    <ExerciseBox title="가치함수 탐구">
+      <p>슬라이더를 조작하며 다음을 확인하세요.</p>
+      <p>1) 50만원 이득과 50만원 손실의 주관적 가치 차이는?</p>
+      <p>2) 손실회피 계수를 1로 설정하면 어떤 모양이 되는가?</p>
+      <p>3) 이득 100만원의 기쁨과 이득 50만원의 기쁨. 차이가 50만원의 2배인가?</p>
+      <button class="tb-btn" id="vf-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="vf-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>1) 50만원 손실의 고통이 50만원 이득의 기쁨보다 약 2배 큼</p>
+        <p>2) 손실회피가 없으면 대칭적인 모양 (전통 경제학과 유사)</p>
+        <p>3) 아닙니다! 체감 민감도 때문에, 100만원의 기쁨은 50만원 기쁨의 2배가 안 됩니다</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 도박 선택 실험 ===== -->
+  <div class="tb-card">
+    <h2>2. 도박 선택 실험</h2>
+    <p>
+      다음 선택 상황에서 어떤 것을 고르겠습니까?
+      먼저 직감으로 선택한 후, 기대값을 비교해 보세요.
+    </p>
+
+    <div id="gamble-container" style="margin: 20px 0;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="안전 선택 비율" value="-" id="gm-safe" borderColor="#3b82f6" />
+      <StatBox label="위험 선택 비율" value="-" id="gm-risky" borderColor="#ef4444" />
+      <StatBox label="전망이론 예측 일치" value="-" id="gm-match" borderColor="#059669" />
+    </div>
+
+    <ChartContainer id="gambleChart" height="350px" />
+
+    <ExplainBox title="전망이론의 예측">
+      <p><strong>이득 영역:</strong> 확실한 이득 vs 불확실한 큰 이득 → 대부분 확실한 것을 선택 (위험 회피)</p>
+      <p style="margin-top: 8px;"><strong>손실 영역:</strong> 확실한 손실 vs 불확실한 큰 손실 → 대부분 도박을 선택 (위험 추구)</p>
+      <p style="margin-top: 8px;">이것이 전통 기대효용이론과 다른 점입니다.
+        같은 사람이 이득에서는 안전하게, 손실에서는 모험적으로 행동합니다.</p>
+    </ExplainBox>
+
+    <ExerciseBox title="투자와 손실회피">
+      <p>주식 투자에서 손실회피는 어떤 행동으로 나타나는가?</p>
+      <button class="tb-btn" id="gm-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="gm-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>처분 효과(disposition effect):</strong></p>
+        <p>- 오른 주식은 빨리 팔아 이익을 확정하고 (이득에서 위험 회피)</p>
+        <p>- 내린 주식은 계속 보유하며 반등을 기다립니다 (손실에서 위험 추구)</p>
+        <p>결과: 수익은 작게, 손실은 크게 되는 비합리적 패턴</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 보유 효과 실험 ===== -->
+  <div class="tb-card">
+    <h2>3. 보유 효과 실험</h2>
+    <p>
+      <strong>보유 효과(endowment effect)</strong>란 자신이 가진 물건에
+      더 높은 가치를 부여하는 현상입니다. 손실회피의 직접적 결과입니다.
+    </p>
+
+    <div style="padding: 20px; background: #f0f9ff; border-radius: 12px; margin: 20px 0; border: 2px solid #bfdbfe;">
+      <h3 style="margin: 0 0 12px;">실험: 마그컵의 가치</h3>
+
+      <div id="endow-phase1">
+        <p>당신은 방금 예쁜 마그컵을 선물로 받았습니다.</p>
+        <p style="font-weight: bold; margin-top: 12px;">이 컵을 팔 수 있다면, 최소 얼마를 받아야 팔겠습니까?</p>
+        <div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+          <input type="range" id="endow-sell" min="1000" max="20000" value="8000" step="500" />
+          <span id="endow-sell-val" style="font-weight: bold; min-width: 80px;">8,000원</span>
+        </div>
+        <button class="tb-btn" id="endow-sell-btn">판매가 확정</button>
+      </div>
+
+      <div id="endow-phase2" style="display: none;">
+        <p>이번에는 반대 상황입니다. 당신은 컵이 없습니다.</p>
+        <p style="font-weight: bold; margin-top: 12px;">이 컵을 사려면, 최대 얼마까지 내겠습니까?</p>
+        <div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+          <input type="range" id="endow-buy" min="1000" max="20000" value="5000" step="500" />
+          <span id="endow-buy-val" style="font-weight: bold; min-width: 80px;">5,000원</span>
+        </div>
+        <button class="tb-btn" id="endow-buy-btn">구매가 확정</button>
+      </div>
+
+      <div id="endow-result" style="display: none; margin-top: 16px; padding: 16px; background: #fff; border-radius: 8px;"></div>
+    </div>
+
+    <ChartContainer id="endowChart" height="300px" />
+
+    <InsightBox title="보유 효과의 실제 사례">
+      <p><strong>부동산:</strong> 집주인은 자기 집의 가치를 시장가보다 높게 평가합니다.
+        이것이 매도/매수 호가 차이(bid-ask spread)의 한 원인입니다.</p>
+      <p style="margin-top: 8px;"><strong>주식:</strong> 보유 중인 주식을 "내 것"이라고 느끼면
+        합리적 매도 시점을 놓칩니다.</p>
+      <p style="margin-top: 8px;"><strong>중고 거래:</strong> 당근마켓에서 판매자가 부르는 가격이
+        구매자의 기대 가격보다 항상 높습니다.</p>
+    </InsightBox>
+
+    <ExerciseBox title="보유 효과 분석">
+      <p>보유 효과를 줄이려면 어떻게 해야 할까요?</p>
+      <button class="tb-btn" id="endow-quiz-btn" style="margin-top: 8px;">힌트 보기</button>
+      <div id="endow-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>1) "이것을 갖고 있지 않다면, 지금 이 가격에 살 것인가?" 질문하기</p>
+        <p>2) 감정적 애착을 인식하고, 객관적 시장가격을 확인하기</p>
+        <p>3) 물건을 "내 것"이 아닌 "거래 대상"으로 보기</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 현상유지 편향 ===== -->
+  <div class="tb-card">
+    <h2>4. 현상유지 편향과 기본 설정</h2>
+    <p>
+      <strong>현상유지 편향(status quo bias)</strong>은 현재 상태를 바꾸지 않으려는 경향입니다.
+      이것도 손실회피의 결과입니다. 변화의 잠재적 손실이 잠재적 이득보다 크게 느껴지기 때문입니다.
+    </p>
+
+    <div id="status-quo-quiz" style="margin: 20px 0;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="현상유지 선택" value="0회" id="sq-keep" borderColor="#3b82f6" />
+      <StatBox label="변경 선택" value="0회" id="sq-change" borderColor="#f59e0b" />
+    </div>
+
+    <ChartContainer id="statusQuoChart" height="350px" />
+
+    <BusinessBox title="현상유지 편향의 실제 영향">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>장기기증:</strong> opt-in(신청) 국가는 동의율 15%, opt-out(거부하지 않으면 자동) 국가는 90% 이상</li>
+        <li><strong>연금:</strong> 자동 가입(기본) 시 가입률 90%, 자발적 신청 시 40%</li>
+        <li><strong>구독 서비스:</strong> 무료 체험 후 자동 결제. 해지를 안 하면 계속 결제됨</li>
+        <li><strong>보험:</strong> 기존 보험을 갱신하는 것이 새 보험을 찾는 것보다 쉬움</li>
+      </ul>
+    </BusinessBox>
+
+    <ExerciseBox title="정책 설계와 기본 설정">
+      <p>정부가 국민연금 가입을 늘리고 싶다면, 어떤 제도가 더 효과적인가?</p>
+      <p>A) 가입을 원하면 신청서를 제출 (opt-in)</p>
+      <p>B) 자동 가입, 탈퇴를 원하면 신청서를 제출 (opt-out)</p>
+      <button class="tb-btn" id="sq-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="sq-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>B) opt-out이 훨씬 효과적입니다.</strong></p>
+        <p>현상유지 편향 때문에 대부분의 사람은 기본 설정을 바꾸지 않습니다.</p>
+        <p>미국에서 401k 연금을 자동 가입으로 전환한 결과, 가입률이 40%에서 90%로 급증했습니다.</p>
+        <p>이것이 다음 장에서 배울 <strong>넛지(nudge)</strong>의 핵심 원리입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 경제적 함의 ===== -->
+  <div class="tb-card">
+    <h2>전망이론의 경제적 함의</h2>
+
+    <InsightBox title="전망이론이 바꾼 것들">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>금융:</strong> 주식시장의 과잉반응과 과소반응, 처분 효과 설명</li>
+        <li><strong>마케팅:</strong> "한정 수량", "마감 임박"이 효과적인 이유 (손실 프레이밍)</li>
+        <li><strong>보험:</strong> 사람들이 확률이 매우 낮은 사건에도 보험을 드는 이유</li>
+        <li><strong>정책:</strong> 세금 인상(손실)이 보조금 삭감(이득 제거)보다 더 큰 반발을 받는 이유</li>
+        <li><strong>노동:</strong> 임금 삭감(손실)이 보너스 미지급(이득 없음)보다 사기를 더 떨어뜨리는 이유</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="24장 정리: 전망이론과 손실회피">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li><strong>전망이론:</strong> 준거점 기준으로 이득/손실을 판단하는 의사결정 모형</li>
+      <li><strong>손실회피:</strong> 같은 금액이라도 손실의 고통이 이득의 기쁨보다 약 <strong>2배</strong></li>
+      <li><strong>체감 민감도:</strong> 이득이 커질수록 추가적 기쁨은 감소</li>
+      <li><strong>보유 효과:</strong> 가진 것에 더 높은 가치를 부여하여 매도가 &gt; 매수가</li>
+      <li><strong>현상유지 편향:</strong> 기본 설정을 바꾸지 않으려는 경향 → 정책 설계에 활용 가능</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1. 가치함수 (Canvas) ========== */
+  var vfCanvas = document.getElementById('valueCanvas');
+  var vfCtx = vfCanvas.getContext('2d');
+  var vfAmt = document.getElementById('vf-amt');
+  var vfLam = document.getElementById('vf-lam');
+
+  function valueFunc(x, lambda) {
+    /* Kahneman-Tversky value function */
+    if (x >= 0) {
+      return Math.pow(x, 0.88);
+    } else {
+      return -lambda * Math.pow(-x, 0.88);
+    }
+  }
+
+  function drawValueFunction() {
+    var w = vfCanvas.width = vfCanvas.offsetWidth * (window.devicePixelRatio || 1);
+    var h = vfCanvas.height = vfCanvas.offsetHeight * (window.devicePixelRatio || 1);
+    var dpr = window.devicePixelRatio || 1;
+    vfCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var cw = vfCanvas.offsetWidth;
+    var ch = vfCanvas.offsetHeight;
+    vfCtx.clearRect(0, 0, cw, ch);
+
+    var amt = parseFloat(vfAmt.value);
+    var lambda = parseFloat(vfLam.value);
+
+    document.getElementById('vf-amt-val').textContent = amt > 0 ? '+' + amt : amt;
+    document.getElementById('vf-lam-val').textContent = lambda;
+    document.getElementById('vf-lambda').textContent = lambda;
+
+    var cx = cw / 2;
+    var cy = ch / 2;
+    var scaleX = cw * 0.4 / 100;
+    var maxVal = valueFunc(100, lambda);
+    var minVal = valueFunc(-100, lambda);
+    var scaleY = (ch * 0.35) / Math.max(Math.abs(maxVal), Math.abs(minVal));
+
+    /* 배경 영역 */
+    vfCtx.fillStyle = 'rgba(5,150,105,0.05)';
+    vfCtx.fillRect(cx, 0, cw - cx, cy);
+    vfCtx.fillStyle = 'rgba(239,68,68,0.05)';
+    vfCtx.fillRect(0, cy, cx, ch - cy);
+
+    /* 축 */
+    vfCtx.strokeStyle = '#94a3b8';
+    vfCtx.lineWidth = 1;
+    vfCtx.setLineDash([4, 3]);
+    vfCtx.beginPath();
+    vfCtx.moveTo(0, cy);
+    vfCtx.lineTo(cw, cy);
+    vfCtx.moveTo(cx, 0);
+    vfCtx.lineTo(cx, ch);
+    vfCtx.stroke();
+    vfCtx.setLineDash([]);
+
+    /* 축 레이블 */
+    vfCtx.fillStyle = '#64748b';
+    vfCtx.font = '13px sans-serif';
+    vfCtx.textAlign = 'right';
+    vfCtx.fillText('이득(기쁨)', cw - 10, cy - 20);
+    vfCtx.fillText('손실(고통)', cx - 10, ch - 10);
+    vfCtx.textAlign = 'left';
+    vfCtx.fillText('손실', 10, cy + 20);
+    vfCtx.fillText('이득', cw - 40, cy + 20);
+
+    /* 가치함수 곡선 */
+    vfCtx.beginPath();
+    vfCtx.strokeStyle = '#6366f1';
+    vfCtx.lineWidth = 3;
+    for (var x = -100; x <= 100; x += 0.5) {
+      var v = valueFunc(x, lambda);
+      var px = cx + x * scaleX;
+      var py = cy - v * scaleY;
+      if (x === -100) vfCtx.moveTo(px, py);
+      else vfCtx.lineTo(px, py);
+    }
+    vfCtx.stroke();
+
+    /* 현재 금액 점 표시 */
+    if (amt !== 0) {
+      var val = valueFunc(amt, lambda);
+      var px = cx + amt * scaleX;
+      var py = cy - val * scaleY;
+
+      /* 점선 가이드 */
+      vfCtx.setLineDash([4, 3]);
+      vfCtx.strokeStyle = amt > 0 ? '#059669' : '#ef4444';
+      vfCtx.lineWidth = 1.5;
+      vfCtx.beginPath();
+      vfCtx.moveTo(px, cy);
+      vfCtx.lineTo(px, py);
+      vfCtx.lineTo(cx, py);
+      vfCtx.stroke();
+      vfCtx.setLineDash([]);
+
+      /* 점 */
+      vfCtx.beginPath();
+      vfCtx.arc(px, py, 8, 0, Math.PI * 2);
+      vfCtx.fillStyle = amt > 0 ? '#059669' : '#ef4444';
+      vfCtx.fill();
+      vfCtx.strokeStyle = '#fff';
+      vfCtx.lineWidth = 2;
+      vfCtx.stroke();
+
+      /* 레이블 */
+      vfCtx.fillStyle = '#1e293b';
+      vfCtx.font = 'bold 13px sans-serif';
+      vfCtx.textAlign = 'center';
+      vfCtx.fillText(amt + '만원', px, cy + (amt > 0 ? 18 : -8));
+      vfCtx.fillText('가치: ' + val.toFixed(1), cx + (amt > 0 ? -50 : 50), py - 5);
+
+      document.getElementById('vf-amount').textContent = (amt > 0 ? '+' : '') + amt + '만원';
+      document.getElementById('vf-value').textContent = val.toFixed(1);
+    } else {
+      document.getElementById('vf-amount').textContent = '0원';
+      document.getElementById('vf-value').textContent = '0';
+    }
+
+    /* 손실/이득 비교 (같은 절대값) */
+    if (Math.abs(amt) > 0) {
+      var gainVal = valueFunc(Math.abs(amt), lambda);
+      var lossVal = valueFunc(-Math.abs(amt), lambda);
+      var ratio = Math.abs(lossVal) / gainVal;
+
+      vfCtx.font = '12px sans-serif';
+      vfCtx.fillStyle = '#6366f1';
+      vfCtx.textAlign = 'left';
+      vfCtx.fillText('|' + Math.abs(amt) + '만원 이득의 기쁨| = ' + gainVal.toFixed(1), 15, 25);
+      vfCtx.fillText('|' + Math.abs(amt) + '만원 손실의 고통| = ' + Math.abs(lossVal).toFixed(1), 15, 45);
+      vfCtx.fillStyle = '#ef4444';
+      vfCtx.font = 'bold 13px sans-serif';
+      vfCtx.fillText('손실/이득 비율 = ' + ratio.toFixed(2) + '배', 15, 68);
+    }
+  }
+
+  [vfAmt, vfLam].forEach(function(el) { el.addEventListener('input', drawValueFunction); });
+  window.addEventListener('resize', drawValueFunction);
+  drawValueFunction();
+
+  document.getElementById('vf-quiz-btn').addEventListener('click', function() {
+    document.getElementById('vf-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 2. 도박 선택 실험 ========== */
+  var gambles = [
+    { type: 'gain', label: '이득 상황 1',
+      safe: '확실히 50만원을 받는다', safeEV: 50,
+      risky: '50% 확률로 100만원, 50% 확률로 0원', riskyEV: 50,
+      prospect: 'safe', explain: '기대값은 같지만 이득 영역에서는 확실한 것을 선호합니다 (위험 회피).' },
+    { type: 'loss', label: '손실 상황 1',
+      safe: '확실히 50만원을 잃는다', safeEV: -50,
+      risky: '50% 확률로 100만원 손실, 50% 확률로 0원', riskyEV: -50,
+      prospect: 'risky', explain: '기대값은 같지만 손실 영역에서는 도박을 선호합니다 (위험 추구).' },
+    { type: 'gain', label: '이득 상황 2',
+      safe: '확실히 30만원을 받는다', safeEV: 30,
+      risky: '80% 확률로 40만원, 20% 확률로 0원', riskyEV: 32,
+      prospect: 'safe', explain: '도박의 기대값이 더 높은데도 확실한 30만원을 선택하는 경향이 있습니다.' },
+    { type: 'loss', label: '손실 상황 2',
+      safe: '확실히 30만원을 잃는다', safeEV: -30,
+      risky: '80% 확률로 40만원 손실, 20% 확률로 0원', riskyEV: -32,
+      prospect: 'risky', explain: '확실한 손실을 피하기 위해 기대손실이 더 큰 도박을 선택합니다.' }
+  ];
+
+  var gambleContainer = document.getElementById('gamble-container');
+  var safeCount = 0;
+  var riskyCount = 0;
+  var matchCount = 0;
+  var gambleAnswered = 0;
+
+  var gmCtx = document.getElementById('gambleChart');
+  var gmChart = new Chart(gmCtx, {
+    type: 'bar',
+    data: {
+      labels: gambles.map(function(g) { return g.label; }),
+      datasets: [
+        { label: '당신의 선택', data: [0, 0, 0, 0], backgroundColor: 'rgba(59,130,246,0.6)', borderRadius: 4 },
+        { label: '전망이론 예측', data: gambles.map(function(g) { return g.prospect === 'safe' ? 1 : -1; }), backgroundColor: 'rgba(139,92,246,0.4)', borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { display: false }
+      },
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: { callbacks: { label: function(ctx) {
+          if (ctx.datasetIndex === 0) return ctx.raw === 1 ? '안전 선택' : ctx.raw === -1 ? '위험 선택' : '미선택';
+          return ctx.raw === 1 ? '안전 예측' : '위험 예측';
+        }}}
+      }
+    }
+  });
+
+  gambles.forEach(function(g, gi) {
+    var div = document.createElement('div');
+    var bgColor = g.type === 'gain' ? '#f0fdf4' : '#fef2f2';
+    var borderColor = g.type === 'gain' ? '#86efac' : '#fca5a5';
+    div.style.cssText = 'margin-bottom: 16px; padding: 16px; background: ' + bgColor + '; border-radius: 12px; border: 2px solid ' + borderColor + ';';
+    div.innerHTML = '<p style="font-weight: bold; margin-bottom: 12px;">' + g.label + ' (기대값 비교)</p>';
+
+    var safeBtn = document.createElement('button');
+    safeBtn.className = 'tb-btn';
+    safeBtn.style.cssText = 'display: block; width: 100%; text-align: left; margin-bottom: 8px; padding: 10px;';
+    safeBtn.textContent = 'A: ' + g.safe + ' (기대값: ' + g.safeEV + '만원)';
+
+    var riskyBtn = document.createElement('button');
+    riskyBtn.className = 'tb-btn';
+    riskyBtn.style.cssText = 'display: block; width: 100%; text-align: left; padding: 10px;';
+    riskyBtn.textContent = 'B: ' + g.risky + ' (기대값: ' + g.riskyEV + '만원)';
+
+    var fb = document.createElement('div');
+    fb.style.cssText = 'display: none; margin-top: 12px; padding: 10px; background: #fff; border-radius: 8px;';
+
+    function handleChoice(choice) {
+      if (fb.style.display === 'block') return;
+      gambleAnswered++;
+      fb.style.display = 'block';
+
+      var isSafe = choice === 'safe';
+      if (isSafe) safeCount++; else riskyCount++;
+      var matchesPrediction = (isSafe && g.prospect === 'safe') || (!isSafe && g.prospect === 'risky');
+      if (matchesPrediction) matchCount++;
+
+      var yourChoice = isSafe ? '안전 선택 (A)' : '위험 선택 (B)';
+      var predChoice = g.prospect === 'safe' ? '안전 선택 (A)' : '위험 선택 (B)';
+
+      fb.innerHTML = '<p><strong>당신의 선택:</strong> ' + yourChoice + '</p>' +
+        '<p><strong>전망이론 예측:</strong> ' + predChoice +
+        (matchesPrediction ? ' <span style="color: #059669;">(일치!)</span>' : ' <span style="color: #ef4444;">(불일치)</span>') + '</p>' +
+        '<p style="margin-top: 8px;">' + g.explain + '</p>';
+
+      if (isSafe) { safeBtn.style.background = '#3b82f6'; safeBtn.style.color = '#fff'; }
+      else { riskyBtn.style.background = '#ef4444'; riskyBtn.style.color = '#fff'; }
+
+      gmChart.data.datasets[0].data[gi] = isSafe ? 1 : -1;
+      gmChart.update();
+
+      document.getElementById('gm-safe').textContent = safeCount + '회';
+      document.getElementById('gm-risky').textContent = riskyCount + '회';
+      document.getElementById('gm-match').textContent = matchCount + '/' + gambleAnswered;
+    }
+
+    safeBtn.addEventListener('click', function() { handleChoice('safe'); });
+    riskyBtn.addEventListener('click', function() { handleChoice('risky'); });
+
+    div.appendChild(safeBtn);
+    div.appendChild(riskyBtn);
+    div.appendChild(fb);
+    gambleContainer.appendChild(div);
+  });
+
+  document.getElementById('gm-quiz-btn').addEventListener('click', function() {
+    document.getElementById('gm-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 3. 보유 효과 실험 ========== */
+  var sellSlider = document.getElementById('endow-sell');
+  var buySlider = document.getElementById('endow-buy');
+
+  sellSlider.addEventListener('input', function() {
+    document.getElementById('endow-sell-val').textContent = parseInt(sellSlider.value).toLocaleString() + '원';
+  });
+  buySlider.addEventListener('input', function() {
+    document.getElementById('endow-buy-val').textContent = parseInt(buySlider.value).toLocaleString() + '원';
+  });
+
+  var endowCtx = document.getElementById('endowChart');
+  var endowChart = new Chart(endowCtx, {
+    type: 'bar',
+    data: {
+      labels: ['판매 희망가 (WTA)', '구매 희망가 (WTP)', '실험 평균 판매가', '실험 평균 구매가'],
+      datasets: [{
+        label: '금액 (원)',
+        data: [0, 0, 7100, 2800],
+        backgroundColor: ['rgba(239,68,68,0.6)', 'rgba(59,130,246,0.6)', 'rgba(239,68,68,0.3)', 'rgba(59,130,246,0.3)'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      scales: { x: { title: { display: true, text: '원' }, min: 0, max: 15000 } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  var sellPrice = 0;
+  document.getElementById('endow-sell-btn').addEventListener('click', function() {
+    sellPrice = parseInt(sellSlider.value);
+    document.getElementById('endow-phase1').style.display = 'none';
+    document.getElementById('endow-phase2').style.display = 'block';
+    endowChart.data.datasets[0].data[0] = sellPrice;
+    endowChart.update();
+  });
+
+  document.getElementById('endow-buy-btn').addEventListener('click', function() {
+    var buyPrice = parseInt(buySlider.value);
+    document.getElementById('endow-phase2').style.display = 'none';
+
+    endowChart.data.datasets[0].data[1] = buyPrice;
+    endowChart.update();
+
+    var result = document.getElementById('endow-result');
+    result.style.display = 'block';
+    var ratio = sellPrice / buyPrice;
+
+    result.innerHTML =
+      '<p><strong>당신의 판매 희망가:</strong> ' + sellPrice.toLocaleString() + '원</p>' +
+      '<p><strong>당신의 구매 희망가:</strong> ' + buyPrice.toLocaleString() + '원</p>' +
+      '<p style="margin-top: 12px; font-size: 1.2em; font-weight: bold; color: #6366f1;">판매가/구매가 비율: ' + ratio.toFixed(2) + '배</p>' +
+      '<p style="margin-top: 12px;"><strong>유명한 실험 결과 (Kahneman et al., 1990):</strong></p>' +
+      '<p>평균 판매 희망가: $7.12, 평균 구매 희망가: $2.87 (약 2.5배 차이)</p>' +
+      '<p style="margin-top: 8px;">같은 물건인데 "내 것"이면 더 높은 가치를 부여합니다. 이것이 <strong>보유 효과</strong>입니다.</p>';
+  });
+
+  document.getElementById('endow-quiz-btn').addEventListener('click', function() {
+    document.getElementById('endow-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 4. 현상유지 편향 ========== */
+  var sqQuestions = [
+    { scenario: '은행에서 연 2% 적금에 가입 중입니다. 다른 은행에서 연 2.5% 적금을 광고합니다.', keep: '현재 적금 유지', change: '새 은행 적금으로 변경', insight: '0.5%p 더 높은 금리인데도 많은 사람이 변경하지 않습니다. 절차의 번거로움도 있지만 현상유지 편향이 큰 원인.' },
+    { scenario: '스마트폰 기본 검색엔진이 구글입니다. 다른 검색엔진이 프라이버시가 더 좋습니다.', keep: '구글 유지', change: '다른 검색엔진으로 변경', insight: '구글의 시장 점유율이 90%인 이유 중 하나입니다. 기본 설정의 힘.' },
+    { scenario: '회사에서 퇴직연금 기본 투자 옵션이 안전형(채권)입니다. 성장형(주식)이 장기 수익이 더 높습니다.', keep: '안전형 유지', change: '성장형으로 변경', insight: '기본 설정의 힘: 안전형이 기본이면 70%가 유지, 성장형이 기본이면 70%가 유지합니다.' },
+    { scenario: '전기 요금제: 현재 일반 요금제. 시간대별 요금제로 바꾸면 월 5천원 절약 가능.', keep: '일반 요금제 유지', change: '시간대별 요금제로 변경', insight: '연 6만원 절약이 가능한데도 변경하지 않는 사람이 대다수입니다.' }
+  ];
+
+  var sqContainer = document.getElementById('status-quo-quiz');
+  var sqKeep = 0;
+  var sqChange = 0;
+
+  var sqCtx = document.getElementById('statusQuoChart');
+  var sqChart = new Chart(sqCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['현상유지 선택', '변경 선택'],
+      datasets: [{
+        data: [0, 0],
+        backgroundColor: ['rgba(59,130,246,0.7)', 'rgba(245,158,11,0.7)'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+
+  sqQuestions.forEach(function(sq, si) {
+    var div = document.createElement('div');
+    div.style.cssText = 'margin-bottom: 14px; padding: 14px; background: #f9fafb; border-radius: 10px; border: 1px solid #e5e7eb;';
+    div.innerHTML = '<p style="font-weight: bold; margin-bottom: 10px;">상황 ' + (si + 1) + ': ' + sq.scenario + '</p>';
+
+    var keepBtn = document.createElement('button');
+    keepBtn.className = 'tb-btn';
+    keepBtn.style.cssText = 'margin-right: 8px; margin-bottom: 4px;';
+    keepBtn.textContent = sq.keep;
+
+    var changeBtn = document.createElement('button');
+    changeBtn.className = 'tb-btn';
+    changeBtn.style.marginBottom = '4px';
+    changeBtn.textContent = sq.change;
+
+    var fb = document.createElement('div');
+    fb.style.cssText = 'display: none; margin-top: 10px; padding: 8px; background: #eff6ff; border-radius: 6px; font-size: 0.9em;';
+
+    function handleSQ(isKeep) {
+      if (fb.style.display === 'block') return;
+      if (isKeep) sqKeep++; else sqChange++;
+      fb.style.display = 'block';
+      fb.innerHTML = '<p>' + (isKeep ? '<strong>현상유지 선택.</strong> ' : '<strong>변경 선택.</strong> ') + sq.insight + '</p>';
+
+      if (isKeep) { keepBtn.style.background = '#3b82f6'; keepBtn.style.color = '#fff'; }
+      else { changeBtn.style.background = '#f59e0b'; changeBtn.style.color = '#fff'; }
+
+      document.getElementById('sq-keep').textContent = sqKeep + '회';
+      document.getElementById('sq-change').textContent = sqChange + '회';
+      sqChart.data.datasets[0].data = [sqKeep, sqChange];
+      sqChart.update();
+    }
+
+    keepBtn.addEventListener('click', function() { handleSQ(true); });
+    changeBtn.addEventListener('click', function() { handleSQ(false); });
+
+    div.appendChild(keepBtn);
+    div.appendChild(changeBtn);
+    div.appendChild(fb);
+    sqContainer.appendChild(div);
+  });
+
+  document.getElementById('sq-quiz-btn').addEventListener('click', function() {
+    document.getElementById('sq-quiz-ans').style.display = 'block';
+  });
+
+});
+</script>

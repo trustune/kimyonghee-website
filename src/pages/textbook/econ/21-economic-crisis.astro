@@ -1,0 +1,660 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="경제위기 시뮬레이션"
+  subtitle="1997 IMF, 2008 금융위기, 2020 코로나"
+  chapterNum={21}
+  part={3}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>1997년, 나라가 부도 위기에 빠지다</h2>
+    <p>
+      1997년 12월 3일, 한국 정부는 IMF(국제통화기금)에 구제금융을 요청했습니다.
+      외환 보유고가 바닥나고, 기업이 줄줄이 쓰러지고, 환율이 폭등했습니다.
+      하루아침에 수많은 사람들이 직장을 잃었습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      경제위기는 왜 발생하고, 어떻게 퍼지며, 어떤 정책으로 극복할 수 있을까요?
+      한국이 겪은 3번의 대형 위기를 분석합니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>1997 IMF 위기의 전개 과정을 타임라인으로 학습</li>
+        <li>2008 금융위기의 전염 메커니즘을 네트워크로 이해</li>
+        <li>3대 위기의 주요 지표를 비교 분석</li>
+        <li>위기 상황에서 최적의 정책 대응을 판단</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 위기의 유형 ===== -->
+  <div class="tb-card">
+    <h2>경제위기의 유형</h2>
+
+    <ExplainBox title="3가지 유형의 경제위기">
+      <p><strong>1. 외환위기 (1997):</strong> 외환 보유고 고갈로 대외 채무를 갚지 못하는 상황.
+        통화 가치 폭락, 수입물가 급등, 기업 도산.</p>
+      <p style="margin-top: 8px;"><strong>2. 금융위기 (2008):</strong> 금융기관의 부실로 인한 신용 경색.
+        은행이 돈을 빌려주지 못하면 기업과 가계가 모두 타격.</p>
+      <p style="margin-top: 8px;"><strong>3. 실물위기 (2020):</strong> 전염병, 전쟁 등 외부 충격으로
+        생산과 소비가 동시에 멈추는 상황.</p>
+    </ExplainBox>
+
+    <BusinessBox title="한국의 3대 경제위기">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>1997 IMF:</strong> GDP -5.1%, 실업률 7%, 환율 1,700원대</li>
+        <li><strong>2008 글로벌:</strong> GDP +0.8% (겨우 플러스), 환율 1,500원대</li>
+        <li><strong>2020 코로나:</strong> GDP -0.7%, 대규모 재정 투입으로 빠른 회복</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 1997 IMF 위기 타임라인 ===== -->
+  <div class="tb-card">
+    <h2>1. 1997 IMF 위기 타임라인</h2>
+    <p>
+      아래 타임라인에서 각 이벤트를 클릭하면 해당 시점의 주요 지표가 표시됩니다.
+      위기가 어떻게 전개되었는지 순서대로 따라가 보세요.
+    </p>
+
+    <div id="timeline-container" style="position: relative; padding: 20px 0; margin: 20px 0;">
+      <div style="position: absolute; top: 50%; left: 40px; right: 40px; height: 4px; background: linear-gradient(90deg, #059669, #f59e0b, #ef4444); border-radius: 2px;"></div>
+    </div>
+
+    <div id="timeline-buttons" style="display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="시점" value="-" id="tl-date" borderColor="#374151" />
+      <StatBox label="환율 (원/달러)" value="-" id="tl-fx" borderColor="#3b82f6" />
+      <StatBox label="주가 (KOSPI)" value="-" id="tl-kospi" borderColor="#059669" />
+      <StatBox label="금리 (%)" value="-" id="tl-rate" borderColor="#ef4444" />
+    </div>
+
+    <div id="tl-desc" style="padding: 16px; background: #f9fafb; border-radius: 12px; border-left: 4px solid #059669; min-height: 60px; margin: 16px 0;">
+      <p style="color: #6b7280;">타임라인 버튼을 클릭하세요.</p>
+    </div>
+
+    <ChartContainer id="timelineChart" height="350px" />
+
+    <ExerciseBox title="타임라인 분석">
+      <p>다음 질문에 답하세요.</p>
+      <p>1) 위기가 시작된 근본 원인은 무엇인가?</p>
+      <p>2) IMF 구제금융의 조건(금리 인상, 긴축)은 적절했는가?</p>
+      <button class="tb-btn" id="tl-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="tl-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 기업의 과도한 차입 경영(높은 부채비율), 단기 외채 의존, 금융 감독 부실.
+          동남아 외환위기의 전염 효과도 컸습니다.</p>
+        <p><strong>2)</strong> 논쟁이 있습니다. 금리 인상은 환율 방어에 도움이 되었지만,
+          기업 부도를 가속화시켰다는 비판이 있습니다.
+          이후 IMF도 처방이 과도했음을 인정했습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 금융위기 전염 시뮬레이션 ===== -->
+  <div class="tb-card">
+    <h2>2. 2008 금융위기 전염 시뮬레이션</h2>
+    <p>
+      2008년 미국의 서브프라임 모기지 부실이 전 세계로 퍼졌습니다.
+      은행은 서로 돈을 빌려주고 빌리는 <strong>네트워크</strong>로 연결되어 있습니다.
+      한 은행이 부실해지면 연결된 은행도 타격을 받습니다.
+    </p>
+
+    <ExplainBox title="금융 전염(Financial Contagion)">
+      <p>A은행이 B은행에 빌려준 돈을 못 돌려받으면, A은행도 다른 은행에 빚을 갚지 못합니다.
+        이것이 연쇄적으로 퍼져 <strong>시스템적 위기(systemic crisis)</strong>가 됩니다.</p>
+      <p style="margin-top: 8px;">이것을 <strong>"대마불사(Too Big to Fail)"</strong>라 합니다.
+        핵심 은행이 쓰러지면 전체 금융 시스템이 붕괴하므로 정부가 구제해야 합니다.</p>
+    </ExplainBox>
+
+    <SimControls>
+      <button class="tb-btn" id="contagion-start">부실 은행 시작! (클릭)</button>
+      <button class="tb-btn" id="contagion-reset" style="margin-left: 8px;">초기화</button>
+      <label style="margin-left: 16px;">전파 속도:
+        <select id="contagion-speed">
+          <option value="1500">느리게</option>
+          <option value="800" selected>보통</option>
+          <option value="400">빠르게</option>
+        </select>
+      </label>
+    </SimControls>
+
+    <canvas id="contagionCanvas" style="width: 100%; height: 480px; border: 1px solid #e5e7eb; border-radius: 12px; background: #1e293b;"></canvas>
+
+    <div id="contagion-log" style="padding: 12px; background: #f1f5f9; border-radius: 8px; margin-top: 12px; max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px;"></div>
+
+    <ExerciseBox title="네트워크 위기 분석">
+      <p>시뮬레이션을 실행한 후 답하세요.</p>
+      <p>1) 가장 많은 은행과 연결된 은행이 부실해지면 어떤 일이 일어나는가?</p>
+      <p>2) 정부가 특정 은행을 구제하려면 어떤 은행을 우선 구해야 하는가?</p>
+      <button class="tb-btn" id="cg-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="cg-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>1) 연결이 많은 은행(허브)이 부실해지면 전염이 빠르고 광범위합니다.</p>
+        <p>2) 연결이 가장 많은 허브 은행을 우선 구제해야 합니다. 이것이 "대마불사" 논리입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 경기 지표 대시보드 ===== -->
+  <div class="tb-card">
+    <h2>3. 3대 위기 비교 대시보드</h2>
+    <p>
+      1997, 2008, 2020 세 번의 위기를 주요 지표로 비교합니다.
+      드롭다운에서 위기를 선택하면 해당 기간의 GDP, 실업률, 환율, 주가 변화를 볼 수 있습니다.
+    </p>
+
+    <SimControls>
+      <label>위기 선택:
+        <select id="crisis-select">
+          <option value="1997">1997 IMF 외환위기</option>
+          <option value="2008">2008 글로벌 금융위기</option>
+          <option value="2020">2020 코로나19</option>
+        </select>
+      </label>
+    </SimControls>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="GDP 성장률" value="-" id="cr-gdp" borderColor="#059669" />
+      <StatBox label="실업률" value="-" id="cr-unemp" borderColor="#f59e0b" />
+      <StatBox label="환율" value="-" id="cr-fx" borderColor="#3b82f6" />
+      <StatBox label="KOSPI" value="-" id="cr-kospi" borderColor="#7c3aed" />
+    </div>
+
+    <ChartContainer id="crisisChart" height="400px" />
+
+    <ExerciseBox title="위기 비교 분석">
+      <p>세 위기를 모두 비교한 후 답하세요.</p>
+      <p>1) GDP 하락 폭이 가장 컸던 위기는?</p>
+      <p>2) 가장 빠르게 회복한 위기는?</p>
+      <p>3) 환율 변동이 가장 컸던 위기는?</p>
+      <button class="tb-btn" id="cr-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="cr-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>1) 1997 IMF (-5.1%). 2020 코로나(-0.7%)는 상대적으로 작았습니다.</p>
+        <p>2) 2020 코로나. 대규모 재정/통화 정책으로 1년 만에 4.3% 성장으로 반등.</p>
+        <p>3) 1997 IMF. 환율이 800원대에서 1,700원대로 2배 이상 폭등.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 정책 대응 퀴즈 ===== -->
+  <div class="tb-card">
+    <h2>4. 위기 정책 대응 퀴즈</h2>
+    <p>
+      경제위기 시나리오가 주어집니다. 당신이 정책 결정자라면 어떤 선택을 하겠습니까?
+      각 선택에 따른 결과를 확인하세요.
+    </p>
+
+    <div id="policy-quiz" style="margin: 20px 0;"></div>
+    <div id="policy-score" style="padding: 16px; background: #f0fdf4; border-radius: 12px; display: none; margin-top: 16px;"></div>
+
+    <ExerciseBox title="최종 종합 문제">
+      <p>경제위기에서 다음 문장이 맞으면 O, 틀리면 X를 선택하세요.</p>
+      <p style="margin-top: 8px;">1) 경기 침체 시 금리를 올리면 경기가 회복된다.</p>
+      <p>2) 외환위기 시 외환보유고가 많으면 방어할 수 있다.</p>
+      <p>3) 한 은행의 부실은 다른 은행에 전혀 영향을 주지 않는다.</p>
+      <p>4) 경제위기 후 V자 반등은 적극적 정책 대응의 결과일 수 있다.</p>
+      <button class="tb-btn" id="final-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="final-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>1) <strong>X</strong> - 침체 시 금리를 내려야 합니다 (확장적 통화정책)</p>
+        <p>2) <strong>O</strong> - 외환보유고는 외환위기의 방파제입니다</p>
+        <p>3) <strong>X</strong> - 금융 전염으로 연쇄 부실이 발생합니다</p>
+        <p>4) <strong>O</strong> - 2020년 한국의 빠른 회복이 대표 사례입니다</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 교훈 ===== -->
+  <div class="tb-card">
+    <h2>경제위기의 교훈</h2>
+
+    <InsightBox title="한국이 배운 것들">
+      <p><strong>1997 이후:</strong> 외환보유고 대폭 확충 (2025년 약 4,200억 달러),
+        기업 부채비율 개선, 금융 감독 강화</p>
+      <p style="margin-top: 8px;"><strong>2008 이후:</strong> 한미 통화스와프 체결,
+        거시건전성 규제(은행 건전성 관리) 강화</p>
+      <p style="margin-top: 8px;"><strong>2020 이후:</strong> 재정의 역할 재확인,
+        디지털 전환 가속화, 공급망 다변화의 중요성</p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="21장 정리: 경제위기 시뮬레이션">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li>경제위기는 <strong>외환위기, 금융위기, 실물위기</strong>로 구분</li>
+      <li>1997 IMF 위기는 <strong>기업 과잉 차입 + 외환 부족</strong>이 원인</li>
+      <li>2008 금융위기는 <strong>금융 전염(contagion)</strong>으로 전 세계에 확산</li>
+      <li>위기 대응: 단기에는 <strong>유동성 공급 + 금리 인하</strong>, 장기에는 <strong>구조 개혁</strong></li>
+      <li>한국은 위기를 통해 <strong>외환보유고 확충, 금융 규제 강화</strong> 등을 학습</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1. 1997 타임라인 ========== */
+  var tlEvents = [
+    { date: '1997.01', label: '한보 부도', fx: 870, kospi: 680, rate: 12.5, desc: '한보철강 부도. 당시 재계 14위. 과잉 투자와 부채의 시작 신호.' },
+    { date: '1997.07', label: '기아 부도', fx: 895, kospi: 720, rate: 12.0, desc: '기아자동차 부도 유예 협약. 대기업도 안전하지 않다는 신호.' },
+    { date: '1997.10', label: '동남아 위기 확산', fx: 950, kospi: 600, rate: 13.0, desc: '태국, 인도네시아 외환위기. 외국 자본이 한국에서도 빠져나가기 시작.' },
+    { date: '1997.11', label: '환율 폭등', fx: 1150, kospi: 450, rate: 18.0, desc: '원/달러 환율이 1,000원을 돌파. 외환보유고 급감. 시장 패닉.' },
+    { date: '1997.12', label: 'IMF 구제금융', fx: 1500, kospi: 380, rate: 25.0, desc: 'IMF에 550억 달러 구제금융 요청. 금리 25%로 인상. 대량 해고 시작.' },
+    { date: '1998.01', label: '금 모으기 운동', fx: 1700, kospi: 350, rate: 27.0, desc: '국민들이 자발적으로 금을 모아 외채 상환에 기여. 약 227톤 수집.' },
+    { date: '1998.06', label: '구조조정 본격화', fx: 1400, kospi: 320, rate: 16.0, desc: '빅딜(대기업 구조조정), 금융기관 퇴출. 실업률 7% 돌파.' },
+    { date: '1999.06', label: '회복 시작', fx: 1180, kospi: 750, rate: 7.0, desc: 'GDP 성장률 플러스 전환. IT 벤처 붐 시작. V자 회복.' }
+  ];
+
+  var tlBtnContainer = document.getElementById('timeline-buttons');
+  tlEvents.forEach(function(ev, i) {
+    var btn = document.createElement('button');
+    btn.className = 'tb-btn';
+    btn.textContent = ev.date + ' ' + ev.label;
+    btn.style.fontSize = '12px';
+    btn.style.padding = '6px 10px';
+    btn.setAttribute('data-idx', i);
+    btn.addEventListener('click', function() {
+      showTimelineEvent(i);
+    });
+    tlBtnContainer.appendChild(btn);
+  });
+
+  var tlCtx = document.getElementById('timelineChart');
+  var tlChart = new Chart(tlCtx, {
+    type: 'line',
+    data: {
+      labels: tlEvents.map(function(e) { return e.date; }),
+      datasets: [
+        { label: '환율 (원/달러)', data: tlEvents.map(function(e) { return e.fx; }), borderColor: '#3b82f6', borderWidth: 2, tension: 0.3, yAxisID: 'y', pointRadius: 5, pointBackgroundColor: '#3b82f6' },
+        { label: 'KOSPI', data: tlEvents.map(function(e) { return e.kospi; }), borderColor: '#059669', borderWidth: 2, tension: 0.3, yAxisID: 'y1', pointRadius: 5, pointBackgroundColor: '#059669' },
+        { label: '금리 (%)', data: tlEvents.map(function(e) { return e.rate; }), borderColor: '#ef4444', borderWidth: 2, tension: 0.3, yAxisID: 'y2', pointRadius: 5, pointBackgroundColor: '#ef4444' }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        y: { title: { display: true, text: '환율' }, position: 'left' },
+        y1: { title: { display: true, text: 'KOSPI' }, position: 'right', grid: { drawOnChartArea: false } },
+        y2: { title: { display: true, text: '금리 (%)' }, position: 'right', grid: { drawOnChartArea: false },
+          ticks: { callback: function(v) { return v + '%'; } }
+        }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function showTimelineEvent(idx) {
+    var ev = tlEvents[idx];
+    document.getElementById('tl-date').textContent = ev.date;
+    document.getElementById('tl-fx').textContent = ev.fx.toLocaleString() + '원';
+    document.getElementById('tl-kospi').textContent = ev.kospi;
+    document.getElementById('tl-rate').textContent = ev.rate + '%';
+    document.getElementById('tl-desc').innerHTML = '<p><strong>' + ev.label + '</strong></p><p style="margin-top: 8px;">' + ev.desc + '</p>';
+
+    /* 하이라이트 */
+    var allBtns = tlBtnContainer.querySelectorAll('button');
+    allBtns.forEach(function(b, i) {
+      b.style.background = i === idx ? '#059669' : '';
+      b.style.color = i === idx ? '#fff' : '';
+    });
+  }
+
+  document.getElementById('tl-quiz-btn').addEventListener('click', function() {
+    document.getElementById('tl-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 2. 금융위기 전염 시뮬레이션 (Canvas) ========== */
+  var cgCanvas = document.getElementById('contagionCanvas');
+  var cgCtx = cgCanvas.getContext('2d');
+  var cgLog = document.getElementById('contagion-log');
+
+  /* 은행 네트워크 정의 */
+  var banks = [
+    { id: 0, name: 'A은행 (대형)', x: 0.5, y: 0.25, size: 28, status: 'healthy', connections: [1, 2, 3, 4] },
+    { id: 1, name: 'B은행 (대형)', x: 0.2, y: 0.45, size: 24, status: 'healthy', connections: [0, 2, 3] },
+    { id: 2, name: 'C은행 (중형)', x: 0.8, y: 0.45, size: 20, status: 'healthy', connections: [0, 1, 4] },
+    { id: 3, name: 'D은행 (소형)', x: 0.3, y: 0.75, size: 16, status: 'healthy', connections: [0, 1] },
+    { id: 4, name: 'E은행 (소형)', x: 0.7, y: 0.75, size: 16, status: 'healthy', connections: [0, 2] }
+  ];
+
+  var cgAnimating = false;
+
+  function drawContagion() {
+    var w = cgCanvas.width = cgCanvas.offsetWidth * (window.devicePixelRatio || 1);
+    var h = cgCanvas.height = cgCanvas.offsetHeight * (window.devicePixelRatio || 1);
+    var dpr = window.devicePixelRatio || 1;
+    cgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var cw = cgCanvas.offsetWidth;
+    var ch = cgCanvas.offsetHeight;
+    cgCtx.clearRect(0, 0, cw, ch);
+
+    /* 배경 */
+    cgCtx.fillStyle = '#1e293b';
+    cgCtx.fillRect(0, 0, cw, ch);
+
+    /* 연결선 */
+    banks.forEach(function(bank) {
+      bank.connections.forEach(function(cid) {
+        if (cid > bank.id) {
+          var other = banks[cid];
+          var bx = bank.x * cw;
+          var by = bank.y * ch;
+          var ox = other.x * cw;
+          var oy = other.y * ch;
+
+          cgCtx.strokeStyle = (bank.status === 'failed' && other.status === 'failed')
+            ? 'rgba(239,68,68,0.7)'
+            : (bank.status === 'stressed' || other.status === 'stressed')
+              ? 'rgba(245,158,11,0.5)'
+              : 'rgba(148,163,184,0.3)';
+          cgCtx.lineWidth = 2;
+          cgCtx.beginPath();
+          cgCtx.moveTo(bx, by);
+          cgCtx.lineTo(ox, oy);
+          cgCtx.stroke();
+        }
+      });
+    });
+
+    /* 은행 노드 */
+    banks.forEach(function(bank) {
+      var bx = bank.x * cw;
+      var by = bank.y * ch;
+      var color = '#22c55e';
+      if (bank.status === 'stressed') color = '#f59e0b';
+      if (bank.status === 'failed') color = '#ef4444';
+
+      /* 글로우 */
+      cgCtx.shadowBlur = 20;
+      cgCtx.shadowColor = color;
+      cgCtx.beginPath();
+      cgCtx.arc(bx, by, bank.size, 0, Math.PI * 2);
+      cgCtx.fillStyle = color;
+      cgCtx.fill();
+      cgCtx.shadowBlur = 0;
+
+      cgCtx.strokeStyle = '#fff';
+      cgCtx.lineWidth = 2;
+      cgCtx.stroke();
+
+      /* 라벨 */
+      cgCtx.fillStyle = '#fff';
+      cgCtx.font = 'bold 12px sans-serif';
+      cgCtx.textAlign = 'center';
+      cgCtx.fillText(bank.name, bx, by + bank.size + 18);
+    });
+
+    /* 범례 */
+    cgCtx.font = '13px sans-serif';
+    var legendY = ch - 30;
+    [{ color: '#22c55e', label: '건전' }, { color: '#f59e0b', label: '위험' }, { color: '#ef4444', label: '부실' }].forEach(function(item, i) {
+      var lx = 20 + i * 100;
+      cgCtx.beginPath();
+      cgCtx.arc(lx, legendY, 6, 0, Math.PI * 2);
+      cgCtx.fillStyle = item.color;
+      cgCtx.fill();
+      cgCtx.fillStyle = '#94a3b8';
+      cgCtx.textAlign = 'left';
+      cgCtx.fillText(item.label, lx + 12, legendY + 4);
+    });
+  }
+
+  function resetContagion() {
+    banks.forEach(function(b) { b.status = 'healthy'; });
+    cgLog.innerHTML = '';
+    cgAnimating = false;
+    drawContagion();
+  }
+
+  function startContagion() {
+    if (cgAnimating) return;
+    resetContagion();
+    cgAnimating = true;
+
+    var speed = parseInt(document.getElementById('contagion-speed').value);
+
+    /* 첫 번째 은행 부실 (가장 큰 A은행) */
+    banks[0].status = 'failed';
+    cgLog.innerHTML += '<div style="color: #ef4444;">[1단계] A은행(대형)이 부실화되었습니다!</div>';
+    drawContagion();
+
+    var queue = banks[0].connections.slice();
+    var step = 2;
+
+    function processNext() {
+      if (queue.length === 0) {
+        cgLog.innerHTML += '<div style="color: #f59e0b; margin-top: 8px;">--- 전염 종료. 건전한 은행: ' +
+          banks.filter(function(b) { return b.status === 'healthy'; }).length + '개 ---</div>';
+        cgAnimating = false;
+        return;
+      }
+
+      var nextId = queue.shift();
+      var bank = banks[nextId];
+
+      if (bank.status === 'failed') {
+        processNext();
+        return;
+      }
+
+      /* 연결된 부실 은행 수에 따라 전염 확률 */
+      var failedConnections = bank.connections.filter(function(c) { return banks[c].status === 'failed'; }).length;
+      var contagionProb = failedConnections / bank.connections.length;
+
+      if (bank.status === 'healthy') {
+        bank.status = 'stressed';
+        cgLog.innerHTML += '<div style="color: #f59e0b;">[' + step + '단계] ' + bank.name + '이(가) 위험 상태! (부실 노출: ' + (contagionProb * 100).toFixed(0) + '%)</div>';
+        step++;
+        drawContagion();
+
+        setTimeout(function() {
+          if (contagionProb > 0.3) {
+            bank.status = 'failed';
+            cgLog.innerHTML += '<div style="color: #ef4444;">[' + step + '단계] ' + bank.name + '이(가) 부실화!</div>';
+            step++;
+
+            /* 이 은행과 연결된 건전한 은행들을 큐에 추가 */
+            bank.connections.forEach(function(c) {
+              if (banks[c].status === 'healthy' && queue.indexOf(c) === -1) {
+                queue.push(c);
+              }
+            });
+          }
+          drawContagion();
+          cgLog.scrollTop = cgLog.scrollHeight;
+          setTimeout(processNext, speed);
+        }, speed);
+      } else {
+        processNext();
+      }
+    }
+
+    setTimeout(processNext, speed);
+  }
+
+  document.getElementById('contagion-start').addEventListener('click', startContagion);
+  document.getElementById('contagion-reset').addEventListener('click', resetContagion);
+  window.addEventListener('resize', drawContagion);
+  drawContagion();
+
+  document.getElementById('cg-quiz-btn').addEventListener('click', function() {
+    document.getElementById('cg-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 3. 3대 위기 비교 ========== */
+  var crisisData = {
+    '1997': {
+      labels: ['1996', '1997', '1998', '1999', '2000'],
+      gdp: [7.0, 4.5, -5.1, 11.3, 8.9],
+      unemp: [2.0, 2.6, 7.0, 6.3, 4.1],
+      fx: [844, 951, 1401, 1189, 1131],
+      kospi: [651, 376, 562, 1028, 504],
+      summary: { gdp: '-5.1%', unemp: '7.0%', fx: '1,700원대', kospi: '376' }
+    },
+    '2008': {
+      labels: ['2007', '2008', '2009', '2010', '2011'],
+      gdp: [5.5, 2.8, 0.8, 6.8, 3.7],
+      unemp: [3.0, 3.0, 3.7, 3.4, 3.1],
+      fx: [929, 1102, 1276, 1156, 1108],
+      kospi: [1897, 1124, 1683, 2051, 1826],
+      summary: { gdp: '0.8%', unemp: '3.7%', fx: '1,500원대', kospi: '1,124' }
+    },
+    '2020': {
+      labels: ['2019', '2020', '2021', '2022', '2023'],
+      gdp: [2.2, -0.7, 4.3, 2.6, 1.4],
+      unemp: [3.8, 4.5, 3.6, 2.9, 2.7],
+      fx: [1166, 1180, 1186, 1292, 1305],
+      kospi: [2198, 2873, 2978, 2236, 2655],
+      summary: { gdp: '-0.7%', unemp: '4.5%', fx: '1,200원대', kospi: '2,873' }
+    }
+  };
+
+  var crSelect = document.getElementById('crisis-select');
+  var crCtx = document.getElementById('crisisChart');
+
+  var crChart = new Chart(crCtx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: 'GDP 성장률 (%)', data: [], borderColor: '#059669', borderWidth: 3, tension: 0.3, yAxisID: 'y', pointRadius: 5 },
+        { label: '실업률 (%)', data: [], borderColor: '#f59e0b', borderWidth: 3, tension: 0.3, yAxisID: 'y', pointRadius: 5 },
+        { label: '환율', data: [], borderColor: '#3b82f6', borderWidth: 2, tension: 0.3, yAxisID: 'y1', pointRadius: 4, borderDash: [5, 3] },
+        { label: 'KOSPI', data: [], borderColor: '#7c3aed', borderWidth: 2, tension: 0.3, yAxisID: 'y1', pointRadius: 4, borderDash: [5, 3] }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        y: { title: { display: true, text: '%' }, position: 'left', min: -8, max: 15 },
+        y1: { title: { display: true, text: '환율 / KOSPI' }, position: 'right', grid: { drawOnChartArea: false } }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updateCrisis() {
+    var key = crSelect.value;
+    var d = crisisData[key];
+
+    document.getElementById('cr-gdp').textContent = d.summary.gdp;
+    document.getElementById('cr-unemp').textContent = d.summary.unemp;
+    document.getElementById('cr-fx').textContent = d.summary.fx;
+    document.getElementById('cr-kospi').textContent = d.summary.kospi;
+
+    crChart.data.labels = d.labels;
+    crChart.data.datasets[0].data = d.gdp;
+    crChart.data.datasets[1].data = d.unemp;
+    crChart.data.datasets[2].data = d.fx;
+    crChart.data.datasets[3].data = d.kospi;
+    crChart.update();
+  }
+
+  crSelect.addEventListener('change', updateCrisis);
+  updateCrisis();
+
+  document.getElementById('cr-quiz-btn').addEventListener('click', function() {
+    document.getElementById('cr-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 4. 정책 대응 퀴즈 ========== */
+  var policyQuestions = [
+    {
+      scenario: '외환위기 발생! 환율이 폭등하고 외환보유고가 바닥납니다. 어떤 정책이 우선인가?',
+      options: [
+        { text: '금리를 대폭 인상하여 외국 자본 유출을 막는다', correct: true, feedback: '맞습니다! 단기적으로 금리 인상은 자본 유출을 막는 긴급 처방입니다. 하지만 기업에 부담이 크다는 부작용이 있습니다.' },
+        { text: '금리를 인하하여 기업을 살린다', correct: false, feedback: '틀렸습니다. 외환위기 시 금리 인하는 자본 유출을 가속화하여 환율을 더 올립니다.' },
+        { text: '아무것도 하지 않고 시장에 맡긴다', correct: false, feedback: '틀렸습니다. 외환위기는 패닉이 패닉을 부르는 자기실현적 위기입니다. 적극 대응이 필요합니다.' }
+      ]
+    },
+    {
+      scenario: '금융위기 발생! 대형 은행이 부실해지고 신용 경색이 시작됩니다. 어떻게 대응하는가?',
+      options: [
+        { text: '부실 은행을 파산시켜 도덕적 해이를 방지한다', correct: false, feedback: '위험합니다. 대형 은행 파산은 금융 시스템 전체를 위험에 빠뜨립니다 (2008년 리먼 브라더스 사례).' },
+        { text: '공적 자금으로 은행을 구제하고, 대신 경영진 교체와 구조조정을 요구한다', correct: true, feedback: '맞습니다! 시스템적 위기에서는 은행 구제가 불가피하지만, 도덕적 해이를 줄이기 위해 조건을 붙여야 합니다.' },
+        { text: '재정 지출을 줄여 국가 부채를 관리한다', correct: false, feedback: '틀렸습니다. 위기 상황에서 긴축은 상황을 악화시킵니다.' }
+      ]
+    },
+    {
+      scenario: '전염병으로 경제활동이 마비! GDP가 급락하고 실업이 급증합니다. 어떤 정책이 효과적인가?',
+      options: [
+        { text: '대규모 재정 지출(재난지원금, 고용 보조)과 금리 인하를 동시에 실시한다', correct: true, feedback: '맞습니다! 수요와 공급이 동시에 줄어드는 상황에서는 재정+통화 정책의 동시 투입이 필요합니다. 2020년 한국이 실제로 한 대응입니다.' },
+        { text: '세금을 올려서 재원을 확보한다', correct: false, feedback: '틀렸습니다. 위기 중 증세는 민간 소비를 더 줄여 경기를 악화시킵니다.' },
+        { text: '금리를 올려 인플레이션을 방지한다', correct: false, feedback: '틀렸습니다. 수요 급감 상황에서 인플레이션은 당장의 문제가 아닙니다.' }
+      ]
+    }
+  ];
+
+  var quizContainer = document.getElementById('policy-quiz');
+  var score = 0;
+  var answered = 0;
+
+  policyQuestions.forEach(function(q, qi) {
+    var div = document.createElement('div');
+    div.style.cssText = 'margin-bottom: 20px; padding: 16px; background: #f9fafb; border-radius: 12px; border: 1px solid #e5e7eb;';
+    div.innerHTML = '<p style="font-weight: bold; margin-bottom: 12px;">Q' + (qi + 1) + '. ' + q.scenario + '</p>';
+
+    q.options.forEach(function(opt, oi) {
+      var btn = document.createElement('button');
+      btn.className = 'tb-btn';
+      btn.style.cssText = 'display: block; width: 100%; text-align: left; margin-bottom: 8px; padding: 10px 14px;';
+      btn.textContent = opt.text;
+      btn.addEventListener('click', function() {
+        if (div.querySelector('.feedback')) return;
+        answered++;
+        if (opt.correct) score++;
+
+        var fb = document.createElement('div');
+        fb.className = 'feedback';
+        fb.style.cssText = 'margin-top: 12px; padding: 10px; border-radius: 8px; background: ' + (opt.correct ? '#f0fdf4; color: #059669;' : '#fef2f2; color: #ef4444;');
+        fb.textContent = opt.feedback;
+        div.appendChild(fb);
+
+        btn.style.background = opt.correct ? '#059669' : '#ef4444';
+        btn.style.color = '#fff';
+
+        if (answered === policyQuestions.length) {
+          var scoreDiv = document.getElementById('policy-score');
+          scoreDiv.style.display = 'block';
+          scoreDiv.innerHTML = '<p style="font-size: 1.2em; font-weight: bold;">정책 판단 점수: ' + score + ' / ' + policyQuestions.length + '</p>' +
+            '<p>' + (score === 3 ? '완벽합니다! 훌륭한 정책 결정자가 될 수 있습니다.' :
+              score >= 2 ? '좋습니다! 위기 대응의 기본 원리를 이해하고 있습니다.' :
+              '경제 위기의 정책 대응에 대해 더 공부가 필요합니다.') + '</p>';
+        }
+      });
+      div.appendChild(btn);
+    });
+
+    quizContainer.appendChild(div);
+  });
+
+  document.getElementById('final-quiz-btn').addEventListener('click', function() {
+    document.getElementById('final-quiz-ans').style.display = 'block';
+  });
+
+});
+</script>

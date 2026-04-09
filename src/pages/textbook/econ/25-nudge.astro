@@ -1,0 +1,706 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="넛지와 정책설계"
+  subtitle="선택 구조를 바꾸면 행동이 바뀐다"
+  chapterNum={25}
+  part={4}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>변기 안의 파리 한 마리</h2>
+    <p>
+      암스테르담 스키폴 공항의 남자 화장실. 소변기 안에 파리 그림 스티커를 붙였더니
+      화장실 바닥 오염이 <strong>80% 감소</strong>했습니다.
+      규칙도, 벌금도, 감시 카메라도 없이. 그저 파리 스티커 하나로.
+    </p>
+    <p style="margin-top: 12px;">
+      이것이 <strong>넛지(nudge)</strong>입니다.
+      사람들의 자유를 제한하지 않으면서, 선택의 구조(choice architecture)를 바꿔
+      더 나은 결정을 유도하는 기법입니다.
+      2017년 노벨 경제학상 수상자 <strong>리처드 탈러(Richard Thaler)</strong>가 제안했습니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>기본 설정(default) 효과의 위력을 데이터로 확인</li>
+        <li>선택 설계 워크숍: 구내식당 배치로 건강식 선택 유도</li>
+        <li>넛지, 규제, 인센티브를 구별하는 능력</li>
+        <li>직접 넛지를 설계하고 효과를 시뮬레이션</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>넛지란 무엇인가?</h2>
+
+    <ExplainBox title="넛지의 정의">
+      <p><strong>넛지(Nudge):</strong> 선택의 자유를 제한하지 않으면서
+        사람들이 더 나은 결정을 하도록 선택 환경을 설계하는 것.</p>
+      <p style="margin-top: 8px;"><strong>자유주의적 개입주의(Libertarian Paternalism):</strong>
+        "자유주의적"은 선택권을 존중한다는 뜻이고,
+        "개입주의"는 더 나은 선택을 유도한다는 뜻입니다.</p>
+    </ExplainBox>
+
+    <WarningBox title="넛지가 아닌 것">
+      <p><strong>금지/규제:</strong> "탄산음료 판매 금지" → 선택 자체를 없앰</p>
+      <p><strong>벌금:</strong> "쓰레기 투기 시 과태료 10만원" → 경제적 페널티</p>
+      <p><strong>보조금:</strong> "전기차 구매 시 500만원 지원" → 경제적 인센티브</p>
+      <p style="margin-top: 8px;">넛지는 이런 것들과 다릅니다. 넛지는 선택지를 없애거나
+        경제적 비용/보상을 변경하지 않습니다. 선택의 <strong>환경(구조)</strong>만 바꿉니다.</p>
+    </WarningBox>
+
+    <BusinessBox title="넛지의 핵심 도구들">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>기본 설정(Default):</strong> 원하는 옵션을 기본값으로 설정</li>
+        <li><strong>사회적 증거:</strong> "당신의 이웃 80%가 에너지를 절약하고 있습니다"</li>
+        <li><strong>피드백:</strong> 에너지 사용량을 실시간으로 보여주기</li>
+        <li><strong>단순화:</strong> 복잡한 절차를 쉽게 만들기</li>
+        <li><strong>현저성:</strong> 중요한 정보를 눈에 잘 띄게 배치</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 기본 설정 효과 ===== -->
+  <div class="tb-card">
+    <h2>1. 기본 설정의 놀라운 힘</h2>
+    <p>
+      장기 기증 동의율을 봅시다.
+      국가마다 "동의하지 않으면 자동 기증(opt-out)" 또는
+      "동의해야 기증(opt-in)" 제도를 사용합니다.
+      아래 차트에서 opt-in과 opt-out 제도를 토글해 비교해 보세요.
+    </p>
+
+    <SimControls>
+      <label>
+        <input type="radio" name="opt-mode" value="all" checked /> 전체 보기
+      </label>
+      <label style="margin-left: 16px;">
+        <input type="radio" name="opt-mode" value="optin" /> Opt-in 국가만
+      </label>
+      <label style="margin-left: 16px;">
+        <input type="radio" name="opt-mode" value="optout" /> Opt-out 국가만
+      </label>
+    </SimControls>
+
+    <ChartContainer id="organChart" height="420px" />
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="Opt-in 평균" value="15%" id="opt-in-avg" borderColor="#ef4444" />
+      <StatBox label="Opt-out 평균" value="92%" id="opt-out-avg" borderColor="#059669" />
+      <StatBox label="차이" value="77%p" id="opt-diff" borderColor="#6366f1" />
+    </div>
+
+    <ExerciseBox title="기본 설정 분석">
+      <p>한국은 현재 opt-in 제도입니다 (장기 기증 동의율 약 35%).</p>
+      <p>만약 opt-out으로 바꾸면 동의율이 90% 이상이 될 수 있을까요?</p>
+      <p>이에 대한 윤리적 문제는 없는가?</p>
+      <button class="tb-btn" id="organ-quiz-btn" style="margin-top: 8px;">토론 포인트</button>
+      <div id="organ-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>찬성:</strong> 장기 기증은 생명을 살리는 일. 기본 설정만 바꾸는 것이므로 자유 침해가 아님. 원치 않는 사람은 거부 가능.</p>
+        <p><strong>반대:</strong> 신체에 대한 결정은 적극적 동의가 필요. 정보 부족 상태에서의 '묵시적 동의'는 진정한 동의가 아닐 수 있음.</p>
+        <p><strong>핵심:</strong> 넛지는 효과적이지만, 윤리적 경계를 항상 고려해야 합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 선택 설계 워크숍 ===== -->
+  <div class="tb-card">
+    <h2>2. 구내식당 선택 설계 워크숍</h2>
+    <p>
+      학교 구내식당의 메뉴를 어떻게 배치하느냐에 따라
+      학생들의 식단이 달라집니다. 건강한 메뉴를 더 많이 선택하게
+      만들려면 어디에 배치해야 할까요?
+    </p>
+    <p style="margin-top: 8px;">
+      아래에서 5개 메뉴의 배치 위치를 선택하세요.
+      눈높이(가장 잘 보이는 위치), 중간, 아래쪽으로 배치할 수 있습니다.
+      배치가 끝나면 "시뮬레이션"을 눌러 결과를 확인하세요.
+    </p>
+
+    <div id="cafeteria" style="margin: 20px 0; padding: 20px; background: #f9fafb; border-radius: 16px; border: 2px solid #e5e7eb;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 12px; padding: 0 8px;">
+        <span style="font-weight: bold; color: #059669;">눈높이 (선택률 x2)</span>
+        <span style="font-weight: bold; color: #f59e0b;">중간 (선택률 x1)</span>
+        <span style="font-weight: bold; color: #94a3b8;">아래쪽 (선택률 x0.5)</span>
+      </div>
+    </div>
+
+    <div id="menu-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin: 16px 0;"></div>
+
+    <SimControls>
+      <button class="tb-btn" id="cafe-simulate" style="font-size: 1.1em; padding: 10px 24px;">배치 시뮬레이션 실행</button>
+      <button class="tb-btn" id="cafe-reset" style="margin-left: 8px;">초기화</button>
+    </SimControls>
+
+    <ChartContainer id="cafeChart" height="350px" />
+
+    <div id="cafe-result" style="display: none; padding: 16px; border-radius: 12px; margin: 16px 0;"></div>
+
+    <ExerciseBox title="선택 설계 전략">
+      <p>건강식 선택률을 최대화하려면 어떻게 배치해야 하는가?</p>
+      <p>힌트: 눈높이에 건강식을, 아래쪽에 비건강식을 놓으세요.</p>
+      <p>추가 질문: 이것이 학생들의 자유를 침해하는 것인가?</p>
+      <button class="tb-btn" id="cafe-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="cafe-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>건강식(샐러드, 과일)은 눈높이에, 비건강식(튀김, 탄산음료)은 아래쪽에 배치.</p>
+        <p>이것은 자유 침해가 아닙니다. 모든 메뉴는 여전히 선택 가능합니다.</p>
+        <p>하지만 "누군가가 배치를 결정한다"는 사실 자체가 선택에 영향을 준다는 것은 인식해야 합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 넛지 분류기 ===== -->
+  <div class="tb-card">
+    <h2>3. 넛지 vs 규제 vs 인센티브</h2>
+    <p>
+      다음 10가지 정책이 넛지인지, 규제인지, 인센티브인지 분류하세요.
+      구별의 핵심: <strong>선택의 자유</strong>가 유지되는가?
+      <strong>경제적 비용/보상</strong>이 변하는가?
+    </p>
+
+    <div id="classify-container" style="margin: 20px 0;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="정답" value="0/10" id="cls-score" borderColor="#059669" />
+      <StatBox label="정답률" value="0%" id="cls-pct" borderColor="#3b82f6" />
+    </div>
+
+    <ChartContainer id="classifyChart" height="300px" />
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 나만의 넛지 설계 ===== -->
+  <div class="tb-card">
+    <h2>4. 나만의 넛지 설계</h2>
+    <p>
+      문제 상황을 선택하고, 넛지 옵션을 골라, 효과를 시뮬레이션하세요.
+      당신은 행동경제학 전문 컨설턴트입니다!
+    </p>
+
+    <SimControls>
+      <label>문제 상황 선택:
+        <select id="nudge-problem">
+          <option value="energy">에너지 절약 (가정 전기 사용량 감소)</option>
+          <option value="saving">저축 증대 (직장인 저축률 향상)</option>
+          <option value="health">건강식 선택 (설탕 섭취 감소)</option>
+        </select>
+      </label>
+    </SimControls>
+
+    <div id="nudge-options" style="margin: 20px 0;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="예상 효과" value="-" id="nudge-effect" borderColor="#059669" />
+      <StatBox label="비용" value="-" id="nudge-cost" borderColor="#ef4444" />
+      <StatBox label="비용 대비 효과" value="-" id="nudge-roi" borderColor="#3b82f6" />
+    </div>
+
+    <ChartContainer id="nudgeChart" height="350px" />
+
+    <div id="nudge-result" style="display: none; padding: 16px; background: #f0fdf4; border-radius: 12px; margin: 16px 0;"></div>
+
+    <ExerciseBox title="넛지 설계 평가">
+      <p>좋은 넛지의 조건은 무엇일까요?</p>
+      <button class="tb-btn" id="nudge-quiz-btn" style="margin-top: 8px;">기준 보기</button>
+      <div id="nudge-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>좋은 넛지의 4가지 조건:</strong></p>
+        <p>1) <strong>투명성:</strong> 넛지의 존재가 숨겨져 있지 않아야 함</p>
+        <p>2) <strong>자유 보장:</strong> 선택을 바꾸는 것이 쉬워야 함 (opt-out 가능)</p>
+        <p>3) <strong>이익 일치:</strong> 대상자의 이익에 부합해야 함 (설계자 이익이 아님)</p>
+        <p>4) <strong>검증 가능:</strong> 효과를 측정하고 평가할 수 있어야 함</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 넛지의 한계와 윤리 ===== -->
+  <div class="tb-card">
+    <h2>넛지의 한계와 윤리적 고려</h2>
+
+    <WarningBox title="넛지에 대한 비판">
+      <p><strong>1. 조작 우려:</strong> 사람들이 모르게 행동을 유도하는 것은 조작(manipulation)인가?</p>
+      <p><strong>2. 슬리퍼리 슬로프:</strong> 작은 넛지에서 시작해 점점 강한 개입으로 갈 수 있음</p>
+      <p><strong>3. 효과 한계:</strong> 넛지만으로 큰 사회 문제(빈곤, 범죄)를 해결하기 어려움</p>
+      <p><strong>4. 역넛지:</strong> 기업이 소비자에게 불리한 방향으로 넛지를 사용할 수 있음</p>
+    </WarningBox>
+
+    <InsightBox title="역넛지(Dark Nudge)의 예시">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>구독 서비스의 자동 갱신 (해지를 어렵게 만듦)</li>
+        <li>"2명이 보고 있습니다" (허위 긴박감)</li>
+        <li>광고 속 작은 글씨의 조건 (정보 비대칭)</li>
+        <li>기본 체크된 뉴스레터 동의 (불필요한 개인정보 수집)</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 종합 ===== -->
+  <div class="tb-card">
+    <h2>경제학 입문 과정을 마치며</h2>
+
+    <InsightBox title="25장의 여정을 돌아보면">
+      <p>우리는 <strong>희소성</strong>(1장)에서 시작하여 <strong>수요와 공급</strong>(4장),
+        <strong>GDP와 인플레이션</strong>(11-12장), <strong>경제 정책</strong>(15-16장),
+        한국 경제의 <strong>실제 이슈</strong>(19-22장), 그리고 인간의
+        <strong>비합리적 행동</strong>(23-25장)까지 살펴보았습니다.</p>
+      <p style="margin-top: 12px;">경제학은 단순히 돈에 대한 학문이 아닙니다.
+        <strong>선택</strong>에 대한 학문입니다. 제한된 자원으로 최선의 선택을 하는 것.
+        그리고 인간이 실제로 어떻게 선택하는지 이해하는 것.
+        이것이 경제학의 출발점이자 도착점입니다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="25장 정리: 넛지와 정책설계">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li><strong>넛지:</strong> 선택의 자유를 유지하면서 더 나은 결정을 유도하는 설계</li>
+      <li><strong>기본 설정:</strong> opt-in vs opt-out의 차이가 행동에 극적 영향</li>
+      <li><strong>선택 구조:</strong> 메뉴 배치, 정보 제시 순서, 옵션 수 등이 선택에 영향</li>
+      <li><strong>넛지 vs 규제 vs 인센티브:</strong> 자유 존중 여부와 비용 변화로 구별</li>
+      <li><strong>윤리:</strong> 넛지도 투명성, 자유 보장, 이익 일치의 원칙을 지켜야 함</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>축하합니다!</strong> 경제학 입문 전체 과정을 완료했습니다.
+      25개의 장을 통해 경제학의 기초부터 행동경제학의 최전선까지 탐구했습니다.
+      이제 여러분은 뉴스 속 경제 현상을 분석하고,
+      합리적 (하지만 완벽하지는 않은) 의사결정을 할 수 있는 경제학적 사고력을 갖추게 되었습니다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1. 기본 설정 효과: 장기기증 ========== */
+  var countries = [
+    { name: '덴마크', rate: 4.3, type: 'optin' },
+    { name: '독일', rate: 12, type: 'optin' },
+    { name: '영국', rate: 17, type: 'optin' },
+    { name: '네덜란드', rate: 27.5, type: 'optin' },
+    { name: '한국', rate: 35, type: 'optin' },
+    { name: '오스트리아', rate: 99.9, type: 'optout' },
+    { name: '벨기에', rate: 98, type: 'optout' },
+    { name: '프랑스', rate: 99.9, type: 'optout' },
+    { name: '헝가리', rate: 99.9, type: 'optout' },
+    { name: '스웨덴', rate: 85.9, type: 'optout' },
+    { name: '포르투갈', rate: 99.6, type: 'optout' },
+    { name: '폴란드', rate: 99.5, type: 'optout' }
+  ];
+
+  var organCtx = document.getElementById('organChart');
+  var organChart = new Chart(organCtx, {
+    type: 'bar',
+    data: {
+      labels: countries.map(function(c) { return c.name; }),
+      datasets: [{
+        label: '장기 기증 동의율 (%)',
+        data: countries.map(function(c) { return c.rate; }),
+        backgroundColor: countries.map(function(c) {
+          return c.type === 'optin' ? 'rgba(239,68,68,0.6)' : 'rgba(5,150,105,0.6)';
+        }),
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      scales: {
+        x: { title: { display: true, text: '동의율 (%)' }, min: 0, max: 105 }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              var c = countries[ctx.dataIndex];
+              return c.rate + '% (' + (c.type === 'optin' ? 'Opt-in' : 'Opt-out') + ')';
+            }
+          }
+        }
+      }
+    }
+  });
+
+  document.querySelectorAll('input[name="opt-mode"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      var mode = this.value;
+      var filtered = countries;
+      if (mode === 'optin') filtered = countries.filter(function(c) { return c.type === 'optin'; });
+      if (mode === 'optout') filtered = countries.filter(function(c) { return c.type === 'optout'; });
+
+      organChart.data.labels = filtered.map(function(c) { return c.name; });
+      organChart.data.datasets[0].data = filtered.map(function(c) { return c.rate; });
+      organChart.data.datasets[0].backgroundColor = filtered.map(function(c) {
+        return c.type === 'optin' ? 'rgba(239,68,68,0.6)' : 'rgba(5,150,105,0.6)';
+      });
+      organChart.update();
+    });
+  });
+
+  document.getElementById('organ-quiz-btn').addEventListener('click', function() {
+    document.getElementById('organ-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 2. 구내식당 선택 설계 ========== */
+  var menuItems = [
+    { name: '샐러드', healthy: true, baseRate: 20, icon: '[S]' },
+    { name: '과일', healthy: true, baseRate: 15, icon: '[F]' },
+    { name: '현미밥', healthy: true, baseRate: 18, icon: '[R]' },
+    { name: '치킨 텐더', healthy: false, baseRate: 35, icon: '[C]' },
+    { name: '탄산음료', healthy: false, baseRate: 30, icon: '[D]' }
+  ];
+
+  var menuPositions = {};
+  var menuGrid = document.getElementById('menu-grid');
+
+  menuItems.forEach(function(item, i) {
+    menuPositions[i] = 'middle';
+    var div = document.createElement('div');
+    div.style.cssText = 'padding: 14px; border-radius: 10px; border: 2px solid ' + (item.healthy ? '#86efac' : '#fca5a5') + '; background: ' + (item.healthy ? '#f0fdf4' : '#fef2f2') + ';';
+    div.innerHTML = '<p style="font-weight: bold; margin-bottom: 8px;">' + item.icon + ' ' + item.name + (item.healthy ? ' (건강)' : ' (비건강)') + '</p>' +
+      '<select class="menu-pos" data-idx="' + i + '" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d1d5db; width: 100%;">' +
+      '<option value="eye">눈높이 (가장 잘 보임)</option>' +
+      '<option value="middle" selected>중간</option>' +
+      '<option value="bottom">아래쪽 (잘 안 보임)</option>' +
+      '</select>';
+    menuGrid.appendChild(div);
+  });
+
+  menuGrid.addEventListener('change', function(e) {
+    if (e.target.classList.contains('menu-pos')) {
+      var idx = parseInt(e.target.getAttribute('data-idx'));
+      menuPositions[idx] = e.target.value;
+    }
+  });
+
+  var cafeCtx = document.getElementById('cafeChart');
+  var cafeChart = new Chart(cafeCtx, {
+    type: 'bar',
+    data: {
+      labels: menuItems.map(function(m) { return m.name; }),
+      datasets: [
+        { label: '기본 선택률 (%)', data: menuItems.map(function(m) { return m.baseRate; }), backgroundColor: 'rgba(148,163,184,0.5)', borderRadius: 4 },
+        { label: '배치 후 선택률 (%)', data: [0, 0, 0, 0, 0], backgroundColor: menuItems.map(function(m) { return m.healthy ? 'rgba(5,150,105,0.6)' : 'rgba(239,68,68,0.6)'; }), borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '선택률 (%)' }, min: 0, max: 70 } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  document.getElementById('cafe-simulate').addEventListener('click', function() {
+    var healthyTotal = 0;
+    var unhealthyTotal = 0;
+
+    var newRates = menuItems.map(function(item, i) {
+      var multiplier = 1;
+      if (menuPositions[i] === 'eye') multiplier = 2.0;
+      else if (menuPositions[i] === 'bottom') multiplier = 0.5;
+
+      var newRate = Math.min(65, item.baseRate * multiplier);
+      if (item.healthy) healthyTotal += newRate;
+      else unhealthyTotal += newRate;
+      return parseFloat(newRate.toFixed(1));
+    });
+
+    cafeChart.data.datasets[1].data = newRates;
+    cafeChart.update();
+
+    var resultDiv = document.getElementById('cafe-result');
+    resultDiv.style.display = 'block';
+    var healthyPct = (healthyTotal / (healthyTotal + unhealthyTotal) * 100).toFixed(0);
+    var score = parseInt(healthyPct);
+
+    resultDiv.style.background = score >= 50 ? '#f0fdf4' : '#fef2f2';
+    resultDiv.style.borderLeft = '4px solid ' + (score >= 50 ? '#059669' : '#ef4444');
+    resultDiv.innerHTML =
+      '<p style="font-weight: bold; font-size: 1.1em;">건강식 선택 비율: ' + healthyPct + '%</p>' +
+      '<p style="margin-top: 8px;">' +
+      (score >= 55 ? '훌륭합니다! 넛지를 잘 활용했습니다. 건강식을 눈높이에 배치한 것이 효과적이었습니다.' :
+       score >= 45 ? '괜찮지만 개선 여지가 있습니다. 비건강식을 아래쪽으로 옮겨보세요.' :
+       '아쉽습니다. 건강식을 눈높이에, 비건강식을 아래쪽에 배치해 보세요.') + '</p>';
+  });
+
+  document.getElementById('cafe-reset').addEventListener('click', function() {
+    document.querySelectorAll('.menu-pos').forEach(function(sel) {
+      sel.value = 'middle';
+      menuPositions[parseInt(sel.getAttribute('data-idx'))] = 'middle';
+    });
+    cafeChart.data.datasets[1].data = [0, 0, 0, 0, 0];
+    cafeChart.update();
+    document.getElementById('cafe-result').style.display = 'none';
+  });
+
+  document.getElementById('cafe-quiz-btn').addEventListener('click', function() {
+    document.getElementById('cafe-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 3. 넛지 분류기 ========== */
+  var classifyItems = [
+    { policy: '화장실 소변기에 파리 스티커를 붙인다', answer: '넛지', explain: '선택 자유 유지. 비용/보상 변화 없음. 환경만 변경.' },
+    { policy: '음주운전 시 면허 취소', answer: '규제', explain: '행동을 금지하고 위반 시 페널티를 부과합니다.' },
+    { policy: '전기차 구매 시 보조금 500만원', answer: '인센티브', explain: '경제적 보상으로 행동을 유도합니다.' },
+    { policy: '에너지 사용량을 이웃과 비교하여 고지서에 표시', answer: '넛지', explain: '사회적 비교를 통한 넛지. 비용/보상 변화 없음.' },
+    { policy: '일회용 플라스틱 컵 사용 금지', answer: '규제', explain: '선택지 자체를 없앱니다.' },
+    { policy: '퇴직연금 자동 가입 (거부 가능)', answer: '넛지', explain: '기본 설정(default)을 활용한 대표적 넛지.' },
+    { policy: '담배 포장에 경고 그림 표시', answer: '넛지', explain: '정보의 현저성을 높이는 넛지. 담배는 여전히 판매됨.' },
+    { policy: '쓰레기 무단 투기 시 과태료 30만원', answer: '규제', explain: '경제적 페널티를 부과하는 규제입니다.' },
+    { policy: '에너지 효율 등급 라벨 부착', answer: '넛지', explain: '정보를 쉽게 볼 수 있게 하는 넛지. 구매는 자유.' },
+    { policy: '소상공인 임대료 지원금 월 50만원', answer: '인센티브', explain: '경제적 보상을 제공하는 인센티브입니다.' }
+  ];
+
+  var clsContainer = document.getElementById('classify-container');
+  var clsCorrect = 0;
+  var clsAnswered = 0;
+
+  var clsCtx = document.getElementById('classifyChart');
+  var clsChart = new Chart(clsCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['정답', '오답', '미답'],
+      datasets: [{
+        data: [0, 0, 10],
+        backgroundColor: ['rgba(5,150,105,0.7)', 'rgba(239,68,68,0.7)', 'rgba(209,213,219,0.4)'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+
+  classifyItems.forEach(function(item, ci) {
+    var div = document.createElement('div');
+    div.style.cssText = 'margin-bottom: 10px; padding: 12px; background: #f9fafb; border-radius: 10px; border: 1px solid #e5e7eb;';
+    div.innerHTML = '<p style="margin-bottom: 8px;">' + (ci + 1) + '. ' + item.policy + '</p>';
+
+    ['넛지', '규제', '인센티브'].forEach(function(opt) {
+      var btn = document.createElement('button');
+      btn.className = 'tb-btn cls-opt';
+      btn.style.cssText = 'margin-right: 6px; margin-bottom: 4px; font-size: 0.9em;';
+      btn.textContent = opt;
+      btn.setAttribute('data-q', ci);
+      btn.setAttribute('data-val', opt);
+      div.appendChild(btn);
+    });
+
+    var fb = document.createElement('div');
+    fb.className = 'cls-fb';
+    fb.style.cssText = 'display: none; margin-top: 8px; padding: 8px; border-radius: 6px; font-size: 0.9em;';
+    div.appendChild(fb);
+
+    clsContainer.appendChild(div);
+  });
+
+  clsContainer.addEventListener('click', function(e) {
+    if (!e.target.classList.contains('cls-opt')) return;
+    var qi = parseInt(e.target.getAttribute('data-q'));
+    var val = e.target.getAttribute('data-val');
+    var fb = clsContainer.querySelectorAll('.cls-fb')[qi];
+    if (fb.style.display === 'block') return;
+
+    clsAnswered++;
+    fb.style.display = 'block';
+
+    if (val === classifyItems[qi].answer) {
+      clsCorrect++;
+      fb.style.background = '#f0fdf4';
+      fb.innerHTML = '<span style="color: #059669; font-weight: bold;">정답!</span> ' + classifyItems[qi].explain;
+      e.target.style.background = '#059669';
+      e.target.style.color = '#fff';
+    } else {
+      fb.style.background = '#fef2f2';
+      fb.innerHTML = '<span style="color: #ef4444; font-weight: bold;">오답.</span> 정답: ' + classifyItems[qi].answer + '. ' + classifyItems[qi].explain;
+      e.target.style.background = '#ef4444';
+      e.target.style.color = '#fff';
+    }
+
+    document.getElementById('cls-score').textContent = clsCorrect + '/' + clsAnswered;
+    document.getElementById('cls-pct').textContent = (clsCorrect / clsAnswered * 100).toFixed(0) + '%';
+    clsChart.data.datasets[0].data = [clsCorrect, clsAnswered - clsCorrect, Math.max(0, 10 - clsAnswered)];
+    clsChart.update();
+  });
+
+  /* ========== 4. 나만의 넛지 설계 ========== */
+  var nudgeProblems = {
+    energy: {
+      title: '에너지 절약',
+      current: '가정 평균 전기 사용량: 월 350kWh',
+      goal: '목표: 15% 감소',
+      options: [
+        { name: '이웃 비교 고지서', desc: '당신의 이웃 평균보다 30% 더 많이 사용하고 있습니다', effect: 12, cost: '저', type: '사회적 비교' },
+        { name: '실시간 사용량 표시', desc: '스마트 미터로 현재 전기 사용량을 실시간 표시', effect: 8, cost: '중', type: '즉각적 피드백' },
+        { name: '에너지 절약 목표 설정', desc: '월 목표 사용량을 설정하고 달성 시 축하 메시지', effect: 6, cost: '저', type: '목표 설정' },
+        { name: '기본 온도 조정', desc: '냉난방 기본 온도를 에너지 효율적 수준으로 설정', effect: 15, cost: '저', type: '기본 설정' }
+      ]
+    },
+    saving: {
+      title: '저축 증대',
+      current: '직장인 평균 저축률: 15%',
+      goal: '목표: 25% 이상',
+      options: [
+        { name: '자동 저축 (급여 인상분)', desc: '급여가 오를 때 인상분의 50%를 자동 저축', effect: 18, cost: '저', type: '기본 설정' },
+        { name: '저축 시각화', desc: '앱에서 저축 목표 달성률을 바 그래프로 표시', effect: 7, cost: '중', type: '시각적 피드백' },
+        { name: '또래 비교', desc: '같은 나이/소득 그룹의 평균 저축률과 비교', effect: 10, cost: '저', type: '사회적 비교' },
+        { name: '미래 자아 편지', desc: '미래의 자신에게 편지를 써서 장기 목표를 상기', effect: 5, cost: '저', type: '심리적 몰입' }
+      ]
+    },
+    health: {
+      title: '건강식 선택',
+      current: '하루 평균 설탕 섭취: 60g (권장량의 2배)',
+      goal: '목표: 40g 이하',
+      options: [
+        { name: '식품 전면 라벨', desc: '설탕 함량을 빨강/주황/초록 신호등으로 표시', effect: 14, cost: '중', type: '현저성' },
+        { name: '건강식 눈높이 배치', desc: '마트에서 건강식을 눈높이에, 과자를 아래에 배치', effect: 10, cost: '저', type: '선택 구조' },
+        { name: '작은 접시 제공', desc: '구내식당에서 기본 접시 크기를 20% 줄임', effect: 8, cost: '저', type: '환경 설계' },
+        { name: '설탕 대체 기본 제공', desc: '카페에서 음료 주문 시 기본을 저당으로 설정', effect: 16, cost: '저', type: '기본 설정' }
+      ]
+    }
+  };
+
+  var nudgeSelect = document.getElementById('nudge-problem');
+  var nudgeOptsContainer = document.getElementById('nudge-options');
+  var selectedNudges = {};
+
+  var nudgeCtx = document.getElementById('nudgeChart');
+  var nudgeChart = new Chart(nudgeCtx, {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '예상 효과 (%p)', data: [], backgroundColor: 'rgba(5,150,105,0.6)', borderRadius: 6 }
+      ]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      scales: { x: { title: { display: true, text: '행동 변화율 (%p)' }, min: 0, max: 25 } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function renderNudgeOptions() {
+    var problem = nudgeProblems[nudgeSelect.value];
+    selectedNudges = {};
+    nudgeOptsContainer.innerHTML = '';
+
+    var infoDiv = document.createElement('div');
+    infoDiv.style.cssText = 'padding: 12px; background: #eff6ff; border-radius: 8px; margin-bottom: 16px;';
+    infoDiv.innerHTML = '<p style="font-weight: bold;">' + problem.title + '</p><p>' + problem.current + '</p><p style="color: #059669; font-weight: bold;">' + problem.goal + '</p>';
+    nudgeOptsContainer.appendChild(infoDiv);
+
+    problem.options.forEach(function(opt, oi) {
+      var div = document.createElement('div');
+      div.style.cssText = 'margin-bottom: 10px; padding: 12px; background: #f9fafb; border-radius: 10px; border: 2px solid #e5e7eb; cursor: pointer; transition: all 0.2s;';
+      div.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;">' +
+        '<div><p style="font-weight: bold;">' + opt.name + ' <span style="font-size: 0.8em; color: #6366f1;">(' + opt.type + ')</span></p>' +
+        '<p style="font-size: 0.9em; color: #6b7280;">' + opt.desc + '</p></div>' +
+        '<div style="text-align: right; font-size: 0.85em;"><div style="color: #059669;">효과: +' + opt.effect + '%p</div><div style="color: #ef4444;">비용: ' + opt.cost + '</div></div></div>';
+
+      div.addEventListener('click', function() {
+        if (selectedNudges[oi]) {
+          selectedNudges[oi] = false;
+          div.style.borderColor = '#e5e7eb';
+          div.style.background = '#f9fafb';
+        } else {
+          selectedNudges[oi] = true;
+          div.style.borderColor = '#059669';
+          div.style.background = '#f0fdf4';
+        }
+        updateNudgeResult();
+      });
+
+      nudgeOptsContainer.appendChild(div);
+    });
+
+    /* 적용 버튼 */
+    var applyBtn = document.createElement('button');
+    applyBtn.className = 'tb-btn';
+    applyBtn.style.cssText = 'width: 100%; margin-top: 12px; font-size: 1.1em; padding: 10px;';
+    applyBtn.textContent = '넛지 효과 시뮬레이션';
+    applyBtn.addEventListener('click', updateNudgeResult);
+    nudgeOptsContainer.appendChild(applyBtn);
+  }
+
+  function updateNudgeResult() {
+    var problem = nudgeProblems[nudgeSelect.value];
+    var totalEffect = 0;
+    var totalCost = 0;
+    var selectedLabels = [];
+    var selectedEffects = [];
+
+    Object.keys(selectedNudges).forEach(function(k) {
+      if (selectedNudges[k]) {
+        var opt = problem.options[parseInt(k)];
+        totalEffect += opt.effect * (1 - totalEffect * 0.01); /* 체감 효과 */
+        totalCost += opt.cost === '저' ? 1 : opt.cost === '중' ? 3 : 5;
+        selectedLabels.push(opt.name);
+        selectedEffects.push(opt.effect);
+      }
+    });
+
+    if (selectedLabels.length === 0) {
+      document.getElementById('nudge-effect').textContent = '-';
+      document.getElementById('nudge-cost').textContent = '-';
+      document.getElementById('nudge-roi').textContent = '-';
+      document.getElementById('nudge-result').style.display = 'none';
+      return;
+    }
+
+    var roi = (totalEffect / Math.max(1, totalCost)).toFixed(1);
+
+    document.getElementById('nudge-effect').textContent = '+' + totalEffect.toFixed(1) + '%p';
+    document.getElementById('nudge-cost').textContent = totalCost + '단위';
+    document.getElementById('nudge-roi').textContent = roi + ' (효과/비용)';
+
+    nudgeChart.data.labels = selectedLabels;
+    nudgeChart.data.datasets[0].data = selectedEffects;
+    nudgeChart.update();
+
+    var resultDiv = document.getElementById('nudge-result');
+    resultDiv.style.display = 'block';
+    var grade = totalEffect >= 20 ? 'A' : totalEffect >= 12 ? 'B' : totalEffect >= 6 ? 'C' : 'D';
+    var gradeColor = totalEffect >= 20 ? '#059669' : totalEffect >= 12 ? '#3b82f6' : totalEffect >= 6 ? '#f59e0b' : '#ef4444';
+    resultDiv.innerHTML =
+      '<p style="font-weight: bold; font-size: 1.2em; color: ' + gradeColor + ';">넛지 효과 등급: ' + grade + '</p>' +
+      '<p style="margin-top: 8px;">선택한 넛지: ' + selectedLabels.join(', ') + '</p>' +
+      '<p>총 예상 행동 변화: <strong>' + totalEffect.toFixed(1) + '%p</strong></p>' +
+      '<p style="margin-top: 8px;">' +
+      (totalEffect >= 20 ? '훌륭한 넛지 조합입니다! 기본 설정 활용이 핵심이었습니다.' :
+       totalEffect >= 12 ? '괜찮은 결과입니다. 기본 설정(default) 넛지를 추가하면 더 효과적일 수 있습니다.' :
+       '효과가 작습니다. 더 강력한 넛지를 선택해 보세요.') + '</p>';
+  }
+
+  nudgeSelect.addEventListener('change', renderNudgeOptions);
+  renderNudgeOptions();
+
+  document.getElementById('nudge-quiz-btn').addEventListener('click', function() {
+    document.getElementById('nudge-quiz-ans').style.display = 'block';
+  });
+
+});
+</script>
