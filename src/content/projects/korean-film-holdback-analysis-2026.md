@@ -50,6 +50,8 @@ funding:
 featured: false
 ---
 
+The full report (KOFIC Research 2025-14) is available for download from the [Korean Film Council website](https://www.kofic.or.kr/kofic/business/rsch/findPolicyDetail.do).
+
 ## Research Background
 
 The theatrical window -- the holdback period between a film's theatrical release and its availability on subsequent platforms (IPTV, OTT) -- has been a cornerstone of film distribution strategy. In Korea, a conventional "6-month rule" for SVOD release has been applied by industry practice, but its empirical basis has never been systematically tested.
