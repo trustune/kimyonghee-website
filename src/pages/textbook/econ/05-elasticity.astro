@@ -1,0 +1,530 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout title="탄력성" subtitle="가격이 오르면 얼마나 덜 살까" chapterNum={5} part={1}>
+
+  <!-- ========== HOOK ========== -->
+  <div class="tb-card">
+    <h2>소금과 명품 가방</h2>
+    <p>
+      소금 가격이 2배로 올랐다고 하자. 소금을 반만 살까? 그렇지 않다.
+      소금은 생활 필수품이니 비싸도 거의 같은 양을 산다.
+    </p>
+    <p>
+      명품 가방 가격이 2배로 올랐다면? 많은 사람이 구매를 포기한다.
+      "꼭 필요한 것은 아니니까."
+    </p>
+    <p>
+      같은 가격 인상인데 반응이 다르다.
+      이 "반응의 크기"를 측정하는 도구가 <strong>탄력성(elasticity)</strong>이다.
+      탄력성을 알면 가격을 올려도 되는지, 내려야 하는지 판단할 수 있다.
+    </p>
+  </div>
+
+  <!-- ========== 개념 1: 가격탄력성 ========== -->
+  <div class="tb-card">
+    <h2>1. 수요의 가격탄력성</h2>
+
+    <FormulaBox>
+      수요의 가격탄력성 = <span class="hl">수요량 변화율 (%)</span> / <span class="hl">가격 변화율 (%)</span>
+    </FormulaBox>
+
+    <ExplainBox title="비유로 이해하기">
+      <p>
+        고무줄을 당기면 얼마나 늘어나는지 "탄력"이라 한다.
+        잘 늘어나는 고무줄 = 탄력적. 잘 안 늘어나는 고무줄 = 비탄력적.
+      </p>
+      <p>
+        마찬가지로, 가격이 1% 올랐을 때 수요가 많이 줄면 "탄력적",
+        거의 안 줄면 "비탄력적"이다.
+      </p>
+    </ExplainBox>
+
+    <InsightBox title="탄력성의 분류">
+      <p><strong>|E| > 1 : 탄력적</strong> -- 가격 변화보다 수요 변화가 더 크다. (사치품, 대체재가 많은 상품)</p>
+      <p><strong>|E| = 1 : 단위 탄력적</strong> -- 가격 변화와 수요 변화가 같다.</p>
+      <p><strong>|E| < 1 : 비탄력적</strong> -- 가격 변화보다 수요 변화가 더 작다. (필수품, 대체재가 없는 상품)</p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 1: 탄력성 계산기 ========== -->
+  <div class="tb-card">
+    <h2>2. 직접 계산: 탄력성 계산기</h2>
+
+    <ExerciseBox title="가격과 수량의 변화를 입력하세요">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <label>원래 가격 (원)</label>
+          <input type="number" id="el-p1" value="1000" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+        </div>
+        <div>
+          <label>새 가격 (원)</label>
+          <input type="number" id="el-p2" value="1200" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+        </div>
+        <div>
+          <label>원래 수요량 (개)</label>
+          <input type="number" id="el-q1" value="100" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+        </div>
+        <div>
+          <label>새 수요량 (개)</label>
+          <input type="number" id="el-q2" value="80" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+        </div>
+      </div>
+      <button class="tb-btn tb-btn-primary" style="margin-top:12px;" onclick="calcElasticity()">탄력성 계산</button>
+    </ExerciseBox>
+
+    <div class="tb-stat-row">
+      <StatBox label="가격 변화율" id="el-pct-p" value="-" borderColor="#f59e0b" />
+      <StatBox label="수량 변화율" id="el-pct-q" value="-" borderColor="#3b82f6" />
+      <StatBox label="탄력성" id="el-value" value="-" borderColor="#059669" />
+      <StatBox label="판정" id="el-verdict" value="-" borderColor="#ef4444" />
+    </div>
+
+    <ChartContainer id="elasticity-calc-chart" height="250px" />
+  </div>
+
+  <!-- ========== 인터랙티브 2: 상품별 탄력성 비교 ========== -->
+  <div class="tb-card">
+    <h2>3. 상품별 탄력성 비교</h2>
+
+    <ExplainBox>
+      <p>
+        생필품은 비탄력적(가격이 올라도 많이 줄이지 못함),
+        사치품은 탄력적(가격이 오르면 쉽게 포기함)이다.
+        아래에서 가격 변화에 따른 수요 변화를 비교해보자.
+      </p>
+    </ExplainBox>
+
+    <SimControls>
+      <label for="compare-price-change">가격 인상률: <strong id="compare-pct">10</strong>%</label>
+      <input type="range" id="compare-price-change" min="0" max="50" value="10" style="width:100%">
+    </SimControls>
+
+    <ChartContainer id="compare-chart" height="350px" />
+
+    <InsightBox title="탄력성을 결정하는 요인">
+      <ul>
+        <li><strong>대체재의 존재:</strong> 대체재가 많으면 탄력적 (콜라 vs 사이다)</li>
+        <li><strong>필수품 vs 사치품:</strong> 필수품은 비탄력적 (쌀, 소금)</li>
+        <li><strong>지출 비중:</strong> 총 지출에서 차지하는 비중이 클수록 탄력적</li>
+        <li><strong>시간:</strong> 장기적으로 대안을 찾을 수 있어 더 탄력적</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 3: 매출 극대화 ========== -->
+  <div class="tb-card">
+    <h2>4. 매출 극대화: 최적 가격 찾기</h2>
+
+    <ExplainBox title="탄력성과 매출의 관계">
+      <p>
+        매출 = 가격 x 수량. 가격을 올리면 수량이 줄고, 가격을 내리면 수량이 는다.
+        그렇다면 매출이 가장 높은 가격은 어디일까?
+      </p>
+      <p>
+        탄력적 구간: 가격을 내리면 수량이 더 많이 늘어 매출 증가.<br>
+        비탄력적 구간: 가격을 올려도 수량이 조금만 줄어 매출 증가.<br>
+        매출이 최대인 점 = 단위 탄력성 (|E| = 1) 지점.
+      </p>
+    </ExplainBox>
+
+    <SimControls>
+      <label for="rev-price-slider">가격: <strong id="rev-price-display">500</strong>원</label>
+      <input type="range" id="rev-price-slider" min="100" max="2000" step="50" value="500" style="width:100%">
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="가격" id="rev-price" value="-" borderColor="#f59e0b" />
+      <StatBox label="수요량" id="rev-qty" value="-" borderColor="#3b82f6" />
+      <StatBox label="매출" id="rev-revenue" value="-" borderColor="#059669" />
+      <StatBox label="탄력성" id="rev-elasticity" value="-" borderColor="#ef4444" />
+    </div>
+
+    <ChartContainer id="revenue-chart" height="350px" />
+
+    <InsightBox title="비즈니스 핵심">
+      <p>
+        기업이 가격을 정할 때 핵심 질문: "우리 상품의 탄력성은 얼마인가?"
+        탄력적이면 가격 인하로 매출을 올릴 수 있고, 비탄력적이면 가격 인상이 유리하다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 4: 소득탄력성 ========== -->
+  <div class="tb-card">
+    <h2>5. 소득탄력성: 소득이 늘면 뭘 더 살까?</h2>
+
+    <ExplainBox>
+      <p>
+        소득이 늘면 어떤 상품은 더 많이 사고(정상재), 어떤 상품은 오히려 덜 산다(열등재).
+        예를 들어 소득이 늘면 외식은 늘리지만, 라면은 줄일 수 있다.
+      </p>
+    </ExplainBox>
+
+    <FormulaBox>
+      소득탄력성 = <span class="hl">수요량 변화율 (%)</span> / <span class="hl">소득 변화율 (%)</span>
+    </FormulaBox>
+
+    <SimControls>
+      <label for="income-slider">소득 증가: <strong id="income-change-display">0</strong>%</label>
+      <input type="range" id="income-slider" min="0" max="100" value="0" style="width:100%">
+    </SimControls>
+
+    <ChartContainer id="income-chart" height="350px" />
+
+    <ExerciseBox title="분류해보세요">
+      <p>아래 차트에서 소득이 늘어날 때:</p>
+      <ul>
+        <li>수요가 함께 느는 상품 = <strong>정상재</strong> (소득탄력성 &gt; 0)</li>
+        <li>수요가 빠르게 느는 상품 = <strong>사치재</strong> (소득탄력성 &gt; 1)</li>
+        <li>수요가 줄어드는 상품 = <strong>열등재</strong> (소득탄력성 &lt; 0)</li>
+      </ul>
+      <p>슬라이더를 움직여서 각 상품이 어떤 유형인지 확인하세요.</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ========== 추가 개념: 교차탄력성 ========== -->
+  <div class="tb-card">
+    <h2>6. 교차탄력성: 다른 상품 가격이 바뀌면?</h2>
+
+    <ExplainBox title="대체재와 보완재">
+      <p>
+        커피 가격이 오르면 차(tea) 수요가 늘어난다. 커피 대신 차를 마시니까.
+        이렇게 한 상품의 가격 변화가 다른 상품의 수요에 미치는 영향을 <strong>교차탄력성</strong>이라 한다.
+      </p>
+      <p>
+        <strong>대체재:</strong> 교차탄력성 &gt; 0. 한쪽 가격이 오르면 다른 쪽 수요 증가. (콜라와 사이다)<br>
+        <strong>보완재:</strong> 교차탄력성 &lt; 0. 한쪽 가격이 오르면 다른 쪽 수요 감소. (프린터와 잉크)
+      </p>
+    </ExplainBox>
+
+    <FormulaBox>
+      교차탄력성 = <span class="hl">B상품 수요량 변화율 (%)</span> / <span class="hl">A상품 가격 변화율 (%)</span>
+    </FormulaBox>
+
+    <ExerciseBox title="대체재인가 보완재인가?">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+        <div style="padding:10px; background:#f8fafc; border-radius:6px;">
+          <p>커피 가격 20% 상승 &rarr; 차 수요 15% 증가</p>
+          <p><strong>교차탄력성 = +0.75 &rarr; 대체재</strong></p>
+        </div>
+        <div style="padding:10px; background:#f8fafc; border-radius:6px;">
+          <p>게임기 가격 10% 상승 &rarr; 게임 타이틀 수요 8% 감소</p>
+          <p><strong>교차탄력성 = -0.80 &rarr; 보완재</strong></p>
+        </div>
+        <div style="padding:10px; background:#f8fafc; border-radius:6px;">
+          <p>버스 요금 15% 상승 &rarr; 지하철 수요 10% 증가</p>
+          <p><strong>교차탄력성 = +0.67 &rarr; 대체재</strong></p>
+        </div>
+        <div style="padding:10px; background:#f8fafc; border-radius:6px;">
+          <p>빵 가격 5% 상승 &rarr; 버터 수요 3% 감소</p>
+          <p><strong>교차탄력성 = -0.60 &rarr; 보완재</strong></p>
+        </div>
+      </div>
+    </ExerciseBox>
+
+    <InsightBox title="기업 전략에서의 활용">
+      <p>
+        프린터 회사가 프린터를 싸게 팔고 잉크로 돈을 버는 이유?
+        프린터와 잉크는 보완재이기 때문이다. 프린터 가격을 내리면 프린터 판매가 늘고,
+        따라서 잉크 수요도 같이 늘어난다. 잉크의 높은 마진으로 수익을 올리는 전략이다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 비즈니스 적용 ========== -->
+  <div class="tb-card">
+    <h2>7. 실생활 속 탄력성</h2>
+
+    <BusinessBox title="호텔 가격 전략">
+      <p>
+        비수기에는 객실 수요가 탄력적이다. 가격을 조금만 내려도 예약이 크게 늘어난다.
+        성수기에는 비탄력적이다. 가격을 올려도 예약이 거의 줄지 않는다.
+        그래서 호텔은 성수기에 가격을 올리고, 비수기에 할인한다.
+        이것이 <strong>가격 차별</strong>의 기초 원리이다.
+      </p>
+    </BusinessBox>
+
+    <BusinessBox title="담배세의 효과">
+      <p>
+        담배는 중독성이 있어 비탄력적 상품이다 (탄력성 약 0.3~0.5).
+        가격을 10% 올려도 소비가 3~5%만 줄어든다.
+        따라서 담배세를 올리면 소비 감소보다 세수 증가 효과가 더 크다.
+        정부가 담배세를 자주 올리는 이유다.
+      </p>
+    </BusinessBox>
+  </div>
+
+  <!-- ========== 결론 ========== -->
+  <ConclusionBox title="5장 핵심 정리">
+    <ul>
+      <li><strong>탄력성:</strong> 가격(또는 소득) 변화에 대한 수요 반응의 크기를 측정한다.</li>
+      <li><strong>탄력적(|E|>1):</strong> 가격에 민감. 대체재가 많거나 사치품일 때.</li>
+      <li><strong>비탄력적(|E|&lt;1):</strong> 가격에 둔감. 필수품이거나 대체재가 없을 때.</li>
+      <li><strong>매출과 탄력성:</strong> 탄력적이면 가격 인하가 유리, 비탄력적이면 가격 인상이 유리.</li>
+      <li><strong>소득탄력성:</strong> 정상재(&gt;0), 사치재(&gt;1), 열등재(&lt;0)로 상품을 분류할 수 있다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 시장에서 소비자와 생산자는 각각 얼마나 이득을 보는가? 잉여와 효율성을 배운다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  try {
+    var key = 'textbook-progress-econ';
+    var raw = localStorage.getItem(key);
+    var data = raw ? JSON.parse(raw) : { chapters: {} };
+    data.chapters['05-elasticity'] = { visited: true, lastVisit: new Date().toISOString().slice(0, 10) };
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch(e) {}
+
+  // ========== 인터랙티브 1: 탄력성 계산기 ==========
+  var elCalcChart = null;
+
+  window.calcElasticity = function() {
+    var p1 = parseFloat(document.getElementById('el-p1').value) || 1;
+    var p2 = parseFloat(document.getElementById('el-p2').value) || 1;
+    var q1 = parseFloat(document.getElementById('el-q1').value) || 1;
+    var q2 = parseFloat(document.getElementById('el-q2').value) || 1;
+
+    var pctP = ((p2 - p1) / p1) * 100;
+    var pctQ = ((q2 - q1) / q1) * 100;
+    var elast = pctP !== 0 ? Math.abs(pctQ / pctP) : 0;
+
+    document.getElementById('el-pct-p').textContent = (pctP >= 0 ? '+' : '') + pctP.toFixed(1) + '%';
+    document.getElementById('el-pct-q').textContent = (pctQ >= 0 ? '+' : '') + pctQ.toFixed(1) + '%';
+    document.getElementById('el-value').textContent = elast.toFixed(2);
+
+    var verdict = '';
+    if (elast > 1) verdict = '탄력적 (|E|>1)';
+    else if (elast === 1) verdict = '단위 탄력적 (|E|=1)';
+    else verdict = '비탄력적 (|E|<1)';
+    document.getElementById('el-verdict').textContent = verdict;
+
+    // Chart
+    if (elCalcChart) elCalcChart.destroy();
+    var ctx = document.getElementById('elasticity-calc-chart');
+    if (!ctx) return;
+    elCalcChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['가격 변화율', '수량 변화율'],
+        datasets: [{
+          label: '변화율 (%)',
+          data: [Math.abs(pctP), Math.abs(pctQ)],
+          backgroundColor: ['rgba(245,158,11,0.6)', 'rgba(59,130,246,0.6)']
+        }]
+      },
+      options: {
+        responsive: true, indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: { x: { beginAtZero: true, title: { display: true, text: '변화율 (%, 절대값)' } } }
+      }
+    });
+  };
+
+  // ========== 인터랙티브 2: 상품별 탄력성 비교 ==========
+  var compareChart = null;
+  var products = [
+    { name: '쌀', elasticity: 0.2, base: 100 },
+    { name: '소금', elasticity: 0.1, base: 50 },
+    { name: '우유', elasticity: 0.5, base: 80 },
+    { name: '외식', elasticity: 1.2, base: 60 },
+    { name: '명품가방', elasticity: 2.5, base: 10 },
+    { name: '해외여행', elasticity: 3.0, base: 20 }
+  ];
+
+  function updateCompare() {
+    var pricePct = parseInt(document.getElementById('compare-price-change').value);
+    document.getElementById('compare-pct').textContent = pricePct;
+
+    var labels = [];
+    var origData = [];
+    var newData = [];
+    for (var i = 0; i < products.length; i++) {
+      labels.push(products[i].name + ' (E=' + products[i].elasticity + ')');
+      origData.push(products[i].base);
+      var qtyChange = -products[i].elasticity * pricePct;
+      var newQty = Math.max(0, products[i].base * (1 + qtyChange / 100));
+      newData.push(Math.round(newQty * 10) / 10);
+    }
+
+    if (!compareChart) {
+      var ctx = document.getElementById('compare-chart');
+      if (!ctx) return;
+      compareChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: '원래 수요량', data: origData, backgroundColor: 'rgba(59,130,246,0.5)' },
+            { label: '새 수요량 (가격 인상 후)', data: newData, backgroundColor: 'rgba(239,68,68,0.5)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: { y: { beginAtZero: true, title: { display: true, text: '수요량' } } }
+        }
+      });
+    } else {
+      compareChart.data.datasets[1].data = newData;
+      compareChart.update();
+    }
+  }
+
+  document.getElementById('compare-price-change').addEventListener('input', updateCompare);
+  updateCompare();
+
+  // ========== 인터랙티브 3: 매출 극대화 ==========
+  var revChart = null;
+
+  function demandAtPrice(p) {
+    return Math.max(0, 200 - 0.1 * p);
+  }
+
+  function elasticityAtPrice(p) {
+    var q = demandAtPrice(p);
+    if (q === 0) return 999;
+    return (0.1 * p) / q; // |dQ/dP * P/Q|
+  }
+
+  function updateRevenue() {
+    var price = parseInt(document.getElementById('rev-price-slider').value);
+    document.getElementById('rev-price-display').textContent = price.toLocaleString();
+
+    var qty = demandAtPrice(price);
+    var revenue = price * qty;
+    var elast = elasticityAtPrice(price);
+
+    document.getElementById('rev-price').textContent = price.toLocaleString() + '원';
+    document.getElementById('rev-qty').textContent = qty.toFixed(0) + '개';
+    document.getElementById('rev-revenue').textContent = Math.round(revenue).toLocaleString() + '원';
+    document.getElementById('rev-elasticity').textContent = elast.toFixed(2);
+
+    // Full revenue curve
+    var priceLabels = [];
+    var revData = [];
+    var elastData = [];
+    for (var p = 100; p <= 2000; p += 50) {
+      priceLabels.push(p);
+      var q2 = demandAtPrice(p);
+      revData.push(p * q2);
+      elastData.push(elasticityAtPrice(p));
+    }
+
+    if (!revChart) {
+      var ctx = document.getElementById('revenue-chart');
+      if (!ctx) return;
+      revChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: priceLabels,
+          datasets: [
+            { label: '매출 (원)', data: revData, borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', fill: true, tension: 0.3, yAxisID: 'y' },
+            { label: '탄력성 |E|', data: elastData, borderColor: '#ef4444', borderDash: [5, 3], tension: 0.3, yAxisID: 'y1', pointRadius: 0 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            annotation: undefined
+          },
+          scales: {
+            x: { title: { display: true, text: '가격 (원)' } },
+            y: { position: 'left', title: { display: true, text: '매출 (원)' }, beginAtZero: true },
+            y1: { position: 'right', title: { display: true, text: '탄력성 |E|' }, beginAtZero: true, max: 5, grid: { drawOnChartArea: false } }
+          }
+        }
+      });
+    } else {
+      revChart.update();
+    }
+  }
+
+  document.getElementById('rev-price-slider').addEventListener('input', updateRevenue);
+  updateRevenue();
+
+  // ========== 인터랙티브 4: 소득탄력성 ==========
+  var incomeChart = null;
+  var incomeProducts = [
+    { name: '라면', elast: -0.3, base: 50 },
+    { name: '쌀', elast: 0.2, base: 80 },
+    { name: '우유', elast: 0.5, base: 40 },
+    { name: '외식', elast: 1.0, base: 30 },
+    { name: '해외여행', elast: 2.0, base: 10 },
+    { name: '명품', elast: 2.5, base: 5 }
+  ];
+
+  function updateIncome() {
+    var incomePct = parseInt(document.getElementById('income-slider').value);
+    document.getElementById('income-change-display').textContent = incomePct;
+
+    var labels = [];
+    var baseData = [];
+    var newData = [];
+    var colors = [];
+
+    for (var i = 0; i < incomeProducts.length; i++) {
+      var p = incomeProducts[i];
+      labels.push(p.name);
+      baseData.push(p.base);
+      var change = p.elast * incomePct;
+      var newVal = Math.max(0, p.base * (1 + change / 100));
+      newData.push(Math.round(newVal * 10) / 10);
+      colors.push(p.elast < 0 ? 'rgba(239,68,68,0.6)' : (p.elast > 1 ? 'rgba(99,102,241,0.6)' : 'rgba(5,150,105,0.6)'));
+    }
+
+    if (!incomeChart) {
+      var ctx = document.getElementById('income-chart');
+      if (!ctx) return;
+      incomeChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: '기존 수요', data: baseData, backgroundColor: 'rgba(156,163,175,0.4)' },
+            { label: '새 수요 (소득 변화 후)', data: newData, backgroundColor: colors }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: { y: { beginAtZero: true, title: { display: true, text: '수요량' } } }
+        }
+      });
+    } else {
+      incomeChart.data.datasets[1].data = newData;
+      incomeChart.data.datasets[1].backgroundColor = colors;
+      incomeChart.update();
+    }
+  }
+
+  document.getElementById('income-slider').addEventListener('input', updateIncome);
+  updateIncome();
+}
+
+waitForChart(init);
+</script>

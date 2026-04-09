@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/textbook.css';
+import chaptersData from '../../../data/textbook-econ.json';
+import seriesData from '../../../data/textbook-series.json';
+
+const { parts, chapters } = chaptersData;
+const allSeries = seriesData.series;
+
+const chaptersByPart = parts.map(part => ({
+  ...part,
+  chapters: chapters.filter(ch => ch.part === part.id),
+}));
+---
+
+<BaseLayout
+  title="경제학 입문"
+  description="미시와 거시경제의 핵심 원리를 시뮬레이션으로 체험하는 경제학 교과서"
+>
+  <div class="textbook-page" data-pagefind-body>
+    <!-- Series Navigation -->
+    <nav style="background: var(--tb-g100); border-bottom: 2px solid var(--tb-g200); padding: 12px 0;">
+      <div style="max-width: var(--tb-container-max); margin: 0 auto; padding: 0 28px; display: flex; gap: 8px; overflow-x: auto;">
+        {allSeries.map(s => (
+          <a
+            href={s.hubUrl}
+            data-astro-reload
+            style={`padding: 8px 18px; border-radius: 20px; font-size: .88rem; font-weight: 600; text-decoration: none; white-space: nowrap; transition: .2s; ${s.id === 'econ' ? `background: ${s.color}; color: #fff;` : `background: #fff; color: var(--tb-g600); border: 1px solid var(--tb-g200);`}`}
+          >
+            {s.title}
+            {s.status === 'planned' && <span style="font-size: .7rem; opacity: .6;"> (준비중)</span>}
+          </a>
+        ))}
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="tb-hub-hero" style="background: linear-gradient(135deg, #059669, #0d9488);">
+      <h1>경제학 입문</h1>
+      <p>미시와 거시경제의 핵심 원리를 시뮬레이션으로 체험하다</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="tb-hub-progress">
+      <div class="tb-hub-progress-card">
+        <span class="progress-label">학습 진행률</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="hub-progress-fill" style="width: 0%; background: linear-gradient(90deg, #059669, #0d9488);"></div>
+        </div>
+        <span class="progress-text" id="hub-progress-text" style="color: #059669;">0%</span>
+      </div>
+    </div>
+
+    <!-- Chapter List by Part -->
+    <div class="tb-container" style="margin-top: 32px;">
+      {chaptersByPart.map(part => (
+        <section class="tb-part-section" data-part={part.id}>
+          <div class="tb-part-header">
+            <div class="tb-part-badge" style={`background: ${part.color}`}>
+              {part.id}
+            </div>
+            <div>
+              <h2>PART {part.id}: {part.title}</h2>
+              <div class="part-desc">{part.description}</div>
+            </div>
+          </div>
+
+          <div class="tb-chapter-list">
+            {part.chapters.map(ch => {
+              const isPublished = ch.status === 'published';
+              const href = isPublished ? `/textbook/econ/${ch.slug}/` : undefined;
+              const Tag = isPublished ? 'a' : 'div';
+
+              return (
+                <Tag
+                  href={href}
+                  data-astro-reload={isPublished ? '' : undefined}
+                  class={`tb-chapter-item ${ch.capstone ? 'capstone' : ''} ${!isPublished ? 'planned' : ''}`}
+                  style={!isPublished ? 'opacity: 0.6; cursor: default;' : `border-left-color: ${part.color};`}
+                >
+                  <span class="ch-num" style={`color: ${part.color}`}>{String(ch.num).padStart(2, '0')}</span>
+                  <div class="ch-info">
+                    <div class="ch-title">{ch.title}</div>
+                    <div class="ch-desc">{ch.subtitle}</div>
+                  </div>
+                  <div class="ch-meta">
+                    <span class="ch-interactive" style="background: #d1fae5; color: #059669;">{ch.interactiveCount} interactive</span>
+                  </div>
+                  <div class="ch-check" data-slug={ch.slug}></div>
+                </Tag>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+
+      <div style="text-align: center; padding: 40px 0 20px; color: var(--tb-g600); font-size: 0.9rem;">
+        <p><strong>Yonghee Kim</strong> -- 선문대학교 경영학과</p>
+        <p style="margin-top: 4px;"><a href="https://kimyonghee.com" style="color: #059669; text-decoration: none;">kimyonghee.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    function updateProgress() {
+      try {
+        var raw = localStorage.getItem('textbook-progress-econ');
+        if (!raw) return;
+        var data = JSON.parse(raw);
+        var visited = Object.values(data.chapters || {}).filter(function(c) { return c.visited; }).length;
+        var total = document.querySelectorAll('.tb-chapter-item').length;
+        var pct = total > 0 ? Math.round(visited / total * 100) : 0;
+        var fill = document.getElementById('hub-progress-fill');
+        var text = document.getElementById('hub-progress-text');
+        if (fill) fill.style.width = pct + '%';
+        if (text) text.textContent = pct + '%';
+
+        var slugs = Object.entries(data.chapters || {}).filter(function(e) { return e[1].visited; }).map(function(e) { return e[0]; });
+        document.querySelectorAll('.ch-check').forEach(function(el) {
+          if (slugs.indexOf(el.getAttribute('data-slug')) !== -1) {
+            el.classList.add('done');
+            el.textContent = '\u2713';
+          }
+        });
+      } catch(e) {}
+    }
+    updateProgress();
+  </script>
+</BaseLayout>

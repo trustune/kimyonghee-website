@@ -1,0 +1,560 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="화폐와 금융"
+  subtitle="은행은 어떻게 돈을 만드는가"
+  chapterNum={14}
+  part={2}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>은행에 100만원을 맡기면, 그 돈이 "늘어난다"?</h2>
+    <p>
+      은행에 100만원을 맡기면, 은행은 그 돈을 누군가에게 빌려줍니다.
+      그 사람이 물건을 사면, 판매자가 그 돈을 다시 은행에 맡깁니다.
+      은행은 또 그 돈의 일부를 빌려줍니다.
+      이렇게 반복하면, 처음 100만원이 경제 전체에서는 수백만 원의 효과를 냅니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이것이 바로 <strong>신용 창조(money creation)</strong>입니다.
+      은행이 말 그대로 "돈을 만드는" 과정입니다.
+    </p>
+
+    <InsightBox title="화폐는 왜 중요한가?">
+      <p>화폐가 없다면 물물교환을 해야 합니다. 내가 쌀을 가지고 있고 생선이 필요한데,
+        생선을 가진 사람이 쌀을 원하지 않으면 거래가 성립하지 않습니다.
+        화폐는 이런 문제를 해결하는 위대한 발명품입니다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 1: 화폐의 기능 ===== -->
+  <div class="tb-card">
+    <h2>1. 화폐의 세 가지 기능</h2>
+
+    <ExplainBox title="화폐가 하는 일">
+      <p><strong>1. 교환의 매개(Medium of Exchange):</strong>
+        물물교환 대신 돈으로 거래합니다. 가장 기본적인 기능입니다.</p>
+      <p style="margin-top: 8px;"><strong>2. 가치의 저장(Store of Value):</strong>
+        오늘 번 돈을 내일 쓸 수 있습니다. 쌀은 썩지만 돈은 (인플레이션만 아니면) 가치가 유지됩니다.</p>
+      <p style="margin-top: 8px;"><strong>3. 가치의 척도(Unit of Account):</strong>
+        모든 물건의 가치를 "원"이라는 단위로 표현합니다.
+        사과 1개 = 1,000원, 스마트폰 = 100만원. 비교가 쉬워집니다.</p>
+    </ExplainBox>
+
+    <ExplainBox title="화폐의 종류">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>M1 (협의통화):</strong> 현금 + 수시입출금 예금 -- 바로 쓸 수 있는 돈</li>
+        <li><strong>M2 (광의통화):</strong> M1 + 정기예금 + 적금 등 -- 약간의 절차를 거치면 쓸 수 있는 돈</li>
+      </ul>
+    </ExplainBox>
+
+    <BusinessBox title="화폐의 역사">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>물물교환 시대:</strong> 쌀, 조개껍데기, 소금 등을 화폐처럼 사용</li>
+        <li><strong>금속 화폐:</strong> 금, 은으로 만든 동전. 내재적 가치가 있었음</li>
+        <li><strong>지폐:</strong> 금과 교환을 약속한 종이 (금본위제)</li>
+        <li><strong>불환화폐 (fiat money):</strong> 금과 연결 없이 정부의 신뢰로 가치를 가지는 현대 화폐</li>
+        <li><strong>디지털 화폐:</strong> 카드 결제, 모바일 페이, CBDC(중앙은행 디지털화폐)</li>
+      </ul>
+      <p style="margin-top: 8px;">한국은 2024년 현금 사용 비율이 약 10% 미만입니다. 대부분 카드나 모바일로 결제합니다.</p>
+    </BusinessBox>
+
+    <ExerciseBox title="연습: 화폐 승수 계산">
+      <p>최초 예금이 500만원이고 지급준비율이 20%라면:</p>
+      <p>1. 화폐 승수는?</p>
+      <p>2. 총 통화량은?</p>
+      <p>3. 총 대출액은?</p>
+      <button class="tb-btn" id="mm-calc-btn" style="margin-top: 8px;">풀이 보기</button>
+      <div id="mm-calc-answer" style="display: none; margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1.</strong> 화폐 승수 = 1 / 0.2 = <strong>5배</strong></p>
+        <p><strong>2.</strong> 총 통화량 = 500만 x 5 = <strong>2,500만원</strong></p>
+        <p><strong>3.</strong> 총 대출액 = 2,500만 - 500만 = <strong>2,000만원</strong></p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 화폐 승수 시뮬레이터 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 화폐 승수 시뮬레이터</h2>
+    <p>
+      최초 예금 금액과 지급준비율을 설정하면,
+      예금 → 대출 → 재예금 과정이 단계별로 시각화됩니다.
+      지급준비율이 낮을수록 더 많은 돈이 "만들어집니다."
+    </p>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">화폐 승수 = 1 / 지급준비율</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        총 통화량 = 최초 예금 x 화폐 승수
+      </p>
+    </FormulaBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="화폐 승수" value="-" id="mm-multiplier" borderColor="#059669" />
+      <StatBox label="총 통화량" value="-" id="mm-total" borderColor="#3b82f6" />
+      <StatBox label="총 대출액" value="-" id="mm-loans" borderColor="#f59e0b" />
+      <StatBox label="총 지급준비금" value="-" id="mm-reserves" borderColor="#7c3aed" />
+    </div>
+
+    <SimControls>
+      <label>최초 예금: <span id="mm-deposit-val">1000</span>만원</label>
+      <input type="range" id="mm-deposit" min="100" max="5000" value="1000" step="100" />
+      <label>지급준비율: <span id="mm-rrr-val">10</span>%</label>
+      <input type="range" id="mm-rrr" min="1" max="50" value="10" step="1" />
+    </SimControls>
+
+    <div id="mm-steps" style="margin: 16px 0; max-height: 300px; overflow-y: auto;"></div>
+
+    <ChartContainer id="mmChart" height="350px" />
+
+    <WarningBox title="현실에서는 화폐 승수가 이론보다 작다">
+      <p>이론적으로 지급준비율 10%면 화폐 승수는 10입니다.
+        하지만 현실에서는 사람들이 현금을 보유하거나, 은행이 추가 지급준비금을 쌓거나,
+        대출 수요가 부족하면 승수는 이론보다 작아집니다.</p>
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 물물교환 vs 화폐 교환 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 물물교환 vs 화폐 교환</h2>
+    <p>
+      세 사람이 각각 다른 물건을 가지고 있고, 서로 다른 물건을 원합니다.
+      화폐 없이 거래가 가능할까요?
+    </p>
+
+    <ExplainBox title="욕구의 이중 일치 문제">
+      <p><strong>"욕구의 이중 일치(double coincidence of wants)"</strong>란,
+        물물교환이 성립하려면 내가 상대의 물건을 원하고, 상대도 내 물건을 원해야 한다는 조건입니다.
+        사람이 3명만 되어도 이 조건을 만족하기 어려워집니다.</p>
+    </ExplainBox>
+
+    <div id="barter-sim" style="margin: 16px 0; padding: 20px; background: #f9fafb; border-radius: 12px;">
+      <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
+        <div style="text-align: center; padding: 16px; background: #dbeafe; border-radius: 12px; min-width: 140px;">
+          <div style="font-size: 1.5rem;">A</div>
+          <div>가진 것: <strong>쌀</strong></div>
+          <div>원하는 것: <strong>생선</strong></div>
+        </div>
+        <div style="text-align: center; padding: 16px; background: #fef3c7; border-radius: 12px; min-width: 140px;">
+          <div style="font-size: 1.5rem;">B</div>
+          <div>가진 것: <strong>생선</strong></div>
+          <div>원하는 것: <strong>옷</strong></div>
+        </div>
+        <div style="text-align: center; padding: 16px; background: #dcfce7; border-radius: 12px; min-width: 140px;">
+          <div style="font-size: 1.5rem;">C</div>
+          <div>가진 것: <strong>옷</strong></div>
+          <div>원하는 것: <strong>쌀</strong></div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin: 16px 0;">
+        <button class="tb-btn" id="barter-no-money">물물교환 시도</button>
+        <button class="tb-btn" id="barter-with-money" style="margin-left: 12px;">화폐 사용</button>
+      </div>
+      <div id="barter-result" style="padding: 12px; text-align: center; min-height: 60px;"></div>
+    </div>
+
+    <ExerciseBox title="생각해 보기">
+      <p>비트코인이나 디지털 화폐도 화폐의 세 가지 기능(교환 매개, 가치 저장, 가치 척도)을 수행할 수 있을까요?
+        각 기능별로 생각해 보세요.</p>
+      <button class="tb-btn" id="crypto-answer-btn">생각 힌트 보기</button>
+      <p id="crypto-answer" style="margin-top: 8px; display: none; color: #059669;">
+        <strong>교환 매개:</strong> 일부 상점에서 받지만 아직 보편적이지 않습니다.
+        <strong>가치 저장:</strong> 가격 변동이 너무 커서 불안정합니다.
+        <strong>가치 척도:</strong> "이 물건은 0.003 비트코인"이라고 하면 직관적이지 않습니다.
+        아직은 전통적 화폐를 완전히 대체하기 어렵습니다.
+      </p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 이자율과 채권 가격 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 이자율과 채권 가격의 시소 관계</h2>
+    <p>
+      채권은 "미래에 돈을 받을 권리"입니다.
+      만약 1년 후 100만원을 받는 채권이 있다면, 지금 얼마에 살까요?
+      이자율이 높으면 지금 돈의 가치가 높으므로, 채권 가격은 떨어집니다.
+    </p>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">채권 가격 = 액면가 / (1 + 이자율)</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        이자율 상승 → 채권 가격 하락 (반비례 관계)
+      </p>
+    </FormulaBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="이자율" value="-" id="bond-rate" borderColor="#3b82f6" />
+      <StatBox label="채권 가격" value="-" id="bond-price" borderColor="#059669" />
+      <StatBox label="액면가" value="100만원" id="bond-face" borderColor="#7c3aed" />
+    </div>
+
+    <SimControls>
+      <label>이자율: <span id="bond-rate-val">5</span>%</label>
+      <input type="range" id="bond-rate-slider" min="1" max="20" value="5" step="0.5" />
+    </SimControls>
+
+    <ChartContainer id="bondChart" height="320px" />
+
+    <InsightBox title="왜 이것이 중요한가?">
+      <p>중앙은행이 금리를 올리면, 기존에 발행된 채권의 가격이 떨어집니다.
+        채권을 많이 보유한 은행이나 투자자는 손실을 입습니다.
+        2023년 미국 실리콘밸리은행(SVB) 파산의 원인 중 하나가 바로 이것이었습니다.</p>
+    </InsightBox>
+
+    <ExerciseBox title="연습: 채권 가격 계산">
+      <p>액면가 1,000만원인 1년 만기 채권이 있습니다.</p>
+      <p>1. 이자율이 5%일 때 채권 가격은?</p>
+      <p>2. 이자율이 10%로 오르면 채권 가격은?</p>
+      <p>3. 채권을 952만원에 산 사람이 이자율 10% 시점에 팔면 손익은?</p>
+      <button class="tb-btn" id="bond-calc-btn" style="margin-top: 8px;">풀이 보기</button>
+      <div id="bond-calc-answer" style="display: none; margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1.</strong> 1,000만 / (1 + 0.05) = <strong>약 952만원</strong></p>
+        <p><strong>2.</strong> 1,000만 / (1 + 0.10) = <strong>약 909만원</strong></p>
+        <p><strong>3.</strong> 909만 - 952만 = <strong>-43만원 (손실)</strong></p>
+        <p style="margin-top: 8px;">금리가 올라서 채권 가격이 떨어져 손실을 입었습니다.
+          이것이 금리 위험(interest rate risk)입니다.</p>
+      </div>
+    </ExerciseBox>
+
+    <BusinessBox title="한국은행의 역할">
+      <p>한국은행은 1950년에 설립된 대한민국의 중앙은행입니다.</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>물가 안정:</strong> 물가상승률을 2% 목표로 관리</li>
+        <li><strong>금융 안정:</strong> 금융 시스템의 안정성 유지</li>
+        <li><strong>화폐 발행:</strong> 한국 원화의 발행 독점권 보유</li>
+        <li><strong>최종 대부자:</strong> 위기 시 은행에 긴급 자금 공급</li>
+      </ul>
+      <p style="margin-top: 8px;">한국은행은 연 8회 금융통화위원회를 열어 기준금리를 결정합니다.
+        이 회의 날은 금융 시장이 크게 주목합니다.</p>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 한국 기준금리 시계열 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 한국은행 기준금리 시계열</h2>
+    <p>
+      한국은행은 경제 상황에 따라 기준금리를 조절합니다.
+      아래 차트에서 주요 시점의 이벤트를 확인해 보세요.
+    </p>
+
+    <ChartContainer id="bokRateChart" height="380px" />
+
+    <ExerciseBox title="차트 읽기 문제">
+      <p>2020년 기준금리가 급격히 낮아진 이유는 무엇일까요?</p>
+      <button class="tb-btn" id="bok-answer-btn">정답 보기</button>
+      <p id="bok-answer" style="margin-top: 8px; display: none; font-weight: bold; color: #059669;">
+        코로나19 팬데믹으로 경기가 급격히 침체되자,
+        한국은행이 경기를 살리기 위해 기준금리를 0.5%까지 내렸습니다.
+        낮은 금리는 대출을 쉽게 하고 소비와 투자를 촉진하기 위한 것입니다.
+      </p>
+    </ExerciseBox>
+
+    <BusinessBox title="기준금리가 일상에 미치는 영향">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>주택담보대출:</strong> 금리 1% 상승 시, 3억원 대출의 월 이자가 약 25만원 증가</li>
+        <li><strong>예금:</strong> 금리가 오르면 저축의 이자 수입이 늘어남</li>
+        <li><strong>주식시장:</strong> 금리 상승 시 기업 비용 증가 → 주가 하락 경향</li>
+        <li><strong>환율:</strong> 금리 상승 시 외국 자본 유입 → 원화 강세</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="14장 정리: 화폐와 금융">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li><strong>화폐의 기능:</strong> 교환 매개, 가치 저장, 가치 척도</li>
+      <li><strong>신용 창조:</strong> 예금 → 대출 → 재예금 반복으로 통화량 증가</li>
+      <li><strong>화폐 승수</strong> = 1 / 지급준비율</li>
+      <li><strong>이자율과 채권 가격</strong>은 반비례 (시소 관계)</li>
+      <li><strong>기준금리</strong>는 중앙은행이 경제를 조절하는 핵심 도구</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  /* ========== 1. 화폐 승수 시뮬레이터 ========== */
+  var mmDeposit = document.getElementById('mm-deposit');
+  var mmRrr = document.getElementById('mm-rrr');
+  var mmSteps = document.getElementById('mm-steps');
+  var mmCtx = document.getElementById('mmChart');
+
+  var mmChart = new Chart(mmCtx, {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '예금', data: [], backgroundColor: 'rgba(59,130,246,0.6)', borderRadius: 4 },
+        { label: '대출', data: [], backgroundColor: 'rgba(245,158,11,0.6)', borderRadius: 4 },
+        { label: '지급준비금', data: [], backgroundColor: 'rgba(139,92,246,0.6)', borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '단계' } },
+        y: { title: { display: true, text: '금액 (만원)' }, beginAtZero: true }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updateMM() {
+    var deposit = parseInt(mmDeposit.value);
+    var rrr = parseInt(mmRrr.value) / 100;
+    document.getElementById('mm-deposit-val').textContent = deposit;
+    document.getElementById('mm-rrr-val').textContent = mmRrr.value;
+
+    var multiplier = (1 / rrr).toFixed(1);
+    var totalMoney = deposit / rrr;
+
+    document.getElementById('mm-multiplier').textContent = multiplier + '배';
+    document.getElementById('mm-total').textContent = Math.round(totalMoney).toLocaleString() + '만원';
+
+    var labels = [];
+    var deposits = [];
+    var loans = [];
+    var reserves = [];
+    var currentDeposit = deposit;
+    var totalLoan = 0;
+    var totalReserve = 0;
+    var stepsHTML = '<table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">' +
+      '<tr style="background: #f3f4f6;"><th style="padding: 8px; text-align: left;">단계</th>' +
+      '<th style="padding: 8px; text-align: right;">예금</th>' +
+      '<th style="padding: 8px; text-align: right;">지급준비금</th>' +
+      '<th style="padding: 8px; text-align: right;">대출</th></tr>';
+
+    for (var step = 1; step <= 10; step++) {
+      var reserve = currentDeposit * rrr;
+      var loan = currentDeposit - reserve;
+      totalLoan += loan;
+      totalReserve += reserve;
+
+      labels.push(step + '단계');
+      deposits.push(Math.round(currentDeposit));
+      loans.push(Math.round(loan));
+      reserves.push(Math.round(reserve));
+
+      stepsHTML += '<tr style="border-bottom: 1px solid #e5e7eb;">' +
+        '<td style="padding: 6px 8px;">' + step + '단계</td>' +
+        '<td style="padding: 6px 8px; text-align: right;">' + Math.round(currentDeposit).toLocaleString() + '만원</td>' +
+        '<td style="padding: 6px 8px; text-align: right;">' + Math.round(reserve).toLocaleString() + '만원</td>' +
+        '<td style="padding: 6px 8px; text-align: right;">' + Math.round(loan).toLocaleString() + '만원</td></tr>';
+
+      currentDeposit = loan;
+    }
+    stepsHTML += '</table>';
+    mmSteps.innerHTML = stepsHTML;
+
+    document.getElementById('mm-loans').textContent = Math.round(totalLoan).toLocaleString() + '만원';
+    document.getElementById('mm-reserves').textContent = Math.round(totalReserve).toLocaleString() + '만원';
+
+    mmChart.data.labels = labels;
+    mmChart.data.datasets[0].data = deposits;
+    mmChart.data.datasets[1].data = loans;
+    mmChart.data.datasets[2].data = reserves;
+    mmChart.update();
+  }
+
+  mmDeposit.addEventListener('input', updateMM);
+  mmRrr.addEventListener('input', updateMM);
+  updateMM();
+
+  /* ========== 2. 물물교환 vs 화폐 ========== */
+  var barterResult = document.getElementById('barter-result');
+
+  document.getElementById('barter-no-money').addEventListener('click', function() {
+    barterResult.innerHTML =
+      '<div style="color: #ef4444; font-weight: bold; margin-bottom: 8px;">물물교환 실패!</div>' +
+      '<p>A는 쌀을 가지고 있고 생선을 원합니다. B는 생선을 가지고 있지만 <strong>쌀이 아닌 옷</strong>을 원합니다.</p>' +
+      '<p style="margin-top: 4px;">A와 B의 직접 거래가 불가능합니다. 욕구의 이중 일치가 성립하지 않습니다.</p>' +
+      '<p style="margin-top: 8px; color: #6b7280;">3자간 순환 교환(A→쌀→C, C→옷→B, B→생선→A)이 가능하지만, 세 사람이 동시에 만나야 하고 매우 비효율적입니다.</p>';
+  });
+
+  document.getElementById('barter-with-money').addEventListener('click', function() {
+    barterResult.innerHTML =
+      '<div style="color: #059669; font-weight: bold; margin-bottom: 8px;">화폐로 간단히 해결!</div>' +
+      '<p>1. A가 쌀을 시장에 팔아 10,000원을 받습니다.</p>' +
+      '<p>2. A가 그 돈으로 B에게서 생선을 삽니다.</p>' +
+      '<p>3. B는 받은 돈으로 C에게서 옷을 삽니다.</p>' +
+      '<p>4. C는 받은 돈으로 다른 사람에게서 쌀을 삽니다.</p>' +
+      '<p style="margin-top: 8px; font-weight: bold;">화폐 덕분에 모든 사람이 원하는 것을 얻었습니다!</p>';
+  });
+
+  document.getElementById('crypto-answer-btn').addEventListener('click', function() {
+    document.getElementById('crypto-answer').style.display = 'block';
+  });
+
+  /* ========== 3. 이자율과 채권 가격 ========== */
+  var bondSlider = document.getElementById('bond-rate-slider');
+  var bondCtx = document.getElementById('bondChart');
+
+  var rateLabels = [];
+  var priceData = [];
+  for (var r = 1; r <= 20; r++) {
+    rateLabels.push(r + '%');
+    priceData.push(Math.round(1000000 / (1 + r / 100)));
+  }
+
+  var bondChart = new Chart(bondCtx, {
+    type: 'line',
+    data: {
+      labels: rateLabels,
+      datasets: [{
+        label: '채권 가격 (원)',
+        data: priceData,
+        borderColor: '#059669',
+        backgroundColor: 'rgba(5,150,105,0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.3,
+        pointRadius: 0
+      }, {
+        label: '현재 위치',
+        data: [],
+        pointRadius: 10,
+        pointBackgroundColor: '#ef4444',
+        borderColor: '#ef4444',
+        showLine: false
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '이자율' } },
+        y: { title: { display: true, text: '채권 가격 (원)' }, min: 750000, max: 1000000 }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function updateBond() {
+    var rate = parseFloat(bondSlider.value);
+    document.getElementById('bond-rate-val').textContent = rate;
+    var price = Math.round(1000000 / (1 + rate / 100));
+    document.getElementById('bond-rate').textContent = rate + '%';
+    document.getElementById('bond-price').textContent = price.toLocaleString() + '원';
+
+    // Mark current position
+    var markerData = new Array(20).fill(null);
+    var idx = Math.round(rate) - 1;
+    if (idx >= 0 && idx < 20) markerData[idx] = priceData[idx];
+    bondChart.data.datasets[1].data = markerData;
+    bondChart.update();
+  }
+
+  bondSlider.addEventListener('input', updateBond);
+  updateBond();
+
+  /* ========== 4. 한국은행 기준금리 시계열 ========== */
+  var bokYears = [
+    1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008,
+    2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
+    2019, 2020, 2021, 2022, 2023, 2024, 2025
+  ];
+  var bokRates = [
+    5.0, 5.25, 4.0, 4.25, 3.75, 3.5, 3.25, 4.5, 5.0, 3.0,
+    2.0, 2.5, 3.25, 2.75, 2.5, 2.0, 1.5, 1.25, 1.5, 1.75,
+    1.25, 0.5, 1.0, 3.5, 3.5, 3.0, 2.75
+  ];
+
+  var events = {
+    2001: 'IT 버블 붕괴',
+    2008: '글로벌 금융위기',
+    2012: '유럽 재정위기',
+    2020: '코로나19',
+    2022: '인플레이션 급등'
+  };
+
+  var bokCtx = document.getElementById('bokRateChart');
+  var bokPointColors = bokYears.map(function(y) {
+    return events[y] ? '#ef4444' : '#059669';
+  });
+  var bokPointSizes = bokYears.map(function(y) {
+    return events[y] ? 8 : 3;
+  });
+
+  new Chart(bokCtx, {
+    type: 'line',
+    data: {
+      labels: bokYears,
+      datasets: [{
+        label: '기준금리 (%)',
+        data: bokRates,
+        borderColor: '#059669',
+        backgroundColor: 'rgba(5,150,105,0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.3,
+        pointBackgroundColor: bokPointColors,
+        pointRadius: bokPointSizes,
+        pointBorderColor: bokPointColors
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '연도' } },
+        y: { title: { display: true, text: '기준금리 (%)' }, beginAtZero: true, max: 6 }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterLabel: function(ctx) {
+              var yr = bokYears[ctx.dataIndex];
+              return events[yr] || '';
+            }
+          }
+        }
+      }
+    }
+  });
+
+  document.getElementById('bok-answer-btn').addEventListener('click', function() {
+    document.getElementById('bok-answer').style.display = 'block';
+  });
+
+  var mmCalcBtn = document.getElementById('mm-calc-btn');
+  if (mmCalcBtn) {
+    mmCalcBtn.addEventListener('click', function() {
+      document.getElementById('mm-calc-answer').style.display = 'block';
+    });
+  }
+
+  var bondCalcBtn = document.getElementById('bond-calc-btn');
+  if (bondCalcBtn) {
+    bondCalcBtn.addEventListener('click', function() {
+      document.getElementById('bond-calc-answer').style.display = 'block';
+    });
+  }
+}
+
+waitForChart(init);
+</script>

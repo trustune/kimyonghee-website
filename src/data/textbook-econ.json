@@ -1,0 +1,67 @@
+{
+  "seriesId": "econ",
+  "parts": [
+    {
+      "id": 0,
+      "title": "경제학이란 무엇인가",
+      "titleEn": "What is Economics?",
+      "description": "경제학적 사고의 출발점",
+      "color": "#059669"
+    },
+    {
+      "id": 1,
+      "title": "미시경제학",
+      "titleEn": "Microeconomics",
+      "description": "개인과 기업의 선택, 시장의 원리",
+      "color": "#10b981"
+    },
+    {
+      "id": 2,
+      "title": "거시경제학",
+      "titleEn": "Macroeconomics",
+      "description": "국가 경제의 흐름과 정책",
+      "color": "#0d9488"
+    },
+    {
+      "id": 3,
+      "title": "한국 경제 응용",
+      "titleEn": "Korean Economy Applications",
+      "description": "배운 개념으로 한국 경제를 분석하다",
+      "color": "#0891b2"
+    },
+    {
+      "id": 4,
+      "title": "행동경제학",
+      "titleEn": "Behavioral Economics",
+      "description": "인간은 합리적이지 않다",
+      "color": "#6366f1"
+    }
+  ],
+  "chapters": [
+    { "num": 1, "slug": "01-scarcity-choice", "part": 0, "title": "희소성과 선택", "subtitle": "왜 공짜 점심은 없는가", "interactiveCount": 4, "prerequisites": [], "status": "published" },
+    { "num": 2, "slug": "02-economic-thinking", "part": 0, "title": "경제학적 사고방식", "subtitle": "기회비용, 한계 분석, 인센티브", "interactiveCount": 4, "prerequisites": [1], "status": "published" },
+    { "num": 3, "slug": "03-economic-data", "part": 0, "title": "경제 데이터 읽기", "subtitle": "뉴스 속 경제 지표를 이해하다", "interactiveCount": 3, "prerequisites": [1], "status": "published" },
+    { "num": 4, "slug": "04-supply-demand", "part": 1, "title": "수요와 공급", "subtitle": "시장 가격은 어떻게 결정되는가", "interactiveCount": 5, "prerequisites": [2], "status": "published" },
+    { "num": 5, "slug": "05-elasticity", "part": 1, "title": "탄력성", "subtitle": "가격이 오르면 얼마나 덜 살까", "interactiveCount": 4, "prerequisites": [4], "status": "published" },
+    { "num": 6, "slug": "06-surplus-efficiency", "part": 1, "title": "잉여와 효율성", "subtitle": "누가 얼마나 이득을 보는가", "interactiveCount": 3, "prerequisites": [4], "status": "published" },
+    { "num": 7, "slug": "07-market-failure", "part": 1, "title": "시장 실패", "subtitle": "시장이 해결하지 못하는 문제들", "interactiveCount": 4, "prerequisites": [6], "status": "published" },
+    { "num": 8, "slug": "08-externality", "part": 1, "title": "외부성", "subtitle": "내 행동이 남에게 미치는 영향", "interactiveCount": 3, "prerequisites": [7], "status": "published" },
+    { "num": 9, "slug": "09-public-goods", "part": 1, "title": "공공재와 공유자원", "subtitle": "무임승차 문제를 어떻게 해결할까", "interactiveCount": 3, "prerequisites": [7], "status": "published" },
+    { "num": 10, "slug": "10-capstone-micro", "part": 1, "title": "캡스톤: 미시경제 시뮬레이터", "subtitle": "시장 정책의 효과를 직접 실험하다", "interactiveCount": 4, "capstone": true, "prerequisites": [4,5,6,7,8,9], "status": "published" },
+    { "num": 11, "slug": "11-gdp-growth", "part": 2, "title": "GDP와 경제성장", "subtitle": "나라의 부는 어떻게 측정하는가", "interactiveCount": 4, "prerequisites": [3], "status": "published" },
+    { "num": 12, "slug": "12-inflation", "part": 2, "title": "인플레이션과 물가", "subtitle": "왜 같은 돈으로 살 수 있는 것이 줄어드는가", "interactiveCount": 4, "prerequisites": [11], "status": "published" },
+    { "num": 13, "slug": "13-unemployment", "part": 2, "title": "실업", "subtitle": "일자리는 왜 부족한가", "interactiveCount": 3, "prerequisites": [11], "status": "published" },
+    { "num": 14, "slug": "14-money-banking", "part": 2, "title": "화폐와 금융", "subtitle": "은행은 어떻게 돈을 만드는가", "interactiveCount": 4, "prerequisites": [12], "status": "published" },
+    { "num": 15, "slug": "15-fiscal-policy", "part": 2, "title": "재정정책", "subtitle": "정부는 경제에 어떻게 개입하는가", "interactiveCount": 4, "prerequisites": [11,13], "status": "published" },
+    { "num": 16, "slug": "16-monetary-policy", "part": 2, "title": "통화정책", "subtitle": "금리를 올리면 무슨 일이 벌어지는가", "interactiveCount": 4, "prerequisites": [14], "status": "published" },
+    { "num": 17, "slug": "17-international-trade", "part": 2, "title": "국제무역", "subtitle": "왜 나라끼리 물건을 사고파는가", "interactiveCount": 3, "prerequisites": [4,11], "status": "published" },
+    { "num": 18, "slug": "18-capstone-macro", "part": 2, "title": "캡스톤: 거시경제 대시보드", "subtitle": "한국 거시경제 데이터를 종합 분석하다", "interactiveCount": 5, "capstone": true, "prerequisites": [11,12,13,14,15,16,17], "status": "published" },
+    { "num": 19, "slug": "19-korean-housing", "part": 3, "title": "한국 부동산 시장 분석", "subtitle": "집값은 왜 오르는가", "interactiveCount": 4, "prerequisites": [4,12], "status": "published" },
+    { "num": 20, "slug": "20-korean-labor", "part": 3, "title": "한국 노동시장", "subtitle": "최저임금, 청년실업, 고령화", "interactiveCount": 4, "prerequisites": [4,13], "status": "published" },
+    { "num": 21, "slug": "21-economic-crisis", "part": 3, "title": "경제위기 시뮬레이션", "subtitle": "1997 IMF, 2008 금융위기, 2020 코로나", "interactiveCount": 4, "prerequisites": [11,14], "status": "published" },
+    { "num": 22, "slug": "22-capstone-policy", "part": 3, "title": "캡스톤: 경제정책 시뮬레이터", "subtitle": "내가 정책 결정자라면", "interactiveCount": 5, "capstone": true, "prerequisites": [15,16,19,20,21], "status": "published" },
+    { "num": 23, "slug": "23-bounded-rationality", "part": 4, "title": "제한된 합리성", "subtitle": "인간은 왜 비합리적 선택을 하는가", "interactiveCount": 4, "prerequisites": [2], "status": "published" },
+    { "num": 24, "slug": "24-prospect-theory", "part": 4, "title": "전망이론과 손실회피", "subtitle": "잃는 것이 얻는 것보다 두 배 아프다", "interactiveCount": 4, "prerequisites": [23], "status": "published" },
+    { "num": 25, "slug": "25-nudge", "part": 4, "title": "넛지와 정책설계", "subtitle": "선택 구조를 바꾸면 행동이 바뀐다", "interactiveCount": 4, "prerequisites": [23,24], "status": "published" }
+  ]
+}

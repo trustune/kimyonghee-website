@@ -1,0 +1,542 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="통화정책"
+  subtitle="금리를 올리면 무슨 일이 벌어지는가"
+  chapterNum={16}
+  part={2}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>한국은행이 금리를 0.25% 올렸다는 뉴스</h2>
+    <p>
+      "한국은행 금융통화위원회가 기준금리를 0.25%p 인상하여 3.50%로 결정했습니다."
+      이런 뉴스를 자주 봅니다. 겨우 0.25%인데, 왜 온 나라가 주목할까요?
+    </p>
+    <p style="margin-top: 12px;">
+      기준금리 0.25%p 인상은 수조 원의 돈의 흐름을 바꿉니다.
+      대출 이자가 오르고, 주식시장이 출렁이고, 환율이 변합니다.
+      이것이 <strong>통화정책</strong>의 힘입니다.
+    </p>
+
+    <InsightBox title="통화정책이란?">
+      <p><strong>통화정책</strong>은 중앙은행(한국은행)이 기준금리와 통화량을 조절하여
+        물가 안정과 경제 성장을 추구하는 것입니다.</p>
+      <p style="margin-top: 8px;">재정정책(15장)이 정부의 도구라면, 통화정책은 <strong>중앙은행</strong>의 도구입니다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 금리 전달 경로 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 금리 변경의 전달 경로</h2>
+    <p>
+      중앙은행이 기준금리를 바꾸면, 그 효과가 단계적으로 경제 전체에 퍼집니다.
+      아래에서 금리를 변경하고 각 단계의 효과를 확인해 보세요.
+    </p>
+
+    <SimControls>
+      <label>기준금리 변화: <span id="tr-rate-val">0</span>%p</label>
+      <input type="range" id="tr-rate" min="-2" max="2" value="0" step="0.25" />
+    </SimControls>
+
+    <div id="transmission-flow" style="margin: 20px 0;">
+      <div style="display: flex; flex-direction: column; gap: 12px; max-width: 600px; margin: 0 auto;">
+        <div class="tb-stat-box" style="text-align: center; border-top: 3px solid #7c3aed;">
+          <div class="label">1단계: 기준금리</div>
+          <div class="value" id="tr-step1">변화 없음</div>
+        </div>
+        <div style="text-align: center; font-size: 1.5rem; color: #9ca3af;">|</div>
+        <div class="tb-stat-box" style="text-align: center; border-top: 3px solid #3b82f6;">
+          <div class="label">2단계: 시중 금리 (대출/예금)</div>
+          <div class="value" id="tr-step2">변화 없음</div>
+        </div>
+        <div style="text-align: center; font-size: 1.5rem; color: #9ca3af;">|</div>
+        <div class="tb-stat-box" style="text-align: center; border-top: 3px solid #059669;">
+          <div class="label">3단계: 소비와 투자</div>
+          <div class="value" id="tr-step3">변화 없음</div>
+        </div>
+        <div style="text-align: center; font-size: 1.5rem; color: #9ca3af;">|</div>
+        <div class="tb-stat-box" style="text-align: center; border-top: 3px solid #f59e0b;">
+          <div class="label">4단계: GDP와 물가</div>
+          <div class="value" id="tr-step4">변화 없음</div>
+        </div>
+      </div>
+    </div>
+
+    <ChartContainer id="trChart" height="320px" />
+
+    <ExplainBox title="전달 경로 정리">
+      <p><strong>금리 인상:</strong> 대출금리 상승 → 대출 감소 → 소비/투자 감소 → GDP 감소 + 물가 하락</p>
+      <p><strong>금리 인하:</strong> 대출금리 하락 → 대출 증가 → 소비/투자 증가 → GDP 증가 + 물가 상승</p>
+      <p style="margin-top: 8px; color: #6b7280;">실제로는 6~12개월의 시차(time lag)가 있습니다.</p>
+    </ExplainBox>
+
+    <WarningBox title="통화정책의 시차 문제">
+      <p>통화정책은 효과가 나타나기까지 시간이 걸립니다.</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>인식 시차:</strong> 경제 문제를 인식하는 데 걸리는 시간</li>
+        <li><strong>결정 시차:</strong> 정책을 결정하는 데 걸리는 시간 (통화정책은 비교적 빠름)</li>
+        <li><strong>효과 시차:</strong> 정책이 실물경제에 영향을 미치는 데 6~18개월</li>
+      </ul>
+      <p style="margin-top: 8px;">따라서 중앙은행은 현재가 아닌 <strong>미래 경제</strong>를 예측하고 정책을 결정해야 합니다.</p>
+    </WarningBox>
+
+    <BusinessBox title="재정정책 vs 통화정책 비교">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 8px;">
+        <tr style="background: #f3f4f6;">
+          <th style="padding: 10px; text-align: left;"></th>
+          <th style="padding: 10px; text-align: center;">재정정책</th>
+          <th style="padding: 10px; text-align: center;">통화정책</th>
+        </tr>
+        <tr style="border-bottom: 1px solid #e5e7eb;">
+          <td style="padding: 8px;">주체</td>
+          <td style="padding: 8px; text-align: center;">정부 (기획재정부)</td>
+          <td style="padding: 8px; text-align: center;">중앙은행 (한국은행)</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #e5e7eb;">
+          <td style="padding: 8px;">도구</td>
+          <td style="padding: 8px; text-align: center;">세금, 정부 지출</td>
+          <td style="padding: 8px; text-align: center;">금리, 통화량</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #e5e7eb;">
+          <td style="padding: 8px;">결정 속도</td>
+          <td style="padding: 8px; text-align: center;">느림 (국회 승인 필요)</td>
+          <td style="padding: 8px; text-align: center;">빠름 (금통위 결정)</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px;">부작용</td>
+          <td style="padding: 8px; text-align: center;">국가부채 증가</td>
+          <td style="padding: 8px; text-align: center;">자산 버블, 환율 변동</td>
+        </tr>
+      </table>
+    </BusinessBox>
+
+    <ExerciseBox title="연습: 전달 경로 추론">
+      <p>한국은행이 기준금리를 0.5%p 인하했습니다. 다음 중 올바른 전달 순서는?</p>
+      <p>A. 대출금리 하락 → 투자 증가 → 고용 증가 → GDP 증가</p>
+      <p>B. 예금금리 상승 → 저축 증가 → 소비 감소 → GDP 감소</p>
+      <button class="tb-btn" id="tr-quiz-btn" style="margin-top: 8px;">정답 보기</button>
+      <p id="tr-quiz-answer" style="display: none; margin-top: 8px; font-weight: bold; color: #059669;">
+        A가 정답입니다. 금리 인하 → 대출 쉬워짐 → 투자/소비 증가 → GDP 증가.
+        B는 금리 인상의 효과입니다 (하지만 예금금리도 같이 하락합니다).
+      </p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 테일러 준칙 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 테일러 준칙</h2>
+    <p>
+      중앙은행은 어떻게 "적정 금리"를 결정할까요?
+      경제학자 존 테일러(John Taylor)는 간단한 공식을 제안했습니다.
+    </p>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">적정 금리 = 중립금리 + 0.5 x (인플레이션 - 목표) + 0.5 x GDP갭</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        중립금리: 경제가 균형일 때의 금리 (보통 2~3%)<br>
+        목표 인플레이션: 보통 2%<br>
+        GDP갭: (실제 GDP - 잠재 GDP) / 잠재 GDP x 100
+      </p>
+    </FormulaBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="테일러 적정 금리" value="-" id="taylor-rate" borderColor="#059669" />
+      <StatBox label="실제 기준금리 (가정)" value="3.5%" id="taylor-actual" borderColor="#3b82f6" />
+      <StatBox label="판단" value="-" id="taylor-judgment" borderColor="#f59e0b" />
+    </div>
+
+    <SimControls>
+      <label>현재 인플레이션율: <span id="taylor-infl-val">3.0</span>%</label>
+      <input type="range" id="taylor-infl" min="0" max="8" value="3.0" step="0.5" />
+      <label>GDP갭: <span id="taylor-gap-val">0</span>%</label>
+      <input type="range" id="taylor-gap" min="-5" max="5" value="0" step="0.5" />
+      <label>중립금리: <span id="taylor-neutral-val">2.5</span>%</label>
+      <input type="range" id="taylor-neutral" min="1" max="4" value="2.5" step="0.5" />
+    </SimControls>
+
+    <ChartContainer id="taylorChart" height="300px" />
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 양적완화 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 양적완화 (QE)</h2>
+    <p>
+      금리를 0%까지 내려도 경기가 살아나지 않으면?
+      중앙은행은 <strong>비전통적 수단</strong>을 씁니다.
+      직접 채권을 사서 시장에 돈을 푸는 것이 <strong>양적완화(Quantitative Easing)</strong>입니다.
+    </p>
+
+    <ExplainBox title="양적완화의 원리">
+      <p>1. 중앙은행이 시장에서 국채를 대량 매입합니다.</p>
+      <p>2. 은행들에게 돈이 들어옵니다 (통화량 증가).</p>
+      <p>3. 은행들이 이 돈을 대출로 풀어 경기를 부양합니다.</p>
+      <p>4. 채권 가격 상승 → 장기 금리 하락 효과도 있습니다.</p>
+    </ExplainBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="채권 매입 규모" value="-" id="qe-amount" borderColor="#3b82f6" />
+      <StatBox label="통화량 변화" value="-" id="qe-money" borderColor="#059669" />
+      <StatBox label="장기 금리 변화" value="-" id="qe-longrate" borderColor="#f59e0b" />
+    </div>
+
+    <SimControls>
+      <label>채권 매입 규모: <span id="qe-buy-val">0</span>조원</label>
+      <input type="range" id="qe-buy" min="0" max="100" value="0" step="5" />
+    </SimControls>
+
+    <ChartContainer id="qeChart" height="350px" />
+
+    <WarningBox title="양적완화의 부작용">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>자산 가격 버블:</strong> 넘치는 돈이 주식/부동산으로 흘러감</li>
+        <li><strong>빈부격차 확대:</strong> 자산을 가진 사람만 이득</li>
+        <li><strong>출구 전략 어려움:</strong> 양적완화를 멈추면 시장 충격 가능</li>
+        <li><strong>인플레이션 위험:</strong> 너무 많은 돈이 풀리면 물가 폭등</li>
+      </ul>
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 금리와 환율 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 금리와 환율의 관계</h2>
+    <p>
+      한국이 금리를 올리면, 외국 투자자들이 한국에 돈을 넣으려 합니다.
+      원화 수요 증가 → 원화 가치 상승 → 환율 하락.
+      반대로 금리를 내리면 환율이 올라갑니다.
+    </p>
+
+    <ExplainBox title="금리-환율 관계">
+      <p><strong>한국 금리 상승</strong> → 외국 자본 유입 → 달러를 팔고 원화를 삼 → 원/달러 환율 하락 (원화 강세)</p>
+      <p><strong>한국 금리 하락</strong> → 외국 자본 유출 → 원화를 팔고 달러를 삼 → 원/달러 환율 상승 (원화 약세)</p>
+    </ExplainBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="한국 금리" value="-" id="fx-kr-rate" borderColor="#059669" />
+      <StatBox label="미국 금리" value="5.0%" id="fx-us-rate" borderColor="#3b82f6" />
+      <StatBox label="금리 차이" value="-" id="fx-diff" borderColor="#f59e0b" />
+      <StatBox label="환율 변화" value="-" id="fx-effect" borderColor="#7c3aed" />
+    </div>
+
+    <SimControls>
+      <label>한국 기준금리: <span id="fx-kr-val">3.5</span>%</label>
+      <input type="range" id="fx-kr" min="0.5" max="6" value="3.5" step="0.25" />
+      <label>미국 기준금리: <span id="fx-us-val">5.0</span>%</label>
+      <input type="range" id="fx-us" min="0.5" max="6" value="5.0" step="0.25" />
+    </SimControls>
+
+    <ChartContainer id="fxChart" height="320px" />
+
+    <ExerciseBox title="생각해 보기">
+      <p>한국은행이 금리를 올려야 할 상황인데, 미국이 더 빨리 올리고 있다면
+        한국은행은 어떤 딜레마에 빠질까요?</p>
+      <button class="tb-btn" id="fx-answer-btn">생각 힌트 보기</button>
+      <p id="fx-answer" style="margin-top: 8px; display: none; color: #059669;">
+        한국이 금리를 올리지 않으면 한미 금리 차이가 벌어져 외국 자본이 빠져나가고 환율이 올라갑니다.
+        하지만 금리를 올리면 국내 가계의 대출 부담이 커지고 경기가 나빠질 수 있습니다.
+        2022-2023년 한국은행이 실제로 겪은 상황입니다.
+      </p>
+    </ExerciseBox>
+
+    <BusinessBox title="통화정책 도구 요약">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>기준금리 조절:</strong> 가장 기본적인 도구. 0.25%p 단위로 변경</li>
+        <li><strong>지급준비율 변경:</strong> 은행이 보유해야 할 최소 준비금 비율 조절</li>
+        <li><strong>공개시장조작:</strong> 국채 매매를 통해 시중 통화량 조절</li>
+        <li><strong>양적완화:</strong> 금리가 0에 가까울 때 사용하는 비상 수단</li>
+      </ul>
+    </BusinessBox>
+
+    <ExerciseBox title="환율 퀴즈">
+      <p>한국의 금리가 미국보다 높아졌습니다. 원/달러 환율은 어떻게 변할까요?</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="document.getElementById('fx-quiz').textContent='오답. 한국 금리가 높으면 외국 자본이 한국으로 들어옵니다.'; document.getElementById('fx-quiz').style.color='#ef4444';">A. 환율 상승 (원화 약세)</button>
+        <button class="tb-btn" onclick="document.getElementById('fx-quiz').textContent='정답! 외국 자본 유입 → 원화 수요 증가 → 원화 강세 → 환율 하락'; document.getElementById('fx-quiz').style.color='#059669';" style="margin-left: 8px;">B. 환율 하락 (원화 강세)</button>
+      </div>
+      <p id="fx-quiz" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+
+    <InsightBox title="중앙은행의 독립성은 왜 중요한가?">
+      <p>만약 정부가 중앙은행을 마음대로 조종할 수 있다면 어떻게 될까요?</p>
+      <p style="margin-top: 8px;">선거를 앞두고 금리를 무작정 내려 경기를 부양하고,
+        돈을 마구 찍어 재정적자를 메울 수 있습니다.
+        결과는 하이퍼인플레이션입니다.</p>
+      <p style="margin-top: 8px;">그래서 대부분의 나라에서 중앙은행은 정부로부터 <strong>독립</strong>되어 있습니다.
+        한국은행법은 "한국은행의 자주성을 존중하여야 한다"고 규정합니다.
+        짐바브웨, 베네수엘라 등 중앙은행 독립성이 무너진 나라에서
+        하이퍼인플레이션이 발생한 사례가 이를 증명합니다.</p>
+    </InsightBox>
+
+    <BusinessBox title="제로금리 이하의 세계: 마이너스 금리">
+      <p>2010년대, 유럽중앙은행(ECB)과 일본은행(BOJ)은 역사상 전례 없는
+        <strong>마이너스 금리</strong>를 도입했습니다.</p>
+      <p style="margin-top: 8px;">은행이 중앙은행에 돈을 맡기면 오히려 보관료를 내야 합니다.
+        "돈을 쌓아 두지 말고 대출해 주세요"라는 메시지입니다.
+        하지만 효과는 제한적이었고, 은행의 수익성 악화라는 부작용도 있었습니다.</p>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="16장 정리: 통화정책">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li><strong>통화정책:</strong> 중앙은행이 금리와 통화량을 조절하는 정책</li>
+      <li><strong>전달 경로:</strong> 금리 변경 → 시중금리 → 소비/투자 → GDP/물가</li>
+      <li><strong>테일러 준칙:</strong> 인플레이션과 GDP갭을 고려한 적정 금리 공식</li>
+      <li><strong>양적완화:</strong> 금리가 0에 가까울 때 채권 매입으로 돈을 푸는 비상 수단</li>
+      <li><strong>금리와 환율:</strong> 금리 상승 → 자본 유입 → 환율 하락 (원화 강세)</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  /* ========== 1. 금리 전달 경로 ========== */
+  var trRate = document.getElementById('tr-rate');
+  var trCtx = document.getElementById('trChart');
+
+  var trChart = new Chart(trCtx, {
+    type: 'bar',
+    data: {
+      labels: ['시중 금리', '소비 변화', '투자 변화', 'GDP 변화', '물가 변화'],
+      datasets: [{
+        data: [0, 0, 0, 0, 0],
+        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#7c3aed', '#ef4444'],
+        borderWidth: 0,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      scales: { x: { title: { display: true, text: '변화율 (%p)' }, min: -3, max: 3 } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function updateTR() {
+    var rate = parseFloat(trRate.value);
+    document.getElementById('tr-rate-val').textContent = rate > 0 ? '+' + rate : rate;
+
+    var marketRate = rate * 0.8;
+    var consumption = -rate * 0.5;
+    var investment = -rate * 0.7;
+    var gdp = -rate * 0.4;
+    var price = -rate * 0.3;
+
+    if (rate > 0) {
+      document.getElementById('tr-step1').textContent = '기준금리 +' + rate + '%p 인상';
+      document.getElementById('tr-step2').textContent = '대출금리 상승, 예금금리 상승';
+      document.getElementById('tr-step3').textContent = '대출 부담 증가 → 소비/투자 감소';
+      document.getElementById('tr-step4').textContent = 'GDP 감소, 물가 안정';
+    } else if (rate < 0) {
+      document.getElementById('tr-step1').textContent = '기준금리 ' + rate + '%p 인하';
+      document.getElementById('tr-step2').textContent = '대출금리 하락, 예금금리 하락';
+      document.getElementById('tr-step3').textContent = '대출 쉬워짐 → 소비/투자 증가';
+      document.getElementById('tr-step4').textContent = 'GDP 증가, 물가 상승 위험';
+    } else {
+      document.getElementById('tr-step1').textContent = '변화 없음';
+      document.getElementById('tr-step2').textContent = '변화 없음';
+      document.getElementById('tr-step3').textContent = '변화 없음';
+      document.getElementById('tr-step4').textContent = '변화 없음';
+    }
+
+    trChart.data.datasets[0].data = [marketRate, consumption, investment, gdp, price];
+    trChart.update();
+  }
+
+  trRate.addEventListener('input', updateTR);
+  updateTR();
+
+  /* ========== 2. 테일러 준칙 ========== */
+  var taylorInfl = document.getElementById('taylor-infl');
+  var taylorGap = document.getElementById('taylor-gap');
+  var taylorNeutral = document.getElementById('taylor-neutral');
+  var taylorCtx = document.getElementById('taylorChart');
+
+  var taylorChart = new Chart(taylorCtx, {
+    type: 'bar',
+    data: {
+      labels: ['중립금리', '인플레이션 조정', 'GDP갭 조정', '테일러 적정금리', '실제 기준금리'],
+      datasets: [{
+        data: [2.5, 0.5, 0, 3.0, 3.5],
+        backgroundColor: ['#9ca3af', '#ef4444', '#3b82f6', '#059669', '#7c3aed'],
+        borderWidth: 0,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '%' }, min: 0, max: 10 } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function updateTaylor() {
+    var infl = parseFloat(taylorInfl.value);
+    var gap = parseFloat(taylorGap.value);
+    var neutral = parseFloat(taylorNeutral.value);
+    document.getElementById('taylor-infl-val').textContent = infl;
+    document.getElementById('taylor-gap-val').textContent = gap > 0 ? '+' + gap : gap;
+    document.getElementById('taylor-neutral-val').textContent = neutral;
+
+    var target = 2.0;
+    var inflAdj = 0.5 * (infl - target);
+    var gapAdj = 0.5 * gap;
+    var taylorRate = neutral + inflAdj + gapAdj;
+    if (taylorRate < 0) taylorRate = 0;
+
+    document.getElementById('taylor-rate').textContent = taylorRate.toFixed(1) + '%';
+
+    var actual = 3.5;
+    var judgment = '';
+    if (taylorRate > actual + 0.5) {
+      judgment = '금리 인상 필요';
+    } else if (taylorRate < actual - 0.5) {
+      judgment = '금리 인하 필요';
+    } else {
+      judgment = '적정 수준';
+    }
+    document.getElementById('taylor-judgment').textContent = judgment;
+
+    taylorChart.data.datasets[0].data = [neutral, Math.max(0, inflAdj), Math.max(0, gapAdj), taylorRate, actual];
+    taylorChart.update();
+  }
+
+  taylorInfl.addEventListener('input', updateTaylor);
+  taylorGap.addEventListener('input', updateTaylor);
+  taylorNeutral.addEventListener('input', updateTaylor);
+  updateTaylor();
+
+  /* ========== 3. 양적완화 ========== */
+  var qeBuy = document.getElementById('qe-buy');
+  var qeCtx = document.getElementById('qeChart');
+
+  var qeChart = new Chart(qeCtx, {
+    type: 'bar',
+    data: {
+      labels: ['중앙은행 자산', '시중 통화량', '장기금리 변화(%p)'],
+      datasets: [
+        { label: '양적완화 전', data: [200, 1000, 3.0], backgroundColor: 'rgba(156,163,175,0.5)', borderRadius: 4 },
+        { label: '양적완화 후', data: [200, 1000, 3.0], backgroundColor: 'rgba(59,130,246,0.6)', borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { beginAtZero: true } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updateQE() {
+    var buy = parseInt(qeBuy.value);
+    document.getElementById('qe-buy-val').textContent = buy;
+
+    var moneyIncrease = buy * 3; // 승수 효과
+    var rateDecrease = buy * 0.02;
+
+    document.getElementById('qe-amount').textContent = buy + '조원';
+    document.getElementById('qe-money').textContent = '+' + moneyIncrease + '조원';
+    document.getElementById('qe-longrate').textContent = '-' + rateDecrease.toFixed(1) + '%p';
+
+    qeChart.data.datasets[1].data = [200 + buy, 1000 + moneyIncrease, Math.max(0, 3.0 - rateDecrease)];
+    qeChart.update();
+  }
+
+  qeBuy.addEventListener('input', updateQE);
+  updateQE();
+
+  /* ========== 4. 금리와 환율 ========== */
+  var fxKr = document.getElementById('fx-kr');
+  var fxUs = document.getElementById('fx-us');
+  var fxCtx = document.getElementById('fxChart');
+
+  var fxChart = new Chart(fxCtx, {
+    type: 'bar',
+    data: {
+      labels: ['한국 금리', '미국 금리', '금리 차이'],
+      datasets: [{
+        data: [3.5, 5.0, -1.5],
+        backgroundColor: function(ctx) {
+          if (ctx.dataIndex === 2) {
+            return ctx.parsed.y >= 0 ? 'rgba(5,150,105,0.6)' : 'rgba(239,68,68,0.6)';
+          }
+          return ctx.dataIndex === 0 ? 'rgba(5,150,105,0.6)' : 'rgba(59,130,246,0.6)';
+        },
+        borderWidth: 0,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '%' }, min: -3, max: 7 } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function updateFX() {
+    var kr = parseFloat(fxKr.value);
+    var us = parseFloat(fxUs.value);
+    document.getElementById('fx-kr-val').textContent = kr;
+    document.getElementById('fx-us-val').textContent = us;
+    document.getElementById('fx-kr-rate').textContent = kr + '%';
+    document.getElementById('fx-us-rate').textContent = us + '%';
+
+    var diff = kr - us;
+    document.getElementById('fx-diff').textContent = (diff > 0 ? '+' : '') + diff.toFixed(2) + '%p';
+
+    var effect = '';
+    if (diff > 0.5) {
+      effect = '원화 강세 (환율 하락)';
+    } else if (diff < -0.5) {
+      effect = '원화 약세 (환율 상승)';
+    } else {
+      effect = '큰 변화 없음';
+    }
+    document.getElementById('fx-effect').textContent = effect;
+
+    fxChart.data.datasets[0].data = [kr, us, diff];
+    fxChart.update();
+  }
+
+  fxKr.addEventListener('input', updateFX);
+  fxUs.addEventListener('input', updateFX);
+  updateFX();
+
+  // 힌트 버튼
+  document.getElementById('fx-answer-btn').addEventListener('click', function() {
+    document.getElementById('fx-answer').style.display = 'block';
+  });
+
+  var trQuizBtn = document.getElementById('tr-quiz-btn');
+  if (trQuizBtn) {
+    trQuizBtn.addEventListener('click', function() {
+      document.getElementById('tr-quiz-answer').style.display = 'block';
+    });
+  }
+}
+
+waitForChart(init);
+</script>

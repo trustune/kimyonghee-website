@@ -1,0 +1,670 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout title="수요와 공급" subtitle="시장 가격은 어떻게 결정되는가" chapterNum={4} part={1}>
+
+  <!-- ========== HOOK ========== -->
+  <div class="tb-card">
+    <h2>삼각김밥 1,200원의 비밀</h2>
+    <p>
+      편의점에서 삼각김밥을 산다. 가격은 1,200원. 이 가격은 누가 정했을까?
+      편의점 사장? 공장? 정부? 아니다. <strong>시장</strong>이 정했다.
+    </p>
+    <p>
+      "사고 싶은 사람(수요)"과 "팔고 싶은 사람(공급)"이 만나는 지점에서
+      가격이 자연스럽게 결정된다. 이것이 경제학에서 가장 중요한 모형인
+      <strong>수요-공급 모형</strong>이다.
+    </p>
+    <p>
+      이 장은 경제학의 핵심 중의 핵심이다. 여기서 배우는 원리를 이해하면
+      세상의 거의 모든 가격 현상을 설명할 수 있다.
+    </p>
+  </div>
+
+  <!-- ========== 개념 1: 수요 ========== -->
+  <div class="tb-card">
+    <h2>1. 수요: 사고 싶은 마음</h2>
+
+    <ExplainBox title="수요의 법칙">
+      <p>
+        가격이 오르면 사려는 양이 줄고, 가격이 내리면 사려는 양이 는다.
+        이것을 <strong>수요의 법칙</strong>이라 한다.
+      </p>
+      <p>
+        비유: 떡볶이가 한 접시에 3,000원이면 자주 사 먹는다.
+        5,000원으로 오르면 가끔만. 10,000원이면 거의 안 먹는다.
+        가격이 오를수록 사는 양이 줄어드는 것은 당연한 이치이다.
+      </p>
+    </ExplainBox>
+
+    <p>
+      수요곡선은 그래서 <strong>우하향</strong>(오른쪽 아래로)한다.
+      가로축에 수량, 세로축에 가격을 놓으면, 가격이 높을수록 수량이 적다.
+    </p>
+  </div>
+
+  <!-- ========== 인터랙티브 1: 수요곡선 빌더 ========== -->
+  <div class="tb-card">
+    <h2>2. 직접 만들기: 수요곡선</h2>
+
+    <ExplainBox>
+      각 가격에서 삼각김밥을 몇 개 사겠는지 입력하자.
+      가격이 높을수록 적게, 낮을수록 많이 사는 것이 자연스럽다.
+      입력을 마치면 수요곡선이 자동으로 그려진다.
+    </ExplainBox>
+
+    <ExerciseBox title="나의 수요 입력">
+      <div id="demand-inputs" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:8px;">
+        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+          <div>가격: 500원</div>
+          <input type="number" class="demand-input" data-price="500" value="10" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+          <div>가격: 1,000원</div>
+          <input type="number" class="demand-input" data-price="1000" value="8" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+          <div>가격: 1,500원</div>
+          <input type="number" class="demand-input" data-price="1500" value="6" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+          <div>가격: 2,000원</div>
+          <input type="number" class="demand-input" data-price="2000" value="4" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+          <div>가격: 3,000원</div>
+          <input type="number" class="demand-input" data-price="3000" value="2" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+          <div>가격: 5,000원</div>
+          <input type="number" class="demand-input" data-price="5000" value="0" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+      </div>
+      <button class="tb-btn tb-btn-primary" style="margin-top:12px;" onclick="buildDemandCurve()">수요곡선 그리기</button>
+    </ExerciseBox>
+
+    <ChartContainer id="demand-chart" height="320px" />
+  </div>
+
+  <!-- ========== 인터랙티브 2: 공급곡선 빌더 ========== -->
+  <div class="tb-card">
+    <h2>3. 직접 만들기: 공급곡선</h2>
+
+    <ExplainBox title="공급의 법칙">
+      <p>
+        가격이 오르면 공급자는 더 많이 팔고 싶어 한다. (이윤이 더 크니까!)
+        가격이 내리면 적게 팔려 한다. 그래서 공급곡선은 <strong>우상향</strong>(오른쪽 위로)한다.
+      </p>
+    </ExplainBox>
+
+    <ExerciseBox title="나의 공급 입력 (공급자 입장)">
+      <div id="supply-inputs" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:8px;">
+        <div style="padding:8px; background:#fef3c7; border-radius:6px; text-align:center;">
+          <div>가격: 500원</div>
+          <input type="number" class="supply-input" data-price="500" value="1" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #fbbf24; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+        <div style="padding:8px; background:#fef3c7; border-radius:6px; text-align:center;">
+          <div>가격: 1,000원</div>
+          <input type="number" class="supply-input" data-price="1000" value="3" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #fbbf24; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+        <div style="padding:8px; background:#fef3c7; border-radius:6px; text-align:center;">
+          <div>가격: 1,500원</div>
+          <input type="number" class="supply-input" data-price="1500" value="6" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #fbbf24; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+        <div style="padding:8px; background:#fef3c7; border-radius:6px; text-align:center;">
+          <div>가격: 2,000원</div>
+          <input type="number" class="supply-input" data-price="2000" value="8" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #fbbf24; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+        <div style="padding:8px; background:#fef3c7; border-radius:6px; text-align:center;">
+          <div>가격: 3,000원</div>
+          <input type="number" class="supply-input" data-price="3000" value="10" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #fbbf24; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+        <div style="padding:8px; background:#fef3c7; border-radius:6px; text-align:center;">
+          <div>가격: 5,000원</div>
+          <input type="number" class="supply-input" data-price="5000" value="14" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #fbbf24; border-radius:4px;">
+          <div style="font-size:0.8rem; color:#6b7280;">개</div>
+        </div>
+      </div>
+      <button class="tb-btn tb-btn-primary" style="margin-top:12px;" onclick="buildSupplyCurve()">공급곡선 그리기</button>
+    </ExerciseBox>
+
+    <ChartContainer id="supply-chart" height="320px" />
+  </div>
+
+  <!-- ========== 개념 2: 균형 ========== -->
+  <div class="tb-card">
+    <h2>4. 균형: 수요와 공급이 만나는 점</h2>
+
+    <ExplainBox title="균형의 비유">
+      <p>
+        시소를 떠올려보자. 양쪽 무게가 같으면 시소가 균형을 이룬다.
+        시장에서도 "사려는 양"과 "팔려는 양"이 같아지는 가격이 있다.
+        그 가격이 바로 <strong>균형가격</strong>이고, 그때의 거래량이 <strong>균형거래량</strong>이다.
+      </p>
+    </ExplainBox>
+
+    <FormulaBox>
+      균형: <span class="hl">수요량</span> = <span class="hl">공급량</span> &rarr; <span class="res">시장가격 결정</span>
+    </FormulaBox>
+
+    <p>
+      균형가격보다 높으면? 공급자는 많이 팔고 싶지만 소비자는 적게 사려 한다.
+      물건이 남는다 = <strong>초과공급(잉여)</strong>. 가격이 내려가야 팔 수 있다.
+    </p>
+    <p>
+      균형가격보다 낮으면? 소비자는 많이 사고 싶지만 공급자는 적게 팔려 한다.
+      물건이 부족하다 = <strong>초과수요(품절)</strong>. 가격이 올라간다.
+    </p>
+  </div>
+
+  <!-- ========== 인터랙티브 3: 균형점 찾기 ========== -->
+  <div class="tb-card">
+    <h2>5. 직접 해보기: 균형점 찾기</h2>
+
+    <ExplainBox>
+      가격 슬라이더를 움직여서 균형을 찾아보자.
+      초과공급도, 초과수요도 없는 딱 맞는 가격을 찾는 것이 목표이다.
+    </ExplainBox>
+
+    <SimControls>
+      <label for="eq-price-slider">시장 가격: <strong id="eq-price-display">1,500</strong>원</label>
+      <input type="range" id="eq-price-slider" min="200" max="4000" step="100" value="1500" style="width:100%">
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="수요량" id="eq-demand" value="-" borderColor="#3b82f6" />
+      <StatBox label="공급량" id="eq-supply" value="-" borderColor="#f59e0b" />
+      <StatBox label="시장 상태" id="eq-status" value="-" borderColor="#059669" />
+    </div>
+
+    <ChartContainer id="equilibrium-chart" height="380px" />
+
+    <InsightBox title="시장의 자동 조절">
+      <p>
+        시장가격이 균형에서 벗어나면 초과공급이나 초과수요가 발생하여
+        가격이 다시 균형을 향해 움직인다. 이것을 <strong>가격 메커니즘</strong>이라 한다.
+        아담 스미스는 이를 <strong>"보이지 않는 손"</strong>이라 불렀다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 4: 수요/공급 이동 시뮬레이터 ========== -->
+  <div class="tb-card">
+    <h2>6. 수요/공급 이동 시뮬레이터</h2>
+
+    <ExplainBox>
+      <p>
+        수요곡선이나 공급곡선 자체가 이동하면 균형이 바뀐다.
+        아래에서 이벤트를 선택하면 곡선이 이동하고 새로운 균형이 자동 계산된다.
+      </p>
+    </ExplainBox>
+
+    <SimControls>
+      <label>이벤트 선택:</label>
+      <select id="shift-event" style="padding:8px; border-radius:6px; border:1px solid #d1d5db;">
+        <option value="0">-- 선택하세요 --</option>
+        <option value="1">폭염 (아이스크림 시장)</option>
+        <option value="2">원자재 가격 상승</option>
+        <option value="3">건강식품 유행</option>
+        <option value="4">기술혁신 (생산비 절감)</option>
+        <option value="5">소득 증가</option>
+        <option value="6">대체재 가격 하락</option>
+      </select>
+      <button class="tb-btn tb-btn-primary" onclick="applyShift()">적용</button>
+      <button class="tb-btn" onclick="resetShift()">초기화</button>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="균형 가격" id="shift-price" value="-" borderColor="#059669" />
+      <StatBox label="균형 거래량" id="shift-qty" value="-" borderColor="#3b82f6" />
+      <StatBox label="변화" id="shift-change" value="-" borderColor="#f59e0b" />
+    </div>
+
+    <ChartContainer id="shift-chart" height="380px" />
+
+    <div id="shift-explanation" style="margin-top:12px; padding:12px; background:#f0fdf4; border-radius:8px;">
+      <p>이벤트를 선택하고 적용 버튼을 눌러보세요.</p>
+    </div>
+  </div>
+
+  <!-- ========== 인터랙티브 5: 가격 통제 시뮬레이터 ========== -->
+  <div class="tb-card">
+    <h2>7. 가격 통제 시뮬레이터</h2>
+
+    <ExplainBox>
+      <p>
+        정부가 "가격이 너무 높다" 또는 "너무 낮다"며 가격을 강제로 정하면 어떤 일이 일어날까?
+      </p>
+      <p>
+        <strong>최고가격제(가격 상한):</strong> 가격의 최대치를 정한다. 예: 임대료 상한제.<br>
+        <strong>최저가격제(가격 하한):</strong> 가격의 최소치를 정한다. 예: 최저임금.
+      </p>
+    </ExplainBox>
+
+    <SimControls>
+      <label>정책 유형:</label>
+      <select id="control-type" style="padding:8px; border-radius:6px; border:1px solid #d1d5db;">
+        <option value="ceiling">최고가격제 (가격 상한)</option>
+        <option value="floor">최저가격제 (가격 하한)</option>
+      </select>
+      <label style="margin-left:16px;">규제 가격: <strong id="control-price-display">1,000</strong>원</label>
+      <input type="range" id="control-price-slider" min="200" max="4000" step="100" value="1000" style="width:200px">
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="규제 가격" id="ctrl-price" value="-" borderColor="#ef4444" />
+      <StatBox label="수요량" id="ctrl-demand" value="-" borderColor="#3b82f6" />
+      <StatBox label="공급량" id="ctrl-supply" value="-" borderColor="#f59e0b" />
+      <StatBox label="부족/잉여" id="ctrl-gap" value="-" borderColor="#059669" />
+    </div>
+
+    <ChartContainer id="control-chart" height="380px" />
+
+    <WarningBox title="가격 통제의 부작용">
+      <p>
+        최고가격제는 소비자를 보호하려는 의도지만, 공급 부족(품절)을 초래한다.
+        최저가격제는 생산자를 보호하려는 의도지만, 수요 부족(잉여)을 초래한다.
+        좋은 의도가 항상 좋은 결과를 낳는 것은 아니다.
+      </p>
+    </WarningBox>
+  </div>
+
+  <!-- ========== 비즈니스 적용 ========== -->
+  <div class="tb-card">
+    <h2>8. 실생활 속 수요와 공급</h2>
+
+    <BusinessBox title="마스크 가격 급등 (2020년)">
+      <p>
+        코로나 초기, 마스크 수요가 폭발적으로 증가했다. (수요곡선 오른쪽 이동)
+        공급은 즉시 늘릴 수 없었다. 결과: 가격이 10배까지 치솟았다.
+        이후 공장이 증설되면서 공급이 늘어나고 (공급곡선 오른쪽 이동) 가격이 안정되었다.
+      </p>
+    </BusinessBox>
+
+    <BusinessBox title="최저임금 논쟁">
+      <p>
+        최저임금은 노동시장의 최저가격제이다.
+        최저임금이 균형임금보다 높으면: 기업은 고용을 줄이고(수요 감소), 일하고 싶은 사람은 많아져(공급 증가) 실업이 발생할 수 있다.
+        하지만 노동자의 생활 수준 보장이라는 목적도 있다. 이것이 바로 트레이드오프이다.
+      </p>
+    </BusinessBox>
+  </div>
+
+  <!-- ========== 결론 ========== -->
+  <ConclusionBox title="4장 핵심 정리">
+    <ul>
+      <li><strong>수요의 법칙:</strong> 가격이 오르면 수요량이 줄고, 가격이 내리면 수요량이 늘어난다 (우하향).</li>
+      <li><strong>공급의 법칙:</strong> 가격이 오르면 공급량이 늘고, 가격이 내리면 공급량이 줄어든다 (우상향).</li>
+      <li><strong>균형:</strong> 수요량과 공급량이 같아지는 점에서 시장가격이 결정된다.</li>
+      <li><strong>곡선 이동:</strong> 외부 요인(소득, 유행, 원자재 가격 등)이 변하면 곡선 자체가 이동하여 새로운 균형이 형성된다.</li>
+      <li><strong>가격 통제:</strong> 최고가격제는 품절을, 최저가격제는 잉여를 초래할 수 있다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 가격이 1% 오를 때 수요가 몇 % 줄까? 이것을 측정하는 "탄력성"을 배운다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  // --- Progress tracking ---
+  try {
+    var key = 'textbook-progress-econ';
+    var raw = localStorage.getItem(key);
+    var data = raw ? JSON.parse(raw) : { chapters: {} };
+    data.chapters['04-supply-demand'] = { visited: true, lastVisit: new Date().toISOString().slice(0, 10) };
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch(e) {}
+
+  // ========== 기본 수요/공급 함수 ==========
+  function baseDemand(p) { return Math.max(0, 14 - p / 350); }
+  function baseSupply(p) { return Math.max(0, -2 + p / 300); }
+
+  var prices = [];
+  for (var pp = 200; pp <= 4000; pp += 100) prices.push(pp);
+
+  // ========== 인터랙티브 1: 수요곡선 빌더 ==========
+  var demandChart = null;
+  window.buildDemandCurve = function() {
+    var inputs = document.querySelectorAll('.demand-input');
+    var dPoints = [];
+    inputs.forEach(function(inp) {
+      var price = parseInt(inp.getAttribute('data-price'));
+      var qty = parseInt(inp.value) || 0;
+      dPoints.push({ x: qty, y: price });
+    });
+    dPoints.sort(function(a, b) { return a.y - b.y; });
+
+    if (demandChart) { demandChart.destroy(); }
+    var ctx = document.getElementById('demand-chart');
+    if (!ctx) return;
+    demandChart = new Chart(ctx, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: '나의 수요곡선',
+          data: dPoints,
+          showLine: true,
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59,130,246,0.15)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 6,
+          pointBackgroundColor: '#3b82f6'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          x: { title: { display: true, text: '수량 (개)' }, min: 0 },
+          y: { title: { display: true, text: '가격 (원)' }, min: 0 }
+        }
+      }
+    });
+  };
+
+  // ========== 인터랙티브 2: 공급곡선 빌더 ==========
+  var supplyChart = null;
+  window.buildSupplyCurve = function() {
+    var inputs = document.querySelectorAll('.supply-input');
+    var sPoints = [];
+    inputs.forEach(function(inp) {
+      var price = parseInt(inp.getAttribute('data-price'));
+      var qty = parseInt(inp.value) || 0;
+      sPoints.push({ x: qty, y: price });
+    });
+    sPoints.sort(function(a, b) { return a.y - b.y; });
+
+    if (supplyChart) { supplyChart.destroy(); }
+    var ctx = document.getElementById('supply-chart');
+    if (!ctx) return;
+    supplyChart = new Chart(ctx, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: '나의 공급곡선',
+          data: sPoints,
+          showLine: true,
+          borderColor: '#f59e0b',
+          backgroundColor: 'rgba(245,158,11,0.15)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 6,
+          pointBackgroundColor: '#f59e0b'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          x: { title: { display: true, text: '수량 (개)' }, min: 0 },
+          y: { title: { display: true, text: '가격 (원)' }, min: 0 }
+        }
+      }
+    });
+  };
+
+  // ========== 인터랙티브 3: 균형점 찾기 ==========
+  var eqChart = null;
+
+  function updateEquilibrium() {
+    var price = parseInt(document.getElementById('eq-price-slider').value);
+    document.getElementById('eq-price-display').textContent = price.toLocaleString();
+
+    var qd = Math.round(baseDemand(price) * 10) / 10;
+    var qs = Math.round(baseSupply(price) * 10) / 10;
+
+    document.getElementById('eq-demand').textContent = qd.toFixed(1) + '개';
+    document.getElementById('eq-supply').textContent = qs.toFixed(1) + '개';
+
+    var gap = qs - qd;
+    if (Math.abs(gap) < 0.5) {
+      document.getElementById('eq-status').textContent = '균형! (적정가격)';
+      document.getElementById('eq-status').style.color = '#059669';
+    } else if (gap > 0) {
+      document.getElementById('eq-status').textContent = '초과공급 (재고 발생)';
+      document.getElementById('eq-status').style.color = '#f59e0b';
+    } else {
+      document.getElementById('eq-status').textContent = '초과수요 (품절!)';
+      document.getElementById('eq-status').style.color = '#ef4444';
+    }
+
+    // Chart data
+    var dLine = []; var sLine = [];
+    for (var i = 0; i < prices.length; i++) {
+      dLine.push({ x: baseDemand(prices[i]), y: prices[i] });
+      sLine.push({ x: baseSupply(prices[i]), y: prices[i] });
+    }
+
+    if (!eqChart) {
+      var ctx = document.getElementById('equilibrium-chart');
+      if (!ctx) return;
+      eqChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3 },
+            { label: '공급곡선', data: sLine, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3 },
+            { label: '현재 가격', data: [{ x: qd, y: price }, { x: qs, y: price }], showLine: true, borderColor: '#ef4444', borderDash: [5, 5], pointRadius: 8, pointBackgroundColor: ['#3b82f6', '#f59e0b'] }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: {
+            x: { title: { display: true, text: '수량' }, min: 0, max: 16 },
+            y: { title: { display: true, text: '가격 (원)' }, min: 0, max: 4500 }
+          }
+        }
+      });
+    } else {
+      eqChart.data.datasets[0].data = dLine;
+      eqChart.data.datasets[1].data = sLine;
+      eqChart.data.datasets[2].data = [{ x: qd, y: price }, { x: qs, y: price }];
+      eqChart.update();
+    }
+  }
+
+  document.getElementById('eq-price-slider').addEventListener('input', updateEquilibrium);
+  updateEquilibrium();
+
+  // ========== 인터랙티브 4: 수요/공급 이동 ==========
+  var shiftChart = null;
+  var dShift = 0; var sShift = 0;
+
+  var shiftEvents = [
+    { d: 0, s: 0, desc: '' },
+    { d: 3, s: 0, desc: '<strong>폭염:</strong> 아이스크림 수요가 급증! 수요곡선이 오른쪽으로 이동. 균형가격과 거래량 모두 상승.' },
+    { d: 0, s: -3, desc: '<strong>원자재 가격 상승:</strong> 생산 비용이 올라 공급이 줄었다. 공급곡선이 왼쪽으로 이동. 가격 상승, 거래량 감소.' },
+    { d: 2, s: 0, desc: '<strong>건강식품 유행:</strong> 샐러드 수요 증가! 수요곡선이 오른쪽으로 이동. 가격과 거래량 모두 상승.' },
+    { d: 0, s: 3, desc: '<strong>기술혁신:</strong> 생산비가 줄어 같은 가격에 더 많이 공급 가능. 공급곡선이 오른쪽으로 이동. 가격 하락, 거래량 증가.' },
+    { d: 2, s: 0, desc: '<strong>소득 증가:</strong> 사람들이 더 많이 소비할 여력 생김. 수요곡선 오른쪽 이동. 가격과 거래량 상승.' },
+    { d: -2, s: 0, desc: '<strong>대체재 가격 하락:</strong> 경쟁 상품이 싸져서 이 상품 수요 감소. 수요곡선 왼쪽 이동. 가격과 거래량 하락.' }
+  ];
+
+  function shiftedDemand(p) { return Math.max(0, baseDemand(p) + dShift); }
+  function shiftedSupply(p) { return Math.max(0, baseSupply(p) + sShift); }
+
+  function findEquilibrium(dFn, sFn) {
+    for (var p = 200; p <= 4000; p += 10) {
+      var diff = dFn(p) - sFn(p);
+      if (diff <= 0) return { price: p, qty: Math.round(dFn(p) * 10) / 10 };
+    }
+    return { price: 4000, qty: 0 };
+  }
+
+  function drawShiftChart() {
+    var dOld = []; var sOld = []; var dNew = []; var sNew = [];
+    for (var i = 0; i < prices.length; i++) {
+      dOld.push({ x: baseDemand(prices[i]), y: prices[i] });
+      sOld.push({ x: baseSupply(prices[i]), y: prices[i] });
+      dNew.push({ x: shiftedDemand(prices[i]), y: prices[i] });
+      sNew.push({ x: shiftedSupply(prices[i]), y: prices[i] });
+    }
+
+    var eqOld = findEquilibrium(baseDemand, baseSupply);
+    var eqNew = findEquilibrium(shiftedDemand, shiftedSupply);
+
+    document.getElementById('shift-price').textContent = eqNew.price.toLocaleString() + '원';
+    document.getElementById('shift-qty').textContent = eqNew.qty.toFixed(1) + '개';
+
+    var priceDiff = eqNew.price - eqOld.price;
+    var qtyDiff = eqNew.qty - eqOld.qty;
+    var changeText = '가격 ' + (priceDiff >= 0 ? '+' : '') + priceDiff + '원, 수량 ' + (qtyDiff >= 0 ? '+' : '') + qtyDiff.toFixed(1) + '개';
+    document.getElementById('shift-change').textContent = changeText;
+
+    if (!shiftChart) {
+      var ctx = document.getElementById('shift-chart');
+      if (!ctx) return;
+      shiftChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            { label: '원래 수요', data: dOld, showLine: true, borderColor: 'rgba(59,130,246,0.3)', pointRadius: 0, borderDash: [4, 4] },
+            { label: '원래 공급', data: sOld, showLine: true, borderColor: 'rgba(245,158,11,0.3)', pointRadius: 0, borderDash: [4, 4] },
+            { label: '새 수요', data: dNew, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3 },
+            { label: '새 공급', data: sNew, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3 },
+            { label: '원래 균형', data: [{ x: eqOld.qty, y: eqOld.price }], pointRadius: 8, pointBackgroundColor: '#9ca3af' },
+            { label: '새 균형', data: [{ x: eqNew.qty, y: eqNew.price }], pointRadius: 10, pointBackgroundColor: '#ef4444', pointBorderColor: '#fff', pointBorderWidth: 2 }
+          ]
+        },
+        options: {
+          responsive: true, plugins: { legend: { position: 'top' } },
+          scales: { x: { title: { display: true, text: '수량' }, min: 0, max: 20 }, y: { title: { display: true, text: '가격 (원)' }, min: 0, max: 4500 } }
+        }
+      });
+    } else {
+      shiftChart.data.datasets[0].data = dOld;
+      shiftChart.data.datasets[1].data = sOld;
+      shiftChart.data.datasets[2].data = dNew;
+      shiftChart.data.datasets[3].data = sNew;
+      shiftChart.data.datasets[4].data = [{ x: eqOld.qty, y: eqOld.price }];
+      shiftChart.data.datasets[5].data = [{ x: eqNew.qty, y: eqNew.price }];
+      shiftChart.update();
+    }
+  }
+
+  window.applyShift = function() {
+    var idx = parseInt(document.getElementById('shift-event').value);
+    var ev = shiftEvents[idx];
+    dShift = ev.d;
+    sShift = ev.s;
+    document.getElementById('shift-explanation').innerHTML = '<p>' + ev.desc + '</p>';
+    drawShiftChart();
+  };
+
+  window.resetShift = function() {
+    dShift = 0; sShift = 0;
+    document.getElementById('shift-event').value = '0';
+    document.getElementById('shift-explanation').innerHTML = '<p>이벤트를 선택하고 적용 버튼을 눌러보세요.</p>';
+    drawShiftChart();
+  };
+
+  drawShiftChart();
+
+  // ========== 인터랙티브 5: 가격 통제 ==========
+  var ctrlChart = null;
+
+  function updateControl() {
+    var type = document.getElementById('control-type').value;
+    var ctrlPrice = parseInt(document.getElementById('control-price-slider').value);
+    document.getElementById('control-price-display').textContent = ctrlPrice.toLocaleString();
+
+    var eq = findEquilibrium(baseDemand, baseSupply);
+    var qd = Math.round(baseDemand(ctrlPrice) * 10) / 10;
+    var qs = Math.round(baseSupply(ctrlPrice) * 10) / 10;
+
+    var effective = false;
+    if (type === 'ceiling' && ctrlPrice < eq.price) effective = true;
+    if (type === 'floor' && ctrlPrice > eq.price) effective = true;
+
+    if (!effective) {
+      document.getElementById('ctrl-price').textContent = ctrlPrice.toLocaleString() + '원 (비효과적)';
+      document.getElementById('ctrl-demand').textContent = eq.qty.toFixed(1) + '개';
+      document.getElementById('ctrl-supply').textContent = eq.qty.toFixed(1) + '개';
+      document.getElementById('ctrl-gap').textContent = '영향 없음 (균형가격 범위 내)';
+      qd = eq.qty; qs = eq.qty;
+    } else {
+      document.getElementById('ctrl-price').textContent = ctrlPrice.toLocaleString() + '원';
+      document.getElementById('ctrl-demand').textContent = qd.toFixed(1) + '개';
+      document.getElementById('ctrl-supply').textContent = qs.toFixed(1) + '개';
+      var gap = Math.abs(qd - qs);
+      if (type === 'ceiling') {
+        document.getElementById('ctrl-gap').textContent = '부족 ' + gap.toFixed(1) + '개 (초과수요)';
+      } else {
+        document.getElementById('ctrl-gap').textContent = '잉여 ' + gap.toFixed(1) + '개 (초과공급)';
+      }
+    }
+
+    // Chart
+    var dLine = []; var sLine = [];
+    for (var i = 0; i < prices.length; i++) {
+      dLine.push({ x: baseDemand(prices[i]), y: prices[i] });
+      sLine.push({ x: baseSupply(prices[i]), y: prices[i] });
+    }
+
+    if (!ctrlChart) {
+      var ctx = document.getElementById('control-chart');
+      if (!ctx) return;
+      ctrlChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3 },
+            { label: '공급곡선', data: sLine, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3 },
+            { label: '규제 가격', data: [{ x: 0, y: ctrlPrice }, { x: 16, y: ctrlPrice }], showLine: true, borderColor: '#ef4444', borderDash: [6, 4], borderWidth: 2, pointRadius: 0 },
+            { label: '수요점', data: [{ x: qd, y: ctrlPrice }], pointRadius: 8, pointBackgroundColor: '#3b82f6' },
+            { label: '공급점', data: [{ x: qs, y: ctrlPrice }], pointRadius: 8, pointBackgroundColor: '#f59e0b' }
+          ]
+        },
+        options: {
+          responsive: true, plugins: { legend: { position: 'top' } },
+          scales: { x: { title: { display: true, text: '수량' }, min: 0, max: 16 }, y: { title: { display: true, text: '가격 (원)' }, min: 0, max: 4500 } }
+        }
+      });
+    } else {
+      ctrlChart.data.datasets[2].data = [{ x: 0, y: ctrlPrice }, { x: 16, y: ctrlPrice }];
+      ctrlChart.data.datasets[3].data = [{ x: effective ? qd : eq.qty, y: ctrlPrice }];
+      ctrlChart.data.datasets[4].data = [{ x: effective ? qs : eq.qty, y: ctrlPrice }];
+      ctrlChart.update();
+    }
+  }
+
+  document.getElementById('control-price-slider').addEventListener('input', updateControl);
+  document.getElementById('control-type').addEventListener('change', updateControl);
+  updateControl();
+}
+
+waitForChart(init);
+</script>

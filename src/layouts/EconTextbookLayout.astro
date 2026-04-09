@@ -1,0 +1,73 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ChapterNav from '../components/textbook/ChapterNav.astro';
+import chaptersData from '../data/textbook-econ.json';
+import '../styles/textbook.css';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  chapterNum: number;
+  part: number;
+  description?: string;
+  image?: string;
+  noHeader?: boolean;
+  noNav?: boolean;
+}
+
+const {
+  title, subtitle, chapterNum, part,
+  description, image,
+  noHeader = false, noNav = false,
+} = Astro.props;
+
+const chapters = chaptersData.chapters;
+const currentIdx = chapters.findIndex(c => c.num === chapterNum);
+const prevChapter = currentIdx > 0 ? chapters[currentIdx - 1] : null;
+const nextChapter = currentIdx < chapters.length - 1 ? chapters[currentIdx + 1] : null;
+const partInfo = chaptersData.parts.find(p => p.id === part);
+---
+
+<BaseLayout
+  title={`${chapterNum}장. ${title} — 경제학 입문`}
+  description={description || subtitle || title}
+  image={image}
+>
+  <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+  <div class="textbook-page" data-part={part} data-pagefind-body>
+    {!noHeader && (
+      <header class="tb-header" style={`background: linear-gradient(135deg, ${partInfo?.color || '#059669'}, #0d9488)`}>
+        <div class="tb-chapter-num">
+          경제학 PART {part} &middot; {chapterNum}장
+        </div>
+        <h1>{title}</h1>
+        {subtitle && <p>{subtitle}</p>}
+      </header>
+    )}
+
+    <div class="tb-container">
+      <slot />
+
+      {!noNav && (
+        <nav class="tb-chapter-nav" aria-label="Chapter navigation">
+          {prevChapter ? (
+            <a href={`/textbook/econ/${prevChapter.slug}/`} data-astro-reload>
+              <div class="nav-label">&larr; 이전</div>
+              <div class="nav-title">{prevChapter.num}장. {prevChapter.title}</div>
+            </a>
+          ) : <div></div>}
+          {nextChapter ? (
+            <a href={`/textbook/econ/${nextChapter.slug}/`} class="next" data-astro-reload>
+              <div class="nav-label">다음 &rarr;</div>
+              <div class="nav-title">{nextChapter.num}장. {nextChapter.title}</div>
+            </a>
+          ) : <div></div>}
+        </nav>
+        <div class="tb-back-link">
+          <a href="/textbook/econ/" data-astro-reload>&larr; 경제학 목차로 돌아가기</a>
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>

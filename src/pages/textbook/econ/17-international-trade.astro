@@ -1,0 +1,569 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="국제무역"
+  subtitle="왜 나라끼리 물건을 사고파는가"
+  chapterNum={17}
+  part={2}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>한국은 왜 반도체를 팔고 원유를 사는가?</h2>
+    <p>
+      한국은 반도체, 자동차, 선박을 만들어 세계에 팝니다.
+      대신 원유, 천연가스, 식량을 외국에서 삽니다.
+      2024년 한국의 수출액은 약 6,800억 달러. 세계 6위입니다.
+    </p>
+    <p style="margin-top: 12px;">
+      왜 모든 것을 직접 만들지 않고 외국과 거래할까요?
+      답은 <strong>비교우위(comparative advantage)</strong>에 있습니다.
+      각 나라가 상대적으로 잘 만드는 것에 집중하면, 모든 나라가 이득을 봅니다.
+    </p>
+
+    <InsightBox title="무역이 없는 세상을 상상해 보세요">
+      <p>한국이 자급자족해야 한다면? 원유가 안 나오니 석유 제품을 못 만들고,
+        열대 과일도 못 먹고, 커피도 마시지 못합니다.
+        반대로 사우디아라비아는 반도체를 만들 수 없습니다.
+        무역은 모든 나라의 생활 수준을 높여줍니다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 1: 비교우위 이론 ===== -->
+  <div class="tb-card">
+    <h2>1. 절대우위와 비교우위</h2>
+
+    <ExplainBox title="절대우위 vs 비교우위">
+      <p><strong>절대우위:</strong> 같은 자원으로 더 많이 만들 수 있는 능력.
+        예: 한국이 반도체를 베트남보다 더 많이 만들 수 있다면, 한국이 절대우위.</p>
+      <p style="margin-top: 8px;"><strong>비교우위:</strong> <strong>기회비용</strong>이 더 낮은 것.
+        한국이 반도체와 의류 모두 잘 만들지만, 반도체의 기회비용이 더 낮다면
+        반도체에 비교우위가 있습니다.</p>
+      <p style="margin-top: 8px; font-weight: bold;">핵심: 모든 것을 잘 만드는 나라라도,
+        비교우위가 있는 상품에 집중하면 무역을 통해 이득을 봅니다.</p>
+    </ExplainBox>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">비교우위 = 기회비용이 더 낮은 쪽</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        기회비용 = 한 상품을 만들기 위해 포기하는 다른 상품의 양
+      </p>
+    </FormulaBox>
+
+    <BusinessBox title="비교우위의 실제 사례">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>한국:</strong> 반도체, 자동차, 조선에 비교우위 → 이 분야에 특화하여 수출</li>
+        <li><strong>베트남:</strong> 의류, 신발, 전자제품 조립에 비교우위 (저렴한 노동력)</li>
+        <li><strong>사우디아라비아:</strong> 원유 생산에 절대적 비교우위</li>
+        <li><strong>스위스:</strong> 금융 서비스, 정밀 기계, 제약에 비교우위</li>
+        <li><strong>중국:</strong> 대규모 제조업에 비교우위 (풍부한 노동력 + 인프라)</li>
+      </ul>
+    </BusinessBox>
+
+    <ExerciseBox title="연습: 비교우위 판단">
+      <p>A국: 자동차 1대에 100시간, TV 1대에 50시간 소요</p>
+      <p>B국: 자동차 1대에 200시간, TV 1대에 200시간 소요</p>
+      <p>어느 나라가 어떤 상품에 비교우위가 있는가?</p>
+      <button class="tb-btn" id="ca-calc-btn" style="margin-top: 8px;">풀이 보기</button>
+      <div id="ca-calc-answer" style="display: none; margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>A국 자동차의 기회비용:</strong> 100/50 = TV 2대</p>
+        <p><strong>B국 자동차의 기회비용:</strong> 200/200 = TV 1대</p>
+        <p style="margin-top: 8px;"><strong>결론:</strong> B국이 자동차에 비교우위 (기회비용 1 &lt; 2),
+          A국이 TV에 비교우위 (기회비용 0.5 &lt; 1)</p>
+        <p style="margin-top: 8px;">A국이 모든 것을 더 빨리 만들지만(절대우위),
+          비교우위에 따라 특화하면 양국 모두 이득입니다!</p>
+      </div>
+    </ExerciseBox>
+
+    <InsightBox title="자유무역 협정 (FTA)">
+      <p>한국은 세계에서 가장 많은 FTA를 체결한 나라 중 하나입니다.
+        FTA는 회원국 간 관세를 없애거나 낮추는 협정입니다.</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>한-미 FTA (2012년), 한-EU FTA (2011년), 한-중 FTA (2015년)</li>
+        <li>RCEP (아시아-태평양 15개국, 2022년)</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 비교우위 시뮬레이터 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 비교우위 시뮬레이터</h2>
+    <p>
+      한국과 베트남이 반도체와 의류를 만듭니다.
+      각 나라의 생산 비용(노동시간)을 조절하여 비교우위를 확인하고,
+      무역 후 양국이 모두 이득을 보는지 확인해 보세요.
+    </p>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="한국 비교우위" value="-" id="ca-kr" borderColor="#059669" />
+      <StatBox label="베트남 비교우위" value="-" id="ca-vn" borderColor="#f59e0b" />
+      <StatBox label="무역 이득" value="-" id="ca-gain" borderColor="#3b82f6" />
+    </div>
+
+    <SimControls>
+      <label>한국 -- 반도체 1단위 생산 비용: <span id="ca-kr-semi-val">2</span>시간</label>
+      <input type="range" id="ca-kr-semi" min="1" max="10" value="2" step="1" />
+      <label>한국 -- 의류 1단위 생산 비용: <span id="ca-kr-cloth-val">4</span>시간</label>
+      <input type="range" id="ca-kr-cloth" min="1" max="10" value="4" step="1" />
+      <label>베트남 -- 반도체 1단위 생산 비용: <span id="ca-vn-semi-val">8</span>시간</label>
+      <input type="range" id="ca-vn-semi" min="1" max="15" value="8" step="1" />
+      <label>베트남 -- 의류 1단위 생산 비용: <span id="ca-vn-cloth-val">3</span>시간</label>
+      <input type="range" id="ca-vn-cloth" min="1" max="10" value="3" step="1" />
+    </SimControls>
+
+    <div id="ca-table" style="margin: 16px 0; overflow-x: auto;"></div>
+
+    <ChartContainer id="caChart" height="350px" />
+
+    <ExerciseBox title="확인 문제">
+      <p>한국이 반도체와 의류 모두 더 적은 시간으로 만들 수 있더라도 (절대우위),
+        비교우위에 따라 특화하면 양국 모두 이득인 것을 확인했나요?
+        이것이 데이비드 리카도의 <strong>비교우위론</strong>의 핵심입니다.</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 관세 효과 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 관세의 효과</h2>
+    <p>
+      <strong>관세(tariff)</strong>란 수입품에 부과하는 세금입니다.
+      국내 산업을 보호할 수 있지만, 소비자 가격이 올라가고 사중손실이 발생합니다.
+    </p>
+
+    <ExplainBox title="관세의 승자와 패자">
+      <p><strong>이득:</strong> 국내 생산자 (경쟁이 줄어듬), 정부 (관세 수입)</p>
+      <p><strong>손해:</strong> 소비자 (가격 상승), 외국 생산자 (수출 감소)</p>
+      <p><strong>순효과:</strong> 보통 전체적으로는 손해 (사중손실 발생)</p>
+    </ExplainBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="관세율" value="-" id="tariff-rate" borderColor="#ef4444" />
+      <StatBox label="국내 가격" value="-" id="tariff-price" borderColor="#f59e0b" />
+      <StatBox label="정부 관세 수입" value="-" id="tariff-revenue" borderColor="#3b82f6" />
+      <StatBox label="사중손실" value="-" id="tariff-dwl" borderColor="#dc2626" />
+    </div>
+
+    <SimControls>
+      <label>관세율: <span id="tariff-pct-val">0</span>%</label>
+      <input type="range" id="tariff-pct" min="0" max="50" value="0" step="5" />
+    </SimControls>
+
+    <ChartContainer id="tariffChart" height="400px" />
+
+    <WarningBox title="보호무역의 유혹">
+      <p>관세로 국내 산업을 보호하면 단기적으로는 일자리가 유지될 수 있습니다.
+        하지만 장기적으로는:</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>소비자가 더 비싼 가격을 지불</li>
+        <li>보호받는 산업이 혁신할 동기를 잃음</li>
+        <li>상대 나라가 보복 관세를 부과하면 양국 모두 손해 (무역 전쟁)</li>
+      </ul>
+    </WarningBox>
+
+    <BusinessBox title="미중 무역전쟁 (2018~현재)">
+      <p>2018년 미국 트럼프 대통령이 중국산 제품에 대규모 관세를 부과하면서 시작되었습니다.</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>미국: 중국산 제품 수천억 달러에 25% 관세</li>
+        <li>중국: 미국산 농산물에 보복 관세</li>
+        <li>결과: 양국 소비자 가격 상승, 글로벌 공급망 재편, 한국 수출 타격</li>
+      </ul>
+      <p style="margin-top: 8px;">무역 전쟁은 이론에서 배운 것처럼 양쪽 모두에게 손해입니다.
+        하지만 국가 안보, 기술 패권 등 경제 외적 이유로 벌어지기도 합니다.</p>
+    </BusinessBox>
+
+    <ExerciseBox title="관세 퀴즈">
+      <p>정부가 수입 자동차에 25% 관세를 부과했습니다. 다음 중 틀린 것은?</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="document.getElementById('tariff-quiz').textContent='맞습니다. 국내 자동차 생산자는 경쟁이 줄어 이득을 봅니다.'; document.getElementById('tariff-quiz').style.color='#6b7280';">A. 국내 생산자 이득</button>
+        <button class="tb-btn" onclick="document.getElementById('tariff-quiz').textContent='맞습니다. 정부는 관세 수입을 얻습니다.'; document.getElementById('tariff-quiz').style.color='#6b7280';" style="margin-left: 8px;">B. 정부 수입 증가</button>
+        <button class="tb-btn" onclick="document.getElementById('tariff-quiz').textContent='정답! 관세가 부과되면 소비자 가격이 오르므로 소비자는 손해를 봅니다.'; document.getElementById('tariff-quiz').style.color='#059669';" style="margin-left: 8px;">C. 소비자 이득</button>
+      </div>
+      <p id="tariff-quiz" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 무역수지 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 한국의 무역수지</h2>
+    <p>
+      <strong>무역수지 = 수출 - 수입</strong>입니다.
+      양수이면 무역흑자(수출 &gt; 수입), 음수이면 무역적자(수입 &gt; 수출)입니다.
+      한국의 무역 구조를 살펴봅시다.
+    </p>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="총 수출" value="-" id="trade-export" borderColor="#059669" />
+      <StatBox label="총 수입" value="-" id="trade-import" borderColor="#ef4444" />
+      <StatBox label="무역수지" value="-" id="trade-balance" borderColor="#3b82f6" />
+    </div>
+
+    <ChartContainer id="tradeChart" height="380px" />
+
+    <BusinessBox title="한국의 주요 수출/수입 품목">
+      <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 200px;">
+          <p style="font-weight: bold; color: #059669;">주요 수출 품목</p>
+          <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+            <li>반도체 (약 20%)</li>
+            <li>자동차 (약 10%)</li>
+            <li>석유화학 (약 8%)</li>
+            <li>선박 (약 5%)</li>
+            <li>디스플레이 (약 3%)</li>
+          </ul>
+        </div>
+        <div style="flex: 1; min-width: 200px;">
+          <p style="font-weight: bold; color: #ef4444;">주요 수입 품목</p>
+          <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+            <li>원유 (약 15%)</li>
+            <li>반도체 장비 (약 7%)</li>
+            <li>천연가스 (약 6%)</li>
+            <li>석유제품 (약 5%)</li>
+            <li>식량 (약 4%)</li>
+          </ul>
+        </div>
+      </div>
+    </BusinessBox>
+
+    <ChartContainer id="tradeItemChart" height="350px" />
+
+    <ExerciseBox title="생각해 보기">
+      <p>한국은 반도체를 수출하면서 동시에 반도체 장비를 수입합니다. 왜 그럴까요?</p>
+      <button class="tb-btn" id="trade-answer-btn">정답 보기</button>
+      <p id="trade-answer" style="margin-top: 8px; display: none; color: #059669;">
+        한국은 반도체 "칩"을 만드는 데 비교우위가 있지만,
+        그 칩을 만드는 "장비"는 네덜란드(ASML) 등이 더 잘 만듭니다.
+        이것이 글로벌 분업(GVC, Global Value Chain)입니다.
+        각 나라가 가치 사슬의 특정 단계에서 비교우위를 가집니다.
+      </p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== EXTRA: 환율 기초 ===== -->
+  <div class="tb-card">
+    <h2>참고: 환율의 기초</h2>
+    <p>
+      무역에서 빠질 수 없는 것이 <strong>환율</strong>입니다.
+      원/달러 환율이 1,300원이면 1달러를 사는 데 1,300원이 필요하다는 뜻입니다.
+    </p>
+
+    <ExplainBox title="환율이 무역에 미치는 영향">
+      <p><strong>원화 약세 (환율 상승, 1,300원 → 1,400원):</strong></p>
+      <ul style="margin: 4px 0 8px 16px;">
+        <li>수출 유리: 한국 제품이 달러 기준으로 싸짐</li>
+        <li>수입 불리: 수입품 가격 상승 (원유 가격 상승)</li>
+      </ul>
+      <p><strong>원화 강세 (환율 하락, 1,300원 → 1,100원):</strong></p>
+      <ul style="margin: 4px 0 0 16px;">
+        <li>수출 불리: 한국 제품이 달러 기준으로 비싸짐</li>
+        <li>수입 유리: 수입품 가격 하락 (해외여행 싸짐)</li>
+      </ul>
+    </ExplainBox>
+
+    <BusinessBox title="환율의 일상 속 영향">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>해외여행:</strong> 원화 강세(환율 하락)면 여행비가 줄어듬</li>
+        <li><strong>해외직구:</strong> 환율이 낮을수록 외국 물건을 싸게 살 수 있음</li>
+        <li><strong>유학비:</strong> 원화 약세면 유학비 부담 증가</li>
+        <li><strong>수출기업 실적:</strong> 삼성, 현대차 등은 환율 변동에 매우 민감</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="17장 정리: 국제무역">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li><strong>비교우위:</strong> 기회비용이 낮은 상품에 특화하면 모두 이득</li>
+      <li><strong>관세:</strong> 국내 산업 보호 가능하지만, 소비자 가격 상승 + 사중손실</li>
+      <li><strong>무역수지:</strong> 수출 - 수입. 한국은 반도체/자동차 수출, 원유/가스 수입</li>
+      <li><strong>자유무역 vs 보호무역:</strong> 자유무역이 전체 효율을 높이지만, 피해 산업/노동자 보호 필요</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  /* ========== 1. 비교우위 시뮬레이터 ========== */
+  var krSemi = document.getElementById('ca-kr-semi');
+  var krCloth = document.getElementById('ca-kr-cloth');
+  var vnSemi = document.getElementById('ca-vn-semi');
+  var vnCloth = document.getElementById('ca-vn-cloth');
+  var caTable = document.getElementById('ca-table');
+
+  var caCtx = document.getElementById('caChart');
+  var caChart = new Chart(caCtx, {
+    type: 'bar',
+    data: {
+      labels: ['한국 - 반도체', '한국 - 의류', '베트남 - 반도체', '베트남 - 의류'],
+      datasets: [{
+        label: '기회비용 (다른 상품 단위)',
+        data: [0.5, 2, 2.67, 0.375],
+        backgroundColor: ['rgba(5,150,105,0.6)', 'rgba(5,150,105,0.3)', 'rgba(245,158,11,0.6)', 'rgba(245,158,11,0.3)'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { title: { display: true, text: '기회비용' }, beginAtZero: true }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function updateCA() {
+    var ks = parseInt(krSemi.value);
+    var kc = parseInt(krCloth.value);
+    var vs = parseInt(vnSemi.value);
+    var vc = parseInt(vnCloth.value);
+
+    document.getElementById('ca-kr-semi-val').textContent = ks;
+    document.getElementById('ca-kr-cloth-val').textContent = kc;
+    document.getElementById('ca-vn-semi-val').textContent = vs;
+    document.getElementById('ca-vn-cloth-val').textContent = vc;
+
+    // 기회비용: 반도체 1단위의 기회비용 = 반도체 비용 / 의류 비용 (의류 단위)
+    var krSemiOC = (ks / kc).toFixed(2); // 의류 단위
+    var krClothOC = (kc / ks).toFixed(2); // 반도체 단위
+    var vnSemiOC = (vs / vc).toFixed(2);
+    var vnClothOC = (vc / vs).toFixed(2);
+
+    var krAdv = parseFloat(krSemiOC) < parseFloat(vnSemiOC) ? '반도체' : '의류';
+    var vnAdv = parseFloat(vnSemiOC) < parseFloat(krSemiOC) ? '반도체' : '의류';
+
+    // 같은 경우
+    if (krSemiOC === vnSemiOC) {
+      krAdv = '동일';
+      vnAdv = '동일';
+    }
+
+    document.getElementById('ca-kr').textContent = krAdv;
+    document.getElementById('ca-vn').textContent = vnAdv;
+    document.getElementById('ca-gain').textContent = krAdv !== vnAdv && krAdv !== '동일' ? '양국 모두 이득!' : '특화 불필요';
+
+    caTable.innerHTML =
+      '<table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">' +
+      '<tr style="background: #f3f4f6;">' +
+        '<th style="padding: 10px; text-align: left;">기회비용</th>' +
+        '<th style="padding: 10px; text-align: center;">반도체 1단위<br><span style="font-weight:normal;color:#6b7280;">(포기하는 의류 수)</span></th>' +
+        '<th style="padding: 10px; text-align: center;">의류 1단위<br><span style="font-weight:normal;color:#6b7280;">(포기하는 반도체 수)</span></th>' +
+      '</tr>' +
+      '<tr style="border-bottom: 1px solid #e5e7eb;">' +
+        '<td style="padding: 10px; font-weight: bold;">한국</td>' +
+        '<td style="padding: 10px; text-align: center;' + (parseFloat(krSemiOC) < parseFloat(vnSemiOC) ? ' color: #059669; font-weight: bold;' : '') + '">' + krSemiOC + ' 의류</td>' +
+        '<td style="padding: 10px; text-align: center;' + (parseFloat(krClothOC) < parseFloat(vnClothOC) ? ' color: #059669; font-weight: bold;' : '') + '">' + krClothOC + ' 반도체</td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td style="padding: 10px; font-weight: bold;">베트남</td>' +
+        '<td style="padding: 10px; text-align: center;' + (parseFloat(vnSemiOC) < parseFloat(krSemiOC) ? ' color: #059669; font-weight: bold;' : '') + '">' + vnSemiOC + ' 의류</td>' +
+        '<td style="padding: 10px; text-align: center;' + (parseFloat(vnClothOC) < parseFloat(krClothOC) ? ' color: #059669; font-weight: bold;' : '') + '">' + vnClothOC + ' 반도체</td>' +
+      '</tr>' +
+      '</table>';
+
+    caChart.data.datasets[0].data = [
+      parseFloat(krSemiOC), parseFloat(krClothOC),
+      parseFloat(vnSemiOC), parseFloat(vnClothOC)
+    ];
+    caChart.update();
+  }
+
+  krSemi.addEventListener('input', updateCA);
+  krCloth.addEventListener('input', updateCA);
+  vnSemi.addEventListener('input', updateCA);
+  vnCloth.addEventListener('input', updateCA);
+  updateCA();
+
+  /* ========== 2. 관세 효과 ========== */
+  var tariffSlider = document.getElementById('tariff-pct');
+  var tariffCtx = document.getElementById('tariffChart');
+
+  // 수요: P = 100 - 0.5Q, 공급: P = 20 + 0.5Q, 세계가격 = 40
+  var worldPrice = 40;
+
+  function getDemandPts() {
+    var pts = [];
+    for (var q = 0; q <= 200; q += 10) {
+      var p = 100 - 0.5 * q;
+      if (p >= 0) pts.push({ x: q, y: p });
+    }
+    return pts;
+  }
+
+  function getSupplyPts() {
+    var pts = [];
+    for (var q = 0; q <= 200; q += 10) {
+      var p = 20 + 0.5 * q;
+      if (p <= 120) pts.push({ x: q, y: p });
+    }
+    return pts;
+  }
+
+  var tariffChart = new Chart(tariffCtx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        { label: '수요', data: getDemandPts(), showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 2, fill: false },
+        { label: '공급', data: getSupplyPts(), showLine: true, borderColor: '#ef4444', pointRadius: 0, borderWidth: 2, fill: false },
+        { label: '세계 가격', data: [{ x: 0, y: worldPrice }, { x: 200, y: worldPrice }], showLine: true, borderColor: '#059669', borderWidth: 2, borderDash: [6, 3], pointRadius: 0, fill: false },
+        { label: '관세 후 가격', data: [], showLine: true, borderColor: '#f59e0b', borderWidth: 3, borderDash: [6, 3], pointRadius: 0, fill: false }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '수량' }, min: 0, max: 200 },
+        y: { title: { display: true, text: '가격' }, min: 0, max: 120 }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updateTariff() {
+    var pct = parseInt(tariffSlider.value);
+    document.getElementById('tariff-pct-val').textContent = pct;
+
+    var tariffPrice = worldPrice * (1 + pct / 100);
+    document.getElementById('tariff-rate').textContent = pct + '%';
+    document.getElementById('tariff-price').textContent = tariffPrice.toFixed(0);
+
+    // 수요량: P = 100 - 0.5Q => Q = (100 - P) / 0.5
+    var qd = (100 - tariffPrice) / 0.5;
+    // 공급량: P = 20 + 0.5Q => Q = (P - 20) / 0.5
+    var qs = (tariffPrice - 20) / 0.5;
+    if (qs < 0) qs = 0;
+    var imports = Math.max(0, qd - qs);
+
+    var qdFree = (100 - worldPrice) / 0.5;
+    var qsFree = (worldPrice - 20) / 0.5;
+
+    var revenue = (tariffPrice - worldPrice) * imports;
+    // DWL = two triangles
+    var dwl = 0.5 * (tariffPrice - worldPrice) * ((qs - qsFree) + (qdFree - qd));
+
+    document.getElementById('tariff-revenue').textContent = Math.round(revenue).toLocaleString();
+    document.getElementById('tariff-dwl').textContent = Math.round(Math.abs(dwl)).toLocaleString();
+
+    if (pct > 0) {
+      tariffChart.data.datasets[3].data = [{ x: 0, y: tariffPrice }, { x: 200, y: tariffPrice }];
+    } else {
+      tariffChart.data.datasets[3].data = [];
+    }
+    tariffChart.update();
+  }
+
+  tariffSlider.addEventListener('input', updateTariff);
+  updateTariff();
+
+  /* ========== 3. 무역수지 시계열 ========== */
+  var tradeYears = [];
+  for (var y = 2000; y <= 2025; y++) tradeYears.push(y);
+
+  // 합성 데이터 (억 달러 단위)
+  var exports = [
+    1723, 1504, 1625, 1938, 2538, 2844, 3255, 3715, 4220, 3635,
+    4664, 5552, 5479, 5596, 5727, 5268, 4954, 5737, 6049, 5422,
+    5125, 6444, 6836, 6327, 6838, 6900
+  ];
+  var imports = [
+    1605, 1411, 1521, 1788, 2245, 2612, 3094, 3568, 4353, 3231,
+    4252, 5244, 5196, 5156, 5255, 4365, 4062, 4785, 5352, 5033,
+    4676, 6151, 7313, 6427, 6429, 6500
+  ];
+
+  var balance = exports.map(function(e, i) { return e - imports[i]; });
+
+  var tradeCtx = document.getElementById('tradeChart');
+  new Chart(tradeCtx, {
+    type: 'line',
+    data: {
+      labels: tradeYears,
+      datasets: [
+        { label: '수출', data: exports, borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', borderWidth: 2, fill: false, tension: 0.3 },
+        { label: '수입', data: imports, borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', borderWidth: 2, fill: false, tension: 0.3 },
+        {
+          label: '무역수지',
+          data: balance,
+          borderColor: '#3b82f6',
+          backgroundColor: balance.map(function(v) { return v >= 0 ? 'rgba(59,130,246,0.3)' : 'rgba(239,68,68,0.3)'; }),
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '연도' } },
+        y: { title: { display: true, text: '억 달러' } }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  // 최신 연도 표시
+  var lastIdx = exports.length - 1;
+  document.getElementById('trade-export').textContent = exports[lastIdx] + '억 달러';
+  document.getElementById('trade-import').textContent = imports[lastIdx] + '억 달러';
+  var balVal = balance[lastIdx];
+  document.getElementById('trade-balance').textContent = (balVal > 0 ? '+' : '') + balVal + '억 달러 (' + (balVal > 0 ? '흑자' : '적자') + ')';
+
+  /* 품목별 구성 차트 */
+  var tradeItemCtx = document.getElementById('tradeItemChart');
+  new Chart(tradeItemCtx, {
+    type: 'bar',
+    data: {
+      labels: ['반도체', '자동차', '석유화학', '선박', '디스플레이', '기타 수출', '원유', '반도체 장비', '천연가스', '식량', '기타 수입'],
+      datasets: [{
+        label: '비중 (%)',
+        data: [20, 10, 8, 5, 3, 54, 15, 7, 6, 4, 68],
+        backgroundColor: [
+          '#059669', '#059669', '#059669', '#059669', '#059669', 'rgba(5,150,105,0.3)',
+          '#ef4444', '#ef4444', '#ef4444', '#ef4444', 'rgba(239,68,68,0.3)'
+        ],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      scales: { x: { title: { display: true, text: '비중 (%)' }, beginAtZero: true } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  document.getElementById('trade-answer-btn').addEventListener('click', function() {
+    document.getElementById('trade-answer').style.display = 'block';
+  });
+
+  var caCalcBtn = document.getElementById('ca-calc-btn');
+  if (caCalcBtn) {
+    caCalcBtn.addEventListener('click', function() {
+      document.getElementById('ca-calc-answer').style.display = 'block';
+    });
+  }
+}
+
+waitForChart(init);
+</script>

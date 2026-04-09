@@ -1,0 +1,594 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout title="경제학적 사고방식" subtitle="기회비용, 한계 분석, 인센티브" chapterNum={2} part={0}>
+
+  <!-- ========== HOOK ========== -->
+  <div class="tb-card">
+    <h2>다이아몬드는 왜 물보다 비싼가?</h2>
+    <p>
+      물은 생존에 반드시 필요하다. 물 없이는 며칠도 살 수 없다.
+      반면 다이아몬드는 없어도 사는 데 아무 문제가 없다.
+      그런데 왜 다이아몬드가 물보다 훨씬 비쌀까?
+    </p>
+    <p>
+      이 질문에 답하려면 경제학적 사고방식이 필요하다.
+      핵심은 <strong>"전체"가 아니라 "한 단위 더"</strong>를 생각하는 것이다.
+      물은 풍부하기 때문에 "한 잔 더" 마시는 것의 가치가 낮다.
+      다이아몬드는 희소하기 때문에 "한 개 더" 갖는 것의 가치가 높다.
+      이것이 <strong>한계(marginal) 분석</strong>이다.
+    </p>
+  </div>
+
+  <!-- ========== 개념 1: 한계 분석 ========== -->
+  <div class="tb-card">
+    <h2>1. 한계 분석: "하나 더"의 경제학</h2>
+
+    <ExplainBox title="비유로 이해하기">
+      <p>
+        배가 고플 때 첫 번째 피자 조각은 천국이다. 두 번째도 맛있다.
+        세 번째는 괜찮다. 네 번째부터는 좀 부담스럽다.
+        여덟 번째? 배가 아프다.
+      </p>
+      <p>
+        피자 한 조각을 "추가로" 먹을 때 느끼는 만족감은 계속 줄어든다.
+        경제학자들은 이 추가 만족감을 <strong>한계효용(marginal utility)</strong>이라 부른다.
+      </p>
+    </ExplainBox>
+
+    <FormulaBox>
+      한계효용 = <span class="hl">추가 1단위 소비</span>로 인한 <span class="res">추가 만족감</span>
+    </FormulaBox>
+
+    <p>
+      경제학자들은 거의 모든 결정을 "한계"로 생각한다.
+      "총" 가치가 아니라, "한 단위 더" 했을 때의 추가 가치를 본다.
+      물의 "총" 가치는 다이아몬드보다 높지만, "한 잔 더"의 가치는 낮다.
+      이것이 물-다이아몬드 역설의 해답이다.
+    </p>
+  </div>
+
+  <!-- ========== 인터랙티브 1: 한계효용 시뮬레이터 ========== -->
+  <div class="tb-card">
+    <h2>2. 직접 해보기: 한계효용 시뮬레이터</h2>
+
+    <ExplainBox>
+      피자 조각을 하나씩 추가하며 총효용과 한계효용의 변화를 관찰하자.
+      피자를 몇 조각까지 먹는 것이 합리적일까?
+    </ExplainBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary" id="add-pizza-btn">피자 한 조각 추가</button>
+      <button class="tb-btn tb-btn-danger" id="reset-pizza-btn">처음부터</button>
+      <span style="margin-left: 12px;">현재: <strong id="pizza-count">0</strong>조각</span>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="총효용" id="total-utility" value="0" borderColor="#059669" />
+      <StatBox label="한계효용" id="marginal-utility" value="-" sub="마지막 조각의 추가 만족" borderColor="#3b82f6" />
+      <StatBox label="상태" id="pizza-status" value="배고프다" borderColor="#f59e0b" />
+    </div>
+
+    <ChartContainer id="mu-chart" height="350px" />
+
+    <InsightBox title="관찰 포인트">
+      <p>한계효용이 0 이하가 되면 더 먹는 것은 비합리적이다. 총효용이 최대인 지점에서 멈추는 것이 최선이다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 개념 2: 인센티브 ========== -->
+  <div class="tb-card">
+    <h2>3. 인센티브: 사람은 보상에 반응한다</h2>
+
+    <p>
+      인센티브(incentive)란 사람의 행동을 바꾸는 동기를 말한다.
+      당근(보상)이 될 수도 있고, 채찍(벌칙)이 될 수도 있다.
+    </p>
+
+    <ExplainBox title="비유로 이해하기">
+      <p>
+        학교에서 지각하면 벌점을 준다면, 지각하는 학생이 줄어든다. 이것이 부정적 인센티브다.
+        100점 맞으면 용돈을 올려준다면, 공부를 더 열심히 한다. 이것이 긍정적 인센티브다.
+      </p>
+      <p>
+        경제학의 핵심 가정: <strong>사람들은 인센티브에 반응한다.</strong>
+        정책을 설계할 때 가장 중요한 질문은 "이 정책이 사람들의 행동을 어떻게 바꿀까?"이다.
+      </p>
+    </ExplainBox>
+
+    <WarningBox title="의도하지 않은 결과">
+      인센티브는 때때로 예상과 반대의 결과를 낳는다.
+      예: 이스라엘의 한 어린이집에서 지각하는 부모에게 벌금을 부과했더니, 오히려 지각이 늘었다.
+      벌금 덕분에 "돈을 내면 늦어도 된다"는 인식이 생겼기 때문이다.
+    </WarningBox>
+  </div>
+
+  <!-- ========== 인터랙티브 2: 인센티브 실험 ========== -->
+  <div class="tb-card">
+    <h2>4. 직접 해보기: 인센티브 실험</h2>
+
+    <ExplainBox>
+      <p>
+        세 가지 정책의 효과를 예측해보자. 슬라이더로 행동 변화를 예측한 후,
+        실제 연구 결과와 비교해보자.
+      </p>
+    </ExplainBox>
+
+    <ExerciseBox title="정책 시나리오">
+      <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <p><strong>시나리오 1: 쓰레기봉투 유료화 (장당 500원)</strong></p>
+        <p>쓰레기 배출량이 얼마나 줄어들까?</p>
+        <label>예측: <strong id="inc-pred-1">0</strong>% 감소</label>
+        <input type="range" id="inc-slider-1" min="0" max="80" value="0" style="width:100%">
+        <button class="tb-btn" onclick="checkIncentive(1)">확인</button>
+        <p id="inc-result-1" style="font-weight:600; display:none;"></p>
+      </div>
+      <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <p><strong>시나리오 2: 탄소세 (톤당 5만원)</strong></p>
+        <p>기업의 탄소 배출이 얼마나 줄어들까?</p>
+        <label>예측: <strong id="inc-pred-2">0</strong>% 감소</label>
+        <input type="range" id="inc-slider-2" min="0" max="80" value="0" style="width:100%">
+        <button class="tb-btn" onclick="checkIncentive(2)">확인</button>
+        <p id="inc-result-2" style="font-weight:600; display:none;"></p>
+      </div>
+      <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <p><strong>시나리오 3: 전기차 보조금 (500만원)</strong></p>
+        <p>전기차 판매가 얼마나 늘어날까?</p>
+        <label>예측: <strong id="inc-pred-3">0</strong>% 증가</label>
+        <input type="range" id="inc-slider-3" min="0" max="80" value="0" style="width:100%">
+        <button class="tb-btn" onclick="checkIncentive(3)">확인</button>
+        <p id="inc-result-3" style="font-weight:600; display:none;"></p>
+      </div>
+    </ExerciseBox>
+
+    <ChartContainer id="incentive-chart" height="280px" />
+  </div>
+
+  <!-- ========== 개념 3: 매몰비용 ========== -->
+  <div class="tb-card">
+    <h2>5. 매몰비용: 이미 쏟은 돈은 잊어라</h2>
+
+    <ExplainBox title="비유로 이해하기">
+      <p>
+        영화표를 1.5만원에 샀다. 30분 봤는데 정말 재미없다.
+        "이미 돈을 냈으니까 끝까지 봐야지"라고 생각한다면? 그것은 <strong>매몰비용의 오류</strong>이다.
+      </p>
+      <p>
+        이미 낸 1.5만원은 나가든 남든 돌아오지 않는다.
+        합리적 선택은 "남은 시간을 영화관에서 보내는 것 vs 다른 일을 하는 것"만 비교하는 것이다.
+        과거에 쓴 비용(매몰비용)은 미래 결정에 영향을 주면 안 된다.
+      </p>
+    </ExplainBox>
+
+    <FormulaBox>
+      매몰비용(sunk cost) = <span class="hl">이미 지출되어 회수 불가능한</span> 비용 &rarr; <span class="res">무시해야 함</span>
+    </FormulaBox>
+  </div>
+
+  <!-- ========== 인터랙티브 3: 매몰비용 퀴즈 ========== -->
+  <div class="tb-card">
+    <h2>6. 매몰비용 퀴즈</h2>
+
+    <ExerciseBox title="매몰비용의 함정에 빠지지 마세요">
+      <div id="sunk-quiz">
+        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q1.</strong> 영화가 재미없는데 이미 표(1.5만원)를 샀다. 어떻게 해야 할까?</p>
+          <button class="tb-btn" onclick="checkSunk(0, 'A')">나간다 (1.5만원은 매몰비용)</button>
+          <button class="tb-btn" onclick="checkSunk(0, 'B')">끝까지 본다 (돈이 아까우니까)</button>
+          <p class="sq-fb" data-q="0" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q2.</strong> 3년간 개발한 프로젝트가 시장성이 없다고 판명되었다. 이미 50억을 투자했다.</p>
+          <button class="tb-btn" onclick="checkSunk(1, 'A')">중단한다 (50억은 매몰비용)</button>
+          <button class="tb-btn" onclick="checkSunk(1, 'B')">계속한다 (50억이 아까우니까)</button>
+          <p class="sq-fb" data-q="1" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q3.</strong> 뷔페에서 2만원을 냈다. 배가 부른데 더 먹어야 할까?</p>
+          <button class="tb-btn" onclick="checkSunk(2, 'A')">그만 먹는다 (2만원은 매몰비용)</button>
+          <button class="tb-btn" onclick="checkSunk(2, 'B')">본전은 뽑아야 한다</button>
+          <p class="sq-fb" data-q="2" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q4.</strong> 주식을 100만원에 샀는데 현재 가격이 60만원이다. "물타기"를 해야 할까?</p>
+          <button class="tb-btn" onclick="checkSunk(3, 'A')">미래 전망만 보고 판단한다</button>
+          <button class="tb-btn" onclick="checkSunk(3, 'B')">매입가를 회복할 때까지 기다린다</button>
+          <p class="sq-fb" data-q="3" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q5.</strong> 헬스장 1년 회원권(60만원)을 끊었는데, 6개월 후 운동이 싫어졌다.</p>
+          <button class="tb-btn" onclick="checkSunk(4, 'A')">안 가는 게 낫다면 안 간다</button>
+          <button class="tb-btn" onclick="checkSunk(4, 'B')">돈이 아까우니 억지로 간다</button>
+          <p class="sq-fb" data-q="4" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+      </div>
+      <div class="tb-stat-row" style="margin-top:12px;">
+        <StatBox label="맞힌 문제" id="sunk-score" value="0 / 5" borderColor="#059669" />
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ========== 인터랙티브 4: 합리적 의사결정 도구 ========== -->
+  <div class="tb-card">
+    <h2>7. 합리적 의사결정 도구</h2>
+
+    <ExplainBox>
+      <p>
+        합리적 선택이란 편익(benefit)이 비용(cost)보다 큰 선택을 하는 것이다.
+        두 선택지의 비용과 편익을 직접 입력해서 비교해보자.
+      </p>
+    </ExplainBox>
+
+    <ExerciseBox title="비용-편익 비교">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="padding: 12px; background: #eff6ff; border-radius: 8px;">
+          <h4>선택지 A</h4>
+          <label>이름:</label>
+          <input type="text" id="opt-a-name" value="대학원 진학" style="width:100%; padding:6px; margin-bottom:8px; border:1px solid #d1d5db; border-radius:4px;">
+          <label>편익 (만원):</label>
+          <input type="number" id="opt-a-benefit" value="5000" style="width:100%; padding:6px; margin-bottom:8px; border:1px solid #d1d5db; border-radius:4px;">
+          <label>비용 (만원):</label>
+          <input type="number" id="opt-a-cost" value="3000" style="width:100%; padding:6px; border:1px solid #d1d5db; border-radius:4px;">
+        </div>
+        <div style="padding: 12px; background: #fef3c7; border-radius: 8px;">
+          <h4>선택지 B</h4>
+          <label>이름:</label>
+          <input type="text" id="opt-b-name" value="바로 취업" style="width:100%; padding:6px; margin-bottom:8px; border:1px solid #d1d5db; border-radius:4px;">
+          <label>편익 (만원):</label>
+          <input type="number" id="opt-b-benefit" value="4000" style="width:100%; padding:6px; margin-bottom:8px; border:1px solid #d1d5db; border-radius:4px;">
+          <label>비용 (만원):</label>
+          <input type="number" id="opt-b-cost" value="1000" style="width:100%; padding:6px; border:1px solid #d1d5db; border-radius:4px;">
+        </div>
+      </div>
+      <div style="margin-top: 12px; text-align: center;">
+        <button class="tb-btn tb-btn-primary" onclick="compareOptions()">비교하기</button>
+      </div>
+    </ExerciseBox>
+
+    <div class="tb-stat-row">
+      <StatBox label="A 순편익" id="net-a" value="-" borderColor="#3b82f6" />
+      <StatBox label="B 순편익" id="net-b" value="-" borderColor="#f59e0b" />
+      <StatBox label="합리적 선택" id="rational-choice" value="-" borderColor="#059669" />
+    </div>
+
+    <ChartContainer id="cba-chart" height="280px" />
+  </div>
+
+  <!-- ========== 추가 개념: 한계비용과 한계편익 ========== -->
+  <div class="tb-card">
+    <h2>8. 한계비용 = 한계편익: 최적의 결정 규칙</h2>
+
+    <ExplainBox title="경제학의 황금률">
+      <p>
+        경제학에서 가장 중요한 의사결정 규칙은 간단하다:
+        <strong>한계편익(MB)이 한계비용(MC)보다 크면 더 하라. 같아지면 멈춰라.</strong>
+      </p>
+      <p>
+        공부를 예로 들자. 첫 1시간의 한계편익(성적 향상)은 크다.
+        하지만 6시간째의 한계편익은 작다(이미 많이 공부했으니까).
+        반면 한계비용(피로, 포기한 여가)은 점점 커진다.
+        한계편익과 한계비용이 같아지는 지점이 최적 공부 시간이다.
+      </p>
+    </ExplainBox>
+
+    <FormulaBox>
+      최적 조건: <span class="hl">MB(한계편익)</span> = <span class="hl">MC(한계비용)</span> &rarr; <span class="res">최적 수준</span>
+    </FormulaBox>
+
+    <ExerciseBox title="일상에서의 한계 분석">
+      <p>다음 상황에서 한계 분석을 적용해보세요:</p>
+      <ul>
+        <li><strong>카페 운영:</strong> 직원을 한 명 더 고용하면 매출이 얼마나 느는가(MB)? 인건비는 얼마인가(MC)? MB &gt; MC이면 고용한다.</li>
+        <li><strong>광고 투자:</strong> 광고비를 100만원 더 쓰면 매출이 150만원 늘면? MB(150) > MC(100) 이니 투자한다.</li>
+        <li><strong>시험 공부:</strong> 추가 1시간 공부로 5점 올릴 수 있지만, 수면 부족으로 내일 집중력이 떨어진다면?</li>
+      </ul>
+    </ExerciseBox>
+
+    <InsightBox title="한계 분석이 모든 곳에">
+      <p>
+        가격 결정, 생산량 결정, 고용 결정, 투자 결정 -- 경제학의 거의 모든 분석이
+        "한 단위 더"의 편익과 비용을 비교하는 한계 분석에 기초한다.
+        이 사고방식을 체화하면 일상의 모든 결정이 더 합리적이 된다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 비즈니스 적용 ========== -->
+  <div class="tb-card">
+    <h2>9. 실생활 속 경제학적 사고</h2>
+
+    <BusinessBox title="항공사의 한계 분석">
+      <p>
+        비행기가 곧 출발하는데 좌석 10개가 비어 있다.
+        이 좌석의 한계비용(추가 승객 1명 태우는 비용)은 거의 0원이다. (연료비 약간, 기내식 정도)
+        그래서 항공사는 빈 좌석을 아주 싸게라도 파는 것이 이득이다.
+        이것이 "막판 특가 항공권"이 존재하는 이유다.
+      </p>
+    </BusinessBox>
+
+    <BusinessBox title="넷플릭스의 인센티브 설계">
+      <p>
+        넷플릭스는 월 구독료 모델을 쓴다. 한 번 결제하면 무제한으로 볼 수 있다.
+        이 인센티브 구조 덕분에 소비자는 더 많이 시청하고, 넷플릭스를 해지하기 어렵게 느낀다.
+        인센티브 설계가 비즈니스 성공의 핵심이다.
+      </p>
+    </BusinessBox>
+  </div>
+
+  <!-- ========== 결론 ========== -->
+  <ConclusionBox title="2장 핵심 정리">
+    <ul>
+      <li><strong>한계 분석:</strong> "총"이 아니라 "하나 더"를 기준으로 판단한다. 한계편익이 한계비용보다 크면 행동한다.</li>
+      <li><strong>한계효용 체감:</strong> 추가 소비의 만족감은 점점 줄어든다.</li>
+      <li><strong>인센티브:</strong> 사람은 보상과 벌칙에 반응한다. 정책 효과를 예측하려면 인센티브를 분석해야 한다.</li>
+      <li><strong>매몰비용:</strong> 이미 지출된 회수 불가능한 비용은 미래 결정에 영향을 주면 안 된다.</li>
+      <li><strong>합리적 선택:</strong> 순편익(편익 - 비용)이 가장 큰 대안을 고른다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 뉴스에서 매일 나오는 경제 지표(GDP, 물가, 실업률)를 어떻게 읽어야 할까?
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  // --- Progress tracking ---
+  try {
+    var key = 'textbook-progress-econ';
+    var raw = localStorage.getItem(key);
+    var data = raw ? JSON.parse(raw) : { chapters: {} };
+    data.chapters['02-economic-thinking'] = { visited: true, lastVisit: new Date().toISOString().slice(0, 10) };
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch(e) {}
+
+  // ========== 인터랙티브 1: 한계효용 시뮬레이터 ==========
+  var pizzaCount = 0;
+  var totalUtil = 0;
+  var muData = [];
+  var tuData = [];
+  var muChart = null;
+
+  function getMU(n) {
+    // 한계효용: 감소하다가 음수로
+    var vals = [50, 40, 30, 20, 12, 5, 0, -8, -20, -35];
+    return n < vals.length ? vals[n] : -50;
+  }
+
+  function getStatus(n) {
+    if (n === 0) return '배고프다';
+    if (n <= 2) return '맛있다!';
+    if (n <= 4) return '괜찮다';
+    if (n <= 6) return '좀 부담스럽다';
+    return '배가 아프다...';
+  }
+
+  function updatePizzaChart() {
+    if (!muChart) {
+      var ctx = document.getElementById('mu-chart');
+      if (!ctx) return;
+      muChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: [],
+          datasets: [
+            { label: '한계효용', data: [], backgroundColor: [], yAxisID: 'y' },
+            { label: '총효용', data: [], type: 'line', borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', fill: true, tension: 0.3, yAxisID: 'y1' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: {
+            y: { position: 'left', title: { display: true, text: '한계효용' } },
+            y1: { position: 'right', title: { display: true, text: '총효용' }, grid: { drawOnChartArea: false } }
+          }
+        }
+      });
+    }
+
+    var labels = [];
+    var barColors = [];
+    for (var i = 0; i < muData.length; i++) {
+      labels.push((i + 1) + '조각');
+      barColors.push(muData[i] >= 0 ? 'rgba(59,130,246,0.7)' : 'rgba(239,68,68,0.7)');
+    }
+    muChart.data.labels = labels;
+    muChart.data.datasets[0].data = muData.slice();
+    muChart.data.datasets[0].backgroundColor = barColors;
+    muChart.data.datasets[1].data = tuData.slice();
+    muChart.update();
+  }
+
+  document.getElementById('add-pizza-btn').addEventListener('click', function() {
+    if (pizzaCount >= 10) return;
+    var mu = getMU(pizzaCount);
+    totalUtil += mu;
+    muData.push(mu);
+    tuData.push(totalUtil);
+    pizzaCount++;
+
+    document.getElementById('pizza-count').textContent = pizzaCount;
+    document.getElementById('total-utility').textContent = totalUtil;
+    document.getElementById('marginal-utility').textContent = mu >= 0 ? '+' + mu : mu;
+    document.getElementById('pizza-status').textContent = getStatus(pizzaCount);
+    updatePizzaChart();
+  });
+
+  document.getElementById('reset-pizza-btn').addEventListener('click', function() {
+    pizzaCount = 0;
+    totalUtil = 0;
+    muData = [];
+    tuData = [];
+    document.getElementById('pizza-count').textContent = '0';
+    document.getElementById('total-utility').textContent = '0';
+    document.getElementById('marginal-utility').textContent = '-';
+    document.getElementById('pizza-status').textContent = '배고프다';
+    updatePizzaChart();
+  });
+
+  // ========== 인터랙티브 2: 인센티브 실험 ==========
+  var actualResults = [33, 15, 40]; // 실제 연구 추정치 (%)
+  var incChart = null;
+
+  for (var i = 1; i <= 3; i++) {
+    (function(idx) {
+      var slider = document.getElementById('inc-slider-' + idx);
+      slider.addEventListener('input', function() {
+        document.getElementById('inc-pred-' + idx).textContent = slider.value;
+      });
+    })(i);
+  }
+
+  window.checkIncentive = function(num) {
+    var pred = parseInt(document.getElementById('inc-slider-' + num).value);
+    var actual = actualResults[num - 1];
+    var diff = Math.abs(pred - actual);
+    var el = document.getElementById('inc-result-' + num);
+    el.style.display = 'block';
+
+    var policyNames = ['쓰레기봉투 유료화', '탄소세', '전기차 보조금'];
+
+    if (diff <= 10) {
+      el.textContent = '훌륭합니다! 실제 결과: 약 ' + actual + '% 변화. 당신의 예측과 매우 가깝습니다.';
+      el.style.color = '#059669';
+    } else {
+      el.textContent = '실제 결과: 약 ' + actual + '% 변화. 인센티브의 효과를 예측하기는 쉽지 않습니다.';
+      el.style.color = '#3b82f6';
+    }
+
+    updateIncentiveChart();
+  };
+
+  function updateIncentiveChart() {
+    var preds = [];
+    for (var i = 1; i <= 3; i++) {
+      preds.push(parseInt(document.getElementById('inc-slider-' + i).value));
+    }
+    var labels = ['쓰레기봉투 유료화', '탄소세', '전기차 보조금'];
+    if (!incChart) {
+      var ctx = document.getElementById('incentive-chart');
+      if (!ctx) return;
+      incChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: '나의 예측 (%)', data: preds, backgroundColor: 'rgba(59,130,246,0.6)' },
+            { label: '실제 결과 (%)', data: actualResults, backgroundColor: 'rgba(5,150,105,0.6)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: { y: { beginAtZero: true, title: { display: true, text: '변화율 (%)' } } }
+        }
+      });
+    } else {
+      incChart.data.datasets[0].data = preds;
+      incChart.update();
+    }
+  }
+
+  // ========== 인터랙티브 3: 매몰비용 퀴즈 ==========
+  var sunkAnswers = ['A', 'A', 'A', 'A', 'A'];
+  var sunkExplanations = [
+    '정답! 이미 낸 영화표 값은 매몰비용이다. 남은 시간의 가치만 비교해서 판단해야 한다.',
+    '정답! 50억은 매몰비용이다. "앞으로" 추가 투자 대비 수익이 있는지만 봐야 한다.',
+    '정답! 뷔페 비용은 매몰비용이다. 배가 부른데 더 먹으면 건강만 해친다.',
+    '정답! 매입가는 매몰비용이다. "지금부터" 이 주식이 오를지만 판단해야 한다.',
+    '정답! 회원권 비용은 매몰비용이다. 지금 운동이 주는 가치가 다른 활동보다 큰지만 비교하면 된다.'
+  ];
+  var sunkWrong = [
+    '아쉽다! 이미 낸 돈은 돌아오지 않는다. 남은 시간을 어떻게 쓸지만 생각하자.',
+    '아쉽다! "이미 투자한 돈이 아까워서" 계속하는 것은 매몰비용의 오류이다.',
+    '아쉽다! 뷔페 비용은 이미 지불했다. 건강을 해치면서 "본전"을 뽑는 것은 비합리적이다.',
+    '아쉽다! 매입가에 집착하는 것은 매몰비용의 오류이다. 미래 전망만 보고 판단해야 한다.',
+    '아쉽다! 회원권 비용은 이미 지불했다. 지금 운동의 가치만 판단하면 된다.'
+  ];
+  var sunkScore = 0;
+
+  window.checkSunk = function(q, ans) {
+    var fb = document.querySelector('.sq-fb[data-q="' + q + '"]');
+    if (!fb) return;
+    fb.style.display = 'block';
+    if (ans === sunkAnswers[q]) {
+      fb.textContent = sunkExplanations[q];
+      fb.style.color = '#059669';
+      sunkScore++;
+    } else {
+      fb.textContent = sunkWrong[q];
+      fb.style.color = '#ef4444';
+    }
+    document.getElementById('sunk-score').textContent = sunkScore + ' / 5';
+    var btns = document.querySelectorAll('.sq-item:nth-child(' + (q + 1) + ') button');
+    btns.forEach(function(b) { b.disabled = true; b.style.opacity = '0.5'; });
+  };
+
+  // ========== 인터랙티브 4: 합리적 의사결정 ==========
+  var cbaChart = null;
+
+  window.compareOptions = function() {
+    var aName = document.getElementById('opt-a-name').value || 'A';
+    var bName = document.getElementById('opt-b-name').value || 'B';
+    var aBenefit = parseInt(document.getElementById('opt-a-benefit').value) || 0;
+    var aCost = parseInt(document.getElementById('opt-a-cost').value) || 0;
+    var bBenefit = parseInt(document.getElementById('opt-b-benefit').value) || 0;
+    var bCost = parseInt(document.getElementById('opt-b-cost').value) || 0;
+
+    var aNet = aBenefit - aCost;
+    var bNet = bBenefit - bCost;
+
+    document.getElementById('net-a').textContent = aNet.toLocaleString() + '만원';
+    document.getElementById('net-b').textContent = bNet.toLocaleString() + '만원';
+    document.getElementById('rational-choice').textContent = aNet > bNet ? aName : (bNet > aNet ? bName : '동일');
+
+    if (!cbaChart) {
+      var ctx = document.getElementById('cba-chart');
+      if (!ctx) return;
+      cbaChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: [aName, bName],
+          datasets: [
+            { label: '편익', data: [aBenefit, bBenefit], backgroundColor: 'rgba(5,150,105,0.6)' },
+            { label: '비용', data: [aCost, bCost], backgroundColor: 'rgba(239,68,68,0.6)' },
+            { label: '순편익', data: [aNet, bNet], backgroundColor: 'rgba(59,130,246,0.6)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: { y: { title: { display: true, text: '만원' } } }
+        }
+      });
+    } else {
+      cbaChart.data.labels = [aName, bName];
+      cbaChart.data.datasets[0].data = [aBenefit, bBenefit];
+      cbaChart.data.datasets[1].data = [aCost, bCost];
+      cbaChart.data.datasets[2].data = [aNet, bNet];
+      cbaChart.update();
+    }
+  };
+}
+
+waitForChart(init);
+</script>

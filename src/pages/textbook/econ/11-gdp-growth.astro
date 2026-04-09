@@ -1,0 +1,585 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="GDP와 경제성장"
+  subtitle="나라의 부는 어떻게 측정하는가"
+  chapterNum={11}
+  part={2}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>한국의 1인당 GDP는 60년 만에 100배 이상 늘었다</h2>
+    <p>
+      1960년 한국의 1인당 GDP는 약 79달러였습니다. 아프리카의 가난한 나라들과 비슷한 수준이었죠.
+      2024년에는 약 33,000달러. 60년 만에 400배 이상 늘었습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이 놀라운 변화를 어떻게 측정하는 걸까요?
+      "GDP"라는 숫자 하나에 한 나라의 경제가 담겨 있습니다.
+      이번 장에서는 GDP가 무엇인지, 어떻게 계산하는지, 그리고 어떤 한계가 있는지 알아봅니다.
+    </p>
+
+    <InsightBox title="거시경제학의 시작">
+      <p>
+        미시경제학이 "개인과 기업"의 이야기라면,
+        <strong>거시경제학</strong>은 "나라 전체"의 이야기입니다.
+        GDP는 거시경제학에서 가장 중요한 숫자입니다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 1: GDP란 무엇인가 ===== -->
+  <div class="tb-card">
+    <h2>1. GDP란 무엇인가?</h2>
+    <p>
+      <strong>GDP(Gross Domestic Product, 국내총생산)</strong>란,
+      한 나라 안에서 일정 기간(보통 1년) 동안 새로 만들어진 모든 재화와 서비스의 시장 가치 합계입니다.
+    </p>
+
+    <ExplainBox title="GDP의 핵심 단어 4가지">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>"시장 가치"</strong> -- 사과와 스마트폰을 더하려면 가격(원)으로 환산해야 합니다.</li>
+        <li><strong>"새로 만들어진"</strong> -- 중고차 거래는 포함되지 않습니다. 이미 만들어진 것이니까요.</li>
+        <li><strong>"한 나라 안에서"</strong> -- 한국에서 일하는 외국인의 생산도 한국 GDP에 포함됩니다.</li>
+        <li><strong>"일정 기간"</strong> -- 보통 분기(3개월) 또는 연간(1년)으로 측정합니다.</li>
+      </ul>
+    </ExplainBox>
+
+    <FormulaBox>
+      <p style="font-size: 1.2rem; text-align: center;">
+        <span class="hl">GDP = C + I + G + NX</span>
+      </p>
+      <p style="margin-top: 12px;">
+        C = 소비 (가계가 물건과 서비스를 사는 것)<br>
+        I = 투자 (기업이 기계, 공장, 주택을 짓는 것)<br>
+        G = 정부 지출 (도로 건설, 국방, 교육 등)<br>
+        NX = 순수출 (수출 - 수입)
+      </p>
+    </FormulaBox>
+
+    <BusinessBox title="한국 GDP 구성 (2024년 기준, 대략적)">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>소비 (C):</strong> 약 49% -- 가장 큰 비중</li>
+        <li><strong>투자 (I):</strong> 약 31% -- 기업 설비투자 + 건설투자</li>
+        <li><strong>정부 지출 (G):</strong> 약 18%</li>
+        <li><strong>순수출 (NX):</strong> 약 2% -- 수출이 많지만 수입도 많아 차이가 작음</li>
+      </ul>
+    </BusinessBox>
+
+    <WarningBox title="GDP에 포함되지 않는 것 주의!">
+      <p>GDP는 <strong>최종 재화</strong>만 포함합니다. 중간재(부품 등)는 이중 계산을 피하기 위해 제외합니다.</p>
+      <p style="margin-top: 8px;"><strong>예:</strong> 밀가루 회사가 밀을 사서 밀가루를 만들고,
+        빵집이 밀가루를 사서 빵을 만들면 → GDP에는 빵 가격만 포함.
+        밀과 밀가루 가격을 또 더하면 이중 계산이 됩니다.</p>
+    </WarningBox>
+
+    <ExplainBox title="GDP를 계산하는 세 가지 방법">
+      <p>같은 GDP를 세 가지 다른 각도에서 계산할 수 있습니다. 결과는 모두 같습니다.</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>지출 접근법:</strong> GDP = C + I + G + NX (위에서 배운 방법)</li>
+        <li><strong>생산 접근법:</strong> 각 산업의 부가가치를 모두 더함</li>
+        <li><strong>소득 접근법:</strong> 임금 + 이자 + 임대료 + 이윤을 모두 더함</li>
+      </ul>
+      <p style="margin-top: 8px;">누군가의 지출은 다른 누군가의 소득이므로, 세 방법의 결과가 같습니다!</p>
+    </ExplainBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: GDP 구성요소 파이차트 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: GDP 구성요소 조절기</h2>
+    <p>
+      각 항목의 금액을 슬라이더로 조절하면 GDP 총액과 비중이 변합니다.
+      한국처럼 소비 비중이 높은 나라도 있고, 중국처럼 투자 비중이 높은 나라도 있습니다.
+    </p>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="GDP 총액" value="-" id="gdp-total" borderColor="#059669" />
+      <StatBox label="소비 비중" value="-" id="gdp-c-pct" borderColor="#3b82f6" />
+      <StatBox label="투자 비중" value="-" id="gdp-i-pct" borderColor="#f59e0b" />
+    </div>
+
+    <SimControls>
+      <label>소비 (C): <span id="gdp-c-val">980</span>조원</label>
+      <input type="range" id="gdp-c" min="500" max="1500" value="980" step="10" />
+      <label>투자 (I): <span id="gdp-i-val">620</span>조원</label>
+      <input type="range" id="gdp-i" min="200" max="1000" value="620" step="10" />
+      <label>정부 지출 (G): <span id="gdp-g-val">360</span>조원</label>
+      <input type="range" id="gdp-g" min="100" max="600" value="360" step="10" />
+      <label>순수출 (NX): <span id="gdp-nx-val">40</span>조원</label>
+      <input type="range" id="gdp-nx" min="-200" max="300" value="40" step="10" />
+    </SimControls>
+
+    <ChartContainer id="gdpPieChart" height="380px" />
+  </div>
+
+  <!-- ===== SECTION 2: 명목 vs 실질 GDP ===== -->
+  <div class="tb-card">
+    <h2>2. 명목 GDP vs 실질 GDP</h2>
+    <p>
+      GDP가 올해 10% 늘었다고 합시다. 그런데 물가도 10% 올랐다면?
+      실제로 만들어진 물건의 양은 변하지 않은 것입니다.
+      이것이 <strong>명목 GDP</strong>와 <strong>실질 GDP</strong>의 차이입니다.
+    </p>
+
+    <ExplainBox title="명목 vs 실질, 쉽게 이해하기">
+      <p><strong>명목 GDP:</strong> 그 해의 가격으로 계산한 GDP. 물가 상승이 포함되어 있습니다.</p>
+      <p><strong>실질 GDP:</strong> 기준 연도의 가격으로 계산한 GDP. 물가 상승 효과를 제거한 것입니다.</p>
+      <p style="margin-top: 8px;">비유: 명목 GDP는 "원래 키 + 신발 굽 높이", 실질 GDP는 "원래 키"입니다.</p>
+    </ExplainBox>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">실질 GDP = 명목 GDP / GDP 디플레이터 x 100</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        GDP 디플레이터 = (명목 GDP / 실질 GDP) x 100
+      </p>
+    </FormulaBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 명목 vs 실질 시각화 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 명목 vs 실질 GDP 비교</h2>
+    <p>
+      물가 상승률 슬라이더를 움직여 보세요.
+      물가가 오를수록 명목 GDP와 실질 GDP의 차이가 벌어집니다.
+    </p>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="명목 GDP" value="-" id="nom-gdp" borderColor="#f59e0b" />
+      <StatBox label="실질 GDP" value="-" id="real-gdp" borderColor="#059669" />
+      <StatBox label="GDP 디플레이터" value="-" id="deflator" borderColor="#7c3aed" />
+    </div>
+
+    <SimControls>
+      <label>연간 물가상승률: <span id="infl-rate-val">3</span>%</label>
+      <input type="range" id="infl-rate" min="0" max="15" value="3" step="1" />
+      <label>실질 성장률: <span id="real-growth-val">3</span>%</label>
+      <input type="range" id="real-growth" min="0" max="10" value="3" step="1" />
+    </SimControls>
+
+    <ChartContainer id="nomRealChart" height="380px" />
+
+    <WarningBox title="흔한 실수">
+      <p>"GDP가 5% 성장했다"는 뉴스를 들었을 때, 반드시 확인하세요: 명목인가 실질인가?
+        물가가 3% 올랐다면, 실질 성장은 약 2%에 불과합니다.</p>
+    </WarningBox>
+
+    <ExerciseBox title="연습 문제: 명목 vs 실질">
+      <p>2023년 명목 GDP가 2,200조원이고, GDP 디플레이터가 110이라면 실질 GDP는?</p>
+      <button class="tb-btn" id="nom-real-ans-btn" style="margin-top: 8px;">풀이 보기</button>
+      <div id="nom-real-ans" style="display: none; margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>실질 GDP = 명목 GDP / GDP 디플레이터 x 100</p>
+        <p>= 2,200조 / 110 x 100 = <strong>2,000조원</strong></p>
+        <p style="margin-top: 8px;">디플레이터 110은 기준연도 대비 물가가 10% 올랐다는 뜻입니다.
+          명목 GDP에서 물가 상승분을 제거하면 실질 GDP가 됩니다.</p>
+      </div>
+    </ExerciseBox>
+
+    <BusinessBox title="나라별 비교: GDP 디플레이터가 중요한 이유">
+      <p>베네수엘라의 2018년 명목 GDP는 전년보다 크게 늘었지만,
+        물가가 1,000,000% 이상 올랐으므로(하이퍼인플레이션) 실질 GDP는 오히려 급감했습니다.
+        명목 수치만 보면 경제가 성장한 것처럼 보이지만, 실제로는 경제가 붕괴한 것입니다.</p>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 경제성장률 계산기 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 경제성장률 계산기</h2>
+    <p>
+      경제성장률은 실질 GDP가 전년 대비 얼마나 변했는지를 퍼센트로 나타낸 것입니다.
+      아래 차트는 한국의 경제성장률 시계열(합성 데이터)입니다.
+    </p>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">경제성장률 = (올해 실질 GDP - 작년 실질 GDP) / 작년 실질 GDP x 100</span>
+      </p>
+    </FormulaBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="선택 연도" value="-" id="growth-year" borderColor="#059669" />
+      <StatBox label="성장률" value="-" id="growth-rate" borderColor="#10b981" />
+      <StatBox label="60년 평균" value="6.8%" id="growth-avg" borderColor="#0d9488" />
+    </div>
+
+    <ChartContainer id="growthChart" height="380px" />
+
+    <InsightBox title="한국 경제성장의 역사">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>1960-70년대:</strong> 10% 이상 고성장 -- 경제개발 5개년 계획</li>
+        <li><strong>1980년대:</strong> 안정적 고성장 -- 3저 호황 (저유가, 저달러, 저금리)</li>
+        <li><strong>1998년:</strong> -5.1% 역성장 -- IMF 외환위기</li>
+        <li><strong>2009년:</strong> 0.8% 저성장 -- 글로벌 금융위기</li>
+        <li><strong>2020년:</strong> -0.7% 역성장 -- 코로나19</li>
+        <li><strong>최근:</strong> 2-3% 성장 -- 선진국형 저성장 시대 진입</li>
+      </ul>
+    </InsightBox>
+
+    <ExerciseBox title="연습: 경제성장률 계산">
+      <p>작년 실질 GDP가 1,800조원이고, 올해 실질 GDP가 1,854조원이라면:</p>
+      <p>경제성장률은 얼마인가?</p>
+      <button class="tb-btn" id="growth-calc-btn" style="margin-top: 8px;">풀이 보기</button>
+      <div id="growth-calc-answer" style="display: none; margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>경제성장률 = (1,854 - 1,800) / 1,800 x 100 = 54/1,800 x 100 = <strong>3.0%</strong></p>
+      </div>
+    </ExerciseBox>
+
+    <BusinessBox title="72의 법칙: 경제 규모가 2배 되려면?">
+      <p>"72의 법칙"은 유용한 근사 계산법입니다.</p>
+      <p style="margin-top: 8px;"><strong>경제 규모가 2배가 되는 데 걸리는 시간 = 72 / 성장률(%)</strong></p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>성장률 10%: 약 7.2년 (1960-70년대 한국)</li>
+        <li>성장률 3%: 약 24년 (현재 한국)</li>
+        <li>성장률 7%: 약 10.3년 (현재 인도)</li>
+        <li>성장률 1%: 약 72년 (일본의 장기 침체)</li>
+      </ul>
+      <p style="margin-top: 8px;">성장률의 작은 차이가 수십 년이 지나면 엄청난 격차가 됩니다.
+        이것이 경제 성장이 중요한 이유입니다.</p>
+    </BusinessBox>
+
+    <InsightBox title="1인당 GDP와 총 GDP의 차이">
+      <p><strong>총 GDP</strong>는 나라 전체의 경제 규모를 보여줍니다. 중국이 세계 2위입니다.</p>
+      <p><strong>1인당 GDP</strong>는 인구로 나눈 것으로, 개인의 생활 수준을 더 잘 반영합니다.
+        중국의 1인당 GDP는 한국의 약 1/3입니다.</p>
+      <p style="margin-top: 8px;">한국의 1인당 GDP는 약 33,000달러 (세계 약 30위)로,
+        일본(약 34,000달러)과 비슷한 수준입니다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: GDP의 한계 퀴즈 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: GDP에 포함되지 않는 것들</h2>
+    <p>
+      GDP는 매우 유용한 지표이지만, 모든 것을 측정하지는 못합니다.
+      다음 항목들이 GDP에 포함되는지 아닌지 맞혀 보세요.
+    </p>
+
+    <WarningBox title="GDP의 한계">
+      <p>GDP는 시장에서 거래되는 것만 측정합니다. 따라서:</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>가사노동:</strong> 집에서 요리하고 청소하는 것은 GDP에 포함 안 됩니다</li>
+        <li><strong>환경파괴:</strong> 공장이 오염을 일으키면 GDP는 오히려 증가합니다 (생산 + 청소비용)</li>
+        <li><strong>여가:</strong> 주당 노동시간이 줄어도 GDP에는 반영되지 않습니다</li>
+        <li><strong>소득 분배:</strong> GDP가 높아도 부의 편중이 심하면 대다수가 가난할 수 있습니다</li>
+        <li><strong>지하 경제:</strong> 탈세, 불법 거래 등은 공식 GDP에 잡히지 않습니다</li>
+      </ul>
+    </WarningBox>
+
+    <ExerciseBox title="퀴즈: GDP에 포함될까?">
+      <div id="gdp-quiz-container"></div>
+      <div style="margin-top: 16px;">
+        <p><strong>점수:</strong> <span id="gdp-quiz-score">0</span> / <span id="gdp-quiz-total">0</span></p>
+        <button class="tb-btn" id="gdp-quiz-reset">다시 풀기</button>
+      </div>
+    </ExerciseBox>
+
+    <ExerciseBox title="생각해 보기">
+      <p>GDP 대신 국민의 행복을 측정하는 지표가 있을까요?</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>HDI (인간개발지수):</strong> 소득 + 교육 + 수명을 종합한 지표</li>
+        <li><strong>GNH (국민총행복):</strong> 부탄이 사용하는 행복 지표</li>
+        <li><strong>녹색 GDP:</strong> 환경파괴 비용을 차감한 GDP</li>
+      </ul>
+      <p style="margin-top: 8px;">
+        어떤 지표가 가장 좋다고 생각하나요? 정답은 없습니다 -- 목적에 따라 다른 지표가 필요합니다.
+      </p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="11장 정리: GDP와 경제성장">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li><strong>GDP</strong>는 한 나라에서 일정 기간 동안 생산된 모든 최종 재화와 서비스의 시장 가치</li>
+      <li><strong>GDP = C + I + G + NX</strong> -- 소비, 투자, 정부지출, 순수출의 합</li>
+      <li><strong>명목 GDP</strong>는 물가 변동 포함, <strong>실질 GDP</strong>는 물가 효과 제거</li>
+      <li><strong>경제성장률</strong>은 실질 GDP의 전년 대비 변화율</li>
+      <li>GDP에는 <strong>한계</strong>가 있다: 가사노동, 환경, 행복, 분배를 반영하지 못함</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  /* ========== 1. GDP 구성요소 파이차트 ========== */
+  var pieCtx = document.getElementById('gdpPieChart');
+  if (!pieCtx) return;
+
+  var cSlider = document.getElementById('gdp-c');
+  var iSlider = document.getElementById('gdp-i');
+  var gSlider = document.getElementById('gdp-g');
+  var nxSlider = document.getElementById('gdp-nx');
+
+  var pieChart = new Chart(pieCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['소비 (C)', '투자 (I)', '정부 지출 (G)', '순수출 (NX)'],
+      datasets: [{
+        data: [980, 620, 360, 40],
+        backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#8b5cf6'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              var total = ctx.dataset.data.reduce(function(a, b) { return a + Math.max(0, b); }, 0);
+              var val = ctx.parsed;
+              var pct = total > 0 ? (val / total * 100).toFixed(1) : 0;
+              return ctx.label + ': ' + val + '조원 (' + pct + '%)';
+            }
+          }
+        }
+      }
+    }
+  });
+
+  function updatePie() {
+    var c = parseInt(cSlider.value);
+    var i = parseInt(iSlider.value);
+    var g = parseInt(gSlider.value);
+    var nx = parseInt(nxSlider.value);
+
+    document.getElementById('gdp-c-val').textContent = c;
+    document.getElementById('gdp-i-val').textContent = i;
+    document.getElementById('gdp-g-val').textContent = g;
+    document.getElementById('gdp-nx-val').textContent = nx;
+
+    var total = c + i + g + nx;
+    document.getElementById('gdp-total').textContent = total + '조원';
+    document.getElementById('gdp-c-pct').textContent = (c / total * 100).toFixed(1) + '%';
+    document.getElementById('gdp-i-pct').textContent = (i / total * 100).toFixed(1) + '%';
+
+    // For pie chart, handle negative NX
+    var displayNx = Math.max(0, nx);
+    pieChart.data.datasets[0].data = [c, i, g, displayNx];
+    if (nx < 0) {
+      pieChart.data.labels[3] = '순수출 (NX): ' + nx + '조원 (적자)';
+    } else {
+      pieChart.data.labels[3] = '순수출 (NX)';
+    }
+    pieChart.update();
+  }
+
+  cSlider.addEventListener('input', updatePie);
+  iSlider.addEventListener('input', updatePie);
+  gSlider.addEventListener('input', updatePie);
+  nxSlider.addEventListener('input', updatePie);
+  updatePie();
+
+  /* ========== 2. 명목 vs 실질 GDP ========== */
+  var nomRealCtx = document.getElementById('nomRealChart');
+  var inflSlider = document.getElementById('infl-rate');
+  var realGrowthSlider = document.getElementById('real-growth');
+
+  var years10 = [];
+  for (var yr = 0; yr <= 10; yr++) years10.push('Year ' + yr);
+
+  var nomRealChart = new Chart(nomRealCtx, {
+    type: 'line',
+    data: {
+      labels: years10,
+      datasets: [
+        { label: '명목 GDP', data: [], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', borderWidth: 3, fill: true, tension: 0.3 },
+        { label: '실질 GDP', data: [], borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', borderWidth: 3, fill: true, tension: 0.3 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { title: { display: true, text: 'GDP (조원)' }, beginAtZero: false }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updateNomReal() {
+    var inflRate = parseInt(inflSlider.value) / 100;
+    var realRate = parseInt(realGrowthSlider.value) / 100;
+    document.getElementById('infl-rate-val').textContent = inflSlider.value;
+    document.getElementById('real-growth-val').textContent = realGrowthSlider.value;
+
+    var nomData = [1000];
+    var realData = [1000];
+    for (var t = 1; t <= 10; t++) {
+      nomData.push(nomData[t - 1] * (1 + realRate + inflRate));
+      realData.push(realData[t - 1] * (1 + realRate));
+    }
+
+    var deflator = (nomData[10] / realData[10] * 100).toFixed(1);
+    document.getElementById('nom-gdp').textContent = nomData[10].toFixed(0) + '조원';
+    document.getElementById('real-gdp').textContent = realData[10].toFixed(0) + '조원';
+    document.getElementById('deflator').textContent = deflator;
+
+    nomRealChart.data.datasets[0].data = nomData.map(function(v) { return Math.round(v); });
+    nomRealChart.data.datasets[1].data = realData.map(function(v) { return Math.round(v); });
+    nomRealChart.update();
+  }
+
+  inflSlider.addEventListener('input', updateNomReal);
+  realGrowthSlider.addEventListener('input', updateNomReal);
+  updateNomReal();
+
+  /* ========== 3. 경제성장률 시계열 ========== */
+  var growthCtx = document.getElementById('growthChart');
+  var koreaYears = [];
+  var koreaGrowth = [
+    2.3, 5.9, 2.2, 9.1, 9.6, 5.8, 12.7, 6.6, 11.3, 13.8,
+    7.6, 9.4, 5.8, 14.8, 8.0, 6.8, 13.4, 10.7, 11.0, 7.0,
+    -1.5, 6.5, 6.9, 7.2, 11.0, 12.3, 11.9, 12.8, 12.2, 7.0,
+    9.8, 9.7, 6.2, 6.1, 8.5, 6.8, 7.0, 4.5, -5.1, 11.3,
+    8.9, 4.5, 7.4, 3.1, 2.9, 4.9, 3.9, 5.2, 2.8, 0.8,
+    6.8, 3.7, 2.4, 3.2, 3.2, 2.8, 2.9, 3.2, 2.9, -0.7,
+    4.3, 2.6, 1.4, 2.2, 2.6, 2.2
+  ];
+  for (var y = 1960; y <= 2025; y++) koreaYears.push(y);
+
+  var bgColors = koreaGrowth.map(function(v) {
+    return v < 0 ? 'rgba(239,68,68,0.7)' : 'rgba(5,150,105,0.6)';
+  });
+
+  var growthChart = new Chart(growthCtx, {
+    type: 'bar',
+    data: {
+      labels: koreaYears,
+      datasets: [{
+        label: '경제성장률 (%)',
+        data: koreaGrowth,
+        backgroundColor: bgColors,
+        borderColor: bgColors.map(function(c) { return c.replace('0.6', '1').replace('0.7', '1'); }),
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '연도' } },
+        y: { title: { display: true, text: '성장률 (%)' } }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              return ctx.parsed.y.toFixed(1) + '%';
+            }
+          }
+        }
+      },
+      onClick: function(evt, elements) {
+        if (elements.length > 0) {
+          var idx = elements[0].index;
+          document.getElementById('growth-year').textContent = koreaYears[idx] + '년';
+          document.getElementById('growth-rate').textContent = koreaGrowth[idx].toFixed(1) + '%';
+        }
+      }
+    }
+  });
+
+  /* ========== 4. GDP 한계 퀴즈 ========== */
+  var gdpQuizItems = [
+    { text: '삼성전자가 스마트폰을 만들어 판매했다', answer: true, explain: '시장에서 거래된 최종 재화이므로 GDP에 포함됩니다.' },
+    { text: '엄마가 집에서 저녁 요리를 했다', answer: false, explain: '가사노동은 시장 거래가 아니므로 GDP에 포함되지 않습니다.' },
+    { text: '중고차를 친구에게 팔았다', answer: false, explain: '이미 생산된 것의 소유권 이전이므로 GDP에 포함되지 않습니다.' },
+    { text: '정부가 새 도로를 건설했다', answer: true, explain: '정부 지출(G)로 GDP에 포함됩니다.' },
+    { text: '자원봉사자가 공원을 청소했다', answer: false, explain: '무급 봉사활동은 시장 거래가 아니므로 GDP에 포함되지 않습니다.' },
+    { text: '한국 공장에서 자동차를 만들어 미국에 수출했다', answer: true, explain: '한국에서 생산하여 수출한 것이므로 한국 GDP에 포함됩니다.' },
+    { text: '대기오염으로 천식 환자가 병원에 갔다', answer: true, explain: '의료 서비스는 GDP에 포함됩니다. GDP의 한계 -- 나쁜 것도 GDP를 높입니다.' },
+    { text: '주말에 가족과 등산을 갔다', answer: false, explain: '여가 활동 자체는 시장 거래가 아니므로 GDP에 포함되지 않습니다.' }
+  ];
+
+  var quizContainer = document.getElementById('gdp-quiz-container');
+  var quizScore = 0;
+  var quizAnswered = 0;
+
+  function renderQuiz() {
+    quizScore = 0;
+    quizAnswered = 0;
+    document.getElementById('gdp-quiz-score').textContent = '0';
+    document.getElementById('gdp-quiz-total').textContent = gdpQuizItems.length;
+    quizContainer.innerHTML = '';
+
+    gdpQuizItems.forEach(function(item, idx) {
+      var div = document.createElement('div');
+      div.style.cssText = 'padding: 12px; margin: 8px 0; background: #f9fafb; border-radius: 8px; border-left: 3px solid #d1d5db;';
+      div.innerHTML = '<p style="margin-bottom: 8px;">' + (idx + 1) + '. ' + item.text + '</p>' +
+        '<button class="tb-btn" data-idx="' + idx + '" data-ans="true">포함된다 (O)</button> ' +
+        '<button class="tb-btn" data-idx="' + idx + '" data-ans="false" style="margin-left: 6px;">포함 안 된다 (X)</button>' +
+        '<p class="quiz-feedback" style="margin-top: 8px; font-weight: bold;"></p>';
+      quizContainer.appendChild(div);
+    });
+
+    quizContainer.addEventListener('click', function(e) {
+      if (e.target.tagName !== 'BUTTON' || !e.target.dataset.idx) return;
+      var idx = parseInt(e.target.dataset.idx);
+      var userAns = e.target.dataset.ans === 'true';
+      var item = gdpQuizItems[idx];
+      var feedbackEl = e.target.parentElement.querySelector('.quiz-feedback');
+      var buttons = e.target.parentElement.querySelectorAll('button');
+
+      if (buttons[0].disabled) return;
+      buttons[0].disabled = true;
+      buttons[1].disabled = true;
+
+      quizAnswered++;
+      if (userAns === item.answer) {
+        quizScore++;
+        feedbackEl.style.color = '#059669';
+        feedbackEl.textContent = 'O 정답! ' + item.explain;
+        e.target.parentElement.style.borderLeftColor = '#059669';
+      } else {
+        feedbackEl.style.color = '#ef4444';
+        feedbackEl.textContent = 'X 오답. ' + item.explain;
+        e.target.parentElement.style.borderLeftColor = '#ef4444';
+      }
+      document.getElementById('gdp-quiz-score').textContent = quizScore;
+    });
+  }
+
+  renderQuiz();
+  document.getElementById('gdp-quiz-reset').addEventListener('click', renderQuiz);
+
+  /* 명목 vs 실질 연습문제 */
+  var nomRealAnsBtn = document.getElementById('nom-real-ans-btn');
+  if (nomRealAnsBtn) {
+    nomRealAnsBtn.addEventListener('click', function() {
+      document.getElementById('nom-real-ans').style.display = 'block';
+    });
+  }
+
+  var growthCalcBtn = document.getElementById('growth-calc-btn');
+  if (growthCalcBtn) {
+    growthCalcBtn.addEventListener('click', function() {
+      document.getElementById('growth-calc-answer').style.display = 'block';
+    });
+  }
+}
+
+waitForChart(init);
+</script>

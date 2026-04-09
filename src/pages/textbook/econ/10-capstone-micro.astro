@@ -1,0 +1,615 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="캡스톤: 미시경제 시뮬레이터"
+  subtitle="시장 정책의 효과를 직접 실험하다"
+  chapterNum={10}
+  part={1}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>지금까지 배운 것을 모두 합쳐 보자</h2>
+    <p>
+      4장부터 9장까지, 우리는 수요와 공급, 탄력성, 잉여, 시장 실패, 외부성, 공공재를 배웠습니다.
+      이제 이 모든 개념을 하나의 시뮬레이터에서 직접 실험해 봅시다.
+    </p>
+    <p style="margin-top: 12px;">
+      정부가 세금을 매기면 가격은 어떻게 될까? 보조금을 주면?
+      가격 상한을 정하면 부족이 생길까? 이 장에서 직접 확인합니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>수요/공급 곡선을 자유롭게 조절하며 균형 변화를 관찰한다</li>
+        <li>세금과 보조금이 시장에 미치는 효과를 실험한다</li>
+        <li>가격 통제(상한/하한)의 결과를 시각적으로 확인한다</li>
+        <li>종합 퀴즈로 미시경제 핵심 개념을 정리한다</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 1: 수요/공급 통합 시뮬레이터 ===== -->
+  <div class="tb-card">
+    <h2>1. 수요/공급 통합 시뮬레이터</h2>
+    <p>
+      수요 곡선과 공급 곡선이 만나는 점이 <strong>균형 가격</strong>과 <strong>균형 거래량</strong>입니다.
+      아래 슬라이더로 곡선의 위치를 바꿔 보세요. 소득이 올라가면 수요가 증가하고,
+      원자재 값이 올라가면 공급이 감소합니다.
+    </p>
+
+    <ExplainBox title="수요/공급 곡선 복습">
+      <p><strong>수요 곡선:</strong> 가격이 오르면 사려는 양이 줄어듭니다 (우하향).</p>
+      <p><strong>공급 곡선:</strong> 가격이 오르면 팔려는 양이 늘어납니다 (우상향).</p>
+      <p><strong>균형:</strong> 두 곡선이 만나는 점에서 시장이 안정됩니다.</p>
+    </ExplainBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="균형 가격" value="-" id="eq-price" borderColor="#059669" />
+      <StatBox label="균형 거래량" value="-" id="eq-qty" borderColor="#10b981" />
+      <StatBox label="소비자 잉여" value="-" id="eq-cs" borderColor="#0d9488" />
+      <StatBox label="생산자 잉여" value="-" id="eq-ps" borderColor="#0891b2" />
+    </div>
+
+    <SimControls>
+      <label>수요 이동 (소득 변화): <span id="demand-shift-val">0</span></label>
+      <input type="range" id="demand-shift" min="-30" max="30" value="0" step="5" />
+      <label>공급 이동 (비용 변화): <span id="supply-shift-val">0</span></label>
+      <input type="range" id="supply-shift" min="-30" max="30" value="0" step="5" />
+    </SimControls>
+
+    <ChartContainer id="sdChart" height="400px" />
+
+    <InsightBox title="실험해 보세요">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>수요를 오른쪽으로 이동(+) 시키면 균형 가격과 거래량이 모두 올라갑니다.</li>
+        <li>공급을 왼쪽으로 이동(-) 시키면 가격은 오르고 거래량은 줄어듭니다.</li>
+        <li>두 곡선을 동시에 움직이면 결과가 복잡해집니다 -- 직접 확인해 보세요!</li>
+      </ul>
+    </InsightBox>
+
+    <BusinessBox title="현실 사례: 수요/공급 이동">
+      <p><strong>수요 증가 사례:</strong> 여름에 에어컨 수요가 급증하면 가격이 오르고 판매량도 늘어납니다.
+        반대로 겨울에는 수요가 줄어 가격과 판매량이 모두 떨어집니다.</p>
+      <p style="margin-top: 8px;"><strong>공급 감소 사례:</strong> 2022년 러시아-우크라이나 전쟁으로
+        밀 공급이 줄었습니다. 공급 곡선이 왼쪽으로 이동하여 밀 가격이 급등하고 거래량이 줄었습니다.</p>
+      <p style="margin-top: 8px;"><strong>동시 이동 사례:</strong> 코로나19 때 마스크는 수요 급증(오른쪽) +
+        초기 공급 부족(왼쪽)이 동시에 발생하여 가격이 폭등했습니다.</p>
+    </BusinessBox>
+
+    <ExerciseBox title="연습 문제: 균형 계산">
+      <p>수요 함수: P = 100 - Q, 공급 함수: P = 10 + Q 일 때,</p>
+      <p>1. 균형 가격과 균형 거래량을 구하세요.</p>
+      <p>2. 소비자 잉여와 생산자 잉여를 구하세요.</p>
+      <p>3. 소득 증가로 수요가 P = 120 - Q로 변하면 새 균형은?</p>
+      <button class="tb-btn" id="eq-calc-btn" style="margin-top: 8px;">풀이 보기</button>
+      <div id="eq-calc-answer" style="display: none; margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1.</strong> 100 - Q = 10 + Q → 90 = 2Q → Q = 45, P = 55</p>
+        <p><strong>2.</strong> CS = 0.5 x 45 x (100-55) = 1,012.5 / PS = 0.5 x 45 x (55-10) = 1,012.5</p>
+        <p><strong>3.</strong> 120 - Q = 10 + Q → 110 = 2Q → Q = 55, P = 65</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== SECTION 2: 세금/보조금 효과 ===== -->
+  <div class="tb-card">
+    <h2>2. 세금과 보조금 효과</h2>
+    <p>
+      정부가 상품에 세금을 매기면, 공급 곡선이 위로 이동합니다 (생산자가 세금만큼 더 받아야 하므로).
+      보조금을 주면 반대로 공급 곡선이 아래로 이동합니다.
+    </p>
+
+    <FormulaBox>
+      <p><strong>세금 부과 시:</strong></p>
+      <p>소비자 가격 = 균형 가격 + 소비자 부담분</p>
+      <p>생산자 수취 가격 = 균형 가격 - 생산자 부담분</p>
+      <p><span class="hl">세금 = 소비자 부담분 + 생산자 부담분</span></p>
+      <p style="margin-top: 8px;"><span class="res">사중손실(deadweight loss)</span>이 발생하여 사회 전체의 잉여가 줄어듭니다.</p>
+    </FormulaBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="세금/보조금" value="0원" id="tax-amount" borderColor="#ef4444" />
+      <StatBox label="정부 수입" value="-" id="tax-revenue" borderColor="#f59e0b" />
+      <StatBox label="사중손실" value="-" id="tax-dwl" borderColor="#dc2626" />
+      <StatBox label="새 거래량" value="-" id="tax-qty" borderColor="#10b981" />
+    </div>
+
+    <SimControls>
+      <label>세금(+) / 보조금(-): <span id="tax-val">0</span>원</label>
+      <input type="range" id="tax-slider" min="-20" max="20" value="0" step="2" />
+    </SimControls>
+
+    <ChartContainer id="taxChart" height="400px" />
+
+    <WarningBox title="세금의 부담은 누가 지는가?">
+      <p>
+        세금의 부담은 탄력성이 낮은 쪽이 더 많이 집니다.
+        수요가 비탄력적이면(꼭 사야 하는 물건) 소비자가 더 많이 부담합니다.
+        공급이 비탄력적이면 생산자가 더 많이 부담합니다.
+      </p>
+    </WarningBox>
+
+    <BusinessBox title="현실 사례: 세금과 보조금">
+      <p><strong>담배세:</strong> 한국에서 담배 한 갑에 붙는 세금은 약 3,300원입니다.
+        담배 수요는 비탄력적이어서 세금 대부분이 소비자에게 전가됩니다.
+        하지만 가격 인상으로 흡연율이 약간 감소하는 효과가 있습니다.</p>
+      <p style="margin-top: 8px;"><strong>전기차 보조금:</strong> 정부가 전기차에 보조금을 주면
+        공급 곡선이 아래로 이동하여 소비자 가격이 낮아집니다.
+        이는 환경 오염(부정적 외부성)을 줄이기 위한 정책입니다.</p>
+    </BusinessBox>
+
+    <ExerciseBox title="연습: 세금 부담 계산">
+      <p>세금 10원이 부과된 후, 소비자 가격이 57원, 생산자 수취 가격이 47원이 되었다면:</p>
+      <p>1. 소비자 부담은 얼마인가? (원래 균형가격은 55원)</p>
+      <p>2. 생산자 부담은 얼마인가?</p>
+      <button class="tb-btn" id="tax-calc-btn" style="margin-top: 8px;">풀이 보기</button>
+      <div id="tax-calc-answer" style="display: none; margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1.</strong> 소비자 부담 = 57 - 55 = 2원 (10원 중 20%)</p>
+        <p><strong>2.</strong> 생산자 부담 = 55 - 47 = 8원 (10원 중 80%)</p>
+        <p>이 경우 공급이 비탄력적이어서 생산자가 더 많이 부담합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== SECTION 3: 가격 통제 ===== -->
+  <div class="tb-card">
+    <h2>3. 가격 통제: 상한과 하한</h2>
+    <p>
+      정부가 가격을 직접 정할 때가 있습니다.
+      <strong>가격 상한</strong>은 "이 이상 받지 마" (예: 임대료 상한),
+      <strong>가격 하한</strong>은 "이 이하로 받지 마" (예: 최저임금)입니다.
+    </p>
+
+    <ExplainBox title="가격 통제가 문제를 일으키는 이유">
+      <p><strong>가격 상한이 균형보다 낮으면:</strong> 수요량 &gt; 공급량 → <strong>부족(shortage)</strong> 발생</p>
+      <p><strong>가격 하한이 균형보다 높으면:</strong> 공급량 &gt; 수요량 → <strong>잉여(surplus)</strong> 발생</p>
+      <p>가격이 균형보다 높은 상한이나, 균형보다 낮은 하한은 효과가 없습니다.</p>
+    </ExplainBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="정책 유형" value="없음" id="pc-type" borderColor="#7c3aed" />
+      <StatBox label="설정 가격" value="-" id="pc-price" borderColor="#a855f7" />
+      <StatBox label="부족/잉여" value="-" id="pc-gap" borderColor="#ef4444" />
+    </div>
+
+    <SimControls>
+      <label>정책 선택:</label>
+      <select id="pc-policy">
+        <option value="none">정책 없음</option>
+        <option value="ceiling">가격 상한 (Price Ceiling)</option>
+        <option value="floor">가격 하한 (Price Floor)</option>
+      </select>
+      <label>설정 가격: <span id="pc-price-val">50</span></label>
+      <input type="range" id="pc-price-slider" min="10" max="90" value="50" step="5" />
+    </SimControls>
+
+    <ChartContainer id="pcChart" height="400px" />
+
+    <BusinessBox title="현실 사례">
+      <p><strong>가격 상한 사례 -- 임대료 규제:</strong>
+        뉴욕, 베를린 등에서 임대료 상한을 설정했지만,
+        집주인이 수리를 안 하거나 신규 공급이 줄어 오히려 주택 부족이 심해진 사례가 많습니다.</p>
+      <p style="margin-top: 8px;"><strong>가격 하한 사례 -- 최저임금:</strong>
+        너무 높은 최저임금은 고용 감소(실업)를 유발할 수 있지만,
+        적절한 수준의 최저임금은 저소득층 생활을 개선합니다.</p>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== SECTION 4: 종합 퀴즈 ===== -->
+  <div class="tb-card">
+    <h2>4. 종합 퀴즈: 미시경제 핵심 개념</h2>
+    <p>
+      4장부터 9장까지 배운 핵심 개념을 확인합니다.
+      각 문제를 풀고 정답을 확인해 보세요.
+    </p>
+
+    <ExerciseBox title="문제 1: 수요 변동">
+      <p>커피 가격이 올라서 차(tea) 수요가 증가했다. 이때 차는 커피의 ______이다.</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="checkQuiz(1, 'b')">A. 보완재</button>
+        <button class="tb-btn" onclick="checkQuiz(1, 'b')" style="margin-left: 8px;">B. 대체재</button>
+        <button class="tb-btn" onclick="checkQuiz(1, 'b')" style="margin-left: 8px;">C. 열등재</button>
+      </div>
+      <p id="quiz-1" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+
+    <ExerciseBox title="문제 2: 탄력성">
+      <p>담배 가격이 10% 올랐는데 수요량이 3%만 줄었다. 수요의 가격탄력성은?</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="checkQuiz(2, 'a')">A. 0.3 (비탄력적)</button>
+        <button class="tb-btn" onclick="checkQuiz(2, 'a')" style="margin-left: 8px;">B. 3.3 (탄력적)</button>
+        <button class="tb-btn" onclick="checkQuiz(2, 'a')" style="margin-left: 8px;">C. 1.0 (단위 탄력적)</button>
+      </div>
+      <p id="quiz-2" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+
+    <ExerciseBox title="문제 3: 외부성">
+      <p>공장이 강에 폐수를 버려 어민이 피해를 입는다. 이것은 어떤 유형의 외부성인가?</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="checkQuiz(3, 'b')">A. 긍정적 외부성</button>
+        <button class="tb-btn" onclick="checkQuiz(3, 'b')" style="margin-left: 8px;">B. 부정적 외부성</button>
+        <button class="tb-btn" onclick="checkQuiz(3, 'b')" style="margin-left: 8px;">C. 공공재</button>
+      </div>
+      <p id="quiz-3" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+
+    <ExerciseBox title="문제 4: 공공재">
+      <p>다음 중 공공재의 특성이 아닌 것은?</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="checkQuiz(4, 'c')">A. 비배제성</button>
+        <button class="tb-btn" onclick="checkQuiz(4, 'c')" style="margin-left: 8px;">B. 비경합성</button>
+        <button class="tb-btn" onclick="checkQuiz(4, 'c')" style="margin-left: 8px;">C. 희소성</button>
+      </div>
+      <p id="quiz-4" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+
+    <ExerciseBox title="문제 5: 시장 실패">
+      <p>도시의 교통 혼잡은 시장 실패의 어떤 유형에 해당하는가?</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="checkQuiz(5, 'a')">A. 부정적 외부성</button>
+        <button class="tb-btn" onclick="checkQuiz(5, 'a')" style="margin-left: 8px;">B. 공공재</button>
+        <button class="tb-btn" onclick="checkQuiz(5, 'a')" style="margin-left: 8px;">C. 정보 비대칭</button>
+      </div>
+      <p id="quiz-5" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+
+    <ExerciseBox title="문제 6: 잉여">
+      <p>소비자가 최대 1만원까지 내겠다고 생각한 물건을 7천원에 샀다. 소비자 잉여는?</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="checkQuiz(6, 'b')">A. 7,000원</button>
+        <button class="tb-btn" onclick="checkQuiz(6, 'b')" style="margin-left: 8px;">B. 3,000원</button>
+        <button class="tb-btn" onclick="checkQuiz(6, 'b')" style="margin-left: 8px;">C. 10,000원</button>
+      </div>
+      <p id="quiz-6" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+
+    <ExerciseBox title="문제 7: 공유자원">
+      <p>많은 어부들이 한 호수에서 경쟁적으로 물고기를 잡아 결국 물고기가 고갈되었다. 이것은?</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="checkQuiz(7, 'c')">A. 자유시장의 효율성</button>
+        <button class="tb-btn" onclick="checkQuiz(7, 'c')" style="margin-left: 8px;">B. 긍정적 외부성</button>
+        <button class="tb-btn" onclick="checkQuiz(7, 'c')" style="margin-left: 8px;">C. 공유지의 비극</button>
+      </div>
+      <p id="quiz-7" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+
+    <ExerciseBox title="문제 8: 가격 통제">
+      <p>최저임금이 시장 균형 임금보다 높게 설정되면 어떤 현상이 발생하는가?</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="checkQuiz(8, 'a')">A. 노동 공급 &gt; 수요 (실업 발생)</button>
+        <button class="tb-btn" onclick="checkQuiz(8, 'a')" style="margin-left: 8px;">B. 노동 수요 &gt; 공급 (인력 부족)</button>
+        <button class="tb-btn" onclick="checkQuiz(8, 'a')" style="margin-left: 8px;">C. 아무 변화 없음</button>
+      </div>
+      <p id="quiz-8" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+
+    <div style="margin-top: 20px; padding: 16px; background: #f0fdf4; border-radius: 8px;">
+      <p><strong>내 점수:</strong> <span id="quiz-score">0</span> / 8</p>
+      <button class="tb-btn" onclick="resetQuiz()" style="margin-top: 8px;">다시 풀기</button>
+    </div>
+  </div>
+
+  <!-- ===== MICRO REVIEW ===== -->
+  <div class="tb-card">
+    <h2>미시경제학 핵심 개념 지도</h2>
+    <p>4장부터 10장까지 배운 개념들이 어떻게 연결되는지 정리합니다.</p>
+
+    <ExplainBox title="개념 연결 지도">
+      <p><strong>수요/공급 (4장)</strong> → 시장 가격 결정의 기초</p>
+      <p style="margin-left: 20px;">→ <strong>탄력성 (5장)</strong>: 가격 변화에 대한 반응의 크기</p>
+      <p style="margin-left: 20px;">→ <strong>잉여 (6장)</strong>: 거래에서 발생하는 이득의 측정</p>
+      <p style="margin-left: 40px;">→ <strong>시장 실패 (7장)</strong>: 시장이 효율적이지 못한 경우</p>
+      <p style="margin-left: 60px;">→ <strong>외부성 (8장)</strong>: 제3자에게 미치는 영향</p>
+      <p style="margin-left: 60px;">→ <strong>공공재 (9장)</strong>: 시장이 공급하지 못하는 재화</p>
+      <p style="margin-left: 80px;">→ <strong>정부 개입</strong>: 세금, 보조금, 가격 통제, 규제</p>
+    </ExplainBox>
+
+    <InsightBox title="다음 단계: 거시경제학">
+      <p>미시경제학이 "나무"를 보는 것이라면, 거시경제학은 "숲"을 봅니다.
+        11장부터는 GDP, 물가, 실업, 화폐, 정부 정책 등
+        나라 전체의 경제를 다룹니다. 미시경제의 기초 위에 거시경제를 쌓아갑니다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="10장 정리: 미시경제의 핵심">
+    <p>이 장에서 우리는 미시경제학의 핵심 도구들을 통합적으로 사용해 보았습니다.</p>
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li><strong>수요/공급:</strong> 시장 균형은 두 곡선의 교차점에서 결정된다</li>
+      <li><strong>세금/보조금:</strong> 가격을 변화시키고 사중손실을 만든다</li>
+      <li><strong>가격 통제:</strong> 부족이나 잉여를 유발할 수 있다</li>
+      <li><strong>다음 단계:</strong> 11장부터는 거시경제학 -- 나라 전체의 경제를 살펴봅니다</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  /* ========== 1. 수요/공급 시뮬레이터 ========== */
+  var sdCtx = document.getElementById('sdChart');
+  if (!sdCtx) return;
+
+  // 기본 수요: P = 100 - Q, 공급: P = 10 + Q
+  var demandShift = document.getElementById('demand-shift');
+  var supplyShift = document.getElementById('supply-shift');
+  var demandShiftVal = document.getElementById('demand-shift-val');
+  var supplyShiftVal = document.getElementById('supply-shift-val');
+
+  function getDemandData(shift) {
+    var pts = [];
+    for (var q = 0; q <= 100; q += 5) {
+      var p = 100 + shift - q;
+      if (p >= 0) pts.push({ x: q, y: p });
+    }
+    return pts;
+  }
+
+  function getSupplyData(shift) {
+    var pts = [];
+    for (var q = 0; q <= 100; q += 5) {
+      var p = 10 - shift + q;
+      if (p >= 0 && p <= 120) pts.push({ x: q, y: p });
+    }
+    return pts;
+  }
+
+  var sdChart = new Chart(sdCtx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        { label: '수요', data: getDemandData(0), showLine: true, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', pointRadius: 0, borderWidth: 3, fill: false },
+        { label: '공급', data: getSupplyData(0), showLine: true, borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', pointRadius: 0, borderWidth: 3, fill: false },
+        { label: '균형', data: [{ x: 45, y: 55 }], pointRadius: 8, pointBackgroundColor: '#059669', borderColor: '#059669', showLine: false }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '거래량 (Q)' }, min: 0, max: 110 },
+        y: { title: { display: true, text: '가격 (P)' }, min: 0, max: 120 }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updateSD() {
+    var ds = parseInt(demandShift.value);
+    var ss = parseInt(supplyShift.value);
+    demandShiftVal.textContent = ds > 0 ? '+' + ds : ds;
+    supplyShiftVal.textContent = ss > 0 ? '+' + ss : ss;
+
+    // 균형: 100 + ds - Q = 10 - ss + Q => 90 + ds + ss = 2Q => Q = (90+ds+ss)/2
+    var eqQ = (90 + ds + ss) / 2;
+    var eqP = 100 + ds - eqQ;
+    if (eqQ < 0) eqQ = 0;
+    if (eqP < 0) eqP = 0;
+
+    var cs = 0.5 * eqQ * ((100 + ds) - eqP);
+    var ps = 0.5 * eqQ * (eqP - (10 - ss));
+
+    document.getElementById('eq-price').textContent = eqP.toFixed(0) + '원';
+    document.getElementById('eq-qty').textContent = eqQ.toFixed(0) + '개';
+    document.getElementById('eq-cs').textContent = cs.toFixed(0) + '원';
+    document.getElementById('eq-ps').textContent = ps.toFixed(0) + '원';
+
+    sdChart.data.datasets[0].data = getDemandData(ds);
+    sdChart.data.datasets[1].data = getSupplyData(ss);
+    sdChart.data.datasets[2].data = [{ x: eqQ, y: eqP }];
+    sdChart.update();
+  }
+
+  demandShift.addEventListener('input', updateSD);
+  supplyShift.addEventListener('input', updateSD);
+  updateSD();
+
+  /* ========== 2. 세금/보조금 시뮬레이터 ========== */
+  var taxCtx = document.getElementById('taxChart');
+  var taxSlider = document.getElementById('tax-slider');
+  var taxValEl = document.getElementById('tax-val');
+
+  var taxChart = new Chart(taxCtx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        { label: '수요', data: getDemandData(0), showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 2, fill: false },
+        { label: '공급 (원래)', data: getSupplyData(0), showLine: true, borderColor: '#ef4444', pointRadius: 0, borderWidth: 2, fill: false, borderDash: [5, 5] },
+        { label: '공급 (세금 후)', data: getSupplyData(0), showLine: true, borderColor: '#ef4444', pointRadius: 0, borderWidth: 3, fill: false },
+        { label: '사중손실', data: [], showLine: true, borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.3)', pointRadius: 0, borderWidth: 1, fill: true }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '거래량 (Q)' }, min: 0, max: 110 },
+        y: { title: { display: true, text: '가격 (P)' }, min: 0, max: 130 }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function getSupplyWithTax(tax) {
+    var pts = [];
+    for (var q = 0; q <= 100; q += 5) {
+      var p = 10 + q + tax;
+      if (p >= 0 && p <= 130) pts.push({ x: q, y: p });
+    }
+    return pts;
+  }
+
+  function updateTax() {
+    var t = parseInt(taxSlider.value);
+    taxValEl.textContent = t > 0 ? '+' + t : t;
+
+    // 새 균형: 100 - Q = 10 + Q + t => Q = (90 - t)/2
+    var newQ = (90 - t) / 2;
+    if (newQ < 0) newQ = 0;
+    var consPrice = 100 - newQ;
+    var prodPrice = consPrice - t;
+
+    var oldQ = 45;
+    var revenue = Math.abs(t) * newQ;
+    var dwl = 0.5 * Math.abs(t) * Math.abs(oldQ - newQ);
+
+    document.getElementById('tax-amount').textContent = (t > 0 ? '세금 ' : t < 0 ? '보조금 ' : '') + Math.abs(t) + '원';
+    document.getElementById('tax-revenue').textContent = revenue.toFixed(0) + '원';
+    document.getElementById('tax-dwl').textContent = dwl.toFixed(0) + '원';
+    document.getElementById('tax-qty').textContent = newQ.toFixed(0) + '개';
+
+    taxChart.data.datasets[2].data = getSupplyWithTax(t);
+    taxChart.data.datasets[2].label = t >= 0 ? '공급 (세금 후)' : '공급 (보조금 후)';
+
+    // DWL triangle
+    if (t !== 0) {
+      taxChart.data.datasets[3].data = [
+        { x: newQ, y: consPrice },
+        { x: oldQ, y: 55 },
+        { x: newQ, y: prodPrice },
+        { x: newQ, y: consPrice }
+      ];
+    } else {
+      taxChart.data.datasets[3].data = [];
+    }
+
+    taxChart.update();
+  }
+
+  taxSlider.addEventListener('input', updateTax);
+  updateTax();
+
+  /* ========== 3. 가격 통제 시뮬레이터 ========== */
+  var pcCtx = document.getElementById('pcChart');
+  var pcPolicy = document.getElementById('pc-policy');
+  var pcPriceSlider = document.getElementById('pc-price-slider');
+  var pcPriceVal = document.getElementById('pc-price-val');
+
+  var pcChart = new Chart(pcCtx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        { label: '수요', data: getDemandData(0), showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3, fill: false },
+        { label: '공급', data: getSupplyData(0), showLine: true, borderColor: '#ef4444', pointRadius: 0, borderWidth: 3, fill: false },
+        { label: '균형', data: [{ x: 45, y: 55 }], pointRadius: 8, pointBackgroundColor: '#059669', borderColor: '#059669', showLine: false },
+        { label: '가격 통제선', data: [], showLine: true, borderColor: '#7c3aed', borderWidth: 3, borderDash: [8, 4], pointRadius: 0, fill: false }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '거래량 (Q)' }, min: 0, max: 110 },
+        y: { title: { display: true, text: '가격 (P)' }, min: 0, max: 120 }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updatePC() {
+    var policy = pcPolicy.value;
+    var price = parseInt(pcPriceSlider.value);
+    pcPriceVal.textContent = price;
+
+    var eqP = 55;
+    // 수요: P = 100 - Q => Q = 100 - P
+    // 공급: P = 10 + Q => Q = P - 10
+    var qd = 100 - price;
+    var qs = price - 10;
+
+    if (policy === 'none') {
+      document.getElementById('pc-type').textContent = '없음';
+      document.getElementById('pc-price').textContent = '-';
+      document.getElementById('pc-gap').textContent = '-';
+      pcChart.data.datasets[3].data = [];
+    } else {
+      pcChart.data.datasets[3].data = [{ x: 0, y: price }, { x: 110, y: price }];
+
+      if (policy === 'ceiling') {
+        document.getElementById('pc-type').textContent = '가격 상한';
+        document.getElementById('pc-price').textContent = price + '원';
+        if (price < eqP) {
+          var shortage = qd - qs;
+          document.getElementById('pc-gap').textContent = '부족 ' + shortage.toFixed(0) + '개';
+        } else {
+          document.getElementById('pc-gap').textContent = '효과 없음 (균형보다 높음)';
+        }
+      } else {
+        document.getElementById('pc-type').textContent = '가격 하한';
+        document.getElementById('pc-price').textContent = price + '원';
+        if (price > eqP) {
+          var surplus = qs - qd;
+          document.getElementById('pc-gap').textContent = '잉여 ' + surplus.toFixed(0) + '개';
+        } else {
+          document.getElementById('pc-gap').textContent = '효과 없음 (균형보다 낮음)';
+        }
+      }
+    }
+    pcChart.update();
+  }
+
+  pcPolicy.addEventListener('change', updatePC);
+  pcPriceSlider.addEventListener('input', updatePC);
+  updatePC();
+
+  /* ========== 4. 종합 퀴즈 ========== */
+  var quizMessages = {
+    1: '정답! 커피 대신 차를 마시므로 대체재입니다.',
+    2: '정답! 3%/10% = 0.3으로 비탄력적입니다.',
+    3: '정답! 제3자에게 피해를 주는 부정적 외부성입니다.',
+    4: '정답! 비배제성과 비경합성이 공공재의 특성입니다. 희소성은 모든 재화의 특성이지 공공재만의 특성이 아닙니다.',
+    5: '정답! 각 운전자의 행동이 다른 사람에게 혼잡이라는 비용을 부과합니다.',
+    6: '정답! 소비자 잉여 = 최대 지불 의사(10,000) - 실제 가격(7,000) = 3,000원',
+    7: '정답! 공유자원의 남용으로 발생하는 공유지의 비극입니다.',
+    8: '정답! 가격 하한이 균형보다 높으면 공급(노동) > 수요 → 실업 발생.'
+  };
+  var quizAnswered = {};
+  var quizScore = 0;
+
+  window.checkQuiz = function(num, correct) {
+    if (quizAnswered[num]) return;
+    quizAnswered[num] = true;
+    quizScore++;
+    document.getElementById('quiz-' + num).textContent = quizMessages[num];
+    document.getElementById('quiz-' + num).style.color = '#059669';
+    document.getElementById('quiz-score').textContent = quizScore;
+  };
+
+  window.resetQuiz = function() {
+    quizAnswered = {};
+    quizScore = 0;
+    for (var i = 1; i <= 8; i++) {
+      document.getElementById('quiz-' + i).textContent = '';
+    }
+    document.getElementById('quiz-score').textContent = '0';
+  };
+
+  /* 연습문제 풀이 보기 버튼 */
+  var eqCalcBtn = document.getElementById('eq-calc-btn');
+  if (eqCalcBtn) eqCalcBtn.addEventListener('click', function() {
+    document.getElementById('eq-calc-answer').style.display = 'block';
+  });
+  var taxCalcBtn = document.getElementById('tax-calc-btn');
+  if (taxCalcBtn) taxCalcBtn.addEventListener('click', function() {
+    document.getElementById('tax-calc-answer').style.display = 'block';
+  });
+}
+
+waitForChart(init);
+</script>

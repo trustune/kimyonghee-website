@@ -1,0 +1,612 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout title="희소성과 선택" subtitle="왜 공짜 점심은 없는가" chapterNum={1} part={0}>
+
+  <!-- ========== HOOK ========== -->
+  <div class="tb-card">
+    <h2>용돈 3만원의 고민</h2>
+    <p>
+      이번 달 용돈이 3만원이다. 치킨(2만원)도 먹고 싶고, 영화(1.5만원)도 보고 싶다.
+      합하면 3.5만원. 용돈보다 5천원이 부족하다. 둘 다 할 수 없다.
+    </p>
+    <p>
+      이 단순한 고민 속에 경제학의 가장 중요한 출발점이 숨어 있다.
+      <strong>원하는 것은 많은데, 가진 것은 한정되어 있다.</strong>
+      경제학에서는 이것을 <strong>희소성(scarcity)</strong>이라고 부른다.
+    </p>
+    <p>
+      희소성이 있기 때문에 우리는 반드시 <strong>선택</strong>을 해야 한다.
+      선택을 하면, 포기하는 것이 생긴다. 이 포기한 것의 가치를 <strong>기회비용(opportunity cost)</strong>이라 한다.
+      경제학은 바로 이 "선택의 학문"이다.
+    </p>
+  </div>
+
+  <!-- ========== 개념 1: 희소성 ========== -->
+  <div class="tb-card">
+    <h2>1. 희소성이란 무엇인가</h2>
+
+    <ExplainBox title="비유로 이해하기">
+      <p>
+        시험 기간에 하루는 24시간뿐이다. 수학 공부도 해야 하고, 영어 공부도 해야 하고, 잠도 자야 한다.
+        시간이 무한하다면 모든 과목을 완벽하게 공부할 수 있겠지만, 현실에서 시간은 한정되어 있다.
+        이것이 바로 희소성이다.
+      </p>
+    </ExplainBox>
+
+    <p>
+      희소성은 단순히 "물건이 부족하다"는 뜻이 아니다.
+      <strong>사람들이 원하는 양에 비해 사용 가능한 양이 적다</strong>는 뜻이다.
+    </p>
+    <p>
+      물은 풍부해 보이지만, 깨끗한 식수는 전 세계적으로 희소하다.
+      공기는 보통 희소하지 않지만, 우주 공간에서는 희소하다.
+      희소성은 상황에 따라 달라진다.
+    </p>
+
+    <InsightBox title="핵심 구분">
+      <p><strong>자유재(free goods):</strong> 공기처럼 원하는 만큼 쓸 수 있는 것. 희소하지 않다.</p>
+      <p><strong>경제재(economic goods):</strong> 치킨, 스마트폰, 시간처럼 희소한 것. 선택이 필요하다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 1: 용돈 배분기 ========== -->
+  <div class="tb-card">
+    <h2>2. 직접 해보기: 용돈 배분기</h2>
+
+    <ExplainBox>
+      총 예산을 정하고, 5가지 카테고리에 배분해보자.
+      각 카테고리에 많이 쓸수록 만족도가 올라가지만, 점점 덜 올라간다(체감효용).
+      최고 만족도를 찾아보자!
+    </ExplainBox>
+
+    <SimControls>
+      <label for="budget-slider">총 예산: <strong id="budget-display">50,000</strong>원</label>
+      <input type="range" id="budget-slider" min="10000" max="100000" step="5000" value="50000" style="width:100%">
+    </SimControls>
+
+    <div id="allocation-controls" style="margin: 16px 0;">
+      <div class="alloc-row" style="margin-bottom:8px;">
+        <span style="display:inline-block;width:80px;">음식</span>
+        <input type="range" class="alloc-slider" data-cat="0" min="0" max="100" value="20" style="width:60%">
+        <span class="alloc-amount" data-cat="0">10,000원</span>
+      </div>
+      <div class="alloc-row" style="margin-bottom:8px;">
+        <span style="display:inline-block;width:80px;">오락</span>
+        <input type="range" class="alloc-slider" data-cat="1" min="0" max="100" value="20" style="width:60%">
+        <span class="alloc-amount" data-cat="1">10,000원</span>
+      </div>
+      <div class="alloc-row" style="margin-bottom:8px;">
+        <span style="display:inline-block;width:80px;">교통</span>
+        <input type="range" class="alloc-slider" data-cat="2" min="0" max="100" value="20" style="width:60%">
+        <span class="alloc-amount" data-cat="2">10,000원</span>
+      </div>
+      <div class="alloc-row" style="margin-bottom:8px;">
+        <span style="display:inline-block;width:80px;">저축</span>
+        <input type="range" class="alloc-slider" data-cat="3" min="0" max="100" value="20" style="width:60%">
+        <span class="alloc-amount" data-cat="3">10,000원</span>
+      </div>
+      <div class="alloc-row" style="margin-bottom:8px;">
+        <span style="display:inline-block;width:80px;">학용품</span>
+        <input type="range" class="alloc-slider" data-cat="4" min="0" max="100" value="20" style="width:60%">
+        <span class="alloc-amount" data-cat="4">10,000원</span>
+      </div>
+    </div>
+
+    <div class="tb-stat-row">
+      <StatBox label="나의 만족도" id="my-satisfaction" value="0점" borderColor="#059669" />
+      <StatBox label="최적 만족도" id="optimal-satisfaction" value="0점" borderColor="#0d9488" />
+      <StatBox label="남은 예산" id="remaining-budget" value="0원" borderColor="#f59e0b" />
+    </div>
+
+    <ChartContainer id="allocation-chart" height="300px" />
+
+    <InsightBox title="발견">
+      <p>
+        한 곳에 몰아 쓰는 것보다 골고루 나누는 것이 만족도가 높다.
+        왜냐하면 각 카테고리에서 처음 쓰는 돈의 만족도가 가장 크고,
+        추가로 쓸수록 만족도 증가가 줄어들기 때문이다.
+        이것을 <strong>한계효용 체감의 법칙</strong>이라 한다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 개념 2: 기회비용 ========== -->
+  <div class="tb-card">
+    <h2>3. 기회비용: 진짜 비용은 보이지 않는다</h2>
+
+    <p>
+      치킨을 먹기로 했다면, 포기한 영화가 기회비용이다.
+      기회비용은 돈뿐만이 아니다. 시간, 노력, 즐거움 등 포기한 모든 것이 포함된다.
+    </p>
+
+    <FormulaBox>
+      기회비용 = <span class="hl">선택하지 않은 대안 중 최선</span>의 가치
+    </FormulaBox>
+
+    <ExplainBox title="비유로 이해하기">
+      <p>
+        토요일 오후에 세 가지 선택지가 있다: (A) 친구와 놀기, (B) 아르바이트(시급 1만원, 4시간 = 4만원), (C) 집에서 쉬기.
+        친구와 놀기를 선택했다면, 기회비용은 세 가지 중 '차선책'인 아르바이트 4만원이다.
+        집에서 쉬는 것은 기회비용이 아니다. 포기한 것 중 가장 가치 있는 하나만이 기회비용이다.
+      </p>
+    </ExplainBox>
+
+    <WarningBox title="흔한 실수">
+      기회비용은 포기한 것 '전부'가 아니라, 포기한 것 중 '최선의 하나'이다.
+      또한 이미 지불한 돈(매몰비용)은 기회비용에 포함되지 않는다.
+    </WarningBox>
+  </div>
+
+  <!-- ========== 인터랙티브 2: PPF ========== -->
+  <div class="tb-card">
+    <h2>4. 직접 해보기: 생산가능곡선(PPF)</h2>
+
+    <ExplainBox>
+      <p>
+        한 나라에 노동자가 100명 있다. 이들은 빵을 만들거나 옷을 만들 수 있다.
+        빵 공장에 노동자를 많이 보내면 빵은 많이 만들지만 옷은 적게 만든다.
+        아래 슬라이더로 노동자 배분을 바꿔보자.
+      </p>
+    </ExplainBox>
+
+    <SimControls>
+      <label for="ppf-slider">빵 공장 노동자: <strong id="ppf-bread-workers">50</strong>명 (옷 공장: <strong id="ppf-cloth-workers">50</strong>명)</label>
+      <input type="range" id="ppf-slider" min="0" max="100" value="50" style="width:100%">
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="빵 생산량" id="ppf-bread" value="0개" borderColor="#f59e0b" />
+      <StatBox label="옷 생산량" id="ppf-cloth" value="0벌" borderColor="#3b82f6" />
+      <StatBox label="효율 상태" id="ppf-status" value="-" borderColor="#059669" />
+    </div>
+
+    <ChartContainer id="ppf-chart" height="350px" />
+
+    <InsightBox title="곡선 위의 의미">
+      <p><strong>곡선 위:</strong> 자원을 100% 효율적으로 사용. 더 만들려면 다른 것을 줄여야 함.</p>
+      <p><strong>곡선 안쪽:</strong> 비효율. 같은 자원으로 더 많이 만들 수 있음.</p>
+      <p><strong>곡선 바깥:</strong> 불가능. 현재 자원으로는 달성할 수 없음.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 3: 트레이드오프 퀴즈 ========== -->
+  <div class="tb-card">
+    <h2>5. 트레이드오프 퀴즈</h2>
+
+    <ExplainBox>
+      <p>
+        트레이드오프(trade-off)란 하나를 얻으면 다른 하나를 포기해야 하는 상황이다.
+        아래 5가지 상황에서 트레이드오프를 정확히 식별해보자.
+      </p>
+    </ExplainBox>
+
+    <ExerciseBox title="퀴즈: 트레이드오프 찾기">
+      <div id="tradeoff-quiz">
+        <div class="quiz-item" data-q="0" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q1.</strong> 정부가 국방비를 늘리면?</p>
+          <button class="tb-btn" onclick="checkTradeoff(0, 0)">교육이나 복지 예산이 줄어든다</button>
+          <button class="tb-btn" onclick="checkTradeoff(0, 1)">세금이 자동으로 내려간다</button>
+          <button class="tb-btn" onclick="checkTradeoff(0, 2)">아무 영향이 없다</button>
+          <p class="quiz-feedback" data-q="0" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="quiz-item" data-q="1" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q2.</strong> 환경 보호를 위해 공장 규제를 강화하면?</p>
+          <button class="tb-btn" onclick="checkTradeoff(1, 0)">기업 생산 비용이 올라간다</button>
+          <button class="tb-btn" onclick="checkTradeoff(1, 1)">모든 기업이 더 이익을 낸다</button>
+          <button class="tb-btn" onclick="checkTradeoff(1, 2)">노동자 임금이 자동으로 오른다</button>
+          <p class="quiz-feedback" data-q="1" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="quiz-item" data-q="2" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q3.</strong> 수면 시간을 줄이고 공부를 더 하면?</p>
+          <button class="tb-btn" onclick="checkTradeoff(2, 0)">건강과 집중력이 떨어진다</button>
+          <button class="tb-btn" onclick="checkTradeoff(2, 1)">항상 성적이 오른다</button>
+          <button class="tb-btn" onclick="checkTradeoff(2, 2)">수면은 성적과 관련이 없다</button>
+          <p class="quiz-feedback" data-q="2" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="quiz-item" data-q="3" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q4.</strong> 아르바이트 시간을 늘리면?</p>
+          <button class="tb-btn" onclick="checkTradeoff(3, 0)">공부나 여가 시간이 줄어든다</button>
+          <button class="tb-btn" onclick="checkTradeoff(3, 1)">시간이 더 많아진다</button>
+          <button class="tb-btn" onclick="checkTradeoff(3, 2)">성적에 전혀 영향이 없다</button>
+          <p class="quiz-feedback" data-q="3" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="quiz-item" data-q="4" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q5.</strong> 회사가 직원 복지를 늘리면?</p>
+          <button class="tb-btn" onclick="checkTradeoff(4, 0)">단기 이익이 줄어들 수 있다</button>
+          <button class="tb-btn" onclick="checkTradeoff(4, 1)">비용이 전혀 들지 않는다</button>
+          <button class="tb-btn" onclick="checkTradeoff(4, 2)">주주 배당이 자동으로 늘어난다</button>
+          <p class="quiz-feedback" data-q="4" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+      </div>
+      <div class="tb-stat-row" style="margin-top:12px;">
+        <StatBox label="맞힌 문제" id="tradeoff-score" value="0 / 5" borderColor="#059669" />
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ========== 인터랙티브 4: 기회비용 계산기 ========== -->
+  <div class="tb-card">
+    <h2>6. 기회비용 계산기: 대학 진학 vs 바로 취업</h2>
+
+    <ExplainBox>
+      <p>
+        고등학교를 졸업한 후 두 가지 선택이 있다.
+        (A) 대학에 4년 다니기, (B) 바로 취업하기.
+        어느 쪽이 경제적으로 유리한지 기회비용을 계산해보자.
+      </p>
+    </ExplainBox>
+
+    <ExerciseBox title="값을 입력하고 계산해보세요">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+        <div>
+          <label>연간 등록금 (만원)</label>
+          <input type="number" id="oc-tuition" value="800" min="0" max="5000" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+        </div>
+        <div>
+          <label>고졸 연봉 (만원)</label>
+          <input type="number" id="oc-hs-salary" value="2400" min="0" max="10000" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+        </div>
+        <div>
+          <label>대졸 연봉 (만원)</label>
+          <input type="number" id="oc-college-salary" value="3200" min="0" max="10000" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+        </div>
+        <div>
+          <label>비교 기간 (졸업 후, 년)</label>
+          <input type="number" id="oc-years" value="20" min="1" max="40" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+        </div>
+      </div>
+      <button class="tb-btn tb-btn-primary" onclick="calcOpportunityCost()">계산하기</button>
+    </ExerciseBox>
+
+    <div class="tb-stat-row">
+      <StatBox label="대학 진학 총비용" id="oc-total-cost" value="-" sub="등록금 + 포기임금" borderColor="#ef4444" />
+      <StatBox label="대졸 추가 소득" id="oc-extra-income" value="-" sub="비교기간 동안" borderColor="#059669" />
+      <StatBox label="순이익" id="oc-net" value="-" sub="추가소득 - 총비용" borderColor="#3b82f6" />
+    </div>
+
+    <ChartContainer id="oc-chart" height="300px" />
+
+    <InsightBox title="기회비용의 핵심">
+      <p>
+        대학 진학의 진짜 비용은 등록금만이 아니다.
+        4년 동안 일했다면 벌었을 임금(포기 임금)도 포함된다.
+        이 "보이지 않는 비용"이 기회비용의 핵심이다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 비즈니스 적용 ========== -->
+  <div class="tb-card">
+    <h2>7. 실생활 속 희소성과 선택</h2>
+
+    <BusinessBox title="기업의 선택">
+      <p>
+        삼성전자는 반도체에 투자할지, 디스플레이에 투자할지 고민한다.
+        투자금은 한정되어 있기 때문이다.
+        반도체에 10조원을 투자하면, 그만큼 디스플레이 투자는 줄어든다.
+        기업의 모든 의사결정은 희소성에서 출발한다.
+      </p>
+    </BusinessBox>
+
+    <BusinessBox title="정부의 선택">
+      <p>
+        정부 예산도 한정되어 있다. 국방비를 늘리면 교육이나 복지에 쓸 돈이 줄어든다.
+        "총을 더 만들 것인가, 빵을 더 만들 것인가" -- 이것이 경제학의 고전적 질문이다.
+      </p>
+    </BusinessBox>
+  </div>
+
+  <!-- ========== 결론 ========== -->
+  <ConclusionBox title="1장 핵심 정리">
+    <ul>
+      <li><strong>희소성:</strong> 원하는 것은 많지만 자원은 한정되어 있다. 이것이 경제학의 출발점이다.</li>
+      <li><strong>선택:</strong> 희소성 때문에 우리는 반드시 선택해야 하고, 선택에는 반드시 포기가 따른다.</li>
+      <li><strong>기회비용:</strong> 어떤 선택의 진짜 비용은 포기한 최선의 대안이다.</li>
+      <li><strong>트레이드오프:</strong> 하나를 더 얻으려면 다른 것을 포기해야 한다.</li>
+      <li><strong>생산가능곡선:</strong> 한정된 자원으로 만들 수 있는 조합의 한계를 보여준다.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 경제학자들은 어떤 방식으로 생각할까? 한계 분석, 인센티브, 합리적 선택에 대해 배운다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  // --- Progress tracking ---
+  try {
+    var key = 'textbook-progress-econ';
+    var raw = localStorage.getItem(key);
+    var data = raw ? JSON.parse(raw) : { chapters: {} };
+    data.chapters['01-scarcity-choice'] = { visited: true, lastVisit: new Date().toISOString().slice(0, 10) };
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch(e) {}
+
+  // ========== 인터랙티브 1: 용돈 배분기 ==========
+  var budget = 50000;
+  var catNames = ['음식', '오락', '교통', '저축', '학용품'];
+  var sliders = document.querySelectorAll('.alloc-slider');
+  var allocChart = null;
+
+  function utilityFn(amount) {
+    // 체감효용: sqrt 형태
+    return Math.sqrt(amount / 1000) * 10;
+  }
+
+  function getOptimalSatisfaction(b) {
+    // 균등 배분이 최적 (sqrt 함수에서)
+    var each = b / 5;
+    var total = 0;
+    for (var i = 0; i < 5; i++) total += utilityFn(each);
+    return total;
+  }
+
+  function updateAllocation() {
+    budget = parseInt(document.getElementById('budget-slider').value);
+    document.getElementById('budget-display').textContent = budget.toLocaleString();
+
+    var rawVals = [];
+    var sum = 0;
+    sliders.forEach(function(s) {
+      var v = parseInt(s.value);
+      rawVals.push(v);
+      sum += v;
+    });
+
+    var amounts = [];
+    var utilities = [];
+    var totalUtil = 0;
+    var totalSpent = 0;
+
+    for (var i = 0; i < 5; i++) {
+      var amt = sum > 0 ? Math.round(budget * rawVals[i] / sum) : 0;
+      amounts.push(amt);
+      var u = utilityFn(amt);
+      utilities.push(u);
+      totalUtil += u;
+      totalSpent += amt;
+
+      var amtEl = document.querySelector('.alloc-amount[data-cat="' + i + '"]');
+      if (amtEl) amtEl.textContent = amt.toLocaleString() + '원';
+    }
+
+    document.getElementById('my-satisfaction').textContent = totalUtil.toFixed(1) + '점';
+    var opt = getOptimalSatisfaction(budget);
+    document.getElementById('optimal-satisfaction').textContent = opt.toFixed(1) + '점';
+    var remaining = budget - totalSpent;
+    document.getElementById('remaining-budget').textContent = Math.abs(remaining).toLocaleString() + '원';
+
+    if (allocChart) {
+      allocChart.data.datasets[0].data = amounts.map(function(a) { return a / 1000; });
+      allocChart.data.datasets[1].data = utilities;
+      allocChart.update();
+    }
+  }
+
+  // Budget slider
+  document.getElementById('budget-slider').addEventListener('input', updateAllocation);
+  sliders.forEach(function(s) { s.addEventListener('input', updateAllocation); });
+
+  // Allocation chart
+  var ctxAlloc = document.getElementById('allocation-chart');
+  if (ctxAlloc) {
+    allocChart = new Chart(ctxAlloc, {
+      type: 'bar',
+      data: {
+        labels: catNames,
+        datasets: [
+          { label: '배분액 (천원)', data: [10, 10, 10, 10, 10], backgroundColor: 'rgba(5,150,105,0.6)', yAxisID: 'y' },
+          { label: '만족도 (점)', data: [0,0,0,0,0], backgroundColor: 'rgba(59,130,246,0.6)', yAxisID: 'y1' }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          y: { position: 'left', title: { display: true, text: '배분액 (천원)' }, beginAtZero: true },
+          y1: { position: 'right', title: { display: true, text: '만족도' }, beginAtZero: true, grid: { drawOnChartArea: false } }
+        }
+      }
+    });
+  }
+  updateAllocation();
+
+  // ========== 인터랙티브 2: PPF ==========
+  var ppfChart = null;
+
+  function ppfBread(workers) { return Math.round(100 * Math.sqrt(workers / 100)); }
+  function ppfCloth(workers) { return Math.round(80 * Math.sqrt(workers / 100)); }
+
+  function generatePPFCurve() {
+    var points = [];
+    for (var w = 0; w <= 100; w += 2) {
+      points.push({ x: ppfBread(w), y: ppfCloth(100 - w) });
+    }
+    return points;
+  }
+
+  function updatePPF() {
+    var breadWorkers = parseInt(document.getElementById('ppf-slider').value);
+    var clothWorkers = 100 - breadWorkers;
+    document.getElementById('ppf-bread-workers').textContent = breadWorkers;
+    document.getElementById('ppf-cloth-workers').textContent = clothWorkers;
+
+    var bread = ppfBread(breadWorkers);
+    var cloth = ppfCloth(clothWorkers);
+
+    document.getElementById('ppf-bread').textContent = bread + '개';
+    document.getElementById('ppf-cloth').textContent = cloth + '벌';
+    document.getElementById('ppf-status').textContent = '효율적 (곡선 위)';
+
+    if (ppfChart) {
+      ppfChart.data.datasets[1].data = [{ x: bread, y: cloth }];
+      ppfChart.update();
+    }
+  }
+
+  document.getElementById('ppf-slider').addEventListener('input', updatePPF);
+
+  var ctxPPF = document.getElementById('ppf-chart');
+  if (ctxPPF) {
+    var curveData = generatePPFCurve();
+    ppfChart = new Chart(ctxPPF, {
+      type: 'scatter',
+      data: {
+        datasets: [
+          {
+            label: '생산가능곡선(PPF)',
+            data: curveData,
+            showLine: true,
+            borderColor: '#059669',
+            backgroundColor: 'rgba(5,150,105,0.1)',
+            fill: true,
+            pointRadius: 0,
+            borderWidth: 3
+          },
+          {
+            label: '현재 생산 조합',
+            data: [{ x: ppfBread(50), y: ppfCloth(50) }],
+            pointRadius: 10,
+            pointBackgroundColor: '#ef4444',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2
+          },
+          {
+            label: '불가능 영역 (예시)',
+            data: [{ x: 90, y: 70 }],
+            pointRadius: 8,
+            pointBackgroundColor: '#9ca3af',
+            pointStyle: 'crossRot'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          x: { title: { display: true, text: '빵 (개)' }, min: 0, max: 110 },
+          y: { title: { display: true, text: '옷 (벌)' }, min: 0, max: 90 }
+        }
+      }
+    });
+  }
+  updatePPF();
+
+  // ========== 인터랙티브 3: 트레이드오프 퀴즈 ==========
+  var tradeoffAnswers = [0, 0, 0, 0, 0];
+  var tradeoffExplanations = [
+    '맞습니다! 정부 예산은 한정되어 있으므로, 국방비를 늘리면 다른 분야 예산이 줄어드는 트레이드오프가 발생합니다.',
+    '맞습니다! 환경 규제 강화는 환경 보호를 얻는 대신 기업 비용 상승이라는 트레이드오프를 만듭니다.',
+    '맞습니다! 공부 시간을 늘리면 건강과 집중력이 떨어지는 트레이드오프가 있습니다.',
+    '맞습니다! 아르바이트 시간이 늘면 수입은 늘지만, 공부나 여가 시간이 줄어드는 트레이드오프가 있습니다.',
+    '맞습니다! 직원 복지 확대는 직원 만족도를 높이지만 단기적으로 기업 이익이 줄어드는 트레이드오프가 있습니다.'
+  ];
+  var tradeoffScore = 0;
+
+  window.checkTradeoff = function(q, a) {
+    var fb = document.querySelector('.quiz-feedback[data-q="' + q + '"]');
+    if (!fb) return;
+    fb.style.display = 'block';
+    if (a === tradeoffAnswers[q]) {
+      fb.textContent = tradeoffExplanations[q];
+      fb.style.color = '#059669';
+      tradeoffScore++;
+    } else {
+      fb.textContent = '다시 생각해보세요. 트레이드오프는 "하나를 얻으면 다른 하나를 포기"하는 관계입니다.';
+      fb.style.color = '#ef4444';
+    }
+    document.getElementById('tradeoff-score').textContent = tradeoffScore + ' / 5';
+    // Disable buttons for this question
+    var btns = document.querySelectorAll('.quiz-item[data-q="' + q + '"] button');
+    btns.forEach(function(b) { b.disabled = true; b.style.opacity = '0.5'; });
+  };
+
+  // ========== 인터랙티브 4: 기회비용 계산기 ==========
+  var ocChart = null;
+
+  window.calcOpportunityCost = function() {
+    var tuition = parseInt(document.getElementById('oc-tuition').value) || 0;
+    var hsSalary = parseInt(document.getElementById('oc-hs-salary').value) || 0;
+    var collegeSalary = parseInt(document.getElementById('oc-college-salary').value) || 0;
+    var years = parseInt(document.getElementById('oc-years').value) || 20;
+
+    var totalCost = (tuition * 4) + (hsSalary * 4); // 등록금 + 포기임금
+    var extraIncome = (collegeSalary - hsSalary) * years;
+    var net = extraIncome - totalCost;
+
+    document.getElementById('oc-total-cost').textContent = totalCost.toLocaleString() + '만원';
+    document.getElementById('oc-extra-income').textContent = extraIncome.toLocaleString() + '만원';
+    document.getElementById('oc-net').textContent = (net >= 0 ? '+' : '') + net.toLocaleString() + '만원';
+
+    // 누적 수입 차이 차트
+    var labels = [];
+    var collegeData = [];
+    var hsData = [];
+    var collegeCum = 0;
+    var hsCum = 0;
+
+    for (var yr = 1; yr <= years + 4; yr++) {
+      labels.push(yr + '년차');
+      if (yr <= 4) {
+        collegeCum -= tuition; // 대학생: 등록금 지출
+        hsCum += hsSalary; // 고졸: 취업 수입
+      } else {
+        collegeCum += collegeSalary;
+        hsCum += hsSalary;
+      }
+      collegeData.push(collegeCum);
+      hsData.push(hsCum);
+    }
+
+    if (ocChart) {
+      ocChart.data.labels = labels;
+      ocChart.data.datasets[0].data = collegeData;
+      ocChart.data.datasets[1].data = hsData;
+      ocChart.update();
+    } else {
+      var ctx = document.getElementById('oc-chart');
+      if (ctx) {
+        ocChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: '대학 진학 (누적 소득)', data: collegeData, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3 },
+              { label: '바로 취업 (누적 소득)', data: hsData, borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', fill: true, tension: 0.3 }
+            ]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { position: 'top' } },
+            scales: {
+              y: { title: { display: true, text: '누적 소득 (만원)' } }
+            }
+          }
+        });
+      }
+    }
+  };
+}
+
+waitForChart(init);
+</script>

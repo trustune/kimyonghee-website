@@ -1,0 +1,58 @@
+{
+  "series": [
+    {
+      "id": "stats",
+      "slug": "",
+      "title": "통계학과 데이터 사이언스 입문",
+      "titleEn": "Introduction to Statistics & Data Science",
+      "description": "기초 통계부터 머신러닝, 딥러닝까지 — 개념과 실습으로 배우는 데이터 분석",
+      "color": "#2563eb",
+      "level": "beginner",
+      "audience": "중학생 ~ 대학생",
+      "chapterCount": 35,
+      "status": "published",
+      "hubUrl": "/textbook/"
+    },
+    {
+      "id": "econ",
+      "slug": "econ",
+      "title": "경제학 입문",
+      "titleEn": "Introduction to Economics",
+      "description": "미시와 거시경제의 핵심 원리를 시뮬레이션으로 체험하는 경제학",
+      "color": "#059669",
+      "level": "beginner",
+      "audience": "중학생 ~ 대학생",
+      "chapterCount": 25,
+      "status": "in-progress",
+      "hubUrl": "/textbook/econ/"
+    },
+    {
+      "id": "econometrics",
+      "slug": "econometrics",
+      "title": "계량경제학",
+      "titleEn": "Econometrics",
+      "description": "통계학을 경제 데이터에 적용하는 실증 분석의 세계",
+      "color": "#7c3aed",
+      "level": "intermediate",
+      "audience": "대학생 ~ 대학원생",
+      "chapterCount": 20,
+      "status": "planned",
+      "hubUrl": "/textbook/econometrics/",
+      "prerequisites": { "series": "stats", "description": "통계학 시리즈 8~20장 수료 권장" }
+    },
+    {
+      "id": "ml-pro",
+      "slug": "ml-pro",
+      "title": "전문 머신러닝",
+      "titleEn": "Professional Machine Learning",
+      "description": "실무 수준의 ML 파이프라인, 모델 배포, 고급 아키텍처",
+      "color": "#ea580c",
+      "level": "advanced",
+      "audience": "대학생 ~ 실무자",
+      "chapterCount": 25,
+      "status": "planned",
+      "hubUrl": "/textbook/ml-pro/",
+      "prerequisites": { "series": "stats", "description": "통계학 시리즈 15~31장 수료 권장" }
+    }
+  ]
+}

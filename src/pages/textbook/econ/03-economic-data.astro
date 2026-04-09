@@ -1,0 +1,574 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout title="경제 데이터 읽기" subtitle="뉴스 속 경제 지표를 이해하다" chapterNum={3} part={0}>
+
+  <!-- ========== HOOK ========== -->
+  <div class="tb-card">
+    <h2>뉴스가 말하는 숫자들</h2>
+    <p>
+      "GDP 성장률 2.1%", "소비자물가 상승률 3.5%", "실업률 3.7%", "기준금리 3.50%"
+      -- 매일 뉴스에 이런 숫자가 나온다. 이 숫자들이 무슨 뜻인지 모르면 뉴스를 읽어도 의미가 없다.
+    </p>
+    <p>
+      이번 장에서는 네 가지 핵심 경제 지표를 배우고,
+      그래프를 올바르게 읽는 방법과 속임수를 탐지하는 능력을 키운다.
+      또한 "명목"과 "실질"의 차이를 이해하여 물가 변동의 함정에 빠지지 않는 법을 배운다.
+    </p>
+  </div>
+
+  <!-- ========== 개념 1: 4대 경제 지표 ========== -->
+  <div class="tb-card">
+    <h2>1. 알아야 할 4대 경제 지표</h2>
+
+    <ExplainBox title="GDP 성장률">
+      <p>
+        <strong>GDP(국내총생산)</strong>는 한 나라 안에서 1년 동안 만들어낸 모든 재화와 서비스의 가치 합계이다.
+        비유하자면, 한 반의 모든 학생이 1년간 벌어들인 용돈의 총합과 같다.
+        GDP 성장률이 양수면 경제가 커지고 있고, 음수면 줄어들고 있다는 뜻이다.
+      </p>
+    </ExplainBox>
+
+    <ExplainBox title="물가상승률 (인플레이션)">
+      <p>
+        물가상승률은 전반적인 가격 수준이 얼마나 올랐는지를 보여준다.
+        작년에 1,000원이던 삼각김밥이 올해 1,050원이 되었다면, 이 상품의 물가상승률은 5%이다.
+        물가가 오르면 같은 돈으로 살 수 있는 것이 줄어든다.
+      </p>
+    </ExplainBox>
+
+    <ExplainBox title="실업률">
+      <p>
+        일하고 싶은데 일자리를 찾지 못한 사람의 비율이다.
+        실업률이 높으면 경제 상황이 좋지 않다는 신호다.
+        단, 아예 구직 활동을 포기한 사람은 실업률에 포함되지 않는다는 점에 주의하자.
+      </p>
+    </ExplainBox>
+
+    <ExplainBox title="기준금리">
+      <p>
+        한국은행이 설정하는 금리로, 모든 금리의 "기준점" 역할을 한다.
+        기준금리가 오르면 대출이자가 올라 돈을 빌리기 어려워지고,
+        내리면 대출이 쉬워져 경제 활동이 활발해진다.
+        경제의 "온도 조절기"라고 생각하면 된다.
+      </p>
+    </ExplainBox>
+  </div>
+
+  <!-- ========== 인터랙티브 1: 지표 대시보드 ========== -->
+  <div class="tb-card">
+    <h2>2. 직접 해보기: 경제 지표 대시보드</h2>
+
+    <ExplainBox>
+      아래에서 지표를 선택하면 한국의 시계열 데이터(합성)가 차트로 나타난다.
+      각 지표의 추세와 특징을 관찰해보자.
+    </ExplainBox>
+
+    <SimControls>
+      <button class="tb-btn tb-btn-primary indicator-btn" data-idx="0" id="btn-gdp">GDP 성장률</button>
+      <button class="tb-btn indicator-btn" data-idx="1" id="btn-cpi">물가상승률</button>
+      <button class="tb-btn indicator-btn" data-idx="2" id="btn-unemp">실업률</button>
+      <button class="tb-btn indicator-btn" data-idx="3" id="btn-rate">기준금리</button>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="최근 값" id="ind-latest" value="-" borderColor="#059669" />
+      <StatBox label="최고값" id="ind-max" value="-" borderColor="#ef4444" />
+      <StatBox label="최저값" id="ind-min" value="-" borderColor="#3b82f6" />
+      <StatBox label="평균" id="ind-avg" value="-" borderColor="#f59e0b" />
+    </div>
+
+    <ChartContainer id="indicator-chart" height="350px" />
+
+    <div id="indicator-desc" style="margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+      <p>위에서 지표를 선택하세요.</p>
+    </div>
+  </div>
+
+  <!-- ========== 인터랙티브 2: 그래프 속임수 탐지 ========== -->
+  <div class="tb-card">
+    <h2>3. 그래프 속임수 탐지</h2>
+
+    <ExplainBox>
+      <p>
+        같은 데이터도 그래프를 어떻게 그리느냐에 따라 전혀 다른 인상을 줄 수 있다.
+        아래에서 5가지 속임수 사례를 살펴보자.
+      </p>
+    </ExplainBox>
+
+    <SimControls>
+      <select id="trick-select" style="padding:8px; border-radius:6px; border:1px solid #d1d5db;">
+        <option value="0">1. Y축 잘라내기</option>
+        <option value="1">2. Y축 스케일 조작</option>
+        <option value="2">3. 기간 선택 편향</option>
+        <option value="3">4. 3D 효과로 왜곡</option>
+        <option value="4">5. 이중 Y축 혼란</option>
+      </select>
+      <button class="tb-btn" onclick="showHonestGraph()">정직한 그래프 보기</button>
+      <button class="tb-btn tb-btn-danger" onclick="showTrickGraph()">왜곡된 그래프 보기</button>
+    </SimControls>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <p style="text-align:center; font-weight:600; color:#059669;">정직한 그래프</p>
+        <ChartContainer id="honest-chart" height="250px" />
+      </div>
+      <div>
+        <p style="text-align:center; font-weight:600; color:#ef4444;">왜곡된 그래프</p>
+        <ChartContainer id="trick-chart" height="250px" />
+      </div>
+    </div>
+
+    <div id="trick-explanation" style="margin-top: 12px; padding: 12px; background: #fef3c7; border-radius: 8px;">
+      <p><strong>속임수 1 -- Y축 잘라내기:</strong> Y축을 0부터 시작하지 않으면 작은 변화가 크게 보인다. 주가가 0.5% 올랐는데 마치 두 배로 오른 것처럼 보일 수 있다.</p>
+    </div>
+
+    <ExerciseBox title="연습: 속임수를 구별하세요">
+      <p>위의 5가지 사례를 모두 확인하고, 각 속임수가 데이터를 어떻게 왜곡하는지 설명해보세요.</p>
+    </ExerciseBox>
+
+    <WarningBox title="그래프를 볼 때 체크리스트">
+      <ul>
+        <li>Y축이 0부터 시작하는가?</li>
+        <li>기간이 충분히 긴가? (짧은 기간만 보여주면 추세를 왜곡할 수 있다)</li>
+        <li>스케일이 적절한가?</li>
+        <li>3D 효과나 불필요한 장식이 있는가?</li>
+        <li>두 개의 Y축이 있다면 스케일이 일치하는가?</li>
+      </ul>
+    </WarningBox>
+  </div>
+
+  <!-- ========== 인터랙티브 3: 실질 vs 명목 변환기 ========== -->
+  <div class="tb-card">
+    <h2>4. 실질 vs 명목 변환기</h2>
+
+    <ExplainBox title="명목과 실질의 차이">
+      <p>
+        2000년에 연봉이 2,000만원이었고, 2024년에 4,000만원이 되었다면 "두 배로 올랐다"고 할 수 있을까?
+        명목 금액은 두 배가 맞다. 하지만 물가도 올랐다면, 실제로 살 수 있는 것은 두 배가 아닐 수 있다.
+      </p>
+      <p>
+        <strong>명목(nominal):</strong> 그해의 가격 그대로의 값.<br>
+        <strong>실질(real):</strong> 물가 변동을 제거하여 "실제 구매력"을 반영한 값.
+      </p>
+    </ExplainBox>
+
+    <FormulaBox>
+      실질값 = <span class="hl">명목값</span> / <span class="hl">물가지수</span> x 100 = <span class="res">구매력 기준 값</span>
+    </FormulaBox>
+
+    <ExerciseBox title="직접 변환해보세요">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+        <div>
+          <label>명목 금액 (만원)</label>
+          <input type="number" id="nominal-val" value="4000" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+        </div>
+        <div>
+          <label>해당 연도</label>
+          <select id="nominal-year" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+            <option value="2000">2000년</option>
+            <option value="2005">2005년</option>
+            <option value="2010">2010년</option>
+            <option value="2015">2015년</option>
+            <option value="2020" selected>2020년</option>
+            <option value="2024">2024년</option>
+          </select>
+        </div>
+        <div>
+          <label>기준 연도</label>
+          <select id="base-year" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px;">
+            <option value="2000">2000년</option>
+            <option value="2005">2005년</option>
+            <option value="2010">2010년</option>
+            <option value="2015" selected>2015년</option>
+            <option value="2020">2020년</option>
+            <option value="2024">2024년</option>
+          </select>
+        </div>
+      </div>
+      <button class="tb-btn tb-btn-primary" onclick="convertReal()">실질값 계산</button>
+    </ExerciseBox>
+
+    <div class="tb-stat-row">
+      <StatBox label="명목값" id="conv-nominal" value="-" borderColor="#f59e0b" />
+      <StatBox label="물가지수" id="conv-cpi" value="-" sub="해당연도 기준" borderColor="#3b82f6" />
+      <StatBox label="실질값" id="conv-real" value="-" sub="기준연도 가격 기준" borderColor="#059669" />
+    </div>
+
+    <ChartContainer id="real-nominal-chart" height="300px" />
+
+    <InsightBox title="왜 중요한가">
+      <p>
+        "연봉이 10년간 50% 올랐다"는 말을 들으면 좋아 보인다.
+        하지만 같은 기간 물가가 40% 올랐다면 실질 구매력은 7%만 늘어난 것이다.
+        경제 뉴스를 볼 때 항상 "명목인가, 실질인가?"를 확인하자.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 추가: 경제 뉴스 읽기 연습 ========== -->
+  <div class="tb-card">
+    <h2>5. 경제 뉴스 읽기 연습</h2>
+
+    <ExerciseBox title="뉴스 헤드라인을 분석하세요">
+      <div style="margin-bottom:14px; padding:12px; background:#f8fafc; border-radius:8px;">
+        <p><strong>헤드라인 1:</strong> "GDP 성장률 2.1%, 경기 회복 신호"</p>
+        <p style="color:#6b7280;">질문: 2.1%는 높은 편인가 낮은 편인가?</p>
+        <p><strong>해설:</strong> 선진국 기준 2% 이상은 양호한 성장이다. 한국의 잠재성장률(약 2%)과 비교하면 적정 수준이다. 다만 전년도가 역성장(-0.7%)이었다면 "기저효과"일 수 있으니 주의해야 한다.</p>
+      </div>
+      <div style="margin-bottom:14px; padding:12px; background:#f8fafc; border-radius:8px;">
+        <p><strong>헤드라인 2:</strong> "물가상승률 5%, 체감 물가는 더 높아"</p>
+        <p style="color:#6b7280;">질문: "체감 물가"와 "공식 물가"는 왜 다른가?</p>
+        <p><strong>해설:</strong> 소비자물가지수(CPI)는 수백 가지 상품의 평균이다. 자주 사는 식료품, 교통비 등의 가격이 크게 올랐다면 체감은 더 높을 수 있다. 공식 지표와 체감의 괴리는 자연스러운 현상이다.</p>
+      </div>
+      <div style="margin-bottom:14px; padding:12px; background:#f8fafc; border-radius:8px;">
+        <p><strong>헤드라인 3:</strong> "기준금리 인하, 경기 부양 기대"</p>
+        <p style="color:#6b7280;">질문: 금리를 내리면 왜 경기가 좋아지는가?</p>
+        <p><strong>해설:</strong> 금리가 내리면 대출이자가 낮아져 기업은 투자를 늘리고, 가계는 소비를 늘린다. 돈의 흐름이 활발해져 경기가 좋아지는 효과가 있다. 반대로 물가가 올라갈 위험도 있다.</p>
+      </div>
+    </ExerciseBox>
+
+    <InsightBox title="경제 뉴스를 읽을 때 체크리스트">
+      <ul>
+        <li>숫자가 명목인가 실질인가?</li>
+        <li>비교 기준은 언제인가? (전월 대비? 전년 동기 대비?)</li>
+        <li>그래프의 Y축이 적절한가?</li>
+        <li>인과관계인가 상관관계인가? (아이스크림 판매와 익사 사고는 상관관계일 뿐)</li>
+        <li>표본이 대표성이 있는가?</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 추가: 상관관계 vs 인과관계 ========== -->
+  <div class="tb-card">
+    <h2>6. 상관관계 vs 인과관계</h2>
+
+    <ExplainBox title="가장 흔한 실수">
+      <p>
+        "아이스크림 판매가 늘면 익사 사고도 늘어난다." 아이스크림이 익사를 유발하는가? 당연히 아니다.
+        둘 다 여름(기온)이라는 공통 원인에 의해 동시에 늘어나는 것이다.
+      </p>
+      <p>
+        <strong>상관관계:</strong> 두 변수가 함께 움직이는 것. 원인과 결과를 말하지 않는다.<br>
+        <strong>인과관계:</strong> A가 B를 실제로 유발하는 것. 증명이 훨씬 어렵다.
+      </p>
+    </ExplainBox>
+
+    <WarningBox title="뉴스에서 자주 범하는 오류">
+      <p>
+        "OO 식품을 많이 먹는 나라가 노벨상 수상자가 많다" 같은 기사를 볼 때,
+        이것이 인과관계인지 상관관계인지 반드시 구별해야 한다.
+        부유한 나라일수록 OO 식품도 많이 먹고 연구 인프라도 좋은 것일 뿐,
+        OO 식품이 노벨상을 만들어주는 것은 아니다.
+      </p>
+    </WarningBox>
+  </div>
+
+  <!-- ========== 비즈니스 적용 ========== -->
+  <div class="tb-card">
+    <h2>7. 데이터 리터러시가 중요한 이유</h2>
+
+    <BusinessBox title="투자에서의 함정">
+      <p>
+        "이 펀드는 10년간 수익률 80%!"라는 광고를 봤다.
+        하지만 같은 기간 물가가 30% 올랐다면 실질 수익률은 약 38%이다.
+        물가를 고려하지 않으면 수익률을 과대평가하게 된다.
+      </p>
+    </BusinessBox>
+
+    <BusinessBox title="임금 협상에서의 활용">
+      <p>
+        "올해 임금을 3% 올려줬다"고 회사가 말한다.
+        물가상승률이 4%라면? 실질 임금은 오히려 1% 내려간 것이다.
+        임금 인상률은 반드시 물가상승률과 함께 봐야 한다.
+      </p>
+    </BusinessBox>
+  </div>
+
+  <!-- ========== 결론 ========== -->
+  <ConclusionBox title="3장 핵심 정리">
+    <ul>
+      <li><strong>4대 경제 지표:</strong> GDP 성장률, 물가상승률, 실업률, 기준금리. 이 네 가지만 알면 경제 뉴스의 70%를 이해할 수 있다.</li>
+      <li><strong>그래프 리터러시:</strong> Y축 시작점, 기간 선택, 스케일 조작 등 속임수를 경계하자.</li>
+      <li><strong>명목 vs 실질:</strong> 물가를 고려하지 않으면 진짜 변화를 알 수 없다. 항상 실질값으로 비교하자.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 편의점 삼각김밥이 1,200원인 이유는? 수요와 공급의 원리를 배운다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  // --- Progress tracking ---
+  try {
+    var key = 'textbook-progress-econ';
+    var raw = localStorage.getItem(key);
+    var data = raw ? JSON.parse(raw) : { chapters: {} };
+    data.chapters['03-economic-data'] = { visited: true, lastVisit: new Date().toISOString().slice(0, 10) };
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch(e) {}
+
+  // ========== 합성 한국 경제 데이터 ==========
+  var years = ['2015','2016','2017','2018','2019','2020','2021','2022','2023','2024'];
+  var gdpData =  [2.8, 2.9, 3.2, 2.9, 2.2, -0.7, 4.3, 2.6, 1.4, 2.1];
+  var cpiData =  [0.7, 1.0, 1.9, 1.5, 0.4, 0.5, 2.5, 5.1, 3.6, 2.3];
+  var unempData= [3.6, 3.7, 3.7, 3.8, 3.8, 4.0, 3.7, 2.9, 2.7, 2.8];
+  var rateData = [1.50,1.25,1.25,1.50,1.25,0.50,1.00,3.25,3.50,3.00];
+
+  var indicatorNames = ['GDP 성장률 (%)', '물가상승률 (%)', '실업률 (%)', '기준금리 (%)'];
+  var indicatorColors = ['#059669', '#ef4444', '#3b82f6', '#f59e0b'];
+  var allData = [gdpData, cpiData, unempData, rateData];
+  var descriptions = [
+    '<strong>GDP 성장률:</strong> 2020년 코로나 충격으로 -0.7%를 기록한 후 2021년 4.3%로 반등했다. 최근에는 2% 내외의 안정적 성장을 보인다.',
+    '<strong>물가상승률:</strong> 2022년 글로벌 인플레이션으로 5.1%까지 치솟았다. 이후 점차 안정되었지만 아직 2%대이다. 물가 안정은 한국은행의 최우선 목표이다.',
+    '<strong>실업률:</strong> 2020년 코로나로 4%까지 올랐다가 이후 개선되었다. 하지만 청년실업률은 이보다 훨씬 높다는 점에 주의하자.',
+    '<strong>기준금리:</strong> 2020년 코로나 대응으로 0.5%까지 내렸다가, 2022년 인플레이션에 대응하여 3.5%까지 올렸다.'
+  ];
+
+  var indicatorChart = null;
+  var currentIndicator = 0;
+
+  function showIndicator(idx) {
+    currentIndicator = idx;
+    var d = allData[idx];
+    var name = indicatorNames[idx];
+    var color = indicatorColors[idx];
+
+    // Update stats
+    var latest = d[d.length - 1];
+    var max = Math.max.apply(null, d);
+    var min = Math.min.apply(null, d);
+    var avg = d.reduce(function(a, b) { return a + b; }, 0) / d.length;
+
+    document.getElementById('ind-latest').textContent = latest.toFixed(1) + '%';
+    document.getElementById('ind-max').textContent = max.toFixed(1) + '%';
+    document.getElementById('ind-min').textContent = min.toFixed(1) + '%';
+    document.getElementById('ind-avg').textContent = avg.toFixed(1) + '%';
+    document.getElementById('indicator-desc').innerHTML = '<p>' + descriptions[idx] + '</p>';
+
+    // Highlight active button
+    document.querySelectorAll('.indicator-btn').forEach(function(btn, i) {
+      btn.className = i === idx ? 'tb-btn tb-btn-primary indicator-btn' : 'tb-btn indicator-btn';
+    });
+
+    if (!indicatorChart) {
+      var ctx = document.getElementById('indicator-chart');
+      if (!ctx) return;
+      indicatorChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [{
+            label: name,
+            data: d,
+            borderColor: color,
+            backgroundColor: color + '22',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5,
+            pointBackgroundColor: color
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: {
+            y: { title: { display: true, text: name } }
+          }
+        }
+      });
+    } else {
+      indicatorChart.data.datasets[0].label = name;
+      indicatorChart.data.datasets[0].data = d;
+      indicatorChart.data.datasets[0].borderColor = color;
+      indicatorChart.data.datasets[0].backgroundColor = color + '22';
+      indicatorChart.data.datasets[0].pointBackgroundColor = color;
+      indicatorChart.options.scales.y.title.text = name;
+      indicatorChart.update();
+    }
+  }
+
+  document.querySelectorAll('.indicator-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      showIndicator(parseInt(btn.getAttribute('data-idx')));
+    });
+  });
+  showIndicator(0);
+
+  // ========== 인터랙티브 2: 그래프 속임수 ==========
+  var honestChart = null;
+  var trickChart = null;
+
+  var trickData = [100, 102, 101, 103, 104, 103, 105, 106, 105, 107];
+  var trickLabels = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월'];
+
+  var trickExplanations = [
+    '<strong>속임수 1 -- Y축 잘라내기:</strong> Y축을 0부터 시작하지 않으면 작은 변화가 크게 보인다. 왜곡된 그래프에서 주가가 급등하는 것처럼 보이지만, 실제로는 7% 정도만 변한 것이다.',
+    '<strong>속임수 2 -- Y축 스케일 조작:</strong> Y축 간격을 과도하게 넓히면 변화가 없는 것처럼 보인다. 같은 데이터인데 "안정적"으로 보이게 만드는 기법이다.',
+    '<strong>속임수 3 -- 기간 선택 편향:</strong> 전체 기간에서는 상승세가 보이지만, 특정 구간만 잘라내면 하락세로 보일 수 있다. 항상 충분한 기간의 데이터를 확인하자.',
+    '<strong>속임수 4 -- 넓이/크기 왜곡:</strong> 막대 차트에서 넓이를 다르게 하면 실제 차이보다 크게 느껴진다. 2배 차이를 4배처럼 보이게 할 수 있다.',
+    '<strong>속임수 5 -- 이중 Y축 혼란:</strong> 두 데이터를 같은 차트에 넣되 스케일을 다르게 하면, 아무 관계 없는 두 변수가 상관있는 것처럼 보인다.'
+  ];
+
+  function drawHonestTrickCharts(trickIdx) {
+    document.getElementById('trick-explanation').innerHTML = '<p>' + trickExplanations[trickIdx] + '</p>';
+
+    // Destroy existing
+    if (honestChart) { honestChart.destroy(); honestChart = null; }
+    if (trickChart) { trickChart.destroy(); trickChart = null; }
+
+    var ctxH = document.getElementById('honest-chart');
+    var ctxT = document.getElementById('trick-chart');
+    if (!ctxH || !ctxT) return;
+
+    if (trickIdx === 0) {
+      // Y축 잘라내기
+      honestChart = new Chart(ctxH, {
+        type: 'line', data: { labels: trickLabels, datasets: [{ label: '주가 (만원)', data: trickData, borderColor: '#059669', tension: 0.3 }] },
+        options: { responsive: true, scales: { y: { min: 0, max: 150, title: { display: true, text: '만원' } } }, plugins: { legend: { display: false } } }
+      });
+      trickChart = new Chart(ctxT, {
+        type: 'line', data: { labels: trickLabels, datasets: [{ label: '주가 (만원)', data: trickData, borderColor: '#ef4444', tension: 0.3 }] },
+        options: { responsive: true, scales: { y: { min: 99, max: 108, title: { display: true, text: '만원' } } }, plugins: { legend: { display: false } } }
+      });
+    } else if (trickIdx === 1) {
+      // Y축 스케일 과도하게 넓힘
+      var volatileData = [10, 25, 15, 35, 20, 40, 30, 45, 35, 50];
+      honestChart = new Chart(ctxH, {
+        type: 'line', data: { labels: trickLabels, datasets: [{ label: '매출 (억원)', data: volatileData, borderColor: '#059669', tension: 0.3 }] },
+        options: { responsive: true, scales: { y: { min: 0, max: 60 } }, plugins: { legend: { display: false } } }
+      });
+      trickChart = new Chart(ctxT, {
+        type: 'line', data: { labels: trickLabels, datasets: [{ label: '매출 (억원)', data: volatileData, borderColor: '#ef4444', tension: 0.3 }] },
+        options: { responsive: true, scales: { y: { min: 0, max: 500 } }, plugins: { legend: { display: false } } }
+      });
+    } else if (trickIdx === 2) {
+      // 기간 선택 편향
+      var fullData = [20, 25, 30, 28, 35, 40, 38, 45, 50, 48, 42, 55];
+      var fullLabels = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+      var partData = fullData.slice(8, 11); // 50, 48, 42 = 하락세
+      var partLabels = fullLabels.slice(8, 11);
+      honestChart = new Chart(ctxH, {
+        type: 'line', data: { labels: fullLabels, datasets: [{ label: '매출', data: fullData, borderColor: '#059669', tension: 0.3 }] },
+        options: { responsive: true, scales: { y: { min: 0 } }, plugins: { legend: { display: false } } }
+      });
+      trickChart = new Chart(ctxT, {
+        type: 'line', data: { labels: partLabels, datasets: [{ label: '매출', data: partData, borderColor: '#ef4444', tension: 0.3 }] },
+        options: { responsive: true, scales: { y: { min: 0 } }, plugins: { legend: { display: false } } }
+      });
+    } else if (trickIdx === 3) {
+      // 넓이 왜곡 (막대)
+      var barData = [100, 200];
+      honestChart = new Chart(ctxH, {
+        type: 'bar', data: { labels: ['A사', 'B사'], datasets: [{ label: '매출', data: barData, backgroundColor: ['#059669','#059669'], barThickness: 40 }] },
+        options: { responsive: true, scales: { y: { min: 0 } }, plugins: { legend: { display: false } } }
+      });
+      trickChart = new Chart(ctxT, {
+        type: 'bar', data: { labels: ['A사', 'B사'], datasets: [{ label: '매출', data: barData, backgroundColor: ['#ef4444','#ef4444'], barThickness: undefined, barPercentage: undefined }] },
+        options: { responsive: true, scales: { y: { min: 0, max: 250 }, x: { ticks: { font: { size: 10 } } } }, plugins: { legend: { display: false } } }
+      });
+    } else if (trickIdx === 4) {
+      // 이중 Y축
+      var tempData = [2, 5, 12, 18, 23, 28, 30, 29, 24, 16, 8, 3];
+      var iceData = [15, 18, 30, 45, 60, 80, 90, 85, 55, 30, 20, 12];
+      var monthLabels = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+      honestChart = new Chart(ctxH, {
+        type: 'line', data: { labels: monthLabels, datasets: [
+          { label: '기온 (C)', data: tempData, borderColor: '#ef4444', tension: 0.3, yAxisID: 'y' },
+          { label: '아이스크림 판매', data: iceData, borderColor: '#3b82f6', tension: 0.3, yAxisID: 'y1' }
+        ] },
+        options: { responsive: true, scales: { y: { position: 'left', min: 0, max: 35 }, y1: { position: 'right', min: 0, max: 100, grid: { drawOnChartArea: false } } } }
+      });
+      // 스케일을 조작하여 관련 있어 보이게
+      var drowningData = [3, 4, 8, 10, 15, 20, 22, 19, 12, 6, 4, 2];
+      trickChart = new Chart(ctxT, {
+        type: 'line', data: { labels: monthLabels, datasets: [
+          { label: '아이스크림 판매', data: iceData, borderColor: '#ef4444', tension: 0.3, yAxisID: 'y' },
+          { label: '익사 사고', data: drowningData, borderColor: '#6366f1', tension: 0.3, yAxisID: 'y1' }
+        ] },
+        options: { responsive: true, scales: { y: { position: 'left', min: 0 }, y1: { position: 'right', min: 0, grid: { drawOnChartArea: false } } } }
+      });
+    }
+  }
+
+  window.showHonestGraph = function() { drawHonestTrickCharts(parseInt(document.getElementById('trick-select').value)); };
+  window.showTrickGraph = function() { drawHonestTrickCharts(parseInt(document.getElementById('trick-select').value)); };
+  document.getElementById('trick-select').addEventListener('change', function() {
+    drawHonestTrickCharts(parseInt(this.value));
+  });
+  drawHonestTrickCharts(0);
+
+  // ========== 인터랙티브 3: 실질 vs 명목 변환기 ==========
+  var cpiIndex = { '2000': 72.1, '2005': 82.0, '2010': 91.0, '2015': 100.0, '2020': 105.4, '2024': 115.2 };
+  var realNomChart = null;
+
+  window.convertReal = function() {
+    var nominal = parseFloat(document.getElementById('nominal-val').value) || 0;
+    var nomYear = document.getElementById('nominal-year').value;
+    var baseYear = document.getElementById('base-year').value;
+
+    var nomCPI = cpiIndex[nomYear] || 100;
+    var baseCPI = cpiIndex[baseYear] || 100;
+    var realVal = nominal * (baseCPI / nomCPI);
+
+    document.getElementById('conv-nominal').textContent = nominal.toLocaleString() + '만원';
+    document.getElementById('conv-cpi').textContent = nomCPI.toFixed(1) + ' (' + nomYear + '년)';
+    document.getElementById('conv-real').textContent = Math.round(realVal).toLocaleString() + '만원 (' + baseYear + '년 기준)';
+
+    // 모든 연도에 대해 명목/실질 비교
+    var yrs = Object.keys(cpiIndex).sort();
+    var nomSeries = [];
+    var realSeries = [];
+    for (var i = 0; i < yrs.length; i++) {
+      // 가정: 명목값이 CPI에 비례하여 변화
+      var adjNom = nominal * (cpiIndex[yrs[i]] / nomCPI);
+      nomSeries.push(Math.round(adjNom));
+      realSeries.push(Math.round(adjNom * (baseCPI / cpiIndex[yrs[i]])));
+    }
+
+    if (!realNomChart) {
+      var ctx = document.getElementById('real-nominal-chart');
+      if (!ctx) return;
+      realNomChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: yrs.map(function(y) { return y + '년'; }),
+          datasets: [
+            { label: '명목값 (만원)', data: nomSeries, backgroundColor: 'rgba(245,158,11,0.6)' },
+            { label: '실질값 (만원, ' + baseYear + '년 기준)', data: realSeries, backgroundColor: 'rgba(5,150,105,0.6)' }
+          ]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, title: { display: true, text: '만원' } } } }
+      });
+    } else {
+      realNomChart.data.labels = yrs.map(function(y) { return y + '년'; });
+      realNomChart.data.datasets[0].data = nomSeries;
+      realNomChart.data.datasets[1].data = realSeries;
+      realNomChart.data.datasets[1].label = '실질값 (만원, ' + baseYear + '년 기준)';
+      realNomChart.update();
+    }
+  };
+}
+
+waitForChart(init);
+</script>

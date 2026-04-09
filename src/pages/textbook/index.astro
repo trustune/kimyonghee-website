@@ -2,8 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import '../../styles/textbook.css';
 import chaptersData from '../../data/textbook-chapters.json';
+import seriesData from '../../data/textbook-series.json';
 
 const { parts, chapters } = chaptersData;
+const allSeries = seriesData.series;
 
 // Group chapters by part
 const chaptersByPart = parts.map(part => ({
@@ -20,6 +22,22 @@ const publishedCount = chapters.filter(c => c.status === 'published').length;
   description="기초 통계부터 머신러닝, 딥러닝까지 — 개념과 실습으로 배우는 데이터 분석 교과서"
 >
   <div class="textbook-page" data-pagefind-body>
+    <!-- Series Navigation -->
+    <nav style="background: var(--tb-g100); border-bottom: 2px solid var(--tb-g200); padding: 12px 0;">
+      <div style="max-width: var(--tb-container-max); margin: 0 auto; padding: 0 28px; display: flex; gap: 8px; overflow-x: auto;">
+        {allSeries.map(s => (
+          <a
+            href={s.hubUrl}
+            data-astro-reload
+            style={`padding: 8px 18px; border-radius: 20px; font-size: .88rem; font-weight: 600; text-decoration: none; white-space: nowrap; transition: .2s; ${s.id === 'stats' ? `background: ${s.color}; color: #fff;` : `background: #fff; color: var(--tb-g600); border: 1px solid var(--tb-g200);`}`}
+          >
+            {s.title}
+            {s.status === 'planned' && <span style="font-size: .7rem; opacity: .6;"> (준비중)</span>}
+          </a>
+        ))}
+      </div>
+    </nav>
+
     <!-- Hero -->
     <div class="tb-hub-hero">
       <h1>통계학과 데이터 사이언스 입문</h1>

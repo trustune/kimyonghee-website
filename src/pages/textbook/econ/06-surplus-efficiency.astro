@@ -1,0 +1,514 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout title="잉여와 효율성" subtitle="누가 얼마나 이득을 보는가" chapterNum={6} part={1}>
+
+  <!-- ========== HOOK ========== -->
+  <div class="tb-card">
+    <h2>"득" 보는 사람은 누구인가?</h2>
+    <p>
+      중고거래 앱에서 에어팟을 10만원에 샀다. 사실 15만원까지 낼 의향이 있었다.
+      그래서 5만원만큼 "이득"을 봤다고 느낀다.
+    </p>
+    <p>
+      한편 판매자는 원래 7만원만 받아도 괜찮았는데 10만원에 팔았다.
+      판매자도 3만원만큼 "이득"을 봤다.
+    </p>
+    <p>
+      이렇게 거래에서 발생하는 이득을 경제학에서는 <strong>잉여(surplus)</strong>라고 부른다.
+      소비자의 이득은 <strong>소비자잉여</strong>, 생산자의 이득은 <strong>생산자잉여</strong>이다.
+      시장이 잘 작동하면 이 잉여의 합이 최대가 되고, 그것이 <strong>효율적</strong>인 상태이다.
+    </p>
+  </div>
+
+  <!-- ========== 개념 1: 소비자잉여와 생산자잉여 ========== -->
+  <div class="tb-card">
+    <h2>1. 소비자잉여와 생산자잉여</h2>
+
+    <FormulaBox>
+      소비자잉여 = <span class="hl">지불 의향 가격</span> - <span class="hl">실제 지불 가격</span><br>
+      생산자잉여 = <span class="hl">실제 판매 가격</span> - <span class="hl">최소 수용 가격(비용)</span>
+    </FormulaBox>
+
+    <ExplainBox title="비유로 이해하기">
+      <p>
+        마트에서 사과를 3,000원에 샀다. 5,000원까지 낼 의향이 있었다면,
+        소비자잉여는 2,000원이다. "2,000원만큼 이득을 봤다"는 느낌이다.
+      </p>
+      <p>
+        사과 농부는 생산비가 2,000원인데 3,000원에 팔았다.
+        생산자잉여는 1,000원이다.
+      </p>
+      <p>
+        사회 전체의 이득(총잉여) = 소비자잉여(2,000) + 생산자잉여(1,000) = 3,000원.
+      </p>
+    </ExplainBox>
+
+    <p>
+      수요곡선 아래, 가격 위의 삼각형 면적이 소비자잉여이고,
+      가격 위, 공급곡선 위의 삼각형 면적이 생산자잉여이다.
+      아래 시뮬레이터에서 직접 확인해보자.
+    </p>
+  </div>
+
+  <!-- ========== 인터랙티브 1: 잉여 시각화 ========== -->
+  <div class="tb-card">
+    <h2>2. 직접 해보기: 잉여 시각화</h2>
+
+    <ExplainBox>
+      가격을 바꿔보며 소비자잉여(파란색)와 생산자잉여(노란색)의 면적이 어떻게 변하는지 관찰하자.
+      균형가격에서 총잉여가 최대가 되는지 확인해보자.
+    </ExplainBox>
+
+    <SimControls>
+      <label for="surplus-price-slider">시장 가격: <strong id="surplus-price-display">1,500</strong>원</label>
+      <input type="range" id="surplus-price-slider" min="200" max="3500" step="100" value="1500" style="width:100%">
+      <button class="tb-btn" id="surplus-eq-btn" style="margin-left:12px;">균형 가격으로</button>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="소비자잉여" id="cs-value" value="-" borderColor="#3b82f6" />
+      <StatBox label="생산자잉여" id="ps-value" value="-" borderColor="#f59e0b" />
+      <StatBox label="총잉여" id="ts-value" value="-" borderColor="#059669" />
+      <StatBox label="사중손실" id="dwl-value" value="-" sub="비효율의 크기" borderColor="#ef4444" />
+    </div>
+
+    <ChartContainer id="surplus-chart" height="400px" />
+
+    <InsightBox title="효율성의 조건">
+      <p>
+        균형가격에서 거래될 때 총잉여(= 소비자잉여 + 생산자잉여)가 최대이다.
+        가격이 균형에서 벗어나면 거래량이 줄어들고, 그만큼 <strong>사중손실(deadweight loss)</strong>이 발생한다.
+        사중손실은 "누구에게도 돌아가지 않는 순수한 손실"이다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 2: 세금의 효과 ========== -->
+  <div class="tb-card">
+    <h2>3. 세금의 효과</h2>
+
+    <ExplainBox>
+      <p>
+        정부가 상품에 세금을 부과하면 어떤 일이 벌어질까?
+        세금만큼 공급곡선이 위로 이동하여 가격이 오르고 거래량이 줄어든다.
+        이 과정에서 사중손실이 발생한다.
+      </p>
+    </ExplainBox>
+
+    <SimControls>
+      <label for="tax-slider">종량세: 개당 <strong id="tax-display">0</strong>원</label>
+      <input type="range" id="tax-slider" min="0" max="2000" step="100" value="0" style="width:100%">
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="소비자잉여" id="tax-cs" value="-" borderColor="#3b82f6" />
+      <StatBox label="생산자잉여" id="tax-ps" value="-" borderColor="#f59e0b" />
+      <StatBox label="정부 세수" id="tax-gov" value="-" borderColor="#8b5cf6" />
+      <StatBox label="사중손실" id="tax-dwl" value="-" borderColor="#ef4444" />
+    </div>
+
+    <ChartContainer id="tax-chart" height="400px" />
+
+    <InsightBox title="세금의 트레이드오프">
+      <p>
+        세금은 정부에 수입을 가져다주지만, 반드시 사중손실(비효율)을 동반한다.
+        세금이 클수록 사중손실도 커진다 (사중손실은 세율의 제곱에 비례!).
+        좋은 세금 정책은 필요한 세수를 거두면서 사중손실을 최소화하는 것이다.
+      </p>
+    </InsightBox>
+
+    <WarningBox title="세금 부담은 누가 지는가?">
+      <p>
+        세금을 판매자에게 부과하든 소비자에게 부과하든, 실제 부담은 탄력성에 따라 나뉜다.
+        비탄력적인 쪽이 더 많은 부담을 진다.
+        담배세를 올리면 대부분 소비자(흡연자)가 부담하는 이유는 담배 수요가 비탄력적이기 때문이다.
+      </p>
+    </WarningBox>
+  </div>
+
+  <!-- ========== 인터랙티브 3: 잉여 분배 퀴즈 ========== -->
+  <div class="tb-card">
+    <h2>4. 잉여 분배 퀴즈</h2>
+
+    <ExerciseBox title="누가 더 이득일까?">
+      <div id="surplus-quiz">
+        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q1.</strong> 생수 가격이 500원에서 1,000원으로 올랐다. 수요가 비탄력적이라면?</p>
+          <button class="tb-btn" onclick="checkSurplus(0, 'A')">소비자잉여가 크게 줄고 생산자잉여가 늘었다</button>
+          <button class="tb-btn" onclick="checkSurplus(0, 'B')">생산자잉여가 크게 줄었다</button>
+          <p class="surp-fb" data-q="0" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q2.</strong> 정부가 임대료 상한제(최고가격)를 실시하면 총잉여는?</p>
+          <button class="tb-btn" onclick="checkSurplus(1, 'A')">총잉여가 줄어든다 (사중손실 발생)</button>
+          <button class="tb-btn" onclick="checkSurplus(1, 'B')">총잉여가 늘어난다</button>
+          <p class="surp-fb" data-q="1" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q3.</strong> 세금이 2배가 되면 사중손실은?</p>
+          <button class="tb-btn" onclick="checkSurplus(2, 'A')">4배가 된다 (제곱에 비례)</button>
+          <button class="tb-btn" onclick="checkSurplus(2, 'B')">2배가 된다</button>
+          <p class="surp-fb" data-q="2" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q4.</strong> 자유무역으로 외국산 저가 상품이 들어오면?</p>
+          <button class="tb-btn" onclick="checkSurplus(3, 'A')">소비자잉여 증가, 국내 생산자잉여 감소, 총잉여는 대체로 증가</button>
+          <button class="tb-btn" onclick="checkSurplus(3, 'B')">모든 잉여가 감소한다</button>
+          <p class="surp-fb" data-q="3" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+          <p><strong>Q5.</strong> 경쟁이 치열한 시장과 독점 시장을 비교하면?</p>
+          <button class="tb-btn" onclick="checkSurplus(4, 'A')">경쟁 시장의 총잉여가 더 크다</button>
+          <button class="tb-btn" onclick="checkSurplus(4, 'B')">독점 시장의 총잉여가 더 크다</button>
+          <p class="surp-fb" data-q="4" style="margin-top:8px;font-weight:600;display:none;"></p>
+        </div>
+      </div>
+      <div class="tb-stat-row" style="margin-top:12px;">
+        <StatBox label="맞힌 문제" id="surplus-score" value="0 / 5" borderColor="#059669" />
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ========== 추가 개념: 가격 차별과 잉여 ========== -->
+  <div class="tb-card">
+    <h2>5. 가격 차별과 잉여의 재분배</h2>
+
+    <ExplainBox title="가격 차별이란?">
+      <p>
+        같은 상품을 사람마다 다른 가격에 파는 것을 <strong>가격 차별</strong>이라 한다.
+        영화관에서 학생 할인, 비행기 좌석의 등급별 가격, 커피숍의 사이즈별 가격 차이가 모두 가격 차별이다.
+      </p>
+      <p>
+        왜 기업이 가격 차별을 할까? 소비자잉여를 생산자잉여로 옮기기 위해서이다.
+        지불 의향이 높은 사람에게는 비싸게, 낮은 사람에게는 싸게 팔면 더 많은 이윤을 얻을 수 있다.
+      </p>
+    </ExplainBox>
+
+    <ExerciseBox title="생각해보세요">
+      <p>다음 사례에서 가격 차별의 효과를 생각해보자:</p>
+      <ul>
+        <li>영화관 조조 할인: 아침에 시간 여유가 있는 사람(학생, 은퇴자)은 지불 의향이 낮다. 그들에게 할인하여 빈 좌석을 채운다.</li>
+        <li>이른 예매 vs 당일 항공권: 미리 예약하는 사람(관광객)은 가격에 민감하고, 당일 예약하는 사람(출장)은 비싸도 산다.</li>
+        <li>소프트웨어 학생 할인: 학생에게 싸게 팔아 사용자를 확보하고, 졸업 후 정가에 구매하게 한다.</li>
+      </ul>
+    </ExerciseBox>
+
+    <InsightBox title="가격 차별과 효율성">
+      <p>
+        완전한 가격 차별(모든 사람에게 지불 의향 가격으로 판매)이 가능하면
+        사중손실이 0이 된다. 모든 거래가 성사되기 때문이다.
+        다만 소비자잉여가 전부 생산자에게 넘어가므로 "공정성" 문제가 생긴다.
+        효율적이지만 불공평할 수 있다는 트레이드오프가 있다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 추가: 잉여와 무역 ========== -->
+  <div class="tb-card">
+    <h2>6. 무역과 잉여: 자유무역의 이득</h2>
+
+    <ExplainBox>
+      <p>
+        국내 가격이 3,000원인 상품을 외국에서 2,000원에 수입할 수 있다면?
+        소비자는 싸게 살 수 있어 소비자잉여가 늘어난다.
+        하지만 국내 생산자는 경쟁에 밀려 생산자잉여가 줄어든다.
+      </p>
+      <p>
+        핵심 결론: <strong>소비자잉여 증가 &gt; 생산자잉여 감소</strong>이므로 총잉여는 늘어난다.
+        자유무역은 전체 사회에 이득이지만, 일부 생산자에게는 피해를 준다.
+        이것이 자유무역을 둘러싼 논쟁의 핵심이다.
+      </p>
+    </ExplainBox>
+
+    <WarningBox title="잉여 분석의 한계">
+      <p>
+        잉여 분석은 "효율성"만 본다. "공정성"은 다루지 않는다.
+        총잉여가 늘어나도 특정 집단이 큰 피해를 볼 수 있다.
+        경제학은 효율성과 공정성 사이의 트레이드오프를 항상 인식해야 한다.
+      </p>
+    </WarningBox>
+  </div>
+
+  <!-- ========== 비즈니스 적용 ========== -->
+  <div class="tb-card">
+    <h2>7. 실생활 속 잉여와 효율성</h2>
+
+    <BusinessBox title="쿠팡 로켓배송의 소비자잉여">
+      <p>
+        빠른 배송 덕분에 소비자가 더 높은 가격을 지불할 의향이 생기지만,
+        실제 가격은 크게 오르지 않았다. 결과적으로 소비자잉여가 크게 증가했다.
+        이것이 쿠팡이 빠르게 성장한 경제학적 이유 중 하나이다.
+      </p>
+    </BusinessBox>
+
+    <BusinessBox title="관세의 효과">
+      <p>
+        수입품에 관세를 부과하면 국내 가격이 올라 국내 생산자는 이득을 보지만,
+        소비자잉여는 줄고 사중손실이 발생한다.
+        관세는 "보호무역"의 대표적 도구이지만, 전체 사회적 효율성은 낮아진다.
+      </p>
+    </BusinessBox>
+  </div>
+
+  <!-- ========== 결론 ========== -->
+  <ConclusionBox title="6장 핵심 정리">
+    <ul>
+      <li><strong>소비자잉여:</strong> 지불 의향 - 실제 지불 가격. 소비자가 느끼는 "이득".</li>
+      <li><strong>생산자잉여:</strong> 실제 판매 가격 - 최소 수용 가격. 생산자가 얻는 "이득".</li>
+      <li><strong>총잉여:</strong> 소비자잉여 + 생산자잉여. 균형에서 최대.</li>
+      <li><strong>사중손실:</strong> 비효율적 상황(세금, 가격 통제, 독점 등)에서 누구에게도 돌아가지 않는 순수 손실.</li>
+      <li><strong>세금:</strong> 세수를 가져다주지만 사중손실을 동반한다. 세율이 2배면 사중손실은 4배.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 시장이 항상 효율적인 것은 아니다. 독점, 정보 비대칭, 외부성 -- 시장 실패를 배운다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  try {
+    var key = 'textbook-progress-econ';
+    var raw = localStorage.getItem(key);
+    var data = raw ? JSON.parse(raw) : { chapters: {} };
+    data.chapters['06-surplus-efficiency'] = { visited: true, lastVisit: new Date().toISOString().slice(0, 10) };
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch(e) {}
+
+  // ========== 기본 수요/공급 함수 ==========
+  function demand(p) { return Math.max(0, 3500 - p) / 200; }
+  function supply(p) { return Math.max(0, p - 300) / 200; }
+  var eqPrice = 1900; // approx where D=S
+  var eqQty = demand(eqPrice);
+
+  // ========== 인터랙티브 1: 잉여 시각화 ==========
+  var surplusChart = null;
+
+  function calcSurplus(price) {
+    var qd = demand(price);
+    var qs = supply(price);
+    var tradedQty = Math.min(qd, qs);
+
+    // CS = area of triangle above price, below demand curve, up to traded qty
+    var maxWTP = 3500; // demand curve intercept
+    var cs = 0.5 * (maxWTP - price) * tradedQty;
+    // PS = area below price, above supply curve, up to traded qty
+    var minCost = 300; // supply curve intercept
+    var ps = 0.5 * (price - minCost) * tradedQty;
+
+    // At equilibrium
+    var eqQ = demand(eqPrice);
+    var maxTS = 0.5 * (maxWTP - 300) * eqQ;
+    var dwl = maxTS - (cs + ps);
+    if (dwl < 0) dwl = 0;
+
+    return { cs: cs, ps: ps, ts: cs + ps, dwl: dwl, tradedQty: tradedQty };
+  }
+
+  function updateSurplus() {
+    var price = parseInt(document.getElementById('surplus-price-slider').value);
+    document.getElementById('surplus-price-display').textContent = price.toLocaleString();
+
+    var s = calcSurplus(price);
+    document.getElementById('cs-value').textContent = Math.round(s.cs).toLocaleString();
+    document.getElementById('ps-value').textContent = Math.round(s.ps).toLocaleString();
+    document.getElementById('ts-value').textContent = Math.round(s.ts).toLocaleString();
+    document.getElementById('dwl-value').textContent = Math.round(s.dwl).toLocaleString();
+
+    drawSurplusChart(price, s);
+  }
+
+  function drawSurplusChart(price, s) {
+    var dLine = []; var sLine = [];
+    for (var p = 200; p <= 3500; p += 50) {
+      dLine.push({ x: demand(p), y: p });
+      sLine.push({ x: supply(p), y: p });
+    }
+
+    var tQty = s.tradedQty;
+
+    // CS region (triangle)
+    var csRegion = [{ x: 0, y: 3500 }, { x: tQty, y: price }, { x: 0, y: price }, { x: 0, y: 3500 }];
+    // PS region
+    var psRegion = [{ x: 0, y: price }, { x: tQty, y: price }, { x: 0, y: 300 }, { x: 0, y: price }];
+
+    if (!surplusChart) {
+      var ctx = document.getElementById('surplus-chart');
+      if (!ctx) return;
+      surplusChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            { label: '소비자잉여', data: csRegion, showLine: true, fill: true, backgroundColor: 'rgba(59,130,246,0.25)', borderColor: 'rgba(59,130,246,0.5)', pointRadius: 0 },
+            { label: '생산자잉여', data: psRegion, showLine: true, fill: true, backgroundColor: 'rgba(245,158,11,0.25)', borderColor: 'rgba(245,158,11,0.5)', pointRadius: 0 },
+            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3, fill: false },
+            { label: '공급곡선', data: sLine, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3, fill: false },
+            { label: '시장 가격', data: [{ x: 0, y: price }, { x: 16, y: price }], showLine: true, borderColor: '#ef4444', borderDash: [6, 4], pointRadius: 0 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: {
+            x: { title: { display: true, text: '수량' }, min: 0, max: 18 },
+            y: { title: { display: true, text: '가격 (원)' }, min: 0, max: 4000 }
+          }
+        }
+      });
+    } else {
+      surplusChart.data.datasets[0].data = csRegion;
+      surplusChart.data.datasets[1].data = psRegion;
+      surplusChart.data.datasets[4].data = [{ x: 0, y: price }, { x: 16, y: price }];
+      surplusChart.update();
+    }
+  }
+
+  document.getElementById('surplus-price-slider').addEventListener('input', updateSurplus);
+  document.getElementById('surplus-eq-btn').addEventListener('click', function() {
+    document.getElementById('surplus-price-slider').value = eqPrice;
+    updateSurplus();
+  });
+  updateSurplus();
+
+  // ========== 인터랙티브 2: 세금의 효과 ==========
+  var taxChart = null;
+
+  function updateTax() {
+    var tax = parseInt(document.getElementById('tax-slider').value);
+    document.getElementById('tax-display').textContent = tax.toLocaleString();
+
+    // Supply shifts up by tax amount
+    function supplyWithTax(p) { return supply(p - tax); }
+
+    // New equilibrium
+    var newEqP = eqPrice + tax / 2; // approx
+    var newEqQ = demand(newEqP);
+    var buyerPrice = newEqP;
+    var sellerPrice = newEqP - tax;
+
+    var maxWTP = 3500;
+    var minCost = 300;
+
+    var cs = 0.5 * (maxWTP - buyerPrice) * newEqQ;
+    var ps = 0.5 * (sellerPrice - minCost) * newEqQ;
+    var govRev = tax * newEqQ;
+    var origTS = 0.5 * (maxWTP - minCost) * demand(eqPrice);
+    var dwl = origTS - cs - ps - govRev;
+    if (dwl < 0) dwl = 0;
+
+    document.getElementById('tax-cs').textContent = Math.round(cs).toLocaleString();
+    document.getElementById('tax-ps').textContent = Math.round(ps).toLocaleString();
+    document.getElementById('tax-gov').textContent = Math.round(govRev).toLocaleString();
+    document.getElementById('tax-dwl').textContent = Math.round(dwl).toLocaleString();
+
+    // Chart
+    var dLine = []; var sLine = []; var sTaxLine = [];
+    for (var p = 200; p <= 3500; p += 50) {
+      dLine.push({ x: demand(p), y: p });
+      sLine.push({ x: supply(p), y: p });
+      sTaxLine.push({ x: supplyWithTax(p), y: p });
+    }
+
+    var govRegion = [
+      { x: 0, y: buyerPrice },
+      { x: newEqQ, y: buyerPrice },
+      { x: newEqQ, y: sellerPrice },
+      { x: 0, y: sellerPrice },
+      { x: 0, y: buyerPrice }
+    ];
+
+    if (!taxChart) {
+      var ctx = document.getElementById('tax-chart');
+      if (!ctx) return;
+      taxChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            { label: '정부 세수', data: govRegion, showLine: true, fill: true, backgroundColor: 'rgba(139,92,246,0.2)', borderColor: 'rgba(139,92,246,0.5)', pointRadius: 0 },
+            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3, fill: false },
+            { label: '원래 공급곡선', data: sLine, showLine: true, borderColor: 'rgba(245,158,11,0.3)', pointRadius: 0, borderDash: [4,4], fill: false },
+            { label: '세금 후 공급곡선', data: sTaxLine, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3, fill: false },
+            { label: '소비자 가격', data: [{ x: 0, y: buyerPrice }, { x: newEqQ, y: buyerPrice }], showLine: true, borderColor: '#ef4444', borderDash: [5,3], pointRadius: 0 },
+            { label: '생산자 가격', data: [{ x: 0, y: sellerPrice }, { x: newEqQ, y: sellerPrice }], showLine: true, borderColor: '#059669', borderDash: [5,3], pointRadius: 0 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: {
+            x: { title: { display: true, text: '수량' }, min: 0, max: 18 },
+            y: { title: { display: true, text: '가격 (원)' }, min: 0, max: 4000 }
+          }
+        }
+      });
+    } else {
+      taxChart.data.datasets[0].data = govRegion;
+      taxChart.data.datasets[3].data = sTaxLine;
+      taxChart.data.datasets[4].data = [{ x: 0, y: buyerPrice }, { x: newEqQ, y: buyerPrice }];
+      taxChart.data.datasets[5].data = [{ x: 0, y: sellerPrice }, { x: newEqQ, y: sellerPrice }];
+      taxChart.update();
+    }
+  }
+
+  document.getElementById('tax-slider').addEventListener('input', updateTax);
+  updateTax();
+
+  // ========== 인터랙티브 3: 잉여 분배 퀴즈 ==========
+  var surplusAnswers = ['A', 'A', 'A', 'A', 'A'];
+  var surplusExplain = [
+    '정답! 수요가 비탄력적이면 소비자는 가격이 올라도 거의 같은 양을 사므로, 소비자잉여가 크게 줄고 생산자잉여가 늘어난다.',
+    '정답! 가격 상한이 균형가격보다 낮으면 거래량이 줄어 사중손실이 발생하고 총잉여가 감소한다.',
+    '정답! 사중손실은 세율의 제곱에 비례한다. 세금 2배 -> 사중손실 4배. 이것이 "과도한 세금"을 경계해야 하는 이유다.',
+    '정답! 수입품 유입으로 가격이 내려가면 소비자잉여가 크게 늘어난다. 국내 생산자잉여는 줄지만 전체 총잉여는 대체로 증가한다.',
+    '정답! 독점 시장에서는 기업이 가격을 올려 생산량을 줄이므로 사중손실이 발생한다. 경쟁 시장의 총잉여가 더 크다.'
+  ];
+  var surplusWrong = [
+    '다시 생각해보세요. 비탄력적 수요에서 가격이 오르면 수요량은 거의 안 줄지만 소비자가 내는 돈은 크게 늘어난다.',
+    '다시 생각해보세요. 가격 상한제는 거래를 방해하여 총잉여를 줄인다.',
+    '다시 생각해보세요. 사중손실은 세율의 제곱에 비례한다. 2배가 아니라 4배!',
+    '다시 생각해보세요. 수입 가격이 싸면 소비자에게는 큰 이득이다.',
+    '다시 생각해보세요. 독점은 생산량을 줄여 사중손실을 만든다.'
+  ];
+  var surpScore = 0;
+
+  window.checkSurplus = function(q, ans) {
+    var fb = document.querySelector('.surp-fb[data-q="' + q + '"]');
+    if (!fb) return;
+    fb.style.display = 'block';
+    if (ans === surplusAnswers[q]) {
+      fb.textContent = surplusExplain[q];
+      fb.style.color = '#059669';
+      surpScore++;
+    } else {
+      fb.textContent = surplusWrong[q];
+      fb.style.color = '#ef4444';
+    }
+    document.getElementById('surplus-score').textContent = surpScore + ' / 5';
+    var container = fb.parentElement;
+    var btns = container.querySelectorAll('button');
+    btns.forEach(function(b) { b.disabled = true; b.style.opacity = '0.5'; });
+  };
+}
+
+waitForChart(init);
+</script>

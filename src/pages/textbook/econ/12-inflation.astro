@@ -1,0 +1,571 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="인플레이션과 물가"
+  subtitle="왜 같은 돈으로 살 수 있는 것이 줄어드는가"
+  chapterNum={12}
+  part={2}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>1970년에 짜장면이 100원이었다. 지금은 8,000원. 왜?</h2>
+    <p>
+      1970년대 짜장면 한 그릇은 100원이었습니다.
+      2024년에는 약 7,000~8,000원입니다. 80배가 된 거죠.
+      짜장면의 맛이 80배 좋아진 것은 아닙니다. 그럼 왜 가격이 이렇게 올랐을까요?
+    </p>
+    <p style="margin-top: 12px;">
+      답은 <strong>인플레이션(inflation)</strong>, 즉 물가 상승입니다.
+      돈의 가치가 떨어져서 같은 물건을 사려면 더 많은 돈이 필요해진 것입니다.
+    </p>
+
+    <InsightBox title="인플레이션은 왜 중요한가?">
+      <p>물가가 오르면 월급의 실질 가치가 줄어듭니다. 저축한 돈의 가치도 떨어집니다.
+        반대로, 빚을 진 사람은 유리해집니다 (갚아야 할 돈의 실질 가치가 줄어드니까요).
+        그래서 정부와 중앙은행은 인플레이션을 적절히 관리하려고 노력합니다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== SECTION 1: CPI와 물가 바구니 ===== -->
+  <div class="tb-card">
+    <h2>1. 소비자물가지수 (CPI)</h2>
+    <p>
+      물가를 측정하려면 기준이 필요합니다.
+      <strong>소비자물가지수(CPI, Consumer Price Index)</strong>는
+      일반 가정이 자주 사는 상품과 서비스의 가격 변화를 추적하는 지표입니다.
+    </p>
+
+    <ExplainBox title="물가 바구니란?">
+      <p>통계청은 약 460개 품목의 "물가 바구니"를 정합니다.
+        쌀, 라면, 전기료, 버스비, 스마트폰 요금 등이 포함됩니다.
+        매달 이 품목들의 가격을 조사해서 평균 변화율을 계산합니다.</p>
+      <p style="margin-top: 8px;"><strong>기준 연도</strong>의 물가지수를 100으로 놓고,
+        이후 연도의 지수가 105이면 "물가가 5% 올랐다"는 뜻입니다.</p>
+    </ExplainBox>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">CPI = (올해 바구니 비용 / 기준연도 바구니 비용) x 100</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        <span class="hl">인플레이션율 = (올해 CPI - 작년 CPI) / 작년 CPI x 100</span>
+      </p>
+    </FormulaBox>
+
+    <BusinessBox title="인플레이션 vs 디플레이션 vs 스태그플레이션">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>인플레이션:</strong> 물가가 지속적으로 오르는 것. 대부분의 나라가 겪는 일반적 현상.</li>
+        <li><strong>디플레이션:</strong> 물가가 지속적으로 떨어지는 것. 일본이 1990년대~2010년대에 겪었습니다.
+          물건 값이 계속 떨어지면 소비자가 "더 떨어질 때까지 기다리자"며 소비를 미루어 경기가 나빠집니다.</li>
+        <li><strong>하이퍼인플레이션:</strong> 물가가 매달 50% 이상 오르는 극단적 상황.
+          짐바브웨(2008년), 베네수엘라(2018년) 사례가 있습니다.</li>
+        <li><strong>스태그플레이션:</strong> 물가 상승 + 경기 침체가 동시에 발생. 대응이 매우 어렵습니다.</li>
+      </ul>
+    </BusinessBox>
+
+    <ExerciseBox title="연습: CPI 계산">
+      <p>기준연도에 물가 바구니 비용이 50만원이고, 올해 같은 바구니 비용이 55만원이라면:</p>
+      <p>1. CPI는 얼마인가?</p>
+      <p>2. 인플레이션율은 얼마인가?</p>
+      <button class="tb-btn" id="cpi-calc-btn" style="margin-top: 8px;">풀이 보기</button>
+      <div id="cpi-calc-answer" style="display: none; margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1.</strong> CPI = (55만 / 50만) x 100 = <strong>110</strong></p>
+        <p><strong>2.</strong> 인플레이션율 = (110 - 100) / 100 x 100 = <strong>10%</strong></p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 물가 바구니 시뮬레이터 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 물가 바구니 시뮬레이터</h2>
+    <p>
+      10가지 생활 품목의 가격을 직접 조정하여 CPI를 계산해 봅시다.
+      기준 연도(왼쪽)와 비교 연도(오른쪽)의 가격을 비교합니다.
+    </p>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="기준연도 바구니 비용" value="-" id="basket-base" borderColor="#3b82f6" />
+      <StatBox label="비교연도 바구니 비용" value="-" id="basket-current" borderColor="#f59e0b" />
+      <StatBox label="CPI" value="-" id="basket-cpi" borderColor="#059669" />
+      <StatBox label="인플레이션율" value="-" id="basket-inflation" borderColor="#ef4444" />
+    </div>
+
+    <div id="basket-items" style="margin: 16px 0;"></div>
+
+    <ChartContainer id="basketChart" height="350px" />
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 구매력 계산기 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 구매력 계산기</h2>
+    <p>
+      "1990년의 100만원은 지금 얼마의 가치인가?"
+      과거의 돈이 현재 얼마의 가치가 있는지 계산해 봅시다.
+    </p>
+
+    <ExplainBox title="구매력이란?">
+      <p>같은 금액의 돈으로 살 수 있는 물건의 양을 <strong>구매력</strong>이라 합니다.
+        물가가 오르면 같은 돈의 구매력은 떨어집니다.
+        예를 들어 물가가 2배 오르면, 100만원의 구매력은 절반이 됩니다.</p>
+    </ExplainBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="과거 금액" value="-" id="pp-past" borderColor="#3b82f6" />
+      <StatBox label="현재 가치" value="-" id="pp-present" borderColor="#059669" />
+      <StatBox label="물가 상승 배수" value="-" id="pp-multiple" borderColor="#f59e0b" />
+    </div>
+
+    <SimControls>
+      <label>기준 연도: <span id="pp-year-val">1990</span>년</label>
+      <input type="range" id="pp-year" min="1970" max="2020" value="1990" step="5" />
+      <label>금액: <span id="pp-amount-val">100</span>만원</label>
+      <input type="range" id="pp-amount" min="10" max="1000" value="100" step="10" />
+    </SimControls>
+
+    <ChartContainer id="ppChart" height="350px" />
+
+    <BusinessBox title="재미있는 구매력 비교">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>1980년 대학교 등록금: 약 10만원 (지금 가치로 약 100만원)</li>
+        <li>1990년 서울 아파트 평균가: 약 8,000만원 (지금 가치로 약 3억원)</li>
+        <li>2000년 짜장면: 약 3,000원 (지금 가치로 약 5,500원)</li>
+      </ul>
+    </BusinessBox>
+
+    <ExerciseBox title="연습: 구매력 계산">
+      <p>1985년에 100만원을 은행에 넣고 잊어버렸습니다.
+        물가가 1985년 이후 4배 올랐다면 (물가지수 400),
+        이 돈의 현재 실질 구매력은 원래의 몇 %인가요?</p>
+      <button class="tb-btn" id="pp-calc-btn" style="margin-top: 8px;">풀이 보기</button>
+      <div id="pp-calc-answer" style="display: none; margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>100만원의 현재 실질 구매력 = 100만 / 4 = <strong>25만원</strong> (1985년 기준)</p>
+        <p>즉 원래 구매력의 <strong>25%</strong>만 남았습니다.</p>
+        <p style="margin-top: 8px;">물론 은행 이자가 붙었을 것입니다.
+          하지만 이자율이 물가 상승률보다 낮았다면 실질적으로 손해를 본 것입니다.
+          이것이 인플레이션이 저축자에게 불리한 이유입니다.</p>
+      </div>
+    </ExerciseBox>
+
+    <InsightBox title="왜 적당한 인플레이션은 필요한가?">
+      <p>대부분의 중앙은행은 물가상승률 목표를 <strong>0%가 아닌 2%</strong>로 설정합니다. 왜일까요?</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>임금 하방 경직성:</strong> 물가가 안 오르면 실질 임금 인하가 어려워 실업 증가</li>
+        <li><strong>디플레이션 방지:</strong> 0% 근처면 조금만 충격이 와도 디플레이션에 빠짐</li>
+        <li><strong>금리 인하 여지:</strong> 인플레이션이 있어야 명목금리가 높아 위기 시 인하 가능</li>
+        <li><strong>부채 부담 완화:</strong> 약간의 인플레이션은 부채의 실질 부담을 줄여줌</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 인플레이션 유형 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 인플레이션의 원인</h2>
+    <p>
+      인플레이션이 일어나는 원인은 크게 두 가지입니다.
+      각각의 원인을 시뮬레이션하고, 어떤 대책이 효과적인지 알아봅시다.
+    </p>
+
+    <ExplainBox title="수요 견인 vs 비용 압박">
+      <p><strong>수요 견인 인플레이션 (Demand-Pull):</strong>
+        물건을 사려는 사람이 너무 많아져서 가격이 오르는 것.
+        "돈이 너무 많다"가 원인입니다.</p>
+      <p style="margin-top: 8px;"><strong>비용 압박 인플레이션 (Cost-Push):</strong>
+        원자재 값이 올라서 물건 만드는 비용이 올라가고, 그래서 가격이 오르는 것.
+        "유가 상승"이 대표적 원인입니다.</p>
+    </ExplainBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="물가 수준" value="-" id="infl-price" borderColor="#ef4444" />
+      <StatBox label="거래량" value="-" id="infl-qty" borderColor="#059669" />
+      <StatBox label="인플레이션 유형" value="-" id="infl-type" borderColor="#7c3aed" />
+    </div>
+
+    <SimControls>
+      <label>총수요 변화: <span id="ad-shift-val">0</span></label>
+      <input type="range" id="ad-shift" min="-20" max="20" value="0" step="5" />
+      <label>총공급 변화: <span id="as-shift-val">0</span></label>
+      <input type="range" id="as-shift" min="-20" max="20" value="0" step="5" />
+    </SimControls>
+
+    <ChartContainer id="inflTypeChart" height="380px" />
+
+    <WarningBox title="스태그플레이션: 최악의 조합">
+      <p>물가가 오르면서 동시에 경기가 침체되는 것을 <strong>스태그플레이션</strong>이라 합니다.
+        1970년대 석유파동 때 전 세계가 겪었습니다.
+        비용 압박으로 물가가 오르는데, 생산은 줄어들어 경기도 나빠지는 상황입니다.
+        이때는 금리를 올리면 경기가 더 나빠지고, 내리면 물가가 더 오르므로 정책 대응이 매우 어렵습니다.</p>
+    </WarningBox>
+
+    <BusinessBox title="2022년 전 세계 인플레이션">
+      <p>코로나19 이후 전 세계가 높은 인플레이션을 겪었습니다.</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>원인 1 (수요 견인):</strong> 각국 정부가 재난 지원금을 대규모로 풀어 소비가 폭발</li>
+        <li><strong>원인 2 (비용 압박):</strong> 러시아-우크라이나 전쟁으로 에너지/식량 가격 급등</li>
+        <li><strong>원인 3 (공급 차질):</strong> 코로나로 공장 가동 중단, 물류 대란</li>
+      </ul>
+      <p style="margin-top: 8px;">미국 물가 상승률은 2022년 6월 9.1%까지 치솟았고,
+        한국도 2022년 7월 6.3%를 기록했습니다.
+        이에 각국 중앙은행은 급격한 금리 인상으로 대응했습니다.</p>
+    </BusinessBox>
+
+    <ExerciseBox title="인플레이션 퀴즈">
+      <p>다음 중 인플레이션의 결과가 아닌 것은?</p>
+      <div style="margin: 12px 0;">
+        <button class="tb-btn" onclick="document.getElementById('infl-quiz').textContent='정답이 아닙니다. 실질 구매력은 감소합니다.'; document.getElementById('infl-quiz').style.color='#ef4444';">A. 실질 구매력 감소</button>
+        <button class="tb-btn" onclick="document.getElementById('infl-quiz').textContent='정답! 빚의 실질 가치가 줄어들어 채무자에게 유리합니다.'; document.getElementById('infl-quiz').style.color='#059669';" style="margin-left: 8px;">B. 채무자에게 불리</button>
+        <button class="tb-btn" onclick="document.getElementById('infl-quiz').textContent='정답이 아닙니다. 인플레이션은 저축의 실질 가치를 떨어뜨립니다.'; document.getElementById('infl-quiz').style.color='#ef4444';" style="margin-left: 8px;">C. 저축 가치 하락</button>
+      </div>
+      <p id="infl-quiz" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 피셔 방정식 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 피셔 방정식 -- 명목이자율과 실질이자율</h2>
+    <p>
+      은행에서 "연 5% 이자"를 준다고 합시다. 그런데 물가가 3% 올랐다면?
+      실제로 내 돈의 가치는 2%만 늘어난 것입니다. 이것이 <strong>피셔 방정식</strong>입니다.
+    </p>
+
+    <FormulaBox>
+      <p style="text-align: center; font-size: 1.1rem;">
+        <span class="hl">명목이자율 = 실질이자율 + 물가상승률(기대)</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        실질이자율 = 명목이자율 - 물가상승률
+      </p>
+    </FormulaBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="명목이자율" value="-" id="fisher-nominal" borderColor="#3b82f6" />
+      <StatBox label="물가상승률" value="-" id="fisher-infl" borderColor="#ef4444" />
+      <StatBox label="실질이자율" value="-" id="fisher-real" borderColor="#059669" />
+    </div>
+
+    <SimControls>
+      <label>명목이자율: <span id="nom-rate-val">5</span>%</label>
+      <input type="range" id="nom-rate" min="0" max="15" value="5" step="0.5" />
+      <label>물가상승률: <span id="cpi-rate-val">3</span>%</label>
+      <input type="range" id="cpi-rate" min="0" max="15" value="3" step="0.5" />
+    </SimControls>
+
+    <ChartContainer id="fisherChart" height="300px" />
+
+    <ExerciseBox title="생각해 보기">
+      <p>물가상승률이 명목이자율보다 높으면 실질이자율이 마이너스가 됩니다.
+        이 상황에서 저축자와 대출자 중 누가 유리할까요?</p>
+      <button class="tb-btn" id="fisher-answer-btn">정답 보기</button>
+      <p id="fisher-answer" style="margin-top: 8px; display: none; font-weight: bold; color: #059669;">
+        대출자가 유리합니다! 실질이자율이 마이너스면, 빚의 실질 가치가 줄어들기 때문입니다.
+        반대로 저축자는 돈을 맡겨 놓으면 오히려 구매력이 줄어듭니다.
+      </p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="12장 정리: 인플레이션과 물가">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li><strong>인플레이션</strong>은 전반적인 물가 수준의 지속적 상승</li>
+      <li><strong>CPI</strong>는 물가 바구니의 가격 변화를 추적하는 지표</li>
+      <li><strong>구매력</strong>은 물가가 오르면 떨어진다 -- 같은 돈으로 살 수 있는 것이 줄어듬</li>
+      <li>인플레이션 원인: <strong>수요 견인</strong>(돈이 너무 많음) vs <strong>비용 압박</strong>(생산비용 상승)</li>
+      <li><strong>피셔 방정식:</strong> 실질이자율 = 명목이자율 - 물가상승률</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  /* ========== 1. 물가 바구니 시뮬레이터 ========== */
+  var basketItems = [
+    { name: '쌀 (10kg)', base: 25000, current: 32000 },
+    { name: '라면 (5개입)', base: 3000, current: 4500 },
+    { name: '우유 (1L)', base: 2000, current: 2800 },
+    { name: '달걀 (30개)', base: 5000, current: 7500 },
+    { name: '버스비 (1회)', base: 1000, current: 1500 },
+    { name: '전기료 (월)', base: 40000, current: 55000 },
+    { name: '스마트폰 요금 (월)', base: 50000, current: 55000 },
+    { name: '짜장면 (1그릇)', base: 4000, current: 7000 },
+    { name: '영화 관람료', base: 8000, current: 14000 },
+    { name: '커피 (아메리카노)', base: 3000, current: 4500 }
+  ];
+
+  var basketContainer = document.getElementById('basket-items');
+  basketItems.forEach(function(item, idx) {
+    var div = document.createElement('div');
+    div.style.cssText = 'display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid #e5e7eb; flex-wrap: wrap;';
+    div.innerHTML =
+      '<span style="width: 160px; font-weight: 600;">' + item.name + '</span>' +
+      '<span style="width: 80px; color: #6b7280;">기준: ' + item.base.toLocaleString() + '원</span>' +
+      '<input type="range" class="basket-slider" data-idx="' + idx + '" min="' + Math.round(item.base * 0.5) + '" max="' + Math.round(item.base * 3) + '" value="' + item.current + '" step="100" style="flex: 1; min-width: 120px;" />' +
+      '<span class="basket-val" id="basket-val-' + idx + '" style="width: 80px; font-weight: bold;">' + item.current.toLocaleString() + '원</span>';
+    basketContainer.appendChild(div);
+  });
+
+  var basketCtx = document.getElementById('basketChart');
+  var basketChart = new Chart(basketCtx, {
+    type: 'bar',
+    data: {
+      labels: basketItems.map(function(i) { return i.name.split(' (')[0]; }),
+      datasets: [
+        { label: '기준연도', data: basketItems.map(function(i) { return i.base; }), backgroundColor: 'rgba(59,130,246,0.6)', borderColor: '#3b82f6', borderWidth: 1 },
+        { label: '비교연도', data: basketItems.map(function(i) { return i.current; }), backgroundColor: 'rgba(245,158,11,0.6)', borderColor: '#f59e0b', borderWidth: 1 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '가격 (원)' }, beginAtZero: true } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updateBasket() {
+    var baseCost = 0;
+    var currentCost = 0;
+    basketItems.forEach(function(item, idx) {
+      var slider = document.querySelector('.basket-slider[data-idx="' + idx + '"]');
+      var val = parseInt(slider.value);
+      document.getElementById('basket-val-' + idx).textContent = val.toLocaleString() + '원';
+      baseCost += item.base;
+      currentCost += val;
+      basketChart.data.datasets[1].data[idx] = val;
+    });
+    var cpi = (currentCost / baseCost * 100).toFixed(1);
+    var inflRate = ((currentCost - baseCost) / baseCost * 100).toFixed(1);
+    document.getElementById('basket-base').textContent = baseCost.toLocaleString() + '원';
+    document.getElementById('basket-current').textContent = currentCost.toLocaleString() + '원';
+    document.getElementById('basket-cpi').textContent = cpi;
+    document.getElementById('basket-inflation').textContent = inflRate + '%';
+    basketChart.update();
+  }
+
+  basketContainer.addEventListener('input', function(e) {
+    if (e.target.classList.contains('basket-slider')) updateBasket();
+  });
+  updateBasket();
+
+  /* ========== 2. 구매력 계산기 ========== */
+  // 합성 CPI 데이터 (1970=100 기준, 대략적)
+  var cpiByYear = {
+    1970: 100, 1975: 180, 1980: 350, 1985: 500, 1990: 650,
+    1995: 850, 2000: 1000, 2005: 1150, 2010: 1350, 2015: 1500, 2020: 1600
+  };
+
+  var ppYearSlider = document.getElementById('pp-year');
+  var ppAmountSlider = document.getElementById('pp-amount');
+  var ppCtx = document.getElementById('ppChart');
+
+  var ppYears = Object.keys(cpiByYear).map(Number);
+  var ppChart = new Chart(ppCtx, {
+    type: 'line',
+    data: {
+      labels: ppYears,
+      datasets: [{
+        label: '물가지수 (1970=100)',
+        data: ppYears.map(function(y) { return cpiByYear[y]; }),
+        borderColor: '#ef4444',
+        backgroundColor: 'rgba(239,68,68,0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '물가지수' }, beginAtZero: true } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updatePP() {
+    var year = parseInt(ppYearSlider.value);
+    var amount = parseInt(ppAmountSlider.value);
+    document.getElementById('pp-year-val').textContent = year;
+    document.getElementById('pp-amount-val').textContent = amount;
+
+    // 가장 가까운 연도 찾기
+    var closest = ppYears.reduce(function(prev, curr) {
+      return Math.abs(curr - year) < Math.abs(prev - year) ? curr : prev;
+    });
+    var pastCPI = cpiByYear[closest];
+    var currentCPI = 1600; // 2020 기준
+    var multiple = (currentCPI / pastCPI).toFixed(1);
+    var presentValue = Math.round(amount * currentCPI / pastCPI);
+
+    document.getElementById('pp-past').textContent = amount + '만원 (' + closest + '년)';
+    document.getElementById('pp-present').textContent = presentValue.toLocaleString() + '만원 (현재)';
+    document.getElementById('pp-multiple').textContent = multiple + '배';
+  }
+
+  ppYearSlider.addEventListener('input', updatePP);
+  ppAmountSlider.addEventListener('input', updatePP);
+  updatePP();
+
+  /* ========== 3. 인플레이션 유형 시뮬레이터 ========== */
+  var inflCtx = document.getElementById('inflTypeChart');
+  var adShift = document.getElementById('ad-shift');
+  var asShift = document.getElementById('as-shift');
+
+  function getADData(shift) {
+    var pts = [];
+    for (var q = 10; q <= 100; q += 5) {
+      var p = 100 + shift - q * 0.8;
+      if (p > 0) pts.push({ x: q, y: p });
+    }
+    return pts;
+  }
+
+  function getASData(shift) {
+    var pts = [];
+    for (var q = 10; q <= 100; q += 5) {
+      var p = 10 - shift + q * 0.6;
+      if (p > 0) pts.push({ x: q, y: p });
+    }
+    return pts;
+  }
+
+  var inflChart = new Chart(inflCtx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        { label: '총수요 (AD)', data: getADData(0), showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3, fill: false },
+        { label: '총공급 (AS)', data: getASData(0), showLine: true, borderColor: '#ef4444', pointRadius: 0, borderWidth: 3, fill: false },
+        { label: '균형', data: [], pointRadius: 8, pointBackgroundColor: '#059669', borderColor: '#059669', showLine: false }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '총생산량 (Y)' }, min: 0, max: 110 },
+        y: { title: { display: true, text: '물가 수준 (P)' }, min: 0, max: 100 }
+      },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+
+  function updateInflType() {
+    var ads = parseInt(adShift.value);
+    var ass = parseInt(asShift.value);
+    document.getElementById('ad-shift-val').textContent = ads > 0 ? '+' + ads : ads;
+    document.getElementById('as-shift-val').textContent = ass > 0 ? '+' + ass : ass;
+
+    // 균형: 100 + ads - 0.8Q = 10 - ass + 0.6Q => 90 + ads + ass = 1.4Q
+    var eqQ = (90 + ads + ass) / 1.4;
+    var eqP = 10 - ass + eqQ * 0.6;
+
+    document.getElementById('infl-price').textContent = eqP.toFixed(0);
+    document.getElementById('infl-qty').textContent = eqQ.toFixed(0);
+
+    if (ads > 0 && ass >= 0) {
+      document.getElementById('infl-type').textContent = '수요 견인';
+    } else if (ass < 0) {
+      document.getElementById('infl-type').textContent = '비용 압박';
+    } else if (ads < 0) {
+      document.getElementById('infl-type').textContent = '디플레이션 위험';
+    } else {
+      document.getElementById('infl-type').textContent = '안정';
+    }
+
+    inflChart.data.datasets[0].data = getADData(ads);
+    inflChart.data.datasets[1].data = getASData(ass);
+    inflChart.data.datasets[2].data = [{ x: eqQ, y: eqP }];
+    inflChart.update();
+  }
+
+  adShift.addEventListener('input', updateInflType);
+  asShift.addEventListener('input', updateInflType);
+  updateInflType();
+
+  /* ========== 4. 피셔 방정식 ========== */
+  var nomRateSlider = document.getElementById('nom-rate');
+  var cpiRateSlider = document.getElementById('cpi-rate');
+  var fisherCtx = document.getElementById('fisherChart');
+
+  var fisherChart = new Chart(fisherCtx, {
+    type: 'bar',
+    data: {
+      labels: ['명목이자율', '물가상승률', '실질이자율'],
+      datasets: [{
+        data: [5, 3, 2],
+        backgroundColor: ['#3b82f6', '#ef4444', '#059669'],
+        borderWidth: 0,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      scales: {
+        x: { title: { display: true, text: '%' }, min: -5, max: 16 }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function updateFisher() {
+    var nom = parseFloat(nomRateSlider.value);
+    var cpi = parseFloat(cpiRateSlider.value);
+    var real = nom - cpi;
+
+    document.getElementById('nom-rate-val').textContent = nom;
+    document.getElementById('cpi-rate-val').textContent = cpi;
+    document.getElementById('fisher-nominal').textContent = nom + '%';
+    document.getElementById('fisher-infl').textContent = cpi + '%';
+    document.getElementById('fisher-real').textContent = real.toFixed(1) + '%';
+
+    fisherChart.data.datasets[0].data = [nom, cpi, real];
+    fisherChart.data.datasets[0].backgroundColor = ['#3b82f6', '#ef4444', real >= 0 ? '#059669' : '#dc2626'];
+    fisherChart.update();
+  }
+
+  nomRateSlider.addEventListener('input', updateFisher);
+  cpiRateSlider.addEventListener('input', updateFisher);
+  updateFisher();
+
+  // 피셔 정답 보기 버튼
+  var fisherBtn = document.getElementById('fisher-answer-btn');
+  if (fisherBtn) {
+    fisherBtn.addEventListener('click', function() {
+      document.getElementById('fisher-answer').style.display = 'block';
+    });
+  }
+
+  // CPI 연습문제 버튼
+  var cpiCalcBtn = document.getElementById('cpi-calc-btn');
+  if (cpiCalcBtn) {
+    cpiCalcBtn.addEventListener('click', function() {
+      document.getElementById('cpi-calc-answer').style.display = 'block';
+    });
+  }
+
+  var ppCalcBtn = document.getElementById('pp-calc-btn');
+  if (ppCalcBtn) {
+    ppCalcBtn.addEventListener('click', function() {
+      document.getElementById('pp-calc-answer').style.display = 'block';
+    });
+  }
+}
+
+waitForChart(init);
+</script>

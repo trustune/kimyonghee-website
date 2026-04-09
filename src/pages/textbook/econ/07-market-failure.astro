@@ -1,0 +1,562 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout title="시장 실패" subtitle="시장이 해결하지 못하는 문제들" chapterNum={7} part={1}>
+
+  <!-- ========== HOOK ========== -->
+  <div class="tb-card">
+    <h2>시장은 만능이 아니다</h2>
+    <p>
+      지금까지 배운 수요와 공급 모형은 강력하다. 시장에서 가격이 알아서 결정되고,
+      자원이 효율적으로 배분된다. 아담 스미스의 "보이지 않는 손"이다.
+    </p>
+    <p>
+      그런데 이 손이 항상 잘 작동하는 것은 아니다.
+      독점 기업이 가격을 마음대로 올리면? 공장의 매연 때문에 옆 동네 주민이 피해를 보면?
+      중고차의 품질을 구매자가 알 수 없다면?
+    </p>
+    <p>
+      시장이 스스로 효율적 결과를 만들어내지 못하는 상황을 <strong>시장 실패(market failure)</strong>라 한다.
+      시장 실패가 있을 때 정부 개입의 여지가 생긴다.
+    </p>
+  </div>
+
+  <!-- ========== 개념 1: 독점 ========== -->
+  <div class="tb-card">
+    <h2>1. 독점: 경쟁이 없으면 생기는 문제</h2>
+
+    <ExplainBox title="비유로 이해하기">
+      <p>
+        학교 근처에 편의점이 하나밖에 없다면?
+        그 편의점은 가격을 마음대로 올릴 수 있다. 다른 선택지가 없으니까.
+        하지만 편의점이 5개 있다면? 한 곳이 가격을 올리면 손님이 옆 가게로 간다.
+        경쟁이 가격을 낮추고 품질을 높이는 핵심 동력이다.
+      </p>
+    </ExplainBox>
+
+    <p>
+      독점 기업은 이윤을 극대화하기 위해 경쟁 시장보다 <strong>더 적게 생산하고, 더 비싸게 판다</strong>.
+      결과적으로 소비자잉여가 줄고, 사중손실이 발생한다.
+    </p>
+  </div>
+
+  <!-- ========== 인터랙티브 1: 독점 vs 경쟁 ========== -->
+  <div class="tb-card">
+    <h2>2. 직접 비교: 독점 vs 경쟁</h2>
+
+    <ExplainBox>
+      독점 기업이 이윤을 극대화하는 가격과 경쟁 시장의 균형가격을 비교하자.
+      슬라이더로 독점 기업의 가격을 조절하며 소비자잉여, 생산자잉여, 사중손실을 관찰하자.
+    </ExplainBox>
+
+    <SimControls>
+      <label for="mono-price-slider">독점 가격: <strong id="mono-price-display">2,500</strong>원</label>
+      <input type="range" id="mono-price-slider" min="500" max="4000" step="100" value="2500" style="width:100%">
+      <span style="margin-left:16px; color:#6b7280;">경쟁 균형가격: 1,900원</span>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="소비자잉여" id="mono-cs" value="-" borderColor="#3b82f6" />
+      <StatBox label="독점 이윤" id="mono-profit" value="-" borderColor="#f59e0b" />
+      <StatBox label="사중손실" id="mono-dwl" value="-" borderColor="#ef4444" />
+      <StatBox label="총잉여 감소" id="mono-loss" value="-" sub="경쟁 대비" borderColor="#8b5cf6" />
+    </div>
+
+    <ChartContainer id="monopoly-chart" height="380px" />
+
+    <InsightBox title="왜 독점이 문제인가">
+      <p>
+        독점 기업은 가격을 올리고 생산량을 줄인다. 이로 인해:
+        (1) 소비자잉여가 크게 줄고, (2) 사중손실이 발생하며,
+        (3) 소비자가 더 비싸게 더 적은 양을 사게 된다.
+        그래서 대부분의 나라에 공정거래법(독점 규제법)이 있다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 2: 정보 비대칭 (레몬 시장) ========== -->
+  <div class="tb-card">
+    <h2>3. 정보 비대칭: 레몬 시장</h2>
+
+    <ExplainBox title="레몬 문제란?">
+      <p>
+        중고차 시장을 생각하자. 판매자는 차의 상태를 알지만, 구매자는 모른다.
+        좋은 차(복숭아)와 나쁜 차(레몬)를 구별할 수 없는 구매자는
+        평균적인 가격만 지불하려 한다.
+      </p>
+      <p>
+        그러면 좋은 차의 주인은 "이 가격에는 안 팔겠다"며 시장을 떠나고,
+        나쁜 차만 남게 된다. 이것을 <strong>역선택(adverse selection)</strong>이라 한다.
+      </p>
+    </ExplainBox>
+
+    <ExerciseBox title="레몬 시장 시뮬레이션">
+      <p>10대의 중고차가 시장에 나왔다. 품질은 1~10 (10이 최고).</p>
+      <p>구매자는 품질을 모른다. 지불 의향 가격을 설정하면, 그 가격 이하의 차만 팔리고 나머지는 퇴장한다.</p>
+
+      <SimControls>
+        <label for="lemon-offer">구매자 제시 가격: <strong id="lemon-offer-display">500</strong>만원</label>
+        <input type="range" id="lemon-offer" min="100" max="1000" step="50" value="500" style="width:100%">
+        <button class="tb-btn tb-btn-primary" onclick="runLemon()">거래 시뮬레이션</button>
+        <button class="tb-btn" onclick="resetLemon()">초기화</button>
+      </SimControls>
+    </ExerciseBox>
+
+    <div class="tb-stat-row">
+      <StatBox label="남은 차" id="lemon-remaining" value="10대" borderColor="#3b82f6" />
+      <StatBox label="평균 품질" id="lemon-avg-quality" value="-" borderColor="#059669" />
+      <StatBox label="라운드" id="lemon-round" value="0" borderColor="#f59e0b" />
+    </div>
+
+    <ChartContainer id="lemon-chart" height="300px" />
+
+    <InsightBox title="해결 방법">
+      <p>
+        정보 비대칭의 해결책: (1) <strong>보증/인증</strong> -- 중고차 인증 제도, 제품 보증서,
+        (2) <strong>신호 보내기</strong> -- 대학 학위는 능력의 "신호"가 될 수 있다,
+        (3) <strong>정부 규제</strong> -- 제품 표시 의무, 공시 제도.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 3: 최저임금 효과 ========== -->
+  <div class="tb-card">
+    <h2>4. 최저임금의 효과</h2>
+
+    <ExplainBox>
+      <p>
+        최저임금은 노동시장에서의 최저가격제이다.
+        균형임금보다 높은 최저임금을 설정하면, 기업의 노동 수요는 줄고(비싸니까)
+        노동 공급은 늘어(많이 주니까) 실업이 발생할 수 있다.
+        하지만 일하는 사람의 소득은 늘어난다. 이 트레이드오프를 직접 확인해보자.
+      </p>
+    </ExplainBox>
+
+    <SimControls>
+      <label for="mw-slider">최저임금: 시급 <strong id="mw-display">9,620</strong>원</label>
+      <input type="range" id="mw-slider" min="5000" max="15000" step="100" value="9620" style="width:100%">
+      <span style="margin-left:12px; color:#6b7280;">균형임금: 약 8,000원 (가정)</span>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="고용량" id="mw-employment" value="-" borderColor="#059669" />
+      <StatBox label="실업자 수" id="mw-unemployment" value="-" borderColor="#ef4444" />
+      <StatBox label="근로소득 총합" id="mw-income" value="-" borderColor="#3b82f6" />
+    </div>
+
+    <ChartContainer id="mw-chart" height="350px" />
+
+    <WarningBox title="최저임금 논쟁의 양면">
+      <p>
+        <strong>찬성:</strong> 저임금 근로자의 생활 수준 향상, 소득 불평등 완화.<br>
+        <strong>반대:</strong> 고용 감소, 특히 청년 및 저숙련 노동자에게 피해.<br>
+        실제 효과는 최저임금의 수준, 지역 경제 상황, 산업 구조에 따라 다르다.
+        경제학자들 사이에서도 여전히 논쟁 중인 주제이다.
+      </p>
+    </WarningBox>
+  </div>
+
+  <!-- ========== 인터랙티브 4: 시장 실패 분류 퀴즈 ========== -->
+  <div class="tb-card">
+    <h2>5. 시장 실패 유형 분류</h2>
+
+    <ExerciseBox title="10가지 사례를 분류하세요">
+      <p>각 사례가 어떤 유형의 시장 실패인지 선택하세요.</p>
+      <div id="mf-quiz">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+          <p><strong>1.</strong> 전기가 한 회사에서만 공급된다</p>
+          <select class="mf-select" data-q="0" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
+            <option value="">선택하세요</option>
+            <option value="독점">독점</option>
+            <option value="외부성">외부성</option>
+            <option value="공공재">공공재</option>
+            <option value="정보비대칭">정보비대칭</option>
+          </select>
+          <span class="mf-result" data-q="0" style="margin-left:8px;font-weight:600;"></span>
+        </div>
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+          <p><strong>2.</strong> 공장 매연이 주변 주민 건강을 해친다</p>
+          <select class="mf-select" data-q="1" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
+            <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
+          </select>
+          <span class="mf-result" data-q="1" style="margin-left:8px;font-weight:600;"></span>
+        </div>
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+          <p><strong>3.</strong> 국방은 누구나 혜택을 받지만 아무도 자발적으로 비용을 내지 않으려 한다</p>
+          <select class="mf-select" data-q="2" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
+            <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
+          </select>
+          <span class="mf-result" data-q="2" style="margin-left:8px;font-weight:600;"></span>
+        </div>
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+          <p><strong>4.</strong> 보험 가입자가 자신의 건강 상태를 숨긴다</p>
+          <select class="mf-select" data-q="3" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
+            <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
+          </select>
+          <span class="mf-result" data-q="3" style="margin-left:8px;font-weight:600;"></span>
+        </div>
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+          <p><strong>5.</strong> 꿀벌 농가 옆 과수원이 수분 혜택을 무료로 받는다</p>
+          <select class="mf-select" data-q="4" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
+            <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
+          </select>
+          <span class="mf-result" data-q="4" style="margin-left:8px;font-weight:600;"></span>
+        </div>
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+          <p><strong>6.</strong> 인터넷 검색은 구글이 90% 점유</p>
+          <select class="mf-select" data-q="5" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
+            <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
+          </select>
+          <span class="mf-result" data-q="5" style="margin-left:8px;font-weight:600;"></span>
+        </div>
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+          <p><strong>7.</strong> 가로등은 누구나 사용하고 막을 수 없다</p>
+          <select class="mf-select" data-q="6" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
+            <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
+          </select>
+          <span class="mf-result" data-q="6" style="margin-left:8px;font-weight:600;"></span>
+        </div>
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+          <p><strong>8.</strong> 중고 스마트폰의 실제 배터리 상태를 구매자가 모른다</p>
+          <select class="mf-select" data-q="7" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
+            <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
+          </select>
+          <span class="mf-result" data-q="7" style="margin-left:8px;font-weight:600;"></span>
+        </div>
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+          <p><strong>9.</strong> 교육을 많이 받은 사람은 사회 전체에 긍정적 영향을 미친다</p>
+          <select class="mf-select" data-q="8" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
+            <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
+          </select>
+          <span class="mf-result" data-q="8" style="margin-left:8px;font-weight:600;"></span>
+        </div>
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+          <p><strong>10.</strong> 수도 공급은 배관 설치 비용이 커서 자연적으로 한 업체만 존재한다</p>
+          <select class="mf-select" data-q="9" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
+            <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
+          </select>
+          <span class="mf-result" data-q="9" style="margin-left:8px;font-weight:600;"></span>
+        </div>
+      </div>
+      <button class="tb-btn tb-btn-primary" style="margin-top:12px;" onclick="checkMFQuiz()">채점하기</button>
+      <div class="tb-stat-row" style="margin-top:12px;">
+        <StatBox label="맞힌 문제" id="mf-score" value="- / 10" borderColor="#059669" />
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ========== 추가: 시장 실패와 정부 실패 ========== -->
+  <div class="tb-card">
+    <h2>6. 시장 실패 vs 정부 실패</h2>
+
+    <ExplainBox title="정부도 실패할 수 있다">
+      <p>
+        시장이 실패하면 정부가 개입해야 할까? 대부분의 경우 그렇다.
+        하지만 정부 개입도 항상 성공하는 것은 아니다.
+        <strong>정부 실패(government failure)</strong>란 정부의 개입이 오히려 상황을 악화시키는 경우이다.
+      </p>
+    </ExplainBox>
+
+    <InsightBox title="정부 실패의 원인">
+      <ul>
+        <li><strong>정보 부족:</strong> 정부도 최적 가격이나 생산량을 정확히 알지 못한다.</li>
+        <li><strong>관료주의:</strong> 규제가 비효율적이거나 불필요하게 복잡해질 수 있다.</li>
+        <li><strong>이익집단의 로비:</strong> 특정 집단의 이익을 위해 사회 전체에 비효율적인 정책이 시행될 수 있다.</li>
+        <li><strong>시차 문제:</strong> 문제 인식, 정책 결정, 정책 시행, 효과 발생 사이에 시간이 걸린다.</li>
+      </ul>
+    </InsightBox>
+
+    <WarningBox title="균형 잡힌 시각">
+      <p>
+        "시장만능주의"도, "정부만능주의"도 옳지 않다.
+        시장 실패가 있는 곳에서는 정부가 개입하되,
+        정부 개입의 비용과 한계도 함께 고려해야 한다.
+        어느 쪽이 "덜 나쁜가"를 비교하는 것이 현실적인 접근이다.
+      </p>
+    </WarningBox>
+  </div>
+
+  <!-- ========== 결론 ========== -->
+  <ConclusionBox title="7장 핵심 정리">
+    <ul>
+      <li><strong>시장 실패:</strong> 시장이 자원을 효율적으로 배분하지 못하는 상황.</li>
+      <li><strong>독점:</strong> 경쟁이 없으면 높은 가격, 낮은 생산량, 사중손실 발생.</li>
+      <li><strong>정보 비대칭:</strong> 한쪽이 정보를 더 많이 가지면 역선택 또는 도덕적 해이 발생.</li>
+      <li><strong>최저임금:</strong> 저임금 근로자 보호 vs 고용 감소의 트레이드오프.</li>
+      <li><strong>4대 시장 실패:</strong> 독점, 외부성, 공공재, 정보 비대칭.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 내 행동이 남에게 비용이나 혜택을 주는 "외부성"을 자세히 배운다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  try {
+    var key = 'textbook-progress-econ';
+    var raw = localStorage.getItem(key);
+    var data = raw ? JSON.parse(raw) : { chapters: {} };
+    data.chapters['07-market-failure'] = { visited: true, lastVisit: new Date().toISOString().slice(0, 10) };
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch(e) {}
+
+  // ========== 인터랙티브 1: 독점 vs 경쟁 ==========
+  var monoChart = null;
+  var compEqPrice = 1900;
+
+  function demand(p) { return Math.max(0, (3500 - p) / 200); }
+  function supply(p) { return Math.max(0, (p - 300) / 200); }
+  var compEqQty = demand(compEqPrice);
+  var maxWTP = 3500;
+  var minCost = 300;
+  var compCS = 0.5 * (maxWTP - compEqPrice) * compEqQty;
+  var compPS = 0.5 * (compEqPrice - minCost) * compEqQty;
+  var compTS = compCS + compPS;
+
+  function updateMonopoly() {
+    var monoP = parseInt(document.getElementById('mono-price-slider').value);
+    document.getElementById('mono-price-display').textContent = monoP.toLocaleString();
+
+    var monoQ = demand(monoP);
+    var monoCS = 0.5 * (maxWTP - monoP) * monoQ;
+    var monoCost = minCost + (monoP - minCost) * 0.3; // simplified marginal cost
+    var monoProfit = (monoP - monoCost) * monoQ;
+    var monoTS = monoCS + monoProfit;
+    var monoDWL = compTS - monoTS;
+    if (monoDWL < 0) monoDWL = 0;
+
+    document.getElementById('mono-cs').textContent = Math.round(monoCS).toLocaleString();
+    document.getElementById('mono-profit').textContent = Math.round(monoProfit).toLocaleString();
+    document.getElementById('mono-dwl').textContent = Math.round(monoDWL).toLocaleString();
+    document.getElementById('mono-loss').textContent = '-' + Math.round(monoDWL).toLocaleString();
+
+    var dLine = []; var sLine = [];
+    for (var p = 200; p <= 3800; p += 50) {
+      dLine.push({ x: demand(p), y: p });
+      sLine.push({ x: supply(p), y: p });
+    }
+
+    if (!monoChart) {
+      var ctx = document.getElementById('monopoly-chart');
+      if (!ctx) return;
+      monoChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3 },
+            { label: '공급곡선 (비용)', data: sLine, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3 },
+            { label: '독점 가격', data: [{ x: 0, y: monoP }, { x: monoQ, y: monoP }], showLine: true, borderColor: '#ef4444', borderDash: [6, 4], pointRadius: 0, borderWidth: 2 },
+            { label: '경쟁 균형', data: [{ x: compEqQty, y: compEqPrice }], pointRadius: 10, pointBackgroundColor: '#059669', pointBorderColor: '#fff', pointBorderWidth: 2 },
+            { label: '독점 생산점', data: [{ x: monoQ, y: monoP }], pointRadius: 10, pointBackgroundColor: '#ef4444', pointBorderColor: '#fff', pointBorderWidth: 2 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: {
+            x: { title: { display: true, text: '수량' }, min: 0, max: 18 },
+            y: { title: { display: true, text: '가격 (원)' }, min: 0, max: 4000 }
+          }
+        }
+      });
+    } else {
+      monoChart.data.datasets[2].data = [{ x: 0, y: monoP }, { x: monoQ, y: monoP }];
+      monoChart.data.datasets[4].data = [{ x: monoQ, y: monoP }];
+      monoChart.update();
+    }
+  }
+
+  document.getElementById('mono-price-slider').addEventListener('input', updateMonopoly);
+  updateMonopoly();
+
+  // ========== 인터랙티브 2: 레몬 시장 ==========
+  var lemonChart = null;
+  var cars = [];
+  var lemonRound = 0;
+
+  function resetCars() {
+    cars = [];
+    for (var i = 1; i <= 10; i++) {
+      cars.push({ quality: i, minPrice: i * 80, inMarket: true });
+    }
+    lemonRound = 0;
+  }
+  resetCars();
+
+  window.runLemon = function() {
+    var offer = parseInt(document.getElementById('lemon-offer').value);
+    lemonRound++;
+
+    // Cars with minPrice > offer leave market
+    var remaining = 0;
+    var totalQ = 0;
+    for (var i = 0; i < cars.length; i++) {
+      if (cars[i].inMarket && cars[i].minPrice > offer) {
+        cars[i].inMarket = false;
+      }
+      if (cars[i].inMarket) {
+        remaining++;
+        totalQ += cars[i].quality;
+      }
+    }
+
+    var avgQ = remaining > 0 ? (totalQ / remaining).toFixed(1) : '0';
+    document.getElementById('lemon-remaining').textContent = remaining + '대';
+    document.getElementById('lemon-avg-quality').textContent = avgQ + ' / 10';
+    document.getElementById('lemon-round').textContent = lemonRound;
+
+    drawLemonChart();
+  };
+
+  window.resetLemon = function() {
+    resetCars();
+    document.getElementById('lemon-remaining').textContent = '10대';
+    document.getElementById('lemon-avg-quality').textContent = '-';
+    document.getElementById('lemon-round').textContent = '0';
+    drawLemonChart();
+  };
+
+  function drawLemonChart() {
+    var labels = [];
+    var qualities = [];
+    var colors = [];
+    for (var i = 0; i < cars.length; i++) {
+      labels.push('차 ' + (i + 1));
+      qualities.push(cars[i].inMarket ? cars[i].quality : 0);
+      colors.push(cars[i].inMarket ? 'rgba(5,150,105,0.7)' : 'rgba(239,68,68,0.3)');
+    }
+
+    if (!lemonChart) {
+      var ctx = document.getElementById('lemon-chart');
+      if (!ctx) return;
+      lemonChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{ label: '품질', data: qualities, backgroundColor: colors }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, max: 11, title: { display: true, text: '품질 (1~10)' } } }
+        }
+      });
+    } else {
+      lemonChart.data.datasets[0].data = qualities;
+      lemonChart.data.datasets[0].backgroundColor = colors;
+      lemonChart.update();
+    }
+  }
+  drawLemonChart();
+
+  document.getElementById('lemon-offer').addEventListener('input', function() {
+    document.getElementById('lemon-offer-display').textContent = this.value;
+  });
+
+  // ========== 인터랙티브 3: 최저임금 ==========
+  var mwChart = null;
+  var eqWage = 8000;
+
+  function laborDemand(w) { return Math.max(0, 100 - w / 100); }
+  function laborSupply(w) { return Math.max(0, 20 + w / 200); }
+
+  function updateMW() {
+    var mw = parseInt(document.getElementById('mw-slider').value);
+    document.getElementById('mw-display').textContent = mw.toLocaleString();
+
+    var ld = laborDemand(mw);
+    var ls = laborSupply(mw);
+    var eqLD = laborDemand(eqWage);
+
+    var employment = mw > eqWage ? ld : eqLD;
+    var unemployment = mw > eqWage ? ls - ld : 0;
+    var totalIncome = employment * mw;
+
+    document.getElementById('mw-employment').textContent = Math.round(employment) + '명';
+    document.getElementById('mw-unemployment').textContent = Math.round(Math.max(0, unemployment)) + '명';
+    document.getElementById('mw-income').textContent = Math.round(totalIncome / 10000).toLocaleString() + '만원';
+
+    var wages = [];
+    var dLine = []; var sLine = [];
+    for (var w = 5000; w <= 15000; w += 200) {
+      wages.push(w);
+      dLine.push(laborDemand(w));
+      sLine.push(laborSupply(w));
+    }
+
+    if (!mwChart) {
+      var ctx = document.getElementById('mw-chart');
+      if (!ctx) return;
+      mwChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: wages.map(function(w) { return (w / 1000).toFixed(1) + 'K'; }),
+          datasets: [
+            { label: '노동 수요', data: dLine, borderColor: '#3b82f6', tension: 0.3, pointRadius: 0, borderWidth: 3 },
+            { label: '노동 공급', data: sLine, borderColor: '#f59e0b', tension: 0.3, pointRadius: 0, borderWidth: 3 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            annotation: undefined
+          },
+          scales: {
+            x: { title: { display: true, text: '임금 (원)' } },
+            y: { title: { display: true, text: '노동자 수' }, beginAtZero: true }
+          }
+        }
+      });
+    } else {
+      mwChart.update();
+    }
+  }
+
+  document.getElementById('mw-slider').addEventListener('input', updateMW);
+  updateMW();
+
+  // ========== 인터랙티브 4: 시장 실패 분류 퀴즈 ==========
+  var mfAnswers = ['독점', '외부성', '공공재', '정보비대칭', '외부성', '독점', '공공재', '정보비대칭', '외부성', '독점'];
+
+  window.checkMFQuiz = function() {
+    var score = 0;
+    for (var i = 0; i < 10; i++) {
+      var sel = document.querySelector('.mf-select[data-q="' + i + '"]');
+      var res = document.querySelector('.mf-result[data-q="' + i + '"]');
+      if (!sel || !res) continue;
+      if (sel.value === mfAnswers[i]) {
+        res.textContent = 'O 정답!';
+        res.style.color = '#059669';
+        score++;
+      } else {
+        res.textContent = 'X (정답: ' + mfAnswers[i] + ')';
+        res.style.color = '#ef4444';
+      }
+    }
+    document.getElementById('mf-score').textContent = score + ' / 10';
+  };
+}
+
+waitForChart(init);
+</script>

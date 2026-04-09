@@ -1,0 +1,606 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout title="공공재와 공유자원" subtitle="무임승차 문제를 어떻게 해결할까" chapterNum={9} part={1}>
+
+  <!-- ========== HOOK ========== -->
+  <div class="tb-card">
+    <h2>불꽃놀이는 누가 만들까?</h2>
+    <p>
+      여의도 불꽃축제를 생각해보자. 수십만 명이 구경한다.
+      하지만 한 사람이 구경한다고 해서 다른 사람이 못 보는 것은 아니다(비경합적).
+      또한 특정 사람만 보게 하고 나머지는 못 보게 할 수도 없다(비배제적).
+    </p>
+    <p>
+      이런 특성을 가진 것을 <strong>공공재(public goods)</strong>라 한다.
+      문제는 모두가 "남이 만들면 나는 공짜로 보면 되지"라고 생각한다는 것이다.
+      이것이 <strong>무임승차(free rider) 문제</strong>이다.
+    </p>
+    <p>
+      무임승차 때문에 시장에서 공공재는 충분히 공급되지 않는다.
+      그래서 정부가 세금을 걷어 국방, 가로등, 공원 등을 제공한다.
+    </p>
+  </div>
+
+  <!-- ========== 개념 1: 재화의 분류 ========== -->
+  <div class="tb-card">
+    <h2>1. 재화의 4가지 분류</h2>
+
+    <ExplainBox title="두 가지 기준">
+      <p>
+        재화를 분류하는 두 가지 기준이 있다:<br>
+        <strong>배제성(excludability):</strong> 대가를 치르지 않은 사람을 사용에서 막을 수 있는가?<br>
+        <strong>경합성(rivalry):</strong> 한 사람이 사용하면 다른 사람의 사용이 줄어드는가?
+      </p>
+    </ExplainBox>
+
+    <div style="overflow-x: auto; margin: 16px 0;">
+      <table style="width:100%; border-collapse:collapse; text-align:center;">
+        <thead>
+          <tr style="background:#f0fdf4;">
+            <th style="padding:12px; border:1px solid #d1d5db;"></th>
+            <th style="padding:12px; border:1px solid #d1d5db;">경합적 (한 사람이 쓰면 줄어듦)</th>
+            <th style="padding:12px; border:1px solid #d1d5db;">비경합적 (같이 써도 줄지 않음)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:12px; border:1px solid #d1d5db; font-weight:600; background:#f0fdf4;">배제 가능</td>
+            <td style="padding:12px; border:1px solid #d1d5db; background:#eff6ff;"><strong>사적재</strong><br>삼각김밥, 옷, 자동차</td>
+            <td style="padding:12px; border:1px solid #d1d5db; background:#fef3c7;"><strong>클럽재 (자연독점재)</strong><br>유료 방송, 고속도로, 영화관</td>
+          </tr>
+          <tr>
+            <td style="padding:12px; border:1px solid #d1d5db; font-weight:600; background:#f0fdf4;">배제 불가능</td>
+            <td style="padding:12px; border:1px solid #d1d5db; background:#fce7f3;"><strong>공유자원</strong><br>바다의 물고기, 공기, 공동 목초지</td>
+            <td style="padding:12px; border:1px solid #d1d5db; background:#f0fdf4;"><strong>공공재</strong><br>국방, 가로등, 불꽃놀이</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <InsightBox title="왜 이 분류가 중요한가">
+      <p>
+        사적재는 시장이 잘 처리한다. 하지만 공공재와 공유자원은 시장이 잘 처리하지 못한다.
+        공공재는 무임승차 때문에 과소 공급되고, 공유자원은 과도하게 사용되어 고갈된다.
+        이것이 정부 개입의 경제학적 근거이다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 1: 공공재 분류기 ========== -->
+  <div class="tb-card">
+    <h2>2. 직접 해보기: 공공재 분류기</h2>
+
+    <ExplainBox>
+      아래 재화들을 배제성과 경합성에 따라 4가지 유형으로 분류해보자.
+      드롭다운에서 유형을 선택하면 정답을 확인할 수 있다.
+    </ExplainBox>
+
+    <ExerciseBox title="20가지 재화를 분류하세요">
+      <div id="classify-quiz" style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+      </div>
+      <button class="tb-btn tb-btn-primary" style="margin-top:16px;" onclick="checkClassify()">채점하기</button>
+      <div class="tb-stat-row" style="margin-top:12px;">
+        <StatBox label="정답률" id="classify-score" value="- / 20" borderColor="#059669" />
+      </div>
+    </ExerciseBox>
+
+    <ChartContainer id="classify-chart" height="280px" />
+  </div>
+
+  <!-- ========== 인터랙티브 2: 무임승차 게임 ========== -->
+  <div class="tb-card">
+    <h2>3. 무임승차 게임</h2>
+
+    <ExplainBox>
+      <p>
+        5명이 공공재(마을 도로)에 기여할지 말지 결정한다.
+        기여 비용은 1인당 10만원. 도로가 완성되면 모두가 20만원의 혜택을 받는다.
+        하지만 기여하지 않고도 혜택을 받을 수 있다면...
+      </p>
+      <p>
+        당신은 기여하겠는가? 다른 사람들은? 반복 게임을 해보자.
+      </p>
+    </ExplainBox>
+
+    <SimControls>
+      <label>나의 선택:</label>
+      <button class="tb-btn tb-btn-primary" id="fr-contribute-btn">기여한다 (10만원)</button>
+      <button class="tb-btn tb-btn-danger" id="fr-freeride-btn">기여 안 한다 (무임승차)</button>
+      <button class="tb-btn" id="fr-reset-btn" style="margin-left:12px;">처음부터</button>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="라운드" id="fr-round" value="0" borderColor="#3b82f6" />
+      <StatBox label="기여자 수" id="fr-contributors" value="-" borderColor="#059669" />
+      <StatBox label="나의 누적 이익" id="fr-my-profit" value="0만원" borderColor="#f59e0b" />
+      <StatBox label="사회 총이익" id="fr-social" value="0만원" borderColor="#8b5cf6" />
+    </div>
+
+    <ChartContainer id="freeride-chart" height="300px" />
+
+    <div id="fr-log" style="margin-top:12px; padding:12px; background:#f8fafc; border-radius:8px; max-height:200px; overflow-y:auto;">
+      <p style="color:#6b7280;">게임을 시작하세요.</p>
+    </div>
+
+    <InsightBox title="무임승차의 비극">
+      <p>
+        모두가 기여하면 모두 이득이지만, 각 개인은 "기여하지 않는 것"이 합리적이다.
+        남이 만들어 놓은 것에 공짜로 올라타면 되니까.
+        하지만 모두 그렇게 생각하면 아무도 기여하지 않아 공공재가 만들어지지 않는다.
+        이것이 개인 합리성과 집단 합리성의 충돌이다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 인터랙티브 3: 공유지의 비극 ========== -->
+  <div class="tb-card">
+    <h2>4. 공유지의 비극</h2>
+
+    <ExplainBox title="비유: 마을의 공동 목초지">
+      <p>
+        마을에 공동 목초지가 있다. 각 목동은 양을 최대한 많이 방목하려 한다.
+        양이 적으면 풀이 충분하지만, 양이 너무 많으면 풀이 다 먹혀 목초지가 황폐해진다.
+        각 목동은 "내가 양 한 마리 더 넣어도 별 문제 없겠지"라고 생각하지만,
+        모두가 그렇게 하면 목초지가 파괴된다.
+      </p>
+      <p>
+        이것이 <strong>공유지의 비극(Tragedy of the Commons)</strong>이다.
+        공유자원은 배제가 불가능하고 경합적이기 때문에 과도하게 사용된다.
+      </p>
+    </ExplainBox>
+
+    <SimControls>
+      <label for="commons-slider">내가 방목하는 양 수: <strong id="commons-my-sheep">5</strong>마리</label>
+      <input type="range" id="commons-slider" min="0" max="20" value="5" style="width:100%">
+      <p style="margin-top:8px; color:#6b7280;">다른 목동 4명은 각각 평균 5~10마리를 방목합니다.</p>
+    </SimControls>
+
+    <div class="tb-stat-row">
+      <StatBox label="총 양 수" id="commons-total" value="-" borderColor="#f59e0b" />
+      <StatBox label="목초지 건강도" id="commons-health" value="-" sub="100이 최상" borderColor="#059669" />
+      <StatBox label="내 양당 수익" id="commons-per-sheep" value="-" borderColor="#3b82f6" />
+      <StatBox label="내 총수익" id="commons-my-income" value="-" borderColor="#8b5cf6" />
+    </div>
+
+    <ChartContainer id="commons-chart" height="350px" />
+
+    <WarningBox title="공유지의 비극 해결 방법">
+      <ul>
+        <li><strong>소유권 설정:</strong> 목초지를 개인에게 나눠주면 각자 관리하게 된다.</li>
+        <li><strong>정부 규제:</strong> 방목 양 수를 제한하는 규제.</li>
+        <li><strong>공동체 관리:</strong> 엘리너 오스트롬(노벨상 수상)이 보여준 것처럼, 공동체 규칙으로도 관리 가능.</li>
+        <li><strong>사용료 부과:</strong> 공유자원 사용에 대가를 치르게 하기 (어업 면허 등).</li>
+      </ul>
+    </WarningBox>
+  </div>
+
+  <!-- ========== 비즈니스 적용 ========== -->
+  <div class="tb-card">
+    <h2>5. 실생활 속 공공재와 공유자원</h2>
+
+    <BusinessBox title="오픈소스 소프트웨어">
+      <p>
+        리눅스, 위키피디아 같은 오픈소스는 공공재의 성격을 가진다.
+        누구나 사용할 수 있고(비배제적), 한 사람이 쓴다고 줄지 않는다(비경합적).
+        그런데도 많은 사람이 자발적으로 기여한다. 왜?
+        평판, 학습, 공동체 의식 등의 비금전적 인센티브가 작동하기 때문이다.
+      </p>
+    </BusinessBox>
+
+    <BusinessBox title="기후변화와 탄소 배출">
+      <p>
+        깨끗한 대기는 공유자원이다. 모든 나라가 탄소를 배출하면 기후가 변하지만,
+        한 나라만 줄인다고 효과가 크지 않다 (무임승차 유인).
+        그래서 파리 기후협약 같은 국제 합의가 필요하다.
+        기후변화는 지구 규모의 "공유지의 비극"이다.
+      </p>
+    </BusinessBox>
+
+    <BusinessBox title="어업 쿼터제">
+      <p>
+        바다의 물고기는 공유자원이다. 누구나 잡을 수 있지만(비배제적),
+        한 사람이 잡으면 다른 사람이 잡을 수 있는 양이 줄어든다(경합적).
+        어업 쿼터(할당량)는 각 어선이 잡을 수 있는 양을 제한하여 남획을 방지한다.
+      </p>
+    </BusinessBox>
+  </div>
+
+  <!-- ========== 추가: 엘리너 오스트롬과 공동체 관리 ========== -->
+  <div class="tb-card">
+    <h2>6. 엘리너 오스트롬: 정부도 시장도 아닌 제3의 길</h2>
+
+    <ExplainBox title="공동체의 지혜">
+      <p>
+        경제학에서는 오랫동안 공유자원 문제의 해결책이 두 가지뿐이라고 생각했다:
+        (1) 정부가 규제한다, (2) 사유화한다.
+      </p>
+      <p>
+        하지만 2009년 노벨경제학상을 받은 엘리너 오스트롬(Elinor Ostrom)은
+        전 세계의 사례를 연구하여 <strong>공동체 스스로 규칙을 만들어 관리</strong>하는
+        세 번째 방법이 효과적이라는 것을 보여주었다.
+      </p>
+    </ExplainBox>
+
+    <InsightBox title="오스트롬의 8가지 원칙">
+      <ol>
+        <li>자원의 경계가 명확할 것</li>
+        <li>규칙이 지역 상황에 맞을 것</li>
+        <li>구성원이 규칙 제정에 참여할 것</li>
+        <li>감시 체계가 있을 것</li>
+        <li>위반자에게 단계적 제재를 가할 것</li>
+        <li>갈등 해결 메커니즘이 있을 것</li>
+        <li>자치권이 인정될 것</li>
+        <li>대규모 자원은 중첩 조직으로 관리할 것</li>
+      </ol>
+    </InsightBox>
+
+    <ExerciseBox title="생각해보기">
+      <p>다음은 공동체 관리의 성공 사례이다:</p>
+      <ul>
+        <li><strong>스위스의 목초지:</strong> 수백 년간 마을 규칙으로 방목량을 제한하여 지속 가능하게 관리.</li>
+        <li><strong>일본의 입회림:</strong> 마을 공동 산림을 자체 규약으로 관리. 벌목량과 식림 의무를 정함.</li>
+        <li><strong>한국의 마을 수리 시설:</strong> 조선시대부터 농촌 마을이 보(洑)를 공동 관리하는 전통.</li>
+      </ul>
+      <p>이 사례들의 공통점을 오스트롬의 원칙에 비추어 생각해보세요.</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ========== 추가: 디지털 시대의 공공재 ========== -->
+  <div class="tb-card">
+    <h2>7. 디지털 시대의 새로운 공공재</h2>
+
+    <ExplainBox>
+      <p>
+        디지털 시대에는 새로운 유형의 공공재가 등장했다.
+        소프트웨어, 데이터, 지식 등은 한 사람이 사용해도 줄지 않는다(비경합적).
+        다만 접근을 제한할 수 있다(배제 가능) -- 이 경우 클럽재가 된다.
+      </p>
+    </ExplainBox>
+
+    <ExerciseBox title="디지털 재화를 분류해보세요">
+      <ul>
+        <li><strong>위키피디아:</strong> 비배제적 + 비경합적 = 공공재. 기부로 운영.</li>
+        <li><strong>유튜브 일반 동영상:</strong> 비배제적 + 비경합적 = 공공재 (광고 수입으로 유지).</li>
+        <li><strong>넷플릭스:</strong> 배제적 (구독 필요) + 비경합적 = 클럽재.</li>
+        <li><strong>한정판 NFT:</strong> 배제적 + 경합적 = 사적재.</li>
+      </ul>
+      <p>디지털 재화는 복제 비용이 거의 0이라 비경합적인 경우가 많다. 배제성 여부가 비즈니스 모델을 결정한다.</p>
+    </ExerciseBox>
+
+    <InsightBox title="데이터의 특성">
+      <p>
+        데이터는 비경합적이지만(공유해도 줄지 않음), 기업은 이를 배제적으로 만들어 수익을 올린다.
+        개인정보 보호, 데이터 소유권, 오픈 데이터 정책 등은
+        모두 데이터라는 새로운 재화의 공공재적 성격과 관련된 논쟁이다.
+      </p>
+    </InsightBox>
+  </div>
+
+  <!-- ========== 결론 ========== -->
+  <ConclusionBox title="9장 핵심 정리">
+    <ul>
+      <li><strong>공공재:</strong> 비배제적 + 비경합적. 무임승차 문제로 시장에서 과소 공급.</li>
+      <li><strong>공유자원:</strong> 비배제적 + 경합적. 공유지의 비극으로 과도 사용.</li>
+      <li><strong>무임승차:</strong> 비용을 치르지 않고 혜택을 누리려는 행동. 공공재 공급을 어렵게 함.</li>
+      <li><strong>해결책:</strong> 정부 제공(세금), 소유권 설정, 공동체 관리, 사용료 부과.</li>
+      <li><strong>재화 분류:</strong> 배제성과 경합성으로 사적재/클럽재/공유자원/공공재를 구분.</li>
+    </ul>
+    <p style="margin-top: 12px;">
+      <strong>다음 장 예고:</strong> 지금까지 배운 미시경제학 개념들을 종합하여 시장 정책의 효과를 직접 실험한다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  try {
+    var key = 'textbook-progress-econ';
+    var raw = localStorage.getItem(key);
+    var data = raw ? JSON.parse(raw) : { chapters: {} };
+    data.chapters['09-public-goods'] = { visited: true, lastVisit: new Date().toISOString().slice(0, 10) };
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch(e) {}
+
+  // ========== 인터랙티브 1: 공공재 분류기 ==========
+  var goods = [
+    { name: '삼각김밥', answer: '사적재' },
+    { name: '국방', answer: '공공재' },
+    { name: '바다의 물고기', answer: '공유자원' },
+    { name: '넷플릭스', answer: '클럽재' },
+    { name: '가로등', answer: '공공재' },
+    { name: '공기', answer: '공유자원' },
+    { name: '유료 고속도로', answer: '클럽재' },
+    { name: '택시', answer: '사적재' },
+    { name: '공영 라디오', answer: '공공재' },
+    { name: '지하수', answer: '공유자원' },
+    { name: '영화표', answer: '사적재' },
+    { name: '위성 TV', answer: '클럽재' },
+    { name: '불꽃놀이', answer: '공공재' },
+    { name: '공원 벤치', answer: '공유자원' },
+    { name: '스마트폰', answer: '사적재' },
+    { name: '체육관 회원권', answer: '클럽재' },
+    { name: '도서관 책', answer: '공유자원' },
+    { name: '등대 불빛', answer: '공공재' },
+    { name: '피자 한 조각', answer: '사적재' },
+    { name: '케이블 방송', answer: '클럽재' }
+  ];
+
+  var quizContainer = document.getElementById('classify-quiz');
+  if (quizContainer) {
+    var html = '';
+    for (var i = 0; i < goods.length; i++) {
+      html += '<div style="padding:8px; background:#f8fafc; border-radius:6px; display:flex; align-items:center; gap:8px;">';
+      html += '<span style="font-weight:600; min-width:100px;">' + goods[i].name + '</span>';
+      html += '<select class="classify-select" data-idx="' + i + '" style="padding:4px; border-radius:4px; border:1px solid #d1d5db; flex:1;">';
+      html += '<option value="">?</option>';
+      html += '<option value="사적재">사적재</option>';
+      html += '<option value="클럽재">클럽재</option>';
+      html += '<option value="공유자원">공유자원</option>';
+      html += '<option value="공공재">공공재</option>';
+      html += '</select>';
+      html += '<span class="classify-result" data-idx="' + i + '" style="font-weight:600; min-width:20px;"></span>';
+      html += '</div>';
+    }
+    quizContainer.innerHTML = html;
+  }
+
+  var classifyChart = null;
+
+  window.checkClassify = function() {
+    var score = 0;
+    var counts = { '사적재': 0, '클럽재': 0, '공유자원': 0, '공공재': 0 };
+    var correct = { '사적재': 0, '클럽재': 0, '공유자원': 0, '공공재': 0 };
+
+    for (var i = 0; i < goods.length; i++) {
+      var sel = document.querySelector('.classify-select[data-idx="' + i + '"]');
+      var res = document.querySelector('.classify-result[data-idx="' + i + '"]');
+      if (!sel || !res) continue;
+      counts[goods[i].answer] = (counts[goods[i].answer] || 0) + 1;
+      if (sel.value === goods[i].answer) {
+        res.textContent = 'O';
+        res.style.color = '#059669';
+        score++;
+        correct[goods[i].answer] = (correct[goods[i].answer] || 0) + 1;
+      } else if (sel.value === '') {
+        res.textContent = '-';
+        res.style.color = '#6b7280';
+      } else {
+        res.textContent = 'X';
+        res.style.color = '#ef4444';
+      }
+    }
+    document.getElementById('classify-score').textContent = score + ' / 20';
+
+    // Chart
+    var categories = ['사적재', '클럽재', '공유자원', '공공재'];
+    var totalData = categories.map(function(c) { return counts[c] || 0; });
+    var correctData = categories.map(function(c) { return correct[c] || 0; });
+
+    if (!classifyChart) {
+      var ctx = document.getElementById('classify-chart');
+      if (!ctx) return;
+      classifyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: categories,
+          datasets: [
+            { label: '해당 재화 수', data: totalData, backgroundColor: 'rgba(156,163,175,0.4)' },
+            { label: '맞힌 수', data: correctData, backgroundColor: 'rgba(5,150,105,0.6)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: { y: { beginAtZero: true, max: 8 } }
+        }
+      });
+    } else {
+      classifyChart.data.datasets[0].data = totalData;
+      classifyChart.data.datasets[1].data = correctData;
+      classifyChart.update();
+    }
+  };
+
+  // ========== 인터랙티브 2: 무임승차 게임 ==========
+  var frRound = 0;
+  var myProfit = 0;
+  var socialProfit = 0;
+  var frHistory = [];
+  var frChart = null;
+
+  function runFreeRideRound(myChoice) {
+    frRound++;
+    // Other 4 players: random, but decreasing contribution as rounds go
+    var otherContributors = 0;
+    for (var i = 0; i < 4; i++) {
+      // Each has decreasing probability of contributing
+      var prob = Math.max(0.2, 0.7 - frRound * 0.05);
+      if (Math.random() < prob) otherContributors++;
+    }
+
+    var totalContributors = otherContributors + (myChoice ? 1 : 0);
+    var projectSuccess = totalContributors >= 3; // Need 3+ to succeed
+
+    var myRoundProfit = 0;
+    var socialRoundProfit = 0;
+
+    if (projectSuccess) {
+      // Each person gets 20 benefit
+      myRoundProfit = 20 - (myChoice ? 10 : 0);
+      socialRoundProfit = 20 * 5 - totalContributors * 10;
+    } else {
+      // Project fails, contributors lose their contribution
+      myRoundProfit = myChoice ? -10 : 0;
+      socialRoundProfit = -totalContributors * 10;
+    }
+
+    myProfit += myRoundProfit;
+    socialProfit += socialRoundProfit;
+
+    frHistory.push({
+      round: frRound,
+      myChoice: myChoice,
+      contributors: totalContributors,
+      success: projectSuccess,
+      myProfit: myRoundProfit,
+      cumProfit: myProfit
+    });
+
+    document.getElementById('fr-round').textContent = frRound;
+    document.getElementById('fr-contributors').textContent = totalContributors + '/5명';
+    document.getElementById('fr-my-profit').textContent = myProfit + '만원';
+    document.getElementById('fr-social').textContent = socialProfit + '만원';
+
+    var logEl = document.getElementById('fr-log');
+    var statusText = projectSuccess ? '성공!' : '실패...';
+    var choiceText = myChoice ? '기여함' : '무임승차';
+    logEl.innerHTML = '<p><strong>라운드 ' + frRound + ':</strong> 나: ' + choiceText +
+      ', 기여자: ' + totalContributors + '명, 프로젝트: ' + statusText +
+      ', 내 이익: ' + (myRoundProfit >= 0 ? '+' : '') + myRoundProfit + '만원</p>' + logEl.innerHTML;
+
+    updateFRChart();
+  }
+
+  function updateFRChart() {
+    var labels = frHistory.map(function(h) { return h.round + '라운드'; });
+    var profitData = frHistory.map(function(h) { return h.cumProfit; });
+    var contribData = frHistory.map(function(h) { return h.contributors; });
+
+    if (!frChart) {
+      var ctx = document.getElementById('freeride-chart');
+      if (!ctx) return;
+      frChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: '내 누적 이익 (만원)', data: profitData, borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', fill: true, tension: 0.3, yAxisID: 'y' },
+            { label: '기여자 수', data: contribData, borderColor: '#3b82f6', tension: 0.3, yAxisID: 'y1', pointStyle: 'rect' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: {
+            y: { position: 'left', title: { display: true, text: '누적 이익 (만원)' } },
+            y1: { position: 'right', title: { display: true, text: '기여자 수' }, min: 0, max: 5, grid: { drawOnChartArea: false } }
+          }
+        }
+      });
+    } else {
+      frChart.data.labels = labels;
+      frChart.data.datasets[0].data = profitData;
+      frChart.data.datasets[1].data = contribData;
+      frChart.update();
+    }
+  }
+
+  document.getElementById('fr-contribute-btn').addEventListener('click', function() { runFreeRideRound(true); });
+  document.getElementById('fr-freeride-btn').addEventListener('click', function() { runFreeRideRound(false); });
+  document.getElementById('fr-reset-btn').addEventListener('click', function() {
+    frRound = 0; myProfit = 0; socialProfit = 0; frHistory = [];
+    document.getElementById('fr-round').textContent = '0';
+    document.getElementById('fr-contributors').textContent = '-';
+    document.getElementById('fr-my-profit').textContent = '0만원';
+    document.getElementById('fr-social').textContent = '0만원';
+    document.getElementById('fr-log').innerHTML = '<p style="color:#6b7280;">게임을 시작하세요.</p>';
+    if (frChart) { frChart.destroy(); frChart = null; }
+  });
+
+  // ========== 인터랙티브 3: 공유지의 비극 ==========
+  var commonsChart = null;
+
+  function updateCommons() {
+    var mySheep = parseInt(document.getElementById('commons-slider').value);
+    document.getElementById('commons-my-sheep').textContent = mySheep;
+
+    // Other 4 herders: each 5-10 sheep
+    var otherSheep = [7, 6, 8, 5]; // fixed for simplicity
+    var totalOther = otherSheep.reduce(function(a, b) { return a + b; }, 0);
+    var totalSheep = mySheep + totalOther;
+
+    document.getElementById('commons-total').textContent = totalSheep + '마리';
+
+    // Pasture health: 100 at 0 sheep, decreases quadratically
+    var capacity = 50; // sustainable limit
+    var health = Math.max(0, 100 - Math.pow(totalSheep / capacity, 2) * 100);
+    document.getElementById('commons-health').textContent = health.toFixed(0);
+
+    // Revenue per sheep depends on health
+    var revenuePerSheep = Math.max(0, health / 100 * 10);
+    document.getElementById('commons-per-sheep').textContent = revenuePerSheep.toFixed(1) + '만원';
+
+    var myIncome = mySheep * revenuePerSheep;
+    document.getElementById('commons-my-income').textContent = myIncome.toFixed(1) + '만원';
+
+    // Chart: my sheep vs income, show optimal
+    var sheepRange = [];
+    var incomeData = [];
+    var healthData = [];
+    for (var s = 0; s <= 20; s++) {
+      sheepRange.push(s);
+      var total = s + totalOther;
+      var h = Math.max(0, 100 - Math.pow(total / capacity, 2) * 100);
+      var rps = Math.max(0, h / 100 * 10);
+      incomeData.push(s * rps);
+      healthData.push(h);
+    }
+
+    if (!commonsChart) {
+      var ctx = document.getElementById('commons-chart');
+      if (!ctx) return;
+      commonsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: sheepRange,
+          datasets: [
+            { label: '내 총수익 (만원)', data: incomeData, borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', fill: true, tension: 0.3, yAxisID: 'y' },
+            { label: '목초지 건강도', data: healthData, borderColor: '#ef4444', borderDash: [5, 3], tension: 0.3, yAxisID: 'y1', pointRadius: 0 },
+            { label: '현재 선택', data: sheepRange.map(function(s) { return s === mySheep ? incomeData[s] : null; }), pointRadius: 10, pointBackgroundColor: '#3b82f6', showLine: false, yAxisID: 'y' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: {
+            x: { title: { display: true, text: '내 양 수 (마리)' } },
+            y: { position: 'left', title: { display: true, text: '수익 (만원)' }, beginAtZero: true },
+            y1: { position: 'right', title: { display: true, text: '건강도' }, min: 0, max: 100, grid: { drawOnChartArea: false } }
+          },
+          spanGaps: true
+        }
+      });
+    } else {
+      commonsChart.data.datasets[0].data = incomeData;
+      commonsChart.data.datasets[1].data = healthData;
+      commonsChart.data.datasets[2].data = sheepRange.map(function(s) { return s === mySheep ? incomeData[s] : null; });
+      commonsChart.update();
+    }
+  }
+
+  document.getElementById('commons-slider').addEventListener('input', updateCommons);
+  updateCommons();
+}
+
+waitForChart(init);
+</script>

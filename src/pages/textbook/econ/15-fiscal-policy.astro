@@ -1,0 +1,552 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="재정정책"
+  subtitle="정부는 경제에 어떻게 개입하는가"
+  chapterNum={15}
+  part={2}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>정부가 돈을 쓰면 경제가 살아난다?</h2>
+    <p>
+      경기가 나빠지면 뉴스에서 자주 듣는 말이 있습니다.
+      "정부가 추경(추가경정예산)을 편성한다." "세금을 깎아준다."
+      이런 것들이 모두 <strong>재정정책</strong>입니다.
+    </p>
+    <p style="margin-top: 12px;">
+      재정정책이란 <strong>정부가 세금과 지출을 조절하여 경제에 영향을 미치는 것</strong>입니다.
+      경기가 나쁠 때는 지출을 늘리거나 세금을 깎고,
+      경기가 과열될 때는 지출을 줄이거나 세금을 올립니다.
+    </p>
+
+    <InsightBox title="재정정책의 두 가지 도구">
+      <p><strong>1. 정부 지출 (G):</strong> 도로 건설, 국방, 교육, 복지 등에 돈을 씀</p>
+      <p><strong>2. 조세 (T):</strong> 소득세, 법인세, 부가가치세 등을 걷음</p>
+      <p style="margin-top: 8px;">GDP = C + I + <strong>G</strong> + NX 에서 G를 직접 조절하거나,
+        세금을 통해 C(소비)에 간접적으로 영향을 줍니다.</p>
+    </InsightBox>
+
+    <ExplainBox title="확장적 vs 긴축적 재정정책">
+      <p><strong>확장적 재정정책 (경기 침체 시):</strong></p>
+      <ul style="margin: 4px 0 8px 16px;">
+        <li>정부 지출 확대 (도로/철도 건설, 재난 지원금 등)</li>
+        <li>세금 인하 (소득세 감면, 부가세 감면 등)</li>
+        <li>효과: 총수요 증가 → GDP 증가, 실업률 하락</li>
+      </ul>
+      <p><strong>긴축적 재정정책 (경기 과열 시):</strong></p>
+      <ul style="margin: 4px 0 0 16px;">
+        <li>정부 지출 축소</li>
+        <li>세금 인상</li>
+        <li>효과: 총수요 감소 → GDP 둔화, 물가 안정</li>
+      </ul>
+    </ExplainBox>
+
+    <BusinessBox title="한국의 재정정책 사례">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>1998년 IMF 위기:</strong> 긴축 재정 → 경기 더 악화 → 이후 확장으로 전환</li>
+        <li><strong>2009년 금융위기:</strong> 추경 28조원 편성, 4대강 사업 등 대규모 SOC 투자</li>
+        <li><strong>2020년 코로나:</strong> 총 6차례 추경, 재난지원금 지급 → 약 70조원 규모</li>
+        <li><strong>2022년:</strong> 물가 급등으로 긴축적 재정 운용으로 전환</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 정부 예산 배분기 ===== -->
+  <div class="tb-card">
+    <h2>실습 1: 정부 예산 배분기</h2>
+    <p>
+      한국 정부의 총 예산은 약 650조원(2024년)입니다.
+      각 분야에 얼마를 배분할지 직접 결정해 보세요.
+    </p>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="총 예산" value="650조원" id="budget-total" borderColor="#059669" />
+      <StatBox label="배분된 금액" value="-" id="budget-allocated" borderColor="#3b82f6" />
+      <StatBox label="잔여" value="-" id="budget-remaining" borderColor="#f59e0b" />
+    </div>
+
+    <SimControls>
+      <label>보건/복지: <span id="bud-welfare-val">220</span>조원</label>
+      <input type="range" id="bud-welfare" min="50" max="350" value="220" step="10" />
+      <label>교육: <span id="bud-edu-val">90</span>조원</label>
+      <input type="range" id="bud-edu" min="30" max="200" value="90" step="10" />
+      <label>국방: <span id="bud-defense-val">60</span>조원</label>
+      <input type="range" id="bud-defense" min="20" max="150" value="60" step="10" />
+      <label>SOC(도로/철도): <span id="bud-soc-val">28</span>조원</label>
+      <input type="range" id="bud-soc" min="10" max="100" value="28" step="2" />
+      <label>R&D: <span id="bud-rd-val">30</span>조원</label>
+      <input type="range" id="bud-rd" min="10" max="80" value="30" step="2" />
+      <label>기타: <span id="bud-other-val">222</span>조원</label>
+      <input type="range" id="bud-other" min="50" max="350" value="222" step="10" />
+    </SimControls>
+
+    <ChartContainer id="budgetChart" height="380px" />
+
+    <BusinessBox title="각 분야 지출의 경제적 효과">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>복지 지출:</strong> 저소득층의 소비 여력 증가 → 내수 활성화</li>
+        <li><strong>교육 투자:</strong> 장기적으로 인적 자본 향상 → 생산성 증가</li>
+        <li><strong>SOC 투자:</strong> 일자리 직접 창출 + 물류비 절감 → 단기/장기 모두 효과</li>
+        <li><strong>R&D 투자:</strong> 기술 혁신 → 장기 경제성장의 핵심</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 승수 효과 ===== -->
+  <div class="tb-card">
+    <h2>실습 2: 승수 효과</h2>
+    <p>
+      정부가 1조원을 지출하면, GDP는 1조원보다 더 많이 증가합니다. 왜일까요?
+    </p>
+
+    <ExplainBox title="승수 효과란?">
+      <p>정부가 도로 건설에 1조원을 쓰면, 건설 노동자들이 1조원의 소득을 얻습니다.
+        이 노동자들이 소득의 80%를 소비한다면 8천억원이 다른 사람들의 소득이 됩니다.
+        그 사람들도 80%를 소비하면 6,400억원이 또 다른 소득이 됩니다.
+        이런 식으로 연쇄적으로 소득과 소비가 늘어나는 것이 <strong>승수 효과</strong>입니다.</p>
+    </ExplainBox>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">지출 승수 = 1 / (1 - MPC)</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        MPC = 한계소비성향 (소득이 1원 늘면 소비가 얼마나 늘어나는가)
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        <span class="res">GDP 증가분 = 정부 지출 x 승수</span>
+      </p>
+    </FormulaBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="정부 지출" value="-" id="mult-spending" borderColor="#3b82f6" />
+      <StatBox label="승수" value="-" id="mult-multiplier" borderColor="#059669" />
+      <StatBox label="GDP 증가" value="-" id="mult-gdp" borderColor="#f59e0b" />
+    </div>
+
+    <SimControls>
+      <label>한계소비성향 (MPC): <span id="mpc-val">0.80</span></label>
+      <input type="range" id="mpc-slider" min="0.1" max="0.95" value="0.80" step="0.05" />
+      <label>정부 지출: <span id="spending-val">1.0</span>조원</label>
+      <input type="range" id="spending-slider" min="0.5" max="10" value="1.0" step="0.5" />
+    </SimControls>
+
+    <ChartContainer id="multChart" height="380px" />
+
+    <WarningBox title="승수의 한계">
+      <p>현실에서 승수는 이론보다 작을 수 있습니다.</p>
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li><strong>수입 누출:</strong> 소비의 일부가 외국 상품 구매로 빠져나감</li>
+        <li><strong>세금 누출:</strong> 소득 일부가 세금으로 빠져나감</li>
+        <li><strong>구축 효과:</strong> 정부가 돈을 빌리면 이자율이 올라 민간 투자가 줄어듬</li>
+      </ul>
+    </WarningBox>
+
+    <ExerciseBox title="연습: 승수 계산">
+      <p>MPC(한계소비성향)가 0.75일 때:</p>
+      <p>1. 지출 승수는?</p>
+      <p>2. 정부가 10조원을 추가 지출하면 GDP는 얼마나 증가하는가?</p>
+      <p>3. MPC가 0.9로 높아지면 승수는 어떻게 변하는가?</p>
+      <button class="tb-btn" id="mult-calc-btn" style="margin-top: 8px;">풀이 보기</button>
+      <div id="mult-calc-answer" style="display: none; margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1.</strong> 승수 = 1/(1-0.75) = 1/0.25 = <strong>4배</strong></p>
+        <p><strong>2.</strong> GDP 증가 = 10조 x 4 = <strong>40조원</strong></p>
+        <p><strong>3.</strong> 승수 = 1/(1-0.9) = 1/0.1 = <strong>10배</strong> (MPC가 높을수록 승수가 커집니다)</p>
+        <p style="margin-top: 8px;">사람들이 소득의 많은 부분을 소비할수록(MPC 높음),
+          소비의 연쇄 효과가 커져서 승수가 커집니다.</p>
+      </div>
+    </ExerciseBox>
+
+    <InsightBox title="세금 승수 vs 지출 승수">
+      <p>세금을 깎아도 GDP가 늘어나지만, 효과는 정부 지출보다 작습니다.</p>
+      <p style="margin-top: 8px;"><strong>세금 승수 = MPC / (1 - MPC)</strong></p>
+      <p>MPC = 0.75이면 세금 승수 = 0.75/0.25 = 3배. 지출 승수(4배)보다 작습니다.</p>
+      <p style="margin-top: 8px;">이유: 세금을 깎으면 사람들이 그 돈을 전부 쓰지 않고 일부를 저축하기 때문입니다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 자동안정장치 ===== -->
+  <div class="tb-card">
+    <h2>실습 3: 자동안정장치</h2>
+    <p>
+      정부가 새로운 법을 만들지 않아도, 기존의 세금/복지 제도가
+      자동으로 경기를 안정시키는 역할을 합니다.
+      이것을 <strong>자동안정장치(automatic stabilizer)</strong>라고 합니다.
+    </p>
+
+    <ExplainBox title="자동안정장치의 원리">
+      <p><strong>경기 침체 시:</strong></p>
+      <ul style="margin: 4px 0 0 16px;">
+        <li>소득이 줄어 → 소득세 수입 자동 감소 (가처분 소득 유지 효과)</li>
+        <li>실업자 증가 → 실업급여 자동 지급 (소비 유지 효과)</li>
+      </ul>
+      <p style="margin-top: 8px;"><strong>경기 호황 시:</strong></p>
+      <ul style="margin: 4px 0 0 16px;">
+        <li>소득이 늘어 → 소득세 수입 자동 증가 (과소비 억제 효과)</li>
+        <li>실업자 감소 → 실업급여 지출 자동 감소</li>
+      </ul>
+    </ExplainBox>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="경기 상태" value="-" id="as-state" borderColor="#7c3aed" />
+      <StatBox label="세금 수입 변화" value="-" id="as-tax" borderColor="#3b82f6" />
+      <StatBox label="복지 지출 변화" value="-" id="as-welfare" borderColor="#f59e0b" />
+      <StatBox label="재정 수지 변화" value="-" id="as-balance" borderColor="#059669" />
+    </div>
+
+    <SimControls>
+      <label>경기 변화 (GDP갭): <span id="as-gap-val">0</span>%</label>
+      <input type="range" id="as-gap" min="-10" max="10" value="0" step="1" />
+    </SimControls>
+
+    <ChartContainer id="asChart" height="350px" />
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 재정적자와 국가부채 ===== -->
+  <div class="tb-card">
+    <h2>실습 4: 재정적자와 국가부채</h2>
+    <p>
+      정부가 세금으로 걷는 돈보다 쓰는 돈이 많으면 <strong>재정적자</strong>가 생깁니다.
+      이 적자가 매년 누적되면 <strong>국가부채</strong>가 됩니다.
+    </p>
+
+    <FormulaBox>
+      <p style="text-align: center;">
+        <span class="hl">재정 수지 = 세입(수입) - 세출(지출)</span>
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        재정 수지 &lt; 0 이면 재정적자, > 0 이면 재정흑자
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        국가부채 = 과거 재정적자의 누적 합계
+      </p>
+    </FormulaBox>
+
+    <ChartContainer id="debtChart" height="380px" />
+
+    <ExerciseBox title="생각해 보기">
+      <p>한국의 GDP 대비 국가부채 비율은 약 50%로, 일본(260%)이나 미국(120%)보다 낮습니다.
+        그렇다면 한국은 부채를 더 늘려도 괜찮을까요?</p>
+      <button class="tb-btn" id="debt-answer-btn">생각 힌트 보기</button>
+      <p id="debt-answer" style="margin-top: 8px; display: none; color: #059669;">
+        부채 수준만으로는 판단하기 어렵습니다. 고려할 점: (1) 고령화로 복지 지출이 급증할 예정
+        (2) 경제 성장률이 둔화되면 부채 상환 능력 저하 (3) 급격한 부채 증가 속도가 문제
+        (4) 부채의 용도가 중요 -- 생산적 투자인가, 소비성 지출인가?
+      </p>
+    </ExerciseBox>
+
+    <ExerciseBox title="퀴즈: 재정정책 판단">
+      <p>다음 상황에서 어떤 재정정책이 적절할까요?</p>
+      <div style="margin: 12px 0;">
+        <p><strong>상황:</strong> 실업률이 8%로 치솟고 소비가 급감하고 있다.</p>
+        <button class="tb-btn" onclick="document.getElementById('fp-q1').textContent='정답! 경기 침체 시에는 확장적 재정정책이 필요합니다.'; document.getElementById('fp-q1').style.color='#059669';">A. 정부 지출 확대</button>
+        <button class="tb-btn" onclick="document.getElementById('fp-q1').textContent='오답. 세금 인상은 소비를 더 줄입니다.'; document.getElementById('fp-q1').style.color='#ef4444';" style="margin-left: 8px;">B. 세금 인상</button>
+      </div>
+      <p id="fp-q1" style="font-weight: bold; margin-top: 8px;"></p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== EXTRA: 균형 재정 vs 적극 재정 ===== -->
+  <div class="tb-card">
+    <h2>균형 재정 vs 적극 재정 논쟁</h2>
+    <p>
+      재정정책에 대해서는 두 가지 큰 관점이 있습니다.
+      어느 쪽이 옳은지는 상황에 따라 다릅니다.
+    </p>
+
+    <ExplainBox title="두 가지 관점">
+      <p><strong>균형 재정론 (보수적 관점):</strong></p>
+      <ul style="margin: 4px 0 8px 16px;">
+        <li>정부 부채를 늘리면 미래 세대에 부담</li>
+        <li>정부 지출은 민간보다 비효율적</li>
+        <li>구축 효과로 민간 투자가 줄어듬</li>
+        <li>대표: 고전학파, 통화주의</li>
+      </ul>
+      <p><strong>적극 재정론 (진보적 관점):</strong></p>
+      <ul style="margin: 4px 0 0 16px;">
+        <li>경기 침체 시 정부가 적극 개입해야 회복 빠름</li>
+        <li>불황에서는 민간이 안 쓰니 정부가 써야 함</li>
+        <li>인프라 투자는 장기 성장에 기여</li>
+        <li>대표: 케인스학파</li>
+      </ul>
+    </ExplainBox>
+
+    <InsightBox title="존 메이너드 케인스">
+      <p>"장기적으로 우리는 모두 죽는다." (In the long run, we are all dead.)
+        -- 케인스의 유명한 말입니다.</p>
+      <p style="margin-top: 8px;">1930년대 대공황 때, 시장이 스스로 회복되기를 기다리는 것은
+        너무 오래 걸린다며 정부의 적극적 개입을 주장했습니다.
+        현대 재정정책의 이론적 기초를 만든 사람입니다.</p>
+    </InsightBox>
+  </div>
+
+  <!-- ===== CONCLUSION ===== -->
+  <ConclusionBox title="15장 정리: 재정정책">
+    <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+      <li><strong>재정정책:</strong> 정부가 세금과 지출을 조절하여 경제에 영향</li>
+      <li><strong>확장적 재정정책:</strong> 지출 확대 또는 감세 → 경기 부양</li>
+      <li><strong>긴축적 재정정책:</strong> 지출 축소 또는 증세 → 경기 과열 억제</li>
+      <li><strong>승수 효과:</strong> 정부 지출 1원 → GDP 증가 &gt; 1원 (승수 = 1/(1-MPC))</li>
+      <li><strong>자동안정장치:</strong> 누진세, 실업급여 등이 자동으로 경기 안정</li>
+      <li><strong>국가부채:</strong> 재정적자의 누적. 적정 수준 관리가 중요</li>
+    </ul>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+function init() {
+  /* ========== 1. 정부 예산 배분기 ========== */
+  var budCtx = document.getElementById('budgetChart');
+  if (!budCtx) return;
+
+  var budSliders = ['bud-welfare', 'bud-edu', 'bud-defense', 'bud-soc', 'bud-rd', 'bud-other'];
+  var budLabels = ['보건/복지', '교육', '국방', 'SOC', 'R&D', '기타'];
+  var budColors = ['#3b82f6', '#10b981', '#ef4444', '#f59e0b', '#8b5cf6', '#9ca3af'];
+
+  var budgetChart = new Chart(budCtx, {
+    type: 'doughnut',
+    data: {
+      labels: budLabels,
+      datasets: [{
+        data: [220, 90, 60, 28, 30, 222],
+        backgroundColor: budColors,
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              var total = ctx.dataset.data.reduce(function(a, b) { return a + b; }, 0);
+              return ctx.label + ': ' + ctx.parsed + '조원 (' + (ctx.parsed / total * 100).toFixed(1) + '%)';
+            }
+          }
+        }
+      }
+    }
+  });
+
+  function updateBudget() {
+    var total = 0;
+    var data = [];
+    budSliders.forEach(function(id, idx) {
+      var sl = document.getElementById(id);
+      var val = parseInt(sl.value);
+      document.getElementById(id + '-val').textContent = val;
+      data.push(val);
+      total += val;
+    });
+    document.getElementById('budget-allocated').textContent = total + '조원';
+    document.getElementById('budget-remaining').textContent = (650 - total) + '조원';
+    var remEl = document.getElementById('budget-remaining');
+    remEl.style.color = total > 650 ? '#ef4444' : '#059669';
+
+    budgetChart.data.datasets[0].data = data;
+    budgetChart.update();
+  }
+
+  budSliders.forEach(function(id) {
+    document.getElementById(id).addEventListener('input', updateBudget);
+  });
+  updateBudget();
+
+  /* ========== 2. 승수 효과 ========== */
+  var mpcSlider = document.getElementById('mpc-slider');
+  var spendingSlider = document.getElementById('spending-slider');
+  var multCtx = document.getElementById('multChart');
+
+  var multChart = new Chart(multCtx, {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [{
+        label: '소비 연쇄 효과 (조원)',
+        data: [],
+        backgroundColor: 'rgba(59,130,246,0.6)',
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '라운드' } },
+        y: { title: { display: true, text: '금액 (조원)' }, beginAtZero: true }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function updateMult() {
+    var mpc = parseFloat(mpcSlider.value);
+    var spending = parseFloat(spendingSlider.value);
+    document.getElementById('mpc-val').textContent = mpc.toFixed(2);
+    document.getElementById('spending-val').textContent = spending.toFixed(1);
+
+    var multiplier = 1 / (1 - mpc);
+    var gdpIncrease = spending * multiplier;
+
+    document.getElementById('mult-spending').textContent = spending.toFixed(1) + '조원';
+    document.getElementById('mult-multiplier').textContent = multiplier.toFixed(1) + '배';
+    document.getElementById('mult-gdp').textContent = gdpIncrease.toFixed(1) + '조원';
+
+    var labels = [];
+    var data = [];
+    var current = spending;
+    var cumulative = 0;
+    for (var r = 1; r <= 15; r++) {
+      labels.push(r + '라운드');
+      data.push(parseFloat(current.toFixed(2)));
+      cumulative += current;
+      current *= mpc;
+      if (current < 0.01) break;
+    }
+
+    multChart.data.labels = labels;
+    multChart.data.datasets[0].data = data;
+    multChart.update();
+  }
+
+  mpcSlider.addEventListener('input', updateMult);
+  spendingSlider.addEventListener('input', updateMult);
+  updateMult();
+
+  /* ========== 3. 자동안정장치 ========== */
+  var asGap = document.getElementById('as-gap');
+  var asCtx = document.getElementById('asChart');
+
+  var asChart = new Chart(asCtx, {
+    type: 'bar',
+    data: {
+      labels: ['세금 수입 변화', '복지 지출 변화', '재정 수지 변화'],
+      datasets: [{
+        data: [0, 0, 0],
+        backgroundColor: ['#3b82f6', '#f59e0b', '#059669'],
+        borderWidth: 0,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      scales: { x: { title: { display: true, text: '조원' }, min: -30, max: 30 } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function updateAS() {
+    var gap = parseInt(asGap.value);
+    document.getElementById('as-gap-val').textContent = gap > 0 ? '+' + gap : gap;
+
+    // 세금: 경기 좋으면(+) 세수 증가, 나쁘면(-) 세수 감소
+    var taxChange = gap * 2; // 조원
+    // 복지: 경기 좋으면 복지지출 감소, 나쁘면 증가
+    var welfareChange = -gap * 1.5;
+    var balanceChange = taxChange - welfareChange;
+
+    var state = gap > 2 ? '호황' : gap < -2 ? '침체' : '보통';
+    document.getElementById('as-state').textContent = state;
+    document.getElementById('as-tax').textContent = (taxChange > 0 ? '+' : '') + taxChange + '조원';
+    document.getElementById('as-welfare').textContent = (welfareChange > 0 ? '+' : '') + welfareChange.toFixed(0) + '조원';
+    document.getElementById('as-balance').textContent = (balanceChange > 0 ? '+' : '') + balanceChange.toFixed(0) + '조원';
+
+    asChart.data.datasets[0].data = [taxChange, welfareChange, balanceChange];
+    asChart.data.datasets[0].backgroundColor = [
+      taxChange >= 0 ? '#059669' : '#ef4444',
+      welfareChange >= 0 ? '#f59e0b' : '#3b82f6',
+      balanceChange >= 0 ? '#059669' : '#ef4444'
+    ];
+    asChart.update();
+  }
+
+  asGap.addEventListener('input', updateAS);
+  updateAS();
+
+  /* ========== 4. 재정적자와 국가부채 ========== */
+  var debtYears = [];
+  for (var y = 2000; y <= 2025; y++) debtYears.push(y);
+
+  // 한국 GDP 대비 국가부채 비율 (합성, 대략적)
+  var debtRatio = [
+    18, 19, 18, 20, 24, 28, 31, 30, 30, 33,
+    33, 34, 34, 36, 36, 38, 38, 39, 40, 42,
+    47, 50, 50, 51, 52, 52
+  ];
+
+  var debtCtx = document.getElementById('debtChart');
+  new Chart(debtCtx, {
+    type: 'line',
+    data: {
+      labels: debtYears,
+      datasets: [{
+        label: 'GDP 대비 국가부채 비율 (%)',
+        data: debtRatio,
+        borderColor: '#ef4444',
+        backgroundColor: 'rgba(239,68,68,0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.3,
+        pointRadius: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '연도' } },
+        y: { title: { display: true, text: 'GDP 대비 부채 비율 (%)' }, beginAtZero: true, max: 70 }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterLabel: function(ctx) {
+              var yr = 2000 + ctx.dataIndex;
+              if (yr === 2009) return '글로벌 금융위기 대응으로 증가';
+              if (yr === 2020) return '코로나19 대응으로 급증';
+              return '';
+            }
+          }
+        }
+      }
+    }
+  });
+
+  document.getElementById('debt-answer-btn').addEventListener('click', function() {
+    document.getElementById('debt-answer').style.display = 'block';
+  });
+
+  var multCalcBtn = document.getElementById('mult-calc-btn');
+  if (multCalcBtn) {
+    multCalcBtn.addEventListener('click', function() {
+      document.getElementById('mult-calc-answer').style.display = 'block';
+    });
+  }
+}
+
+waitForChart(init);
+</script>
