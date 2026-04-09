@@ -1,0 +1,720 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="반복 게임과 전략의 진화"
+  subtitle="한 번이 아니라 여러 번 만나면 달라진다"
+  chapterNum={30}
+  part={5}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>한 번만 만나면 배신이 합리적이다. 하지만 내일 또 만난다면?</h2>
+    <p>
+      죄수의 딜레마에서 1회 게임이면 배신이 우월전략입니다.
+      하지만 같은 상대와 <strong>수백 번, 수천 번</strong> 만난다면?
+      배신하면 다음에 보복당할 수 있습니다.
+      협력하면 상호 이익의 관계가 지속될 수 있습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      1984년, 정치학자 <strong>로버트 액셀로드(Robert Axelrod)</strong>는
+      전 세계 학자들에게 죄수의 딜레마 전략을 제출하게 한 뒤 토너먼트를 열었습니다.
+      우승 전략은 놀랍도록 단순한 <strong>팃포탯(Tit-for-Tat)</strong>이었습니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>반복 게임에서 협력이 가능해지는 원리 이해</li>
+        <li>Axelrod 토너먼트에서 팃포탯의 승리를 체험</li>
+        <li>다양한 전략의 대결 결과를 시뮬레이션</li>
+        <li>전략 진화 다이내믹스를 시각화</li>
+        <li>할인율과 협력의 관계 탐구</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>반복 게임의 기본</h2>
+
+    <ExplainBox title="유한 반복 vs 무한 반복">
+      <p><strong>유한 반복 (횟수가 정해진 경우):</strong> 마지막 라운드에서 배신 → 그 전 라운드에서도 배신 → ... 역진귀납법으로 모든 라운드에서 배신이 균형.</p>
+      <p style="margin-top: 8px;"><strong>무한 반복 (끝을 모르는 경우):</strong> "마지막 라운드"가 없으므로 보복 가능 → 협력이 균형이 될 수 있음!</p>
+    </ExplainBox>
+
+    <FormulaBox title="팃포탯 (Tit-for-Tat) 전략">
+      <p><strong>규칙:</strong></p>
+      <p>1. 첫 라운드: <strong>협력</strong></p>
+      <p>2. 이후: <strong>상대가 지난 라운드에 한 것을 그대로 따라함</strong></p>
+      <p style="margin-top: 8px;"><strong>특징:</strong> 착함(먼저 배신 안 함), 보복적(배신에 즉시 반응), 관대(상대가 협력하면 바로 용서), 단순(이해하기 쉬움)</p>
+    </FormulaBox>
+
+    <BusinessBox title="주요 전략 목록">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>항상 협력(Always Cooperate):</strong> 무조건 협력. 착하지만 이용당함.</li>
+        <li><strong>항상 배신(Always Defect):</strong> 무조건 배신. 단기 이득, 장기 손해.</li>
+        <li><strong>팃포탯(Tit-for-Tat):</strong> 협력으로 시작, 이후 상대를 따라함.</li>
+        <li><strong>관대한 팃포탯(Generous TFT):</strong> 팃포탯이지만 10% 확률로 배신을 용서.</li>
+        <li><strong>파블로프(Pavlov):</strong> 이전 결과가 좋았으면 같은 선택, 나빴으면 바꿈.</li>
+        <li><strong>랜덤(Random):</strong> 50/50 동전 던지기.</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: Axelrod 토너먼트 ===== -->
+  <div class="tb-card">
+    <h2>1. Axelrod 토너먼트 시뮬레이터</h2>
+    <p>
+      6가지 전략이 라운드로빈 방식으로 200라운드씩 대결합니다.
+      모든 전략 쌍이 만나며, 총점이 가장 높은 전략이 우승합니다.
+      어떤 전략이 우승할까요?
+    </p>
+
+    <SimControls>
+      <label>라운드 수:
+        <select id="axel-rounds">
+          <option value="50">50 라운드</option>
+          <option value="100">100 라운드</option>
+          <option value="200" selected>200 라운드</option>
+          <option value="500">500 라운드</option>
+        </select>
+      </label>
+      <button class="tb-btn" id="axel-run" style="margin-left: 12px; padding: 10px 24px; font-size: 1.1em;">토너먼트 실행!</button>
+    </SimControls>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="우승 전략" value="-" id="axel-winner" borderColor="#059669" />
+      <StatBox label="우승 점수" value="-" id="axel-top-score" borderColor="#6366f1" />
+      <StatBox label="총 라운드" value="-" id="axel-total" borderColor="#0891b2" />
+    </div>
+
+    <ChartContainer id="axelChart" height="400px" />
+
+    <div id="axel-details" style="margin: 16px 0; max-height: 300px; overflow-y: auto;"></div>
+
+    <ExerciseBox title="토너먼트 분석">
+      <p>토너먼트를 여러 번 실행해 보세요. 팃포탯이 항상 우승하나요?</p>
+      <p>라운드 수를 바꾸면 결과가 달라지나요?</p>
+      <button class="tb-btn" id="axel-answer-btn" style="margin-top: 8px;">핵심 발견</button>
+      <div id="axel-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>Axelrod의 발견:</strong> 팃포탯은 어떤 상대도 "이기지" 못합니다. 하지만 모든 상대에게 "괜찮은" 결과를 얻어 총점이 가장 높습니다.</p>
+        <p>"착하고, 보복적이고, 관대하고, 단순한" 전략이 승리합니다.</p>
+        <p style="margin-top: 8px;"><strong>교훈:</strong> 먼저 배신하지 말라. 배신에는 즉시 보복하라. 하지만 상대가 협력으로 돌아오면 용서하라.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 전략 대결 ===== -->
+  <div class="tb-card">
+    <h2>2. 전략 1:1 대결</h2>
+    <p>
+      두 전략을 선택하여 직접 대결시켜 보세요.
+      라운드별 결과를 테이블로 확인하고, 누적 점수 추이를 차트로 볼 수 있습니다.
+    </p>
+
+    <SimControls>
+      <label>전략 A:
+        <select id="duel-a">
+          <option value="tft">팃포탯</option>
+          <option value="allc">항상 협력</option>
+          <option value="alld">항상 배신</option>
+          <option value="gtft">관대한 팃포탯</option>
+          <option value="pavlov">파블로프</option>
+          <option value="random">랜덤</option>
+        </select>
+      </label>
+      <label style="margin-left: 12px;">전략 B:
+        <select id="duel-b">
+          <option value="alld">항상 배신</option>
+          <option value="tft">팃포탯</option>
+          <option value="allc">항상 협력</option>
+          <option value="gtft">관대한 팃포탯</option>
+          <option value="pavlov">파블로프</option>
+          <option value="random">랜덤</option>
+        </select>
+      </label>
+      <button class="tb-btn" id="duel-run" style="margin-left: 12px;">대결!</button>
+    </SimControls>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="A 총점" value="0" id="duel-a-score" borderColor="#ec4899" />
+      <StatBox label="B 총점" value="0" id="duel-b-score" borderColor="#3b82f6" />
+      <StatBox label="협력 비율" value="0%" id="duel-coop-rate" borderColor="#059669" />
+    </div>
+
+    <ChartContainer id="duelChart" height="350px" />
+
+    <div id="duel-history" style="margin: 16px 0; max-height: 250px; overflow-y: auto; font-size: 0.85em;"></div>
+
+    <ExerciseBox title="전략 비교">
+      <p>팃포탯 vs 항상 배신, 팃포탯 vs 항상 협력, 항상 배신 vs 항상 협력을 각각 비교하세요.</p>
+      <p>어떤 대결에서 팃포탯이 가장 높은 점수를 얻나요?</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 전략 진화 ===== -->
+  <div class="tb-card">
+    <h2>3. 전략 진화 시뮬레이션</h2>
+    <p>
+      100명으로 이루어진 집단이 있습니다. 각 전략의 초기 비율을 설정하세요.
+      매 세대마다 점수가 낮은 전략이 점수가 높은 전략으로 전환됩니다.
+      어떤 전략이 살아남을까요?
+    </p>
+
+    <div style="margin: 20px 0;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px;">
+        <label style="padding: 8px; background: #f9fafb; border-radius: 8px;">팃포탯: <span id="evo-tft-val">30</span>명
+          <input type="range" id="evo-tft" min="0" max="100" value="30" class="evo-slider" style="width: 100%;" />
+        </label>
+        <label style="padding: 8px; background: #f9fafb; border-radius: 8px;">항상 배신: <span id="evo-alld-val">30</span>명
+          <input type="range" id="evo-alld" min="0" max="100" value="30" class="evo-slider" style="width: 100%;" />
+        </label>
+        <label style="padding: 8px; background: #f9fafb; border-radius: 8px;">항상 협력: <span id="evo-allc-val">20</span>명
+          <input type="range" id="evo-allc" min="0" max="100" value="20" class="evo-slider" style="width: 100%;" />
+        </label>
+        <label style="padding: 8px; background: #f9fafb; border-radius: 8px;">랜덤: <span id="evo-rand-val">20</span>명
+          <input type="range" id="evo-rand" min="0" max="100" value="20" class="evo-slider" style="width: 100%;" />
+        </label>
+      </div>
+      <p id="evo-total" style="margin-top: 8px; font-weight: bold; text-align: center;">합계: 100명</p>
+    </div>
+
+    <SimControls>
+      <label>세대 수:
+        <select id="evo-gens">
+          <option value="20">20세대</option>
+          <option value="50" selected>50세대</option>
+          <option value="100">100세대</option>
+        </select>
+      </label>
+      <button class="tb-btn" id="evo-run" style="margin-left: 12px; padding: 10px 24px;">진화 시작!</button>
+    </SimControls>
+
+    <ChartContainer id="evoChart" height="400px" />
+
+    <ExerciseBox title="진화 실험">
+      <p>"항상 배신"이 90명이고 "팃포탯"이 10명인 집단에서 시작하면 결과가 어떻게 될까요?</p>
+      <p>반대로 "항상 협력"이 대다수인 집단에 "항상 배신"이 소수로 침입하면?</p>
+      <button class="tb-btn" id="evo-answer-btn" style="margin-top: 8px;">결과 보기</button>
+      <div id="evo-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>"항상 배신" 90 + 팃포탯 10:</strong> 팃포탯이 서서히 성장하여 결국 지배합니다. 팃포탯끼리 만나면 높은 점수, 배신자끼리는 낮은 점수.</p>
+        <p><strong>"항상 협력" 90 + "항상 배신" 10:</strong> 배신자가 급속히 확산합니다. 착한 전략은 이용당합니다.</p>
+        <p style="margin-top: 8px;">핵심: 보복 능력이 없는 협력(항상 협력)은 침입에 취약하지만, 보복하는 협력(팃포탯)은 안정적입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 할인율과 협력 ===== -->
+  <div class="tb-card">
+    <h2>4. 할인율과 협력의 조건</h2>
+    <p>
+      미래 보수를 현재 가치로 할인하는 비율을 <strong>할인인자(delta)</strong>라고 합니다.
+      delta가 클수록 미래를 중시하고, 작을수록 현재만 중시합니다.
+      delta가 충분히 크면 협력이 유지됩니다.
+    </p>
+
+    <FormulaBox title="협력 유지 조건">
+      <p>죄수의 딜레마 보수: 협력(3,3), 배신유혹(5), 배신당함(0), 상호배신(1)</p>
+      <p style="margin-top: 8px;">팃포탯으로 협력 유지 시 보수: 3 + 3&delta; + 3&delta;&sup2; + ... = 3/(1-&delta;)</p>
+      <p>한 번 배신 후 보복당하는 보수: 5 + 1&delta; + 1&delta;&sup2; + ... = 5 + &delta;/(1-&delta;)</p>
+      <p style="margin-top: 8px;">협력 조건: 3/(1-&delta;) &gt; 5 + &delta;/(1-&delta;)</p>
+      <p>정리: <strong>&delta; &gt; 1/2</strong> → 미래를 절반 이상 중시하면 협력이 유지됩니다.</p>
+    </FormulaBox>
+
+    <SimControls>
+      <label>할인인자 (&delta;): <span id="delta-val">0.50</span>
+        <input type="range" id="delta-slider" min="0" max="99" value="50" style="width: 300px;" />
+      </label>
+    </SimControls>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="협력 유지 보수" value="-" id="delta-coop" borderColor="#059669" />
+      <StatBox label="이탈 후 보수" value="-" id="delta-defect" borderColor="#ef4444" />
+      <StatBox label="협력 가능?" value="-" id="delta-possible" borderColor="#6366f1" />
+    </div>
+
+    <ChartContainer id="deltaChart" height="350px" />
+
+    <ExerciseBox title="할인율 해석">
+      <p>delta = 0.9는 "내일의 1원은 오늘의 0.9원과 같다"는 뜻입니다. 미래를 매우 중시합니다.</p>
+      <p>delta = 0.1은 "내일의 1원은 오늘의 0.1원과 같다"는 뜻입니다. 현재만 중시합니다.</p>
+      <p>어떤 상황에서 delta가 낮아질까요? (힌트: 재만남 확률이 낮을 때)</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: 민간요법 ===== -->
+  <div class="tb-card">
+    <h2>5. 민간정리(Folk Theorem)</h2>
+
+    <ExplainBox title="민간정리란?">
+      <p><strong>민간정리(Folk Theorem):</strong> 무한 반복 게임에서 할인인자가 충분히 크면,
+        1회 게임의 내쉬 균형보다 <strong>양쪽 모두 좋은 어떤 결과든</strong>
+        반복 게임의 내쉬 균형으로 지탱할 수 있다.</p>
+      <p style="margin-top: 8px;">쉽게 말해: "충분히 인내심이 있으면, 협력적인 거의 모든 결과가 가능하다."</p>
+    </ExplainBox>
+
+    <p style="margin-top: 16px;">
+      아래에서 목표 보수를 설정하고, 그것이 반복 게임의 균형으로 유지될 수 있는지 확인하세요.
+    </p>
+
+    <SimControls>
+      <label>목표 보수 (A, B):
+        A = <input type="number" id="folk-a" value="3" style="width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px;" />
+        B = <input type="number" id="folk-b" value="3" style="width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px;" />
+      </label>
+      <button class="tb-btn" id="folk-check" style="margin-left: 12px;">균형 가능성 확인</button>
+    </SimControls>
+
+    <div id="folk-result" style="display: none; margin: 16px 0; padding: 16px; border-radius: 12px;"></div>
+
+    <ChartContainer id="folkChart" height="350px" />
+
+    <ExerciseBox title="민간정리의 의미">
+      <p>민간정리가 말하는 것은 "협력은 가능하다"이지 "협력이 반드시 일어난다"가 아닙니다.</p>
+      <p>어떤 결과가 실제로 일어나는지는 문화, 제도, 역사에 달려 있습니다.</p>
+      <button class="tb-btn" id="folk-answer-btn" style="margin-top: 8px;">핵심 정리</button>
+      <div id="folk-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>민간정리의 한계:</strong></p>
+        <p>1. 너무 많은 균형이 존재 ("어떤 것이든 균형이 될 수 있다")</p>
+        <p>2. 어떤 균형이 실제로 선택되는지는 예측하지 못함</p>
+        <p>3. 현실에서는 정보 불완전성, 행위자의 제한된 합리성 등이 작용</p>
+        <p style="margin-top: 8px;">그럼에도 핵심 메시지: <strong>장기적 관계에서는 협력이 합리적</strong>입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 결론 ===== -->
+  <ConclusionBox title="30장 정리: 반복이 협력을 낳는다">
+    <p>
+      반복 게임에서는 <strong>미래의 그림자</strong>가 현재의 행동을 바꿉니다.
+      팃포탯처럼 "착하고, 보복적이고, 관대한" 전략이 장기적으로 성공합니다.
+    </p>
+    <p style="margin-top: 8px;">
+      다음 장에서는 게임이론의 응용 중 하나인 <strong>경매와 메커니즘 설계</strong>를 다룹니다.
+      게임의 "규칙 자체를 설계"하는 방법을 배웁니다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ===== 공통: 전략 함수 ===== */
+  var payoffs = { CC: [3, 3], CD: [0, 5], DC: [5, 0], DD: [1, 1] };
+  var stratNames = {
+    tft: '팃포탯', alld: '항상 배신', allc: '항상 협력',
+    gtft: '관대한 팃포탯', pavlov: '파블로프', random: '랜덤'
+  };
+  var stratColors = {
+    tft: '#059669', alld: '#ef4444', allc: '#3b82f6',
+    gtft: '#10b981', pavlov: '#f59e0b', random: '#8b5cf6'
+  };
+
+  function getMove(strat, history, myIdx) {
+    var oppIdx = 1 - myIdx;
+    if (strat === 'allc') return 'C';
+    if (strat === 'alld') return 'D';
+    if (strat === 'random') return Math.random() < 0.5 ? 'C' : 'D';
+    if (strat === 'tft') {
+      if (history.length === 0) return 'C';
+      return history[history.length - 1][oppIdx];
+    }
+    if (strat === 'gtft') {
+      if (history.length === 0) return 'C';
+      if (history[history.length - 1][oppIdx] === 'D') return Math.random() < 0.1 ? 'C' : 'D';
+      return 'C';
+    }
+    if (strat === 'pavlov') {
+      if (history.length === 0) return 'C';
+      var last = history[history.length - 1];
+      var myLast = last[myIdx];
+      var p = payoffs[last[0] + last[1]];
+      if (!p) p = payoffs[last[myIdx] + last[oppIdx]];
+      var lastPay = myIdx === 0 ? payoffs[last[0] + last[1]][0] : payoffs[last[0] + last[1]][1];
+      return lastPay >= 3 ? myLast : (myLast === 'C' ? 'D' : 'C');
+    }
+    return 'C';
+  }
+
+  function runMatch(stratA, stratB, rounds) {
+    var history = [];
+    var scoreA = 0, scoreB = 0;
+    for (var r = 0; r < rounds; r++) {
+      var a = getMove(stratA, history, 0);
+      var b = getMove(stratB, history, 1);
+      var p = payoffs[a + b];
+      scoreA += p[0];
+      scoreB += p[1];
+      history.push([a, b]);
+    }
+    return { scoreA: scoreA, scoreB: scoreB, history: history };
+  }
+
+  /* ===== INTERACTIVE 1: Axelrod 토너먼트 ===== */
+  var allStrats = ['tft', 'alld', 'allc', 'gtft', 'pavlov', 'random'];
+
+  var axelChart = new Chart(document.getElementById('axelChart'), {
+    type: 'bar',
+    data: {
+      labels: allStrats.map(function(s) { return stratNames[s]; }),
+      datasets: [{
+        label: '총점',
+        data: [0, 0, 0, 0, 0, 0],
+        backgroundColor: allStrats.map(function(s) { return stratColors[s]; }),
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      scales: { x: { title: { display: true, text: '총점' } } },
+      plugins: { legend: { display: false }, title: { display: true, text: 'Axelrod 토너먼트 결과' } }
+    }
+  });
+
+  document.getElementById('axel-run').addEventListener('click', function() {
+    var rounds = parseInt(document.getElementById('axel-rounds').value);
+    var scores = {};
+    allStrats.forEach(function(s) { scores[s] = 0; });
+
+    var detailsHtml = '<table style="width: 100%; border-collapse: collapse; font-size: 0.85em;">';
+    detailsHtml += '<tr style="background: #f1f5f9;"><th style="padding: 6px; border: 1px solid #e2e8f0;">대결</th><th style="padding: 6px; border: 1px solid #e2e8f0;">A 점수</th><th style="padding: 6px; border: 1px solid #e2e8f0;">B 점수</th></tr>';
+
+    for (var i = 0; i < allStrats.length; i++) {
+      for (var j = i; j < allStrats.length; j++) {
+        var result = runMatch(allStrats[i], allStrats[j], rounds);
+        scores[allStrats[i]] += result.scoreA;
+        scores[allStrats[j]] += result.scoreB;
+        detailsHtml += '<tr><td style="padding: 4px 6px; border: 1px solid #e2e8f0;">' + stratNames[allStrats[i]] + ' vs ' + stratNames[allStrats[j]] + '</td>';
+        detailsHtml += '<td style="padding: 4px 6px; border: 1px solid #e2e8f0; text-align: center;">' + result.scoreA + '</td>';
+        detailsHtml += '<td style="padding: 4px 6px; border: 1px solid #e2e8f0; text-align: center;">' + result.scoreB + '</td></tr>';
+      }
+    }
+    detailsHtml += '</table>';
+    document.getElementById('axel-details').innerHTML = detailsHtml;
+
+    var sortedStrats = allStrats.slice().sort(function(a, b) { return scores[b] - scores[a]; });
+    var winner = sortedStrats[0];
+
+    document.getElementById('axel-winner').textContent = stratNames[winner];
+    document.getElementById('axel-top-score').textContent = scores[winner];
+    document.getElementById('axel-total').textContent = rounds + '라운드';
+
+    axelChart.data.labels = sortedStrats.map(function(s) { return stratNames[s]; });
+    axelChart.data.datasets[0].data = sortedStrats.map(function(s) { return scores[s]; });
+    axelChart.data.datasets[0].backgroundColor = sortedStrats.map(function(s) { return stratColors[s]; });
+    axelChart.update();
+  });
+
+  document.getElementById('axel-answer-btn').addEventListener('click', function() {
+    document.getElementById('axel-answer').style.display = 'block';
+  });
+
+  /* ===== INTERACTIVE 2: 전략 대결 ===== */
+  var duelChart = new Chart(document.getElementById('duelChart'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: 'A 누적', data: [], borderColor: '#ec4899', tension: 0.2, fill: false, pointRadius: 0 },
+        { label: 'B 누적', data: [], borderColor: '#3b82f6', tension: 0.2, fill: false, pointRadius: 0 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '라운드' } },
+        y: { title: { display: true, text: '누적 점수' } }
+      }
+    }
+  });
+
+  document.getElementById('duel-run').addEventListener('click', function() {
+    var stratA = document.getElementById('duel-a').value;
+    var stratB = document.getElementById('duel-b').value;
+    var result = runMatch(stratA, stratB, 100);
+
+    document.getElementById('duel-a-score').textContent = result.scoreA;
+    document.getElementById('duel-b-score').textContent = result.scoreB;
+
+    var coopCount = 0;
+    result.history.forEach(function(h) {
+      if (h[0] === 'C' && h[1] === 'C') coopCount++;
+    });
+    document.getElementById('duel-coop-rate').textContent = (coopCount / result.history.length * 100).toFixed(0) + '%';
+
+    /* 차트 */
+    var labels = [], cumA = [], cumB = [];
+    var sA = 0, sB = 0;
+    result.history.forEach(function(h, idx) {
+      var p = payoffs[h[0] + h[1]];
+      sA += p[0]; sB += p[1];
+      if ((idx + 1) % 5 === 0 || idx === result.history.length - 1) {
+        labels.push(idx + 1);
+        cumA.push(sA);
+        cumB.push(sB);
+      }
+    });
+
+    duelChart.data.labels = labels;
+    duelChart.data.datasets[0].data = cumA;
+    duelChart.data.datasets[0].label = stratNames[stratA] + ' 누적';
+    duelChart.data.datasets[1].data = cumB;
+    duelChart.data.datasets[1].label = stratNames[stratB] + ' 누적';
+    duelChart.update();
+
+    /* 히스토리 */
+    var histHtml = '<table style="width: 100%; border-collapse: collapse; font-size: 0.8em;">';
+    histHtml += '<tr style="background: #f1f5f9;"><th style="padding: 3px 6px; border: 1px solid #e2e8f0;">R</th><th style="padding: 3px 6px; border: 1px solid #e2e8f0;">A</th><th style="padding: 3px 6px; border: 1px solid #e2e8f0;">B</th><th style="padding: 3px 6px; border: 1px solid #e2e8f0;">보수</th></tr>';
+    result.history.forEach(function(h, idx) {
+      var p = payoffs[h[0] + h[1]];
+      var bg = h[0] === 'C' && h[1] === 'C' ? '#f0fdf4' : h[0] === 'D' && h[1] === 'D' ? '#fef2f2' : '#fefce8';
+      histHtml += '<tr style="background: ' + bg + ';"><td style="padding: 2px 6px; border: 1px solid #e2e8f0;">' + (idx + 1) + '</td>';
+      histHtml += '<td style="padding: 2px 6px; border: 1px solid #e2e8f0;">' + (h[0] === 'C' ? '협력' : '배신') + '</td>';
+      histHtml += '<td style="padding: 2px 6px; border: 1px solid #e2e8f0;">' + (h[1] === 'C' ? '협력' : '배신') + '</td>';
+      histHtml += '<td style="padding: 2px 6px; border: 1px solid #e2e8f0;">(' + p[0] + ',' + p[1] + ')</td></tr>';
+    });
+    histHtml += '</table>';
+    document.getElementById('duel-history').innerHTML = histHtml;
+  });
+
+  /* ===== INTERACTIVE 3: 전략 진화 ===== */
+  var evoSliders = document.querySelectorAll('.evo-slider');
+  evoSliders.forEach(function(slider) {
+    slider.addEventListener('input', function() {
+      var id = slider.id.replace('evo-', '');
+      document.getElementById('evo-' + id + '-val').textContent = slider.value;
+      var total = 0;
+      evoSliders.forEach(function(s) { total += parseInt(s.value); });
+      document.getElementById('evo-total').textContent = '합계: ' + total + '명';
+      document.getElementById('evo-total').style.color = total === 100 ? '#059669' : '#ef4444';
+    });
+  });
+
+  var evoChart = new Chart(document.getElementById('evoChart'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '팃포탯', data: [], borderColor: stratColors.tft, fill: false, tension: 0.3, pointRadius: 0 },
+        { label: '항상 배신', data: [], borderColor: stratColors.alld, fill: false, tension: 0.3, pointRadius: 0 },
+        { label: '항상 협력', data: [], borderColor: stratColors.allc, fill: false, tension: 0.3, pointRadius: 0 },
+        { label: '랜덤', data: [], borderColor: stratColors.random, fill: false, tension: 0.3, pointRadius: 0 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '세대' } },
+        y: { title: { display: true, text: '인구 비율 (%)' }, min: 0, max: 100 }
+      },
+      plugins: { title: { display: true, text: '전략 진화 다이내믹스' } }
+    }
+  });
+
+  document.getElementById('evo-run').addEventListener('click', function() {
+    var gens = parseInt(document.getElementById('evo-gens').value);
+    var pop = {
+      tft: parseInt(document.getElementById('evo-tft').value),
+      alld: parseInt(document.getElementById('evo-alld').value),
+      allc: parseInt(document.getElementById('evo-allc').value),
+      random: parseInt(document.getElementById('evo-rand').value)
+    };
+    var total = pop.tft + pop.alld + pop.allc + pop.random;
+    if (total === 0) return;
+
+    var evoStrats = ['tft', 'alld', 'allc', 'random'];
+    var labels = [0];
+    var dataSets = { tft: [pop.tft / total * 100], alld: [pop.alld / total * 100], allc: [pop.allc / total * 100], random: [pop.random / total * 100] };
+
+    for (var g = 0; g < gens; g++) {
+      /* 각 전략의 평균 점수 계산 */
+      var avgScores = {};
+      evoStrats.forEach(function(s) {
+        if (pop[s] === 0) { avgScores[s] = 0; return; }
+        var totalScore = 0;
+        var matchCount = 0;
+        evoStrats.forEach(function(opp) {
+          if (pop[opp] === 0) return;
+          var result = runMatch(s, opp, 20);
+          var weight = pop[opp];
+          if (s === opp) weight = Math.max(0, pop[opp] - 1);
+          totalScore += result.scoreA * weight;
+          matchCount += weight;
+        });
+        avgScores[s] = matchCount > 0 ? totalScore / matchCount : 0;
+      });
+
+      /* 진화: 하위 전략에서 상위 전략으로 2명씩 전환 */
+      var sorted = evoStrats.slice().sort(function(a, b) { return avgScores[b] - avgScores[a]; });
+      var best = sorted[0];
+      var worst = sorted[sorted.length - 1];
+
+      if (pop[worst] >= 2 && best !== worst) {
+        pop[worst] -= 2;
+        pop[best] += 2;
+      } else if (pop[worst] >= 1 && best !== worst) {
+        pop[worst] -= 1;
+        pop[best] += 1;
+      }
+
+      labels.push(g + 1);
+      evoStrats.forEach(function(s) {
+        dataSets[s].push(pop[s] / total * 100);
+      });
+    }
+
+    evoChart.data.labels = labels;
+    evoChart.data.datasets[0].data = dataSets.tft;
+    evoChart.data.datasets[1].data = dataSets.alld;
+    evoChart.data.datasets[2].data = dataSets.allc;
+    evoChart.data.datasets[3].data = dataSets.random;
+    evoChart.update();
+  });
+
+  document.getElementById('evo-answer-btn').addEventListener('click', function() {
+    document.getElementById('evo-answer').style.display = 'block';
+  });
+
+  /* ===== INTERACTIVE 4: 할인율 ===== */
+  var deltaSlider = document.getElementById('delta-slider');
+
+  var deltaChart = new Chart(document.getElementById('deltaChart'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '협력 유지 보수', data: [], borderColor: '#059669', fill: false, tension: 0.3 },
+        { label: '이탈 후 보수', data: [], borderColor: '#ef4444', fill: false, tension: 0.3 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '할인인자 (delta)' } },
+        y: { title: { display: true, text: '보수의 현재가치' } }
+      },
+      plugins: { title: { display: true, text: '할인인자에 따른 협력 vs 이탈 보수' } }
+    }
+  });
+
+  /* 미리 그래프 데이터 생성 */
+  var dLabels = [], dCoop = [], dDefect = [];
+  for (var d = 1; d <= 99; d += 2) {
+    var delta = d / 100;
+    dLabels.push(delta.toFixed(2));
+    dCoop.push(3 / (1 - delta));
+    dDefect.push(5 + delta / (1 - delta));
+  }
+  deltaChart.data.labels = dLabels;
+  deltaChart.data.datasets[0].data = dCoop;
+  deltaChart.data.datasets[1].data = dDefect;
+  deltaChart.update();
+
+  function updateDelta() {
+    var delta = parseInt(deltaSlider.value) / 100;
+    document.getElementById('delta-val').textContent = delta.toFixed(2);
+
+    var coopVal = delta < 1 ? (3 / (1 - delta)).toFixed(1) : 'Inf';
+    var defectVal = delta < 1 ? (5 + delta / (1 - delta)).toFixed(1) : 'Inf';
+
+    document.getElementById('delta-coop').textContent = coopVal;
+    document.getElementById('delta-defect').textContent = defectVal;
+
+    var possible = delta > 0.5;
+    document.getElementById('delta-possible').textContent = possible ? '협력 가능!' : '배신이 합리적';
+    document.getElementById('delta-possible').style.color = possible ? '#059669' : '#ef4444';
+  }
+
+  deltaSlider.addEventListener('input', updateDelta);
+  updateDelta();
+
+  /* ===== INTERACTIVE 5: 민간정리 ===== */
+  var folkChart = new Chart(document.getElementById('folkChart'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        { label: '실현 가능 보수', data: [], backgroundColor: 'rgba(59,130,246,0.3)', pointRadius: 3 },
+        { label: '내쉬 균형 (1회)', data: [{ x: 1, y: 1 }], backgroundColor: '#ef4444', pointRadius: 10, pointStyle: 'star' },
+        { label: '파레토 최적', data: [{ x: 3, y: 3 }], backgroundColor: '#059669', pointRadius: 10, pointStyle: 'triangle' },
+        { label: '목표 보수', data: [], backgroundColor: '#f59e0b', pointRadius: 12, pointStyle: 'rect' }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: 'A의 보수' }, min: -1, max: 6 },
+        y: { title: { display: true, text: 'B의 보수' }, min: -1, max: 6 }
+      },
+      plugins: { title: { display: true, text: '실현 가능한 보수 집합' } }
+    }
+  });
+
+  /* 실현 가능 보수 영역 그리기 */
+  var feasible = [];
+  for (var px = 0; px <= 1; px += 0.05) {
+    for (var py = 0; py <= 1; py += 0.05) {
+      var aP = 3 * px * py + 0 * px * (1 - py) + 5 * (1 - px) * py + 1 * (1 - px) * (1 - py);
+      var bP = 3 * px * py + 5 * px * (1 - py) + 0 * (1 - px) * py + 1 * (1 - px) * (1 - py);
+      feasible.push({ x: parseFloat(aP.toFixed(2)), y: parseFloat(bP.toFixed(2)) });
+    }
+  }
+  folkChart.data.datasets[0].data = feasible;
+  folkChart.update();
+
+  document.getElementById('folk-check').addEventListener('click', function() {
+    var targetA = parseFloat(document.getElementById('folk-a').value);
+    var targetB = parseFloat(document.getElementById('folk-b').value);
+
+    folkChart.data.datasets[3].data = [{ x: targetA, y: targetB }];
+    folkChart.update();
+
+    var resultDiv = document.getElementById('folk-result');
+    resultDiv.style.display = 'block';
+
+    /* 민간정리 조건: 두 플레이어 모두 1회 내쉬(1,1)보다 좋아야 하고, 실현 가능해야 함 */
+    var aboveNash = targetA >= 1 && targetB >= 1;
+    var inFeasible = targetA >= 0 && targetA <= 5 && targetB >= 0 && targetB <= 5;
+
+    if (aboveNash && inFeasible) {
+      resultDiv.style.background = '#f0fdf4';
+      resultDiv.innerHTML = '<p style="font-weight: bold; color: #059669;">민간정리에 의해 이 보수는 반복 게임의 균형으로 유지될 수 있습니다!</p>' +
+        '<p>조건: (1) 두 플레이어 모두 1회 내쉬 균형(1,1)보다 좋음. (2) 실현 가능한 보수 범위 안에 있음.</p>' +
+        '<p>충분히 큰 delta에서 적절한 전략(예: 이탈하면 처벌)으로 유지 가능합니다.</p>';
+    } else if (!aboveNash) {
+      resultDiv.style.background = '#fef2f2';
+      resultDiv.innerHTML = '<p style="font-weight: bold; color: #ef4444;">이 보수는 균형으로 유지될 수 없습니다.</p>' +
+        '<p>최소한 1회 내쉬 균형(1,1)보다 양쪽 모두 좋아야 합니다. 그보다 나쁜 보수를 받을 이유가 없기 때문입니다.</p>';
+    } else {
+      resultDiv.style.background = '#fefce8';
+      resultDiv.innerHTML = '<p style="font-weight: bold; color: #f59e0b;">이 보수는 실현 가능 범위를 벗어납니다.</p>' +
+        '<p>죄수의 딜레마 보수 구조에서 물리적으로 달성 불가능한 보수입니다.</p>';
+    }
+  });
+
+  document.getElementById('folk-answer-btn').addEventListener('click', function() {
+    document.getElementById('folk-answer').style.display = 'block';
+  });
+
+});
+</script>

@@ -1,0 +1,593 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="플랫폼 경제학"
+  subtitle="카카오톡은 무료인데 어떻게 돈을 버는가?"
+  chapterNum={36}
+  part={6}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>무료의 비밀</h2>
+    <p>
+      카카오톡은 무료입니다. 유튜브에서 영상을 공짜로 봅니다.
+      네이버 검색도 무료입니다. 그런데 카카오는 연매출 7조원,
+      네이버는 10조원이 넘습니다. <strong>공짜인데 어떻게 돈을 벌까요?</strong>
+    </p>
+    <p style="margin-top: 12px;">
+      비밀은 <strong>플랫폼(platform)</strong>이라는 사업 모형에 있습니다.
+      플랫폼은 두 개 이상의 서로 다른 그룹을 연결하는 시장입니다.
+      한쪽에게 무료로 서비스를 제공하고, 다른 쪽에서 돈을 법니다.
+      카카오톡은 사용자에게 무료이지만, 광고주와 이모티콘 제작자에게서 수익을 얻습니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>양면시장과 교차 네트워크 효과를 이해</li>
+        <li>네트워크 효과의 S-curve와 임계점(critical mass) 파악</li>
+        <li>플랫폼의 수익 모델(광고, 구독, 수수료, 프리미엄) 분류</li>
+        <li>승자 독식 현상의 원인과 결과를 분석</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>플랫폼이란?</h2>
+
+    <ExplainBox title="양면시장(Two-Sided Market)">
+      <p><strong>플랫폼:</strong> 서로 다른 두 그룹(또는 그 이상)을 연결하여 거래나 상호작용을 가능하게 하는 사업.</p>
+      <p style="margin-top: 8px;"><strong>예시:</strong></p>
+      <p>배달의민족: <strong>소비자</strong> ↔ <strong>음식점</strong></p>
+      <p>유튜브: <strong>시청자</strong> ↔ <strong>크리에이터</strong> ↔ <strong>광고주</strong></p>
+      <p>카카오: <strong>사용자</strong> ↔ <strong>상점/광고주/콘텐츠 제공자</strong></p>
+    </ExplainBox>
+
+    <FormulaBox title="네트워크 효과의 유형">
+      <p><strong>직접 네트워크 효과:</strong> 같은 쪽 사용자가 많을수록 가치 증가</p>
+      <p style="margin-left: 20px;">예: 카카오톡 사용자가 많을수록 메신저 가치 상승</p>
+      <p style="margin-top: 8px;"><strong>교차(간접) 네트워크 효과:</strong> 한쪽 사용자가 많으면 다른 쪽도 가치 증가</p>
+      <p style="margin-left: 20px;">예: 배달앱 소비자가 많으면 음식점 가입 증가 → 다시 소비자 증가</p>
+    </FormulaBox>
+
+    <WarningBox title="전통 기업과 플랫폼의 차이">
+      <p><strong>전통 기업:</strong> 제품을 만들어 판매. 가치는 기업 안에서 생산.</p>
+      <p><strong>플랫폼:</strong> 참여자들이 가치를 만들고, 플랫폼은 연결. 가치는 네트워크에서 발생.</p>
+      <p style="margin-top: 8px;">삼성전자는 TV를 직접 만들지만, 유튜브는 영상을 직접 만들지 않습니다.
+        크리에이터가 만들고, 유튜브는 연결만 합니다.</p>
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 양면시장 시뮬레이터 ===== -->
+  <div class="tb-card">
+    <h2>1. 양면시장 시뮬레이터: 배달앱</h2>
+    <p>
+      배달앱에서 소비자와 음식점은 서로에게 가치를 줍니다.
+      소비자가 많으면 음식점이 입점하고, 음식점이 많으면 소비자가 늘어납니다.
+      이 <strong>선순환</strong>이 플랫폼의 핵심입니다. 하지만 초기에는 양쪽 모두 적어
+      <strong>악순환</strong>에 빠질 수도 있습니다.
+    </p>
+
+    <SimControls>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <label>초기 소비자 수: <strong id="ts-consumer-val">10</strong>만
+          <input type="range" id="ts-consumer" min="1" max="100" value="10" style="width: 100%;" />
+        </label>
+        <label>초기 음식점 수: <strong id="ts-restaurant-val">5</strong>천
+          <input type="range" id="ts-restaurant" min="1" max="50" value="5" style="width: 100%;" />
+        </label>
+      </div>
+      <div style="margin-top: 8px;">
+        <label>교차 네트워크 효과 강도: <strong id="ts-effect-val">0.3</strong>
+          <input type="range" id="ts-effect" min="0.05" max="0.8" value="0.3" step="0.05" style="width: 200px;" />
+        </label>
+      </div>
+      <button class="tb-btn" id="ts-run-btn" style="margin-top: 8px;">12개월 시뮬레이션 실행</button>
+    </SimControls>
+
+    <ChartContainer id="tsChart" height="380px" />
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="12개월 후 소비자" value="-" id="ts-final-c" borderColor="#3b82f6" />
+      <StatBox label="12개월 후 음식점" value="-" id="ts-final-r" borderColor="#ef4444" />
+      <StatBox label="성장 유형" value="-" id="ts-growth-type" borderColor="#059669" />
+    </div>
+
+    <ExerciseBox title="네트워크 효과 실험">
+      <p>파라미터를 변경하면서 관찰하세요.</p>
+      <p>1) 교차 네트워크 효과 강도를 0.1과 0.7로 각각 설정하면 결과 차이는?</p>
+      <p>2) 초기 소비자를 1만으로 했을 때와 50만으로 했을 때 성장 곡선의 차이는?</p>
+      <button class="tb-btn" id="ts-quiz-btn" style="margin-top: 8px;">핵심 포인트</button>
+      <div id="ts-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 네트워크 효과가 강하면 초기에 느리다가 폭발적으로 성장합니다. 약하면 선형적 성장에 그칩니다.</p>
+        <p><strong>2)</strong> 초기 사용자가 많으면 빠르게 임계점을 넘어 가속 성장합니다. 이것이 플랫폼이 초기에 대규모 보조금(할인, 쿠폰)을 뿌리는 이유입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 네트워크 효과 S-curve ===== -->
+  <div class="tb-card">
+    <h2>2. 네트워크 효과와 S-curve</h2>
+    <p>
+      네트워크 효과가 있는 서비스의 가치는 사용자 수에 따라 S자 곡선을 그립니다.
+      <strong>임계점(critical mass)</strong>을 넘기 전에는 천천히 성장하다가,
+      넘긴 후에는 폭발적으로 성장하고, 포화 상태에서 다시 둔화됩니다.
+    </p>
+
+    <SimControls>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <label>임계점 위치: <strong id="scurve-critical-val">30</strong>%
+          <input type="range" id="scurve-critical" min="10" max="60" value="30" style="width: 100%;" />
+        </label>
+        <label>성장 속도: <strong id="scurve-speed-val">0.1</strong>
+          <input type="range" id="scurve-speed" min="0.03" max="0.3" value="0.1" step="0.01" style="width: 100%;" />
+        </label>
+      </div>
+    </SimControls>
+
+    <ChartContainer id="scurveChart" height="380px" />
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="임계점 도달" value="-" id="scurve-when" borderColor="#f59e0b" />
+      <StatBox label="50% 보급 시점" value="-" id="scurve-half" borderColor="#3b82f6" />
+      <StatBox label="90% 보급 시점" value="-" id="scurve-ninety" borderColor="#059669" />
+    </div>
+
+    <BusinessBox title="한국 서비스의 성장 곡선">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>카카오톡 (2010):</strong> 출시 1년 만에 1,000만 사용자. 임계점을 빠르게 돌파</li>
+        <li><strong>쿠팡 (2010):</strong> 적자를 감수하며 사용자 확보 → 2023년 흑자 전환</li>
+        <li><strong>배달의민족 (2011):</strong> 초기 전단지 대체 → 코로나로 폭발적 성장</li>
+        <li><strong>네이버 (1999):</strong> 검색 → 블로그 → 쇼핑으로 확장하며 생태계 구축</li>
+      </ul>
+    </BusinessBox>
+
+    <ExerciseBox title="임계점의 의미">
+      <p>슬라이더를 조정하면서 관찰하세요.</p>
+      <p>1) 임계점이 높을수록 어떤 위험이 있나요?</p>
+      <p>2) 쿠팡이 수년간 적자를 감수한 이유는?</p>
+      <button class="tb-btn" id="scurve-quiz-btn" style="margin-top: 8px;">생각 정리</button>
+      <div id="scurve-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 임계점이 높으면 그 이전에 자금이 바닥나 실패할 위험이 큽니다. 많은 플랫폼 스타트업이 임계점 이전에 사라집니다.</p>
+        <p><strong>2)</strong> 쿠팡은 임계점을 넘기 위해 무료배송, 할인 등에 천문학적 투자를 했습니다. 임계점만 넘기면 네트워크 효과로 자연 성장하기 때문입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 플랫폼 수익 모델 분류 ===== -->
+  <div class="tb-card">
+    <h2>3. 플랫폼 수익 모델 분류</h2>
+    <p>
+      플랫폼의 수익 모델은 크게 4가지입니다.
+      아래 10개 플랫폼을 올바른 주 수익원으로 분류하세요.
+    </p>
+
+    <ExplainBox title="4가지 수익 모델">
+      <p><strong>1. 광고:</strong> 사용자에게 무료, 광고주에게 과금 (네이버, 유튜브)</p>
+      <p><strong>2. 구독:</strong> 정기 이용료 (넷플릭스, 멜론)</p>
+      <p><strong>3. 수수료:</strong> 거래 성사 시 일정 비율 수수료 (배달의민족, 쿠팡)</p>
+      <p><strong>4. 프리미엄:</strong> 기본 무료, 추가 기능 유료 (카카오톡 이모티콘, 게임 아이템)</p>
+    </ExplainBox>
+
+    <div id="model-quiz-container" style="margin-top: 16px;">
+    </div>
+
+    <ChartContainer id="modelChart" height="300px" />
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="정답" value="0/10" id="model-score" borderColor="#059669" />
+      <StatBox label="진행" value="1/10" id="model-progress" borderColor="#3b82f6" />
+    </div>
+
+    <ExerciseBox title="수익 모델 생각하기">
+      <p>퀴즈를 완료한 후 답하세요.</p>
+      <p>1) 광고 모델과 구독 모델의 장단점은?</p>
+      <p>2) 한 플랫폼이 여러 수익 모델을 결합하는 사례는?</p>
+      <button class="tb-btn" id="model-think-btn" style="margin-top: 8px;">생각 정리</button>
+      <div id="model-think-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 광고: 사용자가 많아야 수익, 사용자 경험 저하 위험. 구독: 안정적 수익, 하지만 가입 장벽이 높음.</p>
+        <p><strong>2)</strong> 유튜브(광고+프리미엄 구독), 네이버(광고+쇼핑 수수료+구독), 카카오(광고+프리미엄+수수료). 대부분의 성공한 플랫폼은 복수의 수익원을 가집니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 승자 독식 ===== -->
+  <div class="tb-card">
+    <h2>4. 승자 독식: 왜 1등과 2등의 격차가 극단적인가?</h2>
+    <p>
+      플랫폼 시장에서는 1위가 시장의 60~90%를 차지하는 경우가 흔합니다.
+      전통 산업에서는 1위와 2위의 점유율 차이가 크지 않지만,
+      플랫폼에서는 <strong>"승자가 거의 모든 것을 가져간다(Winner-Take-All)"</strong>.
+    </p>
+
+    <SimControls>
+      <label style="font-weight: bold;">산업 유형:
+        <select id="wta-type" style="margin-left: 8px; padding: 6px 12px; border-radius: 6px; border: 1px solid #d1d5db;">
+          <option value="platform">플랫폼/디지털</option>
+          <option value="traditional">전통 산업</option>
+          <option value="compare">둘 다 비교</option>
+        </select>
+      </label>
+    </SimControls>
+
+    <ChartContainer id="wtaChart" height="380px" />
+
+    <div id="wta-examples" style="margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 12px; border: 1px solid #e5e7eb;">
+    </div>
+
+    <ExerciseBox title="승자 독식의 원인">
+      <p>두 유형을 비교하면서 생각하세요.</p>
+      <p>1) 플랫폼 시장에서 승자 독식이 나타나는 3가지 이유는?</p>
+      <p>2) 승자 독식이 소비자에게 항상 나쁜가요?</p>
+      <button class="tb-btn" id="wta-quiz-btn" style="margin-top: 8px;">핵심 정리</button>
+      <div id="wta-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong></p>
+        <p>- <strong>네트워크 효과:</strong> 사용자가 많은 곳에 더 많은 사용자가 몰림</p>
+        <p>- <strong>전환 비용:</strong> 다른 플랫폼으로 옮기기 어려움 (데이터, 습관, 친구)</p>
+        <p>- <strong>규모의 경제:</strong> 한계비용이 거의 0 (소프트웨어 복사 비용 = 0)</p>
+        <p><strong>2)</strong> 반드시 그렇지는 않습니다. 하나의 표준(카카오톡)이 있으면 편리합니다. 하지만 독점적 지위를 이용해 가격을 올리거나 혁신을 게을리하면 문제입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 결론 ===== -->
+  <ConclusionBox title="정리: 플랫폼 경제학">
+    <p>
+      플랫폼은 양면시장을 연결하며, 네트워크 효과를 통해 가치를 창출합니다.
+      임계점을 넘기면 폭발적으로 성장하며, 승자 독식 현상이 나타납니다.
+      광고, 구독, 수수료, 프리미엄 등 다양한 수익 모델을 활용합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      플랫폼의 독점력이 커지면 규제가 필요합니다.
+      다음 장에서는 <strong>경쟁정책과 규제</strong>를 다룹니다.
+      구글, 카카오에 대한 반독점 소송과 한국 공정위의 역할을 살펴봅시다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1. 양면시장 시뮬레이터 ========== */
+  var tsConsumer = document.getElementById('ts-consumer');
+  var tsRestaurant = document.getElementById('ts-restaurant');
+  var tsEffect = document.getElementById('ts-effect');
+  var tsCtx = document.getElementById('tsChart').getContext('2d');
+
+  var tsChart = new Chart(tsCtx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '소비자 (만명)', data: [], borderColor: '#3b82f6', tension: 0.3, fill: false },
+        { label: '음식점 (천개)', data: [], borderColor: '#ef4444', tension: 0.3, fill: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { title: { display: true, text: '월' } },
+        y: { beginAtZero: true, title: { display: true, text: '규모' } }
+      },
+      plugins: { legend: { display: true } }
+    }
+  });
+
+  function runTwoSided() {
+    var c0 = parseFloat(tsConsumer.value);
+    var r0 = parseFloat(tsRestaurant.value);
+    var eff = parseFloat(tsEffect.value);
+
+    document.getElementById('ts-consumer-val').textContent = c0;
+    document.getElementById('ts-restaurant-val').textContent = r0;
+    document.getElementById('ts-effect-val').textContent = eff;
+
+    var months = [];
+    var consumers = [];
+    var restaurants = [];
+    var c = c0, r = r0;
+
+    for (var m = 0; m <= 12; m++) {
+      months.push(m + '월');
+      consumers.push(parseFloat(c.toFixed(1)));
+      restaurants.push(parseFloat(r.toFixed(1)));
+
+      var cGrowth = 1 + eff * (r / 50);
+      var rGrowth = 1 + eff * (c / 100);
+      c = Math.min(500, c * cGrowth);
+      r = Math.min(200, r * rGrowth);
+    }
+
+    tsChart.data.labels = months;
+    tsChart.data.datasets[0].data = consumers;
+    tsChart.data.datasets[1].data = restaurants;
+    tsChart.update();
+
+    var finalC = consumers[12];
+    var finalR = restaurants[12];
+    document.getElementById('ts-final-c').textContent = finalC.toFixed(0) + '만';
+    document.getElementById('ts-final-r').textContent = finalR.toFixed(0) + '천';
+
+    var growthRate = finalC / c0;
+    var type = growthRate > 10 ? '폭발적 성장' : growthRate > 3 ? '빠른 성장' : '완만한 성장';
+    document.getElementById('ts-growth-type').textContent = type;
+  }
+
+  tsConsumer.addEventListener('input', function() { document.getElementById('ts-consumer-val').textContent = this.value; });
+  tsRestaurant.addEventListener('input', function() { document.getElementById('ts-restaurant-val').textContent = this.value; });
+  tsEffect.addEventListener('input', function() { document.getElementById('ts-effect-val').textContent = this.value; });
+
+  document.getElementById('ts-run-btn').addEventListener('click', runTwoSided);
+  runTwoSided();
+
+  document.getElementById('ts-quiz-btn').addEventListener('click', function() {
+    document.getElementById('ts-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 2. S-curve ========== */
+  var scCritical = document.getElementById('scurve-critical');
+  var scSpeed = document.getElementById('scurve-speed');
+  var scCtx = document.getElementById('scurveChart').getContext('2d');
+
+  var scChart = new Chart(scCtx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: '보급률 (%)',
+        data: [],
+        borderColor: '#6366f1',
+        backgroundColor: 'rgba(99,102,241,0.1)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 0
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { title: { display: true, text: '시간 (개월)' } },
+        y: { beginAtZero: true, max: 100, title: { display: true, text: '보급률 (%)' } }
+      },
+      plugins: {
+        legend: { display: false },
+        annotation: { annotations: {} }
+      }
+    }
+  });
+
+  function updateScurve() {
+    var critical = parseInt(scCritical.value);
+    var speed = parseFloat(scSpeed.value);
+    document.getElementById('scurve-critical-val').textContent = critical;
+    document.getElementById('scurve-speed-val').textContent = speed;
+
+    /* Logistic: y = 100 / (1 + exp(-k*(t - t0))) */
+    var t0 = critical / speed;
+    var labels = [];
+    var data = [];
+    var whenCritical = -1, whenHalf = -1, whenNinety = -1;
+
+    for (var t = 0; t <= 120; t++) {
+      labels.push(t);
+      var y = 100 / (1 + Math.exp(-speed * (t - t0)));
+      data.push(parseFloat(y.toFixed(1)));
+
+      if (whenCritical < 0 && y >= critical) whenCritical = t;
+      if (whenHalf < 0 && y >= 50) whenHalf = t;
+      if (whenNinety < 0 && y >= 90) whenNinety = t;
+    }
+
+    scChart.data.labels = labels;
+    scChart.data.datasets[0].data = data;
+    scChart.update();
+
+    document.getElementById('scurve-when').textContent = whenCritical >= 0 ? whenCritical + '개월' : '-';
+    document.getElementById('scurve-half').textContent = whenHalf >= 0 ? whenHalf + '개월' : '-';
+    document.getElementById('scurve-ninety').textContent = whenNinety >= 0 ? whenNinety + '개월' : '-';
+  }
+
+  scCritical.addEventListener('input', updateScurve);
+  scSpeed.addEventListener('input', updateScurve);
+  updateScurve();
+
+  document.getElementById('scurve-quiz-btn').addEventListener('click', function() {
+    document.getElementById('scurve-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 3. 수익 모델 분류 퀴즈 ========== */
+  var modelQuestions = [
+    { name: '네이버 검색', answer: '광고', hint: '검색 결과 상단의 파워링크가 주 수익원' },
+    { name: '넷플릭스', answer: '구독', hint: '월 정액제로 콘텐츠 이용' },
+    { name: '배달의민족', answer: '수수료', hint: '음식점에 중개 수수료 부과' },
+    { name: '카카오톡 이모티콘', answer: '프리미엄', hint: '기본 무료 + 유료 이모티콘 판매' },
+    { name: '유튜브', answer: '광고', hint: '영상 전/중간 광고가 핵심 수익' },
+    { name: '멜론', answer: '구독', hint: '월 이용권으로 음악 스트리밍' },
+    { name: '쿠팡', answer: '수수료', hint: '판매자에게 수수료 + 로켓배송 마진' },
+    { name: '카카오 게임', answer: '프리미엄', hint: '무료 게임 + 유료 아이템' },
+    { name: '인스타그램', answer: '광고', hint: '피드/스토리 광고가 수익의 대부분' },
+    { name: '쿠팡플레이', answer: '구독', hint: '로켓와우 멤버십에 포함된 구독 서비스' }
+  ];
+
+  var modelTypes = ['광고', '구독', '수수료', '프리미엄'];
+  var modelIdx = 0;
+  var modelCorrect = 0;
+  var modelResults = [0, 0, 0, 0];
+  var mContainer = document.getElementById('model-quiz-container');
+
+  var modelCtx = document.getElementById('modelChart').getContext('2d');
+  var modelChart = new Chart(modelCtx, {
+    type: 'doughnut',
+    data: {
+      labels: modelTypes,
+      datasets: [{ data: [0, 0, 0, 0], backgroundColor: ['#3b82f6', '#059669', '#f59e0b', '#8b5cf6'] }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+
+  function renderModelQ() {
+    if (modelIdx >= modelQuestions.length) {
+      mContainer.innerHTML = '<div style="padding: 20px; background: #f0fdf4; border-radius: 12px; text-align: center;">' +
+        '<h3>퀴즈 완료!</h3><p style="font-size: 1.3em; font-weight: bold; color: #059669;">' +
+        modelCorrect + ' / ' + modelQuestions.length + ' 정답</p></div>';
+      return;
+    }
+
+    var mq = modelQuestions[modelIdx];
+    var html = '<div style="padding: 16px; background: #f0f9ff; border-radius: 12px; border: 2px solid #bfdbfe;">' +
+      '<p style="font-weight: bold; font-size: 1.1em;">' + mq.name + '의 주 수익원은?</p>' +
+      '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;">';
+
+    modelTypes.forEach(function(t) {
+      html += '<button class="tb-btn model-opt" data-type="' + t + '" style="padding: 10px;">' + t + '</button>';
+    });
+
+    html += '</div><div id="model-feedback" style="display: none; margin-top: 12px; padding: 10px; border-radius: 8px;"></div></div>';
+    mContainer.innerHTML = html;
+
+    document.querySelectorAll('.model-opt').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var chosen = this.getAttribute('data-type');
+        var fb = document.getElementById('model-feedback');
+        fb.style.display = 'block';
+
+        if (chosen === mq.answer) {
+          modelCorrect++;
+          fb.style.background = '#f0fdf4';
+          fb.innerHTML = '<p style="color: #059669; font-weight: bold;">정답!</p><p>' + mq.hint + '</p>';
+        } else {
+          fb.style.background = '#fef2f2';
+          fb.innerHTML = '<p style="color: #ef4444; font-weight: bold;">오답. 정답: ' + mq.answer + '</p><p>' + mq.hint + '</p>';
+        }
+
+        var typeIdx = modelTypes.indexOf(mq.answer);
+        modelResults[typeIdx]++;
+        modelChart.data.datasets[0].data = modelResults;
+        modelChart.update();
+
+        document.getElementById('model-score').textContent = modelCorrect + '/' + modelQuestions.length;
+        document.querySelectorAll('.model-opt').forEach(function(b) { b.disabled = true; });
+
+        setTimeout(function() {
+          modelIdx++;
+          document.getElementById('model-progress').textContent = Math.min(modelIdx + 1, modelQuestions.length) + '/' + modelQuestions.length;
+          renderModelQ();
+        }, 1200);
+      });
+    });
+  }
+
+  renderModelQ();
+
+  document.getElementById('model-think-btn').addEventListener('click', function() {
+    document.getElementById('model-think-ans').style.display = 'block';
+  });
+
+  /* ========== 4. 승자 독식 ========== */
+  var wtaType = document.getElementById('wta-type');
+  var wtaCtx = document.getElementById('wtaChart').getContext('2d');
+
+  var platformData = [
+    { name: '검색(네이버)', shares: [55, 35, 8, 2] },
+    { name: '메신저(카카오톡)', shares: [95, 3, 2, 0] },
+    { name: '배달앱(배민)', shares: [62, 23, 15, 0] },
+    { name: '택시(카카오T)', shares: [82, 10, 8, 0] },
+    { name: 'OTT(넷플릭스)', shares: [40, 20, 18, 22] }
+  ];
+
+  var traditionalData = [
+    { name: '편의점', shares: [30, 29, 20, 21] },
+    { name: '음료(코카콜라)', shares: [45, 25, 22, 8] },
+    { name: '자동차', shares: [38, 32, 22, 8] },
+    { name: '항공', shares: [32, 22, 28, 18] },
+    { name: '은행', shares: [22, 18, 16, 44] }
+  ];
+
+  var wtaChart = new Chart(wtaCtx, {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '1위', data: [], backgroundColor: '#ef4444' },
+        { label: '2위', data: [], backgroundColor: '#f59e0b' },
+        { label: '3위', data: [], backgroundColor: '#3b82f6' },
+        { label: '기타', data: [], backgroundColor: '#d1d5db' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      indexAxis: 'y',
+      scales: { x: { stacked: true, max: 100, title: { display: true, text: '시장점유율 (%)' } }, y: { stacked: true } },
+      plugins: { legend: { display: true } }
+    }
+  });
+
+  function updateWTA() {
+    var mode = wtaType.value;
+    var data1 = [], data2 = [], data3 = [], data4 = [], labels = [];
+
+    function addData(arr) {
+      arr.forEach(function(d) {
+        labels.push(d.name);
+        data1.push(d.shares[0]); data2.push(d.shares[1]);
+        data3.push(d.shares[2]); data4.push(d.shares[3]);
+      });
+    }
+
+    if (mode === 'platform' || mode === 'compare') addData(platformData);
+    if (mode === 'traditional' || mode === 'compare') addData(traditionalData);
+
+    wtaChart.data.labels = labels;
+    wtaChart.data.datasets[0].data = data1;
+    wtaChart.data.datasets[1].data = data2;
+    wtaChart.data.datasets[2].data = data3;
+    wtaChart.data.datasets[3].data = data4;
+    wtaChart.update();
+
+    var exHtml = '';
+    if (mode === 'platform' || mode === 'compare') {
+      exHtml += '<h4 style="margin: 0 0 8px;">플랫폼 산업 특징</h4>' +
+        '<p>1위 평균 점유율: <strong>' + (platformData.reduce(function(s, d) { return s + d.shares[0]; }, 0) / platformData.length).toFixed(0) + '%</strong></p>' +
+        '<p>1-2위 격차 평균: <strong>' + (platformData.reduce(function(s, d) { return s + d.shares[0] - d.shares[1]; }, 0) / platformData.length).toFixed(0) + '%p</strong></p>';
+    }
+    if (mode === 'traditional' || mode === 'compare') {
+      exHtml += '<h4 style="margin: ' + (mode === 'compare' ? '16px' : '0') + ' 0 8px;">전통 산업 특징</h4>' +
+        '<p>1위 평균 점유율: <strong>' + (traditionalData.reduce(function(s, d) { return s + d.shares[0]; }, 0) / traditionalData.length).toFixed(0) + '%</strong></p>' +
+        '<p>1-2위 격차 평균: <strong>' + (traditionalData.reduce(function(s, d) { return s + d.shares[0] - d.shares[1]; }, 0) / traditionalData.length).toFixed(0) + '%p</strong></p>';
+    }
+    document.getElementById('wta-examples').innerHTML = exHtml;
+  }
+
+  wtaType.addEventListener('change', updateWTA);
+  updateWTA();
+
+  document.getElementById('wta-quiz-btn').addEventListener('click', function() {
+    document.getElementById('wta-quiz-ans').style.display = 'block';
+  });
+
+});
+</script>

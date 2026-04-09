@@ -1,0 +1,642 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="경쟁정책과 규제"
+  subtitle="독점을 막고 공정한 경쟁을 만드는 법"
+  chapterNum={37}
+  part={6}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>구글의 패소, 공정위의 과징금</h2>
+    <p>
+      2024년, 미국 법원은 구글이 검색 시장에서 반독점법을 위반했다고 판결했습니다.
+      한국 공정거래위원회는 매년 대기업에 수천억 원의 과징금을 부과합니다.
+      2021년에는 구글에 2,074억 원, 2023년에는 쿠팡에 1,400억 원의 과징금을 내렸습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      왜 정부는 기업의 활동에 개입할까요?
+      시장이 자유롭게 작동하면 되는 것 아닌가요?
+      이 장에서는 <strong>경쟁정책(antitrust policy)</strong>의 필요성과 실제 작동 방식을 배웁니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>시장 지배적 지위의 판단 기준을 이해</li>
+        <li>기업 결합(합병) 심사의 HHI 기준을 적용</li>
+        <li>한국 공정위의 실제 사건을 분석</li>
+        <li>규제와 자유 시장 사이의 최적 균형을 탐색</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>경쟁정책의 기초</h2>
+
+    <ExplainBox title="왜 경쟁정책이 필요한가?">
+      <p>시장 경제에서 경쟁은 가격을 낮추고, 품질을 높이고, 혁신을 촉진합니다.
+        하지만 기업들은 자연스럽게 경쟁을 피하려 합니다.</p>
+      <p style="margin-top: 8px;"><strong>담합:</strong> 가격을 같이 올리기로 합의</p>
+      <p><strong>약탈적 가격:</strong> 일시적으로 가격을 낮춰 경쟁사를 퇴출시킨 후 독점 가격 부과</p>
+      <p><strong>끼워팔기:</strong> 인기 상품과 비인기 상품을 묶어 판매</p>
+      <p style="margin-top: 8px;">이런 행위를 방지하는 것이 경쟁정책의 역할입니다.</p>
+    </ExplainBox>
+
+    <BusinessBox title="한국의 경쟁정책 체계">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>공정거래위원회 (공정위):</strong> 한국의 경쟁 당국. 독립 행정기관</li>
+        <li><strong>독점규제 및 공정거래에 관한 법률 (공정거래법):</strong> 1980년 제정</li>
+        <li><strong>주요 규제 대상:</strong> 시장 지배적 지위 남용, 기업 결합, 부당 공동행위(담합), 불공정 거래행위</li>
+        <li><strong>제재 수단:</strong> 과징금, 시정명령, 형사 고발</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 시장 지배적 지위 판단 ===== -->
+  <div class="tb-card">
+    <h2>1. 시장 지배적 지위 판단 도구</h2>
+    <p>
+      한국 공정거래법에서는 <strong>시장점유율 50% 이상</strong>(1사) 또는
+      <strong>3사 합계 75% 이상</strong>(단, 개별 10% 미만 제외)인 기업을
+      시장 지배적 사업자로 추정합니다. 아래에 조건을 입력하면 판정 결과가 나옵니다.
+    </p>
+
+    <SimControls>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <label>1위 기업 점유율 (%):
+          <input type="number" id="dom-share1" value="45" min="0" max="100" style="width: 100%; padding: 6px; border: 1px solid #d1d5db; border-radius: 6px;" />
+        </label>
+        <label>2위 기업 점유율 (%):
+          <input type="number" id="dom-share2" value="25" min="0" max="100" style="width: 100%; padding: 6px; border: 1px solid #d1d5db; border-radius: 6px;" />
+        </label>
+        <label>3위 기업 점유율 (%):
+          <input type="number" id="dom-share3" value="15" min="0" max="100" style="width: 100%; padding: 6px; border: 1px solid #d1d5db; border-radius: 6px;" />
+        </label>
+        <label>진입 장벽 높이:
+          <select id="dom-barrier" style="width: 100%; padding: 6px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <option value="high">높음</option>
+            <option value="medium">보통</option>
+            <option value="low">낮음</option>
+          </select>
+        </label>
+      </div>
+      <button class="tb-btn" id="dom-judge-btn" style="margin-top: 12px; width: 100%;">판정 실행</button>
+    </SimControls>
+
+    <div id="dom-result" style="display: none; margin-top: 16px; padding: 20px; border-radius: 12px;">
+    </div>
+
+    <ChartContainer id="domChart" height="280px" />
+
+    <ExerciseBox title="지배적 지위 분석">
+      <p>다양한 시나리오를 테스트하세요.</p>
+      <p>1) 네이버(55%), 구글(35%), 다음(8%)인 검색 시장은?</p>
+      <p>2) 배달의민족(62%), 쿠팡이츠(23%), 요기요(15%)인 배달앱 시장은?</p>
+      <button class="tb-btn" id="dom-quiz-btn" style="margin-top: 8px;">분석 결과</button>
+      <div id="dom-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 네이버 55% &gt; 50% → 시장 지배적 지위 추정. 또한 상위 3사 합계 98% &gt; 75%.</p>
+        <p><strong>2)</strong> 배달의민족 62% &gt; 50% → 시장 지배적 지위 추정. 실제로 공정위는 배민의 시장 지배력을 주시하고 있습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 기업 결합 심사 ===== -->
+  <div class="tb-card">
+    <h2>2. 기업 결합(합병) 심사</h2>
+    <p>
+      두 기업이 합병하면 시장 집중도가 높아집니다.
+      경쟁 당국은 <strong>HHI 변화량</strong>을 기준으로 합병을 허용/금지합니다.
+      합병 전후의 HHI와 변화량을 계산하여 판정합니다.
+    </p>
+
+    <FormulaBox title="기업 결합 심사 기준 (미국 DOJ 기준)">
+      <p><strong>합병 후 HHI &lt; 1,500:</strong> 경쟁적. 합병 승인 가능성 높음</p>
+      <p><strong>합병 후 HHI 1,500~2,500 이고 변화량 &gt; 100:</strong> 우려. 추가 심사</p>
+      <p><strong>합병 후 HHI &gt; 2,500 이고 변화량 &gt; 200:</strong> 고집중. 합병 금지 가능성 높음</p>
+    </FormulaBox>
+
+    <SimControls>
+      <p style="font-weight: bold; margin-bottom: 8px;">현재 시장 점유율 (합병 전):</p>
+      <div id="merger-inputs" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px;">
+      </div>
+      <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <label style="font-weight: bold;">합병 기업:
+          <select id="merger-a" style="padding: 4px 8px; border: 1px solid #d1d5db; border-radius: 6px;">
+          </select>
+        </label>
+        <span style="align-self: center; font-weight: bold;">+</span>
+        <label style="font-weight: bold;">
+          <select id="merger-b" style="padding: 4px 8px; border: 1px solid #d1d5db; border-radius: 6px;">
+          </select>
+        </label>
+        <button class="tb-btn" id="merger-calc-btn">합병 심사 실행</button>
+      </div>
+      <button class="tb-btn" id="merger-preset-btn" style="margin-top: 8px;">예시: SKT + LGU+ 합병</button>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+      <ChartContainer id="mergerBefore" height="250px" />
+      <ChartContainer id="mergerAfter" height="250px" />
+    </div>
+
+    <div id="merger-result" style="display: none; margin-top: 16px; padding: 20px; border-radius: 12px;">
+    </div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="합병 전 HHI" value="-" id="merger-hhi-before" borderColor="#3b82f6" />
+      <StatBox label="합병 후 HHI" value="-" id="merger-hhi-after" borderColor="#ef4444" />
+      <StatBox label="HHI 변화량" value="-" id="merger-hhi-delta" borderColor="#f59e0b" />
+      <StatBox label="판정" value="-" id="merger-verdict" borderColor="#059669" />
+    </div>
+
+    <ExerciseBox title="합병 심사 연습">
+      <p>"예시" 버튼을 누른 후 답하세요.</p>
+      <p>1) SKT + LGU+ 합병이 승인되면 시장은 어떻게 변하나요?</p>
+      <p>2) 이 합병이 소비자에게 미치는 영향은?</p>
+      <button class="tb-btn" id="merger-quiz-btn" style="margin-top: 8px;">분석 포인트</button>
+      <div id="merger-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 3사 과점에서 사실상 복점(2사)으로 변합니다. 합병 기업이 70%를 차지하여 압도적 시장 지배력을 갖습니다.</p>
+        <p><strong>2)</strong> 경쟁 감소로 요금 인상 우려, 서비스 품질 저하 가능성. 반면 규모의 경제로 비용 절감, 투자 여력 확대 가능성도 있습니다. 공정위는 이런 양면을 모두 고려합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 공정거래 사건 퀴즈 ===== -->
+  <div class="tb-card">
+    <h2>3. 한국 공정위 실제 사건 퀴즈</h2>
+    <p>
+      한국 공정거래위원회가 실제로 처리한 사건들입니다.
+      각 사건의 위반 유형을 맞혀 보세요.
+    </p>
+
+    <ExplainBox title="공정거래법 위반 유형">
+      <p><strong>1. 담합 (부당 공동행위):</strong> 경쟁사끼리 가격/수량 합의</p>
+      <p><strong>2. 시장 지배력 남용:</strong> 독점적 지위를 이용한 불공정 행위</p>
+      <p><strong>3. 끼워팔기:</strong> 인기 상품과 비인기 상품을 강제로 묶어 판매</p>
+      <p><strong>4. 부당 지원:</strong> 계열사에 부당하게 이익 제공</p>
+    </ExplainBox>
+
+    <div id="ftc-quiz-container" style="margin-top: 16px;">
+    </div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="정답" value="0/5" id="ftc-score" borderColor="#059669" />
+      <StatBox label="진행" value="1/5" id="ftc-progress" borderColor="#3b82f6" />
+    </div>
+
+    <ChartContainer id="ftcChart" height="280px" />
+
+    <ExerciseBox title="공정거래의 의미">
+      <p>퀴즈를 완료한 후 생각해 보세요.</p>
+      <p>1) 과징금이 기업 행동을 바꾸는 데 충분히 효과적인가요?</p>
+      <p>2) 소비자가 담합을 알아챌 수 있는 방법이 있을까요?</p>
+      <button class="tb-btn" id="ftc-think-btn" style="margin-top: 8px;">생각 정리</button>
+      <div id="ftc-think-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 과징금이 부당 이익보다 작으면 기업은 "벌금을 내고 계속 위반"할 유인이 있습니다. 그래서 최근 과징금 수준이 지속적으로 높아지고 있습니다.</p>
+        <p><strong>2)</strong> 여러 기업의 가격이 동시에 같은 방향으로 변하면 담합을 의심할 수 있습니다. 공정위는 리니언시(자진 신고 감면) 제도로 카르텔 내부 고발을 유도합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 규제 vs 자유 시장 ===== -->
+  <div class="tb-card">
+    <h2>4. 규제 vs 자유 시장 균형점</h2>
+    <p>
+      규제가 너무 약하면 독점과 담합이 발생합니다.
+      규제가 너무 강하면 혁신이 억제되고 시장 진입이 어려워집니다.
+      <strong>최적의 규제 수준</strong>은 어디일까요?
+    </p>
+
+    <SimControls>
+      <label style="font-weight: bold;">규제 강도: <strong id="reg-level-val">50</strong>%
+        <input type="range" id="reg-level" min="0" max="100" value="50" style="width: 100%;" />
+      </label>
+      <div style="display: flex; justify-content: space-between; font-size: 0.85em; color: #6b7280; margin-top: 4px;">
+        <span>완전 자유 시장</span><span>적정 규제</span><span>강한 규제</span>
+      </div>
+    </SimControls>
+
+    <ChartContainer id="regBalChart" height="380px" />
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="소비자 후생" value="-" id="regbal-consumer" borderColor="#3b82f6" />
+      <StatBox label="혁신 수준" value="-" id="regbal-innovation" borderColor="#059669" />
+      <StatBox label="시장 진입" value="-" id="regbal-entry" borderColor="#f59e0b" />
+      <StatBox label="총 사회후생" value="-" id="regbal-total" borderColor="#6366f1" />
+    </div>
+
+    <ExerciseBox title="최적 규제 탐색">
+      <p>슬라이더를 천천히 움직이면서 총 사회후생이 최대가 되는 지점을 찾으세요.</p>
+      <p>1) 총 사회후생이 최대인 규제 수준은 약 몇 %인가요?</p>
+      <p>2) 규제를 0%로 하면 어떤 문제가 발생하나요?</p>
+      <p>3) 규제를 100%로 하면 어떤 문제가 발생하나요?</p>
+      <button class="tb-btn" id="regbal-quiz-btn" style="margin-top: 8px;">최적 분석</button>
+      <div id="regbal-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 약 40~55% 구간에서 총 사회후생이 최대입니다.</p>
+        <p><strong>2)</strong> 규제 0%: 독점/담합 횡행, 소비자 피해 극대화, 불공정 거래 만연.</p>
+        <p><strong>3)</strong> 규제 100%: 기업 활동 위축, 혁신 정체, 신규 진입 차단, 관료주의 비용 증가.</p>
+        <p><strong>핵심:</strong> 적절한 규제는 경쟁을 보호하면서도 혁신을 억제하지 않는 균형점에 있습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 결론 ===== -->
+  <ConclusionBox title="정리: 경쟁정책과 규제">
+    <p>
+      경쟁정책은 시장의 공정한 경쟁을 유지하기 위한 정부의 역할입니다.
+      시장 지배적 지위 남용, 담합, 불공정 거래를 규제하고,
+      기업 합병이 경쟁을 해치지 않도록 심사합니다.
+      그러나 과도한 규제는 혁신을 저해할 수 있으므로 균형이 중요합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      다음 장은 <strong>캡스톤: 산업 분석 보고서</strong>입니다.
+      지금까지 배운 모든 개념을 종합하여 한국 산업을 직접 분석합니다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1. 시장 지배적 지위 판단 ========== */
+  var domCtx = document.getElementById('domChart').getContext('2d');
+  var domChart = new Chart(domCtx, {
+    type: 'pie',
+    data: {
+      labels: ['1위', '2위', '3위', '기타'],
+      datasets: [{ data: [45, 25, 15, 15], backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#d1d5db'] }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+
+  document.getElementById('dom-judge-btn').addEventListener('click', function() {
+    var s1 = parseFloat(document.getElementById('dom-share1').value) || 0;
+    var s2 = parseFloat(document.getElementById('dom-share2').value) || 0;
+    var s3 = parseFloat(document.getElementById('dom-share3').value) || 0;
+    var barrier = document.getElementById('dom-barrier').value;
+    var rest = Math.max(0, 100 - s1 - s2 - s3);
+
+    domChart.data.datasets[0].data = [s1, s2, s3, rest];
+    domChart.update();
+
+    var dominant = false;
+    var reasons = [];
+
+    if (s1 >= 50) {
+      dominant = true;
+      reasons.push('1위 기업 점유율 ' + s1 + '% >= 50% (단독 지배적 지위 추정)');
+    }
+
+    var top3 = s1 + s2 + s3;
+    var qualifying = [s1, s2, s3].filter(function(s) { return s >= 10; });
+    if (qualifying.length >= 2 && top3 >= 75) {
+      dominant = true;
+      reasons.push('상위 3사 합계 ' + top3 + '% >= 75% (10% 이상 기업 ' + qualifying.length + '개)');
+    }
+
+    if (barrier === 'high') reasons.push('높은 진입 장벽 → 지배적 지위 강화');
+    if (barrier === 'low' && dominant) reasons.push('낮은 진입 장벽 → 실질적 지배력은 제한적일 수 있음');
+
+    var result = document.getElementById('dom-result');
+    result.style.display = 'block';
+    result.style.background = dominant ? '#fef2f2' : '#f0fdf4';
+    result.style.border = '2px solid ' + (dominant ? '#ef4444' : '#059669');
+    result.innerHTML = '<h3 style="margin: 0 0 12px; color: ' + (dominant ? '#ef4444' : '#059669') + ';">' +
+      (dominant ? '시장 지배적 지위 추정' : '시장 지배적 지위 미해당') + '</h3>' +
+      '<ul style="margin: 0; padding-left: 20px;">' +
+      reasons.map(function(r) { return '<li>' + r + '</li>'; }).join('') + '</ul>';
+  });
+
+  document.getElementById('dom-quiz-btn').addEventListener('click', function() {
+    document.getElementById('dom-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 2. 기업 결합 심사 ========== */
+  var mergerFirms = 4;
+  var mergerInputs = document.getElementById('merger-inputs');
+  var mergerASelect = document.getElementById('merger-a');
+  var mergerBSelect = document.getElementById('merger-b');
+  var mergerColors = ['#ef4444', '#3b82f6', '#059669', '#f59e0b', '#6366f1', '#ec4899'];
+
+  var mbCtx = document.getElementById('mergerBefore').getContext('2d');
+  var maCtx = document.getElementById('mergerAfter').getContext('2d');
+
+  var mbChart = new Chart(mbCtx, {
+    type: 'pie',
+    data: { labels: [], datasets: [{ data: [], backgroundColor: mergerColors }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, title: { display: true, text: '합병 전' } } }
+  });
+
+  var maChart = new Chart(maCtx, {
+    type: 'pie',
+    data: { labels: [], datasets: [{ data: [], backgroundColor: mergerColors }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, title: { display: true, text: '합병 후' } } }
+  });
+
+  function renderMergerInputs() {
+    mergerInputs.innerHTML = '';
+    mergerASelect.innerHTML = '';
+    mergerBSelect.innerHTML = '';
+
+    for (var i = 0; i < mergerFirms; i++) {
+      var name = '기업' + (i + 1);
+      var div = document.createElement('div');
+      div.innerHTML = '<label style="font-size: 0.9em;">' + name + ' (%)' +
+        '<input type="number" class="merger-share" min="0" max="100" value="' + Math.round(100 / mergerFirms) + '" ' +
+        'style="width: 100%; padding: 4px; border: 1px solid #d1d5db; border-radius: 6px;" /></label>';
+      mergerInputs.appendChild(div);
+
+      var optA = document.createElement('option');
+      optA.value = i; optA.textContent = name;
+      mergerASelect.appendChild(optA);
+
+      var optB = document.createElement('option');
+      optB.value = i; optB.textContent = name;
+      if (i === 1) optB.selected = true;
+      mergerBSelect.appendChild(optB);
+    }
+  }
+
+  renderMergerInputs();
+
+  document.getElementById('merger-preset-btn').addEventListener('click', function() {
+    mergerFirms = 3;
+    renderMergerInputs();
+    var inputs = document.querySelectorAll('.merger-share');
+    if (inputs.length >= 3) {
+      inputs[0].value = 44; inputs[1].value = 30; inputs[2].value = 26;
+    }
+    mergerASelect.value = '0';
+    mergerBSelect.value = '2';
+  });
+
+  document.getElementById('merger-calc-btn').addEventListener('click', function() {
+    var inputs = document.querySelectorAll('.merger-share');
+    var shares = [];
+    var labels = [];
+    inputs.forEach(function(inp, i) {
+      shares.push(parseFloat(inp.value) || 0);
+      labels.push('기업' + (i + 1));
+    });
+
+    var idxA = parseInt(mergerASelect.value);
+    var idxB = parseInt(mergerBSelect.value);
+
+    if (idxA === idxB) {
+      alert('서로 다른 기업을 선택하세요.');
+      return;
+    }
+
+    var hhiBefore = 0;
+    shares.forEach(function(s) { hhiBefore += s * s; });
+
+    /* 합병 후 */
+    var afterShares = [];
+    var afterLabels = [];
+    for (var i = 0; i < shares.length; i++) {
+      if (i === idxB) continue;
+      if (i === idxA) {
+        afterShares.push(shares[idxA] + shares[idxB]);
+        afterLabels.push(labels[idxA] + '+' + labels[idxB]);
+      } else {
+        afterShares.push(shares[i]);
+        afterLabels.push(labels[i]);
+      }
+    }
+
+    var hhiAfter = 0;
+    afterShares.forEach(function(s) { hhiAfter += s * s; });
+    var delta = hhiAfter - hhiBefore;
+
+    mbChart.data.labels = labels;
+    mbChart.data.datasets[0].data = shares;
+    mbChart.update();
+
+    maChart.data.labels = afterLabels;
+    maChart.data.datasets[0].data = afterShares;
+    maChart.update();
+
+    document.getElementById('merger-hhi-before').textContent = Math.round(hhiBefore).toLocaleString();
+    document.getElementById('merger-hhi-after').textContent = Math.round(hhiAfter).toLocaleString();
+    document.getElementById('merger-hhi-delta').textContent = '+' + Math.round(delta).toLocaleString();
+
+    var verdict;
+    if (hhiAfter < 1500) {
+      verdict = '승인 가능';
+    } else if (hhiAfter < 2500 && delta <= 100) {
+      verdict = '승인 가능';
+    } else if (hhiAfter < 2500 && delta > 100) {
+      verdict = '추가 심사 필요';
+    } else if (delta <= 200) {
+      verdict = '조건부 승인';
+    } else {
+      verdict = '금지 가능성 높음';
+    }
+
+    document.getElementById('merger-verdict').textContent = verdict;
+
+    var resultDiv = document.getElementById('merger-result');
+    resultDiv.style.display = 'block';
+    var isBlock = verdict === '금지 가능성 높음';
+    resultDiv.style.background = isBlock ? '#fef2f2' : verdict === '승인 가능' ? '#f0fdf4' : '#fefce8';
+    resultDiv.style.border = '2px solid ' + (isBlock ? '#ef4444' : verdict === '승인 가능' ? '#059669' : '#f59e0b');
+    resultDiv.innerHTML = '<h3 style="margin: 0 0 8px;">' + verdict + '</h3>' +
+      '<p>합병 전 HHI: ' + Math.round(hhiBefore) + ' → 합병 후 HHI: ' + Math.round(hhiAfter) + ' (변화: +' + Math.round(delta) + ')</p>' +
+      '<p style="margin-top: 8px;">' +
+      (isBlock ? '시장 집중도가 크게 높아져 경쟁 제한 우려가 큽니다. 공정위가 합병을 금지하거나 엄격한 조건을 부과할 수 있습니다.' :
+       verdict === '추가 심사 필요' ? '시장 집중도 증가가 우려 수준입니다. 효율성 향상, 소비자 이익 등 추가 검토가 필요합니다.' :
+       '시장 집중도 변화가 크지 않아 합병이 승인될 가능성이 높습니다.') + '</p>';
+  });
+
+  document.getElementById('merger-quiz-btn').addEventListener('click', function() {
+    document.getElementById('merger-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 3. 공정거래 사건 퀴즈 ========== */
+  var ftcCases = [
+    { q: '2018년: 삼성전자, LG화학, SK이노베이션 등이 전기차 배터리 가격을 미리 합의했다.', a: '담합', fine: '과징금 3,600억원', hint: '경쟁사끼리 가격을 합의하는 대표적 부당 공동행위' },
+    { q: '2021년: 구글이 안드로이드에 자사 앱스토어와 결제 시스템을 강제로 탑재하게 했다.', a: '끼워팔기', fine: '과징금 2,074억원', hint: '운영체제의 지배력을 이용한 앱스토어 결제 강제' },
+    { q: '2020년: 대형 유통업체가 납품업자에게 판촉비를 강제 부담시켰다.', a: '시장 지배력 남용', fine: '시정명령 + 과징금', hint: '우월적 지위를 이용한 거래상 지위 남용' },
+    { q: '2019년: 대기업 회장이 계열사를 이용해 자녀 회사에 일감을 몰아줬다.', a: '부당 지원', fine: '과징금 수백억원', hint: '계열사 간 부당한 이익 제공 (일감 몰아주기)' },
+    { q: '2023년: 시멘트 6개사가 10년간 시멘트 가격을 동시에 인상해 왔다.', a: '담합', fine: '과징금 1,500억원', hint: '장기간 가격 동조 행위, 대표적 카르텔 사례' }
+  ];
+
+  var ftcTypes = ['담합', '시장 지배력 남용', '끼워팔기', '부당 지원'];
+  var ftcIdx = 0;
+  var ftcCorrect = 0;
+  var ftcContainer = document.getElementById('ftc-quiz-container');
+
+  var ftcCtx = document.getElementById('ftcChart').getContext('2d');
+  var ftcTypeCount = [0, 0, 0, 0];
+
+  var ftcChart = new Chart(ftcCtx, {
+    type: 'bar',
+    data: {
+      labels: ftcTypes,
+      datasets: [{ label: '사건 수', data: ftcTypeCount, backgroundColor: ['#ef4444', '#3b82f6', '#f59e0b', '#8b5cf6'] }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }, plugins: { legend: { display: false } } }
+  });
+
+  function renderFtcQ() {
+    if (ftcIdx >= ftcCases.length) {
+      ftcContainer.innerHTML = '<div style="padding: 20px; background: #f0fdf4; border-radius: 12px; text-align: center;">' +
+        '<h3>퀴즈 완료!</h3><p style="font-size: 1.3em; font-weight: bold; color: #059669;">' +
+        ftcCorrect + ' / ' + ftcCases.length + ' 정답</p></div>';
+      return;
+    }
+
+    var fc = ftcCases[ftcIdx];
+    var html = '<div style="padding: 16px; background: #f0f9ff; border-radius: 12px; border: 2px solid #bfdbfe;">' +
+      '<p style="font-weight: bold;">사건 ' + (ftcIdx + 1) + '/' + ftcCases.length + '</p>' +
+      '<p style="margin-top: 8px; font-size: 1.05em;">' + fc.q + '</p>' +
+      '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;">';
+
+    ftcTypes.forEach(function(t) {
+      html += '<button class="tb-btn ftc-opt" data-type="' + t + '" style="padding: 10px;">' + t + '</button>';
+    });
+
+    html += '</div><div id="ftc-feedback" style="display: none; margin-top: 12px; padding: 10px; border-radius: 8px;"></div></div>';
+    ftcContainer.innerHTML = html;
+
+    document.querySelectorAll('.ftc-opt').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var chosen = this.getAttribute('data-type');
+        var fb = document.getElementById('ftc-feedback');
+        fb.style.display = 'block';
+
+        var typeIdx = ftcTypes.indexOf(fc.a);
+        ftcTypeCount[typeIdx]++;
+
+        if (chosen === fc.a) {
+          ftcCorrect++;
+          fb.style.background = '#f0fdf4';
+          fb.innerHTML = '<p style="color: #059669; font-weight: bold;">정답!</p><p>' + fc.hint + '</p><p style="color: #ef4444;">' + fc.fine + '</p>';
+        } else {
+          fb.style.background = '#fef2f2';
+          fb.innerHTML = '<p style="color: #ef4444; font-weight: bold;">오답. 정답: ' + fc.a + '</p><p>' + fc.hint + '</p><p style="color: #ef4444;">' + fc.fine + '</p>';
+        }
+
+        ftcChart.data.datasets[0].data = ftcTypeCount;
+        ftcChart.update();
+
+        document.getElementById('ftc-score').textContent = ftcCorrect + '/' + ftcCases.length;
+        document.querySelectorAll('.ftc-opt').forEach(function(b) { b.disabled = true; });
+
+        setTimeout(function() {
+          ftcIdx++;
+          document.getElementById('ftc-progress').textContent = Math.min(ftcIdx + 1, ftcCases.length) + '/' + ftcCases.length;
+          renderFtcQ();
+        }, 1500);
+      });
+    });
+  }
+
+  renderFtcQ();
+
+  document.getElementById('ftc-think-btn').addEventListener('click', function() {
+    document.getElementById('ftc-think-ans').style.display = 'block';
+  });
+
+  /* ========== 4. 규제 vs 자유 시장 ========== */
+  var regLevel = document.getElementById('reg-level');
+  var regBalCtx = document.getElementById('regBalChart').getContext('2d');
+
+  var regBalChart = new Chart(regBalCtx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '소비자 후생', data: [], borderColor: '#3b82f6', tension: 0.4, fill: false },
+        { label: '혁신 수준', data: [], borderColor: '#059669', tension: 0.4, fill: false },
+        { label: '시장 진입', data: [], borderColor: '#f59e0b', tension: 0.4, fill: false },
+        { label: '총 사회후생', data: [], borderColor: '#6366f1', borderWidth: 3, tension: 0.4, fill: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { title: { display: true, text: '규제 강도 (%)' } },
+        y: { beginAtZero: true, max: 100, title: { display: true, text: '수준 (0~100)' } }
+      },
+      plugins: { legend: { display: true } }
+    }
+  });
+
+  function buildRegData() {
+    var labels = [];
+    var consumer = [], innovation = [], entry = [], total = [];
+
+    for (var r = 0; r <= 100; r += 2) {
+      labels.push(r);
+      /* 소비자 후생: 규제가 적당하면 높고, 양 극단에서 낮음 */
+      var cw = 30 + 50 * Math.sin(r / 100 * Math.PI * 0.9);
+      /* 혁신: 규제가 늘수록 감소 (약간의 규제는 긍정적) */
+      var inn = 80 - 0.005 * r * r + 0.2 * r;
+      /* 시장 진입: 적절한 규제가 진입 보호, 과도한 규제는 진입 차단 */
+      var ent = 50 + 30 * Math.sin(r / 100 * Math.PI * 0.8) - r * 0.3;
+      var tot = (cw + inn + ent) / 3;
+
+      consumer.push(Math.max(0, Math.min(100, cw)));
+      innovation.push(Math.max(0, Math.min(100, inn)));
+      entry.push(Math.max(0, Math.min(100, ent)));
+      total.push(Math.max(0, Math.min(100, tot)));
+    }
+
+    regBalChart.data.labels = labels;
+    regBalChart.data.datasets[0].data = consumer;
+    regBalChart.data.datasets[1].data = innovation;
+    regBalChart.data.datasets[2].data = entry;
+    regBalChart.data.datasets[3].data = total;
+    regBalChart.update();
+  }
+
+  buildRegData();
+
+  function updateRegBal() {
+    var level = parseInt(regLevel.value);
+    document.getElementById('reg-level-val').textContent = level;
+
+    var idx = Math.round(level / 2);
+    var datasets = regBalChart.data.datasets;
+
+    document.getElementById('regbal-consumer').textContent = (datasets[0].data[idx] || 0).toFixed(0);
+    document.getElementById('regbal-innovation').textContent = (datasets[1].data[idx] || 0).toFixed(0);
+    document.getElementById('regbal-entry').textContent = (datasets[2].data[idx] || 0).toFixed(0);
+    document.getElementById('regbal-total').textContent = (datasets[3].data[idx] || 0).toFixed(0);
+  }
+
+  regLevel.addEventListener('input', updateRegBal);
+  updateRegBal();
+
+  document.getElementById('regbal-quiz-btn').addEventListener('click', function() {
+    document.getElementById('regbal-quiz-ans').style.display = 'block';
+  });
+
+});
+</script>

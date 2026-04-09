@@ -1,0 +1,769 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="경매와 메커니즘 설계"
+  subtitle="게임의 규칙을 설계하다"
+  chapterNum={31}
+  part={5}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>경매: 누가, 얼마에?</h2>
+    <p>
+      경매는 인류 역사에서 가장 오래된 거래 방식 중 하나입니다.
+      고대 바빌론에서 신부를 경매하고, 로마에서 전리품을 경매했습니다.
+      오늘날에도 구글의 광고, 정부의 통신 주파수, 이베이의 중고품까지
+      <strong>경매</strong>가 곳곳에서 사용됩니다.
+    </p>
+    <p style="margin-top: 12px;">
+      <strong>메커니즘 설계(Mechanism Design)</strong>는 "역 게임이론"이라 불립니다.
+      게임이론이 "주어진 규칙에서 최적 전략을 찾는 것"이라면,
+      메커니즘 설계는 <strong>"원하는 결과가 나오도록 규칙 자체를 설계하는 것"</strong>입니다.
+      2007년 노벨 경제학상 (허르비츠, 마스킨, 마이어슨)이 이 분야에 수여되었습니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>4가지 경매 방식의 차이를 이해하고 직접 체험</li>
+        <li>승자의 저주(Winner's Curse) 현상을 시뮬레이션</li>
+        <li>수익 동치 정리의 직관적 이해</li>
+        <li>메커니즘 설계의 기본 원리: 유인 양립성</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>4가지 경매 방식</h2>
+
+    <BusinessBox title="경매의 종류">
+      <ul style="margin: 8px 0 0 16px; line-height: 2.2;">
+        <li><strong>영국식 (공개 오름):</strong> 가격이 올라가며 마지막까지 남은 사람이 낙찰. 가장 흔한 방식. (소더비 미술품 경매)</li>
+        <li><strong>네덜란드식 (공개 내림):</strong> 높은 가격에서 시작해서 내려감. 먼저 "사겠다!" 외치는 사람이 낙찰. (네덜란드 꽃 경매)</li>
+        <li><strong>1가 밀봉 (First-Price Sealed-Bid):</strong> 봉투에 입찰가를 넣어 제출. 가장 높은 입찰자가 자신의 입찰가로 지불. (정부 조달)</li>
+        <li><strong>2가 밀봉 / 비크리 (Vickrey):</strong> 가장 높은 입찰자가 낙찰되지만, <strong>두 번째로 높은 가격</strong>을 지불! (2020 노벨상 경매이론)</li>
+      </ul>
+    </BusinessBox>
+
+    <WarningBox title="비크리 경매의 마법">
+      <p>2가 밀봉 경매에서는 <strong>진실 말하기가 최적전략</strong>입니다!</p>
+      <p>자신의 진짜 가치보다 낮게 입찰하면 낙찰을 놓칠 위험, 높게 입찰하면 손해 볼 위험.</p>
+      <p>진짜 가치 그대로 입찰하는 것이 우월전략입니다. 이것이 <strong>유인 양립성(incentive compatibility)</strong>의 핵심!</p>
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 4가지 경매 시뮬레이터 ===== -->
+  <div class="tb-card">
+    <h2>1. 4가지 경매 시뮬레이터</h2>
+    <p>
+      경매 방식을 선택하고, 당신의 가치 평가와 입찰 전략을 설정하세요.
+      9명의 컴퓨터 입찰자와 경쟁합니다.
+    </p>
+
+    <SimControls>
+      <label>경매 방식:
+        <select id="auction-type">
+          <option value="english">영국식 (공개 오름)</option>
+          <option value="dutch">네덜란드식 (공개 내림)</option>
+          <option value="first">1가 밀봉</option>
+          <option value="vickrey">2가 밀봉 (비크리)</option>
+        </select>
+      </label>
+    </SimControls>
+
+    <div style="margin: 20px 0; padding: 16px; background: #f9fafb; border-radius: 12px;">
+      <p style="font-weight: bold;">물건: 한정판 운동화</p>
+      <p>당신의 진짜 가치 평가: <strong id="auction-my-value">80,000원</strong></p>
+      <p style="font-size: 0.85em; color: #6b7280;">(이 가격 이하로 사면 이득, 이 가격 이상으로 사면 손해)</p>
+
+      <div id="auction-english" style="margin-top: 16px; display: block;">
+        <p>현재 호가: <strong id="eng-current-price">10,000원</strong></p>
+        <div style="display: flex; gap: 8px; margin-top: 8px;">
+          <button class="tb-btn" id="eng-bid" style="padding: 10px 24px; background: #059669; color: white;">입찰 (5,000원 올리기)</button>
+          <button class="tb-btn" id="eng-pass" style="padding: 10px 24px; background: #6b7280; color: white;">포기</button>
+        </div>
+        <div id="eng-log" style="margin-top: 12px; max-height: 150px; overflow-y: auto; font-size: 0.85em;"></div>
+      </div>
+
+      <div id="auction-dutch" style="margin-top: 16px; display: none;">
+        <p>현재 호가: <strong id="dutch-current-price">150,000원</strong></p>
+        <div style="display: flex; gap: 8px; margin-top: 8px;">
+          <button class="tb-btn" id="dutch-buy" style="padding: 10px 24px; background: #059669; color: white;">이 가격에 산다!</button>
+          <button class="tb-btn" id="dutch-wait" style="padding: 10px 24px; background: #f59e0b; color: white;">기다린다 (가격 하락)</button>
+        </div>
+        <div id="dutch-log" style="margin-top: 12px; font-size: 0.85em;"></div>
+      </div>
+
+      <div id="auction-sealed" style="margin-top: 16px; display: none;">
+        <p>나의 입찰가: <strong id="sealed-bid-show">50,000원</strong></p>
+        <input type="range" id="sealed-bid" min="0" max="150000" value="50000" step="1000" style="width: 100%;" />
+        <button class="tb-btn" id="sealed-submit" style="margin-top: 8px; padding: 10px 24px; background: #059669; color: white;">입찰 제출!</button>
+      </div>
+    </div>
+
+    <div id="auction-result" style="display: none; margin: 16px 0; padding: 16px; border-radius: 12px;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="낙찰자" value="-" id="auc-winner" borderColor="#059669" />
+      <StatBox label="낙찰가" value="-" id="auc-price" borderColor="#6366f1" />
+      <StatBox label="나의 이득" value="-" id="auc-profit" borderColor="#0891b2" />
+    </div>
+
+    <ChartContainer id="auctionChart" height="300px" />
+
+    <ExerciseBox title="경매 전략">
+      <p>1가 밀봉 경매에서 진짜 가치(80,000원)를 그대로 입찰하면 이득이 얼마인가요?</p>
+      <p>비크리 경매에서는? 두 경매의 최적 전략이 왜 다른지 설명하세요.</p>
+      <button class="tb-btn" id="auc-answer-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="auc-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1가 밀봉:</strong> 80,000원으로 낙찰되면 이득 = 0 (구매가 = 가치). 따라서 가치보다 낮게 입찰하는 것이 최적 (예: 65,000원). 이것을 "입찰 음영(bid shading)"이라 합니다.</p>
+        <p><strong>비크리:</strong> 정확히 80,000원을 입찰. 낙찰되면 2등 가격(예: 70,000원)을 지불하므로 이득 = 10,000원. 진실 말하기가 우월전략!</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 승자의 저주 ===== -->
+  <div class="tb-card">
+    <h2>2. 승자의 저주 (Winner's Curse)</h2>
+    <p>
+      항아리에 동전이 들어 있습니다. <strong>진짜 가치는 아무도 모릅니다.</strong>
+      10명이 각자 추정해서 입찰합니다.
+      가장 높게 추정한 사람이 낙찰됩니다. 하지만...
+      <strong>가장 높은 추정 = 가장 낙관적 = 대부분 과대평가!</strong>
+    </p>
+
+    <SimControls>
+      <label>시뮬레이션 횟수:
+        <select id="wc-trials">
+          <option value="10">10번</option>
+          <option value="50">50번</option>
+          <option value="100" selected>100번</option>
+        </select>
+      </label>
+      <button class="tb-btn" id="wc-run" style="margin-left: 12px; padding: 10px 24px;">승자의 저주 시뮬레이션!</button>
+    </SimControls>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="승자 평균 입찰가" value="-" id="wc-avg-bid" borderColor="#ef4444" />
+      <StatBox label="진짜 가치 평균" value="-" id="wc-avg-value" borderColor="#059669" />
+      <StatBox label="평균 손실" value="-" id="wc-avg-loss" borderColor="#6366f1" />
+      <StatBox label="저주 발생률" value="-" id="wc-curse-rate" borderColor="#f59e0b" />
+    </div>
+
+    <ChartContainer id="wcChart" height="350px" />
+
+    <ExplainBox title="왜 승자의 저주가 발생하는가?">
+      <p>각 입찰자의 추정은 진짜 가치 주변에 퍼져 있습니다 (어떤 사람은 높게, 어떤 사람은 낮게).</p>
+      <p>경매에서 이기는 사람은 <strong>가장 높게 추정한 사람</strong>입니다.</p>
+      <p>가장 높은 추정치 = 가장 큰 긍정적 오차 = 높은 확률로 과대평가.</p>
+      <p style="margin-top: 8px;"><strong>해결책:</strong> "내가 이긴다면, 그것은 내가 가장 낙관적이라는 뜻"을 인식하고 입찰가를 낮추어야 합니다.</p>
+    </ExplainBox>
+
+    <ExerciseBox title="승자의 저주 경험">
+      <p>석유 시추권 경매, 기업 인수합병, 자유계약선수 연봉에서 승자의 저주가 발생합니다.</p>
+      <p>프로 스포츠에서 가장 높은 연봉을 제시한 팀이 왜 종종 실망하는지 설명할 수 있나요?</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 수익 동치 정리 ===== -->
+  <div class="tb-card">
+    <h2>3. 수익 동치 정리</h2>
+    <p>
+      놀라운 결과: 특정 조건에서 4가지 경매 방식은 모두
+      <strong>판매자에게 동일한 기대 수익</strong>을 가져다줍니다!
+      이것을 <strong>수익 동치 정리(Revenue Equivalence Theorem)</strong>라고 합니다.
+    </p>
+
+    <FormulaBox title="수익 동치의 조건">
+      <p>다음 조건이 모두 충족될 때 성립합니다:</p>
+      <p>1. 입찰자들의 가치가 <strong>독립적</strong>으로 분포 (사적 가치)</p>
+      <p>2. 입찰자들이 <strong>위험 중립적</strong></p>
+      <p>3. 모든 입찰자가 같은 분포에서 가치를 추출</p>
+      <p>4. 가장 높은 가치를 가진 입찰자가 낙찰</p>
+    </FormulaBox>
+
+    <SimControls>
+      <label>입찰자 수:
+        <select id="rev-n">
+          <option value="3">3명</option>
+          <option value="5" selected>5명</option>
+          <option value="10">10명</option>
+          <option value="20">20명</option>
+        </select>
+      </label>
+      <label style="margin-left: 12px;">시뮬레이션 횟수:
+        <select id="rev-trials">
+          <option value="100">100번</option>
+          <option value="500" selected>500번</option>
+          <option value="1000">1,000번</option>
+        </select>
+      </label>
+      <button class="tb-btn" id="rev-run" style="margin-left: 12px;">시뮬레이션!</button>
+    </SimControls>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="영국식 평균 수익" value="-" id="rev-eng" borderColor="#059669" />
+      <StatBox label="네덜란드식 평균 수익" value="-" id="rev-dutch" borderColor="#3b82f6" />
+      <StatBox label="1가 밀봉 평균 수익" value="-" id="rev-first" borderColor="#ec4899" />
+      <StatBox label="비크리 평균 수익" value="-" id="rev-vickrey" borderColor="#f59e0b" />
+    </div>
+
+    <ChartContainer id="revChart" height="350px" />
+
+    <ExerciseBox title="동치가 깨지는 경우">
+      <p>입찰자가 위험 회피적(risk averse)이면 어떤 경매가 판매자에게 유리할까요?</p>
+      <button class="tb-btn" id="rev-answer-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="rev-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1가 밀봉 경매</strong>가 판매자에게 유리합니다.</p>
+        <p>위험 회피적 입찰자는 낙찰되지 못할 위험을 줄이기 위해 더 높은 입찰가를 제출합니다.</p>
+        <p>이를 "입찰 음영이 줄어든다"고 합니다. 결과적으로 판매자 수익이 올라갑니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 메커니즘 설계 ===== -->
+  <div class="tb-card">
+    <h2>4. 메커니즘 설계: 방 배정 문제</h2>
+    <p>
+      세 명의 룸메이트가 방 하나를 배정받아야 합니다.
+      큰 방, 중간 방, 작은 방이 있습니다.
+      모두 큰 방을 원합니다. <strong>어떤 규칙으로 배정해야 공정하고, 거짓말을 방지할 수 있을까요?</strong>
+    </p>
+
+    <div style="margin: 20px 0;">
+      <p style="font-weight: bold; margin-bottom: 12px;">각 플레이어의 방별 가치 (단위: 만원/월)</p>
+      <table style="border-collapse: collapse; width: 100%; max-width: 500px; margin: 0 auto; text-align: center;">
+        <thead>
+          <tr>
+            <th style="padding: 8px; border: 2px solid #e5e7eb;">플레이어</th>
+            <th style="padding: 8px; border: 2px solid #e5e7eb; background: #f0fdf4;">큰 방</th>
+            <th style="padding: 8px; border: 2px solid #e5e7eb; background: #fefce8;">중간 방</th>
+            <th style="padding: 8px; border: 2px solid #e5e7eb; background: #fef2f2;">작은 방</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 2px solid #e5e7eb; font-weight: bold;">A (당신)</td>
+            <td style="padding: 8px; border: 2px solid #e5e7eb;">
+              <input type="number" id="mech-a-big" value="50" style="width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px;" />
+            </td>
+            <td style="padding: 8px; border: 2px solid #e5e7eb;">
+              <input type="number" id="mech-a-mid" value="30" style="width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px;" />
+            </td>
+            <td style="padding: 8px; border: 2px solid #e5e7eb;">
+              <input type="number" id="mech-a-small" value="10" style="width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px;" />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 2px solid #e5e7eb; font-weight: bold;">B</td>
+            <td style="padding: 8px; border: 2px solid #e5e7eb;">40</td>
+            <td style="padding: 8px; border: 2px solid #e5e7eb;">35</td>
+            <td style="padding: 8px; border: 2px solid #e5e7eb;">15</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 2px solid #e5e7eb; font-weight: bold;">C</td>
+            <td style="padding: 8px; border: 2px solid #e5e7eb;">45</td>
+            <td style="padding: 8px; border: 2px solid #e5e7eb;">25</td>
+            <td style="padding: 8px; border: 2px solid #e5e7eb;">20</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <SimControls>
+      <label>배정 메커니즘:
+        <select id="mech-type">
+          <option value="vcg">VCG 메커니즘 (진실 말하기 유도)</option>
+          <option value="random">랜덤 배정</option>
+          <option value="auction">경매 (최고 입찰자에게)</option>
+        </select>
+      </label>
+      <button class="tb-btn" id="mech-run" style="margin-left: 12px;">배정 실행!</button>
+    </SimControls>
+
+    <div id="mech-result" style="display: none; margin: 16px 0; padding: 16px; border-radius: 12px;"></div>
+
+    <ChartContainer id="mechChart" height="300px" />
+
+    <ExplainBox title="VCG 메커니즘 (Vickrey-Clarke-Groves)">
+      <p>비크리 경매를 일반화한 메커니즘입니다.</p>
+      <p><strong>규칙:</strong> 각자 가치를 보고합니다. 사회적 총 가치를 최대화하는 배정을 합니다.</p>
+      <p><strong>지불:</strong> 각 플레이어는 "자신이 없었으면 다른 사람들이 얻었을 추가 이득"만큼 지불합니다.</p>
+      <p style="margin-top: 8px;"><strong>핵심 성질:</strong> 진실하게 보고하는 것이 최적전략입니다. 거짓말하면 손해!</p>
+    </ExplainBox>
+
+    <ExerciseBox title="거짓말 실험">
+      <p>A(당신)의 큰 방 가치를 실제보다 높게 (예: 60) 입력해 보세요. VCG 메커니즘에서 결과가 더 좋아지나요?</p>
+      <p>이번에는 더 낮게 (예: 30) 입력해 보세요. 결과는?</p>
+      <button class="tb-btn" id="mech-answer-btn" style="margin-top: 8px;">핵심 보기</button>
+      <div id="mech-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>VCG에서 거짓말하면:</strong></p>
+        <p>- 높게 보고: 큰 방을 받을 수 있지만, 지불액이 올라가 순이득이 감소합니다.</p>
+        <p>- 낮게 보고: 좋은 방을 놓칠 위험이 있습니다.</p>
+        <p>진실 보고가 언제나 최적입니다. 이것이 <strong>유인 양립성(incentive compatibility)</strong>의 핵심입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 결론 ===== -->
+  <ConclusionBox title="31장 정리: 규칙이 결과를 결정한다">
+    <p>
+      경매는 게임이론의 가장 성공적인 응용 분야입니다.
+      비크리 경매와 VCG 메커니즘은 "진실 말하기"가 최적이 되도록 규칙을 설계합니다.
+    </p>
+    <p style="margin-top: 8px;">
+      승자의 저주는 공통가치 경매에서 주의해야 할 함정이며,
+      수익 동치 정리는 경매 설계의 기초를 제공합니다.
+      게임이론은 우리가 사는 세상의 규칙을 더 잘 설계하는 데 도움을 줍니다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ===== INTERACTIVE 1: 4가지 경매 ===== */
+  var myValue = 80000;
+  var numBidders = 9;
+  var cpuValues = [];
+  for (var i = 0; i < numBidders; i++) {
+    cpuValues.push(Math.floor(Math.random() * 80000) + 30000);
+  }
+  cpuValues.sort(function(a, b) { return b - a; });
+
+  var auctionChart = new Chart(document.getElementById('auctionChart'), {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [{ label: '입찰가', data: [], backgroundColor: [], borderRadius: 6 }]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '금액 (원)' } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  var auctionTypeSelect = document.getElementById('auction-type');
+  function showAuctionUI() {
+    var type = auctionTypeSelect.value;
+    document.getElementById('auction-english').style.display = type === 'english' ? 'block' : 'none';
+    document.getElementById('auction-dutch').style.display = type === 'dutch' ? 'block' : 'none';
+    document.getElementById('auction-sealed').style.display = (type === 'first' || type === 'vickrey') ? 'block' : 'none';
+    document.getElementById('auction-result').style.display = 'none';
+
+    /* 리셋 */
+    engPrice = 10000; engActive = true; engBidders = numBidders;
+    document.getElementById('eng-current-price').textContent = '10,000원';
+    document.getElementById('eng-log').innerHTML = '';
+    dutchPrice = 150000; dutchActive = true;
+    document.getElementById('dutch-current-price').textContent = '150,000원';
+    document.getElementById('dutch-log').innerHTML = '';
+
+    /* 새 CPU 값 생성 */
+    cpuValues = [];
+    for (var i = 0; i < numBidders; i++) {
+      cpuValues.push(Math.floor(Math.random() * 80000) + 30000);
+    }
+    cpuValues.sort(function(a, b) { return b - a; });
+  }
+
+  auctionTypeSelect.addEventListener('change', showAuctionUI);
+
+  /* 영국식 */
+  var engPrice = 10000;
+  var engActive = true;
+  var engBidders = numBidders;
+
+  document.getElementById('eng-bid').addEventListener('click', function() {
+    if (!engActive) return;
+    engPrice += 5000;
+    document.getElementById('eng-current-price').textContent = engPrice.toLocaleString() + '원';
+
+    /* CPU 탈퇴 */
+    var dropped = 0;
+    cpuValues.forEach(function(v) {
+      if (v < engPrice && engBidders > 1) { dropped++; engBidders--; }
+    });
+
+    var log = document.getElementById('eng-log');
+    if (dropped > 0) {
+      log.innerHTML = '<div style="padding: 4px 8px; background: #fef2f2; border-radius: 4px; margin-bottom: 2px;">' + dropped + '명 탈퇴 (남은 경쟁자: ' + Math.max(0, engBidders - 1) + '명)</div>' + log.innerHTML;
+    }
+
+    if (engBidders <= 1 || engPrice >= cpuValues[0]) {
+      engActive = false;
+      var won = engPrice <= myValue;
+      showAuctionResult(won ? '당신' : 'CPU', engPrice, won ? myValue - engPrice : 0);
+      log.innerHTML = '<div style="padding: 4px 8px; background: #f0fdf4; border-radius: 4px; margin-bottom: 2px; font-weight: bold;">경매 종료! 낙찰가: ' + engPrice.toLocaleString() + '원</div>' + log.innerHTML;
+    }
+  });
+
+  document.getElementById('eng-pass').addEventListener('click', function() {
+    if (!engActive) return;
+    engActive = false;
+    var winnerPrice = engPrice;
+    showAuctionResult('CPU', winnerPrice, 0);
+  });
+
+  /* 네덜란드식 */
+  var dutchPrice = 150000;
+  var dutchActive = true;
+
+  document.getElementById('dutch-buy').addEventListener('click', function() {
+    if (!dutchActive) return;
+    dutchActive = false;
+    showAuctionResult('당신', dutchPrice, myValue - dutchPrice);
+  });
+
+  document.getElementById('dutch-wait').addEventListener('click', function() {
+    if (!dutchActive) return;
+    dutchPrice -= 5000;
+    document.getElementById('dutch-current-price').textContent = dutchPrice.toLocaleString() + '원';
+
+    /* CPU가 먼저 사는지 체크 */
+    var cpuBuyer = false;
+    cpuValues.forEach(function(v) {
+      if (v >= dutchPrice && Math.random() < 0.3 && !cpuBuyer) {
+        cpuBuyer = true;
+      }
+    });
+
+    if (cpuBuyer) {
+      dutchActive = false;
+      document.getElementById('dutch-log').innerHTML = '<div style="padding: 8px; background: #fef2f2; border-radius: 4px;">CPU가 ' + dutchPrice.toLocaleString() + '원에 구매했습니다!</div>';
+      showAuctionResult('CPU', dutchPrice, 0);
+    } else if (dutchPrice <= 5000) {
+      dutchActive = false;
+      showAuctionResult('당신', 5000, myValue - 5000);
+    }
+  });
+
+  /* 밀봉 입찰 */
+  var sealedSlider = document.getElementById('sealed-bid');
+  sealedSlider.addEventListener('input', function() {
+    document.getElementById('sealed-bid-show').textContent = parseInt(sealedSlider.value).toLocaleString() + '원';
+  });
+
+  document.getElementById('sealed-submit').addEventListener('click', function() {
+    var myBid = parseInt(sealedSlider.value);
+    var type = auctionTypeSelect.value;
+    var allBids = cpuValues.map(function(v) { return Math.floor(v * (0.6 + Math.random() * 0.3)); });
+    allBids.push(myBid);
+    allBids.sort(function(a, b) { return b - a; });
+
+    var winnerBid = allBids[0];
+    var secondBid = allBids.length > 1 ? allBids[1] : 0;
+    var iWon = myBid === winnerBid;
+    var payPrice = type === 'vickrey' ? secondBid : winnerBid;
+
+    showAuctionResult(iWon ? '당신' : 'CPU', payPrice, iWon ? myValue - payPrice : 0);
+
+    /* 차트 */
+    var labels = allBids.map(function(b, idx) { return b === myBid ? '나' : 'CPU ' + idx; });
+    var colors = allBids.map(function(b) { return b === myBid ? 'rgba(5,150,105,0.6)' : 'rgba(59,130,246,0.4)'; });
+    auctionChart.data.labels = labels;
+    auctionChart.data.datasets[0].data = allBids;
+    auctionChart.data.datasets[0].backgroundColor = colors;
+    auctionChart.options.plugins.title = {
+      display: true,
+      text: type === 'vickrey' ? '비크리: 낙찰자는 2등 가격(' + secondBid.toLocaleString() + ')을 지불' : '1가 밀봉: 낙찰자는 자기 입찰가(' + winnerBid.toLocaleString() + ')를 지불'
+    };
+    auctionChart.update();
+  });
+
+  function showAuctionResult(winner, price, profit) {
+    document.getElementById('auc-winner').textContent = winner;
+    document.getElementById('auc-price').textContent = price.toLocaleString() + '원';
+    document.getElementById('auc-profit').textContent = (profit >= 0 ? '+' : '') + profit.toLocaleString() + '원';
+
+    var resultDiv = document.getElementById('auction-result');
+    resultDiv.style.display = 'block';
+    resultDiv.style.background = profit > 0 ? '#f0fdf4' : profit < 0 ? '#fef2f2' : '#f9fafb';
+    resultDiv.innerHTML = '<p style="font-weight: bold;">' + (winner === '당신' ? '축하합니다! 낙찰!' : '아쉽게도 다른 입찰자가 낙찰받았습니다.') + '</p>' +
+      '<p>낙찰가: ' + price.toLocaleString() + '원' + (winner === '당신' ? ' / 나의 이득: ' + profit.toLocaleString() + '원' : '') + '</p>';
+  }
+
+  document.getElementById('auc-answer-btn').addEventListener('click', function() {
+    document.getElementById('auc-answer').style.display = 'block';
+  });
+
+  /* ===== INTERACTIVE 2: 승자의 저주 ===== */
+  var wcChart = new Chart(document.getElementById('wcChart'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        { label: '승자 입찰가', data: [], backgroundColor: 'rgba(239,68,68,0.5)', pointRadius: 4 },
+        { label: '진짜 가치', data: [], backgroundColor: 'rgba(5,150,105,0.5)', pointRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '시뮬레이션 번호' } },
+        y: { title: { display: true, text: '금액' } }
+      },
+      plugins: { title: { display: true, text: '승자의 입찰가 vs 진짜 가치' } }
+    }
+  });
+
+  document.getElementById('wc-run').addEventListener('click', function() {
+    var trials = parseInt(document.getElementById('wc-trials').value);
+    var winnerBids = [], trueValues = [];
+    var totalLoss = 0, curseCount = 0;
+
+    for (var t = 0; t < trials; t++) {
+      var trueValue = Math.floor(Math.random() * 80000) + 20000;
+      var bids = [];
+      for (var b = 0; b < 10; b++) {
+        var noise = (Math.random() - 0.5) * 40000;
+        bids.push(Math.max(0, trueValue + noise));
+      }
+      var maxBid = Math.max.apply(null, bids);
+      winnerBids.push(maxBid);
+      trueValues.push(trueValue);
+
+      if (maxBid > trueValue) {
+        totalLoss += maxBid - trueValue;
+        curseCount++;
+      }
+    }
+
+    var avgBid = winnerBids.reduce(function(a, b) { return a + b; }, 0) / trials;
+    var avgValue = trueValues.reduce(function(a, b) { return a + b; }, 0) / trials;
+
+    document.getElementById('wc-avg-bid').textContent = Math.round(avgBid).toLocaleString();
+    document.getElementById('wc-avg-value').textContent = Math.round(avgValue).toLocaleString();
+    document.getElementById('wc-avg-loss').textContent = Math.round(totalLoss / trials).toLocaleString();
+    document.getElementById('wc-curse-rate').textContent = (curseCount / trials * 100).toFixed(1) + '%';
+
+    var scatterBids = [], scatterValues = [];
+    for (var t = 0; t < trials; t++) {
+      scatterBids.push({ x: t + 1, y: Math.round(winnerBids[t]) });
+      scatterValues.push({ x: t + 1, y: Math.round(trueValues[t]) });
+    }
+
+    wcChart.data.datasets[0].data = scatterBids;
+    wcChart.data.datasets[1].data = scatterValues;
+    wcChart.update();
+  });
+
+  /* ===== INTERACTIVE 3: 수익 동치 ===== */
+  var revChart = new Chart(document.getElementById('revChart'), {
+    type: 'bar',
+    data: {
+      labels: ['영국식', '네덜란드식', '1가 밀봉', '비크리'],
+      datasets: [{
+        label: '판매자 평균 수익',
+        data: [0, 0, 0, 0],
+        backgroundColor: ['#059669', '#3b82f6', '#ec4899', '#f59e0b'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '평균 수익 (원)' } } },
+      plugins: { legend: { display: false }, title: { display: true, text: '수익 동치 정리 검증' } }
+    }
+  });
+
+  document.getElementById('rev-run').addEventListener('click', function() {
+    var n = parseInt(document.getElementById('rev-n').value);
+    var trials = parseInt(document.getElementById('rev-trials').value);
+    var revEng = 0, revDutch = 0, revFirst = 0, revVick = 0;
+
+    for (var t = 0; t < trials; t++) {
+      var values = [];
+      for (var i = 0; i < n; i++) {
+        values.push(Math.random() * 100000);
+      }
+      values.sort(function(a, b) { return b - a; });
+
+      /* 영국식: 2등 가치 (2등이 탈퇴하는 시점) */
+      revEng += values[1];
+
+      /* 비크리: 2등 입찰가 = 2등 가치 (진실 말하기) */
+      revVick += values[1];
+
+      /* 1가 밀봉: 최적 입찰 = 가치 x (n-1)/n */
+      var bids1 = values.map(function(v) { return v * (n - 1) / n; });
+      revFirst += bids1[0];
+
+      /* 네덜란드식: 1가 밀봉과 전략적 동치 */
+      revDutch += bids1[0];
+    }
+
+    var results = [
+      Math.round(revEng / trials),
+      Math.round(revDutch / trials),
+      Math.round(revFirst / trials),
+      Math.round(revVick / trials)
+    ];
+
+    document.getElementById('rev-eng').textContent = results[0].toLocaleString();
+    document.getElementById('rev-dutch').textContent = results[1].toLocaleString();
+    document.getElementById('rev-first').textContent = results[2].toLocaleString();
+    document.getElementById('rev-vickrey').textContent = results[3].toLocaleString();
+
+    revChart.data.datasets[0].data = results;
+    revChart.update();
+  });
+
+  document.getElementById('rev-answer-btn').addEventListener('click', function() {
+    document.getElementById('rev-answer').style.display = 'block';
+  });
+
+  /* ===== INTERACTIVE 4: 메커니즘 설계 ===== */
+  var mechChart = new Chart(document.getElementById('mechChart'), {
+    type: 'bar',
+    data: {
+      labels: ['A (당신)', 'B', 'C'],
+      datasets: [
+        { label: '배정된 방 가치', data: [0, 0, 0], backgroundColor: ['rgba(5,150,105,0.6)', 'rgba(59,130,246,0.6)', 'rgba(236,72,153,0.6)'], borderRadius: 6 },
+        { label: '지불액', data: [0, 0, 0], backgroundColor: ['rgba(5,150,105,0.3)', 'rgba(59,130,246,0.3)', 'rgba(236,72,153,0.3)'], borderRadius: 6 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '만원/월' } } },
+      plugins: { title: { display: true, text: '방 배정 결과' } }
+    }
+  });
+
+  document.getElementById('mech-run').addEventListener('click', function() {
+    var aVals = [
+      parseFloat(document.getElementById('mech-a-big').value),
+      parseFloat(document.getElementById('mech-a-mid').value),
+      parseFloat(document.getElementById('mech-a-small').value)
+    ];
+    var bVals = [40, 35, 15];
+    var cVals = [45, 25, 20];
+    var allVals = [aVals, bVals, cVals];
+    var names = ['A (당신)', 'B', 'C'];
+    var rooms = ['큰 방', '중간 방', '작은 방'];
+
+    var mechType = document.getElementById('mech-type').value;
+    var assignment = [];
+    var payments = [0, 0, 0];
+    var resultHtml = '';
+
+    if (mechType === 'vcg') {
+      /* 최적 배정: 사회적 총 가치 최대화 */
+      var bestTotal = -Infinity;
+      var bestPerm = null;
+      var perms = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]];
+      perms.forEach(function(perm) {
+        var total = allVals[0][perm[0]] + allVals[1][perm[1]] + allVals[2][perm[2]];
+        if (total > bestTotal) { bestTotal = total; bestPerm = perm; }
+      });
+      assignment = bestPerm;
+
+      /* VCG 지불: 각 플레이어 i의 지불 = (i 없을 때 다른 사람들의 최대 총가치) - (i 있을 때 다른 사람들이 실제 얻는 가치) */
+      for (var p = 0; p < 3; p++) {
+        var othersActual = 0;
+        for (var q = 0; q < 3; q++) {
+          if (q !== p) othersActual += allVals[q][assignment[q]];
+        }
+
+        /* p 없을 때 나머지 2명의 최적 배정 */
+        var others = [];
+        for (var q = 0; q < 3; q++) { if (q !== p) others.push(q); }
+        var bestWithout = -Infinity;
+        /* 나머지 2명이 3방 중 2개를 선택 */
+        for (var r1 = 0; r1 < 3; r1++) {
+          for (var r2 = 0; r2 < 3; r2++) {
+            if (r1 === r2) continue;
+            var tot = allVals[others[0]][r1] + allVals[others[1]][r2];
+            if (tot > bestWithout) bestWithout = tot;
+          }
+        }
+        payments[p] = Math.max(0, bestWithout - othersActual);
+      }
+
+      resultHtml = '<h3>VCG 메커니즘 결과</h3>';
+      for (var p = 0; p < 3; p++) {
+        resultHtml += '<p>' + names[p] + ' → <strong>' + rooms[assignment[p]] + '</strong> (가치: ' + allVals[p][assignment[p]] + '만원, 지불: ' + payments[p].toFixed(1) + '만원, 순이득: ' + (allVals[p][assignment[p]] - payments[p]).toFixed(1) + '만원)</p>';
+      }
+      resultHtml += '<p style="margin-top: 8px; color: #059669; font-weight: bold;">사회적 총 가치: ' + bestTotal + '만원 (최대화됨)</p>';
+
+    } else if (mechType === 'random') {
+      var shuffled = [0, 1, 2];
+      for (var si = shuffled.length - 1; si > 0; si--) {
+        var sj = Math.floor(Math.random() * (si + 1));
+        var temp = shuffled[si]; shuffled[si] = shuffled[sj]; shuffled[sj] = temp;
+      }
+      assignment = shuffled;
+      var totalVal = allVals[0][assignment[0]] + allVals[1][assignment[1]] + allVals[2][assignment[2]];
+
+      resultHtml = '<h3>랜덤 배정 결과</h3>';
+      for (var p = 0; p < 3; p++) {
+        resultHtml += '<p>' + names[p] + ' → <strong>' + rooms[assignment[p]] + '</strong> (가치: ' + allVals[p][assignment[p]] + '만원)</p>';
+      }
+      resultHtml += '<p style="margin-top: 8px; color: #f59e0b;">사회적 총 가치: ' + totalVal + '만원 (최적이 아닐 수 있음)</p>';
+
+    } else {
+      /* 경매: 각 방에 대해 가장 높은 가치를 가진 사람 */
+      var used = [false, false, false];
+      assignment = [-1, -1, -1];
+
+      for (var r = 0; r < 3; r++) {
+        var maxV = -1, maxP = -1;
+        for (var p = 0; p < 3; p++) {
+          if (!used[p] && allVals[p][r] > maxV) { maxV = allVals[p][r]; maxP = p; }
+        }
+        if (maxP >= 0) { assignment[maxP] = r; used[maxP] = true; payments[maxP] = allVals[maxP][r] * 0.8; }
+      }
+      /* 나머지 배정 */
+      for (var p = 0; p < 3; p++) {
+        if (assignment[p] === -1) {
+          for (var r = 0; r < 3; r++) {
+            var taken = false;
+            for (var q = 0; q < 3; q++) { if (assignment[q] === r) taken = true; }
+            if (!taken) { assignment[p] = r; break; }
+          }
+        }
+      }
+
+      resultHtml = '<h3>경매 배정 결과</h3>';
+      for (var p = 0; p < 3; p++) {
+        resultHtml += '<p>' + names[p] + ' → <strong>' + rooms[assignment[p]] + '</strong> (가치: ' + allVals[p][assignment[p]] + '만원, 지불: ' + payments[p].toFixed(1) + '만원)</p>';
+      }
+    }
+
+    var resultDiv = document.getElementById('mech-result');
+    resultDiv.style.display = 'block';
+    resultDiv.style.background = '#f0fdf4';
+    resultDiv.innerHTML = resultHtml;
+
+    mechChart.data.datasets[0].data = [allVals[0][assignment[0]], allVals[1][assignment[1]], allVals[2][assignment[2]]];
+    mechChart.data.datasets[1].data = payments;
+    mechChart.update();
+  });
+
+  document.getElementById('mech-answer-btn').addEventListener('click', function() {
+    document.getElementById('mech-answer').style.display = 'block';
+  });
+
+});
+</script>

@@ -1,0 +1,669 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="순차 게임과 게임 트리"
+  subtitle="먼저 움직이면 유리한가 불리한가"
+  chapterNum={29}
+  part={5}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>체스에서 배우는 전략적 사고</h2>
+    <p>
+      지금까지의 게임은 두 플레이어가 <strong>동시에</strong> 행동을 선택했습니다.
+      하지만 현실에서는 순서가 있는 경우가 많습니다.
+      체스에서 백이 먼저 두고, 흑이 그것을 보고 둡니다.
+    </p>
+    <p style="margin-top: 12px;">
+      <strong>순차 게임(Sequential Game)</strong>은 플레이어가 차례로 행동하며,
+      뒤에 행동하는 사람은 앞 사람의 선택을 <strong>관찰한 후</strong> 결정합니다.
+      이런 게임을 분석하는 도구가 <strong>게임 트리(Game Tree)</strong>입니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>게임 트리를 읽고 직접 만들 수 있는 능력</li>
+        <li>역진귀납법(backward induction)으로 최적 전략 찾기</li>
+        <li>시장 진입 게임에서 "위협의 신빙성" 분석</li>
+        <li>선점 효과와 후발 이점의 차이 이해</li>
+        <li>최후통첩 게임에서 합리성의 한계 체험</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>순차 게임의 기본</h2>
+
+    <ExplainBox title="게임 트리(확장형)의 구성요소">
+      <p><strong>노드(Node):</strong> 의사결정 지점. 누가 결정하는지 표시.</p>
+      <p><strong>가지(Branch):</strong> 선택할 수 있는 행동.</p>
+      <p><strong>끝노드(Terminal Node):</strong> 게임이 끝나는 지점. 보수가 적혀 있음.</p>
+    </ExplainBox>
+
+    <FormulaBox title="역진귀납법 (Backward Induction)">
+      <p>게임 트리의 <strong>끝에서부터 거슬러 올라가며</strong> 최적 선택을 찾는 방법.</p>
+      <p style="margin-top: 8px;">1단계: 마지막 플레이어의 최적 선택을 먼저 결정</p>
+      <p>2단계: 그것을 아는 이전 플레이어의 최적 선택을 결정</p>
+      <p>3단계: 처음 플레이어까지 거슬러 올라감</p>
+      <p style="margin-top: 8px;">핵심: "상대가 합리적으로 행동할 것을 예측하고, 그에 맞춰 나도 행동한다."</p>
+    </FormulaBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 게임 트리 빌더 ===== -->
+  <div class="tb-card">
+    <h2>1. 게임 트리 시각화</h2>
+    <p>
+      게임 시나리오를 선택하면 게임 트리가 그려집니다.
+      "역진귀납법" 버튼을 누르면 끝에서부터 최적 경로가 하이라이트됩니다.
+    </p>
+
+    <SimControls>
+      <label>시나리오:
+        <select id="tree-scenario">
+          <option value="entry">시장 진입 게임</option>
+          <option value="invest">투자 결정 게임</option>
+          <option value="negotiate">협상 게임</option>
+        </select>
+      </label>
+      <button class="tb-btn" id="tree-draw" style="margin-left: 12px;">트리 그리기</button>
+      <button class="tb-btn" id="tree-solve" style="margin-left: 8px;">역진귀납법 풀기</button>
+    </SimControls>
+
+    <div style="margin: 20px 0; overflow-x: auto;">
+      <canvas id="treeCanvas" width="700" height="380" style="display: block; margin: 0 auto; background: #f9fafb; border-radius: 12px;"></canvas>
+    </div>
+
+    <div id="tree-explanation" style="margin: 16px 0; padding: 16px; background: #eff6ff; border-radius: 12px;"></div>
+
+    <ExerciseBox title="역진귀납법 연습">
+      <p>각 시나리오에서 역진귀납법의 결과를 예측해보고, "역진귀납법 풀기"로 확인하세요.</p>
+      <p>투자 결정 게임에서 첫 번째 플레이어(기업)가 "투자"를 선택하는 이유는?</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 시장 진입 게임 ===== -->
+  <div class="tb-card">
+    <h2>2. 시장 진입 게임</h2>
+    <p>
+      <strong>기존 기업(독점자)</strong>이 시장을 지배하고 있습니다.
+      <strong>신규 기업</strong>이 진입을 고려합니다.
+      진입하면 기존 기업은 "가격 전쟁"으로 맞서거나, "수용"할 수 있습니다.
+    </p>
+
+    <div style="margin: 20px 0; padding: 16px; background: #f9fafb; border-radius: 12px;">
+      <p style="font-weight: bold; text-align: center; margin-bottom: 16px;">당신은 신규 기업입니다. 진입하시겠습니까?</p>
+
+      <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 20px;">
+        <button class="tb-btn" id="entry-enter" style="padding: 14px 28px; background: #059669; color: white; border-radius: 12px; font-size: 1.1em;">진입한다</button>
+        <button class="tb-btn" id="entry-stay" style="padding: 14px 28px; background: #6b7280; color: white; border-radius: 12px; font-size: 1.1em;">진입 안 한다</button>
+      </div>
+
+      <div id="entry-phase2" style="display: none; text-align: center; margin-top: 16px;">
+        <p style="font-weight: bold; margin-bottom: 12px;">기존 기업의 반응:</p>
+        <div style="display: flex; justify-content: center; gap: 16px;">
+          <button class="tb-btn" id="entry-fight" style="padding: 12px 24px; background: #ef4444; color: white; border-radius: 12px;">가격 전쟁</button>
+          <button class="tb-btn" id="entry-accept" style="padding: 12px 24px; background: #3b82f6; color: white; border-radius: 12px;">수용</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="entry-result" style="display: none; margin: 16px 0; padding: 16px; border-radius: 12px;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="신규 기업 이윤" value="-" id="entry-new-profit" borderColor="#059669" />
+      <StatBox label="기존 기업 이윤" value="-" id="entry-old-profit" borderColor="#3b82f6" />
+      <StatBox label="시나리오" value="-" id="entry-scenario" borderColor="#6366f1" />
+    </div>
+
+    <ChartContainer id="entryChart" height="300px" />
+
+    <ExplainBox title="위협의 신빙성 (Credible Threat)">
+      <p>기존 기업이 "진입하면 가격 전쟁을 벌이겠다!"고 <strong>위협</strong>합니다.</p>
+      <p style="margin-top: 8px;">하지만 역진귀납법으로 분석하면:</p>
+      <p>- 가격 전쟁 시: 기존 기업 이윤 = -20 (손해)</p>
+      <p>- 수용 시: 기존 기업 이윤 = 40 (이윤 감소지만 이득)</p>
+      <p style="margin-top: 8px;">→ 합리적 기존 기업은 수용할 것입니다.</p>
+      <p>→ 따라서 "가격 전쟁" 위협은 <strong>신빙성이 없습니다(not credible)</strong>.</p>
+      <p>→ 신규 기업은 이를 알고 진입합니다!</p>
+    </ExplainBox>
+
+    <ExerciseBox title="위협을 신빙성 있게 만들려면?">
+      <p>기존 기업이 "진입하면 반드시 가격 전쟁"이라는 위협을 신빙성 있게 만들 수 있을까요?</p>
+      <button class="tb-btn" id="entry-answer-btn" style="margin-top: 8px;">방법 보기</button>
+      <div id="entry-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1. 과잉 설비 투자:</strong> 미리 대규모 생산 설비를 갖춤. 가격 전쟁 비용이 낮아짐.</p>
+        <p><strong>2. 평판 구축:</strong> 과거에 진입자와 가격 전쟁을 벌인 이력. 향후에도 그럴 것이라는 신호.</p>
+        <p><strong>3. 계약적 약속:</strong> "최저가 보장" 약속. 경쟁자가 가격을 내리면 자동으로 따라감.</p>
+        <p>핵심: 위협을 실행하는 것이 자신에게도 합리적인 상황을 만들어야 합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 선점 vs 후발 ===== -->
+  <div class="tb-card">
+    <h2>3. 선점 효과 vs 후발 이점</h2>
+    <p>
+      먼저 움직이는 것이 항상 유리할까요? 게임의 구조에 따라 다릅니다.
+      두 가지 게임을 비교해 보세요.
+    </p>
+
+    <SimControls>
+      <label>게임 유형:
+        <select id="fma-type">
+          <option value="first">선점 효과: 기술 표준 경쟁</option>
+          <option value="second">후발 이점: 가격 결정 게임</option>
+          <option value="commit">약속의 가치: 투자 게임</option>
+        </select>
+      </label>
+      <button class="tb-btn" id="fma-show" style="margin-left: 12px;">분석 보기</button>
+    </SimControls>
+
+    <div id="fma-content" style="margin: 20px 0;"></div>
+
+    <ChartContainer id="fmaChart" height="300px" />
+
+    <ExerciseBox title="비교 분석">
+      <p>선점이 유리한 게임과 후발이 유리한 게임의 구조적 차이는 무엇인가요?</p>
+      <button class="tb-btn" id="fma-answer-btn" style="margin-top: 8px;">차이점 보기</button>
+      <div id="fma-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>선점이 유리:</strong> 먼저 행동하면 상대의 선택지를 제한할 수 있는 게임. 약속(commitment)의 가치가 높음.</p>
+        <p><strong>후발이 유리:</strong> 상대의 행동을 관찰한 후 더 좋은 반응을 할 수 있는 게임. 정보의 가치가 높음.</p>
+        <p style="margin-top: 8px;">예: 가위바위보는 후발이 무조건 유리 (상대 손을 보고 이기는 손을 냄). 하지만 기술 표준 선점은 먼저 정해놓으면 상대가 따라올 수밖에 없음.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 최후통첩 게임 ===== -->
+  <div class="tb-card">
+    <h2>4. 최후통첩 게임</h2>
+    <p>
+      <strong>제안자</strong>가 10만원을 나누는 제안을 합니다.
+      <strong>응답자</strong>가 수락하면 제안대로 나누고, 거절하면 <strong>둘 다 0원</strong>입니다.
+    </p>
+
+    <WarningBox title="합리적 예측 vs 실제 행동">
+      <p><strong>이론적 예측:</strong> 제안자는 "나 99,000원, 상대 1,000원" 제안. 응답자는 0원보다 1,000원이 나으니 수락.</p>
+      <p><strong>실제 실험 결과:</strong> 평균 제안은 약 40-50%. 20% 미만 제안은 약 50% 확률로 거절됨!</p>
+    </WarningBox>
+
+    <div style="margin: 20px 0; text-align: center;">
+      <p style="font-weight: bold; font-size: 1.1em; margin-bottom: 12px;">당신이 제안자입니다. 10만원 중 상대에게 얼마를 주겠습니까?</p>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 16px;">
+        <span>0원</span>
+        <input type="range" id="ultimatum-offer" min="0" max="100000" value="50000" step="1000" style="width: 300px;" />
+        <span>100,000원</span>
+      </div>
+      <p style="margin-top: 8px; font-size: 1.2em;">상대에게: <strong id="ultimatum-amount">50,000원</strong> / 나에게: <strong id="ultimatum-mine">50,000원</strong></p>
+    </div>
+
+    <SimControls>
+      <button class="tb-btn" id="ultimatum-propose" style="padding: 12px 32px; font-size: 1.1em;">제안하기!</button>
+      <button class="tb-btn" id="ultimatum-reset" style="margin-left: 12px;">다시 하기</button>
+    </SimControls>
+
+    <div id="ultimatum-result" style="display: none; margin: 16px 0; padding: 16px; border-radius: 12px;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="시도 횟수" value="0" id="ult-tries" borderColor="#6366f1" />
+      <StatBox label="수락 횟수" value="0" id="ult-accepts" borderColor="#059669" />
+      <StatBox label="내 평균 수익" value="0원" id="ult-avg" borderColor="#0891b2" />
+    </div>
+
+    <ChartContainer id="ultimatumChart" height="350px" />
+
+    <ExplainBox title="공정성과 합리성">
+      <p>전통 경제학: 응답자는 0원보다 큰 어떤 금액이든 수락해야 "합리적"입니다.</p>
+      <p>행동경제학: 사람들은 <strong>공정성</strong>에 신경 씁니다. 불공정한 제안은 손해를 감수하고 거절합니다.</p>
+      <p style="margin-top: 8px;">이것은 "처벌을 위해 비용을 지불하는" <strong>이타적 처벌(altruistic punishment)</strong>입니다.</p>
+      <p>진화적으로 공정성 규범을 지키는 것이 장기적으로 유리하기 때문입니다.</p>
+    </ExplainBox>
+
+    <ExerciseBox title="문화 차이">
+      <p>최후통첩 게임 결과는 문화에 따라 다릅니다.</p>
+      <p>서구 산업국가에서는 50:50 제안이 가장 흔하고, 일부 소규모 사회에서는 매우 낮은 제안도 수락됩니다.</p>
+      <p>왜 문화에 따라 다를까요?</p>
+      <button class="tb-btn" id="ult-answer-btn" style="margin-top: 8px;">설명 보기</button>
+      <div id="ult-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>시장 통합도가 높은 사회일수록 공정한 제안이 많습니다.</p>
+        <p>일상에서 타인과 거래하는 경험이 많을수록, 공정성 규범이 강해집니다.</p>
+        <p>반복적 상호작용에서는 공정하게 행동하는 것이 평판상 유리하기 때문입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 결론 ===== -->
+  <ConclusionBox title="29장 정리: 순서가 중요하다">
+    <p>
+      순차 게임에서는 <strong>역진귀납법</strong>으로 끝에서부터 최적 전략을 찾습니다.
+      위협이 신빙성 있으려면 실제로 실행하는 것이 합리적이어야 합니다.
+    </p>
+    <p style="margin-top: 8px;">
+      최후통첩 게임은 합리성의 한계를 보여줍니다.
+      다음 장에서는 같은 게임을 <strong>여러 번 반복</strong>하면 어떻게 달라지는지 탐구합니다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ===== INTERACTIVE 1: 게임 트리 시각화 ===== */
+  var treeCanvas = document.getElementById('treeCanvas');
+  var ctx = treeCanvas.getContext('2d');
+
+  var scenarios = {
+    entry: {
+      title: '시장 진입 게임',
+      nodes: [
+        { x: 350, y: 40, label: '신규 기업', player: 'A' },
+        { x: 170, y: 160, label: '기존 기업', player: 'B' },
+        { x: 530, y: 160, label: '', player: 'end', payoff: '(0, 100)', payLabel: '진입 안 함' }
+      ],
+      edges: [
+        { from: 0, to: 1, label: '진입' },
+        { from: 0, to: 2, label: '포기' }
+      ],
+      endNodes: [
+        { x: 80, y: 300, payoff: '(-20, -20)', payLabel: '가격 전쟁' },
+        { x: 260, y: 300, payoff: '(40, 40)', payLabel: '수용' }
+      ],
+      endEdges: [
+        { from: 1, to: 0, label: '전쟁' },
+        { from: 1, to: 1, label: '수용' }
+      ],
+      solution: '신규 기업: 진입 → 기존 기업: 수용 → (40, 40)',
+      steps: ['3단계 끝노드: 가격전쟁(-20,-20) vs 수용(40,40)', '2단계: 기존 기업은 수용 선택 (40 > -20)', '1단계: 신규 기업은 진입 선택 (40 > 0)', '결과: (진입, 수용) = (40, 40)']
+    },
+    invest: {
+      title: '투자 결정 게임',
+      nodes: [
+        { x: 350, y: 40, label: '기업 A', player: 'A' },
+        { x: 170, y: 160, label: '기업 B', player: 'B' },
+        { x: 530, y: 160, label: '기업 B', player: 'B' }
+      ],
+      edges: [
+        { from: 0, to: 1, label: '투자' },
+        { from: 0, to: 2, label: '미투자' }
+      ],
+      endNodes: [
+        { x: 80, y: 300, payoff: '(60, 60)', payLabel: '둘 다 투자' },
+        { x: 260, y: 300, payoff: '(20, 80)', payLabel: 'A만 투자' },
+        { x: 440, y: 300, payoff: '(80, 20)', payLabel: 'B만 투자' },
+        { x: 620, y: 300, payoff: '(30, 30)', payLabel: '둘 다 미투자' }
+      ],
+      endEdges: [
+        { from: 1, to: 0, label: '투자' },
+        { from: 1, to: 1, label: '미투자' },
+        { from: 2, to: 2, label: '투자' },
+        { from: 2, to: 3, label: '미투자' }
+      ],
+      solution: '기업 A: 투자 → 기업 B: 투자 → (60, 60)',
+      steps: ['B가 A의 투자를 본 경우: 투자(60) vs 미투자(80) → 미투자', '잠깐! B의 관점에서 다시: 투자(60) vs 미투자(80) → B는 미투자가 유리', 'A가 이를 예상: A투자+B미투자(20) vs A미투자+B투자(80)/B미투자(30)', '실제: A투자→B미투자(20,80) vs A미투자→B미투자(30,30). A는 미투자!']
+    },
+    negotiate: {
+      title: '임금 협상 게임',
+      nodes: [
+        { x: 350, y: 40, label: '노동자', player: 'A' },
+        { x: 170, y: 160, label: '회사', player: 'B' },
+        { x: 530, y: 160, label: '', player: 'end', payoff: '(30, 70)', payLabel: '현상 유지' }
+      ],
+      edges: [
+        { from: 0, to: 1, label: '인상 요구' },
+        { from: 0, to: 2, label: '수용' }
+      ],
+      endNodes: [
+        { x: 80, y: 300, payoff: '(10, 10)', payLabel: '파업' },
+        { x: 260, y: 300, payoff: '(50, 50)', payLabel: '인상 수용' }
+      ],
+      endEdges: [
+        { from: 1, to: 0, label: '거부' },
+        { from: 1, to: 1, label: '수용' }
+      ],
+      solution: '노동자: 인상 요구 → 회사: 수용 → (50, 50)',
+      steps: ['회사의 선택: 거부→파업(10) vs 수용→인상(50)', '회사는 수용 선택 (50 > 10)', '노동자 예상: 요구하면 회사가 수용(50) vs 현상유지(30)', '노동자: 인상 요구 (50 > 30)']
+    }
+  };
+
+  var currentSolved = false;
+
+  function drawTree(key, solved) {
+    var sc = scenarios[key];
+    ctx.clearRect(0, 0, 700, 380);
+    ctx.font = '13px sans-serif';
+
+    /* 엣지 그리기 */
+    sc.edges.forEach(function(e) {
+      var from = sc.nodes[e.from];
+      var to = sc.nodes[e.to];
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y + 20);
+      ctx.lineTo(to.x, to.y - 10);
+      ctx.strokeStyle = '#9ca3af';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      var mx = (from.x + to.x) / 2 - 20;
+      var my = (from.y + to.y) / 2 - 5;
+      ctx.fillStyle = '#374151';
+      ctx.fillText(e.label, mx, my);
+    });
+
+    sc.endEdges.forEach(function(e, idx) {
+      var from = sc.nodes[e.from];
+      var to = sc.endNodes[e.to];
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y + 20);
+      ctx.lineTo(to.x, to.y - 10);
+      ctx.strokeStyle = '#9ca3af';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      var mx = (from.x + to.x) / 2 - 15;
+      var my = (from.y + to.y) / 2 - 5;
+      ctx.fillStyle = '#374151';
+      ctx.fillText(e.label, mx, my);
+    });
+
+    /* 노드 그리기 */
+    sc.nodes.forEach(function(n) {
+      if (n.player === 'end') {
+        ctx.fillStyle = '#6b7280';
+        ctx.fillText(n.payoff, n.x - 25, n.y + 5);
+        ctx.fillStyle = '#9ca3af';
+        ctx.font = '11px sans-serif';
+        ctx.fillText(n.payLabel, n.x - 25, n.y + 20);
+        ctx.font = '13px sans-serif';
+      } else {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 18, 0, Math.PI * 2);
+        ctx.fillStyle = n.player === 'A' ? '#fce7f3' : '#dbeafe';
+        ctx.fill();
+        ctx.strokeStyle = n.player === 'A' ? '#ec4899' : '#3b82f6';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = '#111';
+        ctx.textAlign = 'center';
+        ctx.fillText(n.label, n.x, n.y + 4);
+        ctx.textAlign = 'start';
+      }
+    });
+
+    /* 끝노드 그리기 */
+    sc.endNodes.forEach(function(n) {
+      ctx.fillStyle = '#059669';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.fillText(n.payoff, n.x - 30, n.y + 5);
+      ctx.fillStyle = '#6b7280';
+      ctx.font = '11px sans-serif';
+      ctx.fillText(n.payLabel, n.x - 30, n.y + 22);
+      ctx.font = '13px sans-serif';
+    });
+
+    /* 해결 경로 하이라이트 */
+    if (solved) {
+      ctx.strokeStyle = '#059669';
+      ctx.lineWidth = 4;
+      ctx.setLineDash([]);
+
+      if (key === 'entry') {
+        /* 진입 → 수용 경로 */
+        ctx.beginPath();
+        ctx.moveTo(sc.nodes[0].x, sc.nodes[0].y + 20);
+        ctx.lineTo(sc.nodes[1].x, sc.nodes[1].y - 10);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(sc.nodes[1].x, sc.nodes[1].y + 20);
+        ctx.lineTo(sc.endNodes[1].x, sc.endNodes[1].y - 10);
+        ctx.stroke();
+      } else if (key === 'invest') {
+        ctx.beginPath();
+        ctx.moveTo(sc.nodes[0].x, sc.nodes[0].y + 20);
+        ctx.lineTo(sc.nodes[2].x, sc.nodes[2].y - 10);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(sc.nodes[2].x, sc.nodes[2].y + 20);
+        ctx.lineTo(sc.endNodes[3].x, sc.endNodes[3].y - 10);
+        ctx.stroke();
+      } else if (key === 'negotiate') {
+        ctx.beginPath();
+        ctx.moveTo(sc.nodes[0].x, sc.nodes[0].y + 20);
+        ctx.lineTo(sc.nodes[1].x, sc.nodes[1].y - 10);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(sc.nodes[1].x, sc.nodes[1].y + 20);
+        ctx.lineTo(sc.endNodes[1].x, sc.endNodes[1].y - 10);
+        ctx.stroke();
+      }
+    }
+
+    /* 설명 */
+    var explainDiv = document.getElementById('tree-explanation');
+    if (solved) {
+      var html = '<h3 style="margin-bottom: 8px;">역진귀납법 풀이</h3>';
+      sc.steps.forEach(function(step, idx) {
+        html += '<p style="margin: 4px 0;"><strong>' + (idx + 1) + '.</strong> ' + step + '</p>';
+      });
+      html += '<p style="margin-top: 12px; font-weight: bold; color: #059669;">최종 결과: ' + sc.solution + '</p>';
+      explainDiv.innerHTML = html;
+    } else {
+      explainDiv.innerHTML = '<p style="color: #6b7280;">"역진귀납법 풀기" 버튼을 눌러 최적 경로를 확인하세요.</p>';
+    }
+  }
+
+  document.getElementById('tree-draw').addEventListener('click', function() {
+    currentSolved = false;
+    drawTree(document.getElementById('tree-scenario').value, false);
+  });
+  document.getElementById('tree-solve').addEventListener('click', function() {
+    currentSolved = true;
+    drawTree(document.getElementById('tree-scenario').value, true);
+  });
+  drawTree('entry', false);
+
+  /* ===== INTERACTIVE 2: 시장 진입 게임 ===== */
+  var entryChart = new Chart(document.getElementById('entryChart'), {
+    type: 'bar',
+    data: {
+      labels: ['진입 안 함', '진입 + 가격전쟁', '진입 + 수용'],
+      datasets: [
+        { label: '신규 기업', data: [0, -20, 40], backgroundColor: 'rgba(5,150,105,0.6)', borderRadius: 6 },
+        { label: '기존 기업', data: [100, -20, 40], backgroundColor: 'rgba(59,130,246,0.6)', borderRadius: 6 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '이윤' } } },
+      plugins: { title: { display: true, text: '시장 진입 게임의 가능한 결과' } }
+    }
+  });
+
+  function showEntryResult(newProfit, oldProfit, scenario) {
+    document.getElementById('entry-new-profit').textContent = newProfit;
+    document.getElementById('entry-old-profit').textContent = oldProfit;
+    document.getElementById('entry-scenario').textContent = scenario;
+
+    var resultDiv = document.getElementById('entry-result');
+    resultDiv.style.display = 'block';
+    var isGood = parseInt(newProfit) > 0;
+    resultDiv.style.background = isGood ? '#f0fdf4' : '#fef2f2';
+    resultDiv.innerHTML = '<p style="font-weight: bold;">신규 기업 이윤: ' + newProfit + ' / 기존 기업 이윤: ' + oldProfit + '</p>' +
+      '<p style="margin-top: 4px;">' + scenario + '</p>';
+  }
+
+  document.getElementById('entry-enter').addEventListener('click', function() {
+    document.getElementById('entry-phase2').style.display = 'block';
+  });
+  document.getElementById('entry-stay').addEventListener('click', function() {
+    document.getElementById('entry-phase2').style.display = 'none';
+    showEntryResult('0', '100', '진입 포기: 기존 기업이 독점 유지');
+  });
+  document.getElementById('entry-fight').addEventListener('click', function() {
+    showEntryResult('-20', '-20', '가격 전쟁: 양쪽 모두 손해! (비합리적 결과)');
+  });
+  document.getElementById('entry-accept').addEventListener('click', function() {
+    showEntryResult('40', '40', '수용: 시장 분할. 역진귀납법의 예측과 일치!');
+  });
+
+  document.getElementById('entry-answer-btn').addEventListener('click', function() {
+    document.getElementById('entry-answer').style.display = 'block';
+  });
+
+  /* ===== INTERACTIVE 3: 선점 vs 후발 ===== */
+  var fmaGames = {
+    first: {
+      title: '선점 효과: 기술 표준 경쟁',
+      desc: '두 기업이 새로운 기술 표준을 놓고 경쟁합니다. 먼저 표준을 제시한 기업은 시장을 선점합니다. 소비자와 개발자가 먼저 나온 표준에 익숙해지면, 후발 기업은 따라갈 수밖에 없습니다.',
+      data: { labels: ['선발자', '후발자'], first: [80, 30], second: [30, 80] },
+      conclusion: '선점 기업이 큰 이점을 가집니다. VHS vs Betamax, USB-C 등이 예시입니다.'
+    },
+    second: {
+      title: '후발 이점: 가격 결정 게임',
+      desc: '두 기업이 가격을 정합니다. 먼저 가격을 공개한 기업은 불리합니다. 후발 기업은 경쟁자의 가격을 보고 살짝 낮은 가격을 제시하여 고객을 빼앗을 수 있습니다.',
+      data: { labels: ['가격 선도자', '가격 추종자'], first: [40, 60], second: [60, 40] },
+      conclusion: '가격 경쟁에서는 후발자가 유리합니다. 정보의 가치가 약속의 가치보다 큽니다.'
+    },
+    commit: {
+      title: '약속의 가치: 투자 게임',
+      desc: '기업 A가 먼저 대규모 투자를 합니다. 이 투자는 되돌릴 수 없습니다(매몰비용). B는 A의 투자를 보고, A가 시장에서 물러나지 않을 것임을 알게 됩니다. 따라서 B가 진입을 포기합니다.',
+      data: { labels: ['투자 기업', '미투자 기업'], first: [70, 20], second: [50, 50] },
+      conclusion: '되돌릴 수 없는 약속(commitment)은 상대의 행동을 바꿀 수 있습니다. 전략적 약속은 강력한 도구입니다.'
+    }
+  };
+
+  var fmaChart = new Chart(document.getElementById('fmaChart'), {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '선발자 이윤', data: [], backgroundColor: 'rgba(236,72,153,0.6)', borderRadius: 6 },
+        { label: '후발자 이윤', data: [], backgroundColor: 'rgba(59,130,246,0.6)', borderRadius: 6 }
+      ]
+    },
+    options: { responsive: true, scales: { y: { title: { display: true, text: '이윤' }, min: 0 } } }
+  });
+
+  document.getElementById('fma-show').addEventListener('click', function() {
+    var key = document.getElementById('fma-type').value;
+    var game = fmaGames[key];
+    var contentDiv = document.getElementById('fma-content');
+
+    contentDiv.innerHTML = '<h3 style="margin-bottom: 8px;">' + game.title + '</h3>' +
+      '<p style="line-height: 1.8;">' + game.desc + '</p>' +
+      '<p style="margin-top: 12px; font-weight: bold; color: #059669;">' + game.conclusion + '</p>';
+
+    fmaChart.data.labels = game.data.labels;
+    fmaChart.data.datasets[0].data = game.data.first;
+    fmaChart.data.datasets[1].data = game.data.second;
+    fmaChart.options.plugins = { title: { display: true, text: game.title } };
+    fmaChart.update();
+  });
+
+  document.getElementById('fma-answer-btn').addEventListener('click', function() {
+    document.getElementById('fma-answer').style.display = 'block';
+  });
+
+  /* ===== INTERACTIVE 4: 최후통첩 게임 ===== */
+  var ultSlider = document.getElementById('ultimatum-offer');
+  var ultTries = 0, ultAccepts = 0, ultTotalEarning = 0;
+
+  ultSlider.addEventListener('input', function() {
+    var offer = parseInt(ultSlider.value);
+    document.getElementById('ultimatum-amount').textContent = offer.toLocaleString() + '원';
+    document.getElementById('ultimatum-mine').textContent = (100000 - offer).toLocaleString() + '원';
+  });
+
+  var ultChart = new Chart(document.getElementById('ultimatumChart'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        { label: '수락', data: [], backgroundColor: 'rgba(5,150,105,0.7)', pointRadius: 8 },
+        { label: '거절', data: [], backgroundColor: 'rgba(239,68,68,0.7)', pointRadius: 8 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '제안 금액 (원)' }, min: 0, max: 100000 },
+        y: { title: { display: true, text: '시도 번호' }, min: 0 }
+      },
+      plugins: { title: { display: true, text: '제안 결과 분포' } }
+    }
+  });
+
+  document.getElementById('ultimatum-propose').addEventListener('click', function() {
+    var offer = parseInt(ultSlider.value);
+    var mine = 100000 - offer;
+
+    /* 수락 확률: 제안이 높을수록 수락 확률 높음 */
+    var acceptProb;
+    if (offer >= 50000) acceptProb = 0.95;
+    else if (offer >= 40000) acceptProb = 0.85;
+    else if (offer >= 30000) acceptProb = 0.65;
+    else if (offer >= 20000) acceptProb = 0.40;
+    else if (offer >= 10000) acceptProb = 0.20;
+    else acceptProb = 0.05;
+
+    var accepted = Math.random() < acceptProb;
+    ultTries++;
+    if (accepted) {
+      ultAccepts++;
+      ultTotalEarning += mine;
+    }
+
+    var resultDiv = document.getElementById('ultimatum-result');
+    resultDiv.style.display = 'block';
+    resultDiv.style.background = accepted ? '#f0fdf4' : '#fef2f2';
+    resultDiv.innerHTML = '<p style="font-weight: bold; font-size: 1.1em;">' +
+      (accepted ? '수락! 당신은 ' + mine.toLocaleString() + '원을 얻었습니다.' : '거절! 둘 다 0원입니다.') + '</p>' +
+      '<p>제안: ' + offer.toLocaleString() + '원 (수락 확률: 약 ' + (acceptProb * 100).toFixed(0) + '%)</p>';
+
+    document.getElementById('ult-tries').textContent = ultTries;
+    document.getElementById('ult-accepts').textContent = ultAccepts;
+    document.getElementById('ult-avg').textContent = (ultTotalEarning / ultTries).toLocaleString(undefined, {maximumFractionDigits: 0}) + '원';
+
+    if (accepted) {
+      ultChart.data.datasets[0].data.push({ x: offer, y: ultTries });
+    } else {
+      ultChart.data.datasets[1].data.push({ x: offer, y: ultTries });
+    }
+    ultChart.options.scales.y.max = ultTries + 1;
+    ultChart.update();
+  });
+
+  document.getElementById('ultimatum-reset').addEventListener('click', function() {
+    ultTries = 0; ultAccepts = 0; ultTotalEarning = 0;
+    document.getElementById('ult-tries').textContent = '0';
+    document.getElementById('ult-accepts').textContent = '0';
+    document.getElementById('ult-avg').textContent = '0원';
+    document.getElementById('ultimatum-result').style.display = 'none';
+    ultChart.data.datasets[0].data = [];
+    ultChart.data.datasets[1].data = [];
+    ultChart.update();
+  });
+
+  document.getElementById('ult-answer-btn').addEventListener('click', function() {
+    document.getElementById('ult-answer').style.display = 'block';
+  });
+
+});
+</script>

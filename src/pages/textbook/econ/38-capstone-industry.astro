@@ -1,0 +1,663 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="캡스톤: 산업 분석 보고서"
+  subtitle="배운 모든 것을 종합하여 한국 산업을 분석한다"
+  chapterNum={38}
+  part={6}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>종합 분석의 시간</h2>
+    <p>
+      지금까지 시장 구조, 독점, 과점, 가격 차별, 플랫폼 경제, 경쟁정책을 배웠습니다.
+      이제 이 모든 도구를 활용하여 <strong>한국의 실제 산업을 분석</strong>합니다.
+      산업을 선택하면 시장 구조, 경쟁 전략, 게임이론, 규제 이슈를 종합적으로 살펴볼 수 있습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      경제학자처럼 생각하세요. 데이터를 보고, 이론을 적용하고, 분석 결과를 해석하세요.
+      마지막에는 자동으로 보고서를 생성할 수 있습니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>한국 5개 산업 중 하나를 선택하여 심층 분석</li>
+        <li>시장 구조(HHI, 점유율, 진입 장벽)를 수치로 평가</li>
+        <li>주요 기업의 경쟁 전략을 비교</li>
+        <li>2x2 보수행렬로 전략적 상호작용을 모형화</li>
+        <li>종합 보고서를 자동 생성</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 산업 선택 ===== -->
+  <div class="tb-card">
+    <h2>1. 산업 선택</h2>
+    <p>
+      아래 5개 한국 산업 중 하나를 선택하세요.
+      선택한 산업에 대해 단계적으로 분석을 진행합니다.
+    </p>
+
+    <SimControls>
+      <div id="industry-cards" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;">
+      </div>
+    </SimControls>
+
+    <div id="industry-overview" style="display: none; margin-top: 16px; padding: 20px; background: #f0f9ff; border-radius: 12px; border: 2px solid #bfdbfe;">
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 시장 구조 분석 ===== -->
+  <div class="tb-card">
+    <h2>2. 시장 구조 분석</h2>
+    <p>
+      선택한 산업의 시장점유율 파이차트, HHI, 진입 장벽을 분석합니다.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <ChartContainer id="capPieChart" height="300px" />
+      <ChartContainer id="capBarChart" height="300px" />
+    </div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="HHI" value="-" id="cap-hhi" borderColor="#6366f1" />
+      <StatBox label="시장 구조" value="-" id="cap-type" borderColor="#ef4444" />
+      <StatBox label="1위 점유율" value="-" id="cap-top1" borderColor="#3b82f6" />
+      <StatBox label="진입 장벽" value="-" id="cap-barrier" borderColor="#f59e0b" />
+    </div>
+
+    <div id="cap-barrier-detail" style="padding: 16px; background: #f9fafb; border-radius: 12px; border: 1px solid #e5e7eb;">
+    </div>
+
+    <ExerciseBox title="시장 구조 해석">
+      <p>HHI와 시장점유율 분포를 보고 답하세요.</p>
+      <p>1) 이 산업의 시장 구조는 경쟁적인가, 집중된 편인가?</p>
+      <p>2) 진입 장벽이 높은 이유는 무엇인가?</p>
+      <button class="tb-btn" id="cap-struct-btn" style="margin-top: 8px;">분석 도움</button>
+      <div id="cap-struct-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>산업을 먼저 선택하면 맞춤형 분석이 표시됩니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 전략 분석 ===== -->
+  <div class="tb-card">
+    <h2>3. 경쟁 전략 분석</h2>
+    <p>
+      주요 기업들의 경쟁 전략을 비교합니다.
+      가격 전략, 차별화 전략, 네트워크/플랫폼 전략을 레이더 차트로 시각화합니다.
+    </p>
+
+    <ChartContainer id="capRadarChart" height="400px" />
+
+    <div id="cap-strategy-table" style="margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 12px; border: 1px solid #e5e7eb;">
+      <p style="color: #6b7280; text-align: center;">산업을 선택하면 전략 비교가 표시됩니다.</p>
+    </div>
+
+    <ExerciseBox title="전략 비교">
+      <p>레이더 차트와 테이블을 보고 답하세요.</p>
+      <p>1) 가장 차별화된 전략을 가진 기업은?</p>
+      <p>2) 가격 경쟁력이 가장 높은 기업은?</p>
+      <p>3) 장기적으로 가장 유리한 전략은?</p>
+      <button class="tb-btn" id="cap-strat-btn" style="margin-top: 8px;">전략 평가</button>
+      <div id="cap-strat-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>산업을 먼저 선택하면 맞춤형 분석이 표시됩니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 게임이론 적용 ===== -->
+  <div class="tb-card">
+    <h2>4. 게임이론 적용: 2x2 보수행렬</h2>
+    <p>
+      선택한 산업의 핵심 전략적 상호작용을 <strong>2x2 보수행렬</strong>로 모형화합니다.
+      두 주요 기업이 각각 두 가지 전략을 선택할 수 있을 때,
+      어떤 결과가 나오는지 분석합니다.
+    </p>
+
+    <div id="game-setup" style="margin-top: 12px; padding: 16px; background: #eff6ff; border-radius: 12px;">
+      <p style="color: #6b7280; text-align: center;">산업을 선택하면 보수행렬이 표시됩니다.</p>
+    </div>
+
+    <div id="payoff-matrix" style="margin-top: 16px; overflow-x: auto;">
+    </div>
+
+    <div id="game-analysis" style="display: none; margin-top: 16px; padding: 16px; border-radius: 12px;">
+    </div>
+
+    <SimControls>
+      <div style="display: flex; gap: 8px;">
+        <button class="tb-btn" id="game-find-nash">내쉬 균형 찾기</button>
+        <button class="tb-btn" id="game-find-optimal">사회 최적 찾기</button>
+      </div>
+    </SimControls>
+
+    <ExerciseBox title="게임이론 해석">
+      <p>보수행렬을 보고 답하세요.</p>
+      <p>1) 내쉬 균형은 사회 최적과 일치하는가?</p>
+      <p>2) 이 게임은 죄수의 딜레마와 비슷한가?</p>
+      <button class="tb-btn" id="cap-game-btn" style="margin-top: 8px;">게임 분석</button>
+      <div id="cap-game-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>산업을 먼저 선택하면 맞춤형 분석이 표시됩니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: 보고서 생성기 ===== -->
+  <div class="tb-card">
+    <h2>5. 종합 보고서 생성</h2>
+    <p>
+      지금까지의 분석을 종합한 <strong>산업 분석 보고서</strong>를 자동 생성합니다.
+      아래 버튼을 클릭하면 보고서가 생성됩니다.
+    </p>
+
+    <SimControls>
+      <button class="tb-btn" id="report-gen-btn" style="width: 100%; padding: 14px; font-size: 1.1em;">보고서 생성</button>
+    </SimControls>
+
+    <div id="report-output" style="display: none; margin-top: 16px; padding: 24px; background: #fff; border: 2px solid #e5e7eb; border-radius: 12px;">
+    </div>
+
+    <ChartContainer id="capSummaryChart" height="300px" />
+
+    <ExerciseBox title="최종 과제">
+      <p>보고서를 읽고 자신만의 의견을 추가하세요.</p>
+      <p>1) 이 산업의 5년 후 모습은 어떨까요?</p>
+      <p>2) 새로운 기업이 이 시장에 진입하려면 어떤 전략이 필요할까요?</p>
+      <p>3) 정부는 이 산업에 어떤 규제 정책을 적용해야 할까요?</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 결론 ===== -->
+  <ConclusionBox title="Part 6 완료: 산업 조직론">
+    <p>
+      Part 6 '산업 조직론'을 모두 완료했습니다!
+      시장 구조의 스펙트럼부터 시작하여 독점, 과점, 가격 차별, 플랫폼 경제,
+      경쟁정책까지 배웠고, 이 모든 지식을 종합하여 실제 산업을 분석했습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      경제학의 핵심은 <strong>세상을 보는 렌즈</strong>입니다.
+      뉴스에서 기업의 합병, 가격 변동, 정부 규제를 볼 때
+      이 장에서 배운 도구들이 자연스럽게 떠오를 것입니다.
+      여러분은 이제 경제 현상을 분석하는 눈을 가진 것입니다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ===== DATA: 5개 산업 ===== */
+  var industries = [
+    {
+      id: 'telecom', name: '이동통신', icon: '[T]',
+      firms: ['SKT', 'KT', 'LG U+'],
+      shares: [44, 30, 26],
+      barriers: ['주파수 면허 (정부 규제)', '기지국 인프라 수십조원 (규모의 경제)', '번호이동 비용 (전환비용)'],
+      barrierLevel: '매우 높음',
+      strategies: [
+        { name: 'SKT', price: 4, diff: 7, network: 8, innovation: 7, brand: 9, desc: '프리미엄 브랜드, AI/ICT 투자, T우주 구독 번들' },
+        { name: 'KT', price: 6, diff: 6, network: 7, innovation: 6, brand: 7, desc: '인터넷+TV 번들, 가성비 요금제, 기업용 서비스' },
+        { name: 'LG U+', price: 7, diff: 5, network: 5, innovation: 5, brand: 5, desc: '알뜰폰 연계, 콘텐츠 차별화, 가격 공세' }
+      ],
+      game: {
+        player1: 'SKT', player2: 'KT',
+        strat1: ['요금 인하', '요금 유지'],
+        strat2: ['요금 인하', '요금 유지'],
+        payoffs: [[300, 300], [500, 200], [200, 500], [450, 400]],
+        scenario: '두 통신사가 요금 인하 여부를 결정합니다.'
+      },
+      regulation: '과기정통부 요금 규제, 단말기 유통법, 알뜰폰(MVNO) 활성화 정책',
+      outlook: '5G 확대, AI 서비스 경쟁 심화, 알뜰폰 성장으로 3사 과점 구조 약간 완화 전망'
+    },
+    {
+      id: 'delivery', name: '배달앱', icon: '[D]',
+      firms: ['배달의민족', '쿠팡이츠', '요기요'],
+      shares: [62, 23, 15],
+      barriers: ['네트워크 효과 (음식점+소비자)', '배달 인프라 구축 비용', '브랜드 인지도'],
+      barrierLevel: '높음',
+      strategies: [
+        { name: '배민', price: 4, diff: 8, network: 9, innovation: 7, brand: 9, desc: '최대 가맹점, B마트, 배민1, 강력한 브랜드' },
+        { name: '쿠팡이츠', price: 8, diff: 6, network: 7, innovation: 8, brand: 7, desc: '무료배송, 로켓배달 연계, 공격적 할인' },
+        { name: '요기요', price: 7, diff: 4, network: 5, innovation: 4, brand: 4, desc: '할인 쿠폰 중심, 비용 절감 전략' }
+      ],
+      game: {
+        player1: '배민', player2: '쿠팡이츠',
+        strat1: ['수수료 인하', '수수료 유지'],
+        strat2: ['배달비 무료', '배달비 유료'],
+        payoffs: [[250, 280], [400, 150], [350, 350], [500, 300]],
+        scenario: '배민의 수수료 정책과 쿠팡이츠의 배달비 정책을 분석합니다.'
+      },
+      regulation: '배달앱 수수료 규제 논의, 독과점 심사, 라이더 처우 관련 규제',
+      outlook: '쿠팡이츠의 공격적 성장, 배민의 방어, 수수료 규제 강화 가능성'
+    },
+    {
+      id: 'ott', name: 'OTT 스트리밍', icon: '[O]',
+      firms: ['넷플릭스', '쿠팡플레이', '티빙', '웨이브', '디즈니+'],
+      shares: [40, 20, 18, 12, 10],
+      barriers: ['콘텐츠 투자 비용 (수천억)', '글로벌 플랫폼의 규모의 경제', '독점 콘텐츠 확보'],
+      barrierLevel: '높음',
+      strategies: [
+        { name: '넷플릭스', price: 5, diff: 9, network: 6, innovation: 9, brand: 10, desc: '글로벌 콘텐츠, K-드라마 투자, 광고형 요금제' },
+        { name: '쿠팡플레이', price: 9, diff: 5, network: 7, innovation: 7, brand: 6, desc: '로켓와우 번들, 스포츠 중계, 저가 전략' },
+        { name: '티빙', price: 6, diff: 7, network: 5, innovation: 6, brand: 6, desc: 'CJ ENM 콘텐츠, tvN 독점, 오리지널' },
+        { name: '웨이브', price: 6, diff: 5, network: 4, innovation: 4, brand: 4, desc: '지상파 콘텐츠, 뉴스/스포츠' },
+        { name: '디즈니+', price: 5, diff: 8, network: 5, innovation: 7, brand: 8, desc: '마블/스타워즈/픽사, 글로벌 IP' }
+      ],
+      game: {
+        player1: '넷플릭스', player2: '쿠팡플레이',
+        strat1: ['콘텐츠 대규모 투자', '비용 절감'],
+        strat2: ['공격적 가격 인하', '가격 유지'],
+        payoffs: [[350, 300], [400, 200], [250, 400], [380, 350]],
+        scenario: '넷플릭스의 콘텐츠 투자와 쿠팡플레이의 가격 전략을 분석합니다.'
+      },
+      regulation: '망 사용료 논의, 국내 콘텐츠 투자 의무 논의, 합병 심사',
+      outlook: '합종연횡(티빙+웨이브 합병 추진), 글로벌 vs 로컬 경쟁 심화'
+    },
+    {
+      id: 'cvs', name: '편의점', icon: '[C]',
+      firms: ['CU', 'GS25', '세븐일레븐', '이마트24'],
+      shares: [30, 29, 20, 13],
+      barriers: ['프랜차이즈 본사 브랜드력', '물류 네트워크', '입지 선점'],
+      barrierLevel: '중간',
+      strategies: [
+        { name: 'CU', price: 6, diff: 7, network: 7, innovation: 6, brand: 8, desc: '최다 매장, PB상품, 배달 서비스' },
+        { name: 'GS25', price: 6, diff: 7, network: 7, innovation: 7, brand: 8, desc: '와인25 등 차별화, 모바일 앱 강화' },
+        { name: '세븐일레븐', price: 6, diff: 5, network: 6, innovation: 5, brand: 6, desc: '글로벌 브랜드, 가맹점 확대' },
+        { name: '이마트24', price: 7, diff: 5, network: 4, innovation: 6, brand: 5, desc: '무인매장, 가성비 PB' }
+      ],
+      game: {
+        player1: 'CU', player2: 'GS25',
+        strat1: ['PB상품 확대', 'NB상품 유지'],
+        strat2: ['PB상품 확대', 'NB상품 유지'],
+        payoffs: [[400, 400], [500, 350], [350, 500], [420, 420]],
+        scenario: '자체 브랜드(PB) 상품 확대 여부를 결정합니다.'
+      },
+      regulation: '영업시간 규제, 가맹점 보호법, 출점 거리 제한',
+      outlook: '무인매장 확대, 배달/픽업 서비스 강화, 생활 플랫폼으로 진화'
+    },
+    {
+      id: 'auto', name: '자동차', icon: '[A]',
+      firms: ['현대', '기아', '수입차', 'KG모빌리티'],
+      shares: [38, 32, 22, 8],
+      barriers: ['공장 건설 수조원 (규모의 경제)', 'R&D 투자 (전기차, 자율주행)', '딜러 네트워크/AS 망'],
+      barrierLevel: '매우 높음',
+      strategies: [
+        { name: '현대', price: 5, diff: 8, network: 6, innovation: 9, brand: 9, desc: '제네시스 프리미엄, 전기차 아이오닉, 글로벌 확장' },
+        { name: '기아', price: 7, diff: 8, network: 5, innovation: 8, brand: 8, desc: '디자인 혁신, EV6/EV9, 가성비' },
+        { name: '수입차', price: 3, diff: 9, network: 4, innovation: 7, brand: 9, desc: '벤츠/BMW/테슬라, 프리미엄 브랜드' },
+        { name: 'KG모빌리티', price: 8, diff: 4, network: 3, innovation: 4, brand: 3, desc: '가격 경쟁력, SUV 특화' }
+      ],
+      game: {
+        player1: '현대', player2: '기아',
+        strat1: ['전기차 집중', '내연기관 유지'],
+        strat2: ['전기차 집중', '내연기관 유지'],
+        payoffs: [[450, 430], [380, 350], [350, 380], [400, 400]],
+        scenario: '현대와 기아의 전기차 전환 속도를 분석합니다.'
+      },
+      regulation: '배출가스 규제, 전기차 보조금, 안전 기준, 자율주행 법규',
+      outlook: '전기차 전환 가속, 현대기아의 글로벌 시장 점유율 확대, 중국 전기차 진입 위협'
+    }
+  ];
+
+  var selectedIdx = -1;
+  var chartColors = ['#3b82f6', '#ef4444', '#059669', '#f59e0b', '#6366f1', '#ec4899'];
+
+  /* ===== Charts ===== */
+  var pieCtx = document.getElementById('capPieChart').getContext('2d');
+  var barCtx = document.getElementById('capBarChart').getContext('2d');
+  var radarCtx = document.getElementById('capRadarChart').getContext('2d');
+  var summCtx = document.getElementById('capSummaryChart').getContext('2d');
+
+  var pieChart = new Chart(pieCtx, {
+    type: 'pie',
+    data: { labels: [], datasets: [{ data: [], backgroundColor: chartColors }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, title: { display: true, text: '시장점유율' } } }
+  });
+
+  var barChart = new Chart(barCtx, {
+    type: 'bar',
+    data: { labels: [], datasets: [{ label: '점유율(%)', data: [], backgroundColor: chartColors }] },
+    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } }, plugins: { legend: { display: false }, title: { display: true, text: '기업별 점유율' } } }
+  });
+
+  var radarChart = new Chart(radarCtx, {
+    type: 'radar',
+    data: {
+      labels: ['가격경쟁력', '차별화', '네트워크효과', '혁신', '브랜드'],
+      datasets: []
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { r: { beginAtZero: true, max: 10, ticks: { stepSize: 2 } } },
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+
+  var summChart = new Chart(summCtx, {
+    type: 'radar',
+    data: {
+      labels: ['시장 집중도', '진입 장벽', '가격 경쟁', '차별화', '혁신 속도', '규제 강도'],
+      datasets: [{ label: '', data: [0, 0, 0, 0, 0, 0], borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,0.15)', borderWidth: 2 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { r: { beginAtZero: true, max: 10, ticks: { stepSize: 2 } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  /* ===== 1. Industry Cards ===== */
+  var cardsDiv = document.getElementById('industry-cards');
+  industries.forEach(function(ind, idx) {
+    var card = document.createElement('div');
+    card.className = 'industry-card';
+    card.style.cssText = 'padding: 16px; background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; text-align: center; transition: all 0.2s;';
+    card.innerHTML = '<div style="font-size: 1.5em;">' + ind.icon + '</div><div style="font-weight: bold; margin-top: 8px;">' + ind.name + '</div>' +
+      '<div style="font-size: 0.85em; color: #6b7280;">' + ind.firms.length + '개 기업</div>';
+
+    card.addEventListener('click', function() {
+      selectedIdx = idx;
+      document.querySelectorAll('.industry-card').forEach(function(c) {
+        c.style.borderColor = '#e5e7eb'; c.style.background = '#f9fafb';
+      });
+      card.style.borderColor = '#3b82f6'; card.style.background = '#eff6ff';
+      updateAll();
+    });
+
+    cardsDiv.appendChild(card);
+  });
+
+  function updateAll() {
+    if (selectedIdx < 0) return;
+    var ind = industries[selectedIdx];
+
+    /* Overview */
+    var ov = document.getElementById('industry-overview');
+    ov.style.display = 'block';
+    ov.innerHTML = '<h3 style="margin: 0 0 8px;">' + ind.name + ' 산업 개요</h3>' +
+      '<p><strong>주요 기업:</strong> ' + ind.firms.join(', ') + '</p>' +
+      '<p><strong>시장 구조:</strong> ' + (ind.shares.length <= 2 ? '복점' : ind.shares[0] > 50 ? '지배적 기업 과점' : '과점') + '</p>' +
+      '<p><strong>진입 장벽:</strong> ' + ind.barrierLevel + '</p>';
+
+    /* 2. 시장 구조 */
+    var hhi = 0;
+    ind.shares.forEach(function(s) { hhi += s * s; });
+
+    pieChart.data.labels = ind.firms;
+    pieChart.data.datasets[0].data = ind.shares;
+    pieChart.update();
+
+    barChart.data.labels = ind.firms;
+    barChart.data.datasets[0].data = ind.shares;
+    barChart.update();
+
+    document.getElementById('cap-hhi').textContent = Math.round(hhi).toLocaleString();
+    document.getElementById('cap-type').textContent = hhi > 2500 ? '고집중' : hhi > 1500 ? '중간 집중' : '경쟁적';
+    document.getElementById('cap-top1').textContent = ind.shares[0] + '%';
+    document.getElementById('cap-barrier').textContent = ind.barrierLevel;
+
+    var barrierHtml = '<h4 style="margin: 0 0 8px;">진입 장벽 상세</h4><ul style="margin: 0; padding-left: 20px;">';
+    ind.barriers.forEach(function(b) { barrierHtml += '<li>' + b + '</li>'; });
+    barrierHtml += '</ul>';
+    document.getElementById('cap-barrier-detail').innerHTML = barrierHtml;
+
+    /* 구조 분석 힌트 */
+    document.getElementById('cap-struct-ans').innerHTML =
+      '<p><strong>HHI = ' + Math.round(hhi) + ':</strong> ' + (hhi > 2500 ? '고집중 시장. 소수 기업이 시장을 지배합니다.' : hhi > 1500 ? '중간 집중도. 과점 구조입니다.' : '비교적 경쟁적인 시장입니다.') + '</p>' +
+      '<p><strong>1위 점유율 ' + ind.shares[0] + '%:</strong> ' + (ind.shares[0] > 50 ? '지배적 사업자입니다. 시장 지배력 남용 우려가 있습니다.' : '상당한 점유율이지만 지배적이라고 단정하기는 어렵습니다.') + '</p>' +
+      '<p><strong>진입 장벽:</strong> ' + ind.barriers[0] + '</p>';
+
+    /* 3. 전략 분석 */
+    radarChart.data.datasets = ind.strategies.map(function(st, si) {
+      return {
+        label: st.name,
+        data: [st.price, st.diff, st.network, st.innovation, st.brand],
+        borderColor: chartColors[si],
+        backgroundColor: chartColors[si] + '22',
+        borderWidth: 2
+      };
+    });
+    radarChart.update();
+
+    var stratHtml = '<table style="width: 100%; border-collapse: collapse;">';
+    stratHtml += '<tr style="border-bottom: 2px solid #e5e7eb;"><th style="text-align: left; padding: 8px;">기업</th><th>가격</th><th>차별화</th><th>네트워크</th><th>혁신</th><th>브랜드</th><th style="text-align: left;">전략 설명</th></tr>';
+    ind.strategies.forEach(function(st, si) {
+      stratHtml += '<tr style="border-bottom: 1px solid #f3f4f6;"><td style="padding: 8px; font-weight: bold; color: ' + chartColors[si] + ';">' + st.name + '</td>' +
+        '<td style="text-align: center;">' + st.price + '</td>' +
+        '<td style="text-align: center;">' + st.diff + '</td>' +
+        '<td style="text-align: center;">' + st.network + '</td>' +
+        '<td style="text-align: center;">' + st.innovation + '</td>' +
+        '<td style="text-align: center;">' + st.brand + '</td>' +
+        '<td style="padding: 8px; font-size: 0.85em;">' + st.desc + '</td></tr>';
+    });
+    stratHtml += '</table>';
+    document.getElementById('cap-strategy-table').innerHTML = stratHtml;
+
+    /* 전략 분석 힌트 */
+    var bestDiff = ind.strategies.reduce(function(best, st) { return st.diff > best.diff ? st : best; });
+    var bestPrice = ind.strategies.reduce(function(best, st) { return st.price > best.price ? st : best; });
+    document.getElementById('cap-strat-ans').innerHTML =
+      '<p><strong>가장 차별화된:</strong> ' + bestDiff.name + ' (차별화 ' + bestDiff.diff + '/10)</p>' +
+      '<p><strong>가격 경쟁력:</strong> ' + bestPrice.name + ' (가격 경쟁력 ' + bestPrice.price + '/10)</p>' +
+      '<p><strong>장기 전략:</strong> 차별화와 혁신이 높은 기업이 장기적으로 유리합니다. 가격 경쟁만으로는 지속 가능하지 않습니다.</p>';
+
+    /* 4. 게임이론 */
+    var g = ind.game;
+    var setupHtml = '<h4 style="margin: 0 0 8px;">게임 설정: ' + ind.name + '</h4>' +
+      '<p>' + g.scenario + '</p>' +
+      '<p><strong>' + g.player1 + ':</strong> ' + g.strat1.join(' / ') + '</p>' +
+      '<p><strong>' + g.player2 + ':</strong> ' + g.strat2.join(' / ') + '</p>';
+    document.getElementById('game-setup').innerHTML = setupHtml;
+
+    var mHtml = '<table style="width: 100%; border-collapse: collapse; text-align: center; margin-top: 8px;">';
+    mHtml += '<tr><td></td><td></td><td colspan="2" style="font-weight: bold; padding: 8px; background: #fef2f2;">' + g.player2 + '</td></tr>';
+    mHtml += '<tr><td></td><td></td><td style="padding: 8px; font-weight: bold; background: #fef2f2;">' + g.strat2[0] + '</td><td style="padding: 8px; font-weight: bold; background: #fef2f2;">' + g.strat2[1] + '</td></tr>';
+    mHtml += '<tr><td rowspan="2" style="font-weight: bold; padding: 8px; background: #eff6ff; writing-mode: vertical-rl; text-orientation: mixed;">' + g.player1 + '</td>';
+    mHtml += '<td style="padding: 8px; font-weight: bold; background: #eff6ff;">' + g.strat1[0] + '</td>';
+    mHtml += '<td style="padding: 12px; border: 2px solid #e5e7eb;" id="cell-00"><span style="color: #3b82f6;">' + g.payoffs[0][0] + '</span>, <span style="color: #ef4444;">' + g.payoffs[0][1] + '</span></td>';
+    mHtml += '<td style="padding: 12px; border: 2px solid #e5e7eb;" id="cell-01"><span style="color: #3b82f6;">' + g.payoffs[1][0] + '</span>, <span style="color: #ef4444;">' + g.payoffs[1][1] + '</span></td></tr>';
+    mHtml += '<tr><td style="padding: 8px; font-weight: bold; background: #eff6ff;">' + g.strat1[1] + '</td>';
+    mHtml += '<td style="padding: 12px; border: 2px solid #e5e7eb;" id="cell-10"><span style="color: #3b82f6;">' + g.payoffs[2][0] + '</span>, <span style="color: #ef4444;">' + g.payoffs[2][1] + '</span></td>';
+    mHtml += '<td style="padding: 12px; border: 2px solid #e5e7eb;" id="cell-11"><span style="color: #3b82f6;">' + g.payoffs[3][0] + '</span>, <span style="color: #ef4444;">' + g.payoffs[3][1] + '</span></td></tr>';
+    mHtml += '</table>';
+    mHtml += '<p style="margin-top: 8px; font-size: 0.85em; color: #6b7280;"><span style="color: #3b82f6;">' + g.player1 + ' 보수</span>, <span style="color: #ef4444;">' + g.player2 + ' 보수</span> (단위: 억원)</p>';
+    document.getElementById('payoff-matrix').innerHTML = mHtml;
+
+    /* 게임 분석 힌트 */
+    document.getElementById('cap-game-ans').innerHTML =
+      '<p>보수행렬에서 내쉬 균형을 찾으세요. 각 플레이어가 상대 전략이 고정일 때 자신의 최선을 선택하는 조합입니다.</p>' +
+      '<p>"내쉬 균형 찾기" 버튼을 눌러 확인할 수 있습니다.</p>';
+
+    /* Summary radar */
+    var avgInno = ind.strategies.reduce(function(s, st) { return s + st.innovation; }, 0) / ind.strategies.length;
+    var avgDiff = ind.strategies.reduce(function(s, st) { return s + st.diff; }, 0) / ind.strategies.length;
+    var avgPrice = ind.strategies.reduce(function(s, st) { return s + st.price; }, 0) / ind.strategies.length;
+    var concent = Math.min(10, hhi / 1000);
+    var barrierScore = ind.barrierLevel === '매우 높음' ? 9 : ind.barrierLevel === '높음' ? 7 : 5;
+    var regScore = ind.regulation.length > 30 ? 7 : 5;
+
+    summChart.data.datasets[0].label = ind.name;
+    summChart.data.datasets[0].data = [concent, barrierScore, avgPrice, avgDiff, avgInno, regScore];
+    summChart.update();
+  }
+
+  /* ===== Game Theory Buttons ===== */
+  document.getElementById('game-find-nash').addEventListener('click', function() {
+    if (selectedIdx < 0) return;
+    var g = industries[selectedIdx].game;
+    var p = g.payoffs;
+
+    /* Find Nash: check best responses */
+    var nashCells = [];
+    /* Player 1 best response given player 2 plays strat 0 */
+    var p1_br0 = p[0][0] >= p[2][0] ? 0 : 1; /* row 0 vs row 1 given col 0 */
+    var p1_br1 = p[1][0] >= p[3][0] ? 0 : 1;
+    /* Player 2 best response given player 1 plays strat 0 */
+    var p2_br0 = p[0][1] >= p[1][1] ? 0 : 1;
+    var p2_br1 = p[2][1] >= p[3][1] ? 0 : 1;
+
+    /* Cell (0,0): p1 chose 0, p2 chose 0. Nash if p1_br0=0 and p2_br0=0 */
+    if (p1_br0 === 0 && p2_br0 === 0) nashCells.push('00');
+    if (p1_br0 === 0 && p2_br0 === 1) nashCells.push('01');
+    if (p1_br1 === 1 && p2_br1 === 0) nashCells.push('10');
+    if (p1_br1 === 1 && p2_br1 === 1) nashCells.push('11');
+
+    ['00', '01', '10', '11'].forEach(function(id) {
+      var cell = document.getElementById('cell-' + id);
+      if (cell) {
+        if (nashCells.indexOf(id) >= 0) {
+          cell.style.background = '#f0fdf4';
+          cell.style.borderColor = '#059669';
+          cell.style.fontWeight = 'bold';
+        } else {
+          cell.style.background = '';
+          cell.style.borderColor = '#e5e7eb';
+          cell.style.fontWeight = '';
+        }
+      }
+    });
+
+    var analysis = document.getElementById('game-analysis');
+    analysis.style.display = 'block';
+    analysis.style.background = '#f0fdf4';
+    analysis.style.border = '2px solid #059669';
+    analysis.innerHTML = '<h4 style="margin: 0 0 8px; color: #059669;">내쉬 균형 발견</h4>' +
+      '<p>초록색으로 표시된 칸이 내쉬 균형입니다. 이 칸에서는 어느 플레이어도 일방적으로 전략을 바꿔 이득을 볼 수 없습니다.</p>';
+  });
+
+  document.getElementById('game-find-optimal').addEventListener('click', function() {
+    if (selectedIdx < 0) return;
+    var g = industries[selectedIdx].game;
+    var p = g.payoffs;
+
+    var maxTotal = -1;
+    var optCell = '';
+    var cells = ['00', '01', '10', '11'];
+    cells.forEach(function(id, i) {
+      var total = p[i][0] + p[i][1];
+      if (total > maxTotal) {
+        maxTotal = total;
+        optCell = id;
+      }
+    });
+
+    cells.forEach(function(id) {
+      var cell = document.getElementById('cell-' + id);
+      if (cell) {
+        if (id === optCell) {
+          cell.style.background = '#fefce8';
+          cell.style.borderColor = '#f59e0b';
+          cell.style.fontWeight = 'bold';
+        } else {
+          cell.style.background = '';
+          cell.style.borderColor = '#e5e7eb';
+          cell.style.fontWeight = '';
+        }
+      }
+    });
+
+    var analysis = document.getElementById('game-analysis');
+    analysis.style.display = 'block';
+    analysis.style.background = '#fefce8';
+    analysis.style.border = '2px solid #f59e0b';
+    analysis.innerHTML = '<h4 style="margin: 0 0 8px; color: #f59e0b;">사회 최적</h4>' +
+      '<p>노란색 칸이 두 기업의 보수 합계가 최대인 사회 최적입니다. (합계: ' + maxTotal + ')</p>' +
+      '<p>내쉬 균형과 사회 최적이 다르다면, 기업들이 자유롭게 행동하면 사회적으로 최선의 결과가 아닐 수 있습니다.</p>';
+  });
+
+  /* ===== 5. 보고서 생성 ===== */
+  document.getElementById('report-gen-btn').addEventListener('click', function() {
+    if (selectedIdx < 0) {
+      alert('먼저 산업을 선택하세요!');
+      return;
+    }
+
+    var ind = industries[selectedIdx];
+    var hhi = 0;
+    ind.shares.forEach(function(s) { hhi += s * s; });
+    var structType = hhi > 2500 ? '고집중 과점' : hhi > 1500 ? '중간 집중 과점' : '경쟁적';
+
+    var report = document.getElementById('report-output');
+    report.style.display = 'block';
+
+    var html = '<h2 style="text-align: center; margin: 0 0 20px; border-bottom: 3px solid #3b82f6; padding-bottom: 12px;">';
+    html += ind.name + ' 산업 분석 보고서</h2>';
+
+    html += '<h3>1. 시장 구조</h3>';
+    html += '<p><strong>시장 유형:</strong> ' + structType + '</p>';
+    html += '<p><strong>HHI:</strong> ' + Math.round(hhi).toLocaleString() + ' (' + (hhi > 2500 ? '고집중' : hhi > 1500 ? '중간 집중' : '경쟁적') + ')</p>';
+    html += '<p><strong>주요 기업:</strong></p><ul>';
+    ind.firms.forEach(function(f, i) {
+      html += '<li>' + f + ': ' + ind.shares[i] + '%</li>';
+    });
+    html += '</ul>';
+    html += '<p><strong>진입 장벽:</strong> ' + ind.barrierLevel + '</p><ul>';
+    ind.barriers.forEach(function(b) { html += '<li>' + b + '</li>'; });
+    html += '</ul>';
+
+    html += '<h3>2. 경쟁 전략</h3>';
+    ind.strategies.forEach(function(st) {
+      html += '<p><strong>' + st.name + ':</strong> ' + st.desc + '</p>';
+    });
+
+    html += '<h3>3. 전략적 상호작용</h3>';
+    html += '<p><strong>게임 시나리오:</strong> ' + ind.game.scenario + '</p>';
+    html += '<p>' + ind.game.player1 + '의 전략: ' + ind.game.strat1.join(' vs ') + '</p>';
+    html += '<p>' + ind.game.player2 + '의 전략: ' + ind.game.strat2.join(' vs ') + '</p>';
+
+    html += '<h3>4. 규제 환경</h3>';
+    html += '<p>' + ind.regulation + '</p>';
+
+    html += '<h3>5. 전망</h3>';
+    html += '<p>' + ind.outlook + '</p>';
+
+    html += '<div style="margin-top: 20px; padding: 16px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #3b82f6;">';
+    html += '<h4 style="margin: 0 0 8px;">분석가 의견</h4>';
+    if (hhi > 3000) {
+      html += '<p>이 산업은 매우 집중된 시장으로, 소비자 후생 측면에서 경쟁 당국의 지속적 감시가 필요합니다. ';
+    } else if (hhi > 1500) {
+      html += '<p>중간 수준의 집중도를 보이는 과점 시장으로, 기업 간 전략적 상호작용이 활발합니다. ';
+    } else {
+      html += '<p>비교적 경쟁적인 시장으로, 소비자 선택권이 넓습니다. ';
+    }
+    html += '향후 ' + (ind.id === 'ott' || ind.id === 'delivery' ? '플랫폼 효과에 의한 승자 독식 가능성' : '기술 혁신에 의한 시장 재편') + '에 주목해야 합니다.</p>';
+    html += '</div>';
+
+    report.innerHTML = html;
+  });
+
+  /* ===== Button event listeners ===== */
+  document.getElementById('cap-struct-btn').addEventListener('click', function() {
+    document.getElementById('cap-struct-ans').style.display = 'block';
+  });
+  document.getElementById('cap-strat-btn').addEventListener('click', function() {
+    document.getElementById('cap-strat-ans').style.display = 'block';
+  });
+  document.getElementById('cap-game-btn').addEventListener('click', function() {
+    document.getElementById('cap-game-ans').style.display = 'block';
+  });
+
+});
+</script>

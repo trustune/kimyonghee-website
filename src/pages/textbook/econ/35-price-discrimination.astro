@@ -1,0 +1,627 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="가격 차별"
+  subtitle="같은 제품, 다른 가격 -- 왜 그리고 어떻게?"
+  chapterNum={35}
+  part={6}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>영화표 6,000원 vs 12,000원</h2>
+    <p>
+      같은 영화, 같은 좌석인데 학생은 6,000원, 성인은 12,000원을 냅니다.
+      같은 비행기 좌석인데 옆 사람이 50만원이나 더 냈습니다.
+      넷플릭스는 베이직, 스탠다드, 프리미엄 요금제를 나눕니다.
+      <strong>왜</strong> 기업은 모든 사람에게 같은 가격을 받지 않을까요?
+    </p>
+    <p style="margin-top: 12px;">
+      답은 간단합니다. 사람마다 <strong>지불 의향(willingness to pay)</strong>이 다르기 때문입니다.
+      학생은 돈이 적어 비싸면 안 보고, 성인은 비싸도 봅니다.
+      기업이 이 차이를 이용하면 <strong>더 많은 이윤</strong>을 얻을 수 있습니다.
+      이것이 <strong>가격 차별(price discrimination)</strong>입니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>1급 가격차별: 모든 소비자에게 다른 가격</li>
+        <li>3급 가격차별: 그룹별 다른 가격 (학생/성인)</li>
+        <li>2급 가격차별: 소비자가 스스로 선택하는 요금제</li>
+        <li>항공권 동적 가격의 원리를 이해</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>가격 차별의 3가지 유형</h2>
+
+    <ExplainBox title="가격 차별의 조건">
+      <p>가격 차별이 가능하려면:</p>
+      <p>1. 기업이 <strong>시장 지배력</strong>을 가져야 함 (가격 설정 능력)</p>
+      <p>2. 소비자 그룹을 <strong>구별</strong>할 수 있어야 함</p>
+      <p>3. 싸게 산 사람이 비싸게 살 사람에게 <strong>재판매</strong>할 수 없어야 함</p>
+    </ExplainBox>
+
+    <BusinessBox title="3가지 유형">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>1급 (완전 가격차별):</strong> 각 소비자의 최대 지불 의향 가격을 받음. 소비자잉여=0. 이론적으로만 존재.</li>
+        <li><strong>2급 (자기선택):</strong> 여러 옵션을 제시하고 소비자가 자기에게 맞는 것을 선택. 넷플릭스 요금제, 항공 좌석 등급.</li>
+        <li><strong>3급 (그룹별):</strong> 관찰 가능한 특성(나이, 학생증)으로 그룹을 나눠 다른 가격. 영화관, 교통카드.</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 1급 가격차별 ===== -->
+  <div class="tb-card">
+    <h2>1. 1급 가격차별 시뮬레이터</h2>
+    <p>
+      완전 가격차별에서는 기업이 각 소비자의 지불 의향을 정확히 알고,
+      그 금액을 그대로 청구합니다. 소비자잉여가 0이 되고
+      모든 잉여가 기업 이윤으로 전환됩니다.
+    </p>
+
+    <SimControls>
+      <label style="font-weight: bold;">가격 전략:
+        <select id="pd1-mode" style="margin-left: 8px; padding: 6px 12px; border-radius: 6px; border: 1px solid #d1d5db;">
+          <option value="single">단일 가격 (최적 독점)</option>
+          <option value="perfect">완전 가격차별 (1급)</option>
+          <option value="compare">둘 다 비교</option>
+        </select>
+      </label>
+    </SimControls>
+
+    <canvas id="pd1Canvas" width="700" height="420" style="width: 100%; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; margin-top: 12px;"></canvas>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="기업 이윤" value="-" id="pd1-profit" borderColor="#ef4444" />
+      <StatBox label="소비자잉여" value="-" id="pd1-cs" borderColor="#3b82f6" />
+      <StatBox label="사중손실" value="-" id="pd1-dwl" borderColor="#f59e0b" />
+      <StatBox label="총 사회후생" value="-" id="pd1-total" borderColor="#059669" />
+    </div>
+
+    <ExerciseBox title="완전 가격차별의 역설">
+      <p>"둘 다 비교" 모드에서 관찰하세요.</p>
+      <p>1) 1급 가격차별에서 사중손실이 0인 이유는?</p>
+      <p>2) 총 사회후생은 어느 경우가 더 큰가요?</p>
+      <p>3) 그런데 소비자에게는 어느 경우가 더 나쁜가요?</p>
+      <button class="tb-btn" id="pd1-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="pd1-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 모든 거래가 성사됩니다(지불 의향 &ge; MC인 모든 소비자가 구매). 독점의 "덜 팔아서 비싸게" 전략이 불필요해집니다.</p>
+        <p><strong>2)</strong> 1급 가격차별의 총 사회후생이 더 큽니다. 경쟁 시장과 같은 수준입니다!</p>
+        <p><strong>3)</strong> 소비자에게는 1급 가격차별이 최악입니다. 소비자잉여가 0이니까요. 효율적이지만 불공평합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 3급 가격차별 ===== -->
+  <div class="tb-card">
+    <h2>2. 3급 가격차별: 그룹별 최적 가격</h2>
+    <p>
+      영화관이 학생과 성인에게 다른 가격을 매기는 것이 3급 가격차별입니다.
+      각 그룹의 <strong>수요 탄력성</strong>이 다르기 때문에 최적 가격도 달라집니다.
+      탄력성이 높은 그룹(학생)에게 낮은 가격, 탄력성이 낮은 그룹(성인)에게 높은 가격을 매깁니다.
+    </p>
+
+    <FormulaBox title="3급 가격차별의 원리">
+      <p style="text-align: center;">
+        P<sub>1</sub> / P<sub>2</sub> = (1 - 1/|E<sub>2</sub>|) / (1 - 1/|E<sub>1</sub>|)
+      </p>
+      <p style="margin-top: 8px; text-align: center;">
+        탄력성이 높은 그룹에게 낮은 가격, 탄력성이 낮은 그룹에게 높은 가격
+      </p>
+    </FormulaBox>
+
+    <SimControls>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="padding: 12px; background: #eff6ff; border-radius: 8px;">
+          <h4 style="margin: 0 0 8px;">학생 그룹</h4>
+          <label>최대 지불 의향: <strong id="g1-a-val">80</strong>
+            <input type="range" id="g1-a" min="40" max="120" value="80" style="width: 100%;" />
+          </label>
+          <label>수요 민감도: <strong id="g1-b-val">2</strong>
+            <input type="range" id="g1-b" min="1" max="4" value="2" step="0.5" style="width: 100%;" />
+          </label>
+        </div>
+        <div style="padding: 12px; background: #fef2f2; border-radius: 8px;">
+          <h4 style="margin: 0 0 8px;">성인 그룹</h4>
+          <label>최대 지불 의향: <strong id="g2-a-val">120</strong>
+            <input type="range" id="g2-a" min="60" max="200" value="120" style="width: 100%;" />
+          </label>
+          <label>수요 민감도: <strong id="g2-b-val">1</strong>
+            <input type="range" id="g2-b" min="0.5" max="3" value="1" step="0.5" style="width: 100%;" />
+          </label>
+        </div>
+      </div>
+      <p style="margin-top: 8px; font-size: 0.9em; color: #6b7280;">한계비용(MC) = 10</p>
+    </SimControls>
+
+    <ChartContainer id="pd3Chart" height="350px" />
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0;">
+      <div style="padding: 12px; background: #eff6ff; border-radius: 8px; text-align: center;">
+        <div style="font-size: 0.85em; color: #6b7280;">학생 가격</div>
+        <div style="font-size: 1.3em; font-weight: bold;" id="pd3-p1">-</div>
+      </div>
+      <div style="padding: 12px; background: #fef2f2; border-radius: 8px; text-align: center;">
+        <div style="font-size: 0.85em; color: #6b7280;">성인 가격</div>
+        <div style="font-size: 1.3em; font-weight: bold;" id="pd3-p2">-</div>
+      </div>
+      <div style="padding: 12px; background: #f0fdf4; border-radius: 8px; text-align: center;">
+        <div style="font-size: 0.85em; color: #6b7280;">총 이윤</div>
+        <div style="font-size: 1.3em; font-weight: bold;" id="pd3-profit">-</div>
+      </div>
+    </div>
+
+    <ExerciseBox title="가격차별의 윤리">
+      <p>학생과 성인의 파라미터를 조정하면서 관찰하세요.</p>
+      <p>1) 학생 수요 민감도를 높이면 학생 가격은 어떻게 변하나요?</p>
+      <p>2) 가격 차별은 학생에게 유리한가요, 불리한가요?</p>
+      <button class="tb-btn" id="pd3-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="pd3-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 학생 수요 민감도가 높으면 (가격에 민감하면) 학생 가격이 더 낮아집니다.</p>
+        <p><strong>2)</strong> 단일 가격과 비교하면 학생에게 유리합니다! 단일 가격이면 성인 기준으로 높은 가격이 설정되어 학생은 아예 못 볼 수 있지만, 가격 차별 덕분에 저렴하게 볼 수 있습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 2급 가격차별 (넷플릭스 요금제) ===== -->
+  <div class="tb-card">
+    <h2>3. 2급 가격차별: 넷플릭스 요금제 설계</h2>
+    <p>
+      2급 가격차별에서는 기업이 여러 옵션(메뉴)을 제시하고,
+      소비자가 <strong>자기에게 맞는 것을 스스로 선택</strong>합니다.
+      넷플릭스의 베이직/스탠다드/프리미엄 요금제가 대표적입니다.
+      핵심은 각 타입의 소비자가 "자기 것"을 선택하도록 설계하는 것입니다.
+    </p>
+
+    <ExplainBox title="자기선택(Self-Selection) 원리">
+      <p>고가치 소비자가 저가 요금제를 선택하지 않도록,
+        저가 요금제의 품질을 <strong>일부러 낮추는</strong> 전략입니다.</p>
+      <p style="margin-top: 8px;">예: 넷플릭스 광고형 요금제는 가격이 싸지만 광고를 봐야 합니다.
+        광고가 싫은 고가치 소비자는 자연스럽게 프리미엄을 선택합니다.</p>
+    </ExplainBox>
+
+    <div id="netflix-sim" style="margin-top: 16px;">
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+        <div style="padding: 16px; background: #f9fafb; border-radius: 12px; border: 2px solid #d1d5db; text-align: center;">
+          <h4 style="margin: 0 0 8px;">광고형</h4>
+          <label>가격 (천원):
+            <input type="number" id="nf-p1" value="5.5" min="0" max="20" step="0.5" style="width: 80px; padding: 4px; border: 1px solid #d1d5db; border-radius: 6px;" />
+          </label>
+          <p style="font-size: 0.85em; color: #6b7280; margin-top: 8px;">720p, 광고 있음, 1기기</p>
+        </div>
+        <div style="padding: 16px; background: #eff6ff; border-radius: 12px; border: 2px solid #93c5fd; text-align: center;">
+          <h4 style="margin: 0 0 8px;">스탠다드</h4>
+          <label>가격 (천원):
+            <input type="number" id="nf-p2" value="13.5" min="0" max="30" step="0.5" style="width: 80px; padding: 4px; border: 1px solid #d1d5db; border-radius: 6px;" />
+          </label>
+          <p style="font-size: 0.85em; color: #6b7280; margin-top: 8px;">1080p, 광고 없음, 2기기</p>
+        </div>
+        <div style="padding: 16px; background: #fef3c7; border-radius: 12px; border: 2px solid #fbbf24; text-align: center;">
+          <h4 style="margin: 0 0 8px;">프리미엄</h4>
+          <label>가격 (천원):
+            <input type="number" id="nf-p3" value="17" min="0" max="40" step="0.5" style="width: 80px; padding: 4px; border: 1px solid #d1d5db; border-radius: 6px;" />
+          </label>
+          <p style="font-size: 0.85em; color: #6b7280; margin-top: 8px;">4K, 광고 없음, 4기기</p>
+        </div>
+      </div>
+      <button class="tb-btn" id="nf-calc-btn" style="margin-top: 12px; width: 100%;">수익 시뮬레이션</button>
+    </div>
+
+    <ChartContainer id="nfChart" height="320px" />
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="총 가입자" value="-" id="nf-subs" borderColor="#3b82f6" />
+      <StatBox label="월 매출" value="-" id="nf-revenue" borderColor="#059669" />
+      <StatBox label="ARPU" value="-" id="nf-arpu" borderColor="#6366f1" />
+    </div>
+
+    <ExerciseBox title="요금제 설계">
+      <p>가격을 조정하면서 매출을 최대화해 보세요.</p>
+      <p>1) 광고형 가격을 매우 낮추면 어떻게 되나요?</p>
+      <p>2) 스탠다드와 프리미엄의 가격 차이가 작으면?</p>
+      <button class="tb-btn" id="nf-quiz-btn" style="margin-top: 8px;">생각해보기</button>
+      <div id="nf-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 가입자 수는 늘지만 ARPU(인당 매출)가 떨어집니다. 스탠다드/프리미엄 가입자가 광고형으로 내려올 위험이 있습니다.</p>
+        <p><strong>2)</strong> 스탠다드와 프리미엄 차이가 작으면, 많은 사람이 약간만 더 내고 프리미엄으로 갑니다. 좋아 보이지만 스탠다드 가입자가 줄어 전체 수익이 변할 수 있습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 항공권 동적 가격 ===== -->
+  <div class="tb-card">
+    <h2>4. 항공권 가격의 비밀</h2>
+    <p>
+      항공권 가격은 출발일이 다가올수록 올라가다가, 때로는 직전에 갑자기 떨어집니다.
+      이것은 <strong>재고 관리</strong>와 <strong>가격 차별</strong>이 결합된 결과입니다.
+      일찍 예약하는 관광객에게는 싸게, 급하게 예약하는 출장객에게는 비싸게 팝니다.
+    </p>
+
+    <SimControls>
+      <label>좌석 잔여율: <strong id="seat-val">80%</strong>
+        <input type="range" id="seat-slider" min="0" max="100" value="80" style="width: 100%;" />
+      </label>
+    </SimControls>
+
+    <ChartContainer id="airChart" height="380px" />
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="90일 전 가격" value="-" id="air-early" borderColor="#059669" />
+      <StatBox label="30일 전 가격" value="-" id="air-mid" borderColor="#f59e0b" />
+      <StatBox label="1일 전 가격" value="-" id="air-late" borderColor="#ef4444" />
+    </div>
+
+    <BusinessBox title="왜 이런 가격 패턴이 나타나는가?">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>관광객:</strong> 일찍 예약, 가격 민감. 항공사는 낮은 가격으로 좌석을 먼저 채움</li>
+        <li><strong>출장객:</strong> 늦게 예약, 가격에 덜 민감. 높은 가격을 기꺼이 지불</li>
+        <li><strong>잔여 좌석:</strong> 출발 직전 빈 좌석이 많으면 가격을 내려 채움 (한계비용이 거의 0)</li>
+        <li><strong>수익 관리(Yield Management):</strong> 항공사의 핵심 기술. AI가 실시간으로 가격 조정</li>
+      </ul>
+    </BusinessBox>
+
+    <ExerciseBox title="항공권 가격 분석">
+      <p>좌석 잔여율을 변경하면서 가격 곡선을 관찰하세요.</p>
+      <p>1) 좌석이 거의 다 찬 경우(잔여 10%)와 많이 남은 경우(잔여 80%) 가격 패턴의 차이는?</p>
+      <p>2) 가장 저렴한 항공권을 사려면 언제 예약해야 할까요?</p>
+      <button class="tb-btn" id="air-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="air-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 좌석이 거의 찬 경우 가격이 매우 가파르게 상승합니다. 남은 좌석의 희소가치가 높기 때문입니다. 반면 좌석이 많이 남으면 출발 직전에 가격이 떨어질 수 있습니다.</p>
+        <p><strong>2)</strong> 보통 출발 6~8주 전이 가장 저렴한 구간입니다. 너무 일찍도, 너무 늦게도 비쌉니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 결론 ===== -->
+  <ConclusionBox title="정리: 가격 차별">
+    <p>
+      가격 차별은 같은 상품에 다른 가격을 매겨 이윤을 높이는 전략입니다.
+      1급(개인별), 2급(자기선택), 3급(그룹별) 세 가지 유형이 있으며,
+      항공권, 영화관, 넷플릭스 등 일상 곳곳에서 활용됩니다.
+    </p>
+    <p style="margin-top: 12px;">
+      다음 장에서는 디지털 시대의 새로운 시장 구조인 <strong>플랫폼 경제학</strong>을 다룹니다.
+      카카오, 네이버, 쿠팡 같은 플랫폼은 어떻게 돈을 벌까요?
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1. 1급 가격차별 (Canvas) ========== */
+  var pd1Mode = document.getElementById('pd1-mode');
+  var pd1Canvas = document.getElementById('pd1Canvas');
+  var pd1Ctx = pd1Canvas.getContext('2d');
+
+  function drawPD1() {
+    var mode = pd1Mode.value;
+    var w = pd1Canvas.width, h = pd1Canvas.height;
+    var pL = 60, pR = 30, pT = 30, pB = 50;
+    var gw = w - pL - pR, gh = h - pT - pB;
+
+    pd1Ctx.clearRect(0, 0, w, h);
+
+    var a = 100, b = 1, mc = 20;
+    var maxQ = a / b;
+    var maxP = a;
+
+    function tX(q) { return pL + (q / maxQ) * gw; }
+    function tY(p) { return pT + (1 - p / maxP) * gh; }
+
+    /* 축 */
+    pd1Ctx.strokeStyle = '#374151'; pd1Ctx.lineWidth = 1.5;
+    pd1Ctx.beginPath(); pd1Ctx.moveTo(pL, pT); pd1Ctx.lineTo(pL, h - pB); pd1Ctx.lineTo(w - pR, h - pB); pd1Ctx.stroke();
+    pd1Ctx.fillStyle = '#374151'; pd1Ctx.font = '13px sans-serif'; pd1Ctx.textAlign = 'center';
+    pd1Ctx.fillText('수량 (Q)', w / 2, h - 8);
+    pd1Ctx.save(); pd1Ctx.translate(16, h / 2); pd1Ctx.rotate(-Math.PI / 2); pd1Ctx.fillText('가격 (P)', 0, 0); pd1Ctx.restore();
+
+    var qMono = (a - mc) / (2 * b);
+    var pMono = a - b * qMono;
+    var qComp = (a - mc) / b;
+
+    var monoProfit = (pMono - mc) * qMono;
+    var monoCS = 0.5 * (a - pMono) * qMono;
+    var monoDWL = 0.5 * (pMono - mc) * (qComp - qMono);
+
+    var perfectProfit = 0.5 * (a - mc) * qComp;
+    var perfectCS = 0;
+    var perfectDWL = 0;
+
+    if (mode === 'single' || mode === 'compare') {
+      /* 소비자잉여 (파란색) */
+      pd1Ctx.fillStyle = 'rgba(59, 130, 246, 0.25)';
+      pd1Ctx.beginPath();
+      pd1Ctx.moveTo(tX(0), tY(a)); pd1Ctx.lineTo(tX(qMono), tY(pMono)); pd1Ctx.lineTo(tX(0), tY(pMono));
+      pd1Ctx.closePath(); pd1Ctx.fill();
+
+      /* 독점 이윤 (빨간색) */
+      pd1Ctx.fillStyle = 'rgba(239, 68, 68, 0.2)';
+      pd1Ctx.fillRect(tX(0), tY(pMono), tX(qMono) - tX(0), tY(mc) - tY(pMono));
+
+      /* DWL */
+      pd1Ctx.fillStyle = 'rgba(251, 191, 36, 0.3)';
+      pd1Ctx.beginPath();
+      pd1Ctx.moveTo(tX(qMono), tY(pMono)); pd1Ctx.lineTo(tX(qComp), tY(mc)); pd1Ctx.lineTo(tX(qMono), tY(mc));
+      pd1Ctx.closePath(); pd1Ctx.fill();
+    }
+
+    if (mode === 'perfect' || mode === 'compare') {
+      /* 1급 가격차별: 수요곡선 아래~MC 위 전체가 이윤 */
+      pd1Ctx.fillStyle = mode === 'compare' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(239, 68, 68, 0.2)';
+      pd1Ctx.beginPath();
+      pd1Ctx.moveTo(tX(0), tY(a)); pd1Ctx.lineTo(tX(qComp), tY(mc)); pd1Ctx.lineTo(tX(0), tY(mc));
+      pd1Ctx.closePath(); pd1Ctx.fill();
+
+      if (mode === 'compare') {
+        pd1Ctx.strokeStyle = '#8b5cf6'; pd1Ctx.lineWidth = 2; pd1Ctx.setLineDash([3, 3]);
+        pd1Ctx.beginPath(); pd1Ctx.moveTo(tX(qComp), tY(mc)); pd1Ctx.lineTo(tX(qComp), tY(0)); pd1Ctx.stroke();
+        pd1Ctx.setLineDash([]);
+      }
+    }
+
+    /* 수요곡선 */
+    pd1Ctx.strokeStyle = '#3b82f6'; pd1Ctx.lineWidth = 2.5; pd1Ctx.setLineDash([]);
+    pd1Ctx.beginPath(); pd1Ctx.moveTo(tX(0), tY(a)); pd1Ctx.lineTo(tX(maxQ), tY(0)); pd1Ctx.stroke();
+    pd1Ctx.fillStyle = '#3b82f6'; pd1Ctx.fillText('D', tX(maxQ) - 15, tY(0) - 8);
+
+    /* MC */
+    pd1Ctx.strokeStyle = '#059669'; pd1Ctx.lineWidth = 2;
+    pd1Ctx.beginPath(); pd1Ctx.moveTo(tX(0), tY(mc)); pd1Ctx.lineTo(tX(maxQ), tY(mc)); pd1Ctx.stroke();
+    pd1Ctx.fillStyle = '#059669'; pd1Ctx.fillText('MC=' + mc, tX(maxQ) - 30, tY(mc) - 8);
+
+    /* MR (단일 가격일 때만) */
+    if (mode === 'single' || mode === 'compare') {
+      pd1Ctx.strokeStyle = '#ef4444'; pd1Ctx.lineWidth = 1.5; pd1Ctx.setLineDash([6, 4]);
+      pd1Ctx.beginPath(); pd1Ctx.moveTo(tX(0), tY(a)); pd1Ctx.lineTo(tX(maxQ / 2), tY(0)); pd1Ctx.stroke();
+      pd1Ctx.setLineDash([]);
+      pd1Ctx.fillStyle = '#ef4444'; pd1Ctx.fillText('MR', tX(maxQ / 2) - 15, tY(0) - 8);
+    }
+
+    /* 범례 */
+    pd1Ctx.font = '11px sans-serif'; pd1Ctx.textAlign = 'left';
+    var lx = w - pR - 150, ly = pT + 10;
+    if (mode === 'single' || mode === 'compare') {
+      pd1Ctx.fillStyle = 'rgba(59,130,246,0.25)'; pd1Ctx.fillRect(lx, ly, 12, 12);
+      pd1Ctx.fillStyle = '#374151'; pd1Ctx.fillText('소비자잉여', lx + 16, ly + 10);
+      pd1Ctx.fillStyle = 'rgba(239,68,68,0.2)'; pd1Ctx.fillRect(lx, ly + 16, 12, 12);
+      pd1Ctx.fillStyle = '#374151'; pd1Ctx.fillText('독점이윤', lx + 16, ly + 26);
+      pd1Ctx.fillStyle = 'rgba(251,191,36,0.3)'; pd1Ctx.fillRect(lx, ly + 32, 12, 12);
+      pd1Ctx.fillStyle = '#374151'; pd1Ctx.fillText('사중손실', lx + 16, ly + 42);
+    }
+    if (mode === 'perfect' || mode === 'compare') {
+      var oy = mode === 'compare' ? 52 : 0;
+      pd1Ctx.fillStyle = mode === 'compare' ? 'rgba(139,92,246,0.15)' : 'rgba(239,68,68,0.2)';
+      pd1Ctx.fillRect(lx, ly + oy, 12, 12);
+      pd1Ctx.fillStyle = '#374151'; pd1Ctx.fillText('1급: 전부 이윤', lx + 16, ly + oy + 10);
+    }
+
+    if (mode === 'single') {
+      document.getElementById('pd1-profit').textContent = monoProfit.toFixed(0);
+      document.getElementById('pd1-cs').textContent = monoCS.toFixed(0);
+      document.getElementById('pd1-dwl').textContent = monoDWL.toFixed(0);
+      document.getElementById('pd1-total').textContent = (monoProfit + monoCS).toFixed(0);
+    } else if (mode === 'perfect') {
+      document.getElementById('pd1-profit').textContent = perfectProfit.toFixed(0);
+      document.getElementById('pd1-cs').textContent = '0';
+      document.getElementById('pd1-dwl').textContent = '0';
+      document.getElementById('pd1-total').textContent = perfectProfit.toFixed(0);
+    } else {
+      document.getElementById('pd1-profit').textContent = monoProfit.toFixed(0) + ' / ' + perfectProfit.toFixed(0);
+      document.getElementById('pd1-cs').textContent = monoCS.toFixed(0) + ' / 0';
+      document.getElementById('pd1-dwl').textContent = monoDWL.toFixed(0) + ' / 0';
+      document.getElementById('pd1-total').textContent = (monoProfit + monoCS).toFixed(0) + ' / ' + perfectProfit.toFixed(0);
+    }
+  }
+
+  pd1Mode.addEventListener('change', drawPD1);
+  drawPD1();
+
+  document.getElementById('pd1-quiz-btn').addEventListener('click', function() {
+    document.getElementById('pd1-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 2. 3급 가격차별 ========== */
+  var g1A = document.getElementById('g1-a');
+  var g1B = document.getElementById('g1-b');
+  var g2A = document.getElementById('g2-a');
+  var g2B = document.getElementById('g2-b');
+  var mc3 = 10;
+
+  var pd3Ctx = document.getElementById('pd3Chart').getContext('2d');
+  var pd3Chart = new Chart(pd3Ctx, {
+    type: 'bar',
+    data: {
+      labels: ['가격', '판매량', '이윤', '소비자잉여'],
+      datasets: [
+        { label: '학생', data: [], backgroundColor: '#3b82f6' },
+        { label: '성인', data: [], backgroundColor: '#ef4444' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { beginAtZero: true } },
+      plugins: { legend: { display: true } }
+    }
+  });
+
+  function updatePD3() {
+    var a1 = parseFloat(g1A.value), b1 = parseFloat(g1B.value);
+    var a2 = parseFloat(g2A.value), b2 = parseFloat(g2B.value);
+    document.getElementById('g1-a-val').textContent = a1;
+    document.getElementById('g1-b-val').textContent = b1;
+    document.getElementById('g2-a-val').textContent = a2;
+    document.getElementById('g2-b-val').textContent = b2;
+
+    /* MR=MC => a - 2bQ = mc => Q = (a-mc)/(2b), P = a - bQ */
+    var q1 = Math.max(0, (a1 - mc3) / (2 * b1));
+    var p1 = a1 - b1 * q1;
+    var profit1 = (p1 - mc3) * q1;
+    var cs1 = 0.5 * (a1 - p1) * q1;
+
+    var q2 = Math.max(0, (a2 - mc3) / (2 * b2));
+    var p2 = a2 - b2 * q2;
+    var profit2 = (p2 - mc3) * q2;
+    var cs2 = 0.5 * (a2 - p2) * q2;
+
+    document.getElementById('pd3-p1').textContent = p1.toFixed(0) + '원';
+    document.getElementById('pd3-p2').textContent = p2.toFixed(0) + '원';
+    document.getElementById('pd3-profit').textContent = (profit1 + profit2).toFixed(0);
+
+    pd3Chart.data.datasets[0].data = [p1, q1, profit1, cs1];
+    pd3Chart.data.datasets[1].data = [p2, q2, profit2, cs2];
+    pd3Chart.update();
+  }
+
+  [g1A, g1B, g2A, g2B].forEach(function(el) { el.addEventListener('input', updatePD3); });
+  updatePD3();
+
+  document.getElementById('pd3-quiz-btn').addEventListener('click', function() {
+    document.getElementById('pd3-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 3. 2급 가격차별: 넷플릭스 요금제 ========== */
+  var nfCtx = document.getElementById('nfChart').getContext('2d');
+  var nfChart = new Chart(nfCtx, {
+    type: 'bar',
+    data: {
+      labels: ['광고형', '스탠다드', '프리미엄'],
+      datasets: [
+        { label: '가입자 수 (만)', data: [], backgroundColor: ['#9ca3af', '#3b82f6', '#f59e0b'], yAxisID: 'y' },
+        { label: '매출 (억원)', data: [], backgroundColor: ['rgba(156,163,175,0.4)', 'rgba(59,130,246,0.4)', 'rgba(245,158,11,0.4)'], yAxisID: 'y1' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { beginAtZero: true, position: 'left', title: { display: true, text: '가입자 (만)' } },
+        y1: { beginAtZero: true, position: 'right', title: { display: true, text: '매출 (억원)' }, grid: { drawOnChartArea: false } }
+      }
+    }
+  });
+
+  function calcNetflix() {
+    var p1 = parseFloat(document.getElementById('nf-p1').value) || 0;
+    var p2 = parseFloat(document.getElementById('nf-p2').value) || 0;
+    var p3 = parseFloat(document.getElementById('nf-p3').value) || 0;
+
+    /* 간단한 수요 모형: 가격이 낮을수록 가입자 많음, 요금제 간 가격 차이에 의한 이동 */
+    var base1 = Math.max(0, 400 - p1 * 30);
+    var base2 = Math.max(0, 350 - p2 * 12);
+    var base3 = Math.max(0, 200 - p3 * 5);
+
+    /* 하위 요금제가 너무 비싸면 가입자 상위로 이동하지 않고 이탈 */
+    if (p1 > p2) base1 = 0;
+    if (p2 > p3) { base3 += base2 * 0.3; base2 *= 0.7; }
+
+    var subs1 = Math.round(base1);
+    var subs2 = Math.round(base2);
+    var subs3 = Math.round(base3);
+    var totalSubs = subs1 + subs2 + subs3;
+
+    var rev1 = subs1 * p1 / 10;
+    var rev2 = subs2 * p2 / 10;
+    var rev3 = subs3 * p3 / 10;
+    var totalRev = rev1 + rev2 + rev3;
+
+    var arpu = totalSubs > 0 ? (totalRev / totalSubs * 10).toFixed(1) : '0';
+
+    document.getElementById('nf-subs').textContent = totalSubs + '만';
+    document.getElementById('nf-revenue').textContent = totalRev.toFixed(0) + '억';
+    document.getElementById('nf-arpu').textContent = arpu + '천원';
+
+    nfChart.data.datasets[0].data = [subs1, subs2, subs3];
+    nfChart.data.datasets[1].data = [rev1, rev2, rev3];
+    nfChart.update();
+  }
+
+  document.getElementById('nf-calc-btn').addEventListener('click', calcNetflix);
+  calcNetflix();
+
+  document.getElementById('nf-quiz-btn').addEventListener('click', function() {
+    document.getElementById('nf-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 4. 항공권 동적 가격 ========== */
+  var seatSlider = document.getElementById('seat-slider');
+  var airCtx = document.getElementById('airChart').getContext('2d');
+
+  var days = [];
+  for (var d = 90; d >= 0; d--) days.push(d);
+
+  var airChart = new Chart(airCtx, {
+    type: 'line',
+    data: {
+      labels: days.map(function(d) { return d + '일전'; }),
+      datasets: [{
+        label: '항공권 가격 (만원)',
+        data: [],
+        borderColor: '#ef4444',
+        backgroundColor: 'rgba(239,68,68,0.1)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 0
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { title: { display: true, text: '출발까지 남은 일수' } },
+        y: { beginAtZero: true, title: { display: true, text: '가격 (만원)' } }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function updateAir() {
+    var seatPct = parseInt(seatSlider.value);
+    document.getElementById('seat-val').textContent = seatPct + '%';
+
+    var scarcity = 1 + (100 - seatPct) / 100 * 2;
+
+    var prices = days.map(function(d) {
+      var base = 15;
+      var timePremium = Math.pow((90 - d) / 90, 1.8) * 30 * scarcity;
+      var lastMinute = d < 3 && seatPct > 40 ? -(seatPct - 40) * 0.15 : 0;
+      return Math.max(5, base + timePremium + lastMinute);
+    });
+
+    airChart.data.datasets[0].data = prices;
+    airChart.update();
+
+    document.getElementById('air-early').textContent = prices[0].toFixed(0) + '만원';
+    document.getElementById('air-mid').textContent = prices[60].toFixed(0) + '만원';
+    document.getElementById('air-late').textContent = prices[89].toFixed(0) + '만원';
+  }
+
+  seatSlider.addEventListener('input', updateAir);
+  updateAir();
+
+  document.getElementById('air-quiz-btn').addEventListener('click', function() {
+    document.getElementById('air-quiz-ans').style.display = 'block';
+  });
+
+});
+</script>

@@ -1,0 +1,722 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="죄수의 딜레마"
+  subtitle="협력이 유리한데 왜 배신하는가"
+  chapterNum={27}
+  part={5}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>당신이라면 어떻게 하겠습니까?</h2>
+    <p>
+      경찰이 두 용의자를 체포했습니다. 각각 다른 심문실에 격리되어 있고, 서로 소통할 수 없습니다.
+      검사가 각각에게 제안합니다:
+    </p>
+    <ul style="margin: 12px 0 12px 20px; line-height: 2;">
+      <li><strong>둘 다 묵비권:</strong> 각각 <strong>1년형</strong> (증거가 부족해서 경미한 혐의만 적용)</li>
+      <li><strong>나만 자백, 상대 묵비:</strong> 나는 <strong>석방</strong>, 상대는 <strong>10년형</strong></li>
+      <li><strong>둘 다 자백:</strong> 각각 <strong>5년형</strong></li>
+    </ul>
+    <p>
+      당신이 용의자라면? 묵비할 것인가, 자백할 것인가?
+      이것이 게임이론에서 가장 유명한 문제, <strong>죄수의 딜레마(Prisoner's Dilemma)</strong>입니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>죄수의 딜레마에서 '배신'이 우월전략임을 이해</li>
+        <li>개인 합리성과 집단 합리성의 충돌을 체험</li>
+        <li>N인 버전(공공재 게임)에서 무임승차 문제 이해</li>
+        <li>현실 세계의 죄수의 딜레마 사례 파악</li>
+        <li>협력이 가능한 조건 탐구</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>죄수의 딜레마란?</h2>
+
+    <ExplainBox title="보수행렬">
+      <div style="overflow-x: auto;">
+        <table style="border-collapse: collapse; width: 100%; max-width: 480px; margin: 12px auto; text-align: center;">
+          <thead>
+            <tr>
+              <th style="padding: 10px; border: 2px solid #e5e7eb;"></th>
+              <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">용의자 B: 묵비(협력)</th>
+              <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">용의자 B: 자백(배신)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 10px; border: 2px solid #e5e7eb; background: #fce7f3; font-weight: bold;">A: 묵비(협력)</td>
+              <td style="padding: 10px; border: 2px solid #e5e7eb; background: #f0fdf4;"><strong>(-1, -1)</strong><br/>각각 1년</td>
+              <td style="padding: 10px; border: 2px solid #e5e7eb; background: #fef2f2;"><strong>(-10, 0)</strong><br/>A: 10년, B: 석방</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 2px solid #e5e7eb; background: #fce7f3; font-weight: bold;">A: 자백(배신)</td>
+              <td style="padding: 10px; border: 2px solid #e5e7eb; background: #fef2f2;"><strong>(0, -10)</strong><br/>A: 석방, B: 10년</td>
+              <td style="padding: 10px; border: 2px solid #e5e7eb; background: #fefce8;"><strong>(-5, -5)</strong><br/>각각 5년</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top: 8px;">보수는 형량의 음수입니다 (형량이 적을수록 좋으므로).</p>
+    </ExplainBox>
+
+    <FormulaBox title="우월전략이 배신인 이유">
+      <p>A의 입장에서 생각해 봅시다:</p>
+      <p style="margin-top: 8px;">B가 <strong>묵비</strong>하는 경우: 나도 묵비 → -1 / 나는 자백 → 0 (자백이 유리!)</p>
+      <p>B가 <strong>자백</strong>하는 경우: 나도 묵비 → -10 / 나는 자백 → -5 (자백이 유리!)</p>
+      <p style="margin-top: 8px;"><strong>결론: 상대가 무엇을 하든 자백이 유리합니다.</strong></p>
+      <p>B 역시 같은 논리로 자백을 선택합니다.</p>
+      <p>결과: 둘 다 자백하여 각각 5년형. 하지만 둘 다 묵비했다면 1년이었습니다!</p>
+    </FormulaBox>
+
+    <WarningBox title="딜레마의 핵심">
+      <p><strong>개인적으로 합리적인 선택</strong>(자백)이 <strong>집단적으로 비합리적인 결과</strong>(5년+5년=10년)를 낳습니다.</p>
+      <p>둘 다 묵비하면 (1년+1년=2년)으로 전체적으로 훨씬 좋은데, 각자의 합리성이 이를 방해합니다.</p>
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 대화형 죄수의 딜레마 ===== -->
+  <div class="tb-card">
+    <h2>1. 죄수의 딜레마 직접 체험</h2>
+    <p>
+      컴퓨터(용의자 B)와 죄수의 딜레마를 10판 반복합니다.
+      매 판마다 협력(묵비) 또는 배신(자백)을 선택하세요.
+      컴퓨터의 전략을 바꿔가며 시도해 보세요.
+    </p>
+
+    <SimControls>
+      <label>컴퓨터 전략:
+        <select id="pd-cpu-strategy">
+          <option value="random">랜덤 (50/50)</option>
+          <option value="always-d">항상 배신</option>
+          <option value="always-c">항상 협력</option>
+          <option value="tft">팃포탯 (첫판 협력, 이후 따라하기)</option>
+        </select>
+      </label>
+      <button class="tb-btn" id="pd-reset" style="margin-left: 12px;">처음부터</button>
+    </SimControls>
+
+    <div style="margin: 20px 0; text-align: center;">
+      <p id="pd-round-info" style="font-size: 1.2em; font-weight: bold; margin-bottom: 16px;">1라운드 / 10</p>
+      <div style="display: flex; justify-content: center; gap: 20px;">
+        <button class="tb-btn" id="pd-cooperate" style="padding: 16px 32px; font-size: 1.1em; background: #059669; color: white; border-radius: 12px;">묵비 (협력)</button>
+        <button class="tb-btn" id="pd-defect" style="padding: 16px 32px; font-size: 1.1em; background: #ef4444; color: white; border-radius: 12px;">자백 (배신)</button>
+      </div>
+    </div>
+
+    <div id="pd-history" style="margin: 16px 0; max-height: 300px; overflow-y: auto;"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="나의 총 형량" value="0년" id="pd-my-score" borderColor="#ef4444" />
+      <StatBox label="상대 총 형량" value="0년" id="pd-cpu-score" borderColor="#3b82f6" />
+      <StatBox label="현재 라운드" value="1/10" id="pd-round" borderColor="#6366f1" />
+    </div>
+
+    <ChartContainer id="pdChart" height="300px" />
+
+    <ExerciseBox title="패턴 분석">
+      <p>컴퓨터를 "팃포탯"으로 설정하고 10판을 해보세요.</p>
+      <p>처음부터 계속 협력하면 결과가 어떻게 되나요? 중간에 한 번 배신하면?</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 우월전략 단계별 분석 ===== -->
+  <div class="tb-card">
+    <h2>2. 우월전략 단계별 분석</h2>
+    <p>
+      왜 배신이 우월전략인지, 단계별로 확인해 봅시다.
+      각 단계를 클릭하면 보수행렬에서 해당 비교가 강조됩니다.
+    </p>
+
+    <div id="dom-matrix" style="margin: 20px 0;">
+      <table style="border-collapse: collapse; width: 100%; max-width: 480px; margin: 0 auto; text-align: center;">
+        <thead>
+          <tr>
+            <th style="padding: 10px; border: 2px solid #e5e7eb;"></th>
+            <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: 협력</th>
+            <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: 배신</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 10px; border: 2px solid #e5e7eb; background: #fce7f3; font-weight: bold;">A: 협력</td>
+            <td style="padding: 12px; border: 2px solid #e5e7eb;" id="dom-00"><strong>-1, -1</strong></td>
+            <td style="padding: 12px; border: 2px solid #e5e7eb;" id="dom-01"><strong>-10, 0</strong></td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 2px solid #e5e7eb; background: #fce7f3; font-weight: bold;">A: 배신</td>
+            <td style="padding: 12px; border: 2px solid #e5e7eb;" id="dom-10"><strong>0, -10</strong></td>
+            <td style="padding: 12px; border: 2px solid #e5e7eb;" id="dom-11"><strong>-5, -5</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="dom-steps" style="margin: 16px 0;">
+      <button class="tb-btn dom-step-btn" data-step="1" style="margin: 4px;">1단계: B가 협력할 때 A의 선택</button>
+      <button class="tb-btn dom-step-btn" data-step="2" style="margin: 4px;">2단계: B가 배신할 때 A의 선택</button>
+      <button class="tb-btn dom-step-btn" data-step="3" style="margin: 4px;">3단계: A의 우월전략 확인</button>
+      <button class="tb-btn dom-step-btn" data-step="4" style="margin: 4px;">4단계: 내쉬 균형</button>
+    </div>
+
+    <div id="dom-explain" style="margin: 16px 0; padding: 16px; background: #f9fafb; border-radius: 12px; min-height: 80px;"></div>
+
+    <ExerciseBox title="역할 바꾸기">
+      <p>B의 입장에서도 동일한 논리가 성립합을 확인하세요.</p>
+      <p>B가 협력할 때 A의 최적 선택이 배신이라면, A가 협력할 때 B의 최적 선택은?</p>
+      <button class="tb-btn" id="dom-answer-btn" style="margin-top: 8px;">정답 보기</button>
+      <div id="dom-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p>B도 역시 배신이 우월전략입니다. 보수행렬이 대칭이기 때문에 동일한 논리가 적용됩니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: N인 공공재 게임 ===== -->
+  <div class="tb-card">
+    <h2>3. 5인 공공재 게임 (N인 죄수의 딜레마)</h2>
+    <p>
+      5명이 있습니다. 각자 10,000원을 가지고 있고,
+      <strong>공공 자금</strong>에 기여할지(10,000원 전액) 안 할지를 선택합니다.
+      공공 자금은 <strong>2배</strong>가 되어 참여자 전원에게 균등 배분됩니다.
+    </p>
+
+    <FormulaBox title="보수 계산">
+      <p>기여자 수 = n명이면</p>
+      <p>공공 자금 = n x 10,000 x 2 = n x 20,000원</p>
+      <p>1인당 배분 = n x 20,000 / 5 = n x 4,000원</p>
+      <p style="margin-top: 8px;">기여한 사람의 최종 보수: n x 4,000원</p>
+      <p>기여하지 않은 사람의 최종 보수: 10,000 + n x 4,000원</p>
+    </FormulaBox>
+
+    <div style="margin: 20px 0;">
+      <p style="font-weight: bold; margin-bottom: 12px;">당신은 플레이어 1입니다. 나머지 4명의 기여 여부를 설정하세요:</p>
+      <div id="public-good-players" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;"></div>
+    </div>
+
+    <SimControls>
+      <div style="display: flex; gap: 12px;">
+        <button class="tb-btn" id="pg-contribute" style="padding: 12px 24px; background: #059669; color: white;">기여한다 (10,000원 투입)</button>
+        <button class="tb-btn" id="pg-freeride" style="padding: 12px 24px; background: #ef4444; color: white;">기여 안 한다 (무임승차)</button>
+      </div>
+    </SimControls>
+
+    <div id="pg-result" style="display: none; margin: 16px 0; padding: 16px; background: #f0fdf4; border-radius: 12px;"></div>
+
+    <ChartContainer id="pgChart" height="350px" />
+
+    <ExerciseBox title="무임승차의 유혹">
+      <p>모두 기여하면 각자 20,000원(= 5 x 4,000)을 받습니다. 기여비용 10,000원을 빼면 순이익 10,000원.</p>
+      <p>하지만 나만 기여하지 않으면? 나는 10,000 + 20,000 = 30,000원.</p>
+      <p>이것이 무임승차의 유혹입니다. 왜 공공재가 시장에서 과소 공급되는지 이해할 수 있나요?</p>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 현실 사례 ===== -->
+  <div class="tb-card">
+    <h2>4. 현실 세계의 죄수의 딜레마</h2>
+    <p>
+      죄수의 딜레마는 가상의 이야기가 아닙니다.
+      다음 세 가지 현실 사례를 탐색하고, 왜 이것이 죄수의 딜레마인지 이해해 봅시다.
+    </p>
+
+    <SimControls>
+      <label>사례 선택:
+        <select id="real-case">
+          <option value="arms">군비 경쟁 (냉전 시대 미국 vs 소련)</option>
+          <option value="price">가격 전쟁 (코카콜라 vs 펩시)</option>
+          <option value="climate">기후변화 협약 (선진국 vs 개도국)</option>
+        </select>
+      </label>
+    </SimControls>
+
+    <div id="real-case-content" style="margin: 20px 0;"></div>
+
+    <ChartContainer id="realChart" height="300px" />
+
+    <ExerciseBox title="사례 분석">
+      <p>세 가지 사례 모두 탐색한 후, 공통점을 찾아보세요.</p>
+      <p>모든 사례에서 '배신'이 우월전략인 이유는 무엇인가요?</p>
+      <button class="tb-btn" id="real-answer-btn" style="margin-top: 8px;">공통점 보기</button>
+      <div id="real-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>공통점:</strong> 모든 사례에서 (1) 협력하면 둘 다 이득이지만, (2) 상대가 협력할 때 나만 배신하면 더 큰 이득을 얻고, (3) 상대가 배신할 때 나도 배신하는 것이 덜 손해입니다.</p>
+        <p>즉, 상대가 무엇을 하든 배신이 최선이라는 구조가 동일합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: 협력 조건 ===== -->
+  <div class="tb-card">
+    <h2>5. 언제 협력이 가능한가?</h2>
+    <p>
+      죄수의 딜레마에서 협력을 이끌어내는 조건들을 알아봅시다.
+      각 조건을 켜고 끄면서 협력 가능성이 어떻게 변하는지 시뮬레이션하세요.
+    </p>
+
+    <div id="coop-conditions" style="margin: 20px 0;">
+      <div style="margin-bottom: 12px; padding: 12px; background: #f9fafb; border-radius: 10px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="coop-repeat" />
+          <strong>반복 게임:</strong> 같은 상대와 여러 번 만남
+        </label>
+      </div>
+      <div style="margin-bottom: 12px; padding: 12px; background: #f9fafb; border-radius: 10px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="coop-reputation" />
+          <strong>평판:</strong> 다른 사람들이 내 행동을 관찰 가능
+        </label>
+      </div>
+      <div style="margin-bottom: 12px; padding: 12px; background: #f9fafb; border-radius: 10px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="coop-punishment" />
+          <strong>처벌:</strong> 배신에 대한 제재가 존재
+        </label>
+      </div>
+      <div style="margin-bottom: 12px; padding: 12px; background: #f9fafb; border-radius: 10px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="coop-communication" />
+          <strong>소통:</strong> 사전에 약속 가능
+        </label>
+      </div>
+      <div style="margin-bottom: 12px; padding: 12px; background: #f9fafb; border-radius: 10px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="coop-small-group" />
+          <strong>소규모 집단:</strong> 참여자가 적음
+        </label>
+      </div>
+    </div>
+
+    <button class="tb-btn" id="coop-simulate" style="width: 100%; padding: 12px; font-size: 1.1em;">협력 가능성 시뮬레이션</button>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="협력 확률" value="5%" id="coop-prob" borderColor="#059669" />
+      <StatBox label="활성 조건" value="0개" id="coop-count" borderColor="#6366f1" />
+    </div>
+
+    <ChartContainer id="coopChart" height="300px" />
+
+    <ExerciseBox title="협력 설계">
+      <p>당신이 기숙사 공용 주방의 관리자라면, 학생들이 설거지를 하도록 어떤 조건을 만들겠습니까?</p>
+      <p>위의 5가지 조건 중 어떤 것을 활용할 수 있을까요?</p>
+      <button class="tb-btn" id="coop-answer-btn" style="margin-top: 8px;">예시 보기</button>
+      <div id="coop-answer" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>반복:</strong> 매일 같은 사람들이 주방을 사용 (한번이 아닌 반복 게임)</p>
+        <p><strong>평판:</strong> 설거지 안 하는 사람 이름 게시 (사회적 압력)</p>
+        <p><strong>처벌:</strong> 안 하면 주방 사용 금지</p>
+        <p><strong>소통:</strong> 당번표를 미리 정함</p>
+        <p><strong>소규모:</strong> 한 층씩 작은 단위로 관리</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 결론 ===== -->
+  <ConclusionBox title="27장 정리: 딜레마를 넘어서">
+    <p>
+      죄수의 딜레마는 <strong>개인의 합리성이 집단의 비합리성을 낳는</strong> 가장 유명한 사례입니다.
+      군비 경쟁, 가격 전쟁, 환경 문제 등 수많은 현실 문제가 이 구조를 가집니다.
+    </p>
+    <p style="margin-top: 8px;">
+      하지만 희망이 있습니다. 반복, 평판, 처벌, 소통 같은 조건이 갖춰지면 협력이 가능합니다.
+      다음 장에서는 이 아이디어를 <strong>내쉬 균형</strong>이라는 개념으로 더 정밀하게 분석합니다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ===== INTERACTIVE 1: 죄수의 딜레마 대화형 ===== */
+  var pdPayoffs = {
+    'CC': [-1, -1], 'CD': [-10, 0], 'DC': [0, -10], 'DD': [-5, -5]
+  };
+  var pdRound = 0;
+  var pdMaxRounds = 10;
+  var pdMyTotal = 0;
+  var pdCpuTotal = 0;
+  var pdHistory = [];
+  var pdLabels = [];
+  var pdMyData = [];
+  var pdCpuData = [];
+
+  var pdChart = new Chart(document.getElementById('pdChart'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '나의 누적 형량', data: [], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', fill: true, tension: 0.3 },
+        { label: '상대 누적 형량', data: [], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: '라운드' } },
+        y: { title: { display: true, text: '누적 형량 (년)' }, reverse: true }
+      }
+    }
+  });
+
+  function getCpuChoice() {
+    var strat = document.getElementById('pd-cpu-strategy').value;
+    if (strat === 'always-d') return 'D';
+    if (strat === 'always-c') return 'C';
+    if (strat === 'tft') {
+      if (pdHistory.length === 0) return 'C';
+      return pdHistory[pdHistory.length - 1].my;
+    }
+    return Math.random() < 0.5 ? 'C' : 'D';
+  }
+
+  function playPD(myChoice) {
+    if (pdRound >= pdMaxRounds) return;
+    var cpuChoice = getCpuChoice();
+    var key = myChoice + cpuChoice;
+    var payoff = pdPayoffs[key];
+
+    pdMyTotal += payoff[0];
+    pdCpuTotal += payoff[1];
+    pdHistory.push({ my: myChoice, cpu: cpuChoice, payA: payoff[0], payB: payoff[1] });
+    pdRound++;
+
+    /* 히스토리 테이블 */
+    var histDiv = document.getElementById('pd-history');
+    var rowColor = myChoice === 'C' && cpuChoice === 'C' ? '#f0fdf4' :
+                   myChoice === 'D' && cpuChoice === 'D' ? '#fefce8' : '#fef2f2';
+    var rowHtml = '<div style="padding: 8px 12px; background: ' + rowColor + '; border-radius: 8px; margin-bottom: 4px; display: flex; justify-content: space-between;">' +
+      '<span>라운드 ' + pdRound + '</span>' +
+      '<span>나: ' + (myChoice === 'C' ? '협력' : '배신') + '</span>' +
+      '<span>상대: ' + (cpuChoice === 'C' ? '협력' : '배신') + '</span>' +
+      '<span>결과: (' + payoff[0] + ', ' + payoff[1] + ')</span></div>';
+    histDiv.innerHTML = rowHtml + histDiv.innerHTML;
+
+    /* 통계 업데이트 */
+    document.getElementById('pd-my-score').textContent = pdMyTotal + '년';
+    document.getElementById('pd-cpu-score').textContent = pdCpuTotal + '년';
+    document.getElementById('pd-round').textContent = pdRound + '/' + pdMaxRounds;
+    document.getElementById('pd-round-info').textContent = (pdRound < pdMaxRounds ? (pdRound + 1) + '라운드 / ' + pdMaxRounds : '게임 종료!');
+
+    /* 차트 */
+    pdLabels.push(pdRound);
+    pdMyData.push(pdMyTotal);
+    pdCpuData.push(pdCpuTotal);
+    pdChart.data.labels = pdLabels;
+    pdChart.data.datasets[0].data = pdMyData;
+    pdChart.data.datasets[1].data = pdCpuData;
+    pdChart.update();
+
+    if (pdRound >= pdMaxRounds) {
+      document.getElementById('pd-cooperate').disabled = true;
+      document.getElementById('pd-defect').disabled = true;
+    }
+  }
+
+  document.getElementById('pd-cooperate').addEventListener('click', function() { playPD('C'); });
+  document.getElementById('pd-defect').addEventListener('click', function() { playPD('D'); });
+  document.getElementById('pd-reset').addEventListener('click', function() {
+    pdRound = 0; pdMyTotal = 0; pdCpuTotal = 0; pdHistory = [];
+    pdLabels = []; pdMyData = []; pdCpuData = [];
+    document.getElementById('pd-history').innerHTML = '';
+    document.getElementById('pd-my-score').textContent = '0년';
+    document.getElementById('pd-cpu-score').textContent = '0년';
+    document.getElementById('pd-round').textContent = '1/10';
+    document.getElementById('pd-round-info').textContent = '1라운드 / 10';
+    document.getElementById('pd-cooperate').disabled = false;
+    document.getElementById('pd-defect').disabled = false;
+    pdChart.data.labels = [];
+    pdChart.data.datasets[0].data = [];
+    pdChart.data.datasets[1].data = [];
+    pdChart.update();
+  });
+
+  /* ===== INTERACTIVE 2: 우월전략 단계별 ===== */
+  var domCells = ['dom-00', 'dom-01', 'dom-10', 'dom-11'];
+  var domExplain = document.getElementById('dom-explain');
+
+  function resetDomCells() {
+    domCells.forEach(function(c) {
+      document.getElementById(c).style.background = '#fff';
+      document.getElementById(c).style.border = '2px solid #e5e7eb';
+    });
+  }
+
+  document.querySelectorAll('.dom-step-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var step = parseInt(btn.getAttribute('data-step'));
+      resetDomCells();
+
+      if (step === 1) {
+        document.getElementById('dom-00').style.background = '#fef3c7';
+        document.getElementById('dom-10').style.background = '#bbf7d0';
+        domExplain.innerHTML = '<p><strong>B가 협력할 때:</strong></p>' +
+          '<p>A가 협력 → <span style="color: #f59e0b;">-1</span> (노란색)</p>' +
+          '<p>A가 배신 → <span style="color: #059669;">0</span> (초록색, 더 좋음!)</p>' +
+          '<p style="margin-top: 8px;">→ B가 협력하면, A는 배신이 유리합니다. (0 &gt; -1)</p>';
+      } else if (step === 2) {
+        document.getElementById('dom-01').style.background = '#fef3c7';
+        document.getElementById('dom-11').style.background = '#bbf7d0';
+        domExplain.innerHTML = '<p><strong>B가 배신할 때:</strong></p>' +
+          '<p>A가 협력 → <span style="color: #f59e0b;">-10</span> (노란색)</p>' +
+          '<p>A가 배신 → <span style="color: #059669;">-5</span> (초록색, 더 좋음!)</p>' +
+          '<p style="margin-top: 8px;">→ B가 배신해도, A는 배신이 유리합니다. (-5 &gt; -10)</p>';
+      } else if (step === 3) {
+        document.getElementById('dom-10').style.background = '#bbf7d0';
+        document.getElementById('dom-11').style.background = '#bbf7d0';
+        domExplain.innerHTML = '<p><strong>A의 우월전략: 배신</strong></p>' +
+          '<p>B가 뭘 하든 배신이 유리합니다.</p>' +
+          '<p>B의 입장에서도 대칭적으로 배신이 우월전략입니다.</p>' +
+          '<p style="margin-top: 8px; color: #ef4444; font-weight: bold;">→ 두 플레이어 모두 배신이 우월전략!</p>';
+      } else if (step === 4) {
+        document.getElementById('dom-11').style.background = '#bbf7d0';
+        document.getElementById('dom-11').style.border = '4px solid #059669';
+        document.getElementById('dom-00').style.background = '#fef2f2';
+        document.getElementById('dom-00').style.border = '4px dashed #ef4444';
+        domExplain.innerHTML = '<p><strong>내쉬 균형: (배신, 배신) = (-5, -5)</strong> (초록 테두리)</p>' +
+          '<p>아무도 일방적으로 전략을 바꿀 이유가 없는 상태입니다.</p>' +
+          '<p style="margin-top: 8px;"><strong>파레토 최적: (협력, 협력) = (-1, -1)</strong> (빨간 점선)</p>' +
+          '<p>모두에게 더 좋은 결과가 존재하지만, 각자의 합리성이 이를 방해합니다.</p>' +
+          '<p style="margin-top: 8px; font-weight: bold; color: #e11d48;">이것이 딜레마입니다!</p>';
+      }
+    });
+  });
+
+  document.getElementById('dom-answer-btn').addEventListener('click', function() {
+    document.getElementById('dom-answer').style.display = 'block';
+  });
+
+  /* ===== INTERACTIVE 3: 공공재 게임 ===== */
+  var pgPlayers = [
+    { name: '나 (플레이어 1)', contribute: null },
+    { name: '플레이어 2', contribute: true },
+    { name: '플레이어 3', contribute: true },
+    { name: '플레이어 4', contribute: false },
+    { name: '플레이어 5', contribute: false }
+  ];
+
+  var pgContainer = document.getElementById('public-good-players');
+  for (var pi = 1; pi < 5; pi++) {
+    var pDiv = document.createElement('div');
+    pDiv.style.cssText = 'padding: 10px; background: #f9fafb; border-radius: 8px; border: 2px solid #e5e7eb;';
+    pDiv.innerHTML = '<p style="font-weight: bold; font-size: 0.9em;">' + pgPlayers[pi].name + '</p>' +
+      '<select class="pg-player-select" data-idx="' + pi + '" style="margin-top: 4px; padding: 4px 8px; border-radius: 4px; border: 1px solid #ccc;">' +
+      '<option value="1"' + (pgPlayers[pi].contribute ? ' selected' : '') + '>기여</option>' +
+      '<option value="0"' + (!pgPlayers[pi].contribute ? ' selected' : '') + '>무임승차</option>' +
+      '</select>';
+    pgContainer.appendChild(pDiv);
+  }
+
+  document.querySelectorAll('.pg-player-select').forEach(function(sel) {
+    sel.addEventListener('change', function() {
+      var idx = parseInt(sel.getAttribute('data-idx'));
+      pgPlayers[idx].contribute = sel.value === '1';
+    });
+  });
+
+  var pgChart = new Chart(document.getElementById('pgChart'), {
+    type: 'bar',
+    data: {
+      labels: pgPlayers.map(function(p) { return p.name; }),
+      datasets: [
+        { label: '최종 보수 (원)', data: [0, 0, 0, 0, 0], backgroundColor: ['rgba(239,68,68,0.6)', 'rgba(59,130,246,0.6)', 'rgba(59,130,246,0.6)', 'rgba(59,130,246,0.6)', 'rgba(59,130,246,0.6)'], borderRadius: 6 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '보수 (원)' }, min: 0 } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  function calcPublicGood(myContribute) {
+    pgPlayers[0].contribute = myContribute;
+    var contributors = 0;
+    for (var i = 0; i < 5; i++) {
+      if (pgPlayers[i].contribute) contributors++;
+    }
+    var publicFund = contributors * 10000 * 2;
+    var perPerson = publicFund / 5;
+
+    var results = [];
+    var colors = [];
+    for (var i = 0; i < 5; i++) {
+      if (pgPlayers[i].contribute) {
+        results.push(perPerson);
+        colors.push(i === 0 ? 'rgba(5,150,105,0.6)' : 'rgba(59,130,246,0.6)');
+      } else {
+        results.push(10000 + perPerson);
+        colors.push(i === 0 ? 'rgba(239,68,68,0.6)' : 'rgba(251,191,36,0.6)');
+      }
+    }
+
+    pgChart.data.datasets[0].data = results;
+    pgChart.data.datasets[0].backgroundColor = colors;
+    pgChart.update();
+
+    var resultDiv = document.getElementById('pg-result');
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<h3>결과</h3>' +
+      '<p>기여자 수: <strong>' + contributors + '명</strong></p>' +
+      '<p>공공 자금: ' + contributors + ' x 10,000 x 2 = <strong>' + (publicFund).toLocaleString() + '원</strong></p>' +
+      '<p>1인당 배분: <strong>' + perPerson.toLocaleString() + '원</strong></p>' +
+      '<p style="margin-top: 8px;">나의 최종 보수: <strong style="font-size: 1.2em; color: ' + (myContribute ? '#059669' : '#ef4444') + ';">' + results[0].toLocaleString() + '원</strong>' +
+      (myContribute ? ' (기여)' : ' (무임승차: 10,000 + ' + perPerson.toLocaleString() + ')') + '</p>' +
+      '<p style="margin-top: 8px; color: #6b7280;">무임승차자는 기여자보다 항상 10,000원을 더 가져갑니다.</p>';
+  }
+
+  document.getElementById('pg-contribute').addEventListener('click', function() { calcPublicGood(true); });
+  document.getElementById('pg-freeride').addEventListener('click', function() { calcPublicGood(false); });
+
+  /* ===== INTERACTIVE 4: 현실 사례 ===== */
+  var realCases = {
+    arms: {
+      title: '군비 경쟁 (냉전: 미국 vs 소련)',
+      matrix: { labels: ['군축', '군비 증강'], a: [[3, 0], [5, 1]], b: [[3, 5], [0, 1]] },
+      story: '냉전 시기 미국과 소련은 핵무기 경쟁에 빠졌습니다. 서로 군축하면 안보를 유지하면서 돈을 아낄 수 있었지만(3,3), 상대만 군축하면 군사적 우위를 점할 수 있었습니다(5,0). 결국 둘 다 군비를 증강하여 엄청난 비용을 부담했습니다(1,1).',
+      chartData: { labels: ['1950', '1960', '1970', '1980', '1990'], us: [300, 500, 400, 550, 450], ussr: [200, 400, 500, 600, 350] }
+    },
+    price: {
+      title: '가격 전쟁 (코카콜라 vs 펩시)',
+      matrix: { labels: ['고가 유지', '가격 인하'], a: [[10, 2], [12, 5]], b: [[10, 12], [2, 5]] },
+      story: '두 음료 회사가 가격을 높게 유지하면 둘 다 높은 이윤(10,10). 하지만 상대가 고가를 유지할 때 나만 인하하면 시장 점유율을 빼앗을 수 있습니다(12). 결국 둘 다 가격을 인하하여 이윤이 줄어듭니다(5,5).',
+      chartData: { labels: ['높은 가격', '가격 전쟁', '회복기', '재가격전쟁', '안정기'], us: [100, 60, 80, 55, 70], ussr: [95, 55, 75, 50, 65] }
+    },
+    climate: {
+      title: '기후변화 (선진국 vs 개도국)',
+      matrix: { labels: ['탄소 감축', '현상 유지'], a: [[8, 1], [10, 3]], b: [[8, 10], [1, 3]] },
+      story: '모든 나라가 탄소를 감축하면 기후변화를 막을 수 있습니다(8,8). 하지만 내 나라만 감축하면 경제적 불이익(1), 상대만 감축하면 공짜로 혜택(10). 결국 아무도 적극적으로 감축하지 않습니다(3,3).',
+      chartData: { labels: ['1990', '2000', '2010', '2020', '2030(예상)'], us: [20, 24, 22, 18, 15], ussr: [8, 12, 20, 28, 32] }
+    }
+  };
+
+  var realChart = new Chart(document.getElementById('realChart'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '', data: [], borderColor: '#ef4444', tension: 0.3, fill: false },
+        { label: '', data: [], borderColor: '#3b82f6', tension: 0.3, fill: false }
+      ]
+    },
+    options: { responsive: true, scales: { y: { title: { display: true, text: '' } } } }
+  });
+
+  function showRealCase() {
+    var key = document.getElementById('real-case').value;
+    var cs = realCases[key];
+    var container = document.getElementById('real-case-content');
+
+    var html = '<h3 style="margin-bottom: 12px;">' + cs.title + '</h3>';
+    html += '<table style="border-collapse: collapse; width: 100%; max-width: 450px; margin: 0 auto 16px; text-align: center;">';
+    html += '<tr><th style="padding: 8px; border: 2px solid #e5e7eb;"></th>';
+    html += '<th style="padding: 8px; border: 2px solid #e5e7eb; background: #dbeafe;">B: ' + cs.matrix.labels[0] + '</th>';
+    html += '<th style="padding: 8px; border: 2px solid #e5e7eb; background: #dbeafe;">B: ' + cs.matrix.labels[1] + '</th></tr>';
+    for (var i = 0; i < 2; i++) {
+      html += '<tr><td style="padding: 8px; border: 2px solid #e5e7eb; background: #fce7f3; font-weight: bold;">A: ' + cs.matrix.labels[i] + '</td>';
+      for (var j = 0; j < 2; j++) {
+        var bg = (i === 0 && j === 0) ? '#f0fdf4' : (i === 1 && j === 1) ? '#fefce8' : '#fff';
+        html += '<td style="padding: 8px; border: 2px solid #e5e7eb; background: ' + bg + ';">(' + cs.matrix.a[i][j] + ', ' + cs.matrix.b[i][j] + ')</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</table>';
+    html += '<p style="line-height: 1.8;">' + cs.story + '</p>';
+    container.innerHTML = html;
+
+    var labelsMap = { arms: ['미국 군사비', '소련 군사비', '군사비 (10억 달러)'], price: ['코카콜라 매출', '펩시 매출', '매출 지수'], climate: ['선진국 CO2', '개도국 CO2', 'CO2 (억 톤)'] };
+    realChart.data.labels = cs.chartData.labels;
+    realChart.data.datasets[0].label = labelsMap[key][0];
+    realChart.data.datasets[0].data = cs.chartData.us;
+    realChart.data.datasets[1].label = labelsMap[key][1];
+    realChart.data.datasets[1].data = cs.chartData.ussr;
+    realChart.options.scales.y.title.text = labelsMap[key][2];
+    realChart.update();
+  }
+
+  document.getElementById('real-case').addEventListener('change', showRealCase);
+  showRealCase();
+
+  document.getElementById('real-answer-btn').addEventListener('click', function() {
+    document.getElementById('real-answer').style.display = 'block';
+  });
+
+  /* ===== INTERACTIVE 5: 협력 조건 ===== */
+  var coopChart = new Chart(document.getElementById('coopChart'), {
+    type: 'bar',
+    data: {
+      labels: ['반복', '평판', '처벌', '소통', '소규모'],
+      datasets: [
+        { label: '협력 기여도 (%)', data: [0, 0, 0, 0, 0], backgroundColor: ['#059669', '#3b82f6', '#ef4444', '#f59e0b', '#8b5cf6'], borderRadius: 6 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { title: { display: true, text: '협력 기여도 (%)' }, min: 0, max: 35 } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  document.getElementById('coop-simulate').addEventListener('click', function() {
+    var checks = {
+      repeat: document.getElementById('coop-repeat').checked,
+      reputation: document.getElementById('coop-reputation').checked,
+      punishment: document.getElementById('coop-punishment').checked,
+      communication: document.getElementById('coop-communication').checked,
+      smallGroup: document.getElementById('coop-small-group').checked
+    };
+
+    var effects = [
+      checks.repeat ? 30 : 0,
+      checks.reputation ? 20 : 0,
+      checks.punishment ? 25 : 0,
+      checks.communication ? 10 : 0,
+      checks.smallGroup ? 15 : 0
+    ];
+
+    var base = 5;
+    var total = base;
+    var count = 0;
+    effects.forEach(function(e) {
+      if (e > 0) {
+        total += e * (1 - (total - base) * 0.005);
+        count++;
+      }
+    });
+    total = Math.min(total, 95);
+
+    document.getElementById('coop-prob').textContent = total.toFixed(0) + '%';
+    document.getElementById('coop-count').textContent = count + '개';
+
+    coopChart.data.datasets[0].data = effects;
+    coopChart.update();
+  });
+
+  document.getElementById('coop-answer-btn').addEventListener('click', function() {
+    document.getElementById('coop-answer').style.display = 'block';
+  });
+
+});
+</script>

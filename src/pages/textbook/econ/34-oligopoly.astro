@@ -1,0 +1,724 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="과점과 전략적 경쟁"
+  subtitle="소수의 기업이 서로를 의식하며 경쟁한다"
+  chapterNum={34}
+  part={6}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>삼성이 내리면 LG도 내린다</h2>
+    <p>
+      삼성전자가 갤럭시 가격을 내리면 LG(과거), 애플도 대응합니다.
+      쿠팡이 무료배송을 시작하면 네이버 쇼핑도 따라 합니다.
+      SKT가 데이터 무제한 요금제를 출시하면 KT와 LGU+도 곧 비슷한 요금제를 내놓습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      이것이 <strong>과점(oligopoly)</strong>입니다.
+      소수의 기업이 시장을 지배하면서 서로의 행동에 <strong>전략적으로 반응</strong>합니다.
+      완전경쟁처럼 가격을 받아들이지도 않고, 독점처럼 혼자 결정하지도 못합니다.
+      "상대가 어떻게 할까?"를 항상 생각해야 하는 시장입니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>쿠르노 모형: 2기업의 생산량 경쟁과 내쉬 균형</li>
+        <li>베르트랑 모형: 가격 경쟁의 역설적 결과</li>
+        <li>카르텔과 담합: 왜 협력이 깨지는가</li>
+        <li>슈타켈버그 모형: 선도자의 이점</li>
+        <li>한국 과점 시장의 실제 사례 분석</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>과점의 특징</h2>
+
+    <ExplainBox title="과점이란?">
+      <p><strong>과점(Oligopoly):</strong> 소수의 기업(보통 2~10개)이 시장의 대부분을 차지하는 구조.</p>
+      <p style="margin-top: 8px;"><strong>핵심 특징: 상호 의존성(interdependence)</strong></p>
+      <p>각 기업의 이윤은 자신의 행동뿐만 아니라 경쟁사의 행동에도 달려 있습니다.
+        그래서 과점 분석에는 <strong>게임이론</strong>이 필수적입니다.</p>
+    </ExplainBox>
+
+    <BusinessBox title="한국의 대표적 과점 시장">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>이동통신:</strong> SKT(44%) / KT(30%) / LGU+(26%) — 3사 과점</li>
+        <li><strong>자동차:</strong> 현대(38%) / 기아(32%) — 사실상 복점</li>
+        <li><strong>배달앱:</strong> 배달의민족(62%) / 쿠팡이츠(23%) / 요기요(15%)</li>
+        <li><strong>항공:</strong> 대한항공 / 아시아나 + LCC 다수</li>
+      </ul>
+    </BusinessBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 쿠르노 모형 ===== -->
+  <div class="tb-card">
+    <h2>1. 쿠르노 모형 시뮬레이터</h2>
+    <p>
+      <strong>쿠르노(Cournot) 모형</strong>에서 2기업은 동시에 <strong>생산량</strong>을 결정합니다.
+      각 기업은 상대방의 생산량을 예측하고 자신의 최적 생산량을 정합니다.
+      이것이 <strong>반응함수(reaction function)</strong>입니다.
+      두 반응함수가 만나는 점이 <strong>쿠르노 균형(내쉬 균형)</strong>입니다.
+    </p>
+
+    <FormulaBox title="쿠르노 모형의 수학">
+      <p>시장 수요: P = a - b(Q<sub>1</sub> + Q<sub>2</sub>)</p>
+      <p>기업 1의 이윤: (P - c) x Q<sub>1</sub> = (a - b(Q<sub>1</sub> + Q<sub>2</sub>) - c) x Q<sub>1</sub></p>
+      <p>기업 1의 반응함수: Q<sub>1</sub> = (a - c) / (2b) - Q<sub>2</sub> / 2</p>
+      <p style="margin-top: 8px;">쿠르노 균형: Q<sub>1</sub>* = Q<sub>2</sub>* = (a - c) / (3b)</p>
+    </FormulaBox>
+
+    <SimControls>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+        <label>수요 절편 (a): <strong id="cournot-a-val">120</strong>
+          <input type="range" id="cournot-a" min="60" max="200" value="120" style="width: 100%;" />
+        </label>
+        <label>기울기 (b): <strong id="cournot-b-val">1</strong>
+          <input type="range" id="cournot-b" min="0.5" max="2" value="1" step="0.1" style="width: 100%;" />
+        </label>
+        <label>한계비용 (c): <strong id="cournot-c-val">30</strong>
+          <input type="range" id="cournot-c" min="5" max="60" value="30" style="width: 100%;" />
+        </label>
+      </div>
+    </SimControls>
+
+    <canvas id="cournotCanvas" width="600" height="500" style="width: 100%; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; margin-top: 12px;"></canvas>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="기업1 생산량" value="-" id="cournot-q1" borderColor="#3b82f6" />
+      <StatBox label="기업2 생산량" value="-" id="cournot-q2" borderColor="#ef4444" />
+      <StatBox label="시장 가격" value="-" id="cournot-p" borderColor="#059669" />
+      <StatBox label="각 기업 이윤" value="-" id="cournot-profit" borderColor="#6366f1" />
+    </div>
+
+    <ExerciseBox title="쿠르노 균형 분석">
+      <p>파라미터를 변경하면서 관찰하세요.</p>
+      <p>1) 한계비용(c)이 높아지면 각 기업의 생산량은?</p>
+      <p>2) 두 기업이 담합하면(카르텔) 생산량과 가격은 어떻게 될까요?</p>
+      <button class="tb-btn" id="cournot-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="cournot-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 한계비용이 높아지면 반응함수가 안쪽으로 이동하여 두 기업 모두 생산량을 줄입니다.</p>
+        <p><strong>2)</strong> 카르텔에서 총 생산량 = (a-c)/(2b), 각 기업 = (a-c)/(4b). 쿠르노 균형보다 적게 생산하고, 더 높은 가격을 받아 이윤이 늘어납니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 베르트랑 경쟁 ===== -->
+  <div class="tb-card">
+    <h2>2. 베르트랑 가격 경쟁</h2>
+    <p>
+      <strong>베르트랑(Bertrand) 모형</strong>에서 2기업은 동시에 <strong>가격</strong>을 결정합니다.
+      더 낮은 가격을 제시한 기업이 전체 시장을 차지합니다.
+      놀라운 결과가 나옵니다: 기업이 단 2개뿐인데도 가격이 한계비용까지 떨어집니다!
+    </p>
+
+    <WarningBox title="베르트랑 역설">
+      <p>2개 기업만 있어도 완전경쟁과 같은 결과(P=MC)가 나옵니다.
+        이를 <strong>베르트랑 역설</strong>이라 합니다. 현실에서는 상품 차별화, 용량 제약 등
+        때문에 이런 극단적 결과가 나타나지 않습니다.</p>
+    </WarningBox>
+
+    <SimControls>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <label>기업 A 가격: <strong id="bert-pa-val">50</strong>
+          <input type="range" id="bert-pa" min="20" max="100" value="50" style="width: 100%;" />
+        </label>
+        <label>기업 B 가격: <strong id="bert-pb-val">50</strong>
+          <input type="range" id="bert-pb" min="20" max="100" value="50" style="width: 100%;" />
+        </label>
+      </div>
+      <p style="margin-top: 8px; font-size: 0.9em; color: #6b7280;">한계비용(MC) = 30, 시장 총수요 = 100단위</p>
+    </SimControls>
+
+    <ChartContainer id="bertChart" height="350px" />
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="기업A 이윤" value="-" id="bert-profitA" borderColor="#3b82f6" />
+      <StatBox label="기업B 이윤" value="-" id="bert-profitB" borderColor="#ef4444" />
+      <StatBox label="내쉬 균형?" value="-" id="bert-nash" borderColor="#059669" />
+    </div>
+
+    <ExerciseBox title="베르트랑 실험">
+      <p>두 기업의 가격을 조정하면서 관찰하세요.</p>
+      <p>1) 기업 A가 가격을 50으로, 기업 B가 49로 하면 어떻게 되나요?</p>
+      <p>2) 두 기업 모두 가격을 30(=MC)으로 하면 이것이 내쉬 균형인 이유는?</p>
+      <button class="tb-btn" id="bert-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="bert-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 기업 B가 전체 시장을 차지합니다. 기업 A의 판매량은 0. 이것이 가격 인하 유인입니다.</p>
+        <p><strong>2)</strong> P=MC=30에서 어느 기업도 일방적으로 가격을 바꿔 이득을 볼 수 없습니다. 올리면 판매량 0, 내리면 손실. 이것이 내쉬 균형의 정의입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 카르텔과 담합 ===== -->
+  <div class="tb-card">
+    <h2>3. 카르텔과 담합</h2>
+    <p>
+      과점 기업들이 <strong>담합(collusion)</strong>하면 독점처럼 행동하여 이윤을 높일 수 있습니다.
+      하지만 카르텔에는 치명적 약점이 있습니다:
+      <strong>각 기업에게 몰래 약속을 깨고 더 많이 생산할 유인</strong>이 있습니다.
+    </p>
+
+    <ExplainBox title="카르텔의 딜레마">
+      <p><strong>카르텔:</strong> 기업들이 생산량이나 가격을 합의하는 공식/비공식 협정.</p>
+      <p style="margin-top: 8px;">문제: 모든 기업이 합의를 지키면 독점 이윤을 나눌 수 있지만,
+        한 기업이 몰래 이탈하면 단기적으로 더 큰 이득을 얻습니다.
+        하지만 모두 이탈하면 경쟁 상태로 돌아가 이윤이 줄어듭니다.</p>
+    </ExplainBox>
+
+    <SimControls>
+      <p style="font-weight: bold;">당신은 기업 A입니다. 기업 B와 "각각 30개만 생산" 약속을 했습니다.</p>
+      <div style="display: flex; gap: 12px; margin-top: 8px;">
+        <button class="tb-btn" id="cartel-coop">약속 지키기 (30개 생산)</button>
+        <button class="tb-btn" id="cartel-defect">약속 깨기 (45개 생산)</button>
+      </div>
+      <p style="margin-top: 8px; font-size: 0.9em; color: #6b7280;">시장수요: P = 120 - Q, MC = 30</p>
+    </SimControls>
+
+    <div id="cartel-result" style="display: none; margin-top: 16px; padding: 16px; border-radius: 12px;">
+    </div>
+
+    <ChartContainer id="cartelChart" height="350px" />
+
+    <div id="cartel-history" style="margin-top: 12px;">
+    </div>
+
+    <ExerciseBox title="담합의 불안정성">
+      <p>여러 라운드를 반복 플레이하면서 관찰하세요.</p>
+      <p>1) 두 기업 모두 약속을 지키면 이윤은 얼마인가요?</p>
+      <p>2) 한 기업만 약속을 깨면 어떻게 되나요?</p>
+      <p>3) 이것이 죄수의 딜레마와 비슷한 이유는?</p>
+      <button class="tb-btn" id="cartel-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="cartel-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 둘 다 30개: 가격=60, 각 이윤=(60-30)x30=900</p>
+        <p><strong>2)</strong> 이탈자 45개, 협력자 30개: 가격=45, 이탈자 이윤=(45-30)x45=675, 협력자 이윤=(45-30)x30=450. 이탈해도 가격 하락 때문에 생각만큼 이득이 크지 않습니다.</p>
+        <p><strong>3)</strong> 각 기업에게 이탈이 개별적으로 유리하지만, 둘 다 이탈하면 둘 다 손해입니다. 전형적인 죄수의 딜레마 구조입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 슈타켈버그 선도자 ===== -->
+  <div class="tb-card">
+    <h2>4. 슈타켈버그 선도자 모형</h2>
+    <p>
+      <strong>슈타켈버그(Stackelberg) 모형</strong>에서는 한 기업(선도자)이
+      <strong>먼저</strong> 생산량을 결정하고, 다른 기업(추종자)이 그것을 관찰한 후 결정합니다.
+      선도자는 추종자의 반응을 예측하여 자신에게 유리한 생산량을 선택합니다.
+    </p>
+
+    <SimControls>
+      <label style="font-weight: bold;">모형 비교:
+        <select id="stack-mode" style="margin-left: 8px; padding: 6px 12px; border-radius: 6px; border: 1px solid #d1d5db;">
+          <option value="cournot">쿠르노 (동시 결정)</option>
+          <option value="stackelberg">슈타켈버그 (순차 결정)</option>
+          <option value="both">둘 다 비교</option>
+        </select>
+      </label>
+    </SimControls>
+
+    <ChartContainer id="stackChart" height="380px" />
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+      <div style="padding: 16px; background: #eff6ff; border-radius: 12px; border: 2px solid #3b82f6;">
+        <h4 style="margin: 0 0 8px; color: #3b82f6;">쿠르노 균형</h4>
+        <p>기업1: <strong id="stack-cq1">-</strong> | 기업2: <strong id="stack-cq2">-</strong></p>
+        <p>가격: <strong id="stack-cp">-</strong> | 각 이윤: <strong id="stack-cprofit">-</strong></p>
+      </div>
+      <div style="padding: 16px; background: #fef3c7; border-radius: 12px; border: 2px solid #f59e0b;">
+        <h4 style="margin: 0 0 8px; color: #f59e0b;">슈타켈버그 균형</h4>
+        <p>선도자: <strong id="stack-sq1">-</strong> | 추종자: <strong id="stack-sq2">-</strong></p>
+        <p>가격: <strong id="stack-sp">-</strong> | 선도자 이윤: <strong id="stack-sprofit">-</strong></p>
+      </div>
+    </div>
+
+    <ExerciseBox title="선도자 이점">
+      <p>"둘 다 비교" 모드에서 관찰하세요.</p>
+      <p>1) 슈타켈버그 선도자는 쿠르노보다 얼마나 더 많이 생산하나요?</p>
+      <p>2) 추종자의 이윤은 쿠르노보다 높은가요, 낮은가요?</p>
+      <button class="tb-btn" id="stack-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="stack-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 선도자는 (a-c)/(2b)를 생산하고, 쿠르노에서는 (a-c)/(3b)를 생산합니다. 선도자가 1.5배 더 많이 생산합니다.</p>
+        <p><strong>2)</strong> 추종자 이윤은 쿠르노보다 낮습니다. 선도자가 이미 많이 생산했으므로 추종자는 적게 생산할 수밖에 없습니다. "먼저 결정하는 것"이 유리합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: 한국 과점 사례 ===== -->
+  <div class="tb-card">
+    <h2>5. 한국 과점 시장 사례 분석</h2>
+    <p>
+      한국의 대표적인 과점 시장 3개를 비교합니다.
+      각 산업의 시장점유율, 경쟁 전략, 진입 장벽을 분석하세요.
+    </p>
+
+    <SimControls>
+      <label style="font-weight: bold;">산업 선택:
+        <select id="kr-select" style="margin-left: 8px; padding: 6px 12px; border-radius: 6px; border: 1px solid #d1d5db;">
+          <option value="0">이동통신 (SKT / KT / LGU+)</option>
+          <option value="1">자동차 (현대기아 vs 수입차)</option>
+          <option value="2">배달앱 (배민 / 쿠팡이츠 / 요기요)</option>
+        </select>
+      </label>
+    </SimControls>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+      <ChartContainer id="krPieChart" height="300px" />
+      <ChartContainer id="krBarChart" height="300px" />
+    </div>
+
+    <div id="kr-analysis" style="margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 12px; border: 1px solid #e5e7eb;">
+    </div>
+
+    <ExerciseBox title="과점 전략 분석">
+      <p>세 산업을 모두 살펴보고 답하세요.</p>
+      <p>1) 가격 경쟁이 가장 치열한 산업은?</p>
+      <p>2) 차별화 전략이 가장 뚜렷한 산업은?</p>
+      <p>3) 새 기업이 진입하기 가장 어려운 산업은? 그 이유는?</p>
+      <button class="tb-btn" id="kr-quiz-btn" style="margin-top: 8px;">생각 정리</button>
+      <div id="kr-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 배달앱. 쿠팡이츠가 무료배송과 할인으로 점유율을 급속히 확대 중입니다.</p>
+        <p><strong>2)</strong> 자동차. 현대의 프리미엄(제네시스), 기아의 디자인, 수입차의 브랜드 등 뚜렷한 차별화가 있습니다.</p>
+        <p><strong>3)</strong> 이동통신. 전국 기지국 설치, 주파수 면허 취득, 규제 등 진입 장벽이 매우 높습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 결론 ===== -->
+  <ConclusionBox title="정리: 과점과 전략적 경쟁">
+    <p>
+      과점 시장에서 기업들은 경쟁사의 반응을 고려하여 전략적으로 행동합니다.
+      쿠르노, 베르트랑, 슈타켈버그 모형은 각기 다른 경쟁 방식을 보여줍니다.
+      카르텔은 이윤을 높일 수 있지만 이탈 유인 때문에 불안정합니다.
+    </p>
+    <p style="margin-top: 12px;">
+      다음 장에서는 <strong>가격 차별</strong>을 다룹니다.
+      같은 제품인데 사람마다 다른 가격을 매기는 전략입니다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1. 쿠르노 모형 (Canvas) ========== */
+  var cA = document.getElementById('cournot-a');
+  var cB = document.getElementById('cournot-b');
+  var cC = document.getElementById('cournot-c');
+  var cCanvas = document.getElementById('cournotCanvas');
+  var cCtx = cCanvas.getContext('2d');
+
+  function drawCournot() {
+    var a = parseFloat(cA.value);
+    var b = parseFloat(cB.value);
+    var c = parseFloat(cC.value);
+
+    document.getElementById('cournot-a-val').textContent = a;
+    document.getElementById('cournot-b-val').textContent = b;
+    document.getElementById('cournot-c-val').textContent = c;
+
+    var w = cCanvas.width, h = cCanvas.height;
+    var pL = 60, pR = 30, pT = 30, pB = 50;
+    var gw = w - pL - pR, gh = h - pT - pB;
+
+    cCtx.clearRect(0, 0, w, h);
+
+    var maxQ = (a - c) / b;
+    if (maxQ <= 0) maxQ = 10;
+
+    function tX(q) { return pL + (q / maxQ) * gw; }
+    function tY(q) { return pT + (1 - q / maxQ) * gh; }
+
+    /* 축 */
+    cCtx.strokeStyle = '#374151'; cCtx.lineWidth = 1.5;
+    cCtx.beginPath(); cCtx.moveTo(pL, pT); cCtx.lineTo(pL, h - pB); cCtx.lineTo(w - pR, h - pB); cCtx.stroke();
+    cCtx.fillStyle = '#374151'; cCtx.font = '13px sans-serif'; cCtx.textAlign = 'center';
+    cCtx.fillText('기업 1 생산량 (Q1)', w / 2, h - 8);
+    cCtx.save(); cCtx.translate(16, h / 2); cCtx.rotate(-Math.PI / 2); cCtx.fillText('기업 2 생산량 (Q2)', 0, 0); cCtx.restore();
+
+    /* 반응함수 1: Q1 = (a-c)/(2b) - Q2/2 */
+    var intercept = (a - c) / (2 * b);
+
+    /* RF1: Q1 = intercept - Q2/2 => Q2축에서 (0, intercept), Q1축에서 (2*intercept, 0) */
+    cCtx.strokeStyle = '#3b82f6'; cCtx.lineWidth = 2.5;
+    cCtx.beginPath();
+    cCtx.moveTo(tX(0), tY(intercept));
+    cCtx.lineTo(tX(2 * intercept), tY(0));
+    cCtx.stroke();
+    cCtx.fillStyle = '#3b82f6'; cCtx.font = '12px sans-serif';
+    cCtx.fillText('RF1 (기업1 반응함수)', tX(2 * intercept * 0.6), tY(intercept * 0.15));
+
+    /* RF2: Q2 = intercept - Q1/2 => Q1축에서 (intercept, 0), Q2축에서 (0, 2*intercept) */
+    cCtx.strokeStyle = '#ef4444'; cCtx.lineWidth = 2.5;
+    cCtx.beginPath();
+    cCtx.moveTo(tX(intercept), tY(0));
+    cCtx.lineTo(tX(0), tY(2 * intercept));
+    cCtx.stroke();
+    cCtx.fillStyle = '#ef4444';
+    cCtx.fillText('RF2 (기업2 반응함수)', tX(intercept * 0.5), tY(2 * intercept * 0.7));
+
+    /* 쿠르노 균형점 */
+    var qStar = (a - c) / (3 * b);
+    var pStar = a - b * 2 * qStar;
+    var profit = (pStar - c) * qStar;
+
+    cCtx.fillStyle = '#6366f1';
+    cCtx.beginPath(); cCtx.arc(tX(qStar), tY(qStar), 8, 0, Math.PI * 2); cCtx.fill();
+
+    cCtx.strokeStyle = '#9ca3af'; cCtx.lineWidth = 1; cCtx.setLineDash([4, 4]);
+    cCtx.beginPath(); cCtx.moveTo(tX(qStar), tY(qStar)); cCtx.lineTo(tX(qStar), tY(0)); cCtx.stroke();
+    cCtx.beginPath(); cCtx.moveTo(tX(qStar), tY(qStar)); cCtx.lineTo(tX(0), tY(qStar)); cCtx.stroke();
+    cCtx.setLineDash([]);
+
+    cCtx.fillStyle = '#6366f1'; cCtx.font = 'bold 13px sans-serif'; cCtx.textAlign = 'left';
+    cCtx.fillText('쿠르노 균형', tX(qStar) + 12, tY(qStar) - 8);
+    cCtx.font = '11px sans-serif';
+    cCtx.fillText('Q1*=Q2*=' + qStar.toFixed(1), tX(qStar) + 12, tY(qStar) + 8);
+
+    /* 담합점 표시 */
+    var qCartel = (a - c) / (4 * b);
+    cCtx.fillStyle = '#f59e0b';
+    cCtx.beginPath(); cCtx.arc(tX(qCartel), tY(qCartel), 6, 0, Math.PI * 2); cCtx.fill();
+    cCtx.fillStyle = '#f59e0b'; cCtx.font = '11px sans-serif';
+    cCtx.fillText('카르텔', tX(qCartel) + 10, tY(qCartel) + 4);
+
+    document.getElementById('cournot-q1').textContent = qStar.toFixed(1);
+    document.getElementById('cournot-q2').textContent = qStar.toFixed(1);
+    document.getElementById('cournot-p').textContent = pStar.toFixed(1);
+    document.getElementById('cournot-profit').textContent = profit.toFixed(0);
+  }
+
+  cA.addEventListener('input', drawCournot);
+  cB.addEventListener('input', drawCournot);
+  cC.addEventListener('input', drawCournot);
+  drawCournot();
+
+  document.getElementById('cournot-quiz-btn').addEventListener('click', function() {
+    document.getElementById('cournot-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 2. 베르트랑 경쟁 ========== */
+  var bertPA = document.getElementById('bert-pa');
+  var bertPB = document.getElementById('bert-pb');
+  var bertMC = 30;
+  var totalDemand = 100;
+
+  var bertCtx = document.getElementById('bertChart').getContext('2d');
+  var bertChart = new Chart(bertCtx, {
+    type: 'bar',
+    data: {
+      labels: ['기업 A', '기업 B'],
+      datasets: [
+        { label: '판매량', data: [0, 0], backgroundColor: ['#3b82f6', '#ef4444'], yAxisID: 'y' },
+        { label: '이윤', data: [0, 0], backgroundColor: ['rgba(59,130,246,0.3)', 'rgba(239,68,68,0.3)'], yAxisID: 'y1' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { beginAtZero: true, position: 'left', title: { display: true, text: '판매량' } },
+        y1: { beginAtZero: true, position: 'right', title: { display: true, text: '이윤' }, grid: { drawOnChartArea: false } }
+      }
+    }
+  });
+
+  function updateBert() {
+    var pa = parseFloat(bertPA.value);
+    var pb = parseFloat(bertPB.value);
+    document.getElementById('bert-pa-val').textContent = pa;
+    document.getElementById('bert-pb-val').textContent = pb;
+
+    var qA, qB, profitA, profitB;
+
+    if (pa < pb) {
+      qA = totalDemand; qB = 0;
+    } else if (pb < pa) {
+      qA = 0; qB = totalDemand;
+    } else {
+      qA = totalDemand / 2; qB = totalDemand / 2;
+    }
+
+    profitA = (pa - bertMC) * qA;
+    profitB = (pb - bertMC) * qB;
+
+    if (pa < bertMC) profitA = (pa - bertMC) * qA;
+    if (pb < bertMC) profitB = (pb - bertMC) * qB;
+
+    document.getElementById('bert-profitA').textContent = profitA.toFixed(0);
+    document.getElementById('bert-profitB').textContent = profitB.toFixed(0);
+
+    var isNash = (pa === bertMC && pb === bertMC);
+    document.getElementById('bert-nash').textContent = isNash ? 'Yes! (P=MC)' : 'No';
+    document.getElementById('bert-nash').style.color = isNash ? '#059669' : '#ef4444';
+
+    bertChart.data.datasets[0].data = [qA, qB];
+    bertChart.data.datasets[1].data = [profitA, profitB];
+    bertChart.update();
+  }
+
+  bertPA.addEventListener('input', updateBert);
+  bertPB.addEventListener('input', updateBert);
+  updateBert();
+
+  document.getElementById('bert-quiz-btn').addEventListener('click', function() {
+    document.getElementById('bert-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 3. 카르텔과 담합 ========== */
+  var cartelRounds = [];
+  var cartelChartCtx = document.getElementById('cartelChart').getContext('2d');
+
+  var cartelChart = new Chart(cartelChartCtx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '기업A 이윤', data: [], borderColor: '#3b82f6', tension: 0.3, fill: false },
+        { label: '기업B 이윤', data: [], borderColor: '#ef4444', tension: 0.3, fill: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { beginAtZero: true, title: { display: true, text: '이윤' } } },
+      plugins: { legend: { display: true } }
+    }
+  });
+
+  function playCartel(aCoops) {
+    var qA = aCoops ? 30 : 45;
+    var bChoices = [true, false];
+    var bCoops = bChoices[Math.floor(Math.random() * 2)];
+    var qB = bCoops ? 30 : 45;
+
+    var totalQ = qA + qB;
+    var price = 120 - totalQ;
+    if (price < 0) price = 0;
+    var profitA = (price - 30) * qA;
+    var profitB = (price - 30) * qB;
+
+    var round = {
+      num: cartelRounds.length + 1,
+      aCoops: aCoops, bCoops: bCoops,
+      qA: qA, qB: qB, price: price,
+      profitA: profitA, profitB: profitB
+    };
+    cartelRounds.push(round);
+
+    var resultDiv = document.getElementById('cartel-result');
+    resultDiv.style.display = 'block';
+
+    var aStr = aCoops ? '협력(30개)' : '이탈(45개)';
+    var bStr = bCoops ? '협력(30개)' : '이탈(45개)';
+    var bgColor = (aCoops && bCoops) ? '#f0fdf4' : (!aCoops && !bCoops) ? '#fef2f2' : '#fefce8';
+
+    resultDiv.style.background = bgColor;
+    resultDiv.innerHTML = '<h4 style="margin: 0 0 8px;">라운드 ' + round.num + ' 결과</h4>' +
+      '<p>기업 A(당신): <strong>' + aStr + '</strong> | 기업 B: <strong>' + bStr + '</strong></p>' +
+      '<p>시장 가격: <strong>' + price + '</strong> | 총 생산량: ' + totalQ + '</p>' +
+      '<p>기업 A 이윤: <strong style="color: #3b82f6;">' + profitA + '</strong> | 기업 B 이윤: <strong style="color: #ef4444;">' + profitB + '</strong></p>';
+
+    cartelChart.data.labels.push('R' + round.num);
+    cartelChart.data.datasets[0].data.push(profitA);
+    cartelChart.data.datasets[1].data.push(profitB);
+    cartelChart.update();
+
+    /* 히스토리 테이블 */
+    var histHtml = '<table style="width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 12px;">' +
+      '<tr style="border-bottom: 2px solid #e5e7eb;"><th>라운드</th><th>기업A</th><th>기업B</th><th>가격</th><th>A이윤</th><th>B이윤</th></tr>';
+    cartelRounds.forEach(function(r) {
+      histHtml += '<tr style="border-bottom: 1px solid #f3f4f6; text-align: center;">' +
+        '<td>' + r.num + '</td><td>' + (r.aCoops ? '협력' : '이탈') + '</td><td>' + (r.bCoops ? '협력' : '이탈') + '</td>' +
+        '<td>' + r.price + '</td><td style="color: #3b82f6;">' + r.profitA + '</td><td style="color: #ef4444;">' + r.profitB + '</td></tr>';
+    });
+    histHtml += '</table>';
+    document.getElementById('cartel-history').innerHTML = histHtml;
+  }
+
+  document.getElementById('cartel-coop').addEventListener('click', function() { playCartel(true); });
+  document.getElementById('cartel-defect').addEventListener('click', function() { playCartel(false); });
+
+  document.getElementById('cartel-quiz-btn').addEventListener('click', function() {
+    document.getElementById('cartel-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 4. 슈타켈버그 선도자 ========== */
+  var stackMode = document.getElementById('stack-mode');
+  var stackCtx = document.getElementById('stackChart').getContext('2d');
+
+  var stackChart = new Chart(stackCtx, {
+    type: 'bar',
+    data: {
+      labels: ['기업1 생산량', '기업2 생산량', '시장 가격', '기업1 이윤', '기업2 이윤'],
+      datasets: [
+        { label: '쿠르노', data: [], backgroundColor: '#3b82f6' },
+        { label: '슈타켈버그', data: [], backgroundColor: '#f59e0b' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { beginAtZero: true } },
+      plugins: { legend: { display: true } }
+    }
+  });
+
+  function updateStack() {
+    var a = 120, b = 1, c = 30;
+    var mode = stackMode.value;
+
+    /* 쿠르노 */
+    var cq = (a - c) / (3 * b);
+    var cp = a - 2 * b * cq;
+    var cProfit = (cp - c) * cq;
+
+    /* 슈타켈버그 */
+    var sq1 = (a - c) / (2 * b);
+    var sq2 = (a - c) / (4 * b);
+    var sp = a - b * (sq1 + sq2);
+    var sProfit1 = (sp - c) * sq1;
+    var sProfit2 = (sp - c) * sq2;
+
+    document.getElementById('stack-cq1').textContent = cq.toFixed(1);
+    document.getElementById('stack-cq2').textContent = cq.toFixed(1);
+    document.getElementById('stack-cp').textContent = cp.toFixed(1);
+    document.getElementById('stack-cprofit').textContent = cProfit.toFixed(0);
+
+    document.getElementById('stack-sq1').textContent = sq1.toFixed(1);
+    document.getElementById('stack-sq2').textContent = sq2.toFixed(1);
+    document.getElementById('stack-sp').textContent = sp.toFixed(1);
+    document.getElementById('stack-sprofit').textContent = sProfit1.toFixed(0);
+
+    if (mode === 'cournot') {
+      stackChart.data.datasets[0].data = [cq, cq, cp, cProfit, cProfit];
+      stackChart.data.datasets[1].data = [0, 0, 0, 0, 0];
+    } else if (mode === 'stackelberg') {
+      stackChart.data.datasets[0].data = [0, 0, 0, 0, 0];
+      stackChart.data.datasets[1].data = [sq1, sq2, sp, sProfit1, sProfit2];
+    } else {
+      stackChart.data.datasets[0].data = [cq, cq, cp, cProfit, cProfit];
+      stackChart.data.datasets[1].data = [sq1, sq2, sp, sProfit1, sProfit2];
+    }
+    stackChart.update();
+  }
+
+  stackMode.addEventListener('change', updateStack);
+  updateStack();
+
+  document.getElementById('stack-quiz-btn').addEventListener('click', function() {
+    document.getElementById('stack-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 5. 한국 과점 사례 ========== */
+  var krData = [
+    {
+      name: '이동통신',
+      firms: ['SKT', 'KT', 'LG U+'],
+      shares: [44, 30, 26],
+      strategies: ['프리미엄 브랜드, AI/ICT 투자', '가성비 요금제, 인터넷 번들', '알뜰폰 연계, 5G 마케팅'],
+      barriers: ['주파수 면허', '기지국 인프라(수십조)', '정부 규제'],
+      priceLevel: [55, 48, 42],
+      satisfaction: [72, 68, 65]
+    },
+    {
+      name: '자동차',
+      firms: ['현대', '기아', '수입차', 'KG모빌리티'],
+      shares: [38, 32, 22, 8],
+      strategies: ['제네시스 프리미엄', '디자인/가성비', '브랜드 프리미엄', '가격 경쟁력'],
+      barriers: ['대규모 공장 투자', '딜러 네트워크', 'R&D 비용'],
+      priceLevel: [65, 55, 85, 40],
+      satisfaction: [75, 78, 72, 60]
+    },
+    {
+      name: '배달앱',
+      firms: ['배달의민족', '쿠팡이츠', '요기요'],
+      shares: [62, 23, 15],
+      strategies: ['브랜드 인지도, 다양한 매장', '무료배송, 로켓배달 연계', '할인 프로모션'],
+      barriers: ['네트워크 효과', '배달 인프라', '음식점 계약'],
+      priceLevel: [50, 45, 42],
+      satisfaction: [78, 75, 62]
+    }
+  ];
+
+  var krSelect = document.getElementById('kr-select');
+  var krPieCtx = document.getElementById('krPieChart').getContext('2d');
+  var krBarCtx = document.getElementById('krBarChart').getContext('2d');
+  var krColors = ['#3b82f6', '#ef4444', '#059669', '#f59e0b'];
+
+  var krPieChart = new Chart(krPieCtx, {
+    type: 'pie',
+    data: { labels: [], datasets: [{ data: [], backgroundColor: krColors }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  var krBarChart = new Chart(krBarCtx, {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [
+        { label: '가격 수준', data: [], backgroundColor: 'rgba(239,68,68,0.6)' },
+        { label: '만족도', data: [], backgroundColor: 'rgba(5,150,105,0.6)' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { beginAtZero: true, max: 100 } },
+      plugins: { legend: { display: true } }
+    }
+  });
+
+  function updateKR() {
+    var d = krData[parseInt(krSelect.value)];
+
+    krPieChart.data.labels = d.firms;
+    krPieChart.data.datasets[0].data = d.shares;
+    krPieChart.update();
+
+    krBarChart.data.labels = d.firms;
+    krBarChart.data.datasets[0].data = d.priceLevel;
+    krBarChart.data.datasets[1].data = d.satisfaction;
+    krBarChart.update();
+
+    var html = '<h3 style="margin: 0 0 12px;">' + d.name + ' 시장 분석</h3>';
+    html += '<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">';
+    html += '<tr style="border-bottom: 2px solid #e5e7eb;"><th style="text-align: left; padding: 8px;">기업</th><th>점유율</th><th>경쟁 전략</th></tr>';
+    d.firms.forEach(function(f, i) {
+      html += '<tr style="border-bottom: 1px solid #f3f4f6;"><td style="padding: 8px; font-weight: bold;">' + f + '</td>' +
+        '<td style="text-align: center;">' + d.shares[i] + '%</td>' +
+        '<td style="padding: 8px;">' + d.strategies[i] + '</td></tr>';
+    });
+    html += '</table>';
+    html += '<div style="margin-top: 12px; padding: 10px; background: #fff7ed; border-radius: 8px;">' +
+      '<strong>주요 진입 장벽:</strong> ' + d.barriers.join(', ') + '</div>';
+    document.getElementById('kr-analysis').innerHTML = html;
+  }
+
+  krSelect.addEventListener('change', updateKR);
+  updateKR();
+
+  document.getElementById('kr-quiz-btn').addEventListener('click', function() {
+    document.getElementById('kr-quiz-ans').style.display = 'block';
+  });
+
+});
+</script>

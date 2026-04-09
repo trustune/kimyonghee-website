@@ -35,6 +35,20 @@
       "titleEn": "Behavioral Economics",
       "description": "인간은 합리적이지 않다",
       "color": "#6366f1"
+    },
+    {
+      "id": 5,
+      "title": "게임이론",
+      "titleEn": "Game Theory",
+      "description": "전략적 상호작용의 과학",
+      "color": "#e11d48"
+    },
+    {
+      "id": 6,
+      "title": "산업조직론",
+      "titleEn": "Industrial Organization",
+      "description": "기업의 전략과 시장 구조",
+      "color": "#ca8a04"
     }
   ],
   "chapters": [
@@ -62,6 +76,21 @@
     { "num": 22, "slug": "22-capstone-policy", "part": 3, "title": "캡스톤: 경제정책 시뮬레이터", "subtitle": "내가 정책 결정자라면", "interactiveCount": 5, "capstone": true, "prerequisites": [15,16,19,20,21], "status": "published" },
     { "num": 23, "slug": "23-bounded-rationality", "part": 4, "title": "제한된 합리성", "subtitle": "인간은 왜 비합리적 선택을 하는가", "interactiveCount": 4, "prerequisites": [2], "status": "published" },
     { "num": 24, "slug": "24-prospect-theory", "part": 4, "title": "전망이론과 손실회피", "subtitle": "잃는 것이 얻는 것보다 두 배 아프다", "interactiveCount": 4, "prerequisites": [23], "status": "published" },
-    { "num": 25, "slug": "25-nudge", "part": 4, "title": "넛지와 정책설계", "subtitle": "선택 구조를 바꾸면 행동이 바뀐다", "interactiveCount": 4, "prerequisites": [23,24], "status": "published" }
+    { "num": 25, "slug": "25-nudge", "part": 4, "title": "넛지와 정책설계", "subtitle": "선택 구조를 바꾸면 행동이 바뀐다", "interactiveCount": 4, "prerequisites": [23,24], "status": "published" },
+
+    { "num": 26, "slug": "26-game-intro", "part": 5, "title": "게임이론 입문", "subtitle": "상대방의 선택이 나의 결과를 바꾼다", "interactiveCount": 5, "prerequisites": [2], "status": "published" },
+    { "num": 27, "slug": "27-prisoners-dilemma", "part": 5, "title": "죄수의 딜레마", "subtitle": "협력이 유리한데 왜 배신하는가", "interactiveCount": 5, "prerequisites": [26], "status": "published" },
+    { "num": 28, "slug": "28-nash-equilibrium", "part": 5, "title": "내쉬 균형", "subtitle": "아무도 전략을 바꿀 이유가 없는 상태", "interactiveCount": 4, "prerequisites": [26], "status": "published" },
+    { "num": 29, "slug": "29-sequential-games", "part": 5, "title": "순차 게임과 게임 트리", "subtitle": "먼저 움직이면 유리한가 불리한가", "interactiveCount": 4, "prerequisites": [28], "status": "published" },
+    { "num": 30, "slug": "30-repeated-games", "part": 5, "title": "반복 게임과 전략의 진화", "subtitle": "한 번이 아니라 여러 번 만나면 달라진다", "interactiveCount": 5, "prerequisites": [27], "status": "published" },
+    { "num": 31, "slug": "31-auction-mechanism", "part": 5, "title": "경매와 메커니즘 설계", "subtitle": "게임의 규칙을 설계하다", "interactiveCount": 4, "prerequisites": [28], "status": "published" },
+
+    { "num": 32, "slug": "32-market-structure", "part": 6, "title": "시장 구조의 스펙트럼", "subtitle": "완전경쟁에서 독점까지", "interactiveCount": 4, "prerequisites": [4,7], "status": "published" },
+    { "num": 33, "slug": "33-monopoly-power", "part": 6, "title": "독점과 시장 지배력", "subtitle": "가격을 정할 수 있는 힘", "interactiveCount": 5, "prerequisites": [32], "status": "published" },
+    { "num": 34, "slug": "34-oligopoly", "part": 6, "title": "과점과 전략적 경쟁", "subtitle": "삼성 vs LG, 쿠팡 vs 네이버", "interactiveCount": 5, "prerequisites": [28,32], "status": "published" },
+    { "num": 35, "slug": "35-price-discrimination", "part": 6, "title": "가격 차별", "subtitle": "같은 상품을 다른 가격에 파는 전략", "interactiveCount": 4, "prerequisites": [33], "status": "published" },
+    { "num": 36, "slug": "36-platform-economics", "part": 6, "title": "플랫폼 경제학", "subtitle": "카카오, 배민, 유튜브의 비즈니스 모델", "interactiveCount": 4, "prerequisites": [33,34], "status": "published" },
+    { "num": 37, "slug": "37-antitrust", "part": 6, "title": "경쟁정책과 규제", "subtitle": "공정거래법은 왜 필요한가", "interactiveCount": 4, "prerequisites": [33,34], "status": "published" },
+    { "num": 38, "slug": "38-capstone-industry", "part": 6, "title": "캡스톤: 산업 분석 보고서", "subtitle": "한국 산업을 분석하고 전략을 제안하다", "interactiveCount": 5, "capstone": true, "prerequisites": [32,33,34,35,36,37], "status": "published" }
   ]
 }

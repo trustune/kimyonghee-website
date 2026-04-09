@@ -1,0 +1,758 @@
+---
+import EconTextbookLayout from '../../../layouts/EconTextbookLayout.astro';
+import ExplainBox from '../../../components/textbook/ExplainBox.astro';
+import InsightBox from '../../../components/textbook/InsightBox.astro';
+import FormulaBox from '../../../components/textbook/FormulaBox.astro';
+import WarningBox from '../../../components/textbook/WarningBox.astro';
+import ExerciseBox from '../../../components/textbook/ExerciseBox.astro';
+import BusinessBox from '../../../components/textbook/BusinessBox.astro';
+import ConclusionBox from '../../../components/textbook/ConclusionBox.astro';
+import StatBox from '../../../components/textbook/StatBox.astro';
+import ChartContainer from '../../../components/textbook/ChartContainer.astro';
+import SimControls from '../../../components/textbook/SimControls.astro';
+---
+
+<EconTextbookLayout
+  title="독점과 시장 지배력"
+  subtitle="가격을 올릴 수 있지만, 올릴수록 수요가 줄어든다"
+  chapterNum={33}
+  part={6}
+>
+
+  <!-- ===== HOOK ===== -->
+  <div class="tb-card">
+    <h2>가격을 마음대로 정할 수 있다면?</h2>
+    <p>
+      만약 여러분이 시장에서 유일한 판매자라면, 가격을 얼마든지 올릴 수 있을까요?
+      이론적으로는 그렇습니다. 하지만 가격을 올리면 사는 사람이 줄어듭니다.
+      <strong>100명에게 1만원씩 파는 것</strong>과 <strong>10명에게 5만원씩 파는 것</strong>,
+      어느 쪽이 이익일까요?
+    </p>
+    <p style="margin-top: 12px;">
+      독점 기업의 핵심 문제는 바로 이것입니다.
+      가격을 높이면 판매량이 줄고, 가격을 낮추면 판매량은 늘지만 마진이 줄어듭니다.
+      <strong>이윤을 최대화하는 최적 지점</strong>은 어디일까요?
+      이것이 이 장의 핵심 질문입니다.
+    </p>
+
+    <InsightBox title="이 장의 목표">
+      <ul style="margin: 8px 0 0 16px; line-height: 1.8;">
+        <li>독점 기업의 이윤 극대화 조건(MR=MC)을 이해</li>
+        <li>독점이 경쟁 시장보다 높은 가격, 낮은 생산량을 초래함을 확인</li>
+        <li>자연독점과 가격 규제의 원리를 시뮬레이션</li>
+        <li>러너 지수로 시장 지배력을 측정</li>
+        <li>X-비효율성의 개념과 실제 사례를 분석</li>
+      </ul>
+    </InsightBox>
+  </div>
+
+  <!-- ===== 기본 개념 ===== -->
+  <div class="tb-card">
+    <h2>독점의 기초</h2>
+
+    <ExplainBox title="독점이란?">
+      <p><strong>독점(Monopoly):</strong> 시장에 판매자가 하나뿐인 상태.</p>
+      <p style="margin-top: 8px;"><strong>핵심 특징:</strong></p>
+      <p>1. 대체재가 없거나 매우 적음</p>
+      <p>2. 높은 진입 장벽으로 새 기업이 들어올 수 없음</p>
+      <p>3. 기업이 <strong>가격 설정자(price maker)</strong>임 (경쟁 시장에서는 price taker)</p>
+    </ExplainBox>
+
+    <FormulaBox title="독점 기업의 핵심 곡선들">
+      <p><strong>수요곡선 (D):</strong> P = a - bQ (가격과 수량의 반비례 관계)</p>
+      <p><strong>총수입 (TR):</strong> TR = P x Q = (a - bQ) x Q = aQ - bQ<sup>2</sup></p>
+      <p><strong>한계수입 (MR):</strong> MR = a - 2bQ (수요곡선의 기울기가 2배)</p>
+      <p><strong>한계비용 (MC):</strong> 추가 1단위 생산에 드는 비용</p>
+      <p style="margin-top: 8px; font-size: 1.1em; text-align: center; color: #ef4444;">
+        <strong>이윤 극대화 조건: MR = MC</strong>
+      </p>
+    </FormulaBox>
+
+    <WarningBox title="왜 MR이 수요곡선보다 아래에 있는가?">
+      <p>독점 기업이 1단위를 더 팔려면 <strong>모든 단위의 가격을 내려야</strong> 합니다.
+        그래서 한계수입(MR)은 그 단위의 가격보다 낮습니다.</p>
+      <p style="margin-top: 8px;">예: 10개를 1만원에 팔다가 11개를 팔려면 가격을 9,500원으로 내려야 한다면,
+        11번째 단위의 MR = 9,500 - (500 x 10) = 4,500원</p>
+    </WarningBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 1: 독점 이윤 극대화 ===== -->
+  <div class="tb-card">
+    <h2>1. 독점 이윤 극대화 시뮬레이터</h2>
+    <p>
+      수요곡선과 비용 조건을 조정하면서 독점 기업의 최적 가격과 생산량을 찾아보세요.
+      Canvas 위에 수요곡선(D), 한계수입(MR), 한계비용(MC)이 그려집니다.
+    </p>
+
+    <SimControls>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <label>수요곡선 절편 (a): <strong id="mono-a-val">100</strong>
+          <input type="range" id="mono-a" min="60" max="200" value="100" style="width: 100%;" />
+        </label>
+        <label>수요곡선 기울기 (b): <strong id="mono-b-val">1</strong>
+          <input type="range" id="mono-b" min="0.5" max="3" value="1" step="0.1" style="width: 100%;" />
+        </label>
+        <label>한계비용 (MC): <strong id="mono-mc-val">20</strong>
+          <input type="range" id="mono-mc" min="5" max="80" value="20" style="width: 100%;" />
+        </label>
+      </div>
+    </SimControls>
+
+    <div style="position: relative;">
+      <canvas id="monoCanvas" width="700" height="420" style="width: 100%; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff;"></canvas>
+    </div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="최적 생산량 (Q*)" value="-" id="mono-q" borderColor="#3b82f6" />
+      <StatBox label="독점 가격 (P*)" value="-" id="mono-p" borderColor="#ef4444" />
+      <StatBox label="독점 이윤" value="-" id="mono-profit" borderColor="#059669" />
+      <StatBox label="사중손실(DWL)" value="-" id="mono-dwl" borderColor="#f59e0b" />
+    </div>
+
+    <ExerciseBox title="독점 이윤 분석">
+      <p>1) MC를 높이면 독점 가격은 어떻게 변하나요?</p>
+      <p>2) 수요곡선의 기울기(b)를 크게 하면 생산량은 어떻게 변하나요?</p>
+      <p>3) 사중손실(노란 삼각형)의 의미는 무엇인가요?</p>
+      <button class="tb-btn" id="mono-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="mono-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> MC가 높아지면 MR=MC 지점이 왼쪽으로 이동하여 생산량이 줄고 가격이 올라갑니다.</p>
+        <p><strong>2)</strong> 기울기가 크면 가격 변화에 수량 반응이 작아 생산량이 줄어듭니다.</p>
+        <p><strong>3)</strong> 사중손실은 독점 때문에 사라진 사회 전체의 후생입니다. 경쟁 시장이었으면 거래되었을 것들이 독점 가격 때문에 거래되지 못한 손실입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 2: 독점 vs 경쟁 비교 ===== -->
+  <div class="tb-card">
+    <h2>2. 독점 vs 완전경쟁 비교</h2>
+    <p>
+      같은 수요와 비용 조건에서, 경쟁 시장(P=MC)과 독점 시장(MR=MC)의 결과를 비교합니다.
+      독점이 소비자에게 얼마나 불리한지 숫자로 확인하세요.
+    </p>
+
+    <SimControls>
+      <label>한계비용 (MC): <strong id="comp-mc-val">30</strong>
+        <input type="range" id="comp-mc" min="10" max="60" value="30" style="width: 100%;" />
+      </label>
+    </SimControls>
+
+    <ChartContainer id="compChart" height="380px" />
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+      <div style="padding: 16px; background: #f0fdf4; border-radius: 12px; border: 2px solid #059669;">
+        <h4 style="margin: 0 0 8px; color: #059669;">완전경쟁</h4>
+        <p>가격: <strong id="comp-pc">-</strong></p>
+        <p>생산량: <strong id="comp-qc">-</strong></p>
+        <p>소비자잉여: <strong id="comp-csc">-</strong></p>
+      </div>
+      <div style="padding: 16px; background: #fef2f2; border-radius: 12px; border: 2px solid #ef4444;">
+        <h4 style="margin: 0 0 8px; color: #ef4444;">독점</h4>
+        <p>가격: <strong id="comp-pm">-</strong></p>
+        <p>생산량: <strong id="comp-qm">-</strong></p>
+        <p>소비자잉여: <strong id="comp-csm">-</strong></p>
+      </div>
+    </div>
+
+    <ExerciseBox title="후생 비교">
+      <p>MC를 다양하게 바꿔 보고 관찰하세요.</p>
+      <p>1) 독점 가격은 항상 경쟁 가격보다 높은가요?</p>
+      <p>2) 독점에서 소비자잉여가 줄어든 만큼 독점 이윤이 되나요? 나머지는?</p>
+      <button class="tb-btn" id="comp-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="comp-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 네, 독점 가격은 항상 P &gt; MC이므로 경쟁 가격(P=MC)보다 높습니다.</p>
+        <p><strong>2)</strong> 줄어든 소비자잉여의 일부는 독점 이윤으로 이전되고, 나머지는 사중손실(DWL)로 사라집니다. 사중손실은 아무도 얻지 못하는 순수한 사회적 손실입니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 3: 자연독점과 가격 규제 ===== -->
+  <div class="tb-card">
+    <h2>3. 자연독점과 가격 규제</h2>
+    <p>
+      어떤 산업은 규모의 경제가 매우 커서 <strong>하나의 기업이 운영하는 것이 더 효율적</strong>입니다.
+      전기, 수도, 철도, 가스 같은 산업이 대표적입니다.
+      이런 경우 정부는 독점을 허용하되, 가격을 규제합니다.
+    </p>
+
+    <ExplainBox title="자연독점이란?">
+      <p><strong>자연독점(Natural Monopoly):</strong> 평균비용(AC)이 계속 감소하여
+        한 기업이 시장 전체를 공급하는 것이 가장 저렴한 경우.</p>
+      <p style="margin-top: 8px;">전력망, 상하수도관, 철도 선로 등은 초기 투자비용(고정비용)이
+        엄청나게 크지만, 생산량이 늘수록 단위당 비용이 계속 줄어듭니다.</p>
+    </ExplainBox>
+
+    <SimControls>
+      <label style="font-weight: bold;">규제 방식:
+        <select id="reg-type" style="margin-left: 8px; padding: 6px 12px; border-radius: 6px; border: 1px solid #d1d5db;">
+          <option value="none">규제 없음 (독점 가격)</option>
+          <option value="mc">한계비용 가격규제 (P=MC)</option>
+          <option value="ac">평균비용 가격규제 (P=AC)</option>
+          <option value="cap">가격 상한 규제</option>
+        </select>
+      </label>
+      <div id="cap-control" style="display: none; margin-top: 8px;">
+        <label>가격 상한: <strong id="cap-val">50</strong>
+          <input type="range" id="cap-slider" min="10" max="80" value="50" style="width: 100%;" />
+        </label>
+      </div>
+    </SimControls>
+
+    <canvas id="regCanvas" width="700" height="400" style="width: 100%; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; margin-top: 12px;"></canvas>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="가격" value="-" id="reg-price" borderColor="#ef4444" />
+      <StatBox label="생산량" value="-" id="reg-q" borderColor="#3b82f6" />
+      <StatBox label="기업 이윤" value="-" id="reg-profit" borderColor="#059669" />
+      <StatBox label="소비자잉여" value="-" id="reg-cs" borderColor="#6366f1" />
+    </div>
+
+    <ExerciseBox title="규제 딜레마">
+      <p>세 가지 규제 방식을 비교하고 답하세요.</p>
+      <p>1) P=MC 규제에서 기업 이윤이 음수가 되는 이유는?</p>
+      <p>2) P=AC 규제가 "차선의 해결책"인 이유는?</p>
+      <button class="tb-btn" id="reg-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="reg-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 자연독점에서 MC는 AC보다 항상 낮습니다. P=MC로 규제하면 가격이 평균비용보다 낮아 손실이 발생합니다. 정부 보조금이 필요합니다.</p>
+        <p><strong>2)</strong> P=AC 규제에서는 기업이 정상 이윤(0 초과이윤)을 얻으면서도 독점 가격보다 낮은 가격을 제공합니다. P=MC만큼 효율적이지는 않지만 기업이 자립할 수 있습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 4: 러너 지수 ===== -->
+  <div class="tb-card">
+    <h2>4. 러너 지수: 시장 지배력 측정</h2>
+    <p>
+      <strong>러너 지수(Lerner Index)</strong>는 기업이 한계비용 위로 가격을 얼마나 올릴 수 있는지 측정합니다.
+      0이면 완전경쟁(가격=한계비용), 1에 가까울수록 강한 독점력입니다.
+    </p>
+
+    <FormulaBox title="러너 지수 공식">
+      <p style="text-align: center; font-size: 1.2em;">
+        L = (P - MC) / P
+      </p>
+      <p style="margin-top: 8px;">
+        L = 0: 완전경쟁 (P = MC) |
+        L = 1: 완전독점 (MC = 0) |
+        L = 1/|Ed|: 수요의 가격탄력성의 역수
+      </p>
+    </FormulaBox>
+
+    <ChartContainer id="lernerChart" height="350px" />
+
+    <div id="lerner-details" style="margin-top: 12px; padding: 16px; background: #f9fafb; border-radius: 12px;">
+    </div>
+
+    <ExerciseBox title="러너 지수 해석">
+      <p>차트를 보고 답하세요.</p>
+      <p>1) 러너 지수가 가장 높은 산업은? 그 이유는?</p>
+      <p>2) 편의점의 러너 지수가 낮은 이유는?</p>
+      <button class="tb-btn" id="lerner-quiz-btn" style="margin-top: 8px;">정답 확인</button>
+      <div id="lerner-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 의약품(특허)이 가장 높습니다. 특허로 보호되어 경쟁이 없고, 생명 관련 제품이라 수요 탄력성이 낮기 때문입니다.</p>
+        <p><strong>2)</strong> 편의점은 경쟁이 치열하고 (독점적경쟁), 옆 편의점으로 쉽게 이동할 수 있어 가격을 크게 올릴 수 없습니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== INTERACTIVE 5: X-비효율성 ===== -->
+  <div class="tb-card">
+    <h2>5. X-비효율성: 경쟁 없는 기업의 비효율</h2>
+    <p>
+      경쟁이 없으면 기업은 비용을 줄이려는 노력을 덜 합니다.
+      이를 <strong>X-비효율성(X-inefficiency)</strong>이라고 합니다.
+      독점 기업이 경쟁 기업보다 같은 제품을 더 비싸게 만드는 현상입니다.
+    </p>
+
+    <ExplainBox title="X-비효율성이란?">
+      <p>경제학자 <strong>하비 라이벤스타인</strong>이 제안한 개념입니다.</p>
+      <p style="margin-top: 8px;">경쟁 기업은 살아남기 위해 비용을 최소화합니다.
+        독점 기업은 경쟁 압력이 없어 "느슨한 경영"을 하게 됩니다.</p>
+      <p style="margin-top: 8px;">결과: 불필요한 인력, 과도한 복리후생, 혁신 지연 등</p>
+    </ExplainBox>
+
+    <SimControls>
+      <label style="font-weight: bold;">경쟁 강도:
+        <input type="range" id="xineff-slider" min="0" max="100" value="0" style="width: 200px; margin-left: 8px;" />
+        <span id="xineff-level" style="margin-left: 8px;">독점 (경쟁 없음)</span>
+      </label>
+    </SimControls>
+
+    <ChartContainer id="xineffChart" height="350px" />
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+      <StatBox label="실제 비용" value="-" id="xineff-actual" borderColor="#ef4444" />
+      <StatBox label="최소 비용" value="-" id="xineff-min" borderColor="#059669" />
+      <StatBox label="X-비효율 크기" value="-" id="xineff-gap" borderColor="#f59e0b" />
+    </div>
+
+    <BusinessBox title="한국의 사례">
+      <ul style="margin: 8px 0 0 16px; line-height: 2;">
+        <li><strong>한국전력:</strong> 독점 공기업. 민영화 논의 때마다 X-비효율 지적</li>
+        <li><strong>KT(과거):</strong> 유선전화 독점 시절 비효율적 → 민영화 후 효율 개선</li>
+        <li><strong>통신 시장:</strong> SKT/KT/LGU+ 3사 경쟁 → 요금 인하, 서비스 개선</li>
+        <li><strong>항공:</strong> 대한항공 독점 → 저가항공(LCC) 진입 → 요금 대폭 인하</li>
+      </ul>
+    </BusinessBox>
+
+    <ExerciseBox title="X-비효율성 토론">
+      <p>슬라이더를 움직여 경쟁이 비용에 미치는 영향을 관찰하세요.</p>
+      <p>1) 경쟁이 전혀 없을 때와 치열할 때 비용 차이는 얼마나 되나요?</p>
+      <p>2) 공기업 민영화가 항상 좋은 해결책인가요?</p>
+      <button class="tb-btn" id="xineff-quiz-btn" style="margin-top: 8px;">토론 포인트</button>
+      <div id="xineff-quiz-ans" style="display: none; margin-top: 8px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+        <p><strong>1)</strong> 경쟁이 없으면 실제 비용이 최소 비용보다 20~40% 높을 수 있습니다.</p>
+        <p><strong>2)</strong> 반드시 그렇지는 않습니다. 자연독점 산업(전기, 수도)에서 민영화하면 독점 가격을 매기면서 이윤만 추구할 수 있습니다. 정부 규제와 함께 효율적 운영을 유도하는 것이 중요합니다.</p>
+      </div>
+    </ExerciseBox>
+  </div>
+
+  <!-- ===== 결론 ===== -->
+  <ConclusionBox title="정리: 독점과 시장 지배력">
+    <p>
+      독점 기업은 MR=MC에서 이윤을 극대화하며, 경쟁 시장보다 높은 가격과
+      낮은 생산량을 초래합니다. 이로 인해 사중손실이 발생하여 사회 전체 후생이 줄어듭니다.
+      자연독점의 경우 정부 규제가 필요하며, 러너 지수로 시장 지배력을 측정할 수 있습니다.
+    </p>
+    <p style="margin-top: 12px;">
+      다음 장에서는 <strong>과점</strong>을 다룹니다.
+      소수의 기업이 서로의 행동을 의식하며 전략적으로 경쟁하는 시장입니다.
+    </p>
+  </ConclusionBox>
+
+</EconTextbookLayout>
+
+<script is:inline>
+function waitForChart(fn) {
+  if (typeof Chart !== 'undefined') { fn(); return; }
+  var s = document.querySelector('script[src*="chart.js"]');
+  if (s) { s.addEventListener('load', fn); return; }
+  setTimeout(function() { waitForChart(fn); }, 50);
+}
+
+waitForChart(function init() {
+
+  /* ========== 1. 독점 이윤 극대화 (Canvas) ========== */
+  var monoA = document.getElementById('mono-a');
+  var monoB = document.getElementById('mono-b');
+  var monoMC = document.getElementById('mono-mc');
+  var canvas = document.getElementById('monoCanvas');
+  var ctx = canvas.getContext('2d');
+
+  function drawMono() {
+    var a = parseFloat(monoA.value);
+    var b = parseFloat(monoB.value);
+    var mc = parseFloat(monoMC.value);
+
+    document.getElementById('mono-a-val').textContent = a;
+    document.getElementById('mono-b-val').textContent = b;
+    document.getElementById('mono-mc-val').textContent = mc;
+
+    var w = canvas.width;
+    var h = canvas.height;
+    var padL = 60, padR = 30, padT = 30, padB = 50;
+    var gw = w - padL - padR;
+    var gh = h - padT - padB;
+
+    ctx.clearRect(0, 0, w, h);
+
+    var maxQ = a / b;
+    var maxP = a;
+
+    function toX(q) { return padL + (q / maxQ) * gw; }
+    function toY(p) { return padT + (1 - p / maxP) * gh; }
+
+    /* 축 */
+    ctx.strokeStyle = '#374151';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, padT); ctx.lineTo(padL, h - padB); ctx.lineTo(w - padR, h - padB);
+    ctx.stroke();
+
+    ctx.fillStyle = '#374151';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('수량 (Q)', w / 2, h - 8);
+    ctx.save();
+    ctx.translate(16, h / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('가격 (P)', 0, 0);
+    ctx.restore();
+
+    /* 독점 최적 */
+    var qStar = (a - mc) / (2 * b);
+    var pStar = a - b * qStar;
+    var qComp = (a - mc) / b;
+    var profit = (pStar - mc) * qStar;
+    var dwl = 0.5 * (pStar - mc) * (qComp - qStar);
+
+    document.getElementById('mono-q').textContent = qStar.toFixed(1);
+    document.getElementById('mono-p').textContent = pStar.toFixed(0);
+    document.getElementById('mono-profit').textContent = profit.toFixed(0);
+    document.getElementById('mono-dwl').textContent = dwl.toFixed(0);
+
+    /* 사중손실 삼각형 */
+    ctx.fillStyle = 'rgba(251, 191, 36, 0.3)';
+    ctx.beginPath();
+    ctx.moveTo(toX(qStar), toY(pStar));
+    ctx.lineTo(toX(qComp), toY(mc));
+    ctx.lineTo(toX(qStar), toY(mc));
+    ctx.closePath();
+    ctx.fill();
+
+    /* 독점 이윤 사각형 */
+    ctx.fillStyle = 'rgba(239, 68, 68, 0.15)';
+    ctx.fillRect(toX(0), toY(pStar), toX(qStar) - toX(0), toY(mc) - toY(pStar));
+
+    /* 수요곡선 D */
+    ctx.strokeStyle = '#3b82f6';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(toX(0), toY(a));
+    ctx.lineTo(toX(maxQ), toY(0));
+    ctx.stroke();
+    ctx.fillStyle = '#3b82f6';
+    ctx.fillText('D', toX(maxQ) - 15, toY(0) - 8);
+
+    /* MR */
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(toX(0), toY(a));
+    ctx.lineTo(toX(maxQ / 2), toY(0));
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#ef4444';
+    ctx.fillText('MR', toX(maxQ / 2) - 15, toY(0) - 8);
+
+    /* MC */
+    ctx.strokeStyle = '#059669';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(toX(0), toY(mc));
+    ctx.lineTo(toX(maxQ), toY(mc));
+    ctx.stroke();
+    ctx.fillStyle = '#059669';
+    ctx.fillText('MC', toX(maxQ) - 15, toY(mc) - 8);
+
+    /* 최적 점 */
+    ctx.fillStyle = '#ef4444';
+    ctx.beginPath();
+    ctx.arc(toX(qStar), toY(pStar), 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    /* 점선: Q*, P* */
+    ctx.strokeStyle = '#9ca3af';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(toX(qStar), toY(pStar));
+    ctx.lineTo(toX(qStar), toY(0));
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(toX(qStar), toY(pStar));
+    ctx.lineTo(toX(0), toY(pStar));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#374151';
+    ctx.font = '12px sans-serif';
+    ctx.fillText('Q*=' + qStar.toFixed(1), toX(qStar), toY(0) + 18);
+    ctx.textAlign = 'right';
+    ctx.fillText('P*=' + pStar.toFixed(0), toX(0) - 4, toY(pStar) + 4);
+    ctx.textAlign = 'center';
+
+    /* 범례 */
+    ctx.font = '11px sans-serif';
+    var legX = w - padR - 120, legY = padT + 10;
+    ctx.fillStyle = 'rgba(251,191,36,0.3)'; ctx.fillRect(legX, legY, 12, 12);
+    ctx.fillStyle = '#374151'; ctx.textAlign = 'left'; ctx.fillText('사중손실', legX + 18, legY + 10);
+    ctx.fillStyle = 'rgba(239,68,68,0.15)'; ctx.fillRect(legX, legY + 18, 12, 12);
+    ctx.fillStyle = '#374151'; ctx.fillText('독점 이윤', legX + 18, legY + 28);
+  }
+
+  monoA.addEventListener('input', drawMono);
+  monoB.addEventListener('input', drawMono);
+  monoMC.addEventListener('input', drawMono);
+  drawMono();
+
+  document.getElementById('mono-quiz-btn').addEventListener('click', function() {
+    document.getElementById('mono-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 2. 독점 vs 경쟁 비교 ========== */
+  var compMC = document.getElementById('comp-mc');
+  var compCtx = document.getElementById('compChart').getContext('2d');
+
+  var compChart = new Chart(compCtx, {
+    type: 'bar',
+    data: {
+      labels: ['가격', '생산량', '소비자잉여', '사중손실'],
+      datasets: [
+        { label: '완전경쟁', data: [], backgroundColor: '#059669' },
+        { label: '독점', data: [], backgroundColor: '#ef4444' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { beginAtZero: true } },
+      plugins: { legend: { display: true } }
+    }
+  });
+
+  function updateComp() {
+    var mc = parseFloat(compMC.value);
+    document.getElementById('comp-mc-val').textContent = mc;
+
+    var a2 = 100, b2 = 1;
+    var qComp = (a2 - mc) / b2;
+    var pComp = mc;
+    var csComp = 0.5 * (a2 - mc) * qComp;
+
+    var qMono = (a2 - mc) / (2 * b2);
+    var pMono = a2 - b2 * qMono;
+    var csMono = 0.5 * (a2 - pMono) * qMono;
+    var dwlMono = 0.5 * (pMono - mc) * (qComp - qMono);
+
+    document.getElementById('comp-pc').textContent = pComp.toFixed(0);
+    document.getElementById('comp-qc').textContent = qComp.toFixed(0);
+    document.getElementById('comp-csc').textContent = csComp.toFixed(0);
+    document.getElementById('comp-pm').textContent = pMono.toFixed(0);
+    document.getElementById('comp-qm').textContent = qMono.toFixed(0);
+    document.getElementById('comp-csm').textContent = csMono.toFixed(0);
+
+    compChart.data.datasets[0].data = [pComp, qComp, csComp, 0];
+    compChart.data.datasets[1].data = [pMono, qMono, csMono, dwlMono];
+    compChart.update();
+  }
+
+  compMC.addEventListener('input', updateComp);
+  updateComp();
+
+  document.getElementById('comp-quiz-btn').addEventListener('click', function() {
+    document.getElementById('comp-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 3. 자연독점 규제 (Canvas) ========== */
+  var regType = document.getElementById('reg-type');
+  var capSlider = document.getElementById('cap-slider');
+  var capControl = document.getElementById('cap-control');
+  var regCanvas = document.getElementById('regCanvas');
+  var regCtx = regCanvas.getContext('2d');
+
+  function drawReg() {
+    var mode = regType.value;
+    capControl.style.display = mode === 'cap' ? 'block' : 'none';
+    if (mode === 'cap') document.getElementById('cap-val').textContent = capSlider.value;
+
+    var w = regCanvas.width, h = regCanvas.height;
+    var pL = 60, pR = 30, pT = 30, pB = 50;
+    var gw = w - pL - pR, gh = h - pT - pB;
+
+    regCtx.clearRect(0, 0, w, h);
+
+    var aD = 100, bD = 0.8;
+    var fc = 1200;
+    var mcVal = 15;
+    var maxQ = aD / bD;
+    var maxP = aD;
+
+    function tX(q) { return pL + (q / maxQ) * gw; }
+    function tY(p) { return pT + (1 - p / maxP) * gh; }
+
+    /* 축 */
+    regCtx.strokeStyle = '#374151'; regCtx.lineWidth = 1.5;
+    regCtx.beginPath(); regCtx.moveTo(pL, pT); regCtx.lineTo(pL, h - pB); regCtx.lineTo(w - pR, h - pB); regCtx.stroke();
+
+    /* AC 곡선 (fc/Q + mc) */
+    regCtx.strokeStyle = '#8b5cf6'; regCtx.lineWidth = 2;
+    regCtx.beginPath();
+    for (var q = 2; q <= maxQ; q += 0.5) {
+      var ac = fc / q + mcVal;
+      if (ac > maxP) continue;
+      if (q <= 2.5) regCtx.moveTo(tX(q), tY(ac));
+      else regCtx.lineTo(tX(q), tY(ac));
+    }
+    regCtx.stroke();
+    regCtx.fillStyle = '#8b5cf6'; regCtx.font = '13px sans-serif'; regCtx.textAlign = 'left';
+    regCtx.fillText('AC', tX(maxQ * 0.7), tY(fc / (maxQ * 0.7) + mcVal) - 8);
+
+    /* D */
+    regCtx.strokeStyle = '#3b82f6'; regCtx.lineWidth = 2.5;
+    regCtx.beginPath(); regCtx.moveTo(tX(0), tY(aD)); regCtx.lineTo(tX(maxQ), tY(0)); regCtx.stroke();
+    regCtx.fillStyle = '#3b82f6'; regCtx.fillText('D', tX(maxQ) - 20, tY(0) - 8);
+
+    /* MR */
+    regCtx.strokeStyle = '#ef4444'; regCtx.lineWidth = 1.5; regCtx.setLineDash([6, 4]);
+    regCtx.beginPath(); regCtx.moveTo(tX(0), tY(aD)); regCtx.lineTo(tX(maxQ / 2), tY(0)); regCtx.stroke();
+    regCtx.setLineDash([]);
+    regCtx.fillStyle = '#ef4444'; regCtx.fillText('MR', tX(maxQ / 2) - 20, tY(0) - 8);
+
+    /* MC */
+    regCtx.strokeStyle = '#059669'; regCtx.lineWidth = 2;
+    regCtx.beginPath(); regCtx.moveTo(tX(0), tY(mcVal)); regCtx.lineTo(tX(maxQ), tY(mcVal)); regCtx.stroke();
+    regCtx.fillStyle = '#059669'; regCtx.fillText('MC', tX(maxQ) - 20, tY(mcVal) - 8);
+
+    var price, qty, profit, cs;
+
+    if (mode === 'none') {
+      qty = (aD - mcVal) / (2 * bD);
+      price = aD - bD * qty;
+    } else if (mode === 'mc') {
+      price = mcVal;
+      qty = (aD - mcVal) / bD;
+    } else if (mode === 'ac') {
+      /* P = AC => a - bQ = fc/Q + mc => solve numerically */
+      var bestQ = 1;
+      for (var qq = 1; qq <= maxQ; qq += 0.1) {
+        var pp = aD - bD * qq;
+        var aac = fc / qq + mcVal;
+        if (Math.abs(pp - aac) < Math.abs(aD - bD * bestQ - fc / bestQ - mcVal)) bestQ = qq;
+      }
+      qty = bestQ;
+      price = aD - bD * qty;
+    } else {
+      var cap = parseFloat(capSlider.value);
+      price = cap;
+      qty = (aD - cap) / bD;
+    }
+
+    var acAtQ = fc / qty + mcVal;
+    profit = (price - acAtQ) * qty;
+    cs = 0.5 * (aD - price) * qty;
+
+    document.getElementById('reg-price').textContent = price.toFixed(0);
+    document.getElementById('reg-q').textContent = qty.toFixed(0);
+    document.getElementById('reg-profit').textContent = profit.toFixed(0);
+    document.getElementById('reg-cs').textContent = cs.toFixed(0);
+
+    /* 표시점 */
+    regCtx.fillStyle = '#ef4444';
+    regCtx.beginPath(); regCtx.arc(tX(qty), tY(price), 6, 0, Math.PI * 2); regCtx.fill();
+    regCtx.strokeStyle = '#9ca3af'; regCtx.lineWidth = 1; regCtx.setLineDash([4, 4]);
+    regCtx.beginPath(); regCtx.moveTo(tX(qty), tY(price)); regCtx.lineTo(tX(qty), tY(0)); regCtx.stroke();
+    regCtx.beginPath(); regCtx.moveTo(tX(qty), tY(price)); regCtx.lineTo(tX(0), tY(price)); regCtx.stroke();
+    regCtx.setLineDash([]);
+    regCtx.fillStyle = '#374151'; regCtx.font = '11px sans-serif'; regCtx.textAlign = 'center';
+    regCtx.fillText('Q=' + qty.toFixed(0), tX(qty), tY(0) + 16);
+    regCtx.textAlign = 'right';
+    regCtx.fillText('P=' + price.toFixed(0), tX(0) - 4, tY(price) + 4);
+
+    /* 라벨 */
+    regCtx.textAlign = 'center'; regCtx.fillText('수량(Q)', w / 2, h - 8);
+    regCtx.save(); regCtx.translate(14, h / 2); regCtx.rotate(-Math.PI / 2); regCtx.fillText('가격(P)', 0, 0); regCtx.restore();
+  }
+
+  regType.addEventListener('change', drawReg);
+  capSlider.addEventListener('input', drawReg);
+  drawReg();
+
+  document.getElementById('reg-quiz-btn').addEventListener('click', function() {
+    document.getElementById('reg-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 4. 러너 지수 ========== */
+  var lernerData = [
+    { name: '의약품(특허)', p: 100, mc: 10, color: '#ef4444' },
+    { name: '이동통신', p: 55, mc: 15, color: '#f59e0b' },
+    { name: '소프트웨어', p: 80, mc: 20, color: '#6366f1' },
+    { name: '자동차', p: 3000, mc: 2100, color: '#3b82f6' },
+    { name: '항공', p: 200, mc: 150, color: '#14b8a6' },
+    { name: '카페(스타벅스)', p: 5000, mc: 1500, color: '#ec4899' },
+    { name: '편의점', p: 1500, mc: 1200, color: '#059669' },
+    { name: '농산물', p: 1000, mc: 950, color: '#84cc16' }
+  ];
+
+  var lernerLabels = [];
+  var lernerValues = [];
+  var lernerColors = [];
+
+  lernerData.forEach(function(d) {
+    var l = (d.p - d.mc) / d.p;
+    lernerLabels.push(d.name);
+    lernerValues.push(parseFloat(l.toFixed(3)));
+    lernerColors.push(d.color);
+  });
+
+  var lernerCtx = document.getElementById('lernerChart').getContext('2d');
+  new Chart(lernerCtx, {
+    type: 'bar',
+    data: {
+      labels: lernerLabels,
+      datasets: [{ label: '러너 지수', data: lernerValues, backgroundColor: lernerColors }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      indexAxis: 'y',
+      scales: { x: { beginAtZero: true, max: 1, title: { display: true, text: '러너 지수 (L)' } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  var detailHtml = '<table style="width: 100%; border-collapse: collapse;">' +
+    '<tr style="border-bottom: 2px solid #e5e7eb;"><th style="text-align: left; padding: 6px;">산업</th>' +
+    '<th>가격(P)</th><th>한계비용(MC)</th><th>러너 지수</th><th>해석</th></tr>';
+  lernerData.forEach(function(d) {
+    var l = ((d.p - d.mc) / d.p).toFixed(2);
+    var interp = l >= 0.7 ? '강한 독점력' : l >= 0.4 ? '상당한 시장력' : l >= 0.2 ? '약한 시장력' : '경쟁적';
+    detailHtml += '<tr style="border-bottom: 1px solid #f3f4f6;"><td style="padding: 6px;">' + d.name + '</td>' +
+      '<td style="text-align: center;">' + d.p + '</td><td style="text-align: center;">' + d.mc + '</td>' +
+      '<td style="text-align: center; font-weight: bold;">' + l + '</td>' +
+      '<td style="text-align: center;">' + interp + '</td></tr>';
+  });
+  detailHtml += '</table>';
+  document.getElementById('lerner-details').innerHTML = detailHtml;
+
+  document.getElementById('lerner-quiz-btn').addEventListener('click', function() {
+    document.getElementById('lerner-quiz-ans').style.display = 'block';
+  });
+
+  /* ========== 5. X-비효율성 ========== */
+  var xineffSlider = document.getElementById('xineff-slider');
+  var xineffCtx = document.getElementById('xineffChart').getContext('2d');
+
+  var xineffChart = new Chart(xineffCtx, {
+    type: 'line',
+    data: {
+      labels: ['인건비', 'R&D', '물류비', '마케팅', '관리비', '기타'],
+      datasets: [
+        { label: '실제 비용', data: [], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', fill: true, tension: 0.3 },
+        { label: '최소 비용', data: [20, 15, 18, 12, 10, 8], borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', fill: true, tension: 0.3, borderDash: [5, 5] }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { beginAtZero: true, title: { display: true, text: '비용 (억원)' } } },
+      plugins: { legend: { display: true } }
+    }
+  });
+
+  var minCosts = [20, 15, 18, 12, 10, 8];
+
+  function updateXineff() {
+    var comp = parseInt(xineffSlider.value);
+    var factor = 1 + (100 - comp) / 100 * 0.4;
+    var actual = minCosts.map(function(c) { return parseFloat((c * factor).toFixed(1)); });
+    var totalActual = actual.reduce(function(s, v) { return s + v; }, 0);
+    var totalMin = minCosts.reduce(function(s, v) { return s + v; }, 0);
+
+    document.getElementById('xineff-actual').textContent = totalActual.toFixed(0) + '억';
+    document.getElementById('xineff-min').textContent = totalMin + '억';
+    document.getElementById('xineff-gap').textContent = (totalActual - totalMin).toFixed(0) + '억 (' + ((totalActual / totalMin - 1) * 100).toFixed(0) + '%)';
+
+    var label = comp < 20 ? '독점 (경쟁 없음)' : comp < 50 ? '약한 경쟁' : comp < 80 ? '보통 경쟁' : '치열한 경쟁';
+    document.getElementById('xineff-level').textContent = label;
+
+    xineffChart.data.datasets[0].data = actual;
+    xineffChart.update();
+  }
+
+  xineffSlider.addEventListener('input', updateXineff);
+  updateXineff();
+
+  document.getElementById('xineff-quiz-btn').addEventListener('click', function() {
+    document.getElementById('xineff-quiz-ans').style.display = 'block';
+  });
+
+});
+</script>
