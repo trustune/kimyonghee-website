@@ -4,254 +4,259 @@
   "subtitle": "Media Intelligence Terminal",
   "clusters": [
     {
-      "entity": "Netflix Q1 2026 실적 발표…매출 $122.5억(+16%), 리드 헤이스팅스 이사회 은퇴",
-      "headline": "Netflix Q1 2026 실적 발표…매출 $122.5억(+16%), 리드 헤이스팅스 이사회 은퇴",
-      "headline_url": "https://www.cnbc.com/2026/04/16/netflix-nflx-earnings-q1-2026.html",
-      "synthesis_title": "Netflix Q1 2026 실적 발표…매출 $122.5억(+16%), 리드 헤이스팅스 이사회 은퇴",
-      "synthesis": "넷플릭스가 4월 16일(현지) 1분기 실적을 발표하며 매출 122억 5천만 달러(전년 대비 +16.2%), 희석 EPS 1.23달러로 월가 기대를 상회했다. 지역별로는 아시아·태평양이 20% 성장으로 가장 빠른 속도였고, 남미 19%, EMEA 17%, 미·캐나다 14% 순이었다. 연간 가이던스는 기존 507억~517억 달러 범위를 유지했으며, 광고 사업은 올해 '대략 2배 성장해 약 30억 달러 규모'를 재확인했다. 유료 회원 수는 더 이상 분기별로 공개되지 않지만 2025년 연말 기준 '3억 2,500만 명 이상'이라 밝혔다. 그러나 실적 발표 직후 공동창업자 리드 헤이스팅스가 이사회를 떠난다는 소식이 나오면서 시간외 거래에서 주가는 한때 10%까지 하락했다. WBD 인수전 패배 후 28억 달러의 위약금을 확보한 넷플릭스는 프랜차이즈 IP 확보 전략을 모색 중이다.",
+      "entity": "리드 헤이스팅스, 넷플릭스 이사회 29년 만에 은퇴…6월 연차주주총회에서 효력",
+      "headline": "리드 헤이스팅스, 넷플릭스 이사회 29년 만에 은퇴…6월 연차주주총회에서 효력",
+      "headline_url": "https://variety.com/2026/tv/news/reed-hastings-exits-netflix-board-1236723878/",
+      "synthesis_title": "리드 헤이스팅스, 넷플릭스 이사회 29년 만에 은퇴…6월 연차주주총회에서 효력",
+      "synthesis": "넷플릭스 공동창업자 리드 헤이스팅스가 4월 16일(현지) Q1 2026 실적 발표와 동시에 이사회를 떠난다고 공지했다. 효력은 6월 4일 연차주주총회일이며, 헤이스팅스는 재임명을 신청하지 않고 자선사업과 Anthropic·Bloomberg 이사 활동에 집중하기로 했다. 1997년 공동창업 이후 CEO(~2023), 이그제큐티브 체어맨(~2026.6)을 거친 29년 궤적의 마무리다. 공동 CEO 테드 사란도스와 그레그 피터스는 '사심 없고 규율 있고 우아했다(selfless, disciplined and graceful)'는 공식 헌사를 냈다. 같은 날 공개된 Q1 실적은 매출 122.5억 달러(+16.2%), EPS 1.23달러로 월가 기대를 상회했고 지역별로는 아시아·태평양 +20%가 가장 빨랐으며, 2025년 말 '유료 3.25억 명 이상'을 재확인했다. 다만 이사회 은퇴 소식이 시간외 거래에서 주가를 10% 끌어내리며 '실적보다 리더십 공백'이 시장 메시지가 됐다.",
       "key_points": [
-        "매출 $122.5억(+16.2%), EPS $1.23로 전년 대비 거의 2배, 월가 기대 상회",
-        "아시아·태평양 +20%로 최고 성장, 2026년 연간 가이던스 $507~517억 유지",
-        "공동창업자 리드 헤이스팅스 이사회 은퇴 소식에 시간외 -10% 급락"
+        "Hastings, 6/4 주주총회일로 이사회 은퇴 — 29년 만에 넷플릭스 완전 이탈",
+        "Q1 매출 $122.5억(+16.2%), EPS $1.23 월가 상회 — APAC +20% 최고 성장",
+        "시간외 -10% 하락, '실적 호조'보다 '창업자 공백' 메시지 시장 지배"
       ],
-      "image": "https://variety.com/wp-content/uploads/2026/01/Netflix-Logo.jpg",
-      "article_count": 52,
+      "image": "https://variety.com/wp-content/uploads/2023/01/Reed-Hastings-Netflix.jpg",
+      "article_count": 68,
       "score": 100,
       "primary_cat": "OTT/Streaming",
       "hours_ago": 1,
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "CNBC (4/16)", "url": "https://www.cnbc.com/2026/04/16/netflix-nflx-earnings-q1-2026.html", "domain": "CNBC (4/16)", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Variety (4/16)", "url": "https://variety.com/2026/tv/news/netflix-earnings-q1-2026-1236723851/", "domain": "Variety (4/16)", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Hollywood Reporter", "url": "https://www.hollywoodreporter.com/business/business-news/netflix-q1-revenue-soars-subscriber-growth-1236566378/", "domain": "Hollywood Reporter", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Deadline (4/16)", "url": "https://deadline.com/2026/04/netflix-q1-2026-earnings-wall-street-1236863099/", "domain": "Deadline (4/16)", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "The Streamable", "url": "https://thestreamable.com/netflix-earnings-prewrite-q1-2026", "domain": "The Streamable", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {"title": "Variety (4/16)", "url": "https://variety.com/2026/tv/news/reed-hastings-exits-netflix-board-1236723878/", "domain": "Variety", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Bloomberg (4/16)", "url": "https://www.bloomberg.com/news/articles/2026-04-16/netflix-co-founder-reed-hastings-to-leave-board-in-june", "domain": "Bloomberg", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Hollywood Reporter", "url": "https://www.hollywoodreporter.com/business/business-news/reed-hastings-to-exit-netflix-board-of-directors-1236566889/", "domain": "Hollywood Reporter", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "CNN Business (4/16)", "url": "https://www.cnn.com/2026/04/16/media/netflix-cofounder-reed-hastings-steps-down", "domain": "CNN Business", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "TechCrunch", "url": "https://techcrunch.com/2026/04/16/netflix-co-founder-and-chair-reed-hastings-to-leave-board/", "domain": "TechCrunch", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Variety (공동 CEO 헌사)", "url": "https://variety.com/2026/tv/news/netflix-ceos-praise-reed-hastings-selfless-disciplined-graceful-1236724101/", "domain": "Variety", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
       ]
     },
     {
-      "entity": "파라마운트-WBD 주주투표 D-3…AMC CEO 애덤 애런 '합병 지지' 공개 발언",
-      "headline": "파라마운트-WBD 주주투표 D-3…AMC CEO 애덤 애런 '합병 지지' 공개 발언",
-      "headline_url": "https://variety.com/2026/tv/news/warner-bros-discovery-shareholder-vote-paramount-merger-date-1236700451/",
-      "synthesis_title": "파라마운트-WBD 주주투표 D-3…AMC CEO 애덤 애런 '합병 지지' 공개 발언",
-      "synthesis": "워너브라더스 디스커버리(WBD) 주주투표가 4월 23일로 임박한 가운데, 4월 16일 AMC 시어터스의 애덤 애런 CEO가 파라마운트 스카이댄스의 WBD 인수를 공개적으로 지지한다고 밝혔다. 극장 산업의 최대 체인 대표가 지지를 표명한 것은 이번 거래가 연간 극장 개봉작 30편 편성 계획 등 극장 배급 물량을 확대할 것이라는 기대 때문이다. 파라마운트 측은 합병 완료 시 Paramount+와 HBO Max를 단일 스트리밍 서비스로 통합해 글로벌 2억 구독자 플랫폼을 출범시키겠다고 3월 초 컨퍼런스콜에서 밝힌 바 있다. 규제 승인과 주주 찬성을 거쳐 2026년 3분기 거래 완료가 목표이며, 전체 심사 기간은 6~18개월로 예상된다.",
+      "entity": "파라마운트 데이비드 엘리슨 CinemaCon 깜짝 등장…'45일 극장 홀드백·연 30편 보장'",
+      "headline": "파라마운트 데이비드 엘리슨 CinemaCon 깜짝 등장…'45일 극장 홀드백·연 30편 보장'",
+      "headline_url": "https://deadline.com/2026/04/paramount-ceo-david-ellison-surprise-cinemacon-appearance-1236863093/",
+      "synthesis_title": "파라마운트 데이비드 엘리슨 CinemaCon 깜짝 등장…'45일 극장 홀드백·연 30편 보장'",
+      "synthesis": "파라마운트 스카이댄스의 데이비드 엘리슨 CEO가 4월 16일 CinemaCon 2026(4/12~16) 마지막 날 예고 없이 등장해 극장 산업에 세 가지 공약을 했다. 첫째, 오늘(4/16)부터 45일 극장 독점 홀드백을 즉시 시행. 둘째, Paramount+ 이행 전 유료 스트리밍(TVOD)까지 총 90일 창구 보장. 셋째, WBD 합병 후 양사 합쳐 연 30편 이상의 극장 개봉을 '내 약속으로(I give you my word)' 보장. 파라마운트는 이미 2026년 15편(2025년 8편의 두 배)으로 편성을 늘렸다. 엘리슨의 발언은 4월 23일 WBD 주주투표를 일주일 앞둔 전략적 타이밍이다. AMC 시어터스의 애덤 애런 CEO가 같은 주 합병 지지를 공개한 것과 맞물려, '합병 찬성 = 극장 산업 회복' 프레임이 완성됐다. 다만 합병 심사는 여전히 6~18개월이 걸리며 DOJ·규제당국 검토가 남아 있다.",
       "key_points": [
-        "4/23 WBD 주주투표, AMC CEO 애덤 애런 4/16 '합병 지지' 공개 발언",
-        "Paramount+ + HBO Max 통합 → 글로벌 구독자 2억+ 스트리밍 플랫폼 출범",
-        "규제 심사 6~18개월, 3분기 거래 완료 목표 — DOJ '정치적 속도조절 없다' 표명"
+        "4/16 엘리슨 깜짝 CinemaCon 등장, 45일 극장 홀드백 '오늘부터' 즉시 시행",
+        "WBD 합병 후 연 30편 극장 개봉 약속 — 파라마운트 이미 2026년 15편 편성(전년 2배)",
+        "4/23 WBD 주주투표 D-7, AMC CEO 지지와 결합해 '합병=극장 회복' 프레임 완성"
       ],
-      "image": "https://media-cldnry.s-nbcnews.com/image/upload/t_social_share_1024x768_scale,f_auto,q_auto:best/rockcms/2025-09/250904-paramount-studios-ew-315p-532e5d.jpg",
-      "article_count": 38,
-      "score": 99,
-      "primary_cat": "Media Business",
-      "hours_ago": 1,
-      "countries": {},
-      "domains": {},
-      "articles": [
-        {"title": "Variety (주주투표)", "url": "https://variety.com/2026/tv/news/warner-bros-discovery-shareholder-vote-paramount-merger-date-1236700451/", "domain": "Variety (주주투표)", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "NBC News (합병)", "url": "https://www.nbcnews.com/business/media/warner-bros-discovery-signs-merger-agreement-paramount-skydance-rcna261035", "domain": "NBC News", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "NPR (3/1)", "url": "https://www.npr.org/2026/03/01/nx-s1-5728340/paramount-outbids-netflix-to-acquire-warner-bros-discovery", "domain": "NPR", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Yale Insights", "url": "https://insights.som.yale.edu/insights/what-the-paramount-warner-bros-merger-means-for-streaming", "domain": "Yale Insights", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
-      ]
-    },
-    {
-      "entity": "'The Mummy' 리부트 $1.5M 프리뷰·$10M대 오프닝…슈퍼 마리오 2주 연속 1위",
-      "headline": "'The Mummy' 리부트 $1.5M 프리뷰·$10M대 오프닝…슈퍼 마리오 2주 연속 1위",
-      "headline_url": "https://www.worldofreel.com/blog/2026/4/17/box-office",
-      "synthesis_title": "'The Mummy' 리부트 $1.5M 프리뷰·$10M대 오프닝…슈퍼 마리오 2주 연속 1위",
-      "synthesis": "4월 17일 개봉한 '더 머미(The Mummy)' 리부트가 프리뷰에서 150만 달러를 기록, 오프닝 주말은 10달러대 중반이 전망된다. 한편 슈퍼 마리오 갤럭시 무비는 개봉 2주차에도 1위를 유지하며 글로벌 누적 5억 달러를 돌파했다. 5일 북미 누적 1억 9,081만 달러, 글로벌 오프닝 3억 7,250만 달러로 애니메이션 역대 5번째 규모, MPA 애니메이션 기준 역대 4번째(주토피아2·모아나2·슈퍼 마리오 브라더스 영화에 이어)를 달성했다. 2026년 북미 박스오피스는 전년 동기 대비 약 30% 증가하며 회복세를 이어가고 있다. 극장 산업이 프랜차이즈 애니메이션+호러 리부트의 이중 축으로 재편되고 있는 모양새다.",
-      "key_points": [
-        "4/17 'The Mummy' 리부트 프리뷰 $1.5M, 오프닝 주말 $10M 중반 트래킹",
-        "슈퍼 마리오 갤럭시 무비 개봉 2주차 1위 유지, 글로벌 누적 $5억 돌파",
-        "2026년 북미 박스오피스 전년 동기 대비 +30%, 회복세 지속"
-      ],
-      "image": "https://image.tmdb.org/t/p/w500/knaXOBDBecVBWZVup3zXaOoy23v.jpg",
-      "article_count": 34,
-      "score": 97,
+      "image": "https://deadline.com/wp-content/uploads/2024/10/david-ellison-paramount.jpg",
+      "article_count": 47,
+      "score": 98,
       "primary_cat": "Film/Cinema",
       "hours_ago": 1,
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "World of Reel (4/17)", "url": "https://www.worldofreel.com/blog/2026/4/17/box-office", "domain": "World of Reel", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Deadline (글로벌)", "url": "https://deadline.com/2026/04/box-office-super-mario-galaxy-movie-global-1236772345/", "domain": "Deadline", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Boxoffice Pro 4월 라인업", "url": "https://www.boxofficepro.com/the-biggest-movies-coming-to-theaters-in-april-2026/", "domain": "Boxoffice Pro", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "The Numbers", "url": "https://www.the-numbers.com/weekend-box-office-chart", "domain": "The Numbers", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {"title": "Deadline (4/16)", "url": "https://deadline.com/2026/04/paramount-ceo-david-ellison-surprise-cinemacon-appearance-1236863093/", "domain": "Deadline", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Variety (엘리슨 공약)", "url": "https://variety.com/2026/film/news/david-ellison-cinemacon-paramount-windows-streaming-1236722998/", "domain": "Variety", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "World of Reel (4/16)", "url": "https://www.worldofreel.com/blog/2026/4/16/david-ellison-promises-30-films-a-year", "domain": "World of Reel", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "LA Magazine", "url": "https://lamag.com/film/paramount-ceo-david-ellison-pledges-45-day-theatrical-window-in-surprise-cinemacon-appearance/", "domain": "LA Magazine", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Spectrum News", "url": "https://spectrumlocalnews.com/southern-california/entertainment/2026/04/16/paramount-david-ellison-big-promises-cinemacon", "domain": "Spectrum News", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
       ]
     },
     {
-      "entity": "FOCUS ON: FAST 미국 2.1억 시청자 돌파…스트리밍, 케이블·위성 누르고 최대 라이브TV 창구",
-      "headline": "FOCUS ON: FAST 미국 2.1억 시청자 돌파…스트리밍, 케이블·위성 누르고 최대 라이브TV 창구",
-      "headline_url": "https://ppc.land/ad-supported-streaming-now-reaches-210-million-u-s-viewers-vab-report-finds/",
-      "synthesis_title": "FOCUS ON: FAST 미국 2.1억 시청자 돌파…스트리밍, 케이블·위성 누르고 최대 라이브TV 창구",
-      "synthesis": "VAB(Video Advertising Bureau) 보고서에 따르면 2026년 미국에서 광고 지원 VOD 이용자는 2억 9백만 명에 달해 사실상 성인 시청 시장 전체를 포괄하는 규모로 성장했다. 무료 광고 지원 TV(FAST)는 이미 미국 가구의 약 60%에 도달했으며, 64%의 가구가 FAST 콘텐츠를 시청하고 47%는 주간 정기 시청자다. FAST가 '라이브 TV의 1위 창구'로 케이블·위성을 추월한 최초 시점이기도 하다. 닐슨 The Gauge(2025년 12월)는 스트리밍이 미국 TV 시청 시간의 47.5%를 점유했다고 보고했다. Paramount+는 저가 광고 티어 도입 이후 일부 시장에서 1년간 광고 티어 침투율이 두 배로 증가했고, Hulu는 Disney+로 통합돼 광고 지원 시청자 풀을 합칠 예정이다. 2026년 CTV 시장은 플랫폼 통합, 광고 로드 증가, 인터랙티브·쇼퍼블 포맷 확산, 리테일 미디어와의 결합이 4대 축이다.",
+      "entity": "Amazon Prime Video NBA 플레이인 데뷔 '대박'…워리어스-클리퍼스 315만, 역대 최다",
+      "headline": "Amazon Prime Video NBA 플레이인 데뷔 '대박'…워리어스-클리퍼스 315만, 역대 최다",
+      "headline_url": "https://www.sportsmediawatch.com/2026/04/nba-play-in-viewership-prime-video-increase/",
+      "synthesis_title": "Amazon Prime Video NBA 플레이인 데뷔 '대박'…워리어스-클리퍼스 315만, 역대 최다",
+      "synthesis": "Amazon Prime Video가 NBA 플레이인 토너먼트를 독점 중계한 첫 해 성과가 4월 14-16일 공개됐다. 첫 이틀 평균 269만 명으로 전년 동시간대 TNT·ESPN 대비 +12% 상승, 4월 15일 워리어스-클리퍼스 9-10위 결정전은 315만 명으로 Prime Video의 NBA 중계 역대 최다 기록을 경신했다. 특히 젊은 층 증가율이 두드러졌다 — 성인 18-34세 +32%, 18-49세 +31%, 25-54세 +26%. Prime Video가 NBA 파트너로 향후 10년간 중계하는 첫해에 '스트리밍이 젊은 스포츠 시청자를 끌어올린다'는 가설을 바로 검증한 셈이다. 플레이오프 1·2라운드의 약 3분의 1도 Prime Video에서 시청 가능해, 전통 TV 중계권을 둘러싼 스트리밍 전환이 가속된다. 같은 기간 2025-26 NBA 정규시즌은 24년 만의 최다 시청자를 기록해 스포츠-스트리밍 결합의 승수 효과가 확인됐다.",
       "key_points": [
-        "AVOD 미국 이용자 2.09억, FAST 가구 침투 60%·주간 시청 47%",
-        "닐슨 The Gauge 스트리밍 점유율 47.5%(2025년 12월), 역대 최고",
-        "Paramount+ 광고 티어 일부 시장 1년간 침투율 2배, Hulu→Disney+ 통합"
+        "플레이인 첫 이틀 평균 269만, 워리어스-클리퍼스 315만으로 Prime Video NBA 역대 최다",
+        "젊은 층 18-34세 +32%·18-49세 +31% 급증 — 스트리밍의 세대 교체 효과 입증",
+        "NBA 파트너 10년 첫해, 플레이오프 1·2R의 1/3 Prime Video 독점"
       ],
-      "image": "https://www.basis.net/hubfs/CTV-2026.jpg",
-      "article_count": 24,
-      "score": 95,
+      "image": "https://m.media-amazon.com/images/G/01/digital/video/merch/2024/sports/NBA/GENERIC/NBA-PrimeVideo-Hero.jpg",
+      "article_count": 31,
+      "score": 96,
       "primary_cat": "OTT/Streaming",
       "hours_ago": 1,
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "PPC Land (VAB 리포트)", "url": "https://ppc.land/ad-supported-streaming-now-reaches-210-million-u-s-viewers-vab-report-finds/", "domain": "PPC Land", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Apprupt FAST 통계", "url": "https://www.apprupt.com/fast-channel-viewership-statistics", "domain": "Apprupt", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Basis 2026 스트리밍 리포트", "url": "https://basis.com/blog/6-things-to-know-about-the-streaming-tv-landscape-in-2026", "domain": "Basis", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "eMarketer CTV 2026", "url": "https://www.emarketer.com/content/faq-on-ctv-advertising--trends--formats--platforms-watch-2026", "domain": "eMarketer", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {"title": "Sports Media Watch", "url": "https://www.sportsmediawatch.com/2026/04/nba-play-in-viewership-prime-video-increase/", "domain": "Sports Media Watch", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Awful Announcing", "url": "https://awfulannouncing.com/nba/amazon-prime-video-boasts-jump-play-in-game-viewership.html", "domain": "Awful Announcing", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Amazon MGM Press", "url": "https://press.amazonmgmstudios.com/us/en/press-release/prime-video-exclusively-presents-the-isofi-nba-pla", "domain": "Amazon MGM", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Barrett Media", "url": "https://barrettmedia.com/2026/04/15/prime-video-nba-viewership-2025-2025/", "domain": "Barrett Media", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "NBA.com 시청자 기록", "url": "https://www.nba.com/news/nba-regular-season-2025-26-most-viewers-24-years", "domain": "NBA.com", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
       ]
     },
     {
-      "entity": "HYBE·SM·JYP·YG 'K-팝 조인트벤처 페스티벌' 공정위 신고…코첼라 정조준",
-      "headline": "HYBE·SM·JYP·YG 'K-팝 조인트벤처 페스티벌' 공정위 신고…코첼라 정조준",
-      "headline_url": "https://www.musicbusinessworldwide.com/k-pop-giants-hybe-jyp-sm-entertainment-and-yg-entertainment-plan-joint-venture-for-music-festival-to-rival-coachella/",
-      "synthesis_title": "HYBE·SM·JYP·YG 'K-팝 조인트벤처 페스티벌' 공정위 신고…코첼라 정조준",
-      "synthesis": "K-팝 빅4(HYBE·SM·JYP·YG)가 글로벌 음악 페스티벌을 공동 설립하기 위한 기업결합 신고서를 공정거래위원회에 제출했다. 목표는 코첼라 같은 글로벌 페스티벌을 능가하는 'K-팝 표준 페스티벌' 구축이다. 이번 JV는 2025년 HYBE의 기록적 콘서트 매출 7,639억 원(+69.4% YoY)이라는 호재 속에서도, HYBE 연간 영업이익이 499억 원으로 -74% 급감하는 등 수익성 압박에 대응한 구조적 대응으로 읽힌다. SM·YG는 올해 주가가 각각 -34.81%·-25.65% 하락했다. 4대 기획사가 BTS 재결합과 블랙핑크 리사의 K팝 솔로 최초 레지던시 등 IP 호재에도 불구하고 '수익 집중' 전략을 취했다는 점에서, K-팝 산업의 전환기적 통합 움직임으로 평가된다.",
+      "entity": "2026 NAB Show 개막(4/18~22)…AI 파빌리온 2개·전시사 1,100·스트리밍 서밋 4/20~21",
+      "headline": "2026 NAB Show 개막(4/18~22)…AI 파빌리온 2개·전시사 1,100·스트리밍 서밋 4/20~21",
+      "headline_url": "https://broadcastdialogue.com/2026-nab-show-highlights-ai-sports-media-and-the-creator-economy/",
+      "synthesis_title": "2026 NAB Show 개막(4/18~22)…AI 파빌리온 2개·전시사 1,100·스트리밍 서밋 4/20~21",
+      "synthesis": "세계 최대 방송·미디어·엔터테인먼트 기술 박람회 2026 NAB Show가 4월 18일 라스베이거스에서 개막한다(전시 4/19~22, LVCC). AI 전용관이 지난해 1개에서 2개로 확대됐고, AI 전시업체 수도 전년 대비 거의 두 배로 늘었다. Gyrus AI·Imagen Video·Speechmatics·TwelveLabs·Veritone·Vizrt 등 전문 기업과 Adobe·AWS·Microsoft·NVIDIA·Google Cloud가 콘텐츠 전 주기의 AI 활용을 시연한다. 전체 규모는 전시사 1,100+, 세션 550, 스피커 630+, 11개 스테이지에 참가 기업 1.8만(전년 1.2만 대비 +50%). 4월 20-21일 이틀간 '스트리밍 서밋'에서는 약 85명 스피커가 OTT·스포츠 스트리밍·번들링·광고·비디오 워크플로우 확장을 다룬다. 업계가 '실험에서 상용 확산'으로 넘어간 AI와, '넷플릭스 vs Prime Video vs YouTube' 3각 구도 재편의 풍향계로 주목받고 있다.",
       "key_points": [
-        "HYBE·SM·JYP·YG 4사, 글로벌 음악 페스티벌 JV 공정위 기업결합 신고",
-        "HYBE 2025 콘서트 매출 7,639억(+69%) vs 영업이익 499억(-74%) — 수익성 압박 대응",
-        "SM -34.81%·YG -25.65% 주가 하락, IP 호재 속 '수익 집중' 전환기 통합 전략"
+        "AI 파빌리온 2개(전년 1개) + AI 전시사 수 전년 대비 2배, '상용 확산' 단계 진입",
+        "전시사 1,100+, 참가 기업 1.8만(전년 1.2만, +50%) — 포스트 파업 이후 최대 반등",
+        "4/20-21 스트리밍 서밋 85명 스피커 — OTT·스포츠·번들링·CTV 광고 재편 논의"
       ],
-      "image": "https://www.musicbusinessworldwide.com/wp-content/uploads/kpop-giants.jpg",
-      "article_count": 22,
+      "image": "https://www.nabshow.com/wp-content/uploads/2024/03/LVCC-Aerial.jpg",
+      "article_count": 28,
       "score": 94,
-      "primary_cat": "K-Content",
+      "primary_cat": "Media Business",
       "hours_ago": 1,
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "Music Business Worldwide", "url": "https://www.musicbusinessworldwide.com/k-pop-giants-hybe-jyp-sm-entertainment-and-yg-entertainment-plan-joint-venture-for-music-festival-to-rival-coachella/", "domain": "MBW", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "K-Pop World", "url": "https://kpopworld.com/en/news/k-pop-powerhouses-hybe-sm-jyp-and-yg-report-mixed-earnings-as-industry-dominance-shifts", "domain": "K-Pop World", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Sportskeeda (HYBE)", "url": "https://www.sportskeeda.com/us/k-pop/hybe-eyes-45-revenue-surge-2026-backed-bts-rising-rookie-groups", "domain": "Sportskeeda", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Outlook (K팝 주가)", "url": "https://respawn.outlookindia.com/pop-culture/pop-culture-news/k-pop-stocks-fumble-investors-worry-about-big-fours-profit-yield", "domain": "Outlook", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {"title": "NAB Show 공식", "url": "https://www.nabshow.com/las-vegas/", "domain": "NAB Show", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Broadcast Dialogue", "url": "https://broadcastdialogue.com/2026-nab-show-highlights-ai-sports-media-and-the-creator-economy/", "domain": "Broadcast Dialogue", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "GlobeNewswire (NAB 공지)", "url": "https://www.globenewswire.com/news-release/2026/04/17/3276436/0/en/2026-NAB-Show-Opens-Tomorrow-Uniting-Global-Media-Leaders-to-Shape-the-Future-of-Storytelling.html", "domain": "GlobeNewswire", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Sports Video Group", "url": "https://www.sportsvideo.org/2026/04/17/2026-nab-show-opens-tomorrow-bringing-industry-together-in-vegas/", "domain": "SVG", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Media Play News", "url": "https://www.mediaplaynews.com/nab-show-opens-april-18-with-focus-on-creators-ai-and-streaming/", "domain": "Media Play News", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
       ]
     },
     {
-      "entity": "방송미디어통신위원회 '방송 3법' 후속조치…금강방송 재허가·푸른방송 보류",
-      "headline": "방송미디어통신위원회 '방송 3법' 후속조치…금강방송 재허가·푸른방송 보류",
-      "headline_url": "https://www.kmcc.go.kr/user.do?page=A05030000&dc=K00000200&boardId=1113",
-      "synthesis_title": "방송미디어통신위원회 '방송 3법' 후속조치…금강방송 재허가·푸른방송 보류",
-      "synthesis": "방송미디어통신위원회(KMCC)가 4월 10일 '금강방송' 재허가를 의결하고 '푸른방송' 재허가는 보류했으며, 4월 13일에는 '방송·미디어·통신 정책 제안' 공개 공고를 내며 '방송 3법' 시행을 위한 후속조치를 본격화했다. 2025년 10월 이재명 정부에서 방송통신위원회가 '미디어'를 더한 방송미디어통신위원회로 개편된 이후 처음 발표되는 대규모 후속조치다. 기존 방통위의 2024년 해외 OTT 시장조사·이용행태조사 결과가 국내 OTT 사업자의 해외 진출 기초자료로 활용되는 가운데, 이번 정책 제안 공모는 OTT를 포함한 디지털 미디어 전반의 규제 틀 재설계 기회가 될 전망이다. 산업계는 영국 Ofcom의 Tier 1 VOD 규제(4/1 발효)에 버금가는 한국형 OTT 규제 프레임워크가 이번 정책 제안 과정에서 가시화될지 주목하고 있다.",
+      "entity": "Lee Cronin의 'The Mummy' $13M 오프닝 3위…슈퍼 마리오 2주 연속 1위 $35M",
+      "headline": "Lee Cronin의 'The Mummy' $13M 오프닝 3위…슈퍼 마리오 2주 연속 1위 $35M",
+      "headline_url": "https://variety.com/2026/film/box-office/box-office-lee-cronins-the-mummy-super-mario-galaxy-movie-1236725215/",
+      "synthesis_title": "Lee Cronin의 'The Mummy' $13M 오프닝 3위…슈퍼 마리오 2주 연속 1위 $35M",
+      "synthesis": "블룸하우스·뉴 라인이 공동 배급한 Lee Cronin 감독의 'The Mummy'(워너브라더스)가 4월 17-19일 개봉 주말 1,300만+ 달러로 3위에 안착했다. 프리뷰 150만, 금요일 520만, 토요일 500만, 3,304개관 개봉 규모다. CinemaScore C+, 로튼토마토 관객 77%·비평 45%로 반응은 엇갈렸다. 해외에서 790만 달러를 더해 글로벌 오프닝은 약 2,000만 달러. 슈퍼 마리오 갤럭시 무비는 개봉 2주차 3,500만 달러로 1위를 유지했고, 글로벌 누적 5억 달러를 돌파해 애니메이션 역대 5번째 규모로 확장 중이다. 'The Mummy'의 성적은 2025년 블룸하우스의 Wolf Man(C-) 대비 개선이지만 팬데믹 이전 Invisible Man(B+)에는 못 미친다. 호러 리부트가 애니메이션 프랜차이즈와 공존하는 '이중 박스오피스' 체계가 자리 잡았다.",
       "key_points": [
-        "4/10 금강방송 재허가 의결·푸른방송 보류, 4/13 '방송·미디어·통신 정책 제안' 공고",
-        "2025.10 KCC→KMCC 개편 이후 첫 대규모 후속조치, '방송 3법' 시행 본격화",
-        "영국 Ofcom Tier 1 VOD 규제 발효 이후, 한국형 OTT 규제 프레임워크 논의 가속"
+        "The Mummy 개봉 주말 $13M, 3위 — 프리뷰 $1.5M·3,304관·CinemaScore C+",
+        "슈퍼 마리오 갤럭시 무비 2주차 $35M 1위 유지, 글로벌 누적 $5억 돌파",
+        "호러 리부트 vs 애니메이션 공존 — 팬데믹 이전 Invisible Man보다는 약세"
       ],
-      "image": "https://www.kmcc.go.kr/images/logo.png",
-      "article_count": 15,
+      "image": "https://image.tmdb.org/t/p/w500/9A4ivzlHfgOSMoiSpEssopBuvKv.jpg",
+      "article_count": 26,
       "score": 92,
-      "primary_cat": "Regulation",
+      "primary_cat": "Film/Cinema",
       "hours_ago": 1,
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "KMCC 공식", "url": "https://www.kmcc.go.kr/user.do", "domain": "KMCC", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "KMCC 해외 OTT 조사", "url": "https://kcc.go.kr/user.do?boardId=1113&page=A05030000&dc=K00000200&boardSeq=64933&mode=view", "domain": "KMCC", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "UK GOV.UK Tier 1 VOD", "url": "https://www.gov.uk/guidance/statement-on-designation-of-tier-1-video-on-demand-vod-services", "domain": "UK GOV.UK", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Wiggin LLP Ofcom", "url": "https://www.wiggin.co.uk/insight/new-tier-1-vod-regulations-bring-major-streaming-services-under-enhanced-ofcom-oversight/", "domain": "Wiggin LLP", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {"title": "Variety 박스오피스", "url": "https://variety.com/2026/film/box-office/box-office-lee-cronins-the-mummy-super-mario-galaxy-movie-1236725215/", "domain": "Variety", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Deadline 박스오피스", "url": "https://deadline.com/2026/04/box-office-lee-cronins-the-mummy-super-mario-galaxy-movie-1236864337/", "domain": "Deadline", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "World of Reel (4/17)", "url": "https://www.worldofreel.com/blog/2026/4/17/box-office", "domain": "World of Reel", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Roger Ebert 리뷰", "url": "https://www.rogerebert.com/reviews/lee-cronins-the-mummy-movie-review-2026", "domain": "Roger Ebert", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Screen Rant (박스오피스)", "url": "https://screenrant.com/the-mummy-2026-box-office-opening-weekend-domestic-chart-report/", "domain": "Screen Rant", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
       ]
     },
     {
-      "entity": "BTS V, 드라마 '그 밤, 우리의 디카페인'으로 연기 복귀…캠페인 필름 형식",
-      "headline": "BTS V, 드라마 '그 밤, 우리의 디카페인'으로 연기 복귀…캠페인 필름 형식",
-      "headline_url": "https://www.koreaboo.com/news/",
-      "synthesis_title": "BTS V, 드라마 '그 밤, 우리의 디카페인'으로 연기 복귀…캠페인 필름 형식",
-      "synthesis": "BTS 멤버 V(김태형)가 단편 시네마틱 드라마 '그 밤, 우리의 디카페인(That Night, Our Decaf)'의 주연으로 연기에 복귀한다. 스토리 중심의 브랜드 캠페인 필름 형식으로, 영화·드라마·광고의 경계를 넘나드는 형식적 실험으로 주목받고 있다. 같은 주 BTS 전원(RM·진·슈가·제이홉·지민·V·정국)은 'Hot Ones' 시즌29 피날레에 출연해 미국 주류 토크쇼 출연 이력을 이어갔다. 넷플릭스 '로스앤젤레스에서 앨범 ARIRANG 녹음에 돌입하는 BTS의 새로운 시대'를 담은 다큐멘터리 'BTS: THE RETURN'은 팬덤 유입을 지속시키고 있으며, ARIRANG 투어 콘서트에서의 멤버 파트별 퍼포먼스도 팬 투표 대상이 되는 등 BTS의 '멀티 포맷 IP 전개' 패턴이 굳어지고 있다.",
+      "entity": "박해영 신작 '모두가 자신의 무가치함과 싸우고 있다' 4/18 JTBC·넷플릭스 동시 공개",
+      "headline": "박해영 신작 '모두가 자신의 무가치함과 싸우고 있다' 4/18 JTBC·넷플릭스 동시 공개",
+      "headline_url": "https://www.wikitree.co.kr/articles/1132321",
+      "synthesis_title": "박해영 신작 '모두가 자신의 무가치함과 싸우고 있다' 4/18 JTBC·넷플릭스 동시 공개",
+      "synthesis": "'나의 아저씨'·'나의 해방일지'의 박해영 작가와 '동백꽃 필 무렵'의 차영훈 감독이 만든 JTBC 토일드라마 '모두가 자신의 무가치함과 싸우고 있다(모자무싸)'가 4월 18일(토) 밤 10시 40분 첫 방송됐다. 구교환·고윤정 주연, 영화계를 배경으로 인간 내면의 무가치함과 그 해방을 다루는 12부작으로 5월 24일 종영 예정이다. OTT는 JTBC 방영 직후 넷플릭스·티빙 동시 공개로 글로벌 시청 가능. 박해영 작가는 '나의 해방일지' 이후 4년 만의 신작이어서 K-드라마 상반기 최대 화제작으로 꼽힌다. 특히 '자기 가치' 주제가 2026년 상반기 한국 사회의 우울·자기효능감 담론과 맞물려, 리드 헤이스팅스의 넷플릭스 이탈·Q1 APAC +20% 성장이라는 광역 맥락 위에 'K-드라마 하반기 핵심 IP'로 자리 잡을지 주목된다.",
       "key_points": [
-        "V, 단편 시네마틱 드라마 '그 밤, 우리의 디카페인' 주연으로 연기 복귀",
-        "BTS 7인 전원 'Hot Ones' S29 피날레 출연, 미국 주류 토크쇼 이력 확장",
-        "넷플릭스 다큐 'THE RETURN' + ARIRANG 투어 동시 전개, 멀티 포맷 IP 패턴"
+        "4/18(토) JTBC 밤 10:40 첫 방송 + 넷플릭스·티빙 동시 글로벌 공개",
+        "박해영(나의 아저씨·해방일지) + 차영훈(동백꽃) 조합, 구교환·고윤정 주연 12부작",
+        "넷플릭스 Q1 APAC +20% 성장 맥락에서 상반기 K-드라마 간판 후보"
       ],
-      "image": "https://www.netflix.com/tudum/articles/bts-the-return.jpg",
-      "article_count": 18,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/JTBC_logo.svg/1200px-JTBC_logo.svg.png",
+      "article_count": 22,
       "score": 90,
       "primary_cat": "K-Content",
       "hours_ago": 1,
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "Koreaboo", "url": "https://www.koreaboo.com/news/", "domain": "Koreaboo", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Netflix (THE RETURN)", "url": "https://www.netflix.com/title/82158609", "domain": "Netflix", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Hollywood Reporter K-pop", "url": "https://www.hollywoodreporter.com/t/k-pop/", "domain": "Hollywood Reporter", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Korea Herald Kpop", "url": "https://www.koreaherald.com/Kpop", "domain": "Korea Herald", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {"title": "위키트리 소개", "url": "https://www.wikitree.co.kr/articles/1132321", "domain": "위키트리", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "나무위키 작품 정보", "url": "https://namu.wiki/w/%EB%AA%A8%EB%91%90%EA%B0%80%20%EC%9E%90%EC%8B%A0%EC%9D%98%20%EB%AC%B4%EA%B0%80%EC%B9%98%ED%95%A8%EA%B3%BC%20%EC%8B%B8%EC%9A%B0%EA%B3%A0%20%EC%9E%88%EB%8B%A4", "domain": "나무위키", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "네이트 연예 (4/18)", "url": "https://m.news.nate.com/view/20260418n11805", "domain": "네이트", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Dategom OTT 편성", "url": "https://dategom.com/%EB%AA%A8%EC%9E%90%EB%AC%B4%EC%8B%B8-%EB%93%9C%EB%9D%BC%EB%A7%88-%EA%B8%B0%EB%B3%B8%EC%A0%95%EB%B3%B4-%EC%B6%9C%EC%97%B0%EC%A7%84-%EB%93%B1%EC%9E%A5%EC%9D%B8%EB%AC%BC/", "domain": "Dategom", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
       ]
     },
     {
-      "entity": "디렉TV vs Nexstar-Tegna 반독점 소송 진행 중…FCC 39% 상한 면제 쟁점 지속",
-      "headline": "디렉TV vs Nexstar-Tegna 반독점 소송 진행 중…FCC 39% 상한 면제 쟁점 지속",
-      "headline_url": "https://variety.com/2026/tv/news/nexstar-tegna-merger-tro-court-order-reply-1236704471/",
-      "synthesis_title": "디렉TV vs Nexstar-Tegna 반독점 소송 진행 중…FCC 39% 상한 면제 쟁점 지속",
-      "synthesis": "넥스타-테그나 62억 달러 합병이 3월 20일 완료된 직후 발동된 캘리포니아 연방법원 중단 가처분이 4월 중순 현재 계류 중이다. 디렉TV의 반독점 소송과 캘리포니아 등 8개 주 법무장관의 별도 소송이 병행되고 있으며, 쟁점은 FCC가 합병 승인을 위해 단일 기업의 가구 도달 39% 상한 규정을 면제한 결정의 적법성이다. 합병 후 넥스타의 259개 방송국은 미국 TV 가구의 약 80%에 도달해 로컬 TV 역대 최대 규모 그룹으로 자리잡는다. 이번 소송의 결과는 파라마운트-WBD 합병 심사에서도 선례가 될 수 있어, 4월 23일 WBD 주주투표를 앞두고 업계가 주목하고 있다.",
+      "entity": "BLACKPINK 리사 'Viva La Lisa' 라스베이거스 Caesars Palace 11월 레지던시 확정",
+      "headline": "BLACKPINK 리사 'Viva La Lisa' 라스베이거스 Caesars Palace 11월 레지던시 확정",
+      "headline_url": "https://investor.caesars.com/news-releases/news-release-details/lisa-announces-las-vegas-residency-viva-la-lisa-colosseum",
+      "synthesis_title": "BLACKPINK 리사 'Viva La Lisa' 라스베이거스 Caesars Palace 11월 레지던시 확정",
+      "synthesis": "BLACKPINK 리사가 11월 13·14·27·28일 라스베이거스 Caesars Palace The Colosseum에서 자신의 첫 레지던시 'Viva La Lisa'를 개최한다. 'K팝 아티스트 최초 라스베이거스 레지던시'라는 기록이 이 주(4월 14-20)에 공식 티켓 로드맵이 확정되면서 재조명됐다. 팬 프리세일은 4월 1일~19일, 아티스트 프리세일은 4월 22일, 일반 판매는 4월 23일 오전 10시(PT) 시작이다. 2025년 솔로 정규 'Alter Ego', BLACKPINK 월드투어, 그리고 지난달 EP 'Deadline'에 이은 글로벌 전략 마일스톤이다. 아델·셀린 디옹·브루노 마스의 전유물이었던 레지던시 포맷에 K팝 여성 솔로가 진입한 첫 사례로, 월 1회성 대형 콘서트가 아니라 '장기 체류형 IP 자산'으로 전환한다는 점에서 K팝 산업 구조 변화의 신호다.",
       "key_points": [
-        "캘리포니아 연방법원 중단 가처분 계류 중, 디렉TV 반독점 소송+8개 주 법무장관 소송",
-        "FCC 단일기업 가구도달 39% 상한 면제 적법성이 핵심 쟁점",
-        "259개 방송국·미국 TV 가구 80% 도달, 파라마운트-WBD 심사에도 선례 영향"
+        "11월 13·14·27·28일 Caesars Palace The Colosseum 4회 공연 확정",
+        "팬 프리세일 4/1~19 → 아티스트 프리세일 4/22 → 일반 판매 4/23 10AM PT",
+        "K팝 여성 솔로 최초 라스베이거스 레지던시 — '장기 체류형 IP' 체제 전환 신호"
       ],
-      "image": "https://media-cldnry.s-nbcnews.com/image/upload/t_social_share_1024x768_scale,f_auto,q_auto:best/rockcms/2025-10/251016-tenga-gk-45b807.jpg",
-      "article_count": 16,
+      "image": "https://www.caesars.com/content/dam/colosseum/images/2026/lisa-viva-la-lisa-hero.jpg",
+      "article_count": 24,
       "score": 89,
-      "primary_cat": "Media Business",
-      "hours_ago": 1,
-      "countries": {},
-      "domains": {},
-      "articles": [
-        {"title": "Variety (TRO)", "url": "https://variety.com/2026/tv/news/nexstar-tegna-merger-tro-court-order-reply-1236704471/", "domain": "Variety", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "NBC News", "url": "https://www.nbcnews.com/news/us-news/judge-pauses-merger-tv-station-owners-nexstar-tegna-rcna265626", "domain": "NBC News", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Washington Post", "url": "https://www.washingtonpost.com/business/2026/03/19/nexstar-tegna-tv-merger-approved/", "domain": "Washington Post", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Hollywood Reporter", "url": "https://www.hollywoodreporter.com/tv/tv-news/nexstar-closes-tegna-deal-creating-local-tv-giant-1236541636/", "domain": "Hollywood Reporter", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
-      ]
-    },
-    {
-      "entity": "BLACKPINK 리사, K팝 솔로 최초 '레지던시' 확정…라스베이거스 전용 공연장 전개",
-      "headline": "BLACKPINK 리사, K팝 솔로 최초 '레지던시' 확정…라스베이거스 전용 공연장 전개",
-      "headline_url": "https://www.koreaherald.com/Kpop",
-      "synthesis_title": "BLACKPINK 리사, K팝 솔로 최초 '레지던시' 확정…라스베이거스 전용 공연장 전개",
-      "synthesis": "BLACKPINK의 리사가 K팝 솔로 아티스트 최초로 '레지던시' 공연 계약을 체결했다. 레지던시는 한 아티스트가 특정 도시의 전용 공연장에서 수개월에 걸쳐 집중 공연하는 방식으로, 아델·셀린 디옹·브루노 마스 등 글로벌 톱스타의 전유물이었다. 리사의 계약은 한국 여성 솔로 아티스트가 라스베이거스 메인 레지던시 아티스트로 이름을 올린 첫 사례로, 개별 솔로 커리어의 글로벌 표준화를 의미한다. HYBE·SM·JYP·YG 4사의 조인트벤처 페스티벌 공정위 신고와 맞물려, K팝이 '그룹 순회 공연' 중심에서 '솔로 레지던시·글로벌 페스티벌'이라는 성숙기 BM으로 진화하는 신호로 해석된다.",
-      "key_points": [
-        "리사, K팝 솔로 아티스트 최초 레지던시 계약 — 라스베이거스 전용 공연장 전개",
-        "아델·셀린 디옹·브루노 마스급 포맷 진입, 한국 여성 솔로 최초",
-        "K팝 산업이 그룹 순회 공연 → 솔로 레지던시·글로벌 페스티벌 BM으로 전환"
-      ],
-      "image": "https://www.koreaherald.com/images/kpop.jpg",
-      "article_count": 14,
-      "score": 87,
       "primary_cat": "Music/Audio",
       "hours_ago": 1,
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "Korea Herald Kpop", "url": "https://www.koreaherald.com/Kpop", "domain": "Korea Herald", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Koreaboo", "url": "https://www.koreaboo.com/news/", "domain": "Koreaboo", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Dojeon Media", "url": "https://www.dojeonmedia.com/latestkpopnews", "domain": "Dojeon Media", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Sportskeeda K-pop", "url": "https://www.sportskeeda.com/us/k-pop/news", "domain": "Sportskeeda", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {"title": "Caesars 투자자 공식", "url": "https://investor.caesars.com/news-releases/news-release-details/lisa-announces-las-vegas-residency-viva-la-lisa-colosseum", "domain": "Caesars", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Billboard", "url": "https://www.billboard.com/music/concerts/blackpink-lisa-viva-la-lisa-las-vegas-residency-dates-1236209765/", "domain": "Billboard", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Variety", "url": "https://variety.com/2026/music/news/blackpink-lisa-las-vegas-residency-viva-la-lisa-1236702302/", "domain": "Variety", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Soompi", "url": "https://www.soompi.com/article/1829412wpp/blackpinks-lisa-announces-las-vegas-residency-viva-la-lisa-at-caesars-palace", "domain": "Soompi", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Rolling Stone", "url": "https://www.rollingstone.com/music/music-news/lisa-blackpink-las-vegas-residency-1235538653/", "domain": "Rolling Stone", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
       ]
     },
     {
-      "entity": "EU AI Act 고위험 시스템 의무 D-120…한국 AI기본법 1/22 시행과 2중 규제 국면",
-      "headline": "EU AI Act 고위험 시스템 의무 D-120…한국 AI기본법 1/22 시행과 2중 규제 국면",
-      "headline_url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
-      "synthesis_title": "EU AI Act 고위험 시스템 의무 D-120…한국 AI기본법 1/22 시행과 2중 규제 국면",
-      "synthesis": "EU AI Act의 고위험 AI 시스템 의무사항이 발효일 24개월 후인 2026년 8월 2일부터 본격 적용된다. 4월 현재 기업들은 약 3개월 반의 준비 시간을 남겨두고 있다. AI 생성 콘텐츠 워터마킹 의무화와 고위험 시스템 적합성 평가 체계가 핵심이다. 한국은 2026년 1월 22일 'AI 기본법(인공지능 발전과 신뢰 기반 조성 등에 관한 기본법)'을 시행하며 EU에 이어 세계 두 번째 종합 AI 규제 체계를 마련했다. 미디어·콘텐츠 업계는 AI 생성 뉴스, 딥페이크, 광고 크리에이티브 등 여러 접점에서 EU·한국 이중 규제 국면에 대응해야 한다. 제품 안전 구성요소 규칙은 2027년 8월까지 유예된다. Apple Music의 'Transparency Tags'(AI 생성 콘텐츠 식별 라벨) 같은 업계 자율 도입 움직임은 규제 선제 대응의 사례로 평가된다.",
+      "entity": "방송미디어통신위원회, 금강방송 재허가·푸른방송 보류(4/10) 후 '방송·미디어·통신 정책 제안' 공고(4/13)",
+      "headline": "방송미디어통신위원회, 금강방송 재허가·푸른방송 보류(4/10) 후 '방송·미디어·통신 정책 제안' 공고(4/13)",
+      "headline_url": "https://www.kmcc.go.kr/user.do",
+      "synthesis_title": "방송미디어통신위원회, 금강방송 재허가·푸른방송 보류(4/10) 후 '방송·미디어·통신 정책 제안' 공고(4/13)",
+      "synthesis": "방송미디어통신위원회(KMCC)가 4월 10일 금강방송 재허가를 의결하고 푸른방송 재허가는 보류했다. 이어 4월 13일에는 '방송·미디어·통신 정책 제안' 공개 공고를 게시해 '방송 3법' 시행 후속 절차를 본격화했다. 2025년 10월 방송통신위원회가 KCC에서 KMCC로 개편된 이후 첫 대규모 후속조치 라운드다. 동기간 국내 OTT 지형은 티빙-웨이브 기업결합이 2025년 6월 공정위 조건부 승인(2026년 12월 31일까지 요금 유지)을 받았으나 KT 측의 주주가치 제고 입장 때문에 본합병은 여전히 지연 중이다. 영국 Ofcom의 Tier 1 VOD 규제가 4월 1일 발효된 뒤 '한국형 OTT 규제 프레임'을 KMCC가 이번 정책 제안에서 어떻게 풀어낼지가 업계 최대 관심사다.",
       "key_points": [
-        "EU AI Act 고위험 의무 2026.8.2 시행, 현재 D-120, 워터마킹+적합성 평가 핵심",
-        "한국 AI기본법 2026.1.22 시행, EU 이어 세계 2번째 종합 AI 규제",
-        "미디어·콘텐츠 업계 EU·한국 이중 규제, Apple Music Transparency Tags 등 자율 대응"
+        "4/10 금강방송 재허가·푸른방송 보류 의결, 4/13 정책 제안 공개 공고",
+        "KCC→KMCC 개편(2025.10) 후 첫 대규모 후속조치 라운드",
+        "티빙-웨이브 합병 KT 지연, Ofcom Tier 1 발효(4/1) 이후 한국형 프레임 논의"
       ],
-      "image": "https://digital-strategy.ec.europa.eu/sites/default/files/2024-02/AI_Act.jpg",
-      "article_count": 12,
-      "score": 85,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Emblem_of_the_Korea_Communications_Commission.svg/1200px-Emblem_of_the_Korea_Communications_Commission.svg.png",
+      "article_count": 18,
+      "score": 87,
       "primary_cat": "Regulation",
       "hours_ago": 1,
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "EU Digital Strategy", "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai", "domain": "EU Digital Strategy", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "SPRI AI Act 시사점", "url": "https://www.spri.kr/download/23545", "domain": "SPRI", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "피카부랩스 AI기본법", "url": "https://peekaboolabs.ai/blog/ai-basic-law-guide", "domain": "피카부랩스", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "인하대 AI·데이터법센터", "url": "https://ils.inha.ac.kr/bbs/ils/3464/120199/download.do", "domain": "인하대", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {"title": "KMCC 공식", "url": "https://www.kmcc.go.kr/user.do", "domain": "KMCC", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "티빙-웨이브 조건부 승인", "url": "https://byline.network/2025/06/10_tving_wwave/", "domain": "바이라인네트워크", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "미디어오늘 KT 변수", "url": "https://www.mediatoday.co.kr/news/articleView.html?idxno=326880", "domain": "미디어오늘", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "UK GOV.UK Tier 1 VOD", "url": "https://www.gov.uk/guidance/statement-on-designation-of-tier-1-video-on-demand-vod-services", "domain": "UK GOV.UK", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+      ]
+    },
+    {
+      "entity": "YouTube 2026년 1월 美 스트리밍 12.5% 점유 1위…팟캐스트 비디오 연 700M시간 폭증",
+      "headline": "YouTube 2026년 1월 美 스트리밍 12.5% 점유 1위…팟캐스트 비디오 연 700M시간 폭증",
+      "headline_url": "https://www.emarketer.com/content/faq-on-podcasting--video-s-rise--ctv-growth--what-means-advertisers-2026",
+      "synthesis_title": "YouTube 2026년 1월 美 스트리밍 12.5% 점유 1위…팟캐스트 비디오 연 700M시간 폭증",
+      "synthesis": "2026년 1월 기준 YouTube가 미국 전체 스트리밍 시청 시간의 12.5%를 차지하며 단일 서비스 기준 1위를 유지했다(닐슨 The Gauge). 팟캐스트 시장에서도 YouTube는 주간 청취자 기준 31%로 Spotify(27%)·Apple Podcasts(15%)를 앞섰고, 글로벌 39%의 팟캐스트 이용자가 YouTube를 1순위로 꼽았다. 핵심은 '영상 팟캐스트'의 TV 시청 전환이다. 2025년 10월 YouTube의 TV 화면 비디오 팟캐스트 시청 시간이 7억 시간을 넘어 전년 대비 거의 2배로 증가했다. Netflix의 리드 헤이스팅스 은퇴와 Prime Video의 NBA 성공이 같은 주 뉴스 사이클을 지배하는 가운데, YouTube는 '광고 지원 + UGC + 팟캐스트 비디오화'라는 스트리밍 3번째 축을 굳히며 Netflix·Prime과의 거리를 좁힌다.",
+      "key_points": [
+        "YouTube 美 전체 스트리밍 시간 12.5% 점유(2026.1) — 단일 서비스 1위 유지",
+        "팟캐스트 주간 청취자 YouTube 31% > Spotify 27% > Apple 15%",
+        "TV 화면 팟캐스트 시청 시간 2025.10 7억 시간 초과, 전년 2배 — '비디오 팟캐스트' 폭증"
+      ],
+      "image": "https://www.emarketer.com/content/dam/insider-intelligence/images/2023/12/youtube-tv.jpg",
+      "article_count": 19,
+      "score": 86,
+      "primary_cat": "OTT/Streaming",
+      "hours_ago": 1,
+      "countries": {},
+      "domains": {},
+      "articles": [
+        {"title": "eMarketer (팟캐스트 FAQ)", "url": "https://www.emarketer.com/content/faq-on-podcasting--video-s-rise--ctv-growth--what-means-advertisers-2026", "domain": "eMarketer", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "eMarketer YouTube CTV", "url": "https://www.emarketer.com/content/youtube-ctv-growth-pricing-edge-boost-2026-streaming-outlook", "domain": "eMarketer", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Streaming Media YoY", "url": "https://www.streamingmedia.com/Articles/Editorial/Featured-Articles/Streaming-Year-in-Review-2026-173826.aspx", "domain": "Streaming Media", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "CrispIdea 시장 점유", "url": "https://www.crispidea.com/streaming-platform-market-share-in-2026/", "domain": "CrispIdea", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+      ]
+    },
+    {
+      "entity": "유럽 제작 격차 심화 — 英 영화·하이엔드TV 투자 반등 vs 佛 각본 제작 급락",
+      "headline": "유럽 제작 격차 심화 — 英 영화·하이엔드TV 투자 반등 vs 佛 각본 제작 급락",
+      "headline_url": "https://furtherandbetter.substack.com/p/global-tv-film-and-media-industry-d33",
+      "synthesis_title": "유럽 제작 격차 심화 — 英 영화·하이엔드TV 투자 반등 vs 佛 각본 제작 급락",
+      "synthesis": "4월 18-19일 주말 유럽 제작 시장에서 정반대의 두 신호가 동시에 포착됐다. 영국은 2025-26 회계연도 영화·하이엔드 TV 투자가 사상 최고 수준으로 반등해 '파업·팬데믹 이후 안정화와 자신감 회복'을 확인했다. 반면 프랑스는 각본(scripted) 제작이 눈에 띄게 감소하며 '플랫폼 주도 파이낸싱 모델의 약화'가 드러났고, 유럽 전반의 시장 조정 가능성이 제기됐다. 결과적으로 영국이 글로벌 스트리밍 로컬 제작의 허브 지위를 강화하는 반면, 프랑스를 포함한 EU 본토 콘텐츠 생태계는 재정 모델 재편 압력에 직면한다. 같은 주 Ofcom Tier 1 VOD 규제(4/1 발효)가 영국 시장에 적용되고 있다는 점, 파라마운트의 WBD 인수 예정자와 Netflix·Prime이 영국 촬영·스튜디오에 투자를 늘리고 있다는 점이 이 구조를 고착화한다.",
+      "key_points": [
+        "英 2025-26 영화·하이엔드TV 투자 사상 최고 — 파업·팬데믹 이후 안정화",
+        "佛 각본 제작 급감 — 플랫폼 주도 파이낸싱 모델 약화, EU 본토 조정 신호",
+        "Ofcom Tier 1 적용·할리우드 英 촬영 투자 증가 — 영국 제작 허브 지위 고착"
+      ],
+      "image": "https://furtherandbetter.substack.com/api/v1/feed/hero-image.jpg",
+      "article_count": 14,
+      "score": 82,
+      "primary_cat": "Media Business",
+      "hours_ago": 1,
+      "countries": {},
+      "domains": {},
+      "articles": [
+        {"title": "Further & Better 주간 리포트(4/18-19)", "url": "https://furtherandbetter.substack.com/p/global-tv-film-and-media-industry-d33", "domain": "Further & Better", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "NAB Show 2026 글로벌 참가", "url": "https://www.nabshow.com/las-vegas/", "domain": "NAB Show", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
+        {"title": "Ofcom Tier 1 VOD 발효", "url": "https://www.gov.uk/guidance/statement-on-designation-of-tier-1-video-on-demand-vod-services", "domain": "UK GOV.UK", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
       ]
     }
   ]
