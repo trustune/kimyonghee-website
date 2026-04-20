@@ -14,7 +14,7 @@
         "Q1 매출 $122.5억(+16.2%), EPS $1.23 월가 상회 — APAC +20% 최고 성장",
         "시간외 -10% 하락, '실적 호조'보다 '창업자 공백' 메시지 시장 지배"
       ],
-      "image": "https://variety.com/wp-content/uploads/2023/01/Reed-Hastings-Netflix.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Reed_Hastings_Web_Summit_2018.jpg/800px-Reed_Hastings_Web_Summit_2018.jpg",
       "article_count": 68,
       "score": 100,
       "primary_cat": "OTT/Streaming",
@@ -22,12 +22,66 @@
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "Variety (4/16)", "url": "https://variety.com/2026/tv/news/reed-hastings-exits-netflix-board-1236723878/", "domain": "Variety", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Bloomberg (4/16)", "url": "https://www.bloomberg.com/news/articles/2026-04-16/netflix-co-founder-reed-hastings-to-leave-board-in-june", "domain": "Bloomberg", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Hollywood Reporter", "url": "https://www.hollywoodreporter.com/business/business-news/reed-hastings-to-exit-netflix-board-of-directors-1236566889/", "domain": "Hollywood Reporter", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "CNN Business (4/16)", "url": "https://www.cnn.com/2026/04/16/media/netflix-cofounder-reed-hastings-steps-down", "domain": "CNN Business", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "TechCrunch", "url": "https://techcrunch.com/2026/04/16/netflix-co-founder-and-chair-reed-hastings-to-leave-board/", "domain": "TechCrunch", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Variety (공동 CEO 헌사)", "url": "https://variety.com/2026/tv/news/netflix-ceos-praise-reed-hastings-selfless-disciplined-graceful-1236724101/", "domain": "Variety", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {
+          "title": "Variety (4/16)",
+          "url": "https://variety.com/2026/tv/news/reed-hastings-exits-netflix-board-1236723878/",
+          "domain": "Variety",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Bloomberg (4/16)",
+          "url": "https://www.bloomberg.com/news/articles/2026-04-16/netflix-co-founder-reed-hastings-to-leave-board-in-june",
+          "domain": "Bloomberg",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Hollywood Reporter",
+          "url": "https://www.hollywoodreporter.com/business/business-news/reed-hastings-to-exit-netflix-board-of-directors-1236566889/",
+          "domain": "Hollywood Reporter",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "CNN Business (4/16)",
+          "url": "https://www.cnn.com/2026/04/16/media/netflix-cofounder-reed-hastings-steps-down",
+          "domain": "CNN Business",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "TechCrunch",
+          "url": "https://techcrunch.com/2026/04/16/netflix-co-founder-and-chair-reed-hastings-to-leave-board/",
+          "domain": "TechCrunch",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Variety (공동 CEO 헌사)",
+          "url": "https://variety.com/2026/tv/news/netflix-ceos-praise-reed-hastings-selfless-disciplined-graceful-1236724101/",
+          "domain": "Variety",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
       ]
     },
     {
@@ -41,7 +95,7 @@
         "WBD 합병 후 연 30편 극장 개봉 약속 — 파라마운트 이미 2026년 15편 편성(전년 2배)",
         "4/23 WBD 주주투표 D-7, AMC CEO 지지와 결합해 '합병=극장 회복' 프레임 완성"
       ],
-      "image": "https://deadline.com/wp-content/uploads/2024/10/david-ellison-paramount.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Paramount_Pictures_2022_%28Blue%29.svg/800px-Paramount_Pictures_2022_%28Blue%29.svg.png",
       "article_count": 47,
       "score": 98,
       "primary_cat": "Film/Cinema",
@@ -49,11 +103,56 @@
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "Deadline (4/16)", "url": "https://deadline.com/2026/04/paramount-ceo-david-ellison-surprise-cinemacon-appearance-1236863093/", "domain": "Deadline", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Variety (엘리슨 공약)", "url": "https://variety.com/2026/film/news/david-ellison-cinemacon-paramount-windows-streaming-1236722998/", "domain": "Variety", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "World of Reel (4/16)", "url": "https://www.worldofreel.com/blog/2026/4/16/david-ellison-promises-30-films-a-year", "domain": "World of Reel", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "LA Magazine", "url": "https://lamag.com/film/paramount-ceo-david-ellison-pledges-45-day-theatrical-window-in-surprise-cinemacon-appearance/", "domain": "LA Magazine", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Spectrum News", "url": "https://spectrumlocalnews.com/southern-california/entertainment/2026/04/16/paramount-david-ellison-big-promises-cinemacon", "domain": "Spectrum News", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {
+          "title": "Deadline (4/16)",
+          "url": "https://deadline.com/2026/04/paramount-ceo-david-ellison-surprise-cinemacon-appearance-1236863093/",
+          "domain": "Deadline",
+          "category": "Film/Cinema",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Variety (엘리슨 공약)",
+          "url": "https://variety.com/2026/film/news/david-ellison-cinemacon-paramount-windows-streaming-1236722998/",
+          "domain": "Variety",
+          "category": "Film/Cinema",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "World of Reel (4/16)",
+          "url": "https://www.worldofreel.com/blog/2026/4/16/david-ellison-promises-30-films-a-year",
+          "domain": "World of Reel",
+          "category": "Film/Cinema",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "LA Magazine",
+          "url": "https://lamag.com/film/paramount-ceo-david-ellison-pledges-45-day-theatrical-window-in-surprise-cinemacon-appearance/",
+          "domain": "LA Magazine",
+          "category": "Film/Cinema",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Spectrum News",
+          "url": "https://spectrumlocalnews.com/southern-california/entertainment/2026/04/16/paramount-david-ellison-big-promises-cinemacon",
+          "domain": "Spectrum News",
+          "category": "Film/Cinema",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
       ]
     },
     {
@@ -67,7 +166,7 @@
         "젊은 층 18-34세 +32%·18-49세 +31% 급증 — 스트리밍의 세대 교체 효과 입증",
         "NBA 파트너 10년 첫해, 플레이오프 1·2R의 1/3 Prime Video 독점"
       ],
-      "image": "https://m.media-amazon.com/images/G/01/digital/video/merch/2024/sports/NBA/GENERIC/NBA-PrimeVideo-Hero.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/800px-Amazon_Prime_Video_logo.svg.png",
       "article_count": 31,
       "score": 96,
       "primary_cat": "OTT/Streaming",
@@ -75,11 +174,56 @@
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "Sports Media Watch", "url": "https://www.sportsmediawatch.com/2026/04/nba-play-in-viewership-prime-video-increase/", "domain": "Sports Media Watch", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Awful Announcing", "url": "https://awfulannouncing.com/nba/amazon-prime-video-boasts-jump-play-in-game-viewership.html", "domain": "Awful Announcing", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Amazon MGM Press", "url": "https://press.amazonmgmstudios.com/us/en/press-release/prime-video-exclusively-presents-the-isofi-nba-pla", "domain": "Amazon MGM", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Barrett Media", "url": "https://barrettmedia.com/2026/04/15/prime-video-nba-viewership-2025-2025/", "domain": "Barrett Media", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "NBA.com 시청자 기록", "url": "https://www.nba.com/news/nba-regular-season-2025-26-most-viewers-24-years", "domain": "NBA.com", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {
+          "title": "Sports Media Watch",
+          "url": "https://www.sportsmediawatch.com/2026/04/nba-play-in-viewership-prime-video-increase/",
+          "domain": "Sports Media Watch",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Awful Announcing",
+          "url": "https://awfulannouncing.com/nba/amazon-prime-video-boasts-jump-play-in-game-viewership.html",
+          "domain": "Awful Announcing",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Amazon MGM Press",
+          "url": "https://press.amazonmgmstudios.com/us/en/press-release/prime-video-exclusively-presents-the-isofi-nba-pla",
+          "domain": "Amazon MGM",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Barrett Media",
+          "url": "https://barrettmedia.com/2026/04/15/prime-video-nba-viewership-2025-2025/",
+          "domain": "Barrett Media",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "NBA.com 시청자 기록",
+          "url": "https://www.nba.com/news/nba-regular-season-2025-26-most-viewers-24-years",
+          "domain": "NBA.com",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
       ]
     },
     {
@@ -93,7 +237,7 @@
         "전시사 1,100+, 참가 기업 1.8만(전년 1.2만, +50%) — 포스트 파업 이후 최대 반등",
         "4/20-21 스트리밍 서밋 85명 스피커 — OTT·스포츠·번들링·CTV 광고 재편 논의"
       ],
-      "image": "https://www.nabshow.com/wp-content/uploads/2024/03/LVCC-Aerial.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Las_Vegas_Convention_Center_08_2017_4828.jpg/800px-Las_Vegas_Convention_Center_08_2017_4828.jpg",
       "article_count": 28,
       "score": 94,
       "primary_cat": "Media Business",
@@ -101,11 +245,56 @@
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "NAB Show 공식", "url": "https://www.nabshow.com/las-vegas/", "domain": "NAB Show", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Broadcast Dialogue", "url": "https://broadcastdialogue.com/2026-nab-show-highlights-ai-sports-media-and-the-creator-economy/", "domain": "Broadcast Dialogue", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "GlobeNewswire (NAB 공지)", "url": "https://www.globenewswire.com/news-release/2026/04/17/3276436/0/en/2026-NAB-Show-Opens-Tomorrow-Uniting-Global-Media-Leaders-to-Shape-the-Future-of-Storytelling.html", "domain": "GlobeNewswire", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Sports Video Group", "url": "https://www.sportsvideo.org/2026/04/17/2026-nab-show-opens-tomorrow-bringing-industry-together-in-vegas/", "domain": "SVG", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Media Play News", "url": "https://www.mediaplaynews.com/nab-show-opens-april-18-with-focus-on-creators-ai-and-streaming/", "domain": "Media Play News", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {
+          "title": "NAB Show 공식",
+          "url": "https://www.nabshow.com/las-vegas/",
+          "domain": "NAB Show",
+          "category": "Media Business",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Broadcast Dialogue",
+          "url": "https://broadcastdialogue.com/2026-nab-show-highlights-ai-sports-media-and-the-creator-economy/",
+          "domain": "Broadcast Dialogue",
+          "category": "Media Business",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "GlobeNewswire (NAB 공지)",
+          "url": "https://www.globenewswire.com/news-release/2026/04/17/3276436/0/en/2026-NAB-Show-Opens-Tomorrow-Uniting-Global-Media-Leaders-to-Shape-the-Future-of-Storytelling.html",
+          "domain": "GlobeNewswire",
+          "category": "Media Business",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Sports Video Group",
+          "url": "https://www.sportsvideo.org/2026/04/17/2026-nab-show-opens-tomorrow-bringing-industry-together-in-vegas/",
+          "domain": "SVG",
+          "category": "Media Business",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Media Play News",
+          "url": "https://www.mediaplaynews.com/nab-show-opens-april-18-with-focus-on-creators-ai-and-streaming/",
+          "domain": "Media Play News",
+          "category": "Media Business",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
       ]
     },
     {
@@ -119,7 +308,7 @@
         "슈퍼 마리오 갤럭시 무비 2주차 $35M 1위 유지, 글로벌 누적 $5억 돌파",
         "호러 리부트 vs 애니메이션 공존 — 팬데믹 이전 Invisible Man보다는 약세"
       ],
-      "image": "https://image.tmdb.org/t/p/w500/9A4ivzlHfgOSMoiSpEssopBuvKv.jpg",
+      "image": "https://image.tmdb.org/t/p/w500/8L8efNkz8rUmwR7sV0g3vnC9yjn.jpg",
       "article_count": 26,
       "score": 92,
       "primary_cat": "Film/Cinema",
@@ -127,11 +316,56 @@
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "Variety 박스오피스", "url": "https://variety.com/2026/film/box-office/box-office-lee-cronins-the-mummy-super-mario-galaxy-movie-1236725215/", "domain": "Variety", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Deadline 박스오피스", "url": "https://deadline.com/2026/04/box-office-lee-cronins-the-mummy-super-mario-galaxy-movie-1236864337/", "domain": "Deadline", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "World of Reel (4/17)", "url": "https://www.worldofreel.com/blog/2026/4/17/box-office", "domain": "World of Reel", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Roger Ebert 리뷰", "url": "https://www.rogerebert.com/reviews/lee-cronins-the-mummy-movie-review-2026", "domain": "Roger Ebert", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Screen Rant (박스오피스)", "url": "https://screenrant.com/the-mummy-2026-box-office-opening-weekend-domestic-chart-report/", "domain": "Screen Rant", "category": "Film/Cinema", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {
+          "title": "Variety 박스오피스",
+          "url": "https://variety.com/2026/film/box-office/box-office-lee-cronins-the-mummy-super-mario-galaxy-movie-1236725215/",
+          "domain": "Variety",
+          "category": "Film/Cinema",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Deadline 박스오피스",
+          "url": "https://deadline.com/2026/04/box-office-lee-cronins-the-mummy-super-mario-galaxy-movie-1236864337/",
+          "domain": "Deadline",
+          "category": "Film/Cinema",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "World of Reel (4/17)",
+          "url": "https://www.worldofreel.com/blog/2026/4/17/box-office",
+          "domain": "World of Reel",
+          "category": "Film/Cinema",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Roger Ebert 리뷰",
+          "url": "https://www.rogerebert.com/reviews/lee-cronins-the-mummy-movie-review-2026",
+          "domain": "Roger Ebert",
+          "category": "Film/Cinema",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Screen Rant (박스오피스)",
+          "url": "https://screenrant.com/the-mummy-2026-box-office-opening-weekend-domestic-chart-report/",
+          "domain": "Screen Rant",
+          "category": "Film/Cinema",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
       ]
     },
     {
@@ -145,7 +379,7 @@
         "박해영(나의 아저씨·해방일지) + 차영훈(동백꽃) 조합, 구교환·고윤정 주연 12부작",
         "넷플릭스 Q1 APAC +20% 성장 맥락에서 상반기 K-드라마 간판 후보"
       ],
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/JTBC_logo.svg/1200px-JTBC_logo.svg.png",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/JTBC_logo.svg/800px-JTBC_logo.svg.png",
       "article_count": 22,
       "score": 90,
       "primary_cat": "K-Content",
@@ -153,10 +387,46 @@
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "위키트리 소개", "url": "https://www.wikitree.co.kr/articles/1132321", "domain": "위키트리", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "나무위키 작품 정보", "url": "https://namu.wiki/w/%EB%AA%A8%EB%91%90%EA%B0%80%20%EC%9E%90%EC%8B%A0%EC%9D%98%20%EB%AC%B4%EA%B0%80%EC%B9%98%ED%95%A8%EA%B3%BC%20%EC%8B%B8%EC%9A%B0%EA%B3%A0%20%EC%9E%88%EB%8B%A4", "domain": "나무위키", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "네이트 연예 (4/18)", "url": "https://m.news.nate.com/view/20260418n11805", "domain": "네이트", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Dategom OTT 편성", "url": "https://dategom.com/%EB%AA%A8%EC%9E%90%EB%AC%B4%EC%8B%B8-%EB%93%9C%EB%9D%BC%EB%A7%88-%EA%B8%B0%EB%B3%B8%EC%A0%95%EB%B3%B4-%EC%B6%9C%EC%97%B0%EC%A7%84-%EB%93%B1%EC%9E%A5%EC%9D%B8%EB%AC%BC/", "domain": "Dategom", "category": "K-Content", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {
+          "title": "위키트리 소개",
+          "url": "https://www.wikitree.co.kr/articles/1132321",
+          "domain": "위키트리",
+          "category": "K-Content",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "나무위키 작품 정보",
+          "url": "https://namu.wiki/w/%EB%AA%A8%EB%91%90%EA%B0%80%20%EC%9E%90%EC%8B%A0%EC%9D%98%20%EB%AC%B4%EA%B0%80%EC%B9%98%ED%95%A8%EA%B3%BC%20%EC%8B%B8%EC%9A%B0%EA%B3%A0%20%EC%9E%88%EB%8B%A4",
+          "domain": "나무위키",
+          "category": "K-Content",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "네이트 연예 (4/18)",
+          "url": "https://m.news.nate.com/view/20260418n11805",
+          "domain": "네이트",
+          "category": "K-Content",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Dategom OTT 편성",
+          "url": "https://dategom.com/%EB%AA%A8%EC%9E%90%EB%AC%B4%EC%8B%B8-%EB%93%9C%EB%9D%BC%EB%A7%88-%EA%B8%B0%EB%B3%B8%EC%A0%95%EB%B3%B4-%EC%B6%9C%EC%97%B0%EC%A7%84-%EB%93%B1%EC%9E%A5%EC%9D%B8%EB%AC%BC/",
+          "domain": "Dategom",
+          "category": "K-Content",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
       ]
     },
     {
@@ -170,7 +440,7 @@
         "팬 프리세일 4/1~19 → 아티스트 프리세일 4/22 → 일반 판매 4/23 10AM PT",
         "K팝 여성 솔로 최초 라스베이거스 레지던시 — '장기 체류형 IP' 체제 전환 신호"
       ],
-      "image": "https://www.caesars.com/content/dam/colosseum/images/2026/lisa-viva-la-lisa-hero.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/BLACKPINK_Lisa_%E0%B8%A5%E0%B8%B4%E0%B8%8B%E0%B9%88%E0%B8%B2_%E0%B8%9A%E0%B8%A5%E0%B8%B7%E0%B9%88%E0%B8%A1%E0%B9%84%E0%B8%9E%E0%B8%81.jpg/800px-BLACKPINK_Lisa_%E0%B8%A5%E0%B8%B4%E0%B8%8B%E0%B9%88%E0%B8%B2_%E0%B8%9A%E0%B8%A5%E0%B8%B7%E0%B9%88%E0%B8%A1%E0%B9%84%E0%B8%9E%E0%B8%81.jpg",
       "article_count": 24,
       "score": 89,
       "primary_cat": "Music/Audio",
@@ -178,11 +448,56 @@
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "Caesars 투자자 공식", "url": "https://investor.caesars.com/news-releases/news-release-details/lisa-announces-las-vegas-residency-viva-la-lisa-colosseum", "domain": "Caesars", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Billboard", "url": "https://www.billboard.com/music/concerts/blackpink-lisa-viva-la-lisa-las-vegas-residency-dates-1236209765/", "domain": "Billboard", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Variety", "url": "https://variety.com/2026/music/news/blackpink-lisa-las-vegas-residency-viva-la-lisa-1236702302/", "domain": "Variety", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Soompi", "url": "https://www.soompi.com/article/1829412wpp/blackpinks-lisa-announces-las-vegas-residency-viva-la-lisa-at-caesars-palace", "domain": "Soompi", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Rolling Stone", "url": "https://www.rollingstone.com/music/music-news/lisa-blackpink-las-vegas-residency-1235538653/", "domain": "Rolling Stone", "category": "Music/Audio", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {
+          "title": "Caesars 투자자 공식",
+          "url": "https://investor.caesars.com/news-releases/news-release-details/lisa-announces-las-vegas-residency-viva-la-lisa-colosseum",
+          "domain": "Caesars",
+          "category": "Music/Audio",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Billboard",
+          "url": "https://www.billboard.com/music/concerts/blackpink-lisa-viva-la-lisa-las-vegas-residency-dates-1236209765/",
+          "domain": "Billboard",
+          "category": "Music/Audio",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Variety",
+          "url": "https://variety.com/2026/music/news/blackpink-lisa-las-vegas-residency-viva-la-lisa-1236702302/",
+          "domain": "Variety",
+          "category": "Music/Audio",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Soompi",
+          "url": "https://www.soompi.com/article/1829412wpp/blackpinks-lisa-announces-las-vegas-residency-viva-la-lisa-at-caesars-palace",
+          "domain": "Soompi",
+          "category": "Music/Audio",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Rolling Stone",
+          "url": "https://www.rollingstone.com/music/music-news/lisa-blackpink-las-vegas-residency-1235538653/",
+          "domain": "Rolling Stone",
+          "category": "Music/Audio",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
       ]
     },
     {
@@ -196,7 +511,7 @@
         "KCC→KMCC 개편(2025.10) 후 첫 대규모 후속조치 라운드",
         "티빙-웨이브 합병 KT 지연, Ofcom Tier 1 발효(4/1) 이후 한국형 프레임 논의"
       ],
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Emblem_of_the_Korea_Communications_Commission.svg/1200px-Emblem_of_the_Korea_Communications_Commission.svg.png",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Emblem_of_the_Korea_Communications_Commission.svg/800px-Emblem_of_the_Korea_Communications_Commission.svg.png",
       "article_count": 18,
       "score": 87,
       "primary_cat": "Regulation",
@@ -204,10 +519,46 @@
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "KMCC 공식", "url": "https://www.kmcc.go.kr/user.do", "domain": "KMCC", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "티빙-웨이브 조건부 승인", "url": "https://byline.network/2025/06/10_tving_wwave/", "domain": "바이라인네트워크", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "미디어오늘 KT 변수", "url": "https://www.mediatoday.co.kr/news/articleView.html?idxno=326880", "domain": "미디어오늘", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "UK GOV.UK Tier 1 VOD", "url": "https://www.gov.uk/guidance/statement-on-designation-of-tier-1-video-on-demand-vod-services", "domain": "UK GOV.UK", "category": "Regulation", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {
+          "title": "KMCC 공식",
+          "url": "https://www.kmcc.go.kr/user.do",
+          "domain": "KMCC",
+          "category": "Regulation",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "티빙-웨이브 조건부 승인",
+          "url": "https://byline.network/2025/06/10_tving_wwave/",
+          "domain": "바이라인네트워크",
+          "category": "Regulation",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "미디어오늘 KT 변수",
+          "url": "https://www.mediatoday.co.kr/news/articleView.html?idxno=326880",
+          "domain": "미디어오늘",
+          "category": "Regulation",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "UK GOV.UK Tier 1 VOD",
+          "url": "https://www.gov.uk/guidance/statement-on-designation-of-tier-1-video-on-demand-vod-services",
+          "domain": "UK GOV.UK",
+          "category": "Regulation",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
       ]
     },
     {
@@ -221,7 +572,7 @@
         "팟캐스트 주간 청취자 YouTube 31% > Spotify 27% > Apple 15%",
         "TV 화면 팟캐스트 시청 시간 2025.10 7억 시간 초과, 전년 2배 — '비디오 팟캐스트' 폭증"
       ],
-      "image": "https://www.emarketer.com/content/dam/insider-intelligence/images/2023/12/youtube-tv.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/800px-Logo_of_YouTube_%282015-2017%29.svg.png",
       "article_count": 19,
       "score": 86,
       "primary_cat": "OTT/Streaming",
@@ -229,10 +580,46 @@
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "eMarketer (팟캐스트 FAQ)", "url": "https://www.emarketer.com/content/faq-on-podcasting--video-s-rise--ctv-growth--what-means-advertisers-2026", "domain": "eMarketer", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "eMarketer YouTube CTV", "url": "https://www.emarketer.com/content/youtube-ctv-growth-pricing-edge-boost-2026-streaming-outlook", "domain": "eMarketer", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Streaming Media YoY", "url": "https://www.streamingmedia.com/Articles/Editorial/Featured-Articles/Streaming-Year-in-Review-2026-173826.aspx", "domain": "Streaming Media", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "CrispIdea 시장 점유", "url": "https://www.crispidea.com/streaming-platform-market-share-in-2026/", "domain": "CrispIdea", "category": "OTT/Streaming", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {
+          "title": "eMarketer (팟캐스트 FAQ)",
+          "url": "https://www.emarketer.com/content/faq-on-podcasting--video-s-rise--ctv-growth--what-means-advertisers-2026",
+          "domain": "eMarketer",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "eMarketer YouTube CTV",
+          "url": "https://www.emarketer.com/content/youtube-ctv-growth-pricing-edge-boost-2026-streaming-outlook",
+          "domain": "eMarketer",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Streaming Media YoY",
+          "url": "https://www.streamingmedia.com/Articles/Editorial/Featured-Articles/Streaming-Year-in-Review-2026-173826.aspx",
+          "domain": "Streaming Media",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "CrispIdea 시장 점유",
+          "url": "https://www.crispidea.com/streaming-platform-market-share-in-2026/",
+          "domain": "CrispIdea",
+          "category": "OTT/Streaming",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
       ]
     },
     {
@@ -246,7 +633,7 @@
         "佛 각본 제작 급감 — 플랫폼 주도 파이낸싱 모델 약화, EU 본토 조정 신호",
         "Ofcom Tier 1 적용·할리우드 英 촬영 투자 증가 — 영국 제작 허브 지위 고착"
       ],
-      "image": "https://furtherandbetter.substack.com/api/v1/feed/hero-image.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/European_flag_outline.svg/800px-European_flag_outline.svg.png",
       "article_count": 14,
       "score": 82,
       "primary_cat": "Media Business",
@@ -254,10 +641,208 @@
       "countries": {},
       "domains": {},
       "articles": [
-        {"title": "Further & Better 주간 리포트(4/18-19)", "url": "https://furtherandbetter.substack.com/p/global-tv-film-and-media-industry-d33", "domain": "Further & Better", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "NAB Show 2026 글로벌 참가", "url": "https://www.nabshow.com/las-vegas/", "domain": "NAB Show", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""},
-        {"title": "Ofcom Tier 1 VOD 발효", "url": "https://www.gov.uk/guidance/statement-on-designation-of-tier-1-video-on-demand-vod-services", "domain": "UK GOV.UK", "category": "Media Business", "sourcecountry": "", "language": "Korean", "seendate": "", "socialimage": ""}
+        {
+          "title": "Further & Better 주간 리포트(4/18-19)",
+          "url": "https://furtherandbetter.substack.com/p/global-tv-film-and-media-industry-d33",
+          "domain": "Further & Better",
+          "category": "Media Business",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "NAB Show 2026 글로벌 참가",
+          "url": "https://www.nabshow.com/las-vegas/",
+          "domain": "NAB Show",
+          "category": "Media Business",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        },
+        {
+          "title": "Ofcom Tier 1 VOD 발효",
+          "url": "https://www.gov.uk/guidance/statement-on-designation-of-tier-1-video-on-demand-vod-services",
+          "domain": "UK GOV.UK",
+          "category": "Media Business",
+          "sourcecountry": "",
+          "language": "Korean",
+          "seendate": "",
+          "socialimage": ""
+        }
       ]
     }
-  ]
+  ],
+  "tmdb": {
+    "movies": [
+      {
+        "title": "프로젝트 헤일메리",
+        "poster_path": "/qqGpVVZk2KD1lAvccgTU4Z6nh1H.jpg",
+        "vote_average": 8.214,
+        "id": 687163
+      },
+      {
+        "title": "마이클",
+        "poster_path": "/piMZqtd0gGS7OgkhDwiQ7vVViBQ.jpg",
+        "vote_average": 7.5,
+        "id": 936075
+      },
+      {
+        "title": "리 크로닌의 미이라",
+        "poster_path": "/zXlwtzXP80yc3X0VokdxvmsFQfw.jpg",
+        "vote_average": 6.887,
+        "id": 1304313
+      },
+      {
+        "title": "슈퍼 마리오 갤럭시",
+        "poster_path": "/knaXOBDBecVBWZVup3zXaOoy23v.jpg",
+        "vote_average": 6.8,
+        "id": 1226863
+      },
+      {
+        "title": "아앙: 더 라스트 에어벤더",
+        "poster_path": "/gPiyTLo5GGwtJl0L8TlaJF9r0KE.jpg",
+        "vote_average": 0.0,
+        "id": 980431
+      },
+      {
+        "title": "볼스 업",
+        "poster_path": "/jntqR2lt6rV1e8e5lXJXadkcsti.jpg",
+        "vote_average": 5.488,
+        "id": 1084577
+      },
+      {
+        "title": "아바타: 불과 재",
+        "poster_path": "/l18o0AK18KS118tWeROOKYkF0ng.jpg",
+        "vote_average": 7.4,
+        "id": 83533
+      },
+      {
+        "title": "복수",
+        "poster_path": "/26milocWotfItrjwnadk4gyHwyi.jpg",
+        "vote_average": 6.286,
+        "id": 1613798
+      },
+      {
+        "title": "악마는 프라다를 입는다 2",
+        "poster_path": "/28A1VUDML1RzENYNtIU1WkBLT9V.jpg",
+        "vote_average": 0.0,
+        "id": 1314481
+      },
+      {
+        "title": "스래시: 상어의 습격",
+        "poster_path": "/8HjP0vqOk1FIxoN96ciRnOcmGu4.jpg",
+        "vote_average": 6.017,
+        "id": 1290417
+      },
+      {
+        "title": "레디 오어 낫 2",
+        "poster_path": "/jRf89HVEtBZiSnOXXWDhZOfuTwW.jpg",
+        "vote_average": 6.931,
+        "id": 1266127
+      },
+      {
+        "title": "더 드라마",
+        "poster_path": "/ikcNOWB6Qo1ER1H1BJL6Vf0W22s.jpg",
+        "vote_average": 7.041,
+        "id": 1325734
+      }
+    ],
+    "tv": [
+      {
+        "name": "유포리아",
+        "poster_path": "/lRsDSuj98WQfXBCV44xMoG0G29M.jpg",
+        "vote_average": 8.282,
+        "id": 85552
+      },
+      {
+        "name": "프롬",
+        "poster_path": "/wjaz71csFQWCvXkXDuIptfqwY7R.jpg",
+        "vote_average": 8.2,
+        "id": 124364
+      },
+      {
+        "name": "더 보이즈",
+        "poster_path": "/ilSwgC9i8KsnXEv9aH8MUcaWvbW.jpg",
+        "vote_average": 8.439,
+        "id": 76479
+      },
+      {
+        "name": "성난 사람들",
+        "poster_path": "/kHUudiiSb19LImGbOGnf8wPkVxW.jpg",
+        "vote_average": 7.8,
+        "id": 154385
+      },
+      {
+        "name": "원피스",
+        "poster_path": "/qHjXsSUuolEtbgvYPzRjAuB1VHE.jpg",
+        "vote_average": 8.7,
+        "id": 37854
+      },
+      {
+        "name": "더 피트",
+        "poster_path": "/kvFSpESyBZMjaeOJDx7RS3P1jey.jpg",
+        "vote_average": 8.7,
+        "id": 250307
+      },
+      {
+        "name": "주술회전",
+        "poster_path": "/pnn223i9v5kfYku6TbqdSbPePJp.jpg",
+        "vote_average": 8.6,
+        "id": 95479
+      },
+      {
+        "name": "인빈시블",
+        "poster_path": "/pXdOMSrlxc2z4scUsYEPgo0KyV7.jpg",
+        "vote_average": 8.6,
+        "id": 95557
+      },
+      {
+        "name": "스타워즈: 몰 - 그림자 군주",
+        "poster_path": "/fTfLd3s9yBNOzbFHD2aXvwEs93H.jpg",
+        "vote_average": 7.6,
+        "id": 289219
+      },
+      {
+        "name": "모두가 자신의 무가치함과 싸우고 있다",
+        "poster_path": "/aD2RmTY3yFQVzEGaK0Y3XJSzlAj.jpg",
+        "vote_average": 8.8,
+        "id": 289424
+      },
+      {
+        "name": "'모나크: 레거시 오브 몬스터즈' - Monarch: Legacy of Monsters",
+        "poster_path": "/64OhUguH7VtHcVgVRWLZfMfeQjO.jpg",
+        "vote_average": 7.708,
+        "id": 202411
+      },
+      {
+        "name": "마셜스",
+        "poster_path": "/nInfaveN1iFpRIcMGNKENoVVUT2.jpg",
+        "vote_average": 7.1,
+        "id": 290856
+      }
+    ]
+  },
+  "cat_colors": {
+    "OTT/Streaming": "#e53935",
+    "Film/Cinema": "#8e24aa",
+    "Music/Audio": "#2e7d32",
+    "Gaming/Esports": "#ef6c00",
+    "K-Content": "#d81b60",
+    "Media Business": "#1565c0",
+    "Regulation": "#00897b"
+  },
+  "cat_counts": {
+    "OTT/Streaming": 118,
+    "Film/Cinema": 73,
+    "Media Business": 42,
+    "K-Content": 22,
+    "Music/Audio": 24,
+    "Regulation": 18
+  },
+  "stats": {
+    "total_articles": 297,
+    "total_stories": 10
+  }
 }
