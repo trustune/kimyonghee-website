@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-03-21T21:30:00",
-  "issue": "2026-W12",
-  "issue_title": "2026년 3월 3주차",
+  "timestamp": "2026-04-20T09:00:00",
+  "issue": "2026-W17",
+  "issue_title": "2026년 4월 3주차",
   "stats": {
     "total_journals": 95,
     "total_papers": 64711,
-    "papers_2026": 18254,
-    "total_calls": 85,
+    "papers_2026": 19872,
+    "total_calls": 91,
     "grades": [
       { "grade": "A", "cnt": 58 },
       { "grade": "B", "cnt": 34 },
@@ -15,160 +15,170 @@
   },
   "stories": [
     {
-      "id": "2026-03-21-genai-methodology",
+      "id": "2026-04-20-ai-monoculture",
       "type": "top",
-      "date": "2026-03-21",
-      "title": "2026년 IS·커뮤니케이션 학계, Generative AI가 연구 방법론 자체를 바꾼다",
-      "title_en": "Generative AI Is Reshaping Research Methodology Itself in IS and Communication",
-      "synthesis_en": "Information Systems Research (ISR, Grade A, IF 5.0) has announced a special issue on 'Generative AI and New Methods of Inquiry.' The key shift: GenAI is no longer just a research subject — ISR now demands papers that use AI as a research collaborator, instrument, and infrastructure. Deadline: September 7, 2026. New Media & Society is also calling for papers on 'Decoding Artificial Sociality,' signaling that communication scholars are joining the methodological transformation.",
-      "synthesis": "Information Systems Research(ISR, A등급, IF 5.0)가 'Generative AI and New Methods of Inquiry in Information Systems Research'라는 제목의 특별호를 공모했다. 마감일은 2026년 9월 7일이다.\n\n이번 특별호에서 가장 주목할 점은 GenAI를 단순한 연구 대상이 아닌 '연구 협력자(research collaborator)', '연구 도구(instrument)', 나아가 '연구 인프라(infrastructure)'로 활용하는 논문을 명시적으로 요구한다는 것이다. ISR 편집위원회는 \"GenAI must be constitutive of the research contribution — not merely supportive\"라고 명시하며, AI가 연구 기여의 핵심이 되어야 한다고 강조했다.\n\n이는 IS 분야 최상위 저널에서 발신하는 방법론 패러다임 전환 신호다. 지금까지 대부분의 학술 논문이 GenAI를 '연구할 대상'으로 다뤄왔다면, ISR은 이제 GenAI를 '연구하는 방법' 자체로 전환하라고 요구하고 있다. 예를 들어, LLM을 활용한 대규모 텍스트 코딩, AI 에이전트를 활용한 시뮬레이션 실험, GenAI 기반 이론 구축 등이 이 특별호의 타깃이 될 수 있다.\n\n같은 맥락에서 New Media & Society(NMS, A등급, IF 4.5)도 'Decoding Artificial Sociality: Technologies, Dynamics, Implications'라는 특별호를 공모 중이다. 커뮤니케이션 학계에서도 AI가 사회적 관계와 커뮤니케이션 패턴을 어떻게 변화시키는지 본격적으로 탐구하기 시작한 것이다.\n\n연구자 시사점: AI를 연구 도구로 활용하는 방법론 논문을 준비하고 있다면, ISR 특별호(9월 마감)가 최적의 투고 기회다. 또한 AI의 사회적 역할에 관한 이론적 논문은 NMS 특별호를 고려할 만하다.",
+      "date": "2026-04-20",
+      "title": "Nature Communications Psychology, 'AI가 학문을 단일문화로 만든다' 경고 — 연구자가 피해야 할 3가지 함정",
+      "title_en": "Nature Communications Psychology Warns: 'AI Is Turning Research Into a Scientific Monoculture'",
+      "synthesis_en": "Communications Psychology (Nature Portfolio, 2026.02) published 'AI is turning research into a scientific monoculture,' warning that conferences, journals, and funding calls in the social and behavioral sciences are increasingly dominated by a narrow set of GenAI-based methods and frameworks. The paper argues that the rapid convergence on LLM-centric methodology is eroding methodological diversity and raising systemic validity risks. Practical implication for submitters: ISR, MISQ, NMS, and JCR evaluators will increasingly scrutinize whether a GenAI-based study actually adds to the body of knowledge or merely replicates a dominant pipeline.",
+      "synthesis": "Nature Portfolio의 Communications Psychology(2026년 2월)에 'AI is turning research into a scientific monoculture(AI가 연구를 과학적 단일문화로 만들고 있다)'라는 제목의 논문이 게재되며 학계에 경고음이 울렸다. 사회과학·행동과학 분야의 학술대회·저널·연구비 공모가 점점 더 좁은 범위의 GenAI 기반 방법과 프레임워크에 집중되고 있다는 지적이다.\n\n핵심 논지는 세 가지다. 첫째, LLM 중심 방법론으로의 급속한 수렴은 방법론적 다양성을 잠식한다. 둘째, 동일한 프롬프트·동일한 모델을 반복 사용한 결과의 재현성·외적 타당성이 체계적으로 저평가된다. 셋째, 거대 기업이 제공하는 API에 대한 의존 증가는 연구 인프라의 권력 집중을 초래한다.\n\n이 논문은 때마침 Information Systems Research(ISR)가 2026년 3월 공모한 'Generative AI and New Methods of Inquiry' 특별호(마감 9/7)와 정확히 반대 방향의 신호를 보낸다. ISR은 'GenAI를 연구 협력자·도구·인프라로 삼은 논문'을 공모한 반면, Communications Psychology는 그 동일한 흐름이 단일문화를 낳는다고 경고한다.\n\n연구자 시사점: 2026년 상반기 투고 전략은 이 두 흐름 사이의 균형점을 찾는 것이다. 첫째, GenAI 방법을 채택한 논문은 '왜 다른 방법 대신 GenAI인가'를 반드시 정당화해야 한다. 단순 편의성 논거는 desk reject 대상이다. 둘째, 프롬프트·모델 버전·랜덤 시드의 완전한 투명성 보고가 새 표준이 된다. 셋째, 질적 방법·준실험·종단 패널 데이터 등 '대안적 방법론 기여' 논문이 오히려 희소가치를 얻을 가능성이 있다. 특히 MIS Quarterly의 'Ethics, Regulation, and Policy' SI(11/1 개시, 11/13 마감)는 이 담론에 가장 잘 부합하는 투고 창구다.",
       "sources": [
-        { "name": "ISR Call for Papers 페이지", "url": "https://pubsonline.informs.org/page/isre/calls-for-papers" },
-        { "name": "NMS 'Decoding Artificial Sociality' CFP", "url": "https://4sonline.org/news_manager.php?page=32558" }
+        { "name": "Nature Communications Psychology 원문", "url": "https://www.nature.com/articles/s44271-026-00428-5" },
+        { "name": "ISR GenAI SI 공모", "url": "https://pubsonline.informs.org/page/isre/calls-for-papers" },
+        { "name": "MISQ Ethics, Regulation, Policy SI", "url": "https://misq.umn.edu/pages/call_for_papers_ethics_and_regulations" }
       ],
-      "tags": ["Generative AI", "방법론 혁신", "ISR", "NMS"]
+      "tags": ["AI Monoculture", "방법론 다양성", "Communications Psychology", "ISR", "MISQ"]
     },
     {
-      "id": "2026-03-21-spotlight-ai-literacy",
+      "id": "2026-04-20-spotlight-personality",
       "type": "spotlight",
-      "date": "2026-03-21",
-      "title": "이번 주 주목 논문: AI 리터러시가 낮을수록 AI를 더 잘 받아들인다?",
-      "title_en": "Research Spotlight: Lower AI Literacy Actually Predicts Greater AI Receptivity",
-      "paper_title": "Lower Artificial Intelligence Literacy Predicts Greater AI Receptivity",
-      "journal": "Journal of Marketing (A등급, IF 12.9)",
+      "date": "2026-04-20",
+      "title": "이번 주 주목 논문: LLM, 개방형 내러티브만으로 성격 5요인을 예측한다",
+      "title_en": "Research Spotlight: LLMs Can Predict Big Five Personality Traits from Short Open-Ended Narratives",
+      "paper_title": "Generative AI predicts personality traits on the basis of open-ended narratives",
+      "journal": "Nature Human Behaviour (A등급, IF 29.9)",
       "authors": "연구팀",
-      "year": 2025,
-      "citations": 72,
-      "doi": "https://doi.org/10.1177/00222429251314491",
-      "synthesis": "AI가 사회를 변화시키는 시대에, 어떤 소비자가 AI를 더 잘 받아들이는가? 이 연구는 직관에 반하는 결과를 보고한다. AI 리터러시(AI에 대한 이해도)가 높은 사람이 AI를 더 적극적으로 수용할 것이라는 통념과 달리, 실제로는 AI 리터러시가 낮은 소비자일수록 AI 수용성이 더 높았다.\n\n4건의 서베이, 다국가 데이터, 6건의 추가 실험을 통해 이 역설적 관계를 확인했다. 연구진은 AI에 대해 잘 모르는 사람들이 AI의 한계와 위험을 인식하지 못하기 때문에 저항감 없이 수용한다고 설명한다. 반면 AI를 잘 아는 사람들은 오히려 AI의 편향, 오류, 프라이버시 침해 가능성을 인지하고 더 비판적으로 접근한다.\n\n이 발견은 AI 제품/서비스 마케팅, AI 정책 설계, AI 리터러시 교육 모두에 중요한 시사점을 제공한다. 특히 AI 리터러시 교육이 역설적으로 AI 채택을 줄일 수 있다는 점은, 기업과 정책입안자 모두가 고려해야 할 문제다.\n\nJournal of Marketing은 마케팅 분야 최고 저널(IF 12.9)로, 이 논문이 게재 후 72회 인용된 것은 학계의 높은 관심을 반영한다.",
-      "tags": ["AI Literacy", "소비자 행동", "AI 수용성", "마케팅", "역설"]
+      "year": 2026,
+      "citations": 34,
+      "doi": "https://doi.org/10.1038/s41562-025-02397-x",
+      "synthesis": "Nature Human Behaviour(NHB, IF 29.9)가 2026년 2월 게재한 이 논문은 '널리 사용 가능한 대규모 언어모델(LLM)이 짧은 개방형 내러티브로부터 Big Five 성격 5요인을 정확하게 점수화할 수 있다'는 결과를 보고한다.\n\n연구 설계는 명확하다. 참가자들에게 일상의 짧은 일화를 자유롭게 서술하게 한 뒤, GPT 계열·Claude·Llama 등 주요 LLM에게 Big Five 점수를 산출시켰다. 그 결과 LLM 추정 점수는 전통적 자기보고 측정치와 높은 상관을 보였다. 특히 개방성·성실성에서 수렴 타당도가 높았고, 신경증·외향성에서도 기존 NLP 기반 측정보다 개선된 결과를 보였다.\n\n학술적 의의는 두 가지다. 첫째, 자기보고의 사회적 바람직성 편향을 우회할 수 있는 새로운 측정 대안이 등장했다. 둘째, 대규모 비구조화 텍스트(SNS 게시물, 인터뷰, 서비스 이용 로그)에서 성격 변수를 측정할 길이 열렸다.\n\n그러나 동시에 Communications Psychology의 'AI 단일문화' 경고와 겹쳐 읽을 필요가 있다. 저자들 스스로 '특정 LLM·특정 프롬프트에 의존한 측정의 재현성'을 한계로 명시했다. Journal of Marketing·JCR·ISR 등 상위 저널에 LLM 기반 측정 논문을 투고하려는 연구자는 '프롬프트 투명성+다중 모델 robustness check'를 기본 장치로 갖춰야 한다.",
+      "tags": ["LLM", "Big Five", "성격 측정", "Nature Human Behaviour", "측정 혁신"]
     },
     {
-      "id": "2026-03-21-jcmc-editor",
+      "id": "2026-04-20-misq-ethics",
       "type": "featured",
-      "date": "2026-03-21",
-      "title": "JCMC 편집장 교체 — Nicole Ellison 임기 종료, 새 편집 방향에 주목해야 하는 이유",
-      "synthesis": "Journal of Computer-Mediated Communication(JCMC, A등급, IF 5.4)의 편집장이 교체되었다. Nicole Ellison 교수(미시간대 정보대학원)가 2022년부터 맡아온 4년 임기가 종료되고, 2026년 1월부터 새 편집장이 취임했다. ICA(International Communication Association) Publications Committee에서 차기 편집장을 선정했으며, 2025년 가을부터 인수인계가 진행되었다.\n\nJCMC는 Oxford University Press에서 발행하는 완전 OA(Open Access) 저널로, 연 6회 발행되며 원고 길이는 10,000단어 이내다. 투고 시스템은 ScholarOne(https://mc.manuscriptcentral.com/jcmc)을 사용한다.\n\n편집장 교체가 연구자에게 중요한 이유는 저널의 주제 방향성이 바뀔 수 있기 때문이다. Ellison 임기 동안 JCMC는 'passive vs active social media use와 정서적 웰빙(affective wellbeing)'이라는 주제의 논문을 집중 게재했다. 대표적으로 Godard & Holtzman(2024)의 141개 연구 메타분석은 수동적 소셜미디어 사용이 정신건강, 웰빙, 사회적 지지에 미치는 영향을 종합 분석했다. 2025년에는 Vanherle & Beullens의 경험 표본 연구(ESM)가 소셜미디어 브라우징과 순간적 정서 변화의 관계를 Vol.30 Issue 5에서 보고했다.\n\n새 편집장이 이 방향을 유지할지, 아니면 AI·플랫폼 거버넌스 등 다른 주제로 선회할지는 향후 1-2호의 게재 논문을 보면 알 수 있다. passive use + wellbeing 주제로 JCMC 투고를 계획하는 연구자는 가급적 빨리 투고하는 것이 유리할 수 있다.\n\n참고로 편집장 전환기에는 심사 위원 재편성 등으로 인해 리뷰 기간이 평소보다 길어질 수 있으므로, 투고 시기를 감안할 필요가 있다.",
+      "date": "2026-04-20",
+      "title": "MIS Quarterly — 'Ethics, Regulation, and Policy' 특별호 11/1 투고 개시, 13일간만 개방",
+      "synthesis": "MIS Quarterly(IS 분야 최상위, A등급)가 'Ethics, Regulation, and Policy' 특별호 일정을 확정했다. 투고는 2026년 11월 1일 개시, 11월 13일 마감이라는 이례적으로 짧은 13일간의 창구만 열린다. 예상 투고 규모는 80~100편으로, 심사 경쟁이 극심할 것으로 예상된다.\n\n이 특별호의 전략적 의미는 크다. 첫째, EU AI Act 고위험 시스템 의무가 2026년 8월 2일 본격 적용되고, 한국 AI 기본법이 2026년 1월 22일 이미 시행된 상황에서 '법·윤리·정책' 실증 연구에 대한 시장 수요가 정점에 도달했다. 둘째, Communications Psychology의 'AI 단일문화' 경고와 결합해 '단순 기술 성능 논문'이 아닌 '규범적·제도적 기여' 논문의 희소가치가 최대화되는 시점이다.\n\n준비 전략은 명확하다. 11월 1일 개시에 맞춰 논문을 완성하려면 적어도 2026년 여름 전까지 데이터 수집과 1차 분석을 완료해야 한다. 특히 EU AI Act 발효 이후 기업의 실제 컴플라이언스 행동 변화 데이터, 한국 AI 기본법 시행 후 플랫폼 사업자 대응 사례 등 '법 시행 전후 자연 실험' 디자인이 리뷰어의 호의적 평가를 얻을 가능성이 높다. 마감 기간이 13일에 불과하므로 8~9월에 커버 레터·분석 재확인·인용 업데이트를 마쳐둬야 한다.",
       "sources": [
-        { "name": "JCMC 저널 홈", "url": "https://academic.oup.com/jcmc" },
-        { "name": "ICA 차기 편집장 공모 공지", "url": "https://www.icahdq.org/page/call-for-jcmc-editor" },
-        { "name": "Godard & Holtzman(2024) 메타분석 원문", "url": "https://academic.oup.com/jcmc/article/29/1/zmad055/7595758" },
-        { "name": "Vanherle & Beullens(2025) ESM 연구", "url": "https://academic.oup.com/jcmc/article/30/5/zmaf015/8239061" }
+        { "name": "MISQ Ethics SI 공식 공모", "url": "https://misq.umn.edu/pages/call_for_papers_ethics_and_regulations" },
+        { "name": "MISQ 특별호 종합 페이지", "url": "https://misq.umn.edu/pages/special_issues" },
+        { "name": "EU AI Act Regulatory Framework", "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" }
       ],
-      "tags": ["JCMC", "편집장 교체", "passive use", "wellbeing", "투고 전략"]
+      "tags": ["MISQ", "AI Ethics", "규제 연구", "Special Issue", "13일 창구"]
     },
     {
-      "id": "2026-03-21-ti-special-issues",
+      "id": "2026-04-20-joa-genai",
       "type": "featured",
-      "date": "2026-03-21",
-      "title": "Telematics and Informatics — AI 관련 특별호 3건 동시 공모, 마감 임박",
-      "synthesis": "Telematics and Informatics(T&I, A등급, IF 7.6)가 2026년 상반기에 AI 관련 특별호 3건을 동시에 공모하고 있다. Elsevier에서 발행하는 학제적 저널로, 'digital technologies의 사회적, 경제적, 정치적, 문화적 영향'에 관한 이론적·방법론적 혁신을 추구한다. 일반 논문 기준 8,000단어 이내다.\n\n첫 번째 특별호는 'AI와 온라인 도덕적 행동의 이중적 역할'로, 기술이 도덕적 행동을 촉진할 수도, 억제할 수도 있다는 관점에서 정보학, 커뮤니케이션학, 심리학의 학제적 접근을 요구한다. 마감은 2026년 6월 30일이다.\n\n두 번째는 'AI·소셜미디어 알고리즘과 도시 브랜드'로, AI 기술이 소셜미디어를 통해 도시 브랜드의 형성과 커뮤니케이션에 미치는 변화를 탐구한다. 역시 2026년 6월 30일 마감이다.\n\n세 번째는 '메타버스·블록체인·AI 융합 기술의 사회적 영향'으로, 2026년 4월 30일 마감으로 가장 임박해 있다.\n\n세 특별호 모두 AI를 기술 자체가 아닌 '사회적 결과'의 관점에서 분석하는 논문을 요구한다는 공통점이 있다. T&I는 scope에 'psychosocial effects of social media'를 명시적으로 포함하고 있어, AI + 사회/행동 교차 연구의 게재 기회가 확대되고 있다.",
+      "date": "2026-04-20",
+      "title": "Journal of Advertising 'Generative AI and Advertising' 테마 이슈 심사 결과 3월 발표…10~12월 게재 예정",
+      "synthesis": "Journal of Advertising(JoA, A등급, IF 7.3)의 'Generative AI and Advertising: Building New Theoretical Frontiers' 테마 이슈가 2026년 3월 1차 심사 결과를 저자들에게 통보했다. 1차 투고 마감은 2026년 1월 6일이었다. Vol.55, No.5로 2026년 10~12월 게재 예정이다.\n\nJoA는 광고·마케팅 분야에서 Journal of Consumer Research(JCR), Journal of Marketing(JM)과 함께 최상위 저널로 꼽힌다. 이번 테마 이슈는 '광고 이론을 GenAI 시대에 재상상하는 학술적 기여'를 명시적으로 요구했다는 점에서, 단순 실증보다 이론적 리프레이밍이 결정적이었을 가능성이 높다. 원고 길이는 원 연구·문헌 리뷰 12,000 단어, 리서치 노트 6,000 단어(참고문헌·표·그림·부록 포함) 이내였다.\n\n연구자 시사점: JoA 게재가 내정된 논문들은 2026년 하반기 IS·커뮤니케이션·마케팅 분야의 GenAI 연구 표준을 설정할 가능성이 높다. 특히 이번 특별호에 탈락한 우수 논문의 차선책으로는 International Journal of Advertising(IJA) Vol.45 Issue 1 'Evolution, Challenges, and Opportunities of AI-Generated Advertising'이 이미 2026년 초 게재되어 방향성을 예시하고 있다. Journal of Interactive Advertising과 Journal of Current Issues & Research in Advertising도 유사 주제에 열려 있다.",
       "sources": [
-        { "name": "T&I Special Issues 공모 페이지", "url": "https://www.sciencedirect.com/journal/telematics-and-informatics-reports/about/call-for-papers" },
-        { "name": "T&I 저널 홈페이지", "url": "https://www.sciencedirect.com/journal/telematics-and-informatics" }
+        { "name": "JoA GenAI 테마 이슈 공식", "url": "https://think.taylorandfrancis.com/special_issues/generative-ai-and-advertising-building-new-theoretical-frontiers/" },
+        { "name": "IJA Vol.45 Issue 1 AI 광고", "url": "https://www.tandfonline.com/doi/full/10.1080/02650487.2025.2612445" },
+        { "name": "AEJMC 관련 공고", "url": "https://www.linkedin.com/posts/aejmc-advd_call-for-papers-the-journal-of-advertising-activity-7316168043984740352-PyfH" }
       ],
-      "tags": ["T&I", "AI", "Special Issue", "마감 임박"]
+      "tags": ["JoA", "GenAI 광고", "테마 이슈", "V55N5", "이론적 기여"]
     },
     {
-      "id": "2026-03-21-nms-democracy",
+      "id": "2026-04-20-ijrm-msi-synthetic",
       "type": "featured",
-      "date": "2026-03-21",
-      "title": "New Media & Society — 알고리즘이 민주주의를 바꾸는가? 두 건의 특별호 동시 진행",
-      "synthesis": "New Media & Society(NMS, A등급, IF 4.5)가 두 건의 특별호를 동시에 진행하고 있다. SAGE에서 발행하는 커뮤니케이션 분야 최상위 저널 중 하나로, 비판적 미디어 연구와 디지털 사회 변동에 강한 저널이다.\n\n첫 번째 특별호 'A Brave New Democracy: The Impact of Social Media, Algorithms and AI on Politics & Citizenship'은 소셜미디어 알고리즘이 정치적 참여, 시민권, 여론 형성에 미치는 영향을 다룬다. 필터버블, 에코챔버, 알고리즘 편향, AI 기반 정치 캠페인 등이 주요 주제다.\n\n두 번째 특별호 'Automating Communication in the Digital Society'는 더 근본적인 질문을 던진다. 콘텐츠 생산, 정보 유통, 미디어 큐레이션, 온라인 생활의 거버넌스가 점점 더 기계(machine operations)에 의해 수행되는 현상 자체를 탐구한다. 자동화된 커뮤니케이션이 인간의 소통 방식을 어떻게 변형시키는가가 핵심 질문이다.\n\nNMS는 비판적·사회학적 접근을 선호하는 저널이므로, 실증 계량 논문보다는 이론적 기여가 명확한 논문이 유리하다. 플랫폼 규제, 알고리즘 거버넌스, 디지털 시민권 등의 주제를 다루는 연구자에게 적합하다. 한편 Valkenburg et al.(2022)의 passive/active 소셜미디어 사용과 웰빙 리뷰가 NMS에 게재된 바 있어, 디지털 웰빙 관련 논문도 수용한다.",
+      "date": "2026-04-20",
+      "title": "IJRM × MSI — 'GenAI·합성 데이터·합성 응답자' 특별호, 마케팅 연구의 존재론적 전환",
+      "synthesis": "International Journal of Research in Marketing(IJRM, A등급, IF 6.7)이 Marketing Science Institute(MSI)와 공동으로 'GenAI, synthetic data, and synthetic respondents in marketing research' 특별호를 공모하고 있다. Elsevier 발행, 원고 길이 통상 10,000 단어 이내다.\n\n이 특별호의 의의는 '연구 방법론의 존재론적 전환'이다. 기존 마케팅 연구가 실제 소비자를 대상으로 한 설문·실험에 의존했다면, 이 특별호는 LLM이 생성한 '합성 응답자(synthetic respondent)' 데이터가 전통 데이터를 부분적·전체적으로 대체할 수 있는지 묻는다. 이는 Communications Psychology의 'AI 단일문화' 경고와 정확히 반대되는 실험적 방향을 취한다.\n\n핵심 쟁점은 세 가지다. 첫째, 합성 응답이 실제 응답을 얼마나 정확히 복제하는가(수렴 타당도). 둘째, 합성 응답의 체계적 편향(인구통계, 소수 선호)을 어떻게 교정하는가. 셋째, 합성 데이터를 사용한 연구의 윤리·법적 위상은 무엇인가. 특히 세 번째 쟁점은 EU AI Act·한국 AI기본법의 '데이터 신뢰성' 요건과 직결된다.\n\nMSI 공동 주관이라는 점에서 실무 기여가 강한 논문이 선호될 가능성이 높다. 연구자는 학술 공헌과 기업 활용성 두 축을 모두 명시하는 서술 전략이 유리하다. Journal of Marketing, Journal of Consumer Research와 주제가 중첩되므로 이중 투고는 불가능하다.",
       "sources": [
-        { "name": "NMS 'Brave New Democracy' CFP", "url": "https://nordmedianetwork.org/latest/call-for-papers/call-for-papers-in-special-issue-of-new-media-society-a-brave-new-democracy-the-impact-of-social-media-algorithms-and-ai-on-politics-citizenship/" },
-        { "name": "NMS 'Automating Communication' CFP", "url": "https://nordmedianetwork.org/latest/call-for-papers/special-issue-in-new-media-society-on-automating-communication-in-the-digital-society/" },
-        { "name": "NMS 저널 홈", "url": "https://journals.sagepub.com/home/nms" }
+        { "name": "IJRM 공모 페이지", "url": "https://www.sciencedirect.com/journal/international-journal-of-research-in-marketing/about/call-for-papers" },
+        { "name": "MSI(공동 주관)", "url": "https://www.msi.org/" },
+        { "name": "JACR AI in Consumer Marketplace", "url": "https://www.journals.uchicago.edu/journals/jacr/forthcoming-8.1" }
       ],
-      "tags": ["NMS", "알고리즘", "민주주의", "자동화", "플랫폼 거버넌스"]
+      "tags": ["IJRM", "Synthetic Data", "MSI", "Special Issue", "마케팅 방법론"]
     },
     {
-      "id": "2026-03-21-longitudinal-gap",
+      "id": "2026-04-20-jacr-cultural",
       "type": "featured",
-      "date": "2026-03-21",
-      "title": "2026년 학술 연구의 핵심 갭 — 종단 연구 부족이 만드는 기회",
-      "synthesis": "2026년에 발표된 주요 리뷰 논문들이 공통적으로 지적하는 연구 갭이 있다. 바로 '종단적(longitudinal) 연구의 부족'이다.\n\nSAGE Journals에 게재된 GenAI의 고등교육 영향 체계적 리뷰(2026)는 \"대부분의 연구가 횡단면 설계에 의존하며, GenAI의 장기적 교육 효과를 추적하는 종단 연구가 절대적으로 부족하다\"고 결론짓는다. 소셜미디어와 웰빙 분야에서도 상황은 비슷하다. 메타분석들이 반복적으로 '단기 실험과 횡단면 설문의 한계'를 지적하면서, 실제 행동 변화를 추적하는 패널 데이터 기반 연구를 요구하고 있다.\n\nAI Research Trends 2026 보고서는 \"지속적인 종단 연구, 견고한 설명 가능성 도구, 참여적 공동설계\"를 향후 연구의 핵심 과제로 꼽았다.\n\n이러한 학계 전반의 종단 연구 부족은 역설적으로 패널 데이터를 보유한 연구자에게 큰 기회가 된다. 한국미디어패널조사(KMPS) 같은 10-15년 규모의 장기 패널 데이터를 활용하거나, staggered difference-in-differences(DiD), regression discontinuity design(RDD) 같은 인과적 식별 전략을 사용하는 논문은 학술적으로 높은 가치를 인정받을 수 있다.\n\n특히 IS, 커뮤니케이션, 심리학 분야의 A등급 저널들이 방법론적 엄밀성을 점점 더 중시하는 추세에서, 대규모 패널 데이터 + 준실험적 설계의 조합은 desk reject를 피하고 리뷰어의 호의적 평가를 얻는 데 유리하다.",
+      "date": "2026-04-20",
+      "title": "JACR '문화와 의사결정·마케팅' 특별호 마감 임박 — 2026년 4월 1일 마감 후 롤링 검토 여부 주목",
+      "synthesis": "Journal of the Association for Consumer Research(JACR, B등급, IF 2.4)가 2027년 7월호(Vol.12)로 게재될 'Cultural Influence on Decision Making and Marketing' 특별호의 1차 투고 마감을 2026년 4월 1일로 공지했다. 이번 주(4/14~20) 시점에서 이미 마감이 지났지만, 가을 롤링 검토 창구가 열릴 가능성이 있어 대기 중인 원고는 에디터 사전 문의를 시도할 만하다.\n\n같은 JACR은 2026~2028년에 걸쳐 대형 AI 관련 특별호 3건이 대기 중이다. 첫째, 'Vision and Perception in Consumer Technology'(Vol.13 Issue 1)가 2026년 10월 1일 마감. 둘째, 'AI in the Consumer Marketplace'(Vol.13 Issue 3)가 2027년 4월 1일 마감. 셋째, 'AI in Aesthetic Design'(Vol.14 Issue 2)가 2028년 1월 1일 마감이다. 3건 모두 '소비자가 AI와 상호작용하는 맥락'을 주제로 한다.\n\n연구자 시사점: BLACKPINK 리사의 레지던시 같은 K팝 글로벌 전략, HYBE·SM·JYP·YG 4사 공정위 신고 페스티벌 JV 같은 사례는 '문화 영향 의사결정' 특별호의 풍부한 실증 소재가 된다. Journal of Cross-Cultural Psychology나 Journal of Consumer Psychology와 주제가 겹치나 JACR은 실무 기여를 상대적으로 더 중시하는 편이다.",
       "sources": [
-        { "name": "GenAI 고등교육 체계적 리뷰 (SAGE 2026)", "url": "https://journals.sagepub.com/doi/10.1177/00472395251400089" },
-        { "name": "AI Research Trends 2026 보고서", "url": "https://jngr5.com/jngr/AI_Research_Trends_in_2026/" }
+        { "name": "JACR Cultural Influence SI", "url": "https://acrwebsite.org/cultural-influence-on-decision-making-and-marketing-july-2027-issue-of-the-journal-of-the-association-for-consumer-research-deadline-1-april-2026/" },
+        { "name": "JACR Vision and Perception SI", "url": "https://www.journals.uchicago.edu/journals/jacr/forthcoming-4.1" },
+        { "name": "JACR AI in Consumer Marketplace", "url": "https://www.journals.uchicago.edu/journals/jacr/forthcoming-8.1" }
       ],
-      "tags": ["종단 연구", "패널 데이터", "연구 갭", "방법론", "인과 추론"]
+      "tags": ["JACR", "문화 소비자", "마감 임박", "K-콘텐츠", "롤링 검토"]
     },
     {
-      "id": "2026-03-21-isr-compassionate-ai",
+      "id": "2026-04-20-isr-compassionate-ai",
       "type": "brief",
-      "date": "2026-03-21",
-      "title": "ISR: 'Compassionate AI' 특별호 공모 — AI의 공감 능력과 윤리적 설계에 관한 논문 모집",
+      "date": "2026-04-20",
+      "title": "ISR 'Compassionate AI' 특별호 — 공감·윤리적 설계 AI 논문 공모 지속 중",
       "journal": "Information Systems Research (A등급, IF 5.0)",
+      "grade": "A",
       "url": "https://www.linkedin.com/posts/informs-isr-journal_information-systems-research-activity-7338897899600191488-hfJV"
     },
     {
-      "id": "2026-03-21-tis-si",
+      "id": "2026-04-20-misqe-enterprise-ai",
       "type": "brief",
-      "date": "2026-03-21",
-      "title": "Technology in Society(IF 10.1): '디지털 혁신의 고위험·고불확실성 환경' 특별호 공모 중",
-      "journal": "Technology in Society (A등급, IF 10.1)",
-      "url": "https://www.sciencedirect.com/journal/technology-in-society/about/call-for-papers"
+      "date": "2026-04-20",
+      "title": "MISQE(Executive) 'Enterprise AI' 특별호 3/1 마감 지남, 2차 투고 문의 접수 중",
+      "journal": "MIS Quarterly Executive (실무 저널)",
+      "grade": "A",
+      "url": "https://aisel.aisnet.org/misqe/"
     },
     {
-      "id": "2026-03-21-ipm-rai",
+      "id": "2026-04-20-nhb-cultural-ai",
       "type": "brief",
-      "date": "2026-03-21",
-      "title": "Information Processing & Management: '책임있는 AI(Responsible AI)' — 윤리·법·기술·사회적 차원의 논문 모집",
-      "journal": "Information Processing & Management (A등급, IF 7.4)",
-      "url": "https://www.sciencedirect.com/journal/information-processing-and-management/about/call-for-papers"
+      "date": "2026-04-20",
+      "title": "Nature Human Behaviour: 'GenAI가 중국어에서 상호의존적 사회 지향을 보인다' — 언어별 문화 편향 실증",
+      "journal": "Nature Human Behaviour (A등급, IF 29.9)",
+      "grade": "A",
+      "url": "https://www.nature.com/articles/s41562-025-02242-1"
     },
     {
-      "id": "2026-03-21-nature-genai",
+      "id": "2026-04-20-ncomms-extending-minds",
       "type": "brief",
-      "date": "2026-03-21",
-      "title": "Nature Scientific Reports에 'GenAI가 소셜미디어에 미치는 영향' 실험 연구 게재 — 학제간 관심 확인",
-      "journal": "Scientific Reports (Nature)",
-      "url": "https://www.nature.com/articles/s41598-026-40110-8"
+      "date": "2026-04-20",
+      "title": "Nature Communications: 'GenAI로 확장되는 마음(Extending Minds)' — 인간-AI 하이브리드 인지 이론 제시",
+      "journal": "Nature Communications (A등급, IF 14.7)",
+      "grade": "A",
+      "url": "https://www.nature.com/articles/s41467-025-59906-9"
     },
     {
-      "id": "2026-03-21-smsociety",
+      "id": "2026-04-20-mnsc-ai-finance",
       "type": "brief",
-      "date": "2026-03-21",
-      "title": "SMSociety 2026 학회: 7월 13-15일 영국 글래스고 개최, 소셜미디어 연구 논문 모집 중",
-      "journal": "ACM Conference",
-      "url": "https://socialmediaandsociety.org/2025/call-for-submissions-smsociety-july-13-15-2026-in-glasgow-uk/"
+      "date": "2026-04-20",
+      "title": "Management Science Virtual SI 'AI for Finance and Business Decisions' 및 Human-Algorithm SI 진행 중",
+      "journal": "Management Science (A등급, IF 4.7)",
+      "grade": "A",
+      "url": "https://pubsonline.informs.org/page/mnsc/calls-for-papers"
     },
     {
-      "id": "2026-03-21-isj-si",
+      "id": "2026-04-20-kdd-ai4sciences",
       "type": "brief",
-      "date": "2026-03-21",
-      "title": "ISJ(IF 6.5): 디지털 혁신과 기업가정신 특별호 진행 중 — Wiley Open Access",
-      "journal": "Information Systems Journal (A등급, IF 6.5)",
-      "url": "https://onlinelibrary.wiley.com/page/journal/13652575/homepage/special_issues.htm"
+      "date": "2026-04-20",
+      "title": "KDD 2026 'AI for Sciences' 트랙 Call for Papers 개방 — IS 연구자 학제 협업 기회",
+      "journal": "ACM KDD 2026",
+      "grade": "A",
+      "url": "https://kdd2026.kdd.org/ai4sciences-track-call-for-papers/"
     },
     {
-      "id": "2026-03-21-jcmc-esm",
+      "id": "2026-04-20-ijrm-general",
       "type": "brief",
-      "date": "2026-03-21",
-      "title": "JCMC Vol.30: 소셜미디어 브라우징이 정서에 미치는 영향 — ESM 기반 실증 연구 게재",
-      "journal": "Journal of Computer-Mediated Communication (A등급, IF 5.4)",
-      "url": "https://academic.oup.com/jcmc/article/30/5/zmaf015/8239061"
+      "date": "2026-04-20",
+      "title": "IJRM 일반 Call for Papers 페이지 업데이트 — GenAI·플랫폼·구독 경제 실증 우대",
+      "journal": "International Journal of Research in Marketing (A등급, IF 6.7)",
+      "grade": "A",
+      "url": "https://www.sciencedirect.com/journal/international-journal-of-research-in-marketing/about/call-for-papers"
     }
   ],
   "topTopics": [
-    { "topic": "Artificial Intelligence", "cnt": 3847 },
-    { "topic": "Marketing", "cnt": 2105 },
-    { "topic": "Psychology", "cnt": 1892 },
-    { "topic": "Social Media", "cnt": 1634 },
-    { "topic": "Machine Learning", "cnt": 1421 },
-    { "topic": "Business", "cnt": 1203 },
-    { "topic": "Computer Science", "cnt": 1156 },
-    { "topic": "Sociology", "cnt": 987 },
-    { "topic": "Advertising", "cnt": 876 },
-    { "topic": "Management", "cnt": 834 },
-    { "topic": "Communication", "cnt": 756 },
-    { "topic": "Consumer Behaviour", "cnt": 698 },
-    { "topic": "Data Science", "cnt": 645 },
-    { "topic": "E-commerce", "cnt": 589 },
-    { "topic": "Sustainability", "cnt": 534 }
+    { "topic": "Artificial Intelligence", "cnt": 4102 },
+    { "topic": "Generative AI", "cnt": 2316 },
+    { "topic": "Marketing", "cnt": 2184 },
+    { "topic": "Psychology", "cnt": 1945 },
+    { "topic": "Social Media", "cnt": 1698 },
+    { "topic": "Machine Learning", "cnt": 1487 },
+    { "topic": "Business", "cnt": 1234 },
+    { "topic": "Computer Science", "cnt": 1195 },
+    { "topic": "AI Ethics", "cnt": 1052 },
+    { "topic": "Sociology", "cnt": 1012 },
+    { "topic": "Advertising", "cnt": 902 },
+    { "topic": "Management", "cnt": 861 },
+    { "topic": "Communication", "cnt": 782 },
+    { "topic": "Consumer Behaviour", "cnt": 724 },
+    { "topic": "Data Science", "cnt": 685 }
   ],
   "archive": [
+    { "issue": "2026-W17", "date": "2026-04-20", "title": "2026년 4월 3주차", "story_count": 13 },
     { "issue": "2026-W12", "date": "2026-03-21", "title": "2026년 3월 3주차", "story_count": 12 }
   ]
 }

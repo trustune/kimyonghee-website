@@ -1,5 +1,40 @@
 [
   {
+    "date": "2026-04-20",
+    "timestamp": "2026-04-20T09:00:00",
+    "total_articles": 245,
+    "total_stories": 10,
+    "top_story": "Netflix Q1 2026 실적 발표…매출 $122.5억(+16%), 리드 헤이스팅스 이사회 은퇴",
+    "top_stories": [
+      {
+        "title": "Netflix Q1 2026 실적 발표…매출 $122.5억(+16%), 리드 헤이스팅스 이사회 은퇴",
+        "entity": "Netflix Q1 2026",
+        "article_count": 52,
+        "category": "OTT/Streaming"
+      },
+      {
+        "title": "파라마운트-WBD 주주투표 D-3…AMC CEO 애덤 애런 '합병 지지' 공개 발언",
+        "entity": "Paramount-WBD Vote",
+        "article_count": 38,
+        "category": "Media Business"
+      },
+      {
+        "title": "'The Mummy' 리부트 $1.5M 프리뷰·$10M대 오프닝…슈퍼 마리오 2주 연속 1위",
+        "entity": "The Mummy / Super Mario Wk2",
+        "article_count": 34,
+        "category": "Film/Cinema"
+      }
+    ],
+    "categories": {
+      "OTT/Streaming": 76,
+      "Film/Cinema": 34,
+      "K-Content": 54,
+      "Media Business": 54,
+      "Music/Audio": 14,
+      "Regulation": 27
+    }
+  },
+  {
     "date": "2026-04-05",
     "timestamp": "2026-04-05T08:30:00",
     "total_articles": 263,
