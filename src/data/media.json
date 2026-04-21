@@ -1,6 +1,16 @@
 {
   "articles": [
     {
+      "id": "economist-20260420",
+      "title": "AI-Ignited Power War: Where Does Korea Stand?",
+      "outlet": "Economist Korea",
+      "date": "2026-04-20",
+      "url": "https://economist.co.kr/article/view/ecn202604160047",
+      "type": "opinion",
+      "category": "Expert Column",
+      "description": "Argues that AI competitiveness now hinges on securing stable, low-cost power and proposes a five-track policy agenda linking Korea's Energy Transition Plan with the new AI Data Center Act to avert 'AI hollowing-out.'"
+    },
+    {
       "id": "etnews-20251109",
       "title": "The Broadcasting and Telecommunications Development Fund Paradox: Does 'Development' Suppress Investment?",
       "outlet": "The Electronic Times",
