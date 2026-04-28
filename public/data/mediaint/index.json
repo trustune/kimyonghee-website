@@ -1,7 +1,7 @@
 [
   {
     "date": "2026-04-29",
-    "timestamp": "2026-04-29T01:56:30",
+    "timestamp": "2026-04-29T02:08:23",
     "total_articles": 2157,
     "total_stories": 10,
     "top_story": "넷플릭스코리아 법인세 687억 취소 판결…같은 날 美 USTR '한국 망 사용료=세계 유일 황당 무역장벽' 재지정",
@@ -27,12 +27,12 @@
     ],
     "categories": {
       "OTT/Streaming": 52,
-      "Media Business": 78,
-      "K-Content": 57,
+      "Media Business": 116,
+      "K-Content": 38,
       "Film/Cinema": 41,
-      "Regulation": 45,
-      "Gaming/Esports": 27,
-      "Music/Audio": 29
+      "Regulation": 54,
+      "Gaming/Esports": 31,
+      "Music/Audio": 33
     }
   },
   {

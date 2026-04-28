@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-29T01:56:30",
+  "timestamp": "2026-04-29T02:08:23",
   "name": "MediaINT",
   "subtitle": "Media Intelligence Terminal",
   "clusters": [
@@ -36,7 +36,7 @@
           "title": "뉴스1 (4/28 종합)",
           "url": "https://www.news1.kr/society/court-prosecution/6151418",
           "domain": "www.news1.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "OTT/Streaming"
@@ -45,7 +45,7 @@
           "title": "파이낸셜뉴스 빅테크 과세 제동",
           "url": "https://www.fnnews.com/news/202604281440326515",
           "domain": "www.fnnews.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "OTT/Streaming"
@@ -54,7 +54,7 @@
           "title": "이투데이 USTR 황당 무역장벽",
           "url": "https://www.etoday.co.kr/news/view/2579708",
           "domain": "www.etoday.co.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "OTT/Streaming"
@@ -63,7 +63,7 @@
           "title": "뉴스핌 USTR 압박",
           "url": "https://www.newspim.com/news/view/20260428000043",
           "domain": "www.newspim.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "OTT/Streaming"
@@ -72,7 +72,7 @@
           "title": "청와대 반박",
           "url": "https://www.newspim.com/news/view/20260428001230",
           "domain": "www.newspim.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "OTT/Streaming"
@@ -81,7 +81,7 @@
           "title": "서울신문 美 입법 추진 압박",
           "url": "https://www.seoul.co.kr/news/international/2026/04/28/20260428500005",
           "domain": "www.seoul.co.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "OTT/Streaming"
@@ -90,7 +90,7 @@
           "title": "머니투데이 (속보)",
           "url": "https://www.mt.co.kr/society/2026/04/28/2026042811422235341",
           "domain": "www.mt.co.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "OTT/Streaming"
@@ -131,7 +131,7 @@
           "title": "CNN (4/23)",
           "url": "https://www.cnn.com/2026/04/23/media/wbd-shareholders-approve-paramount-takeover",
           "domain": "www.cnn.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -140,7 +140,7 @@
           "title": "Variety 보수 부결",
           "url": "https://variety.com/2026/film/news/warner-bros-discovery-paramount-shareholder-approval-zaslav-pay-package-1236727798/",
           "domain": "variety.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -149,7 +149,7 @@
           "title": "Deadline (4/23)",
           "url": "https://deadline.com/2026/04/warner-bros-shareholders-back-sale-to-paramount-key-vote-1236868751/",
           "domain": "deadline.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -158,7 +158,7 @@
           "title": "WBD IR 공식",
           "url": "https://ir.wbd.com/news-and-events/financial-news/financial-news-details/2026/Warner-Bros--Discovery-Stockholders-Approve-Transaction-with-Paramount-Skydance/default.aspx",
           "domain": "ir.wbd.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -167,7 +167,7 @@
           "title": "Fortune $81B",
           "url": "https://fortune.com/2026/04/23/paramounts-81-billion-warner-bros-merger-moves-shareholder/",
           "domain": "fortune.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -176,7 +176,7 @@
           "title": "Axios 가결 보도",
           "url": "https://www.axios.com/2026/04/23/warner-bros-discovery-approve-paramount-skydance-deal",
           "domain": "www.axios.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -185,7 +185,7 @@
           "title": "CBC Canada 보도",
           "url": "https://www.cbc.ca/news/business/warner-brothers-paramount-deal-approved-shareholders-9.7174542",
           "domain": "www.cbc.ca",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -225,7 +225,7 @@
           "title": "싱글리스트 글로벌 3위",
           "url": "https://www.slist.kr/news/articleView.html?idxno=735180",
           "domain": "www.slist.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "K-Content"
@@ -234,7 +234,7 @@
           "title": "위키트리 한국 1위",
           "url": "https://www.wikitree.co.kr/articles/1133733",
           "domain": "www.wikitree.co.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "K-Content"
@@ -243,7 +243,7 @@
           "title": "네이트 살목지+기리고",
           "url": "https://news.nate.com/view/20260428n17421",
           "domain": "news.nate.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "K-Content"
@@ -252,7 +252,7 @@
           "title": "다음 호러 흥행 돌풍",
           "url": "https://v.daum.net/v/bHC6LlQ93s",
           "domain": "v.daum.net",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "K-Content"
@@ -261,7 +261,7 @@
           "title": "나무위키 작품 정보",
           "url": "https://namu.wiki/w/%EA%B8%B0%EB%A6%AC%EA%B3%A0",
           "domain": "namu.wiki",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "K-Content"
@@ -270,7 +270,7 @@
           "title": "Aboda 작품 분석",
           "url": "https://aboda.kr/entry/%EA%B8%B0%EB%A6%AC%EA%B3%A0",
           "domain": "aboda.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "K-Content"
@@ -311,7 +311,7 @@
           "title": "My Nintendo News",
           "url": "https://mynintendonews.com/2026/04/26/the-super-mario-galaxy-movie-crossed-800-million-mark-at-global-box-office/",
           "domain": "mynintendonews.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Film/Cinema"
@@ -320,7 +320,7 @@
           "title": "Inven Global",
           "url": "https://www.invenglobal.com/articles/21387/super-mario-galaxy-movie-surpasses-800-million-in-global-revenue",
           "domain": "www.invenglobal.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Film/Cinema"
@@ -329,7 +329,7 @@
           "title": "ScreenRant 마일스톤",
           "url": "https://screenrant.com/the-super-mario-galaxy-movie-box-office-800-million-global-milestone/",
           "domain": "screenrant.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Film/Cinema"
@@ -338,7 +338,7 @@
           "title": "The Numbers 박스오피스",
           "url": "https://www.the-numbers.com/movie/super-mario-galaxy-movie-the-(2026)",
           "domain": "www.the-numbers.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Film/Cinema"
@@ -347,7 +347,7 @@
           "title": "Outlook 일본 데뷔",
           "url": "https://respawn.outlookindia.com/pop-culture/pop-culture-news/super-mario-galaxy-movie-crosses-800m-after-record-japan-debut",
           "domain": "respawn.outlookindia.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Film/Cinema"
@@ -356,7 +356,7 @@
           "title": "Hollywood Reporter 600M",
           "url": "https://www.hollywoodreporter.com/movies/movie-news/super-mario-galaxy-box-office-milestones-1236561823/",
           "domain": "www.hollywoodreporter.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Film/Cinema"
@@ -365,7 +365,7 @@
           "title": "CNBC 629M",
           "url": "https://www.cnbc.com/2026/04/12/the-super-mario-galaxy-movie-box-office.html",
           "domain": "www.cnbc.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Film/Cinema"
@@ -377,7 +377,7 @@
       "headline": "검찰, 김성수 전 카카오엔터 대표 항소심 징역 10년 구형…1심 무죄 후 '바람픽쳐스 고가 인수' 배임 재공방",
       "headline_url": "https://www.newspim.com/news/view/20260428001340",
       "synthesis_title": "검찰, 김성수 전 카카오엔터 대표 항소심 징역 10년 구형…1심 무죄 후 '바람픽쳐스 고가 인수' 배임 재공방",
-      "synthesis": "검찰이 4월 28일 서울고법 형사3부 항소심 결심공판에서 김성수 전 카카오엔터테인먼트 대표에게 징역 10년에 추징금 12억 5,000만 원을, 공동 피고인 이준호 전 투자전략부문장에게 징역 8년을 구형했다. 검찰은 2020년 카카오엔터가 이 전 부문장 실소유의 드라마 제작사 '바람픽쳐스'를 고가에 인수하는 과정에서 카카오 내부 통제 시스템을 무력화해 회사에 319억 원의 손해를 끼쳤다고 보고 있다. 검찰은 이 전 부문장이 회사 매각 대가로 319억 원 상당의 이익을 취했고, 김 전 대표는 이 전 부문장으로부터 12억 원 상당을 수수했다고 판단했다. 1심에서는 김 전 대표에게 무죄, 이 전 부문장에게는 횡령 혐의 일부 인정으로 징역 2년에 집행유예 3년이 선고됐고, 검찰은 즉각 항소했다. 항소심 과정에서 검찰은 김범수 카카오 의장에 대한 증인 신문 검토를 시사하기도 했다. 이번 사건은 SM엔터테인먼트 인수전 시세조종 의혹으로 재판을 받고 있는 김범수 의장 사건과 함께 카카오 그룹 사법 리스크를 미디어·엔터테인먼트 자회사 거버넌스 전반으로 확장시키는 계기가 되고 있다. 1심과 동일한 결론이 나올지, 아니면 항소심에서 유죄 판단이 내려질지에 따라 카카오 그룹 전체의 컴플라이언스 체계와 미디어 자회사 인수합병 관행에 대한 시장의 신뢰도가 크게 좌우될 전망이다. 항소심 선고는 5월 말~6월 초로 예상된다.",
+      "synthesis": "검찰이 4월 28일 서울고법 형사3부 항소심 결심공판에서 김성수 전 카카오엔터테인먼트 대표에게 징역 10년에 추징금 12억 5,000만 원을, 공동 피고인 이준호 전 투자전략부문장에게 징역 8년을 구형했다. 검찰은 2020년 카카오엔터가 이 전 부문장 실소유의 드라마 제작사 '바람픽쳐스'를 고가에 인수하는 과정에서 카카오 내부 통제 시스템을 무력화해 회사에 319억 원의 손해를 끼쳤다고 보고 있다. 검찰은 이 전 부문장이 회사 매각 대가로 319억 원 상당의 이익을 취했고, 김 전 대표는 이 전 부문장으로부터 12억 원 상당을 수수했다고 판단했다. 1심에서는 김 전 대표에게 무죄, 이 전 부문장에게는 횡령 혐의 일부 인정으로 징역 2년에 집행유예 3년이 선고됐고, 검찰은 즉각 항소했다. 항소심 과정에서 검찰은 김범수 카카오 의장에 대한 증인 신문 검토를 시사하기도 했다. 이번 사건은 SM엔터테인먼트 인수전 시세조종 의혹으로 재판을 받고 있는 김범수 카카오 의장 사건과 함께 카카오 그룹 사법 리스크를 미디어·엔터테인먼트 자회사 거버넌스 전반으로 확장시키는 계기가 되고 있다. 1심과 동일한 결론이 나올지, 아니면 항소심에서 유죄 판단이 내려질지에 따라 카카오 그룹 전체의 컴플라이언스 체계와 미디어 자회사 인수합병 관행에 대한 시장의 신뢰도가 크게 좌우될 전망이다. 항소심 선고는 5월 말~6월 초로 예상된다.",
       "key_points": [
         "4/28 검찰 항소심 구형: 김성수 前대표 징역 10년+추징 12.5억, 이준호 前부문장 징역 8년",
         "1심 김 前대표 무죄, 이 前부문장 횡령만 집행유예 → 검찰 항소로 배임 재공방",
@@ -405,7 +405,7 @@
           "title": "뉴스핌 (4/28)",
           "url": "https://www.newspim.com/news/view/20260428001340",
           "domain": "www.newspim.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -414,7 +414,7 @@
           "title": "서울경제",
           "url": "https://www.sedaily.com/article/20038270",
           "domain": "www.sedaily.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -423,7 +423,7 @@
           "title": "법률신문 단독",
           "url": "https://www.lawtimes.co.kr/news/articleView.html?idxno=210476",
           "domain": "www.lawtimes.co.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "Media Business"
@@ -432,7 +432,7 @@
           "title": "뉴시스 변론종결",
           "url": "https://www.newsis.com/view/NISX20260303_0003532615",
           "domain": "www.newsis.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -441,7 +441,7 @@
           "title": "뉴스1 1심 선고",
           "url": "https://www.news1.kr/society/court-prosecution/5928280",
           "domain": "www.news1.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -450,7 +450,7 @@
           "title": "한국일보 사건 배경",
           "url": "https://www.hankookilbo.com/News/Read/A2024082214350005660",
           "domain": "www.hankookilbo.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Media Business"
@@ -459,18 +459,18 @@
     },
     {
       "entity": "Story06",
-      "headline": "YTN 민영화 통매각 외압 의혹 재부상…한전KDN '한 달 만에 매각 입장 전환' 배경 추궁",
-      "headline_url": "https://v.daum.net/v/VwKgaAXeEJ",
-      "synthesis_title": "YTN 민영화 통매각 외압 의혹 재부상…한전KDN '한 달 만에 매각 입장 전환' 배경 추궁",
-      "synthesis": "YTN 민영화 과정에서 윤석열 정부 기획재정부와 한전KDN의 '통매각' 결정 배경을 둘러싼 외압 의혹이 4월 들어 정치권과 미디어 노조를 중심으로 재부상하고 있다. 한전KDN은 YTN 최대주주(지분 21.43%)로서 지분 매각 불가 방침을 한 달 만에 매각 추진으로 뒤집은 전력이 있고, 한전KDN 사장은 국정감사에서 '다른 의견이 왔기 때문'이라고 발언해 고위층 외압 정황을 드러낸 바 있다. 한전KDN과 마사회(9.52%) 등 공기업의 통매각 결정 후 1년도 채 지나지 않아 YTN은 유진그룹에 매각됐다. 민영화 이후 YTN 보도국 내부에서는 '경영진 교체에 따른 보도 외압'과 '편집국 구조조정' 우려가 현실화되고 있다는 노조·언론단체 비판이 이어지고 있다. 미디어오늘과 오마이뉴스 등은 '김건희 검증 보도를 했던 YTN을 비롯해 비판 기능을 가진 공영·준공영 매체에 대한 정치 보복'이라는 시각에서 후속 보도를 이어가고 있으며, 이재명 정부 출범 후 첫 주요 미디어 거버넌스 검증 사안으로 부상하는 모습이다. 방송미디어통신위원회(KMCC)가 4월 13일 발표한 '방송·미디어·통신 정책 제안' 공모와 맞물려, YTN 민영화 진상규명·재공영화 논의가 정책 제안 과정에서 본격적으로 다뤄질지 주목된다. 향후 국회 과방위·문체위 차원의 청문회 개최 가능성과 함께, 공기업 통매각 의사결정 책임자 추궁이 정치 쟁점으로 격상될 가능성이 거론된다.",
+      "headline": "미디어오늘 4/28 단독 'YTN 민영화 입찰 경쟁사 떨궈낸 통매각 외압' 보도…재공영화·진상규명 동력 확보",
+      "headline_url": "https://www.mediatoday.co.kr/news/articleView.html?idxno=327000",
+      "synthesis_title": "미디어오늘 4/28 단독 'YTN 민영화 입찰 경쟁사 떨궈낸 통매각 외압' 보도…재공영화·진상규명 동력 확보",
+      "synthesis": "미디어오늘이 4월 28일 단독 보도 'YTN 민영화, 입찰 경쟁사 떨궈낸 통매각 외압 있었나'를 통해 윤석열 정부 시기 YTN 민영화 과정의 외압 의혹을 본격 제기하면서 진상규명 동력이 확보됐다. 핵심 의혹은 한전KDN(YTN 최대주주, 지분 21.43%)이 매각 불가 방침을 한 달 만에 매각 추진으로 뒤집은 배경이다. 한전KDN 사장은 국정감사에서 '다른 의견이 왔기 때문'이라고 발언해 고위층 외압 정황을 드러낸 바 있고, 한전KDN과 마사회(9.52%) 등 공기업의 통매각 결정 후 1년도 채 지나지 않아 YTN은 유진그룹에 매각됐다. 미디어오늘은 입찰 경쟁사를 의도적으로 떨궈내 유진그룹에 낙찰되도록 한 통매각 구조 자체에 외압이 작용했을 가능성을 추적했다. 같은 주 오마이뉴스는 'MBC·KBS·YTN 등 비판 기능을 가진 공영·준공영 매체에 대한 정치 보복' 시각의 후속 분석을 내놓았다. 민영화 이후 YTN 보도국 내부에서는 '경영진 교체에 따른 보도 외압'과 '편집국 구조조정' 우려가 현실화되고 있으며, 이재명 정부 출범 후 첫 주요 미디어 거버넌스 검증 사안으로 부상했다. 방송미디어통신위원회(KMCC)가 4월 13일 발표한 '방송·미디어·통신 정책 제안' 공모와 맞물려, YTN 민영화 진상규명·재공영화 논의가 정책 제안 과정에서 본격 다뤄질 전망이다. 향후 국회 과방위·문체위 차원의 청문회 개최 가능성과 함께, 공기업 통매각 의사결정 책임자 추궁이 정치 쟁점으로 격상될 가능성이 거론된다.",
       "key_points": [
+        "4/28 미디어오늘 단독 'YTN 민영화 통매각 외압' 보도 — 입찰 경쟁사 떨궈낸 구조 추적",
         "한전KDN(21.43%) 매각 불가 방침 한 달 만에 전환, 사장 국감 '다른 의견' 발언 외압 정황",
-        "한전KDN+마사회 통매각 후 1년 내 유진그룹 매각, 보도 외압·구조조정 우려 현실화",
-        "이재명 정부 첫 미디어 거버넌스 검증, 방미통위 정책 공모와 맞물려 진상규명 동력 확보"
+        "방미통위 4/13 정책 공모와 맞물려 진상규명·재공영화 논의 동력 확보, 국회 청문회 가능성"
       ],
       "image": "https://ojsfile.ohmynews.com/STD_IMG_FILE/2025/1014/IE003534044_STD.jpg",
-      "article_count": 24,
-      "score": 24.0,
+      "article_count": 28,
+      "score": 28.0,
       "primary_cat": "Regulation",
       "hours_ago": 66.0,
       "countries": {
@@ -478,19 +478,37 @@
         "United States": 4
       },
       "domains": {
+        "www.mediatoday.co.kr": 1,
+        "www.ohmynews.com": 1,
         "v.daum.net": 1,
         "www.maip.kr": 1,
-        "www.ohmynews.com": 1,
-        "www.mediatoday.co.kr": 1,
         "imnews.imbc.com": 1,
         "namu.wiki": 1
       },
       "articles": [
         {
+          "title": "미디어오늘 (4/28 단독)",
+          "url": "https://www.mediatoday.co.kr/news/articleView.html?idxno=327000",
+          "domain": "www.mediatoday.co.kr",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "South Korea",
+          "language": "Korean",
+          "category": "Regulation"
+        },
+        {
+          "title": "오마이뉴스 보복 의혹",
+          "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003180691",
+          "domain": "www.ohmynews.com",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "Various",
+          "language": "English",
+          "category": "Regulation"
+        },
+        {
           "title": "다음 (YTN 민영화 분석)",
           "url": "https://v.daum.net/v/VwKgaAXeEJ",
           "domain": "v.daum.net",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "Regulation"
@@ -499,34 +517,16 @@
           "title": "maip.kr 통매각 추진",
           "url": "https://www.maip.kr/bbs/board.php?bo_table=b54&wr_id=3770&device=pc",
           "domain": "www.maip.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
-          "category": "Regulation"
-        },
-        {
-          "title": "오마이뉴스 보복 의혹",
-          "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003180691",
-          "domain": "www.ohmynews.com",
-          "seendate": "20260429T015630Z",
-          "sourcecountry": "Various",
-          "language": "English",
-          "category": "Regulation"
-        },
-        {
-          "title": "미디어오늘",
-          "url": "https://www.mediatoday.co.kr/",
-          "domain": "www.mediatoday.co.kr",
-          "seendate": "20260429T015630Z",
-          "sourcecountry": "South Korea",
-          "language": "Korean",
           "category": "Regulation"
         },
         {
           "title": "MBC 민영화 승인",
           "url": "https://imnews.imbc.com/replay/2024/nwtoday/article/6569681_36523.html",
           "domain": "imnews.imbc.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Regulation"
@@ -535,7 +535,7 @@
           "title": "나무위키 YTN 사건사",
           "url": "https://namu.wiki/w/YTN",
           "domain": "namu.wiki",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Regulation"
@@ -544,84 +544,95 @@
     },
     {
       "entity": "Story07",
-      "headline": "방미통위, 137억 AI 미디어 R&D 공모…김종철 위원장 '생성형 AI 성착취, 생성단계부터 책임' 신뢰성 정책 본격화",
-      "headline_url": "https://www.ebn.co.kr/news/articleView.html?idxno=1703894",
-      "synthesis_title": "방미통위, 137억 AI 미디어 R&D 공모…김종철 위원장 '생성형 AI 성착취, 생성단계부터 책임' 신뢰성 정책 본격화",
-      "synthesis": "방송미디어통신위원회(KMCC)가 2026년 총 137억 6,700만 원 규모의 방송미디어 연구개발 신규 과제 공모에 착수했다. 인공지능 기반 제작·서비스 혁신 기술 개발을 중점 지원하며, AI 콘텐츠 신뢰성·딥페이크 대응·이용자 보호 체계 정비가 핵심 축이다. 김종철 위원장은 4월 23일 취임 100일 기자간담회에서 '생성형 AI 성착취 폭증에 생성 단계부터 책임을 물어야 한다'고 밝혀, 콘텐츠 생성 단계에서 AI 사업자에게 책임을 부과하는 모델을 시사했다. 같은 주 한국정보산업연합회와 마크애니가 AI 콘텐츠 신뢰성 기술 확산을 위한 협약을 체결했고, 에이아이웍스는 AI 에이전트의 신뢰성을 종합 진단하는 솔루션 '에이전트리거'를 공개했다. 이는 한국 AI 기본법 1월 22일 시행 이후 첫 분기 동안 산업계가 '워터마킹·콘텐츠 출처 검증·AI 에이전트 평가'라는 3대 신뢰성 기술에 자율적으로 투자하는 흐름을 보여준다. 한편 김 위원장이 이재명 대통령의 '그것이 알고싶다' 사과 요구 발언을 '국민의 권리이자 공직자의 책임'이라며 옹호한 것을 두고 야당이 '방미통위의 정치적 독립성 침해'라며 강하게 반발했고, 최민희 의원은 '현안 질의에 위원장을 반드시 부르겠다'고 예고했다. 2025년 10월 방통위에서 방미통위로 개편된 이후 첫 정치적 독립성 시험대에 오른 셈이다. 방미통위는 EU AI Act 8월 2일 본격 시행과 한국 AI 기본법 후속 시행령 마련을 동시에 추진해야 하는 시점에 진입했다.",
+      "headline": "방미통위 김종철 위원장 4/28 '생성형 AI 성착취, 생성단계부터 책임'…AI 콘텐츠 신뢰성 정책 본격화 + 정치 독립성 논란",
+      "headline_url": "https://www.mediatoday.co.kr/news/articleView.html?idxno=327020",
+      "synthesis_title": "방미통위 김종철 위원장 4/28 '생성형 AI 성착취, 생성단계부터 책임'…AI 콘텐츠 신뢰성 정책 본격화 + 정치 독립성 논란",
+      "synthesis": "방송미디어통신위원회(KMCC) 김종철 위원장이 4월 28일 생성형 AI 성착취 폭증에 대한 대응으로 '생성 단계부터 책임을 물어야 한다'고 밝혔다(미디어오늘 보도). 콘텐츠 생성 시점에서 AI 사업자에게 책임을 부과하는 모델을 시사한 것으로, 한국 AI 기본법 1월 22일 시행 이후 후속 시행령 마련의 핵심 방향을 가늠할 수 있는 발언이다. 같은 날(4월 28일) 한국정보산업연합회와 마크애니가 AI 콘텐츠 신뢰성 기술 확산을 위한 협약을 체결했고, 에이아이웍스는 AI 에이전트의 신뢰성을 종합 진단하는 솔루션 '에이전트리거'를 공개했다. 산업계가 '워터마킹·콘텐츠 출처 검증·AI 에이전트 평가'라는 3대 신뢰성 기술에 자율적으로 투자하는 흐름이 같은 날 가시화됐다. 한편 김 위원장이 같은 날 이재명 대통령의 '그것이 알고싶다' 사과 요구 발언을 '국민의 권리이자 공직자의 책임'이라며 옹호한 것을 두고 야당이 '방미통위의 정치적 독립성 침해'라며 강하게 반발했다. 최민희 의원은 '현안 질의에 위원장을 반드시 부르겠다'고 예고했고, 한국기자협회는 '종사자 과반노조 대표성 문제없다'는 김 위원장 발언을 별도 보도하면서 방미통위와 언론노조·기자단체 간 입장 차이도 부각됐다. 2025년 10월 방통위에서 방미통위로 개편된 이후 처음 맞는 본격적 정치 독립성 시험대에 오른 셈이다. EU AI Act 8월 2일 본격 시행과 한국 AI 기본법 후속 시행령 마련을 동시에 추진해야 하는 시점에 방미통위의 거버넌스가 시험대에 올라 있다.",
       "key_points": [
-        "방미통위 2026년 AI 미디어 R&D 137억 신규 공모, AI 콘텐츠 신뢰성·딥페이크 대응 중점",
-        "김종철 위원장 '생성형 AI 성착취, 생성단계부터 책임' — 사업자 책임 부과 모델 시사",
-        "한국정보산업연합회×마크애니 신뢰성 기술 협약+에이아이웍스 AI 에이전트 진단 솔루션 출시"
+        "4/28 김종철 위원장 '생성형 AI 성착취, 생성단계부터 책임' — 사업자 책임 부과 모델 시사",
+        "4/28 한국정보산업연합회×마크애니 AI 신뢰성 기술 협약+에이아이웍스 '에이전트리거' 출시",
+        "4/28 김 위원장 '그것이 알고싶다' 옹호 발언에 야당 반발 — 방미통위 정치 독립성 첫 시험대"
       ],
       "image": "https://cdn.ebn.co.kr/news/photo/202603/1703894_726475_3856.jpeg",
-      "article_count": 21,
-      "score": 21.0,
+      "article_count": 26,
+      "score": 26.0,
       "primary_cat": "Regulation",
       "hours_ago": 78.0,
       "countries": {
-        "South Korea": 2,
-        "United States": 4
+        "South Korea": 5,
+        "United States": 2
       },
       "domains": {
-        "www.ebn.co.kr": 1,
-        "www.etnews.com": 2,
-        "www.dailybizon.com": 1,
         "www.mediatoday.co.kr": 1,
-        "www.ajunews.com": 1
+        "www.ddaily.co.kr": 1,
+        "www.etnews.com": 1,
+        "www.datanet.co.kr": 1,
+        "www.digitaleconomynews.co.kr": 1,
+        "www.journalist.or.kr": 1,
+        "www.kwnews.co.kr": 1
       },
       "articles": [
         {
-          "title": "EBN 위원장 100일 기조",
-          "url": "https://www.ebn.co.kr/news/articleView.html?idxno=1703894",
-          "domain": "www.ebn.co.kr",
-          "seendate": "20260429T015630Z",
+          "title": "미디어오늘 AI 성착취 책임",
+          "url": "https://www.mediatoday.co.kr/news/articleView.html?idxno=327020",
+          "domain": "www.mediatoday.co.kr",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "Regulation"
         },
         {
-          "title": "전자신문 정책 개혁 원년",
-          "url": "https://www.etnews.com/20260102000306",
-          "domain": "www.etnews.com",
-          "seendate": "20260429T015630Z",
-          "sourcecountry": "Various",
-          "language": "English",
-          "category": "Regulation"
-        },
-        {
-          "title": "데일리비즈온 137억 R&D",
-          "url": "https://www.dailybizon.com/news/articleView.html?idxno=60486",
-          "domain": "www.dailybizon.com",
-          "seendate": "20260429T015630Z",
-          "sourcecountry": "Various",
-          "language": "English",
-          "category": "Regulation"
-        },
-        {
-          "title": "미디어오늘 AI 성착취 책임",
-          "url": "https://www.mediatoday.co.kr/",
-          "domain": "www.mediatoday.co.kr",
-          "seendate": "20260429T015630Z",
+          "title": "디지털데일리 김종철 발언",
+          "url": "https://www.ddaily.co.kr/news/article/?no=295670",
+          "domain": "www.ddaily.co.kr",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "Regulation"
         },
         {
           "title": "전자신문 마크애니 협약",
-          "url": "https://www.etnews.com/",
+          "url": "https://www.etnews.com/20260428000280",
           "domain": "www.etnews.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Regulation"
         },
         {
-          "title": "아주경제 AX 100년 설계",
-          "url": "https://www.ajunews.com/view/20260123172807265",
-          "domain": "www.ajunews.com",
-          "seendate": "20260429T015630Z",
+          "title": "데이터넷 신뢰성 기술",
+          "url": "https://www.datanet.co.kr/news/articleView.html?idxno=205870",
+          "domain": "www.datanet.co.kr",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "South Korea",
+          "language": "Korean",
+          "category": "Regulation"
+        },
+        {
+          "title": "디지털경제뉴스 에이전트리거",
+          "url": "https://www.digitaleconomynews.co.kr/",
+          "domain": "www.digitaleconomynews.co.kr",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "South Korea",
+          "language": "Korean",
+          "category": "Regulation"
+        },
+        {
+          "title": "한국기자협회 노조 발언",
+          "url": "https://www.journalist.or.kr/",
+          "domain": "www.journalist.or.kr",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
+          "category": "Regulation"
+        },
+        {
+          "title": "강원일보 옹호 발언",
+          "url": "https://www.kwnews.co.kr/page/view/2026042809380000",
+          "domain": "www.kwnews.co.kr",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "South Korea",
+          "language": "Korean",
           "category": "Regulation"
         }
       ]
@@ -631,23 +642,23 @@
       "headline": "크래프톤 '테라2' 4/24 개발 채용 본격화·엔씨 직원 자사주 218억 지급…게임주 신작 기대감 동반 반등",
       "headline_url": "https://www.inven.co.kr/webzine/news/?news=315811",
       "synthesis_title": "크래프톤 '테라2' 4/24 개발 채용 본격화·엔씨 직원 자사주 218억 지급…게임주 신작 기대감 동반 반등",
-      "synthesis": "크래프톤이 자회사 블루홀스튜디오 R&D실 산하에 '테라2' 개발 조직을 신설하고 4월 24일 주요 개발진 공개 채용에 착수했다. '테라2'는 장르 최초의 논타겟팅 전투 시스템으로 사랑받은 원작 '테라(2011년 출시)'의 유산을 계승하면서, 언리얼 엔진 5를 활용해 압도적 그래픽으로 진화시킨 차세대 MMORPG다. 장병규 의장이 직접 챙기는 MMORPG 재도전이라는 점에서 시장의 관심이 집중되며, 블루홀스튜디오는 크래프톤(舊 블루홀)의 모태 스튜디오로 '배틀그라운드' 이전 '테라'로 글로벌 MMORPG 시장에 진출했던 역사적 무게를 지녔다. 같은 주(4월 28일) 엔씨소프트는 직원 보상 차원에서 자사주 218억 원 규모를 지급해 핵심 인력 이탈 방지와 신작 기대감 두 마리 토끼를 노렸다. 두 대형 게임사의 신작·인재 투자 시그널에 게임주 전반이 동반 상승했고, 게임위는 4월 28일 확률형 아이템 피해구제 분과위원 10명을 위촉해 이용자 보호 체계 정비를 본격화했다. 1분기 게임업계 실적은 신작·장수 IP의 '쌍끌이 흥행'에 힘입어 훈풍이 예고된다. 한편 2026 아시아 e스포츠대회에서 한국이 우승팀에 이름을 올렸고, 이용자 단체가 게임위 분과위원에 처음 포함되면서 한국 게임 산업의 규제·이용자 보호 거버넌스가 한 단계 진화하는 모습이다.",
+      "synthesis": "크래프톤이 자회사 블루홀스튜디오 R&D실 산하에 '테라2' 개발 조직을 신설하고 4월 24일 주요 개발진 공개 채용에 착수했다. '테라2'는 장르 최초의 논타겟팅 전투 시스템으로 사랑받은 원작 '테라(2011년 출시)'의 유산을 계승하면서, 언리얼 엔진 5를 활용해 압도적 그래픽으로 진화시킨 차세대 MMORPG다. 장병규 의장이 직접 챙기는 MMORPG 재도전이라는 점에서 시장의 관심이 집중되며, 블루홀스튜디오는 크래프톤(舊 블루홀)의 모태 스튜디오로 '배틀그라운드' 이전 '테라'로 글로벌 MMORPG 시장에 진출했던 역사적 무게를 지녔다. 같은 주(4월 28일) 엔씨소프트는 직원 보상 차원에서 자사주 218억 원 규모를 지급해 핵심 인력 이탈 방지와 신작 기대감 두 마리 토끼를 노렸다. 두 대형 게임사의 신작·인재 투자 시그널에 게임주 전반이 동반 상승했고, 게임위는 4월 28일 확률형 아이템 피해구제 분과위원 10명을 위촉해 이용자 보호 체계 정비를 본격화했다. 같은 날 김민석 국무총리는 펄어비스의 '붉은사막' 출시를 두고 '한국 게임의 위상을 드높였다'고 평가해 게임 산업에 대한 정부 지지 시그널을 발신했다. 1분기 게임업계 실적은 신작·장수 IP의 '쌍끌이 흥행'에 힘입어 훈풍이 예고되며, 한편 2026 아시아 e스포츠대회에서 한국이 우승팀에 이름을 올려 e스포츠 종주국 지위를 재확인했다.",
       "key_points": [
         "4/24 크래프톤, 블루홀스튜디오 산하 '테라2' 개발 조직 신설·언리얼 엔진 5 차세대 MMORPG",
-        "엔씨소프트 직원 자사주 218억 원 지급, 두 대형사 호재로 게임주 동반 상승",
-        "게임위 확률형 아이템 피해구제 분과위원 10명 위촉(이용자 단체 포함), 1분기 실적 신작 쌍끌이 훈풍"
+        "4/28 엔씨소프트 직원 자사주 218억 지급+김민석 총리 '붉은사막 한국 게임 위상' 평가",
+        "4/28 게임위 확률형 아이템 피해구제 분과위원 10명 위촉(이용자 단체 포함), 1분기 실적 훈풍"
       ],
       "image": "https://static.inven.co.kr/column/2026/04/24/news/i1972342207.jpg",
-      "article_count": 27,
-      "score": 27.0,
+      "article_count": 31,
+      "score": 31.0,
       "primary_cat": "Gaming/Esports",
       "hours_ago": 90.0,
       "countries": {
-        "South Korea": 5,
+        "South Korea": 6,
         "United States": 1
       },
       "domains": {
-        "www.inven.co.kr": 1,
+        "www.inven.co.kr": 2,
         "www.khgames.co.kr": 1,
         "alphabiz.co.kr": 1,
         "it.chosun.com": 1,
@@ -659,7 +670,7 @@
           "title": "인벤 테라2 채용 시작",
           "url": "https://www.inven.co.kr/webzine/news/?news=315811",
           "domain": "www.inven.co.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "Gaming/Esports"
@@ -668,7 +679,7 @@
           "title": "경향게임스",
           "url": "https://www.khgames.co.kr/news/articleView.html?idxno=303841",
           "domain": "www.khgames.co.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "Gaming/Esports"
@@ -677,25 +688,34 @@
           "title": "알파경제 자사주",
           "url": "https://alphabiz.co.kr/news/view/1065592980602785",
           "domain": "alphabiz.co.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "Gaming/Esports"
         },
         {
           "title": "IT조선 게임위 분과위",
-          "url": "https://it.chosun.com/",
+          "url": "https://it.chosun.com/site/data/html_dir/2026/04/28/2026042870122.html",
           "domain": "it.chosun.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
+          "category": "Gaming/Esports"
+        },
+        {
+          "title": "인벤 김민석 총리 발언",
+          "url": "https://www.inven.co.kr/webzine/news/?news=315900",
+          "domain": "www.inven.co.kr",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "South Korea",
+          "language": "Korean",
           "category": "Gaming/Esports"
         },
         {
           "title": "sisaon 1분기 실적",
           "url": "https://sisaon.co.kr/",
           "domain": "sisaon.co.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "Gaming/Esports"
@@ -704,7 +724,7 @@
           "title": "경남일보 아시아 e스포츠",
           "url": "https://www.gnnews.co.kr/",
           "domain": "www.gnnews.co.kr",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "Gaming/Esports"
@@ -713,65 +733,84 @@
     },
     {
       "entity": "Story09",
-      "headline": "82MAJOR 'Sign' 4/28 컴백+BTS 정국 'Two' 챌린지 1,600만 뷰…챌린지 마케팅이 K팝 신곡 흥행 표준 공식",
-      "headline_url": "https://www.munhwa.com/article/11585662",
-      "synthesis_title": "82MAJOR 'Sign' 4/28 컴백+BTS 정국 'Two' 챌린지 1,600만 뷰…챌린지 마케팅이 K팝 신곡 흥행 표준 공식",
-      "synthesis": "신인 보이그룹 82MAJOR가 4월 28일 신곡 'Sign'으로 컴백하며 'BTS 정국·이병헌과 챌린지를 함께 찍고 싶다'고 밝혀 화제다. 신곡 'Sign'은 손목시계 초침을 형상화한 손목 안무가 특징으로, 챌린지 친화적 동작 설계가 발매 단계 마케팅의 핵심 축이 됐다. 음원 공개 → 안무 챌린지 영상 → 글로벌 SNS 확산 → 음원 차트 진입의 사이클이 K팝 신곡 마케팅의 표준 공식으로 굳어지고 있음을 보여주는 사례다. BTS 정국이 4월 5일 본인 SNS에 공개한 'Two' 댄스 챌린지는 하루 만에 1,600만 뷰를 돌파해 단일 챌린지 최강 파급력을 입증했고, BTS 'ARIRANG' 월드투어는 4월 9일 시작 후 고양종합운동장(4/11)·도쿄돔(4/18) 일정으로 이어졌다. 한편 EXO 도경수의 2년 전 곡 'Popcorn'이 봄철 역주행하며 봄 연금송 장기 집권 조짐을 보이고, 신인 보이그룹 TWS는 미니 5집으로 음반 차트 1위에 직행했으며, 코르티스도 MZ 세대 취향 저격으로 빠른 성장세를 기록했다. 한국 음반 시장이 'BTS·블랙핑크 같은 메가 IP의 글로벌 투어'와 '신인·중견 그룹의 챌린지 마케팅', 그리고 '솔로 아티스트의 역주행' 3축으로 다변화하면서, 음원 차트와 음반 차트 양쪽에서 새로운 시장 질서가 자리 잡고 있다.",
+      "headline": "TWS 4/27 '커리어 하이' 첫날 83만 장+82MAJOR 'Sign' 4/28 컴백…K팝 4월 마지막 주 컴백 러시",
+      "headline_url": "https://sports.khan.co.kr/article/202604281106003/",
+      "synthesis_title": "TWS 4/27 '커리어 하이' 첫날 83만 장+82MAJOR 'Sign' 4/28 컴백…K팝 4월 마지막 주 컴백 러시",
+      "synthesis": "K팝 4월 마지막 주(4/27~28)가 신인·중견 그룹의 컴백 러시로 마무리되고 있다. 신인 보이그룹 TWS(투어스)가 4월 27일 미니 5집 'NO TRAGEDY'를 발매해 첫날 83만 3,138장을 판매, 전작 'play hard' 누적 판매량(74만 6,731장)을 단 하루 만에 추월하며 '커리어 하이'를 달성했다. 선주문은 116만 장을 돌파했고, 타이틀곡 '널 따라가(You, You)'는 4월 28일 자정 기준 멜론 톱100 차트 55위에 진입했다. 4월 28일에는 신인 보이그룹 82MAJOR가 신곡 'Sign'으로 컴백하며 'BTS 정국·이병헌과 챌린지를 함께 찍고 싶다'고 밝혀 화제다. 신곡 'Sign'은 손목시계 초침을 형상화한 손목 안무가 특징으로, 챌린지 친화적 동작 설계가 발매 단계 마케팅의 핵심 축이 됐다. 같은 날(4월 28일) EXO 도경수의 2년 전 곡 'Popcorn'이 봄철 역주행하며 '봄 연금송' 장기 집권 조짐을 보였고, 신인 보이그룹 코르티스의 '레드레드'가 스포티파이 톱100에 진입해 글로벌 차트에서 순항했다. 신인 그룹의 음반·차트 동시 흥행과 솔로 아티스트의 역주행이 같은 주에 동시에 일어나면서, 한국 음반 시장의 다층적 활성화 신호로 해석된다. 음원 발매 → 챌린지 영상 → 글로벌 SNS 확산 → 차트 진입의 사이클이 K팝 신곡 마케팅의 표준 공식으로 굳어지고 있는 모습도 함께 확인된다.",
       "key_points": [
-        "82MAJOR 'Sign' 4/28 컴백, 손목 안무 챌린지 친화 설계로 발매 단계부터 마케팅 핵심",
-        "BTS 정국 'Two' 챌린지 4/5 공개 → 하루 1,600만 뷰, 단일 챌린지 최강 파급력",
-        "도경수 'Popcorn' 봄 역주행 장기 집권, TWS 미니 5집 음반 차트 1위 직행, 코르티스 MZ 저격"
+        "4/27 TWS 미니 5집 'NO TRAGEDY' 첫날 83만 장 — 전작 누적 추월·커리어 하이 달성",
+        "4/28 82MAJOR 'Sign' 컴백, 손목 안무 챌린지 친화 설계 — BTS 정국 챌린지 요청 화제",
+        "4/28 EXO 도경수 'Popcorn' 봄 역주행+코르티스 '레드레드' 스포티파이 톱100 진입"
       ],
-      "image": "https://wimg.munhwa.com/news/cms/2026/04/28/news-p.v1.20260428.ef9cc1973fa64193a062802be0d12083_P1.jpg",
-      "article_count": 29,
-      "score": 29.0,
+      "image": "https://images.khan.co.kr/article/2026/04/28/news-p.v1.20260428.a0806a379cbb43aa8326ef860d9188bd_P1.jpg",
+      "article_count": 33,
+      "score": 33.0,
       "primary_cat": "Music/Audio",
       "hours_ago": 102.0,
       "countries": {
         "South Korea": 2,
-        "United States": 4
+        "United States": 5
       },
       "domains": {
-        "www.munhwa.com": 1,
         "sports.khan.co.kr": 1,
-        "v.daum.net": 1,
+        "www.heraldmuse.com": 1,
+        "www.etoday.co.kr": 1,
+        "www.munhwa.com": 1,
         "sports.donga.com": 1,
-        "www.newsculture.press": 1,
-        "namu.wiki": 1
+        "news.nate.com": 1,
+        "www.newsculture.press": 1
       },
       "articles": [
         {
-          "title": "문화일보 82MAJOR Sign",
-          "url": "https://www.munhwa.com/article/11585662",
-          "domain": "www.munhwa.com",
-          "seendate": "20260429T015630Z",
+          "title": "스포츠경향 TWS 83만장",
+          "url": "https://sports.khan.co.kr/article/202604281106003/",
+          "domain": "sports.khan.co.kr",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "South Korea",
+          "language": "Korean",
+          "category": "Music/Audio"
+        },
+        {
+          "title": "헤럴드뮤즈 TWS 커리어하이",
+          "url": "https://www.heraldmuse.com/article/10727076",
+          "domain": "www.heraldmuse.com",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Music/Audio"
         },
         {
-          "title": "스포츠경향 정국 챌린지",
-          "url": "https://sports.khan.co.kr/en/article/202604070800007",
-          "domain": "sports.khan.co.kr",
-          "seendate": "20260429T015630Z",
+          "title": "이투데이 TWS 신보",
+          "url": "https://www.etoday.co.kr/news/view/2579844",
+          "domain": "www.etoday.co.kr",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "South Korea",
           "language": "Korean",
           "category": "Music/Audio"
         },
         {
-          "title": "다음 1600만뷰",
-          "url": "https://v.daum.net/v/20260317065900597",
-          "domain": "v.daum.net",
-          "seendate": "20260429T015630Z",
-          "sourcecountry": "South Korea",
-          "language": "Korean",
+          "title": "문화일보 82MAJOR Sign",
+          "url": "https://www.munhwa.com/article/11585662",
+          "domain": "www.munhwa.com",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "Various",
+          "language": "English",
           "category": "Music/Audio"
         },
         {
-          "title": "스포츠동아 도경수",
+          "title": "스포츠동아 도경수 Popcorn",
           "url": "https://sports.donga.com/",
           "domain": "sports.donga.com",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "Various",
+          "language": "English",
+          "category": "Music/Audio"
+        },
+        {
+          "title": "네이트 코르티스 스포티파이",
+          "url": "https://news.nate.com/view/20260428n_cortis",
+          "domain": "news.nate.com",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Music/Audio"
@@ -780,16 +819,7 @@
           "title": "뉴스컬처 TWS 글로벌",
           "url": "https://www.newsculture.press/",
           "domain": "www.newsculture.press",
-          "seendate": "20260429T015630Z",
-          "sourcecountry": "Various",
-          "language": "English",
-          "category": "Music/Audio"
-        },
-        {
-          "title": "나무위키 ARIRANG 투어",
-          "url": "https://namu.wiki/w/BTS%20WORLD%20TOUR%20'ARIRANG'",
-          "domain": "namu.wiki",
-          "seendate": "20260429T015630Z",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
           "category": "Music/Audio"
@@ -798,76 +828,96 @@
     },
     {
       "entity": "Story10",
-      "headline": "K팝 콘서트 관광 효과 가시화…'아미는 서울시티투어, 캐럿은 인천 호텔'…콘서트+여행 결합 BM 정착",
-      "headline_url": "https://news.nate.com/view/20260427n_kpop_tour",
-      "synthesis_title": "K팝 콘서트 관광 효과 가시화…'아미는 서울시티투어, 캐럿은 인천 호텔'…콘서트+여행 결합 BM 정착",
-      "synthesis": "K팝 콘서트가 단순한 음악 이벤트를 넘어 도시 관광·숙박·소매업 전반에 가시적 파급 효과를 만들어내고 있다. BTS 팬덤 '아미'는 서울 콘서트 일정에 맞춰 서울시티투어버스를 패키지로 이용하고, 세븐틴 팬덤 '캐럿'은 콘서트가 열리는 인천 지역 호텔로 모이는 등 '콘서트+도시 체류' 결합 패턴이 정착하는 모양새다. 업계는 K팝 관광이 더 이상 '말뿐인 효과'가 아니라 호텔·교통·요식업의 측정 가능한 매출 증가로 이어지고 있다고 평가하며, 한국관광공사도 K팝 콘서트가 외국인 인바운드 관광 수요를 견인하는 핵심 트리거로 부상하고 있다고 진단했다. 한편 BTS 'ARIRANG' 월드투어는 4월 9일 시작 후 고양종합운동장(4/11)·도쿄돔(4/18)으로 이어졌고, 정국의 中 팬들은 도쿄돔 외부 전광판 2개에 광고를 송출하며 글로벌 팬덤의 적극적 마케팅 참여를 보여줬다. HYBE·SM·JYP·YG 4대 기획사가 공정거래위원회에 기업결합 신고를 마친 글로벌 K팝 페스티벌 조인트벤처(JV)는 코첼라급 해외 페스티벌을 표방하며 향후 한국이 K팝 인바운드 관광·문화 교류의 글로벌 허브로 자리잡는 발판이 될 전망이다. K팝 산업이 음반·스트리밍을 넘어 호텔·교통·요식업 매출, 도시 마케팅, 그리고 인바운드 관광 수요까지 견인하는 '문화 GDP' 산업으로 빠르게 진화하고 있다.",
+      "headline": "美 FCC, 4/28 디즈니 ABC 8개 방송국 조기 라이선스 갱신 명령…Jimmy Kimmel 멜라니아 농담 후폭풍, 트럼프 미디어 압박 가속",
+      "headline_url": "https://www.semafor.com/article/04/28/2026/fcc-prepares-review-of-disneys-tv-licenses",
+      "synthesis_title": "美 FCC, 4/28 디즈니 ABC 8개 방송국 조기 라이선스 갱신 명령…Jimmy Kimmel 멜라니아 농담 후폭풍, 트럼프 미디어 압박 가속",
+      "synthesis": "미 연방통신위원회(FCC)가 4월 28일 디즈니 소유의 ABC 8개 직영 방송국(O&O)에 대해 라이선스 갱신을 조기에 신청하도록 지시할 예정이라고 Semafor가 단독 보도했다(CNN·Variety·NBC News·CNBC 후속 보도). 트럼프 행정부 임명 FCC 의장 브렌든 카(Brendan Carr)가 디즈니 ABC를 직접 겨냥한 행정 압박이다. 직접적 트리거는 ABC 'Jimmy Kimmel Live!' 호스트 지미 키멜의 멜라니아 트럼프 관련 농담이다. 키멜은 트럼프 대통령과 행정부 고위 인사들이 백악관 출입기자단 만찬 직후 암살 미수 사건을 겪기 이틀 전 방송에서 영부인을 '미망인이 될 사람'에 비유해 트럼프 부부가 직접 ABC에 키멜 해고를 요구했다. FCC는 공식적으로는 '시점이 키멜 발언과 무관하다'고 밝혔지만, 같은 주 종교방송협회(NRB)도 별도로 ABC 조사를 촉구했다. FCC는 별도로 디즈니의 다양성·형평·포용(DEI) 정책 조사 1건과 ABC 'The View'의 동등 기회 규정 조사 1건을 이미 진행 중이며, 이번 라이선스 조기 갱신 명령은 트럼프 2기 행정부 들어 미디어 압박의 도구가 행정·규제·통상 전 영역으로 확장되고 있음을 보여준다. 한국의 망 사용료를 USTR이 같은 날(4월 28일) '황당 무역장벽'으로 재지정한 것과 맞물려, 글로벌 미디어 산업이 트럼프 행정부의 다층적 규제·통상 압박에 직면한 한 주가 됐다.",
       "key_points": [
-        "아미 서울시티투어버스 패키지·캐럿 인천 호텔 집중 — 콘서트+도시 체류 결합 정착",
-        "BTS 'ARIRANG' 월드투어 4/9 개막→고양·도쿄돔, 中 팬덤 도쿄돔 외부 광고 송출",
-        "HYBE·SM·JYP·YG 페스티벌 JV 추진과 결합, K팝이 호텔·교통·관광까지 견인하는 문화 GDP 산업"
+        "4/28 FCC, 디즈니 ABC 8개 직영 방송국 라이선스 조기 갱신 명령(Semafor 단독)",
+        "트리거: Jimmy Kimmel '멜라니아 미망인' 농담 후폭풍 — 트럼프 부부 직접 해고 요구",
+        "DEI 조사+The View 조사+이번 라이선스 명령으로 트럼프 2기 미디어 규제 압박 본격화"
       ],
-      "image": "https://image.starnewskorea.com/cdn-cgi/image/f=auto/21/2026/04/2026041706471815545_1.jpg",
-      "article_count": 19,
-      "score": 19.0,
-      "primary_cat": "K-Content",
+      "image": "https://variety.com/wp-content/uploads/2025/11/Jimmy-Kimmel-Cleto-Escobedo-III.jpg?w=1000&h=667&crop=1",
+      "article_count": 38,
+      "score": 38.0,
+      "primary_cat": "Media Business",
       "hours_ago": 114.0,
       "countries": {
         "South Korea": 0,
-        "United States": 5
+        "United States": 7
       },
       "domains": {
-        "news.nate.com": 1,
-        "www.sportsworldi.com": 1,
-        "www.starnewskorea.com": 1,
-        "namu.wiki": 1,
-        "www.musicbusinessworldwide.com": 1
+        "www.semafor.com": 1,
+        "www.cnn.com": 1,
+        "variety.com": 1,
+        "www.reuters.com": 1,
+        "www.nbcnews.com": 1,
+        "www.cnbc.com": 1,
+        "www.newsweek.com": 1
       },
       "articles": [
         {
-          "title": "네이트 K팝 관광 효과",
-          "url": "https://news.nate.com/view/20260427n_kpop_tour",
-          "domain": "news.nate.com",
-          "seendate": "20260429T015630Z",
+          "title": "Semafor 단독",
+          "url": "https://www.semafor.com/article/04/28/2026/fcc-prepares-review-of-disneys-tv-licenses",
+          "domain": "www.semafor.com",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
-          "category": "K-Content"
+          "category": "Media Business"
         },
         {
-          "title": "스포츠월드 콘서트+여행",
-          "url": "https://www.sportsworldi.com/",
-          "domain": "www.sportsworldi.com",
-          "seendate": "20260429T015630Z",
+          "title": "CNN (4/28)",
+          "url": "https://www.cnn.com/2026/04/28/media/fcc-kimmel-disney-abc-trump-licenses",
+          "domain": "www.cnn.com",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
-          "category": "K-Content"
+          "category": "Media Business"
         },
         {
-          "title": "스타뉴스 도쿄돔 광고",
-          "url": "https://www.starnewskorea.com/music/2026/04/17/2026041706471815545",
-          "domain": "www.starnewskorea.com",
-          "seendate": "20260429T015630Z",
+          "title": "Variety (4/28)",
+          "url": "https://variety.com/2026/tv/news/trump-fcc-review-abc-broadcast-licenses-jimmy-kimmel-melania-joke-1236732208/",
+          "domain": "variety.com",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
-          "category": "K-Content"
+          "category": "Media Business"
         },
         {
-          "title": "나무위키 ARIRANG 투어",
-          "url": "https://namu.wiki/w/BTS%20WORLD%20TOUR%20'ARIRANG'",
-          "domain": "namu.wiki",
-          "seendate": "20260429T015630Z",
+          "title": "Reuters (4/28)",
+          "url": "https://www.reuters.com/business/media-telecom/fcc-prepares-review-disneys-tv-licenses-semafor-reports-2026-04-28/",
+          "domain": "www.reuters.com",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
-          "category": "K-Content"
+          "category": "Media Business"
         },
         {
-          "title": "Music Business Worldwide 페스티벌 JV",
-          "url": "https://www.musicbusinessworldwide.com/k-pop-giants-hybe-jyp-sm-entertainment-and-yg-entertainment-plan-joint-venture-for-music-festival-to-rival-coachella/",
-          "domain": "www.musicbusinessworldwide.com",
-          "seendate": "20260429T015630Z",
+          "title": "NBC News (4/28)",
+          "url": "https://www.nbcnews.com/news/us-news/fcc-direct-disney-owned-tv-stations-file-early-license-renewals-source-rcna342507",
+          "domain": "www.nbcnews.com",
+          "seendate": "20260429T020823Z",
           "sourcecountry": "Various",
           "language": "English",
-          "category": "K-Content"
+          "category": "Media Business"
+        },
+        {
+          "title": "CNBC (4/28)",
+          "url": "https://www.cnbc.com/2026/04/28/trump-jimmy-kimmel-monologue-disney-abc.html",
+          "domain": "www.cnbc.com",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "Various",
+          "language": "English",
+          "category": "Media Business"
+        },
+        {
+          "title": "Newsweek FCC Kimmel",
+          "url": "https://www.newsweek.com/fcc-investigate-jimmy-kimmel-trump-disney-fire-1236756",
+          "domain": "www.newsweek.com",
+          "seendate": "20260429T020823Z",
+          "sourcecountry": "Various",
+          "language": "English",
+          "category": "Media Business"
         }
       ]
     },
@@ -2173,12 +2223,12 @@
   },
   "cat_counts": {
     "OTT/Streaming": 52,
-    "Media Business": 78,
-    "K-Content": 57,
+    "Media Business": 116,
+    "K-Content": 38,
     "Film/Cinema": 41,
-    "Regulation": 45,
-    "Gaming/Esports": 27,
-    "Music/Audio": 29
+    "Regulation": 54,
+    "Gaming/Esports": 31,
+    "Music/Audio": 33
   },
   "stats": {
     "total_articles": 2157,
