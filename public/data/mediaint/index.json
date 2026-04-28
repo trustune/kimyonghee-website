@@ -1,5 +1,41 @@
 [
   {
+    "date": "2026-04-29",
+    "timestamp": "2026-04-29T01:56:30",
+    "total_articles": 2157,
+    "total_stories": 10,
+    "top_story": "넷플릭스코리아 법인세 687억 취소 판결…같은 날 美 USTR '한국 망 사용료=세계 유일 황당 무역장벽' 재지정",
+    "top_stories": [
+      {
+        "title": "넷플릭스코리아 법인세 687억 취소 판결…같은 날 美 USTR '한국 망 사용료=세계 유일 황당 무역장벽' 재지정",
+        "entity": "Story01",
+        "article_count": 52,
+        "category": "OTT/Streaming"
+      },
+      {
+        "title": "WBD 주주 4/23 99% 압도적 가결로 파라마운트-스카이댄스 합병 확정…자슬라브 $5~8억 보수 패키지는 부결",
+        "entity": "Story02",
+        "article_count": 47,
+        "category": "Media Business"
+      },
+      {
+        "title": "넷플릭스 한국 영 어덜트 호러 '기리고' 공개 사흘 만에 글로벌 비영어 TV 3위·13개국 1위…4월 K-호러 신드롬",
+        "entity": "Story03",
+        "article_count": 38,
+        "category": "K-Content"
+      }
+    ],
+    "categories": {
+      "OTT/Streaming": 52,
+      "Media Business": 78,
+      "K-Content": 57,
+      "Film/Cinema": 41,
+      "Regulation": 45,
+      "Gaming/Esports": 27,
+      "Music/Audio": 29
+    }
+  },
+  {
     "date": "2026-04-20",
     "timestamp": "2026-04-20T09:00:00",
     "total_articles": 297,
