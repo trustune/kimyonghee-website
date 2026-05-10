@@ -1,5 +1,41 @@
 [
   {
+    "date": "2026-05-10",
+    "timestamp": "2026-05-10T13:41:59",
+    "total_articles": 2253,
+    "total_stories": 10,
+    "top_story": "WBD-파라마운트 1,110억 달러 합병 후폭풍…언론자유 단체 'Larry Ellison, 백악관에 CNN 앵커 해고 약속' 폭로·캘리 의원 33명 AG에 반독점 조사 압박",
+    "top_stories": [
+      {
+        "title": "WBD-파라마운트 1,110억 달러 합병 후폭풍…언론자유 단체 'Larry Ellison, 백악관에 CNN 앵커 해고 약속' 폭로·캘리 의원 33명 AG에 반독점 조사 압박",
+        "entity": "Story01",
+        "article_count": 58,
+        "category": "Media Business"
+      },
+      {
+        "title": "크래프톤 1Q 매출 1조 3,714억 영업익 5,616억 사상 최대…넥슨도 1조 클럽 동반 진입, K-게임 빅2 분기 신기록",
+        "entity": "Story02",
+        "article_count": 47,
+        "category": "Gaming/Esports"
+      },
+      {
+        "title": "문체부·영진위 6,000원 영화 할인권 225만장 5/13 풀린다…'악마는 프라다 2' 100만 돌파 1위 탈환, 어린이날 후 박스오피스 회복세",
+        "entity": "Story03",
+        "article_count": 51,
+        "category": "Film/Cinema"
+      }
+    ],
+    "categories": {
+      "Media Business": 127,
+      "Gaming/Esports": 47,
+      "Film/Cinema": 51,
+      "OTT/Streaming": 44,
+      "Regulation": 62,
+      "Music/Audio": 71,
+      "K-Content": 36
+    }
+  },
+  {
     "date": "2026-04-29",
     "timestamp": "2026-04-29T02:08:23",
     "total_articles": 2157,
