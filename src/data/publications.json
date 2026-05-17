@@ -89,7 +89,7 @@
       "category": "Media Economics",
       "abstract": "We analyze platform power dynamics in Korea's home shopping industry, examining how market asymmetries shape competitive advantages and sustainability outcomes for television commerce platforms.",
       "pdf": "",
-      "citations": 0
+      "citations": 1
     },
     {
       "id": "kim2024-efficiency",
@@ -111,7 +111,7 @@
       "category": "Efficiency Analysis",
       "abstract": "This paper evaluates operational efficiency of media companies using Data Envelopment Analysis and Malmquist productivity indices, providing insights into performance trends and competitive positioning in the media industry.",
       "pdf": "",
-      "citations": 7
+      "citations": 8
     },
     {
       "id": "kim2024-global",
@@ -174,7 +174,7 @@
       "quartile": "Q1",
       "doi": "10.1080/14783363.2018.1487312",
       "category": "Public Service",
-      "citations": 20,
+      "citations": 21,
       "abstract": "This study aims to examine Gov. 3.0 (E-government) efficiency of 42 central administrative agencies in Republic of Korea and to identify the critical factors which can have an influence on the improvement of Gov.",
       "status": "published"
     },
@@ -258,7 +258,7 @@
       "quartile": "Q1",
       "doi": "10.1080/14783363.2017.1310708",
       "category": "IoT",
-      "citations": 508,
+      "citations": 519,
       "abstract": "This study aims to comprehensively examine the adoption of smart home service. A new model combining VAM (Value-based Adoption Model) and TAM (Technical Acceptance Model) was developed and analysed with a set of variables from Unified Theory of Acceptance and Use of Technology and Elaboration Likelihood Model.",
       "status": "published"
     },
@@ -281,7 +281,7 @@
       "category": "Fintech",
       "abstract": "This study examines factors affecting adoption of mobile payment services in the Fintech industry, analyzing user acceptance patterns and behavioral intentions toward mobile financial technology services.",
       "pdf": "",
-      "citations": 413
+      "citations": 422
     },
     {
       "id": "kim2015-portal",
@@ -326,8 +326,8 @@
     }
   ],
   "scholarStats": {
-    "citations": 1279,
-    "hIndex": 7,
+    "citations": 1308,
+    "hIndex": 8,
     "i10Index": 7
   },
   "citationGraph": [
@@ -345,7 +345,7 @@
     },
     {
       "year": 2017,
-      "citations": 33
+      "citations": 32
     },
     {
       "year": 2018,
@@ -361,27 +361,27 @@
     },
     {
       "year": 2021,
-      "citations": 179
+      "citations": 181
     },
     {
       "year": 2022,
-      "citations": 175
+      "citations": 176
     },
     {
       "year": 2023,
-      "citations": 178
+      "citations": 181
     },
     {
       "year": 2024,
-      "citations": 159
+      "citations": 158
     },
     {
       "year": 2025,
-      "citations": 156
+      "citations": 162
     },
     {
       "year": 2026,
-      "citations": 30
+      "citations": 48
     }
   ],
   "domestic_publications": [

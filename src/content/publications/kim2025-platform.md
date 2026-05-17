@@ -12,7 +12,7 @@ pages: "6248"
 doi: "10.3390/su17146248"
 impact_factor: 3.9
 quartile: "Q2"
-citations: 0
+citations: 1
 abstract: "We analyze platform power dynamics in Korea's home shopping industry, examining how market asymmetries shape competitive advantages and sustainability outcomes for television commerce platforms."
 keywords: ["Platform Power", "Home Shopping", "Market Asymmetry", "TV Commerce", "Sustainability", "Network Effects", "Korea", "Platform Economics", "Market Structure", "Competitive Advantage"]
 research_area: ["Platform Economics", "Media Economics", "Market Structure", "Sustainability Studies"]
