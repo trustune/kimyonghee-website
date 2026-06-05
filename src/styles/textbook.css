@@ -102,40 +102,47 @@
   .tb-container { padding: 14px; }
 }
 
-/* ========== CHAPTER HEADER ========== */
+/* ========== CHAPTER HEADER ==========
+   Editorial chapter opener on paper (no color band): serif title, a part-tinted
+   kicker, sans deck, hairline rule. Matches the hub's contents-page voice. */
 .tb-header {
-  background: var(--tb-header-bg);
-  color: #fff;
-  padding: 28px 32px;
-  text-align: center;
-}
-
-.tb-header h1 {
-  font-family: var(--tb-font);
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: #fff;
-}
-
-.tb-header p {
-  opacity: 0.9;
-  font-size: 1.05rem;
-  margin-top: 4px;
+  max-width: var(--tb-container-max);
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 52px) 28px 22px;
+  border-bottom: 1px solid var(--tb-g200);
 }
 
 .tb-chapter-num {
   display: inline-block;
-  background: rgba(255,255,255,0.2);
-  padding: 4px 14px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--tb-accent, var(--tb-primary));
+  margin-bottom: 10px;
+}
+
+.tb-header h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 1.35rem + 1.7vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--tb-g900);
+  text-wrap: balance;
+}
+
+.tb-header p {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 0.96rem + 0.25vw, 1.12rem);
+  line-height: 1.5;
+  color: var(--tb-g800);
+  margin-top: 10px;
+  max-width: 60ch;
 }
 
 @media (max-width: 768px) {
-  .tb-header h1 { font-size: 1.4rem; }
+  .tb-header { padding-top: 26px; }
 }
 
 /* ========== TABS ========== */
@@ -561,203 +568,185 @@
   }
 }
 
-/* ========== HUB PAGE ========== */
-.tb-hub-hero {
-  background: var(--tb-header-bg);
-  color: #fff;
-  padding: 48px 32px;
-  text-align: center;
-}
+/* ========== HUB: editorial table of contents ==========
+   No color hero band; the page reads as a book's contents. Warmth is carried
+   by the serif voice + a hairline terracotta accent, not a filled block. */
 
-.tb-hub-hero h1 {
-  font-family: var(--tb-font);
-  font-size: 2.4rem;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -0.5px;
-}
-
-.tb-hub-hero p {
-  opacity: 0.92;
-  font-size: 1.1rem;
-  margin-top: 8px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.tb-hub-progress {
-  max-width: var(--tb-container-max);
-  margin: -20px auto 0;
-  padding: 0 28px;
-  position: relative;
-  z-index: 1;
-}
-
-.tb-hub-progress-card {
-  background: var(--color-bg);
-  border: 1px solid var(--tb-g200);
-  border-radius: var(--tb-radius);
-  padding: 16px 24px;
+/* Series switcher: quiet baseline text links, not pills. */
+.tb-series-nav {
   display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.dark .tb-hub-progress-card { background: var(--tb-g100); }
-
-.tb-hub-progress-card .progress-label {
-  font-weight: 700;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 26px;
+  max-width: var(--tb-container-max);
+  margin: 0 auto;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--tb-g200);
   font-size: 0.9rem;
+}
+.tb-series-nav a {
+  color: var(--tb-g600);
+  text-decoration: none;
   white-space: nowrap;
+  padding-bottom: 2px;
+  transition: color var(--transition-base);
 }
-
-.tb-hub-progress-card .progress-track {
-  flex: 1;
-  height: 10px;
-  background: var(--tb-g200);
-  border-radius: 999px;
-  overflow: hidden;
+.tb-series-nav a:hover { color: var(--tb-g900); }
+.tb-series-nav a.active {
+  color: var(--tb-primary);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  box-shadow: inset 0 -1.5px 0 var(--tb-primary);
 }
+.tb-series-nav .muted { color: var(--tb-g600); font-size: 0.76rem; }
 
-.tb-hub-progress-card .progress-fill {
-  height: 100%;
+/* Title block: typographic, on paper. */
+.tb-toc-head {
+  max-width: var(--tb-container-max);
+  margin: 0 auto;
+  padding: clamp(36px, 6vw, 64px) 28px 28px;
+}
+.tb-toc-head .rule {
+  width: 44px;
+  height: 2px;
   background: var(--tb-primary);
-  border-radius: 999px;
+  margin-bottom: 22px;
+}
+.tb-toc-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(2rem, 1.5rem + 2.4vw, 3.1rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--tb-g900);
+  text-wrap: balance;
+}
+.tb-toc-deck {
+  font-family: var(--font-sans);
+  font-size: clamp(1.02rem, 0.98rem + 0.35vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--tb-g800);
+  margin-top: 14px;
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+.tb-toc-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 26px;
+  font-size: 0.85rem;
+  color: var(--tb-g600);
+  font-variant-numeric: tabular-nums;
+}
+.tb-toc-progress { color: var(--tb-primary); font-weight: 600; }
+.tb-toc-progressline {
+  max-width: var(--tb-container-max);
+  margin: 8px auto 0;
+  padding: 0 28px;
+}
+.tb-toc-progressline > span {
+  display: block;
+  height: 2px;
+  background: var(--tb-primary);
   transition: width 0.5s;
 }
 
-.tb-hub-progress-card .progress-text {
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: var(--tb-primary);
-  min-width: 48px;
-  text-align: right;
-}
+.tb-part-section { margin-bottom: 44px; }
 
-.tb-part-section {
-  margin-bottom: 32px;
-}
-
-.tb-part-header {
+/* Part header: serif "Part N" + name on a baseline, full rule beneath.
+   The part's warm-earth accent appears only as the "Part N" label color. */
+.tb-part-head {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--tb-g300);
 }
-
-.tb-part-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--tb-radius);
-  font-weight: 800;
-  font-size: 1rem;
-  color: #fff;
-  background: var(--tb-accent, var(--tb-primary));
-  flex-shrink: 0;
+.tb-part-no {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--tb-accent, var(--tb-primary));
+  white-space: nowrap;
 }
-
-.tb-part-header h2 {
-  font-family: var(--tb-font);
-  font-size: 1.3rem;
-  font-weight: 800;
+.tb-part-name {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+  line-height: 1.2;
   color: var(--tb-g900);
 }
-
-.tb-part-header .part-desc {
-  font-size: 0.9rem;
+.tb-part-desc {
+  flex: 1 1 100%;
+  font-size: 0.88rem;
   color: var(--tb-g600);
 }
 
-.tb-chapter-list {
-  display: grid;
-  gap: 8px;
-}
+/* Chapter entries: typographic contents rows, hairline-separated.
+   No number badges, no filled pills, no empty checkbox circles. */
+.tb-toc-list { display: flex; flex-direction: column; }
 
-.tb-chapter-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  background: var(--color-bg);
-  border: 1px solid var(--tb-g200);
-  border-radius: var(--tb-radius);
+.tb-toc-item {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr auto;
+  align-items: baseline;
+  column-gap: 16px;
+  padding: 13px 8px 13px 2px;
+  border-bottom: 1px solid var(--tb-g200);
   text-decoration: none;
   color: var(--tb-g800);
-  transition: transform var(--transition-base), border-color var(--transition-base);
+  transition: background-color var(--transition-base);
 }
+.tb-toc-item:hover { background: color-mix(in srgb, var(--tb-accent, var(--tb-primary)) 5%, transparent); }
+.tb-toc-item.planned { opacity: 0.5; pointer-events: none; }
 
-.tb-chapter-item:hover {
-  transform: translateX(4px);
-  border-color: var(--tb-accent, var(--tb-primary));
-}
-
-.dark .tb-chapter-item { background: var(--tb-g100); }
-
-.tb-chapter-item .ch-num {
-  font-weight: 800;
-  font-size: 1.1rem;
+.tb-toc-num {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
   color: var(--tb-accent, var(--tb-primary));
-  min-width: 32px;
+  font-variant-numeric: tabular-nums;
 }
-
-.tb-chapter-item .ch-info { flex: 1; }
-
-.tb-chapter-item .ch-title {
-  font-weight: 700;
-  font-size: 0.95rem;
+.tb-toc-main { min-width: 0; }
+.tb-toc-name {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--tb-g900);
 }
-
-.tb-chapter-item .ch-desc {
-  font-size: 0.82rem;
+.tb-toc-sub {
+  font-size: 0.85rem;
   color: var(--tb-g600);
-  margin-top: 2px;
+  margin-top: 1px;
 }
-
-.tb-chapter-item .ch-meta {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.tb-chapter-item .ch-interactive {
-  background: var(--tb-primary-light);
-  color: var(--tb-primary);
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.75rem;
+.tb-toc-item.capstone .tb-toc-name::after {
+  content: "캡스톤";
+  margin-left: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
   font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--tb-accent, var(--tb-primary));
+  vertical-align: 0.12em;
 }
-
-.tb-chapter-item .ch-check {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid var(--tb-g300);
+.tb-toc-aside {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  flex-shrink: 0;
+  align-items: baseline;
+  gap: 12px;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  color: var(--tb-g600);
+  font-variant-numeric: tabular-nums;
 }
-
-.tb-chapter-item .ch-check.done {
-  background: var(--tb-success);
-  border-color: var(--tb-success);
-  color: #fff;
-}
-
-.tb-chapter-item.capstone {
-  background: color-mix(in srgb, var(--tb-accent, var(--tb-primary)) 8%, var(--tb-g50));
-  border: 1px solid color-mix(in srgb, var(--tb-accent, var(--tb-primary)) 35%, var(--tb-g200));
-}
+.tb-toc-check { color: var(--tb-success-hover); font-weight: 700; }
 
 @media (max-width: 768px) {
-  .tb-hub-hero { padding: 32px 16px; }
-  .tb-hub-hero h1 { font-size: 1.6rem; }
-  .tb-hub-progress { padding: 0 14px; }
-  .tb-chapter-item .ch-meta { display: none; }
+  .tb-toc-head { padding-top: 28px; }
+  .tb-toc-item { grid-template-columns: 2rem 1fr; column-gap: 12px; }
+  .tb-toc-aside { grid-column: 2; margin-top: 4px; gap: 14px; }
 }

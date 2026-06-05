@@ -22,54 +22,38 @@ const publishedCount = chapters.filter(c => c.status === 'published').length;
   description="기초 통계부터 머신러닝, 딥러닝까지 — 개념과 실습으로 배우는 데이터 분석 교과서"
 >
   <div class="textbook-page" data-pagefind-body>
-    <!-- Series Navigation -->
-    <nav style="background: var(--tb-g100); border-bottom: 2px solid var(--tb-g200); padding: 12px 0;">
-      <div style="max-width: var(--tb-container-max); margin: 0 auto; padding: 0 28px; display: flex; gap: 8px; overflow-x: auto;">
-        {allSeries.map(s => (
-          <a
-            href={s.hubUrl}
-            data-astro-reload
-            style={`padding: 8px 18px; border-radius: 20px; font-size: .88rem; font-weight: 600; text-decoration: none; white-space: nowrap; transition: .2s; ${s.id === 'stats' ? `background: ${s.color}; color: #fff;` : `background: #fff; color: var(--tb-g600); border: 1px solid var(--tb-g200);`}`}
-          >
-            {s.title}
-            {s.status === 'planned' && <span style="font-size: .7rem; opacity: .6;"> (준비중)</span>}
-          </a>
-        ))}
-      </div>
+    <!-- Series switcher -->
+    <nav class="tb-series-nav">
+      {allSeries.map(s => (
+        <a href={s.hubUrl} data-astro-reload class={s.id === 'stats' ? 'active' : ''}>
+          {s.title}{s.status === 'planned' && <span class="muted"> (준비중)</span>}
+        </a>
+      ))}
     </nav>
 
-    <!-- Hero -->
-    <div class="tb-hub-hero">
-      <h1>통계학과 데이터 사이언스 입문</h1>
-      <p>기초 통계부터 머신러닝, 딥러닝까지 — 개념과 실습으로 배우는 데이터 분석</p>
-    </div>
-
-    <!-- Progress Bar -->
-    <div class="tb-hub-progress">
-      <div class="tb-hub-progress-card">
-        <span class="progress-label">학습 진행률</span>
-        <div class="progress-track">
-          <div class="progress-fill" id="hub-progress-fill" style="width: 0%"></div>
-        </div>
-        <span class="progress-text" id="hub-progress-text">0%</span>
+    <!-- Title block -->
+    <header class="tb-toc-head">
+      <div class="rule"></div>
+      <h1 class="tb-toc-title">통계학과 데이터 사이언스 입문</h1>
+      <p class="tb-toc-deck">기초 통계부터 머신러닝, 딥러닝까지, 개념과 실습으로 배우는 데이터 분석 교재입니다.</p>
+      <div class="tb-toc-meta">
+        <span>전 {totalChapters}장 · {parts.length}개 파트</span>
+        <span class="tb-toc-progress">읽음 <span id="hub-progress-text">0%</span></span>
       </div>
-    </div>
+    </header>
+    <div class="tb-toc-progressline"><span id="hub-progress-fill" style="width: 0%"></span></div>
 
     <!-- Chapter List by Part -->
     <div class="tb-container" style="margin-top: 32px;">
       {chaptersByPart.map(part => (
         <section class="tb-part-section" data-part={part.id}>
-          <div class="tb-part-header">
-            <div class="tb-part-badge" style={`background: ${part.color}`}>
-              {part.id}
-            </div>
-            <div>
-              <h2>PART {part.id}: {part.title}</h2>
-              <div class="part-desc">{part.description}</div>
-            </div>
+          <div class="tb-part-head">
+            <span class="tb-part-no">Part {part.id}</span>
+            <h2 class="tb-part-name">{part.title}</h2>
+            <span class="tb-part-desc">{part.description}</span>
           </div>
 
-          <div class="tb-chapter-list">
+          <div class="tb-toc-list">
             {part.chapters.map(ch => {
               const isPublished = ch.status === 'published';
               const href = isPublished
@@ -80,20 +64,18 @@ const publishedCount = chapters.filter(c => c.status === 'published').length;
               return (
                 <Tag
                   href={href}
-                  class={`tb-chapter-item ${ch.capstone ? 'capstone' : ''} ${!isPublished ? 'planned' : ''}`}
-                  style={!isPublished ? 'opacity: 0.6; cursor: default;' : ''}
+                  class={`tb-toc-item ${ch.capstone ? 'capstone' : ''} ${!isPublished ? 'planned' : ''}`}
                 >
-                  <span class="ch-num">{String(ch.num).padStart(2, '0')}</span>
-                  <div class="ch-info">
-                    <div class="ch-title">{ch.title}</div>
-                    <div class="ch-desc">{ch.subtitle}</div>
+                  <span class="tb-toc-num">{String(ch.num).padStart(2, '0')}</span>
+                  <div class="tb-toc-main">
+                    <div class="tb-toc-name">{ch.title}</div>
+                    <div class="tb-toc-sub">{ch.subtitle}</div>
                   </div>
-                  <div class="ch-meta">
-                    <span class="ch-interactive">{ch.interactiveCount} interactive</span>
-                  </div>
-                  <div class={`ch-check`} data-slug={ch.slug}>
-                    {isPublished ? '' : ''}
-                  </div>
+                  <span class="tb-toc-aside">
+                    {ch.interactiveCount > 0 && <span class="tb-toc-mark">{ch.interactiveCount} 실습</span>}
+                    {!isPublished && <span>준비중</span>}
+                    <span class="ch-check tb-toc-check" data-slug={ch.slug}></span>
+                  </span>
                 </Tag>
               );
             })}
