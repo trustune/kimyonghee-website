@@ -96,8 +96,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="우승 전략" value="-" id="axel-winner" borderColor="#059669" />
-      <StatBox label="우승 점수" value="-" id="axel-top-score" borderColor="#6366f1" />
-      <StatBox label="총 라운드" value="-" id="axel-total" borderColor="#0891b2" />
+      <StatBox label="우승 점수" value="-" id="axel-top-score" borderColor="#7a5a70" />
+      <StatBox label="총 라운드" value="-" id="axel-total" borderColor="#2a6f66" />
     </div>
 
     <ChartContainer id="axelChart" height="400px" />
@@ -150,7 +150,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="A 총점" value="0" id="duel-a-score" borderColor="#ec4899" />
-      <StatBox label="B 총점" value="0" id="duel-b-score" borderColor="#3b82f6" />
+      <StatBox label="B 총점" value="0" id="duel-b-score" borderColor="#c47a52" />
       <StatBox label="협력 비율" value="0%" id="duel-coop-rate" borderColor="#059669" />
     </div>
 
@@ -242,7 +242,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="협력 유지 보수" value="-" id="delta-coop" borderColor="#059669" />
       <StatBox label="이탈 후 보수" value="-" id="delta-defect" borderColor="#ef4444" />
-      <StatBox label="협력 가능?" value="-" id="delta-possible" borderColor="#6366f1" />
+      <StatBox label="협력 가능?" value="-" id="delta-possible" borderColor="#7a5a70" />
     </div>
 
     <ChartContainer id="deltaChart" height="350px" />
@@ -326,8 +326,8 @@ waitForChart(function init() {
     gtft: '관대한 팃포탯', pavlov: '파블로프', random: '랜덤'
   };
   var stratColors = {
-    tft: '#059669', alld: '#ef4444', allc: '#3b82f6',
-    gtft: '#10b981', pavlov: '#f59e0b', random: '#8b5cf6'
+    tft: '#059669', alld: '#ef4444', allc: '#c47a52',
+    gtft: '#10b981', pavlov: '#f59e0b', random: '#a06b7c'
   };
 
   function getMove(strat, history, myIdx) {
@@ -398,16 +398,16 @@ waitForChart(function init() {
     allStrats.forEach(function(s) { scores[s] = 0; });
 
     var detailsHtml = '<table style="width: 100%; border-collapse: collapse; font-size: 0.85em;">';
-    detailsHtml += '<tr style="background: #f1f5f9;"><th style="padding: 6px; border: 1px solid #e2e8f0;">대결</th><th style="padding: 6px; border: 1px solid #e2e8f0;">A 점수</th><th style="padding: 6px; border: 1px solid #e2e8f0;">B 점수</th></tr>';
+    detailsHtml += '<tr style="background: #f1eee9;"><th style="padding: 6px; border: 1px solid #e4e0da;">대결</th><th style="padding: 6px; border: 1px solid #e4e0da;">A 점수</th><th style="padding: 6px; border: 1px solid #e4e0da;">B 점수</th></tr>';
 
     for (var i = 0; i < allStrats.length; i++) {
       for (var j = i; j < allStrats.length; j++) {
         var result = runMatch(allStrats[i], allStrats[j], rounds);
         scores[allStrats[i]] += result.scoreA;
         scores[allStrats[j]] += result.scoreB;
-        detailsHtml += '<tr><td style="padding: 4px 6px; border: 1px solid #e2e8f0;">' + stratNames[allStrats[i]] + ' vs ' + stratNames[allStrats[j]] + '</td>';
-        detailsHtml += '<td style="padding: 4px 6px; border: 1px solid #e2e8f0; text-align: center;">' + result.scoreA + '</td>';
-        detailsHtml += '<td style="padding: 4px 6px; border: 1px solid #e2e8f0; text-align: center;">' + result.scoreB + '</td></tr>';
+        detailsHtml += '<tr><td style="padding: 4px 6px; border: 1px solid #e4e0da;">' + stratNames[allStrats[i]] + ' vs ' + stratNames[allStrats[j]] + '</td>';
+        detailsHtml += '<td style="padding: 4px 6px; border: 1px solid #e4e0da; text-align: center;">' + result.scoreA + '</td>';
+        detailsHtml += '<td style="padding: 4px 6px; border: 1px solid #e4e0da; text-align: center;">' + result.scoreB + '</td></tr>';
       }
     }
     detailsHtml += '</table>';
@@ -437,7 +437,7 @@ waitForChart(function init() {
       labels: [],
       datasets: [
         { label: 'A 누적', data: [], borderColor: '#ec4899', tension: 0.2, fill: false, pointRadius: 0 },
-        { label: 'B 누적', data: [], borderColor: '#3b82f6', tension: 0.2, fill: false, pointRadius: 0 }
+        { label: 'B 누적', data: [], borderColor: '#c47a52', tension: 0.2, fill: false, pointRadius: 0 }
       ]
     },
     options: {
@@ -485,14 +485,14 @@ waitForChart(function init() {
 
     /* 히스토리 */
     var histHtml = '<table style="width: 100%; border-collapse: collapse; font-size: 0.8em;">';
-    histHtml += '<tr style="background: #f1f5f9;"><th style="padding: 3px 6px; border: 1px solid #e2e8f0;">R</th><th style="padding: 3px 6px; border: 1px solid #e2e8f0;">A</th><th style="padding: 3px 6px; border: 1px solid #e2e8f0;">B</th><th style="padding: 3px 6px; border: 1px solid #e2e8f0;">보수</th></tr>';
+    histHtml += '<tr style="background: #f1eee9;"><th style="padding: 3px 6px; border: 1px solid #e4e0da;">R</th><th style="padding: 3px 6px; border: 1px solid #e4e0da;">A</th><th style="padding: 3px 6px; border: 1px solid #e4e0da;">B</th><th style="padding: 3px 6px; border: 1px solid #e4e0da;">보수</th></tr>';
     result.history.forEach(function(h, idx) {
       var p = payoffs[h[0] + h[1]];
       var bg = h[0] === 'C' && h[1] === 'C' ? '#f0fdf4' : h[0] === 'D' && h[1] === 'D' ? '#fef2f2' : '#fefce8';
-      histHtml += '<tr style="background: ' + bg + ';"><td style="padding: 2px 6px; border: 1px solid #e2e8f0;">' + (idx + 1) + '</td>';
-      histHtml += '<td style="padding: 2px 6px; border: 1px solid #e2e8f0;">' + (h[0] === 'C' ? '협력' : '배신') + '</td>';
-      histHtml += '<td style="padding: 2px 6px; border: 1px solid #e2e8f0;">' + (h[1] === 'C' ? '협력' : '배신') + '</td>';
-      histHtml += '<td style="padding: 2px 6px; border: 1px solid #e2e8f0;">(' + p[0] + ',' + p[1] + ')</td></tr>';
+      histHtml += '<tr style="background: ' + bg + ';"><td style="padding: 2px 6px; border: 1px solid #e4e0da;">' + (idx + 1) + '</td>';
+      histHtml += '<td style="padding: 2px 6px; border: 1px solid #e4e0da;">' + (h[0] === 'C' ? '협력' : '배신') + '</td>';
+      histHtml += '<td style="padding: 2px 6px; border: 1px solid #e4e0da;">' + (h[1] === 'C' ? '협력' : '배신') + '</td>';
+      histHtml += '<td style="padding: 2px 6px; border: 1px solid #e4e0da;">(' + p[0] + ',' + p[1] + ')</td></tr>';
     });
     histHtml += '</table>';
     document.getElementById('duel-history').innerHTML = histHtml;

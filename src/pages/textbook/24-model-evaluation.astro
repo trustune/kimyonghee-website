@@ -64,7 +64,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <div style="background: #fef3c7; padding: 14px; text-align: center; font-weight: 700; color: #92400e; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">FN (거짓 음성)</div>
       <div style="background: var(--tb-g100); padding: 14px; font-weight: 700; border-top: 1px solid var(--tb-g200);">실제: 음성</div>
       <div style="background: #fee2e2; padding: 14px; text-align: center; font-weight: 700; color: #991b1b; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">FP (거짓 양성)</div>
-      <div style="background: #dbeafe; padding: 14px; text-align: center; font-weight: 700; color: #1e40af; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">TN (참 음성)</div>
+      <div style="background: #f3e3d8; padding: 14px; text-align: center; font-weight: 700; color: #7a3f28; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">TN (참 음성)</div>
     </div>
 
     <ExplainBox>
@@ -136,7 +136,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     <div class="tb-stat-row">
       <StatBox label="정확도" id="stat-im-accuracy" />
-      <StatBox label="정밀도" id="stat-im-precision" borderColor="#2563eb" />
+      <StatBox label="정밀도" id="stat-im-precision" borderColor="#a85a38" />
       <StatBox label="재현율" id="stat-im-recall" borderColor="#ef4444" />
       <StatBox label="F1 점수" id="stat-im-f1" borderColor="#22c55e" />
     </div>
@@ -198,9 +198,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
             <label style="font-size: 0.78rem; color: #991b1b; font-weight: 700;">FP</label><br>
             <input type="number" id="input-fp" value="5" min="0" max="500" style="width: 70px; text-align: center; font-weight: 700; font-size: 1.1rem; border: 2px solid #ef4444; border-radius: 6px; padding: 4px;">
           </div>
-          <div style="padding: 8px; text-align: center; background: #dbeafe; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">
-            <label style="font-size: 0.78rem; color: #1e40af; font-weight: 700;">TN</label><br>
-            <input type="number" id="input-tn" value="945" min="0" max="5000" style="width: 70px; text-align: center; font-weight: 700; font-size: 1.1rem; border: 2px solid #2563eb; border-radius: 6px; padding: 4px;">
+          <div style="padding: 8px; text-align: center; background: #f3e3d8; border-top: 1px solid var(--tb-g200); border-left: 1px solid var(--tb-g200);">
+            <label style="font-size: 0.78rem; color: #7a3f28; font-weight: 700;">TN</label><br>
+            <input type="number" id="input-tn" value="945" min="0" max="5000" style="width: 70px; text-align: center; font-weight: 700; font-size: 1.1rem; border: 2px solid #a85a38; border-radius: 6px; padding: 4px;">
           </div>
         </div>
       </div>
@@ -212,12 +212,12 @@ import SimControls from '../../components/textbook/SimControls.astro';
           <StatBox label="오류율 (Error Rate)" id="stat-cm-error" />
         </div>
         <div class="tb-stat-row">
-          <StatBox label="정밀도 (Precision)" id="stat-cm-precision" borderColor="#2563eb" />
+          <StatBox label="정밀도 (Precision)" id="stat-cm-precision" borderColor="#a85a38" />
           <StatBox label="재현율 (Recall)" id="stat-cm-recall" borderColor="#ef4444" />
         </div>
         <div class="tb-stat-row">
           <StatBox label="F1 Score" id="stat-cm-f1" borderColor="#22c55e" />
-          <StatBox label="특이도 (Specificity)" id="stat-cm-specificity" borderColor="#7c3aed" />
+          <StatBox label="특이도 (Specificity)" id="stat-cm-specificity" borderColor="#834f63" />
         </div>
       </div>
     </div>
@@ -272,9 +272,9 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </SimControls>
 
     <div class="tb-stat-row">
-      <StatBox label="모델 A AUC" id="stat-auc-a" borderColor="#2563eb" />
+      <StatBox label="모델 A AUC" id="stat-auc-a" borderColor="#a85a38" />
       <StatBox label="모델 B AUC" id="stat-auc-b" borderColor="#ef4444" />
-      <StatBox label="무작위 AUC" id="stat-auc-random" value="0.500" borderColor="#94a3b8" />
+      <StatBox label="무작위 AUC" id="stat-auc-random" value="0.500" borderColor="#a39d96" />
     </div>
 
     <WarningBox>
@@ -327,7 +327,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <div class="tb-stat-row">
       <StatBox label="평균 정확도" id="stat-cv-mean" borderColor="#22c55e" />
       <StatBox label="표준편차" id="stat-cv-std" borderColor="#f59e0b" />
-      <StatBox label="단일 홀드아웃" id="stat-cv-holdout" borderColor="#94a3b8" />
+      <StatBox label="단일 홀드아웃" id="stat-cv-holdout" borderColor="#a39d96" />
     </div>
 
     <InsightBox>
@@ -392,7 +392,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
       <!-- Recommendation -->
       <div id="checklist-result" style="display: none; margin-top: 16px;">
-        <div style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); padding: 20px; border-radius: var(--tb-radius); border-left: 4px solid var(--tb-success);">
+        <div style="background: color-mix(in srgb, var(--tb-success) 10%, var(--tb-g50)); padding: 20px; border-radius: var(--tb-radius); border: 1px solid color-mix(in srgb, var(--tb-success) 32%, var(--tb-g200));">
           <div style="font-weight: 800; font-size: 1.05rem; color: #166534; margin-bottom: 10px;">추천 결과</div>
           <div id="recommend-model" style="font-size: 0.93rem; margin-bottom: 8px;"></div>
           <div id="recommend-metric" style="font-size: 0.93rem; margin-bottom: 8px;"></div>
@@ -699,7 +699,7 @@ function waitForChart(fn) {
 
     for (let fold = 0; fold < k; fold++) {
       const y = startY + fold * (rowH + 8);
-      ctx.fillStyle = '#475569';
+      ctx.fillStyle = '#58514a';
       ctx.textAlign = 'right';
       ctx.fillText(`Fold ${fold + 1}`, 35, y + rowH / 2 + 4);
       ctx.textAlign = 'center';
@@ -707,7 +707,7 @@ function waitForChart(fn) {
       for (let block = 0; block < k; block++) {
         const x = 40 + block * blockW;
         const isTest = block === fold;
-        ctx.fillStyle = isTest ? '#ef4444' : '#3b82f6';
+        ctx.fillStyle = isTest ? '#ef4444' : '#c47a52';
         ctx.globalAlpha = isTest ? 0.9 : 0.3;
         ctx.beginPath();
         ctx.roundRect(x + 1, y, blockW - 2, rowH, 4);
@@ -725,18 +725,18 @@ function waitForChart(fn) {
 
     // Legend
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#3b82f6';
+    ctx.fillStyle = '#c47a52';
     ctx.globalAlpha = 0.3;
     ctx.fillRect(40, H - 25, 20, 12);
     ctx.globalAlpha = 1;
-    ctx.fillStyle = '#475569';
+    ctx.fillStyle = '#58514a';
     ctx.fillText('훈련', 65, H - 15);
 
     ctx.fillStyle = '#ef4444';
     ctx.globalAlpha = 0.9;
     ctx.fillRect(120, H - 25, 20, 12);
     ctx.globalAlpha = 1;
-    ctx.fillStyle = '#475569';
+    ctx.fillStyle = '#58514a';
     ctx.fillText('테스트', 145, H - 15);
   }
 
@@ -887,7 +887,7 @@ function waitForChart(fn) {
         data: {
           labels: [],
           datasets: [
-            { label: '정밀도', data: [], borderColor: '#2563eb', tension: 0.3, pointRadius: 0, borderWidth: 2 },
+            { label: '정밀도', data: [], borderColor: '#a85a38', tension: 0.3, pointRadius: 0, borderWidth: 2 },
             { label: '재현율', data: [], borderColor: '#ef4444', tension: 0.3, pointRadius: 0, borderWidth: 2 },
             { label: 'F1', data: [], borderColor: '#22c55e', tension: 0.3, pointRadius: 0, borderWidth: 2.5 },
           ],
@@ -911,9 +911,9 @@ function waitForChart(fn) {
         type: 'scatter',
         data: {
           datasets: [
-            { label: '모델 A', data: [], borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', showLine: true, pointRadius: 0, borderWidth: 2.5, fill: false },
+            { label: '모델 A', data: [], borderColor: '#a85a38', backgroundColor: 'rgba(37,99,235,0.1)', showLine: true, pointRadius: 0, borderWidth: 2.5, fill: false },
             { label: '모델 B', data: [], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', showLine: true, pointRadius: 0, borderWidth: 2.5, fill: false },
-            { label: '무작위', data: [{ x: 0, y: 0 }, { x: 1, y: 1 }], borderColor: '#94a3b8', showLine: true, pointRadius: 0, borderWidth: 1.5, borderDash: [5, 5], fill: false },
+            { label: '무작위', data: [{ x: 0, y: 0 }, { x: 1, y: 1 }], borderColor: '#a39d96', showLine: true, pointRadius: 0, borderWidth: 1.5, borderDash: [5, 5], fill: false },
           ],
         },
         options: {
@@ -935,7 +935,7 @@ function waitForChart(fn) {
         data: {
           labels: ['K=3', 'K=5', 'K=10'],
           datasets: [
-            { label: '평균 정확도 (%)', data: [0, 0, 0], backgroundColor: ['#3b82f6', '#22c55e', '#f59e0b'] },
+            { label: '평균 정확도 (%)', data: [0, 0, 0], backgroundColor: ['#c47a52', '#22c55e', '#f59e0b'] },
             { label: '표준편차 (%)', data: [0, 0, 0], backgroundColor: ['rgba(59,130,246,0.3)', 'rgba(34,197,94,0.3)', 'rgba(245,158,11,0.3)'] },
           ],
         },

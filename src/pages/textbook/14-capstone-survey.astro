@@ -640,7 +640,7 @@ async function runDescriptive() {
 
       descChart = new Chart(canvas, {
         type: 'bar',
-        data: { labels, datasets: [{ label: '빈도', data: hist, backgroundColor: '#2563eb66', borderColor: '#2563eb', borderWidth: 1, borderRadius: 2 }] },
+        data: { labels, datasets: [{ label: '빈도', data: hist, backgroundColor: '#a85a3866', borderColor: '#a85a38', borderWidth: 1, borderRadius: 2 }] },
         options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false }, title: { display: true, text: meta1.label + ' 분포', font: { size: 13, family: "'Paperlogy'" } } }, scales: { y: { beginAtZero: true, title: { display: true, text: '빈도' } }, x: { title: { display: true, text: meta1.label } } } }
       });
     } else {
@@ -649,7 +649,7 @@ async function runDescriptive() {
       valid.forEach(r => { const k = String(r[var1]); counts[k] = (counts[k]||0)+1; });
       const labels = Object.keys(counts).sort();
       const data = labels.map(k => counts[k]);
-      const colors = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899'];
+      const colors = ['#a85a38','#ef4444','#22c55e','#f59e0b','#834f63','#2f7d72','#ec4899'];
 
       statsRow.innerHTML = `
         <div class="tb-stat-box"><div class="label">N</div><div class="value">${valid.length}</div></div>
@@ -676,7 +676,7 @@ async function runDescriptive() {
       const means = labels.map(k => mean(groups[k]));
       const sds = labels.map(k => stdev(groups[k]));
       const ns = labels.map(k => groups[k].length);
-      const colors = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899'];
+      const colors = ['#a85a38','#ef4444','#22c55e','#f59e0b','#834f63','#2f7d72','#ec4899'];
 
       statsRow.innerHTML = labels.map((k,i) =>
         `<div class="tb-stat-box"><div class="label">${k} (n=${ns[i]})</div><div class="value">${means[i].toFixed(2)}</div><div class="sub">SD=${sds[i].toFixed(2)}</div></div>`
@@ -708,8 +708,8 @@ async function runDescriptive() {
       // Grouped bar
       const datasets = rLabels.map((rk, i) => ({
         label: rk, data: cLabels.map(ck => (ct[rk] && ct[rk][ck]) || 0),
-        backgroundColor: ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed'][i%5] + '88',
-        borderColor: ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed'][i%5], borderWidth: 1, borderRadius: 4,
+        backgroundColor: ['#a85a38','#ef4444','#22c55e','#f59e0b','#834f63'][i%5] + '88',
+        borderColor: ['#a85a38','#ef4444','#22c55e','#f59e0b','#834f63'][i%5], borderWidth: 1, borderRadius: 4,
       }));
       descChart = new Chart(canvas, {
         type: 'bar', data: { labels: cLabels, datasets },
@@ -857,7 +857,7 @@ function runHypothesisTest() {
 
     // Draw group means
     const means = keys.map(k => mean(groups[k]));
-    const colors = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899'];
+    const colors = ['#a85a38','#ef4444','#22c55e','#f59e0b','#834f63','#2f7d72','#ec4899'];
     testChart = new Chart(canvas, {
       type: 'bar',
       data: { labels: keys, datasets: [{ label: dvMeta.label + ' 평균', data: means, backgroundColor: keys.map((_,i)=>colors[i%colors.length]+'88'), borderColor: keys.map((_,i)=>colors[i%colors.length]), borderWidth: 2, borderRadius: 6 }] },
@@ -983,7 +983,7 @@ async function runSubgroup() {
     <div class="tb-stat-box"><div class="label">${testResult.effectLabel}</div><div class="value">${testResult.effect.toFixed(3)}</div></div>
   `;
 
-  const colors = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899'];
+  const colors = ['#a85a38','#ef4444','#22c55e','#f59e0b','#834f63','#2f7d72','#ec4899'];
 
   // Group means bar chart with error bars
   subChart = new Chart(canvas, {
@@ -1069,7 +1069,7 @@ async function runSubgroup() {
           meta.data.forEach((bar, i) => {
             const xLo = chart.scales.x.getPixelForValue(pairs[i].lo);
             const xHi = chart.scales.x.getPixelForValue(pairs[i].hi);
-            ctx.save(); ctx.strokeStyle = '#475569'; ctx.lineWidth = 1.5;
+            ctx.save(); ctx.strokeStyle = '#58514a'; ctx.lineWidth = 1.5;
             ctx.beginPath(); ctx.moveTo(xLo, bar.y); ctx.lineTo(xHi, bar.y);
             ctx.moveTo(xLo, bar.y-4); ctx.lineTo(xLo, bar.y+4);
             ctx.moveTo(xHi, bar.y-4); ctx.lineTo(xHi, bar.y+4);
@@ -1078,7 +1078,7 @@ async function runSubgroup() {
           // Zero line
           const x0 = chart.scales.x.getPixelForValue(0);
           const ctx2 = chart.ctx;
-          ctx2.save(); ctx2.strokeStyle = '#94a3b8'; ctx2.lineWidth = 1; ctx2.setLineDash([4,4]);
+          ctx2.save(); ctx2.strokeStyle = '#a39d96'; ctx2.lineWidth = 1; ctx2.setLineDash([4,4]);
           ctx2.beginPath(); ctx2.moveTo(x0, chart.chartArea.top); ctx2.lineTo(x0, chart.chartArea.bottom);
           ctx2.stroke(); ctx2.restore();
         }

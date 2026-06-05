@@ -568,7 +568,7 @@ async function updateDual() {
   const hA = makeHistogram(dataA, 18);
   dualChartA = new Chart(canvasA, {
     type: 'bar',
-    data: { labels: hA.labels, datasets: [{ data: hA.hist, backgroundColor: '#2563eb44', borderColor: '#2563eb', borderWidth: 1, borderRadius: 2 }] },
+    data: { labels: hA.labels, datasets: [{ data: hA.hist, backgroundColor: '#a85a3844', borderColor: '#a85a38', borderWidth: 1, borderRadius: 2 }] },
     options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true }, x: { display: false } } }
   });
 
@@ -644,8 +644,8 @@ async function runStockSim() {
         {
           label: '삼성전자 (안정)',
           data: priceStable,
-          borderColor: '#2563eb',
-          backgroundColor: '#2563eb22',
+          borderColor: '#a85a38',
+          backgroundColor: '#a85a3822',
           fill: false,
           pointRadius: 0,
           borderWidth: 2,
@@ -714,7 +714,7 @@ async function runChebyshev() {
     if (dist <= sd) return '#22c55e66';
     if (dist <= 2 * sd) return '#f59e0b66';
     if (dist <= 3 * sd) return '#ef444466';
-    return '#94a3b844';
+    return '#a39d9644';
   });
 
   chebChart = new Chart(canvas, {
@@ -785,7 +785,7 @@ function drawBoxPlot(canvasId, data, color, prefix) {
   ctx.clearRect(0, 0, w, h);
 
   if (data.length < 5) {
-    ctx.fillStyle = '#94a3b8';
+    ctx.fillStyle = '#a39d96';
     ctx.font = '14px Paperlogy, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('데이터가 부족합니다 (최소 5개)', w/2, h/2);
@@ -819,11 +819,11 @@ function drawBoxPlot(canvasId, data, color, prefix) {
   }
 
   // Background
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, w, h);
 
   // Y axis labels
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '11px Paperlogy, sans-serif';
   ctx.textAlign = 'right';
   const ticks = 6;
@@ -831,7 +831,7 @@ function drawBoxPlot(canvasId, data, color, prefix) {
     const val = dataMin + (range * i / ticks);
     const y = scaleY(val);
     ctx.fillText(Math.round(val).toString(), pad - 8, y + 4);
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#e4e0da';
     ctx.lineWidth = 0.5;
     ctx.beginPath();
     ctx.moveTo(pad, y);
@@ -889,7 +889,7 @@ function drawBoxPlot(canvasId, data, color, prefix) {
   });
 
   // Labels
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '11px Paperlogy, sans-serif';
   ctx.textAlign = 'left';
   ctx.fillText('Q3: ' + Math.round(q3), cx + boxW/2 + 8, boxTop + 4);
@@ -919,10 +919,10 @@ function genBoxData(dist) {
 function updateBoxPlots() {
   const distA = document.getElementById('box-dist-a').value;
   const distB = document.getElementById('box-dist-b').value;
-  drawBoxPlot('box-canvas-a', genBoxData(distA), '#2563eb', 'box-q1-a,box-q2-a,box-q3-a,box-iqr-a'.split(',')[0] ? 'box' : 'box');
+  drawBoxPlot('box-canvas-a', genBoxData(distA), '#a85a38', 'box-q1-a,box-q2-a,box-q3-a,box-iqr-a'.split(',')[0] ? 'box' : 'box');
   const dataA = genBoxData(distA);
   const dataB = genBoxData(distB);
-  drawBoxPlot('box-canvas-a', dataA, '#2563eb', 'box');
+  drawBoxPlot('box-canvas-a', dataA, '#a85a38', 'box');
 
   // Prefix adjustment for B
   drawBoxPlotB(dataB);
@@ -948,7 +948,7 @@ function generateBoxPlots() {
   const dataA = genBoxData(distA);
   const dataB = genBoxData(distB);
 
-  drawBoxPlot('box-canvas-a', dataA, '#2563eb', 'box');
+  drawBoxPlot('box-canvas-a', dataA, '#a85a38', 'box');
   // For A stats
   if (dataA.length >= 5) {
     const q1 = calcQ(dataA, 0.25);
@@ -979,7 +979,7 @@ function applyManualData() {
     alert('최소 5개의 숫자를 쉼표로 구분하여 입력하세요.');
     return;
   }
-  drawBoxPlot('box-canvas-a', vals, '#2563eb', 'box');
+  drawBoxPlot('box-canvas-a', vals, '#a85a38', 'box');
   const q1 = calcQ(vals, 0.25);
   const q2 = calcQ(vals, 0.5);
   const q3 = calcQ(vals, 0.75);

@@ -88,13 +88,13 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       </div>
     </SimControls>
 
-    <div id="struct-info" style="margin-top: 16px; padding: 20px; background: #f0f9ff; border-radius: 12px; border: 2px solid #bfdbfe;">
+    <div id="struct-info" style="margin-top: 16px; padding: 20px; background: #f0f9ff; border-radius: 12px; border: 2px solid #ecd6c4;">
     </div>
 
     <ChartContainer id="structChart" height="350px" />
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="기업 수" value="-" id="struct-firms" borderColor="#3b82f6" />
+      <StatBox label="기업 수" value="-" id="struct-firms" borderColor="#c47a52" />
       <StatBox label="가격 결정력" value="-" id="struct-power" borderColor="#ef4444" />
       <StatBox label="진입 장벽" value="-" id="struct-barrier" borderColor="#f59e0b" />
       <StatBox label="상품 차별화" value="-" id="struct-diff" borderColor="#059669" />
@@ -148,9 +148,9 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <ChartContainer id="hhiChart" height="300px" />
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="HHI" value="0" id="hhi-value" borderColor="#6366f1" />
+      <StatBox label="HHI" value="0" id="hhi-value" borderColor="#7a5a70" />
       <StatBox label="집중도 판정" value="-" id="hhi-grade" borderColor="#ef4444" />
-      <StatBox label="기업 수" value="3" id="hhi-count" borderColor="#3b82f6" />
+      <StatBox label="기업 수" value="3" id="hhi-count" borderColor="#c47a52" />
     </div>
 
     <ExerciseBox title="HHI 실습">
@@ -198,7 +198,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </div>
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="시장 구조" value="-" id="ind-type" borderColor="#6366f1" />
+      <StatBox label="시장 구조" value="-" id="ind-type" borderColor="#7a5a70" />
       <StatBox label="HHI" value="-" id="ind-hhi" borderColor="#ef4444" />
       <StatBox label="1위 점유율" value="-" id="ind-top" borderColor="#059669" />
     </div>
@@ -236,7 +236,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="정답" value="0/8" id="barrier-score" borderColor="#059669" />
-      <StatBox label="현재 문제" value="1/8" id="barrier-progress" borderColor="#3b82f6" />
+      <StatBox label="현재 문제" value="1/8" id="barrier-progress" borderColor="#c47a52" />
     </div>
 
     <ChartContainer id="barrierChart" height="250px" />
@@ -290,7 +290,7 @@ waitForChart(function init() {
     },
     {
       name: '독점적경쟁', firms: '많음 (수십~수백)', power: '약간', barrier: '낮음', diff: '약간 (브랜드)',
-      color: '#3b82f6', example: '음식점, 카페, 미용실',
+      color: '#c47a52', example: '음식점, 카페, 미용실',
       desc: '기업이 많지만 각자 약간 다른 상품을 팝니다. 스타벅스와 이디야는 둘 다 커피를 팔지만 차별화됩니다.',
       scores: [7, 3, 2, 4]
     },
@@ -369,7 +369,7 @@ waitForChart(function init() {
   var hhiInputs = document.getElementById('hhi-inputs');
   var firmCount = 3;
   var hhiCtx = document.getElementById('hhiChart').getContext('2d');
-  var hhiColors = ['#3b82f6','#ef4444','#059669','#f59e0b','#6366f1','#ec4899','#14b8a6','#f97316','#8b5cf6','#06b6d4'];
+  var hhiColors = ['#c47a52','#ef4444','#059669','#f59e0b','#7a5a70','#ec4899','#14b8a6','#f97316','#a06b7c','#2f7d72'];
 
   var hhiChart = new Chart(hhiCtx, {
     type: 'bar',
@@ -488,7 +488,7 @@ waitForChart(function init() {
       infoHtml += '<div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #e5e7eb;">' +
         '<span>' + f + '</span><strong>' + ind.shares[i] + '%</strong></div>';
     });
-    infoHtml += '<div style="margin-top: 12px; padding: 8px; background: #eff6ff; border-radius: 8px;">' +
+    infoHtml += '<div style="margin-top: 12px; padding: 8px; background: #faf3ee; border-radius: 8px;">' +
       '<strong>시장 구조:</strong> ' + ind.type + '</div>';
     document.getElementById('industry-info').innerHTML = infoHtml;
   }
@@ -546,7 +546,7 @@ waitForChart(function init() {
     }
 
     var bq = barrierQuestions[barrierIdx];
-    var html = '<div style="padding: 16px; background: #f0f9ff; border-radius: 12px; border: 2px solid #bfdbfe;">' +
+    var html = '<div style="padding: 16px; background: #f0f9ff; border-radius: 12px; border: 2px solid #ecd6c4;">' +
       '<p style="font-weight: bold; font-size: 1.05em;">Q' + (barrierIdx + 1) + '. ' + bq.q + '</p>' +
       '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;">';
 

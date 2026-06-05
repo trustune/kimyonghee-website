@@ -124,7 +124,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <FormulaBox>
       <span class="hl">합성곱 연산:</span><br>
       output[i][j] = SUM(image[i+m][j+n] * kernel[m][n])<br>
-      <span style="font-size: 0.85rem; color: #94a3b8;">m, n은 커널의 행/열 인덱스. 커널이 3x3이면 9번 곱하고 더한다.</span>
+      <span style="font-size: 0.85rem; color: #a39d96;">m, n은 커널의 행/열 인덱스. 커널이 3x3이면 9번 곱하고 더한다.</span>
     </FormulaBox>
 
     <ExplainBox>
@@ -465,11 +465,11 @@ function drawPixelCanvas() {
         ctx.fillStyle = bg;
         ctx.fillRect(x, y, cellW, cellH);
         // Grid lines
-        ctx.strokeStyle = '#cbd5e1';
+        ctx.strokeStyle = '#d6d3cf';
         ctx.lineWidth = 1;
         ctx.strokeRect(x, y, cellW, cellH);
         // Value text
-        ctx.fillStyle = t > 0.5 ? '#fff' : '#1e293b';
+        ctx.fillStyle = t > 0.5 ? '#fff' : '#2c2823';
         ctx.font = 'bold 14px Paperlogy, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -555,7 +555,7 @@ function drawConvInput() {
       const gray = val;
       ctx.fillStyle = `rgb(${gray},${gray},${gray})`;
       ctx.fillRect(c * cellW, r * cellH, cellW, cellH);
-      ctx.strokeStyle = '#e2e8f0';
+      ctx.strokeStyle = '#e4e0da';
       ctx.lineWidth = 0.5;
       ctx.strokeRect(c * cellW, r * cellH, cellW, cellH);
     }
@@ -599,12 +599,12 @@ function drawConvOutput(output, highlightR, highlightC) {
       const gray = Math.round(norm * 255);
       ctx.fillStyle = `rgb(${gray},${gray},${gray})`;
       ctx.fillRect(c * cellW, r * cellH, cellW, cellH);
-      ctx.strokeStyle = '#e2e8f0';
+      ctx.strokeStyle = '#e4e0da';
       ctx.lineWidth = 0.5;
       ctx.strokeRect(c * cellW, r * cellH, cellW, cellH);
 
       if (r === highlightR && c === highlightC) {
-        ctx.strokeStyle = '#2563eb';
+        ctx.strokeStyle = '#a85a38';
         ctx.lineWidth = 3;
         ctx.strokeRect(c * cellW + 1, r * cellH + 1, cellW - 2, cellH - 2);
       }
@@ -672,7 +672,7 @@ function generatePoolData() {
 function renderPoolCell(value, highlight) {
   const cell = document.createElement('div');
   const t = value / 99;
-  cell.style.cssText = `padding:12px;text-align:center;font-weight:700;font-size:0.95rem;border-radius:6px;font-family:Paperlogy,sans-serif;background:rgb(${Math.round(220 - t * 170)},${Math.round(230 - t * 100)},255);color:${t > 0.6 ? '#fff' : '#1e293b'};${highlight ? 'border:3px solid #2563eb;' : 'border:1px solid var(--tb-g200);'}`;
+  cell.style.cssText = `padding:12px;text-align:center;font-weight:700;font-size:0.95rem;border-radius:6px;font-family:Paperlogy,sans-serif;background:rgb(${Math.round(220 - t * 170)},${Math.round(230 - t * 100)},255);color:${t > 0.6 ? '#fff' : '#2c2823'};${highlight ? 'border:3px solid #a85a38;' : 'border:1px solid var(--tb-g200);'}`;
   cell.textContent = value.toString();
   return cell;
 }
@@ -803,7 +803,7 @@ function setupCNNBuilder() {
     // Visual diagram
     const diagram = document.getElementById('cnn-arch-diagram');
     if (diagram) {
-      const colors = { 'Input': '#e2e8f0', 'Conv': '#dbeafe', 'MaxPool': '#fef3c7', 'Flatten': '#e2e8f0', 'Dense': '#dcfce7', 'Softmax': '#fce7f3' };
+      const colors = { 'Input': '#e4e0da', 'Conv': '#f3e3d8', 'MaxPool': '#fef3c7', 'Flatten': '#e4e0da', 'Dense': '#dcfce7', 'Softmax': '#fce7f3' };
       diagram.innerHTML = '<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center;">' +
         layers.map(l => {
           const colorKey = Object.keys(colors).find(k => l.type.includes(k) || l.name.includes(k)) || 'Input';

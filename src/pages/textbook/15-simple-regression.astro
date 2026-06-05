@@ -480,7 +480,7 @@ function drawRegCanvas() {
   const pad = { l: 70, r: 30, t: 30, b: 50 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   if (regData.x.length === 0) return;
@@ -494,7 +494,7 @@ function drawRegCanvas() {
   const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
 
   // Grid
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#e4e0da';
   ctx.lineWidth = 1;
   for (let i = 0; i <= 5; i++) {
     const gy = pad.t + i * (H - pad.t - pad.b) / 5;
@@ -502,7 +502,7 @@ function drawRegCanvas() {
   }
 
   // Axes labels
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '13px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('광고비 (만원)', W / 2, H - 8);
@@ -547,14 +547,14 @@ function drawRegCanvas() {
 
   // Draw data points
   regData.x.forEach((xi, i) => {
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#a85a38';
     ctx.beginPath();
     ctx.arc(sx(xi), sy(regData.y[i]), 5, 0, Math.PI * 2);
     ctx.fill();
   });
 
   // Axis ticks
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '11px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   for (let i = 0; i <= 5; i++) {
@@ -595,7 +595,7 @@ function drawResidCanvas() {
   const pad = { l: 70, r: 30, t: 30, b: 50 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   if (regData.x.length === 0) return;
@@ -610,7 +610,7 @@ function drawResidCanvas() {
   const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
 
   // Grid
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#e4e0da';
   ctx.lineWidth = 1;
   for (let i = 0; i <= 5; i++) {
     const gy = pad.t + i * (H - pad.t - pad.b) / 5;
@@ -618,7 +618,7 @@ function drawResidCanvas() {
   }
 
   // Regression line
-  ctx.strokeStyle = '#2563eb';
+  ctx.strokeStyle = '#a85a38';
   ctx.lineWidth = 2;
   ctx.setLineDash([]);
   ctx.beginPath();
@@ -635,7 +635,7 @@ function drawResidCanvas() {
 
     if (showResid) {
       const residual = yi - yhat;
-      ctx.strokeStyle = residual > 0 ? '#ef4444' : '#2563eb';
+      ctx.strokeStyle = residual > 0 ? '#ef4444' : '#a85a38';
       ctx.lineWidth = isSelected ? 3 : 1.5;
       ctx.setLineDash(isSelected ? [] : [4, 4]);
       ctx.beginPath();
@@ -646,14 +646,14 @@ function drawResidCanvas() {
     }
 
     // Points
-    ctx.fillStyle = i === selectedPoint ? '#ef4444' : '#2563eb';
+    ctx.fillStyle = i === selectedPoint ? '#ef4444' : '#a85a38';
     ctx.beginPath();
     ctx.arc(sx(xi), sy(yi), i === selectedPoint ? 7 : 5, 0, Math.PI * 2);
     ctx.fill();
   });
 
   // Axis labels
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '13px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('광고비 (만원)', W / 2, H - 8);
@@ -723,7 +723,7 @@ function drawR2Canvas() {
   const pad = { l: 70, r: 30, t: 30, b: 50 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   if (r2Data.x.length === 0) return;
@@ -739,7 +739,7 @@ function drawR2Canvas() {
   const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
 
   // Mean line (dashed gray)
-  ctx.strokeStyle = '#94a3b8';
+  ctx.strokeStyle = '#a39d96';
   ctx.lineWidth = 1.5;
   ctx.setLineDash([6, 4]);
   ctx.beginPath();
@@ -748,7 +748,7 @@ function drawR2Canvas() {
   ctx.stroke();
   ctx.setLineDash([]);
 
-  ctx.fillStyle = '#94a3b8';
+  ctx.fillStyle = '#a39d96';
   ctx.font = '11px Paperlogy, sans-serif';
   ctx.textAlign = 'left';
   ctx.fillText('y-bar = ' + Math.round(my), W - pad.r - 80, sy(my) - 6);
@@ -776,7 +776,7 @@ function drawR2Canvas() {
   });
 
   // Regression line
-  ctx.strokeStyle = '#2563eb';
+  ctx.strokeStyle = '#a85a38';
   ctx.lineWidth = 2.5;
   ctx.beginPath();
   ctx.moveTo(sx(xMin), sy(ols.b0 + ols.b1 * xMin));
@@ -785,7 +785,7 @@ function drawR2Canvas() {
 
   // Points
   r2Data.x.forEach((xi, i) => {
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#2c2823';
     ctx.beginPath();
     ctx.arc(sx(xi), sy(r2Data.y[i]), 4, 0, Math.PI * 2);
     ctx.fill();
@@ -793,7 +793,7 @@ function drawR2Canvas() {
 
   // Legend
   ctx.font = '12px Paperlogy, sans-serif';
-  ctx.fillStyle = '#2563eb';
+  ctx.fillStyle = '#a85a38';
   ctx.fillRect(pad.l + 10, pad.t + 5, 14, 3);
   ctx.fillText('설명된 변동 (SSR)', pad.l + 30, pad.t + 12);
   ctx.fillStyle = '#ef4444';
@@ -860,7 +860,7 @@ function drawDiagPlots() {
   const stdResiduals = residuals.map(r => r / residStd);
 
   // 1. Residuals vs Fitted
-  drawScatterPlot('diag-resid-fit', fitted, residuals, 'Fitted', 'Residuals', '#2563eb', true);
+  drawScatterPlot('diag-resid-fit', fitted, residuals, 'Fitted', 'Residuals', '#a85a38', true);
 
   // 2. QQ Plot
   drawQQPlot('diag-qq', stdResiduals);
@@ -897,7 +897,7 @@ function drawScatterPlot(canvasId, xArr, yArr, xLabel, yLabel, color, showZero) 
   const pad = { l: 55, r: 15, t: 15, b: 35 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   const xMin = Math.min(...xArr) - (Math.max(...xArr) - Math.min(...xArr)) * 0.05;
@@ -913,7 +913,7 @@ function drawScatterPlot(canvasId, xArr, yArr, xLabel, yLabel, color, showZero) 
 
   // Zero line
   if (showZero) {
-    ctx.strokeStyle = '#94a3b8';
+    ctx.strokeStyle = '#a39d96';
     ctx.lineWidth = 1;
     ctx.setLineDash([4, 4]);
     ctx.beginPath();
@@ -956,7 +956,7 @@ function drawQQPlot(canvasId, stdResiduals) {
   const pad = { l: 55, r: 15, t: 15, b: 35 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   const sorted = [...stdResiduals].sort((a, b) => a - b);
@@ -978,7 +978,7 @@ function drawQQPlot(canvasId, stdResiduals) {
   const sy = (v) => H - pad.b - (v - vMin) / (vMax - vMin) * (H - pad.t - pad.b);
 
   // Diagonal line
-  ctx.strokeStyle = '#94a3b8';
+  ctx.strokeStyle = '#a39d96';
   ctx.lineWidth = 1.5;
   ctx.setLineDash([6, 4]);
   ctx.beginPath();
@@ -989,7 +989,7 @@ function drawQQPlot(canvasId, stdResiduals) {
 
   // Points
   theoretical.forEach((th, i) => {
-    ctx.fillStyle = '#7c3aedaa';
+    ctx.fillStyle = '#834f63aa';
     ctx.beginPath();
     ctx.arc(sx(th), sy(sorted[i]), 3.5, 0, Math.PI * 2);
     ctx.fill();
@@ -1004,7 +1004,7 @@ function drawLeveragePlot(canvasId, leverages, stdResiduals, cooksD) {
   const pad = { l: 55, r: 15, t: 15, b: 35 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   const xMin = 0;
@@ -1017,7 +1017,7 @@ function drawLeveragePlot(canvasId, leverages, stdResiduals, cooksD) {
   const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
 
   // Zero line
-  ctx.strokeStyle = '#94a3b8';
+  ctx.strokeStyle = '#a39d96';
   ctx.lineWidth = 1;
   ctx.setLineDash([4, 4]);
   ctx.beginPath();
@@ -1182,7 +1182,7 @@ init();
 
 <style>
   canvas {
-    background: #f8fafc;
+    background: #f8f6f4;
   }
   .diag-tooltip {
     line-height: 1.5;

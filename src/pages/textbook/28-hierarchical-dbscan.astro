@@ -281,7 +281,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <canvas id="dbscan-canvas" width="760" height="460" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
 
     <div class="tb-stat-row" style="margin-top: 14px;">
-      <StatBox label="발견된 군집 수" id="dbscan-clusters" value="-" borderColor="#2563eb" />
+      <StatBox label="발견된 군집 수" id="dbscan-clusters" value="-" borderColor="#a85a38" />
       <StatBox label="핵심점" id="dbscan-core" value="-" borderColor="#22c55e" />
       <StatBox label="경계점" id="dbscan-border" value="-" borderColor="#f59e0b" />
       <StatBox label="노이즈 점" id="dbscan-noise" value="-" borderColor="#ef4444" />
@@ -384,7 +384,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <canvas id="store-canvas" width="760" height="480" style="width: 100%; border: 1px solid var(--tb-g200); border-radius: var(--tb-radius); background: #fff;"></canvas>
 
     <div class="tb-stat-row" style="margin-top: 14px;">
-      <StatBox label="배송 권역 수" id="store-zones" value="-" borderColor="#2563eb" />
+      <StatBox label="배송 권역 수" id="store-zones" value="-" borderColor="#a85a38" />
       <StatBox label="평균 권역 크기" id="store-avg" value="-" borderColor="#22c55e" />
       <StatBox label="고립 매장 수" id="store-isolated" value="-" borderColor="#ef4444" />
       <StatBox label="전체 매장 수" id="store-total" value="50" />
@@ -445,7 +445,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
 <script is:inline>
 // ==================== UTILITIES ====================
-const COLORS = ['#2563eb','#ef4444','#22c55e','#f59e0b','#7c3aed','#06b6d4','#ec4899','#84cc16','#f97316','#6366f1'];
+const COLORS = ['#a85a38','#ef4444','#22c55e','#f59e0b','#834f63','#2f7d72','#ec4899','#84cc16','#f97316','#7a5a70'];
 function dist(a, b) { return Math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2); }
 function randGauss() { let u=0,v=0; while(!u) u=Math.random(); while(!v) v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
 
@@ -888,7 +888,7 @@ function drawDendrogram(merges, maxDist, cutHeight, n) {
     clusterPos[JSON.stringify([i])] = { x: leafX[i], y: 0 };
   }
 
-  ctx.strokeStyle = '#475569';
+  ctx.strokeStyle = '#58514a';
   ctx.lineWidth = 1.5;
 
   for (const m of merges) {
@@ -931,7 +931,7 @@ function drawDendrogram(merges, maxDist, cutHeight, n) {
   ctx.fillText('cut = ' + cutHeight.toFixed(1), padL + 4, cutY - 4);
 
   // Y axis labels
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '10px Paperlogy, sans-serif';
   ctx.textAlign = 'right';
   for (let i = 0; i <= 4; i++) {
@@ -972,7 +972,7 @@ function drawDendroScatter(points, clusters) {
   });
 
   // Label cluster count
-  ctx.fillStyle = '#1e293b';
+  ctx.fillStyle = '#2c2823';
   ctx.font = 'bold 13px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText(clusters.length + '개 군집', W/2, H - 6);
@@ -1037,7 +1037,7 @@ function drawDBSCAN(points, result, eps) {
     const x = points[i][0]*scaleX, y = points[i][1]*scaleY;
     if (result.labels[i] === -1) {
       // Noise: gray X
-      ctx.strokeStyle = '#94a3b8';
+      ctx.strokeStyle = '#a39d96';
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(x-4, y-4); ctx.lineTo(x+4, y+4);
@@ -1065,18 +1065,18 @@ function drawDBSCAN(points, result, eps) {
   ctx.font = '11px Paperlogy, sans-serif';
   ctx.textAlign = 'left';
   const legendY = H - 16;
-  ctx.fillStyle = '#2563eb';
+  ctx.fillStyle = '#a85a38';
   ctx.beginPath(); ctx.arc(12, legendY, 5, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#1e293b'; ctx.fillText('핵심점', 22, legendY + 4);
+  ctx.fillStyle = '#2c2823'; ctx.fillText('핵심점', 22, legendY + 4);
 
   ctx.fillStyle = '#f59e0b';
   ctx.beginPath(); ctx.arc(82, legendY, 4, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#1e293b'; ctx.fillText('경계점', 92, legendY + 4);
+  ctx.fillStyle = '#2c2823'; ctx.fillText('경계점', 92, legendY + 4);
 
-  ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+  ctx.strokeStyle = '#a39d96'; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(148, legendY-4); ctx.lineTo(156, legendY+4);
   ctx.moveTo(156, legendY-4); ctx.lineTo(148, legendY+4); ctx.stroke();
-  ctx.fillStyle = '#1e293b'; ctx.fillText('노이즈', 162, legendY + 4);
+  ctx.fillStyle = '#2c2823'; ctx.fillText('노이즈', 162, legendY + 4);
 }
 
 // ==================== 4. K-MEANS vs DBSCAN COMPARISON ====================
@@ -1111,7 +1111,7 @@ function drawCompareCanvas(canvasId, points, labels, showNoise) {
   for (let i = 0; i < points.length; i++) {
     const x = points[i][0]*scaleX, y = points[i][1]*scaleY;
     if (showNoise && labels[i] === -1) {
-      ctx.strokeStyle = '#94a3b8';
+      ctx.strokeStyle = '#a39d96';
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(x-3, y-3); ctx.lineTo(x+3, y+3);
@@ -1129,7 +1129,7 @@ function drawCompareCanvas(canvasId, points, labels, showNoise) {
   // Count clusters
   const unique = [...new Set(labels.filter(l => l >= 0))];
   const noiseCount = labels.filter(l => l === -1).length;
-  ctx.fillStyle = '#1e293b';
+  ctx.fillStyle = '#2c2823';
   ctx.font = 'bold 12px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   let info = unique.length + '개 군집';
@@ -1204,7 +1204,7 @@ function drawStoreMap(result, eps) {
   const scaleX = W / 760, scaleY = H / 480;
 
   // Background grid
-  ctx.strokeStyle = '#e2e8f066';
+  ctx.strokeStyle = '#e4e0da66';
   ctx.lineWidth = 0.5;
   for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
   for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
@@ -1267,15 +1267,15 @@ function drawStoreMap(result, eps) {
   ctx.font = '11px Paperlogy, sans-serif';
   ctx.textAlign = 'left';
   const ly = H - 14;
-  ctx.fillStyle = '#2563eb';
+  ctx.fillStyle = '#a85a38';
   ctx.beginPath(); ctx.arc(14, ly, 5, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#1e293b'; ctx.fillText('군집 매장', 24, ly + 4);
+  ctx.fillStyle = '#2c2823'; ctx.fillText('군집 매장', 24, ly + 4);
 
   ctx.fillStyle = '#ef4444';
   ctx.beginPath();
   ctx.moveTo(100, ly-5); ctx.lineTo(105, ly); ctx.lineTo(100, ly+5); ctx.lineTo(95, ly); ctx.closePath();
   ctx.fill();
-  ctx.fillStyle = '#1e293b'; ctx.fillText('고립 매장', 112, ly + 4);
+  ctx.fillStyle = '#2c2823'; ctx.fillText('고립 매장', 112, ly + 4);
 }
 
 // ==================== INIT & EVENT BINDING ====================

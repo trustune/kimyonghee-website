@@ -103,7 +103,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </p>
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="기준연도 바구니 비용" value="-" id="basket-base" borderColor="#3b82f6" />
+      <StatBox label="기준연도 바구니 비용" value="-" id="basket-base" borderColor="#c47a52" />
       <StatBox label="비교연도 바구니 비용" value="-" id="basket-current" borderColor="#f59e0b" />
       <StatBox label="CPI" value="-" id="basket-cpi" borderColor="#059669" />
       <StatBox label="인플레이션율" value="-" id="basket-inflation" borderColor="#ef4444" />
@@ -129,7 +129,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </ExplainBox>
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="과거 금액" value="-" id="pp-past" borderColor="#3b82f6" />
+      <StatBox label="과거 금액" value="-" id="pp-past" borderColor="#c47a52" />
       <StatBox label="현재 가치" value="-" id="pp-present" borderColor="#059669" />
       <StatBox label="물가 상승 배수" value="-" id="pp-multiple" borderColor="#f59e0b" />
     </div>
@@ -196,7 +196,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="물가 수준" value="-" id="infl-price" borderColor="#ef4444" />
       <StatBox label="거래량" value="-" id="infl-qty" borderColor="#059669" />
-      <StatBox label="인플레이션 유형" value="-" id="infl-type" borderColor="#7c3aed" />
+      <StatBox label="인플레이션 유형" value="-" id="infl-type" borderColor="#834f63" />
     </div>
 
     <SimControls>
@@ -256,7 +256,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </FormulaBox>
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="명목이자율" value="-" id="fisher-nominal" borderColor="#3b82f6" />
+      <StatBox label="명목이자율" value="-" id="fisher-nominal" borderColor="#c47a52" />
       <StatBox label="물가상승률" value="-" id="fisher-infl" borderColor="#ef4444" />
       <StatBox label="실질이자율" value="-" id="fisher-real" borderColor="#059669" />
     </div>
@@ -335,7 +335,7 @@ function init() {
     data: {
       labels: basketItems.map(function(i) { return i.name.split(' (')[0]; }),
       datasets: [
-        { label: '기준연도', data: basketItems.map(function(i) { return i.base; }), backgroundColor: 'rgba(59,130,246,0.6)', borderColor: '#3b82f6', borderWidth: 1 },
+        { label: '기준연도', data: basketItems.map(function(i) { return i.base; }), backgroundColor: 'rgba(59,130,246,0.6)', borderColor: '#c47a52', borderWidth: 1 },
         { label: '비교연도', data: basketItems.map(function(i) { return i.current; }), backgroundColor: 'rgba(245,158,11,0.6)', borderColor: '#f59e0b', borderWidth: 1 }
       ]
     },
@@ -455,7 +455,7 @@ function init() {
     type: 'scatter',
     data: {
       datasets: [
-        { label: '총수요 (AD)', data: getADData(0), showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3, fill: false },
+        { label: '총수요 (AD)', data: getADData(0), showLine: true, borderColor: '#c47a52', pointRadius: 0, borderWidth: 3, fill: false },
         { label: '총공급 (AS)', data: getASData(0), showLine: true, borderColor: '#ef4444', pointRadius: 0, borderWidth: 3, fill: false },
         { label: '균형', data: [], pointRadius: 8, pointBackgroundColor: '#059669', borderColor: '#059669', showLine: false }
       ]
@@ -514,7 +514,7 @@ function init() {
       labels: ['명목이자율', '물가상승률', '실질이자율'],
       datasets: [{
         data: [5, 3, 2],
-        backgroundColor: ['#3b82f6', '#ef4444', '#059669'],
+        backgroundColor: ['#c47a52', '#ef4444', '#059669'],
         borderWidth: 0,
         borderRadius: 8
       }]
@@ -541,7 +541,7 @@ function init() {
     document.getElementById('fisher-real').textContent = real.toFixed(1) + '%';
 
     fisherChart.data.datasets[0].data = [nom, cpi, real];
-    fisherChart.data.datasets[0].backgroundColor = ['#3b82f6', '#ef4444', real >= 0 ? '#059669' : '#dc2626'];
+    fisherChart.data.datasets[0].backgroundColor = ['#c47a52', '#ef4444', real >= 0 ? '#059669' : '#dc2626'];
     fisherChart.update();
   }
 

@@ -106,7 +106,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div class="tb-stat-row">
       <StatBox label="나의 만족도" id="my-satisfaction" value="0점" borderColor="#059669" />
-      <StatBox label="최적 만족도" id="optimal-satisfaction" value="0점" borderColor="#0d9488" />
+      <StatBox label="최적 만족도" id="optimal-satisfaction" value="0점" borderColor="#2f7d72" />
       <StatBox label="남은 예산" id="remaining-budget" value="0원" borderColor="#f59e0b" />
     </div>
 
@@ -168,7 +168,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div class="tb-stat-row">
       <StatBox label="빵 생산량" id="ppf-bread" value="0개" borderColor="#f59e0b" />
-      <StatBox label="옷 생산량" id="ppf-cloth" value="0벌" borderColor="#3b82f6" />
+      <StatBox label="옷 생산량" id="ppf-cloth" value="0벌" borderColor="#c47a52" />
       <StatBox label="효율 상태" id="ppf-status" value="-" borderColor="#059669" />
     </div>
 
@@ -194,35 +194,35 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <ExerciseBox title="퀴즈: 트레이드오프 찾기">
       <div id="tradeoff-quiz">
-        <div class="quiz-item" data-q="0" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="quiz-item" data-q="0" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q1.</strong> 정부가 국방비를 늘리면?</p>
           <button class="tb-btn" onclick="checkTradeoff(0, 0)">교육이나 복지 예산이 줄어든다</button>
           <button class="tb-btn" onclick="checkTradeoff(0, 1)">세금이 자동으로 내려간다</button>
           <button class="tb-btn" onclick="checkTradeoff(0, 2)">아무 영향이 없다</button>
           <p class="quiz-feedback" data-q="0" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="quiz-item" data-q="1" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="quiz-item" data-q="1" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q2.</strong> 환경 보호를 위해 공장 규제를 강화하면?</p>
           <button class="tb-btn" onclick="checkTradeoff(1, 0)">기업 생산 비용이 올라간다</button>
           <button class="tb-btn" onclick="checkTradeoff(1, 1)">모든 기업이 더 이익을 낸다</button>
           <button class="tb-btn" onclick="checkTradeoff(1, 2)">노동자 임금이 자동으로 오른다</button>
           <p class="quiz-feedback" data-q="1" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="quiz-item" data-q="2" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="quiz-item" data-q="2" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q3.</strong> 수면 시간을 줄이고 공부를 더 하면?</p>
           <button class="tb-btn" onclick="checkTradeoff(2, 0)">건강과 집중력이 떨어진다</button>
           <button class="tb-btn" onclick="checkTradeoff(2, 1)">항상 성적이 오른다</button>
           <button class="tb-btn" onclick="checkTradeoff(2, 2)">수면은 성적과 관련이 없다</button>
           <p class="quiz-feedback" data-q="2" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="quiz-item" data-q="3" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="quiz-item" data-q="3" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q4.</strong> 아르바이트 시간을 늘리면?</p>
           <button class="tb-btn" onclick="checkTradeoff(3, 0)">공부나 여가 시간이 줄어든다</button>
           <button class="tb-btn" onclick="checkTradeoff(3, 1)">시간이 더 많아진다</button>
           <button class="tb-btn" onclick="checkTradeoff(3, 2)">성적에 전혀 영향이 없다</button>
           <p class="quiz-feedback" data-q="3" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="quiz-item" data-q="4" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="quiz-item" data-q="4" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q5.</strong> 회사가 직원 복지를 늘리면?</p>
           <button class="tb-btn" onclick="checkTradeoff(4, 0)">단기 이익이 줄어들 수 있다</button>
           <button class="tb-btn" onclick="checkTradeoff(4, 1)">비용이 전혀 들지 않는다</button>
@@ -273,7 +273,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div class="tb-stat-row">
       <StatBox label="대학 진학 총비용" id="oc-total-cost" value="-" sub="등록금 + 포기임금" borderColor="#ef4444" />
       <StatBox label="대졸 추가 소득" id="oc-extra-income" value="-" sub="비교기간 동안" borderColor="#059669" />
-      <StatBox label="순이익" id="oc-net" value="-" sub="추가소득 - 총비용" borderColor="#3b82f6" />
+      <StatBox label="순이익" id="oc-net" value="-" sub="추가소득 - 총비용" borderColor="#c47a52" />
     </div>
 
     <ChartContainer id="oc-chart" height="300px" />
@@ -591,7 +591,7 @@ function init() {
           data: {
             labels: labels,
             datasets: [
-              { label: '대학 진학 (누적 소득)', data: collegeData, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3 },
+              { label: '대학 진학 (누적 소득)', data: collegeData, borderColor: '#c47a52', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3 },
               { label: '바로 취업 (누적 소득)', data: hsData, borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', fill: true, tension: 0.3 }
             ]
           },

@@ -6,49 +6,49 @@
       "title": "경제학이란 무엇인가",
       "titleEn": "What is Economics?",
       "description": "경제학적 사고의 출발점",
-      "color": "#059669"
+      "color": "#a85a38"
     },
     {
       "id": 1,
       "title": "미시경제학",
       "titleEn": "Microeconomics",
       "description": "개인과 기업의 선택, 시장의 원리",
-      "color": "#10b981"
+      "color": "#b27230"
     },
     {
       "id": 2,
       "title": "거시경제학",
       "titleEn": "Macroeconomics",
       "description": "국가 경제의 흐름과 정책",
-      "color": "#0d9488"
+      "color": "#8c7a3c"
     },
     {
       "id": 3,
       "title": "한국 경제 응용",
       "titleEn": "Korean Economy Applications",
       "description": "배운 개념으로 한국 경제를 분석하다",
-      "color": "#0891b2"
+      "color": "#9a6a2f"
     },
     {
       "id": 4,
       "title": "행동경제학",
       "titleEn": "Behavioral Economics",
       "description": "인간은 합리적이지 않다",
-      "color": "#6366f1"
+      "color": "#9e4038"
     },
     {
       "id": 5,
       "title": "게임이론",
       "titleEn": "Game Theory",
       "description": "전략적 상호작용의 과학",
-      "color": "#e11d48"
+      "color": "#b04a34"
     },
     {
       "id": 6,
       "title": "산업조직론",
       "titleEn": "Industrial Organization",
       "description": "기업의 전략과 시장 구조",
-      "color": "#ca8a04"
+      "color": "#78685a"
     }
   ],
   "chapters": [

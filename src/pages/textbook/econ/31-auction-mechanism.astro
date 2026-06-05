@@ -118,8 +118,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="낙찰자" value="-" id="auc-winner" borderColor="#059669" />
-      <StatBox label="낙찰가" value="-" id="auc-price" borderColor="#6366f1" />
-      <StatBox label="나의 이득" value="-" id="auc-profit" borderColor="#0891b2" />
+      <StatBox label="낙찰가" value="-" id="auc-price" borderColor="#7a5a70" />
+      <StatBox label="나의 이득" value="-" id="auc-profit" borderColor="#2a6f66" />
     </div>
 
     <ChartContainer id="auctionChart" height="300px" />
@@ -159,7 +159,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="승자 평균 입찰가" value="-" id="wc-avg-bid" borderColor="#ef4444" />
       <StatBox label="진짜 가치 평균" value="-" id="wc-avg-value" borderColor="#059669" />
-      <StatBox label="평균 손실" value="-" id="wc-avg-loss" borderColor="#6366f1" />
+      <StatBox label="평균 손실" value="-" id="wc-avg-loss" borderColor="#7a5a70" />
       <StatBox label="저주 발생률" value="-" id="wc-curse-rate" borderColor="#f59e0b" />
     </div>
 
@@ -216,7 +216,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="영국식 평균 수익" value="-" id="rev-eng" borderColor="#059669" />
-      <StatBox label="네덜란드식 평균 수익" value="-" id="rev-dutch" borderColor="#3b82f6" />
+      <StatBox label="네덜란드식 평균 수익" value="-" id="rev-dutch" borderColor="#c47a52" />
       <StatBox label="1가 밀봉 평균 수익" value="-" id="rev-first" borderColor="#ec4899" />
       <StatBox label="비크리 평균 수익" value="-" id="rev-vickrey" borderColor="#f59e0b" />
     </div>
@@ -577,7 +577,7 @@ waitForChart(function init() {
       datasets: [{
         label: '판매자 평균 수익',
         data: [0, 0, 0, 0],
-        backgroundColor: ['#059669', '#3b82f6', '#ec4899', '#f59e0b'],
+        backgroundColor: ['#059669', '#c47a52', '#ec4899', '#f59e0b'],
         borderRadius: 6
       }]
     },

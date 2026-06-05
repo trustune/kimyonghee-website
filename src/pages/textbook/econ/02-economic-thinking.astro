@@ -76,7 +76,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div class="tb-stat-row">
       <StatBox label="총효용" id="total-utility" value="0" borderColor="#059669" />
-      <StatBox label="한계효용" id="marginal-utility" value="-" sub="마지막 조각의 추가 만족" borderColor="#3b82f6" />
+      <StatBox label="한계효용" id="marginal-utility" value="-" sub="마지막 조각의 추가 만족" borderColor="#c47a52" />
       <StatBox label="상태" id="pizza-status" value="배고프다" borderColor="#f59e0b" />
     </div>
 
@@ -126,7 +126,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </ExplainBox>
 
     <ExerciseBox title="정책 시나리오">
-      <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+      <div style="margin-bottom: 20px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
         <p><strong>시나리오 1: 쓰레기봉투 유료화 (장당 500원)</strong></p>
         <p>쓰레기 배출량이 얼마나 줄어들까?</p>
         <label>예측: <strong id="inc-pred-1">0</strong>% 감소</label>
@@ -134,7 +134,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
         <button class="tb-btn" onclick="checkIncentive(1)">확인</button>
         <p id="inc-result-1" style="font-weight:600; display:none;"></p>
       </div>
-      <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+      <div style="margin-bottom: 20px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
         <p><strong>시나리오 2: 탄소세 (톤당 5만원)</strong></p>
         <p>기업의 탄소 배출이 얼마나 줄어들까?</p>
         <label>예측: <strong id="inc-pred-2">0</strong>% 감소</label>
@@ -142,7 +142,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
         <button class="tb-btn" onclick="checkIncentive(2)">확인</button>
         <p id="inc-result-2" style="font-weight:600; display:none;"></p>
       </div>
-      <div style="margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+      <div style="margin-bottom: 20px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
         <p><strong>시나리오 3: 전기차 보조금 (500만원)</strong></p>
         <p>전기차 판매가 얼마나 늘어날까?</p>
         <label>예측: <strong id="inc-pred-3">0</strong>% 증가</label>
@@ -182,31 +182,31 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <ExerciseBox title="매몰비용의 함정에 빠지지 마세요">
       <div id="sunk-quiz">
-        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q1.</strong> 영화가 재미없는데 이미 표(1.5만원)를 샀다. 어떻게 해야 할까?</p>
           <button class="tb-btn" onclick="checkSunk(0, 'A')">나간다 (1.5만원은 매몰비용)</button>
           <button class="tb-btn" onclick="checkSunk(0, 'B')">끝까지 본다 (돈이 아까우니까)</button>
           <p class="sq-fb" data-q="0" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q2.</strong> 3년간 개발한 프로젝트가 시장성이 없다고 판명되었다. 이미 50억을 투자했다.</p>
           <button class="tb-btn" onclick="checkSunk(1, 'A')">중단한다 (50억은 매몰비용)</button>
           <button class="tb-btn" onclick="checkSunk(1, 'B')">계속한다 (50억이 아까우니까)</button>
           <p class="sq-fb" data-q="1" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q3.</strong> 뷔페에서 2만원을 냈다. 배가 부른데 더 먹어야 할까?</p>
           <button class="tb-btn" onclick="checkSunk(2, 'A')">그만 먹는다 (2만원은 매몰비용)</button>
           <button class="tb-btn" onclick="checkSunk(2, 'B')">본전은 뽑아야 한다</button>
           <p class="sq-fb" data-q="2" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q4.</strong> 주식을 100만원에 샀는데 현재 가격이 60만원이다. "물타기"를 해야 할까?</p>
           <button class="tb-btn" onclick="checkSunk(3, 'A')">미래 전망만 보고 판단한다</button>
           <button class="tb-btn" onclick="checkSunk(3, 'B')">매입가를 회복할 때까지 기다린다</button>
           <p class="sq-fb" data-q="3" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="sq-item" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q5.</strong> 헬스장 1년 회원권(60만원)을 끊었는데, 6개월 후 운동이 싫어졌다.</p>
           <button class="tb-btn" onclick="checkSunk(4, 'A')">안 가는 게 낫다면 안 간다</button>
           <button class="tb-btn" onclick="checkSunk(4, 'B')">돈이 아까우니 억지로 간다</button>
@@ -232,7 +232,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <ExerciseBox title="비용-편익 비교">
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-        <div style="padding: 12px; background: #eff6ff; border-radius: 8px;">
+        <div style="padding: 12px; background: #faf3ee; border-radius: 8px;">
           <h4>선택지 A</h4>
           <label>이름:</label>
           <input type="text" id="opt-a-name" value="대학원 진학" style="width:100%; padding:6px; margin-bottom:8px; border:1px solid #d1d5db; border-radius:4px;">
@@ -257,7 +257,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </ExerciseBox>
 
     <div class="tb-stat-row">
-      <StatBox label="A 순편익" id="net-a" value="-" borderColor="#3b82f6" />
+      <StatBox label="A 순편익" id="net-a" value="-" borderColor="#c47a52" />
       <StatBox label="B 순편익" id="net-b" value="-" borderColor="#f59e0b" />
       <StatBox label="합리적 선택" id="rational-choice" value="-" borderColor="#059669" />
     </div>
@@ -472,7 +472,7 @@ function init() {
       el.style.color = '#059669';
     } else {
       el.textContent = '실제 결과: 약 ' + actual + '% 변화. 인센티브의 효과를 예측하기는 쉽지 않습니다.';
-      el.style.color = '#3b82f6';
+      el.style.color = '#c47a52';
     }
 
     updateIncentiveChart();

@@ -410,7 +410,7 @@ let anscombeCharts = [];
 async function drawAnscombe() {
   
   const keys = ['I', 'II', 'III', 'IV'];
-  const palette = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b'];
+  const palette = ['#a85a38', '#ef4444', '#22c55e', '#f59e0b'];
 
   anscombeCharts.forEach(c => c.destroy());
   anscombeCharts = [];
@@ -438,7 +438,7 @@ async function drawAnscombe() {
             label: '회귀선',
             type: 'line',
             data: [{ x: minX, y: reg.a + reg.b * minX }, { x: maxX, y: reg.a + reg.b * maxX }],
-            borderColor: '#64748b',
+            borderColor: '#6f6963',
             borderWidth: 2,
             borderDash: [5, 5],
             pointRadius: 0,
@@ -473,7 +473,7 @@ function drawCorrPlayground() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Grid
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#e4e0da';
   ctx.lineWidth = 1;
   for (let x = 0; x <= canvas.width; x += 60) {
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
@@ -486,9 +486,9 @@ function drawCorrPlayground() {
   corrPoints.forEach(p => {
     ctx.beginPath();
     ctx.arc(p.x, p.y, 6, 0, 2 * Math.PI);
-    ctx.fillStyle = '#2563eb99';
+    ctx.fillStyle = '#a85a3899';
     ctx.fill();
-    ctx.strokeStyle = '#2563eb';
+    ctx.strokeStyle = '#a85a38';
     ctx.lineWidth = 2;
     ctx.stroke();
   });
@@ -679,8 +679,8 @@ async function drawSimpson(view) {
         datasets: [{
           label: '전체 합격률 (%)',
           data: [mRate, fRate],
-          backgroundColor: ['#2563eb88', '#ef444488'],
-          borderColor: ['#2563eb', '#ef4444'],
+          backgroundColor: ['#a85a3888', '#ef444488'],
+          borderColor: ['#a85a38', '#ef4444'],
           borderWidth: 2,
           borderRadius: 4,
         }]
@@ -714,8 +714,8 @@ async function drawSimpson(view) {
           {
             label: '남성 합격률 (%)',
             data: maleRates,
-            backgroundColor: '#2563eb88',
-            borderColor: '#2563eb',
+            backgroundColor: '#a85a3888',
+            borderColor: '#a85a38',
             borderWidth: 2,
             borderRadius: 4,
           },

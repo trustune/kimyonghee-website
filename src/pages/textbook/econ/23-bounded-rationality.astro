@@ -67,7 +67,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </p>
 
     <!-- 1A: 닻내림 효과 -->
-    <div style="padding: 20px; background: #f0f9ff; border-radius: 12px; margin: 20px 0; border: 2px solid #bfdbfe;">
+    <div style="padding: 20px; background: #f0f9ff; border-radius: 12px; margin: 20px 0; border: 2px solid #ecd6c4;">
       <h3 style="margin: 0 0 12px;">실험 A: 닻내림 효과 (Anchoring)</h3>
       <div id="anchor-phase1">
         <p style="font-size: 1.1em; font-weight: bold;">질문: 아프리카에서 유엔에 가입한 국가의 비율은?</p>
@@ -200,7 +200,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="정답 수" value="0/10" id="heur-score" borderColor="#059669" />
-      <StatBox label="정답률" value="0%" id="heur-pct" borderColor="#3b82f6" />
+      <StatBox label="정답률" value="0%" id="heur-pct" borderColor="#c47a52" />
     </div>
 
     <ExerciseBox title="휴리스틱 적용">
@@ -347,7 +347,7 @@ waitForChart(function init() {
       '<p style="margin-top: 12px;"><strong>당신에게 제시된 닻:</strong> ' + anchorValue + '%</p>' +
       '<p><strong>닻내림 효과 분석:</strong> ' + anchorEffect + '이 제시되었으므로, ' +
       '당신의 추정이 실제보다 ' + expectedBias + ' 나왔을 가능성이 높습니다.</p>' +
-      '<p style="margin-top: 8px; color: #6366f1; font-weight: bold;">실험에서 높은 닻(65%)을 받은 그룹의 평균 추정치는 45%, ' +
+      '<p style="margin-top: 8px; color: #7a5a70; font-weight: bold;">실험에서 높은 닻(65%)을 받은 그룹의 평균 추정치는 45%, ' +
       '낮은 닻(10%)을 받은 그룹은 25%였습니다. 무관한 숫자가 판단을 왜곡합니다!</p>';
   });
 
@@ -379,7 +379,7 @@ waitForChart(function init() {
       '<p><strong>당신에게 보인 버전:</strong> ' + yourVersion + '</p>' +
       '<p style="margin-top: 12px;"><strong>핵심:</strong> 두 버전은 수학적으로 완전히 같은 상황입니다!</p>' +
       '<p>"200명 살린다" = "400명 죽는다" (600명 중)</p>' +
-      '<p style="margin-top: 12px; color: #6366f1; font-weight: bold;">' +
+      '<p style="margin-top: 12px; color: #7a5a70; font-weight: bold;">' +
       '"살린다" 프레임에서는 72%가 확실한 A를 선택하고, ' +
       '"죽는다" 프레임에서는 78%가 도박인 B를 선택합니다. ' +
       '이것이 프레이밍 효과입니다. 이득 상황에서는 안전하게, 손실 상황에서는 위험하게 선택합니다.</p>';
@@ -405,7 +405,7 @@ waitForChart(function init() {
 
   wasonCards.forEach(function(card, i) {
     var div = document.createElement('div');
-    div.style.cssText = 'width: 100px; height: 140px; border-radius: 12px; border: 3px solid #d1d5db; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 2.5em; font-weight: bold; cursor: pointer; user-select: none; transition: all 0.2s; color: #1e293b;';
+    div.style.cssText = 'width: 100px; height: 140px; border-radius: 12px; border: 3px solid #d1d5db; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 2.5em; font-weight: bold; cursor: pointer; user-select: none; transition: all 0.2s; color: #2c2823;';
     div.textContent = card.front;
     div.setAttribute('data-idx', i);
 
@@ -414,12 +414,12 @@ waitForChart(function init() {
         selectedCards[i] = false;
         div.style.borderColor = '#d1d5db';
         div.style.background = '#fff';
-        div.style.color = '#1e293b';
+        div.style.color = '#2c2823';
       } else {
         selectedCards[i] = true;
-        div.style.borderColor = '#3b82f6';
-        div.style.background = '#eff6ff';
-        div.style.color = '#2563eb';
+        div.style.borderColor = '#c47a52';
+        div.style.background = '#faf3ee';
+        div.style.color = '#a85a38';
       }
     });
 
@@ -449,7 +449,7 @@ waitForChart(function init() {
         '<p>- 7: 홀수인데 뒤에 모음이 있으면 규칙 위반 (규칙 반증)</p>' +
         '<p>- 4: 짝수지만 뒤에 뭐가 있든 규칙 위반이 아님</p>' +
         '<p>- K: 자음이므로 규칙과 무관</p>' +
-        '<p style="margin-top: 8px; color: #6366f1;">약 90%의 사람이 틀립니다. 확인 편향의 강력함!</p>';
+        '<p style="margin-top: 8px; color: #7a5a70;">약 90%의 사람이 틀립니다. 확인 편향의 강력함!</p>';
     }
   });
 

@@ -2,7 +2,7 @@
 /* Modern Minimal Academic Portfolio */
 
 :root {
-  /* Typography - Inter + Source Serif Pro */
+  /* Typography - Inter + Source Serif 4 */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-serif: 'Source Serif 4', 'Georgia', 'Times New Roman', serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace;
@@ -16,17 +16,19 @@
   --step-4: clamp(2rem, 1.6rem + 2vw, 2.75rem);
   --step-5: clamp(2.4rem, 1.9rem + 2.5vw, 3.5rem);
 
-  /* Colors - Grayscale */
-  --color-bg: #ffffff;
-  --color-surface: #f8f8f8;
-  --color-text: #1a1a1a;
-  --color-text-secondary: #4a4a4a;
-  --color-text-muted: #8a8a8a;
-  --color-border: #d4d4d4;
-  --color-border-light: #ebebeb;
-  --color-accent: #333333;
-  --color-accent-hover: #000000;
-  --color-accent-light: #f2f2f2;
+  /* Colors - Warm ink-on-white with a terracotta accent (OKLCH).
+     Canvas stays true white; warmth lives in the accent + a whisper in the neutrals. */
+  --color-bg: #ffffff;                            /* true white canvas (No-Beige Rule) */
+  --color-surface: #f8f6f4;                       /* barely-warm raised panels */
+  --color-text: #1a1a1a;                          /* near-black body/heading ink */
+  --color-text-secondary: #4a4a4a;               /* supporting copy, nav, footer */
+  --color-text-muted: oklch(50% 0.012 55);       /* warm gray, AA-compliant (was #8a8a8a ~3.5:1) */
+  --color-border: #d6d3cf;                        /* hairline divider, whisper warm */
+  --color-border-light: #ececea;
+  --color-accent: oklch(50% 0.12 42);            /* terracotta - links, emphasis, focus */
+  --color-accent-hover: oklch(43% 0.12 40);      /* deeper terracotta - hover/active */
+  --color-accent-light: oklch(96.5% 0.013 48);   /* soft warm wash - small surfaces only */
+  --color-accent-surface: oklch(95% 0.022 48);   /* ~6% warm tint - callouts/featured only */
 
   /* Spacing (4px base) */
   --space-1: 0.25rem;
@@ -54,14 +56,15 @@
 
 /* Dark Mode */
 .dark {
-  --color-bg: #0f0f0f;
-  --color-surface: #181818;
-  --color-text: #e0e0e0;
-  --color-text-secondary: #a0a0a0;
-  --color-text-muted: #606060;
-  --color-border: #2a2a2a;
-  --color-border-light: #1e1e1e;
-  --color-accent: #d0d0d0;
-  --color-accent-hover: #ffffff;
-  --color-accent-light: #1a1a1a;
+  --color-bg: #0f0f0f;                            /* true near-black */
+  --color-surface: #1a1815;                       /* whisper-warm raised */
+  --color-text: #e6e3df;                          /* warm off-white */
+  --color-text-secondary: #a8a39d;
+  --color-text-muted: #8a847c;                    /* warm muted, lifted for contrast */
+  --color-border: #2c2926;
+  --color-border-light: #201e1b;
+  --color-accent: oklch(74% 0.11 55);            /* warm terracotta-tan, legible on dark */
+  --color-accent-hover: oklch(82% 0.09 58);
+  --color-accent-light: #1c1814;
+  --color-accent-surface: oklch(30% 0.04 45);
 }

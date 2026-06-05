@@ -212,7 +212,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     <canvas id="canvas-biplot" width="700" height="500" style="width:100%;border:1px solid var(--tb-g200);border-radius:var(--tb-radius);background:#fff;"></canvas>
 
-    <div id="biplot-tooltip" style="display:none;position:fixed;background:#1e293b;color:#fff;padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:600;pointer-events:none;z-index:100;"></div>
+    <div id="biplot-tooltip" style="display:none;position:fixed;background:#2c2823;color:#fff;padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:600;pointer-events:none;z-index:100;"></div>
 
     <div id="biplot-result" style="display:none;margin-top:14px;" class="tb-explain"></div>
   </div>
@@ -409,7 +409,7 @@ function drawPca2D() {
   const dx2 = Math.cos(pcaAngle + Math.PI / 2) * range;
   const dy2 = Math.sin(pcaAngle + Math.PI / 2) * range;
   ctx.beginPath();
-  ctx.strokeStyle = '#2563eb44';
+  ctx.strokeStyle = '#a85a3844';
   ctx.lineWidth = 1;
   ctx.setLineDash([6, 4]);
   ctx.moveTo(sx(mx - dx2), sy(my - dy2));
@@ -428,7 +428,7 @@ function drawPca2D() {
 
     // Projection line
     ctx.beginPath();
-    ctx.strokeStyle = '#94a3b844';
+    ctx.strokeStyle = '#a39d9644';
     ctx.lineWidth = 0.5;
     ctx.moveTo(sx(p.x), sy(p.y));
     ctx.lineTo(sx(projX), sy(projY));
@@ -445,7 +445,7 @@ function drawPca2D() {
   pcaData.forEach(p => {
     ctx.beginPath();
     ctx.arc(sx(p.x), sy(p.y), 4, 0, 2 * Math.PI);
-    ctx.fillStyle = '#2563eb88';
+    ctx.fillStyle = '#a85a3888';
     ctx.fill();
   });
 
@@ -461,7 +461,7 @@ function drawPca2D() {
   // Labels
   ctx.fillStyle = '#ef4444'; ctx.font = 'bold 13px Paperlogy';
   ctx.fillText('PC1', sx(mx + dx * 0.8) + 10, sy(my + dy * 0.8) - 5);
-  ctx.fillStyle = '#2563eb'; ctx.font = '12px Paperlogy';
+  ctx.fillStyle = '#a85a38'; ctx.font = '12px Paperlogy';
   ctx.fillText(`설명 분산: ${(varRatio * 100).toFixed(1)}%`, 20, 25);
 }
 
@@ -594,7 +594,7 @@ function runScreePlot() {
   explained.forEach(v => { cumSum += v; cumulative.push(cumSum); });
 
   // Draw scree plot
-  drawBarChart('canvas-scree', explained, '#2563eb', 'PC');
+  drawBarChart('canvas-scree', explained, '#a85a38', 'PC');
   drawCumulativeLine('canvas-cumulative', cumulative);
 
   // Find 90% threshold
@@ -625,7 +625,7 @@ function drawBarChart(canvasId, values, color, prefix) {
     ctx.fillRect(x, margin.top + plotH - h, barW, h);
   });
 
-  ctx.fillStyle = '#1e293b'; ctx.font = '10px Paperlogy'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#2c2823'; ctx.font = '10px Paperlogy'; ctx.textAlign = 'center';
   values.forEach((_, i) => {
     const x = margin.left + i * (barW + gap) + gap / 2 + barW / 2;
     ctx.fillText(prefix + (i + 1), x, H - 8);
@@ -668,11 +668,11 @@ function drawCumulativeLine(canvasId, values) {
     const x = margin.left + (i / (values.length - 1)) * plotW;
     const y = margin.top + (1 - v) * plotH;
     ctx.beginPath(); ctx.arc(x, y, 4, 0, 2 * Math.PI);
-    ctx.fillStyle = v >= 0.9 ? '#22c55e' : '#94a3b8';
+    ctx.fillStyle = v >= 0.9 ? '#22c55e' : '#a39d96';
     ctx.fill();
   });
 
-  ctx.fillStyle = '#1e293b'; ctx.font = '10px Paperlogy'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#2c2823'; ctx.font = '10px Paperlogy'; ctx.textAlign = 'center';
   values.forEach((_, i) => {
     const x = margin.left + (i / (values.length - 1)) * plotW;
     ctx.fillText('PC' + (i + 1), x, H - 8);
@@ -797,13 +797,13 @@ function generateBiplot() {
   const sy = (v) => margin.top + plotH - (v + scaleRange) / (2 * scaleRange) * plotH;
 
   // Grid
-  ctx.strokeStyle = '#e2e8f088'; ctx.lineWidth = 0.5;
+  ctx.strokeStyle = '#e4e0da88'; ctx.lineWidth = 0.5;
   ctx.beginPath(); ctx.moveTo(sx(0), margin.top); ctx.lineTo(sx(0), margin.top + plotH); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(margin.left, sy(0)); ctx.lineTo(margin.left + plotW, sy(0)); ctx.stroke();
 
   // Variable arrows
   const arrowScale = scaleRange * 0.7;
-  const arrowColors = ['#ef4444', '#2563eb', '#22c55e', '#f59e0b', '#7c3aed', '#06b6d4', '#ec4899', '#84cc16', '#f97316', '#14b8a6'];
+  const arrowColors = ['#ef4444', '#a85a38', '#22c55e', '#f59e0b', '#834f63', '#2f7d72', '#ec4899', '#84cc16', '#f97316', '#14b8a6'];
   pcs[0].forEach((_, vi) => {
     const ax = pcs[0][vi] * arrowScale;
     const ay = pcs[1][vi] * arrowScale;
@@ -833,14 +833,14 @@ function generateBiplot() {
     const isCrisis = crisisYears.includes(years[i]);
     ctx.beginPath();
     ctx.arc(sx(s.pc1), sy(s.pc2), isCrisis ? 7 : 4, 0, 2 * Math.PI);
-    ctx.fillStyle = isCrisis ? '#ef4444' : '#2563eb88';
+    ctx.fillStyle = isCrisis ? '#ef4444' : '#a85a3888';
     ctx.fill();
     if (isCrisis) {
       ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
     }
     // Year label
     if (isCrisis || i % 5 === 0) {
-      ctx.fillStyle = isCrisis ? '#ef4444' : '#64748b';
+      ctx.fillStyle = isCrisis ? '#ef4444' : '#6f6963';
       ctx.font = isCrisis ? 'bold 11px Paperlogy' : '9px Paperlogy';
       ctx.textAlign = 'center';
       ctx.fillText(years[i].toString(), sx(s.pc1), sy(s.pc2) - 10);
@@ -849,7 +849,7 @@ function generateBiplot() {
 
   // Axis labels
   const totalVar = eigenvalues.reduce((s, v) => s + v, 0);
-  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 12px Paperlogy'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#2c2823'; ctx.font = 'bold 12px Paperlogy'; ctx.textAlign = 'center';
   ctx.fillText(`PC1 (${(eigenvalues[0] / totalVar * 100).toFixed(1)}%)`, margin.left + plotW / 2, H - 10);
   ctx.save(); ctx.translate(15, margin.top + plotH / 2); ctx.rotate(-Math.PI / 2);
   ctx.fillText(`PC2 (${(eigenvalues[1] / totalVar * 100).toFixed(1)}%)`, 0, 0); ctx.restore();

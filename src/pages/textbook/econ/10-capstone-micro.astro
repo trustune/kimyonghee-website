@@ -59,8 +59,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="균형 가격" value="-" id="eq-price" borderColor="#059669" />
       <StatBox label="균형 거래량" value="-" id="eq-qty" borderColor="#10b981" />
-      <StatBox label="소비자 잉여" value="-" id="eq-cs" borderColor="#0d9488" />
-      <StatBox label="생산자 잉여" value="-" id="eq-ps" borderColor="#0891b2" />
+      <StatBox label="소비자 잉여" value="-" id="eq-cs" borderColor="#2f7d72" />
+      <StatBox label="생산자 잉여" value="-" id="eq-ps" borderColor="#2a6f66" />
     </div>
 
     <SimControls>
@@ -179,8 +179,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </ExplainBox>
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="정책 유형" value="없음" id="pc-type" borderColor="#7c3aed" />
-      <StatBox label="설정 가격" value="-" id="pc-price" borderColor="#a855f7" />
+      <StatBox label="정책 유형" value="없음" id="pc-type" borderColor="#834f63" />
+      <StatBox label="설정 가격" value="-" id="pc-price" borderColor="#a06b7c" />
       <StatBox label="부족/잉여" value="-" id="pc-gap" borderColor="#ef4444" />
     </div>
 
@@ -377,7 +377,7 @@ function init() {
     type: 'scatter',
     data: {
       datasets: [
-        { label: '수요', data: getDemandData(0), showLine: true, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', pointRadius: 0, borderWidth: 3, fill: false },
+        { label: '수요', data: getDemandData(0), showLine: true, borderColor: '#c47a52', backgroundColor: 'rgba(59,130,246,0.1)', pointRadius: 0, borderWidth: 3, fill: false },
         { label: '공급', data: getSupplyData(0), showLine: true, borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', pointRadius: 0, borderWidth: 3, fill: false },
         { label: '균형', data: [{ x: 45, y: 55 }], pointRadius: 8, pointBackgroundColor: '#059669', borderColor: '#059669', showLine: false }
       ]
@@ -431,7 +431,7 @@ function init() {
     type: 'scatter',
     data: {
       datasets: [
-        { label: '수요', data: getDemandData(0), showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 2, fill: false },
+        { label: '수요', data: getDemandData(0), showLine: true, borderColor: '#c47a52', pointRadius: 0, borderWidth: 2, fill: false },
         { label: '공급 (원래)', data: getSupplyData(0), showLine: true, borderColor: '#ef4444', pointRadius: 0, borderWidth: 2, fill: false, borderDash: [5, 5] },
         { label: '공급 (세금 후)', data: getSupplyData(0), showLine: true, borderColor: '#ef4444', pointRadius: 0, borderWidth: 3, fill: false },
         { label: '사중손실', data: [], showLine: true, borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.3)', pointRadius: 0, borderWidth: 1, fill: true }
@@ -506,10 +506,10 @@ function init() {
     type: 'scatter',
     data: {
       datasets: [
-        { label: '수요', data: getDemandData(0), showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3, fill: false },
+        { label: '수요', data: getDemandData(0), showLine: true, borderColor: '#c47a52', pointRadius: 0, borderWidth: 3, fill: false },
         { label: '공급', data: getSupplyData(0), showLine: true, borderColor: '#ef4444', pointRadius: 0, borderWidth: 3, fill: false },
         { label: '균형', data: [{ x: 45, y: 55 }], pointRadius: 8, pointBackgroundColor: '#059669', borderColor: '#059669', showLine: false },
-        { label: '가격 통제선', data: [], showLine: true, borderColor: '#7c3aed', borderWidth: 3, borderDash: [8, 4], pointRadius: 0, fill: false }
+        { label: '가격 통제선', data: [], showLine: true, borderColor: '#834f63', borderWidth: 3, borderDash: [8, 4], pointRadius: 0, fill: false }
       ]
     },
     options: {

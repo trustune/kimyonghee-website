@@ -87,7 +87,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       <canvas id="treeCanvas" width="700" height="380" style="display: block; margin: 0 auto; background: #f9fafb; border-radius: 12px;"></canvas>
     </div>
 
-    <div id="tree-explanation" style="margin: 16px 0; padding: 16px; background: #eff6ff; border-radius: 12px;"></div>
+    <div id="tree-explanation" style="margin: 16px 0; padding: 16px; background: #faf3ee; border-radius: 12px;"></div>
 
     <ExerciseBox title="역진귀납법 연습">
       <p>각 시나리오에서 역진귀납법의 결과를 예측해보고, "역진귀납법 풀기"로 확인하세요.</p>
@@ -116,7 +116,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
         <p style="font-weight: bold; margin-bottom: 12px;">기존 기업의 반응:</p>
         <div style="display: flex; justify-content: center; gap: 16px;">
           <button class="tb-btn" id="entry-fight" style="padding: 12px 24px; background: #ef4444; color: white; border-radius: 12px;">가격 전쟁</button>
-          <button class="tb-btn" id="entry-accept" style="padding: 12px 24px; background: #3b82f6; color: white; border-radius: 12px;">수용</button>
+          <button class="tb-btn" id="entry-accept" style="padding: 12px 24px; background: #c47a52; color: white; border-radius: 12px;">수용</button>
         </div>
       </div>
     </div>
@@ -125,8 +125,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="신규 기업 이윤" value="-" id="entry-new-profit" borderColor="#059669" />
-      <StatBox label="기존 기업 이윤" value="-" id="entry-old-profit" borderColor="#3b82f6" />
-      <StatBox label="시나리오" value="-" id="entry-scenario" borderColor="#6366f1" />
+      <StatBox label="기존 기업 이윤" value="-" id="entry-old-profit" borderColor="#c47a52" />
+      <StatBox label="시나리오" value="-" id="entry-scenario" borderColor="#7a5a70" />
     </div>
 
     <ChartContainer id="entryChart" height="300px" />
@@ -218,9 +218,9 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div id="ultimatum-result" style="display: none; margin: 16px 0; padding: 16px; border-radius: 12px;"></div>
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="시도 횟수" value="0" id="ult-tries" borderColor="#6366f1" />
+      <StatBox label="시도 횟수" value="0" id="ult-tries" borderColor="#7a5a70" />
       <StatBox label="수락 횟수" value="0" id="ult-accepts" borderColor="#059669" />
-      <StatBox label="내 평균 수익" value="0원" id="ult-avg" borderColor="#0891b2" />
+      <StatBox label="내 평균 수익" value="0원" id="ult-avg" borderColor="#2a6f66" />
     </div>
 
     <ChartContainer id="ultimatumChart" height="350px" />
@@ -458,9 +458,9 @@ waitForChart(function init() {
       } else {
         ctx.beginPath();
         ctx.arc(n.x, n.y, 18, 0, Math.PI * 2);
-        ctx.fillStyle = n.player === 'A' ? '#fce7f3' : '#dbeafe';
+        ctx.fillStyle = n.player === 'A' ? '#fce7f3' : '#f3e3d8';
         ctx.fill();
-        ctx.strokeStyle = n.player === 'A' ? '#ec4899' : '#3b82f6';
+        ctx.strokeStyle = n.player === 'A' ? '#ec4899' : '#c47a52';
         ctx.lineWidth = 2;
         ctx.stroke();
         ctx.fillStyle = '#111';
@@ -745,7 +745,7 @@ waitForChart(function init() {
       node.style.cssText = 'display:flex;flex-direction:column;align-items:center;min-width:60px;';
       var circle = document.createElement('div');
       circle.style.cssText = 'width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff;' +
-        (i < centRound ? 'background:#22c55e;' : i === centRound && !centGameOver ? 'background:' + (isA ? '#2563eb' : '#ef4444') + ';box-shadow:0 0 0 3px rgba(0,0,0,.2);' : 'background:#cbd5e1;');
+        (i < centRound ? 'background:#22c55e;' : i === centRound && !centGameOver ? 'background:' + (isA ? '#a85a38' : '#ef4444') + ';box-shadow:0 0 0 3px rgba(0,0,0,.2);' : 'background:#d6d3cf;');
       circle.textContent = isA ? 'A' : 'B';
       node.appendChild(circle);
       var label = document.createElement('div');
@@ -759,7 +759,7 @@ waitForChart(function init() {
       container.appendChild(node);
       if (i < centMaxRounds) {
         var arrow = document.createElement('div');
-        arrow.style.cssText = 'font-size:1.2rem;color:' + (i < centRound ? '#22c55e' : '#cbd5e1') + ';';
+        arrow.style.cssText = 'font-size:1.2rem;color:' + (i < centRound ? '#22c55e' : '#d6d3cf') + ';';
         arrow.textContent = '\u2192';
         container.appendChild(arrow);
       }

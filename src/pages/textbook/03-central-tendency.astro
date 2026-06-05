@@ -445,8 +445,8 @@ async function drawIncomeChart() {
       datasets: [{
         label: '인원 수',
         data,
-        backgroundColor: '#2563eb88',
-        borderColor: '#2563eb',
+        backgroundColor: '#a85a3888',
+        borderColor: '#a85a38',
         borderWidth: 1,
         borderRadius: 4,
       }]
@@ -597,8 +597,8 @@ async function updateRobustDisplay() {
       datasets: [{
         label: '빈도',
         data: hist,
-        backgroundColor: '#2563eb44',
-        borderColor: '#2563eb',
+        backgroundColor: '#a85a3844',
+        borderColor: '#a85a38',
         borderWidth: 1,
         borderRadius: 2,
       }]
@@ -699,7 +699,7 @@ function initHonestQuiz() {
       s.dist.forEach((val, j) => {
         const barW = w / s.dist.length - 2;
         const barH = (val / maxVal) * (h - 10);
-        ctx.fillStyle = '#2563eb88';
+        ctx.fillStyle = '#a85a3888';
         ctx.fillRect(j * (barW + 2) + 1, h - barH - 5, barW, barH);
       });
     });
@@ -789,7 +789,7 @@ async function updateTrimDisplay() {
       const highBound = sorted[sorted.length - 1 - trim];
       if (binCenter < lowBound || binCenter > highBound) return '#ef444466';
     }
-    return '#2563eb44';
+    return '#a85a3844';
   });
 
   trimChart = new Chart(canvas, {

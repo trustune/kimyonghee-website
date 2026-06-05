@@ -119,9 +119,9 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div id="focal-result" style="display: none; margin: 16px 0; padding: 16px; border-radius: 12px;"></div>
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="시도 횟수" value="0" id="focal-tries" borderColor="#6366f1" />
+      <StatBox label="시도 횟수" value="0" id="focal-tries" borderColor="#7a5a70" />
       <StatBox label="만남 성공" value="0" id="focal-success" borderColor="#059669" />
-      <StatBox label="성공률" value="0%" id="focal-rate" borderColor="#0891b2" />
+      <StatBox label="성공률" value="0%" id="focal-rate" borderColor="#2a6f66" />
     </div>
 
     <ChartContainer id="focalChart" height="300px" />
@@ -157,8 +157,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       <table style="border-collapse: collapse; width: 100%; max-width: 400px; margin: 0 auto; text-align: center;">
         <tr>
           <th style="padding: 10px; border: 2px solid #e5e7eb;"></th>
-          <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: 앞면</th>
-          <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: 뒷면</th>
+          <th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: 앞면</th>
+          <th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: 뒷면</th>
         </tr>
         <tr>
           <td style="padding: 10px; border: 2px solid #e5e7eb; background: #fce7f3; font-weight: bold;">A: 앞면</td>
@@ -190,7 +190,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="A의 기대보수" value="0" id="mix-ea" borderColor="#ec4899" />
-      <StatBox label="B의 기대보수" value="0" id="mix-eb" borderColor="#3b82f6" />
+      <StatBox label="B의 기대보수" value="0" id="mix-eb" borderColor="#c47a52" />
       <StatBox label="A 승률" value="50%" id="mix-awin" borderColor="#059669" />
     </div>
 
@@ -225,7 +225,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="margin: 20px 0; padding: 16px; background: #f9fafb; border-radius: 12px;">
       <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
-        <div style="flex: 1; min-width: 200px; padding: 12px; background: #dbeafe; border-radius: 8px; text-align: center;">
+        <div style="flex: 1; min-width: 200px; padding: 12px; background: #f3e3d8; border-radius: 8px; text-align: center;">
           <p style="font-weight: bold;">경로 1 (고속도로)</p>
           <p>이용자: <span id="traffic-r1-users">50</span>명</p>
           <p>소요시간: <span id="traffic-r1-time">-</span>분</p>
@@ -242,7 +242,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <ChartContainer id="trafficChart" height="350px" />
 
-    <div id="traffic-analysis" style="margin: 16px 0; padding: 16px; background: #eff6ff; border-radius: 12px;"></div>
+    <div id="traffic-analysis" style="margin: 16px 0; padding: 16px; background: #faf3ee; border-radius: 12px;"></div>
 
     <ExplainBox title="Braess의 역설">
       <p>1968년 독일 수학자 Braess가 발견: <strong>도로를 추가로 건설하면 오히려 교통이 더 나빠질 수 있다!</strong></p>
@@ -298,7 +298,7 @@ waitForChart(function init() {
     var html = '<table style="border-collapse: collapse; width: 100%; max-width: ' + (neSize === 3 ? '600' : '480') + 'px; margin: 0 auto; text-align: center;">';
     html += '<tr><th style="padding: 8px; border: 2px solid #e5e7eb;"></th>';
     for (var j = 0; j < neSize; j++) {
-      html += '<th style="padding: 8px; border: 2px solid #e5e7eb; background: #dbeafe;">B: 전략' + (j + 1) + '</th>';
+      html += '<th style="padding: 8px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: 전략' + (j + 1) + '</th>';
     }
     html += '</tr>';
     for (var i = 0; i < neSize; i++) {
@@ -377,14 +377,14 @@ waitForChart(function init() {
           cell.style.background = '#bbf7d0';
           nashEquilibria.push([i, bj]);
         } else if (cell.style.background !== 'rgb(187, 247, 208)') {
-          cell.style.background = '#dbeafe';
+          cell.style.background = '#f3e3d8';
         }
       });
     }
 
     var resultHtml = '<h3>분석 결과</h3>';
     resultHtml += '<p style="margin-top: 8px;"><span style="display: inline-block; width: 16px; height: 16px; background: #fce7f3; border-radius: 3px; vertical-align: middle;"></span> A의 최적반응 &nbsp;&nbsp;';
-    resultHtml += '<span style="display: inline-block; width: 16px; height: 16px; background: #dbeafe; border-radius: 3px; vertical-align: middle;"></span> B의 최적반응 &nbsp;&nbsp;';
+    resultHtml += '<span style="display: inline-block; width: 16px; height: 16px; background: #f3e3d8; border-radius: 3px; vertical-align: middle;"></span> B의 최적반응 &nbsp;&nbsp;';
     resultHtml += '<span style="display: inline-block; width: 16px; height: 16px; background: #bbf7d0; border-radius: 3px; vertical-align: middle;"></span> 내쉬 균형</p>';
 
     resultHtml += '<p style="margin-top: 12px; font-weight: bold;">내쉬 균형: ';
@@ -474,7 +474,7 @@ waitForChart(function init() {
       labels: [],
       datasets: [
         { label: 'A의 누적 보수', data: [], borderColor: '#ec4899', tension: 0.2, fill: false, pointRadius: 0 },
-        { label: 'B의 누적 보수', data: [], borderColor: '#3b82f6', tension: 0.2, fill: false, pointRadius: 0 },
+        { label: 'B의 누적 보수', data: [], borderColor: '#c47a52', tension: 0.2, fill: false, pointRadius: 0 },
         { label: '기준선 (0)', data: [], borderColor: '#6b7280', borderDash: [5, 5], pointRadius: 0, fill: false }
       ]
     },
@@ -530,7 +530,7 @@ waitForChart(function init() {
     data: {
       labels: [],
       datasets: [
-        { label: '경로 1 소요시간 (분)', data: [], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3 },
+        { label: '경로 1 소요시간 (분)', data: [], borderColor: '#c47a52', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3 },
         { label: '경로 2 소요시간 (분)', data: [], borderColor: '#ec4899', borderDash: [5, 5], fill: false, tension: 0 }
       ]
     },
@@ -578,7 +578,7 @@ waitForChart(function init() {
       analysis.innerHTML = '<p style="color: #ef4444;">경로 1이 더 느립니다 (' + t1.toFixed(1) + '분 vs ' + t2 + '분).</p>' +
         '<p>경로 1 운전자 중 일부가 경로 2로 이동할 유인이 있습니다.</p>';
     } else {
-      analysis.innerHTML = '<p style="color: #3b82f6;">경로 1이 더 빠릅니다 (' + t1.toFixed(1) + '분 vs ' + t2 + '분).</p>' +
+      analysis.innerHTML = '<p style="color: #c47a52;">경로 1이 더 빠릅니다 (' + t1.toFixed(1) + '분 vs ' + t2 + '분).</p>' +
         '<p>경로 2 운전자 중 일부가 경로 1로 이동할 유인이 있습니다.</p>';
     }
   }

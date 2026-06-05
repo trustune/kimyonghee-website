@@ -35,7 +35,7 @@ const chaptersByPart = parts.map(part => ({
     </nav>
 
     <!-- Hero -->
-    <div class="tb-hub-hero" style="background: linear-gradient(135deg, #059669, #0d9488);">
+    <div class="tb-hub-hero">
       <h1>경제학 입문</h1>
       <p>미시와 거시경제의 핵심 원리를 시뮬레이션으로 체험하다</p>
     </div>
@@ -45,9 +45,9 @@ const chaptersByPart = parts.map(part => ({
       <div class="tb-hub-progress-card">
         <span class="progress-label">학습 진행률</span>
         <div class="progress-track">
-          <div class="progress-fill" id="hub-progress-fill" style="width: 0%; background: linear-gradient(90deg, #059669, #0d9488);"></div>
+          <div class="progress-fill" id="hub-progress-fill" style="width: 0%"></div>
         </div>
-        <span class="progress-text" id="hub-progress-text" style="color: #059669;">0%</span>
+        <span class="progress-text" id="hub-progress-text">0%</span>
       </div>
     </div>
 
@@ -76,15 +76,15 @@ const chaptersByPart = parts.map(part => ({
                   href={href}
                   data-astro-reload={isPublished ? '' : undefined}
                   class={`tb-chapter-item ${ch.capstone ? 'capstone' : ''} ${!isPublished ? 'planned' : ''}`}
-                  style={!isPublished ? 'opacity: 0.6; cursor: default;' : `border-left-color: ${part.color};`}
+                  style={!isPublished ? 'opacity: 0.6; cursor: default;' : ''}
                 >
-                  <span class="ch-num" style={`color: ${part.color}`}>{String(ch.num).padStart(2, '0')}</span>
+                  <span class="ch-num">{String(ch.num).padStart(2, '0')}</span>
                   <div class="ch-info">
                     <div class="ch-title">{ch.title}</div>
                     <div class="ch-desc">{ch.subtitle}</div>
                   </div>
                   <div class="ch-meta">
-                    <span class="ch-interactive" style="background: #d1fae5; color: #059669;">{ch.interactiveCount} interactive</span>
+                    <span class="ch-interactive">{ch.interactiveCount} interactive</span>
                   </div>
                   <div class="ch-check" data-slug={ch.slug}></div>
                 </Tag>
@@ -96,7 +96,7 @@ const chaptersByPart = parts.map(part => ({
 
       <div style="text-align: center; padding: 40px 0 20px; color: var(--tb-g600); font-size: 0.9rem;">
         <p><strong>Yonghee Kim</strong> -- 선문대학교 경영학과</p>
-        <p style="margin-top: 4px;"><a href="https://kimyonghee.com" style="color: #059669; text-decoration: none;">kimyonghee.com</a></p>
+        <p style="margin-top: 4px;"><a href="https://kimyonghee.com" style="color: var(--tb-primary); text-decoration: none;">kimyonghee.com</a></p>
       </div>
     </div>
   </div>

@@ -57,8 +57,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
           <thead>
             <tr>
               <th style="padding: 10px; border: 2px solid #e5e7eb;"></th>
-              <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">용의자 B: 묵비(협력)</th>
-              <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">용의자 B: 자백(배신)</th>
+              <th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">용의자 B: 묵비(협력)</th>
+              <th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">용의자 B: 자백(배신)</th>
             </tr>
           </thead>
           <tbody>
@@ -126,8 +126,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="나의 총 형량" value="0년" id="pd-my-score" borderColor="#ef4444" />
-      <StatBox label="상대 총 형량" value="0년" id="pd-cpu-score" borderColor="#3b82f6" />
-      <StatBox label="현재 라운드" value="1/10" id="pd-round" borderColor="#6366f1" />
+      <StatBox label="상대 총 형량" value="0년" id="pd-cpu-score" borderColor="#c47a52" />
+      <StatBox label="현재 라운드" value="1/10" id="pd-round" borderColor="#7a5a70" />
     </div>
 
     <ChartContainer id="pdChart" height="300px" />
@@ -151,8 +151,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
         <thead>
           <tr>
             <th style="padding: 10px; border: 2px solid #e5e7eb;"></th>
-            <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: 협력</th>
-            <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: 배신</th>
+            <th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: 협력</th>
+            <th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: 배신</th>
           </tr>
         </thead>
         <tbody>
@@ -307,7 +307,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="협력 확률" value="5%" id="coop-prob" borderColor="#059669" />
-      <StatBox label="활성 조건" value="0개" id="coop-count" borderColor="#6366f1" />
+      <StatBox label="활성 조건" value="0개" id="coop-count" borderColor="#7a5a70" />
     </div>
 
     <ChartContainer id="coopChart" height="300px" />
@@ -369,7 +369,7 @@ waitForChart(function init() {
       labels: [],
       datasets: [
         { label: '나의 누적 형량', data: [], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', fill: true, tension: 0.3 },
-        { label: '상대 누적 형량', data: [], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3 }
+        { label: '상대 누적 형량', data: [], borderColor: '#c47a52', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3 }
       ]
     },
     options: {
@@ -618,7 +618,7 @@ waitForChart(function init() {
       labels: [],
       datasets: [
         { label: '', data: [], borderColor: '#ef4444', tension: 0.3, fill: false },
-        { label: '', data: [], borderColor: '#3b82f6', tension: 0.3, fill: false }
+        { label: '', data: [], borderColor: '#c47a52', tension: 0.3, fill: false }
       ]
     },
     options: { responsive: true, scales: { y: { title: { display: true, text: '' } } } }
@@ -632,8 +632,8 @@ waitForChart(function init() {
     var html = '<h3 style="margin-bottom: 12px;">' + cs.title + '</h3>';
     html += '<table style="border-collapse: collapse; width: 100%; max-width: 450px; margin: 0 auto 16px; text-align: center;">';
     html += '<tr><th style="padding: 8px; border: 2px solid #e5e7eb;"></th>';
-    html += '<th style="padding: 8px; border: 2px solid #e5e7eb; background: #dbeafe;">B: ' + cs.matrix.labels[0] + '</th>';
-    html += '<th style="padding: 8px; border: 2px solid #e5e7eb; background: #dbeafe;">B: ' + cs.matrix.labels[1] + '</th></tr>';
+    html += '<th style="padding: 8px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: ' + cs.matrix.labels[0] + '</th>';
+    html += '<th style="padding: 8px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: ' + cs.matrix.labels[1] + '</th></tr>';
     for (var i = 0; i < 2; i++) {
       html += '<tr><td style="padding: 8px; border: 2px solid #e5e7eb; background: #fce7f3; font-weight: bold;">A: ' + cs.matrix.labels[i] + '</td>';
       for (var j = 0; j < 2; j++) {
@@ -669,7 +669,7 @@ waitForChart(function init() {
     data: {
       labels: ['반복', '평판', '처벌', '소통', '소규모'],
       datasets: [
-        { label: '협력 기여도 (%)', data: [0, 0, 0, 0, 0], backgroundColor: ['#059669', '#3b82f6', '#ef4444', '#f59e0b', '#8b5cf6'], borderRadius: 6 }
+        { label: '협력 기여도 (%)', data: [0, 0, 0, 0, 0], backgroundColor: ['#059669', '#c47a52', '#ef4444', '#f59e0b', '#a06b7c'], borderRadius: 6 }
       ]
     },
     options: {

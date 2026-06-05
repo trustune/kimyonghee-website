@@ -270,7 +270,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <FormulaBox>
       <span class="hl">드롭아웃 (Dropout):</span><br>
       훈련 중 각 뉴런을 확률 p로 무작위 비활성화<br>
-      <span style="font-size: 0.85rem; color: #94a3b8;">특정 뉴런에 의존하지 않도록 강제하여 일반화 성능을 높인다</span>
+      <span style="font-size: 0.85rem; color: #a39d96;">특정 뉴런에 의존하지 않도록 강제하여 일반화 성능을 높인다</span>
     </FormulaBox>
 
     <InsightBox>
@@ -685,7 +685,7 @@ function drawBoundary(canvasId, net, data) {
     const py = (1 - (d.x[1] - minY) / (maxY - minY)) * H;
     ctx.beginPath();
     ctx.arc(px, py, 4, 0, Math.PI * 2);
-    ctx.fillStyle = d.y === 1 ? '#2563eb' : '#ef4444';
+    ctx.fillStyle = d.y === 1 ? '#a85a38' : '#ef4444';
     ctx.fill();
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 1;
@@ -799,7 +799,7 @@ function updatePgLossChart(hist) {
   } else {
     pgLossChart = new Chart(canvas, {
       type: 'line',
-      data: { labels, datasets: [{ label: '손실', data: hist, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, pointRadius: 0, borderWidth: 2 }] },
+      data: { labels, datasets: [{ label: '손실', data: hist, borderColor: '#a85a38', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, pointRadius: 0, borderWidth: 2 }] },
       options: {
         responsive: true, maintainAspectRatio: false, animation: false,
         plugins: { legend: { display: false } },
@@ -900,7 +900,7 @@ async function setupDepthExperiment() {
 function updateDepthChart(histories, configs) {
   const canvas = document.getElementById('depth-chart');
   if (!canvas || !Chart) return;
-  const colors = ['#2563eb', '#22c55e', '#f59e0b'];
+  const colors = ['#a85a38', '#22c55e', '#f59e0b'];
   const labels = histories[0].map((_, i) => i + 1);
   const datasets = histories.map((h, i) => ({
     label: configs[i].label,
@@ -1013,8 +1013,8 @@ function updateDoChart(trOff, tsOff, trOn, tsOn) {
   const datasets = [
     { label: 'OFF: 훈련', data: trOff, borderColor: '#ef4444', borderDash: [], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' },
     { label: 'OFF: 테스트', data: tsOff, borderColor: '#ef4444', borderDash: [5, 5], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' },
-    { label: 'ON: 훈련', data: trOn, borderColor: '#2563eb', borderDash: [], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' },
-    { label: 'ON: 테스트', data: tsOn, borderColor: '#2563eb', borderDash: [5, 5], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' }
+    { label: 'ON: 훈련', data: trOn, borderColor: '#a85a38', borderDash: [], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' },
+    { label: 'ON: 테스트', data: tsOn, borderColor: '#a85a38', borderDash: [5, 5], pointRadius: 0, borderWidth: 2, backgroundColor: 'transparent' }
   ];
 
   if (doChart) {
@@ -1122,7 +1122,7 @@ function updateLRFChart(histories, lrs) {
   const canvas = document.getElementById('lrf-chart');
   if (!canvas || !Chart) return;
   const labels = histories[0].map((_, i) => i + 1);
-  const colors = ['#94a3b8', '#2563eb', '#ef4444'];
+  const colors = ['#a39d96', '#a85a38', '#ef4444'];
   const names = ['lr=' + lrs[0].toFixed(4) + ' (작음)', 'lr=' + lrs[1].toFixed(3) + ' (적절)', 'lr=' + lrs[2].toFixed(3) + ' (큼)'];
   const datasets = histories.map((h, i) => ({
     label: names[i], data: h, borderColor: colors[i], backgroundColor: 'transparent',

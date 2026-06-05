@@ -497,7 +497,7 @@ function drawKNNCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Draw grid
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#e4e0da';
   ctx.lineWidth = 0.5;
   for (let x = 0; x < canvas.width; x += 50) {
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
@@ -520,7 +520,7 @@ function drawKNNCanvas() {
   knnPoints.blue.forEach(p => {
     ctx.beginPath();
     ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#a85a38';
     ctx.fill();
     ctx.strokeStyle = '#1e3a8a';
     ctx.lineWidth = 1.5;
@@ -535,7 +535,7 @@ function drawKNNCanvas() {
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
         ctx.lineTo(n.x, n.y);
-        ctx.strokeStyle = '#94a3b888';
+        ctx.strokeStyle = '#a39d9688';
         ctx.lineWidth = 1;
         ctx.stroke();
       });
@@ -543,9 +543,9 @@ function drawKNNCanvas() {
 
     ctx.beginPath();
     ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
-    ctx.fillStyle = p.label === 0 ? '#ef444488' : '#2563eb88';
+    ctx.fillStyle = p.label === 0 ? '#ef444488' : '#a85a3888';
     ctx.fill();
-    ctx.strokeStyle = p.label === 0 ? '#ef4444' : '#2563eb';
+    ctx.strokeStyle = p.label === 0 ? '#ef4444' : '#a85a38';
     ctx.lineWidth = 2;
     ctx.setLineDash([4, 3]);
     ctx.stroke();
@@ -664,7 +664,7 @@ function drawKEffectBoundary(canvasId, k) {
   keffectData.points.forEach((p, i) => {
     ctx.beginPath();
     ctx.arc(p[0], p[1], 3, 0, Math.PI * 2);
-    ctx.fillStyle = keffectData.labels[i] === 0 ? '#ef4444' : '#2563eb';
+    ctx.fillStyle = keffectData.labels[i] === 0 ? '#ef4444' : '#a85a38';
     ctx.fill();
   });
 
@@ -705,12 +705,12 @@ async function runKEffectComparison() {
       datasets: [{
         label: '정확도 (%)',
         data: accs,
-        borderColor: '#2563eb',
-        backgroundColor: '#2563eb22',
+        borderColor: '#a85a38',
+        backgroundColor: '#a85a3822',
         fill: true,
         tension: 0.3,
         pointRadius: 5,
-        pointBackgroundColor: '#2563eb',
+        pointBackgroundColor: '#a85a38',
       }]
     },
     options: {
@@ -775,7 +775,7 @@ function drawDistMetric(canvasId, distFn) {
   distData.points.forEach((p, i) => {
     ctx.beginPath();
     ctx.arc(p[0], p[1], 4, 0, Math.PI * 2);
-    ctx.fillStyle = distData.labels[i] === 0 ? '#ef4444' : '#2563eb';
+    ctx.fillStyle = distData.labels[i] === 0 ? '#ef4444' : '#a85a38';
     ctx.fill();
   });
 
@@ -874,7 +874,7 @@ async function runCurseSim() {
     data: {
       labels: dims,
       datasets: [
-        {label: '최근접 거리', data: nearestByDim, borderColor: '#2563eb', tension: 0.3, pointRadius: 4},
+        {label: '최근접 거리', data: nearestByDim, borderColor: '#a85a38', tension: 0.3, pointRadius: 4},
         {label: '최원접 거리', data: farthestByDim, borderColor: '#ef4444', tension: 0.3, pointRadius: 4},
       ]
     },
@@ -1002,12 +1002,12 @@ function drawScaleCanvas(canvasId, xArr, yArr, labels, k, distFn) {
     const cy = toCanvasY(yArr[i]);
     ctx.beginPath();
     ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-    ctx.fillStyle = labels[i] === 0 ? '#ef4444' : '#2563eb';
+    ctx.fillStyle = labels[i] === 0 ? '#ef4444' : '#a85a38';
     ctx.fill();
   });
 
   // Axis labels
-  ctx.fillStyle = '#64748b';
+  ctx.fillStyle = '#6f6963';
   ctx.font = '11px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('X (소득/표준화)', canvas.width / 2, canvas.height - 4);

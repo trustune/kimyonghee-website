@@ -81,7 +81,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="총 예산" value="650조원" id="budget-total" borderColor="#059669" />
-      <StatBox label="배분된 금액" value="-" id="budget-allocated" borderColor="#3b82f6" />
+      <StatBox label="배분된 금액" value="-" id="budget-allocated" borderColor="#c47a52" />
       <StatBox label="잔여" value="-" id="budget-remaining" borderColor="#f59e0b" />
     </div>
 
@@ -139,7 +139,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </FormulaBox>
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="정부 지출" value="-" id="mult-spending" borderColor="#3b82f6" />
+      <StatBox label="정부 지출" value="-" id="mult-spending" borderColor="#c47a52" />
       <StatBox label="승수" value="-" id="mult-multiplier" borderColor="#059669" />
       <StatBox label="GDP 증가" value="-" id="mult-gdp" borderColor="#f59e0b" />
     </div>
@@ -208,8 +208,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </ExplainBox>
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="경기 상태" value="-" id="as-state" borderColor="#7c3aed" />
-      <StatBox label="세금 수입 변화" value="-" id="as-tax" borderColor="#3b82f6" />
+      <StatBox label="경기 상태" value="-" id="as-state" borderColor="#834f63" />
+      <StatBox label="세금 수입 변화" value="-" id="as-tax" borderColor="#c47a52" />
       <StatBox label="복지 지출 변화" value="-" id="as-welfare" borderColor="#f59e0b" />
       <StatBox label="재정 수지 변화" value="-" id="as-balance" borderColor="#059669" />
     </div>
@@ -329,7 +329,7 @@ function init() {
 
   var budSliders = ['bud-welfare', 'bud-edu', 'bud-defense', 'bud-soc', 'bud-rd', 'bud-other'];
   var budLabels = ['보건/복지', '교육', '국방', 'SOC', 'R&D', '기타'];
-  var budColors = ['#3b82f6', '#10b981', '#ef4444', '#f59e0b', '#8b5cf6', '#9ca3af'];
+  var budColors = ['#c47a52', '#10b981', '#ef4444', '#f59e0b', '#a06b7c', '#9ca3af'];
 
   var budgetChart = new Chart(budCtx, {
     type: 'doughnut',
@@ -452,7 +452,7 @@ function init() {
       labels: ['세금 수입 변화', '복지 지출 변화', '재정 수지 변화'],
       datasets: [{
         data: [0, 0, 0],
-        backgroundColor: ['#3b82f6', '#f59e0b', '#059669'],
+        backgroundColor: ['#c47a52', '#f59e0b', '#059669'],
         borderWidth: 0,
         borderRadius: 8
       }]
@@ -484,7 +484,7 @@ function init() {
     asChart.data.datasets[0].data = [taxChange, welfareChange, balanceChange];
     asChart.data.datasets[0].backgroundColor = [
       taxChange >= 0 ? '#059669' : '#ef4444',
-      welfareChange >= 0 ? '#f59e0b' : '#3b82f6',
+      welfareChange >= 0 ? '#f59e0b' : '#c47a52',
       balanceChange >= 0 ? '#059669' : '#ef4444'
     ];
     asChart.update();

@@ -5,49 +5,49 @@
       "title": "출발점",
       "titleEn": "Starting Point",
       "description": "데이터 사이언스의 세계로 첫 발을 내딛다",
-      "color": "#2563eb"
+      "color": "#a85a38"
     },
     {
       "id": 1,
       "title": "기술통계",
       "titleEn": "Descriptive Statistics",
       "description": "데이터의 모양을 눈으로 확인하다",
-      "color": "#2563eb"
+      "color": "#a85a38"
     },
     {
       "id": 2,
       "title": "추론통계",
       "titleEn": "Inferential Statistics",
       "description": "표본에서 모집단의 진실에 다가가다",
-      "color": "#7c3aed"
+      "color": "#9e4038"
     },
     {
       "id": 3,
       "title": "회귀와 예측",
       "titleEn": "Regression & Prediction",
       "description": "데이터로 미래를 예측하다",
-      "color": "#059669"
+      "color": "#8c7a3c"
     },
     {
       "id": 4,
       "title": "분류와 머신러닝",
       "titleEn": "Classification & ML",
       "description": "기계가 패턴을 학습하다",
-      "color": "#ea580c"
+      "color": "#b27230"
     },
     {
       "id": 5,
       "title": "비지도학습과 차원축소",
       "titleEn": "Unsupervised Learning",
       "description": "라벨 없이 구조를 발견하다",
-      "color": "#06b6d4"
+      "color": "#78685a"
     },
     {
       "id": 6,
       "title": "딥러닝과 AI",
       "titleEn": "Deep Learning & AI",
       "description": "인공지능의 원리를 체험하다",
-      "color": "#dc2626"
+      "color": "#b04a34"
     }
   ],
   "chapters": [

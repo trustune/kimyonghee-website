@@ -85,9 +85,9 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="선택 연도" value="-" id="hp-year" borderColor="#059669" />
-      <StatBox label="평균 매매가" value="-" id="hp-price" borderColor="#3b82f6" />
+      <StatBox label="평균 매매가" value="-" id="hp-price" borderColor="#c47a52" />
       <StatBox label="전년 대비" value="-" id="hp-change" borderColor="#f59e0b" />
-      <StatBox label="1990년 대비" value="-" id="hp-cumul" borderColor="#7c3aed" />
+      <StatBox label="1990년 대비" value="-" id="hp-cumul" borderColor="#834f63" />
     </div>
 
     <SimControls>
@@ -131,7 +131,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="균형 가격" value="-" id="sd-price" borderColor="#059669" />
-      <StatBox label="균형 거래량" value="-" id="sd-qty" borderColor="#3b82f6" />
+      <StatBox label="균형 거래량" value="-" id="sd-qty" borderColor="#c47a52" />
       <StatBox label="가격 변화율" value="-" id="sd-change" borderColor="#ef4444" />
     </div>
 
@@ -184,7 +184,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="월 상환액" value="-" id="loan-monthly" borderColor="#059669" />
       <StatBox label="총 이자" value="-" id="loan-interest" borderColor="#ef4444" />
-      <StatBox label="총 상환액" value="-" id="loan-total" borderColor="#3b82f6" />
+      <StatBox label="총 상환액" value="-" id="loan-total" borderColor="#c47a52" />
       <StatBox label="이자/원금 비율" value="-" id="loan-ratio" borderColor="#f59e0b" />
     </div>
 
@@ -235,7 +235,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </ExplainBox>
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="수요 변화" value="0%" id="pol-demand" borderColor="#3b82f6" />
+      <StatBox label="수요 변화" value="0%" id="pol-demand" borderColor="#c47a52" />
       <StatBox label="공급 변화" value="0%" id="pol-supply" borderColor="#059669" />
       <StatBox label="예상 가격 변화" value="0%" id="pol-price-chg" borderColor="#ef4444" />
     </div>
@@ -355,7 +355,7 @@ waitForChart(function init() {
       datasets: [{
         label: '서울 아파트 평균 매매가 (만원)',
         data: prices,
-        borderColor: '#3b82f6',
+        borderColor: '#c47a52',
         backgroundColor: 'rgba(59,130,246,0.1)',
         borderWidth: 3,
         tension: 0.3,
@@ -486,7 +486,7 @@ waitForChart(function init() {
     /* 원래 곡선 (점선) */
     sdCtx2.setLineDash([6, 4]);
     sdCtx2.lineWidth = 1.5;
-    sdCtx2.strokeStyle = '#93c5fd';
+    sdCtx2.strokeStyle = '#e3b89c';
     sdCtx2.beginPath();
     sdCtx2.moveTo(toX(0), toY(90));
     sdCtx2.lineTo(toX(100), toY(90 - 80));
@@ -500,7 +500,7 @@ waitForChart(function init() {
     sdCtx2.setLineDash([]);
 
     /* 이동된 수요곡선 */
-    sdCtx2.strokeStyle = '#2563eb';
+    sdCtx2.strokeStyle = '#a85a38';
     sdCtx2.lineWidth = 3;
     sdCtx2.beginPath();
     var dStart = Math.max(0, Math.min(100, dIntercept));
@@ -561,7 +561,7 @@ waitForChart(function init() {
 
     /* 레이블 */
     sdCtx2.font = 'bold 14px sans-serif';
-    sdCtx2.fillStyle = '#2563eb';
+    sdCtx2.fillStyle = '#a85a38';
     sdCtx2.fillText('수요 (D)', toX(85), toY(dIntercept - 68) - 8);
     sdCtx2.fillStyle = '#16a34a';
     sdCtx2.fillText('공급 (S)', toX(85), toY(sIntercept + 51) + 20);
@@ -588,7 +588,7 @@ waitForChart(function init() {
     data: {
       labels: [],
       datasets: [
-        { label: '원금 잔액 (만원)', data: [], borderColor: '#3b82f6', borderWidth: 2, tension: 0.1, fill: false, pointRadius: 0 },
+        { label: '원금 잔액 (만원)', data: [], borderColor: '#c47a52', borderWidth: 2, tension: 0.1, fill: false, pointRadius: 0 },
         { label: '누적 이자 (만원)', data: [], borderColor: '#ef4444', borderWidth: 2, tension: 0.1, fill: true, backgroundColor: 'rgba(239,68,68,0.1)', pointRadius: 0 },
         { label: '누적 원금 상환 (만원)', data: [], borderColor: '#059669', borderWidth: 2, tension: 0.1, fill: true, backgroundColor: 'rgba(5,150,105,0.1)', pointRadius: 0 }
       ]

@@ -68,7 +68,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div class="tb-stat-row">
       <StatBox label="사적 비용" id="pol-private" value="-" borderColor="#f59e0b" />
       <StatBox label="외부 비용 (오염)" id="pol-external" value="-" borderColor="#ef4444" />
-      <StatBox label="사회적 비용" id="pol-social" value="-" borderColor="#8b5cf6" />
+      <StatBox label="사회적 비용" id="pol-social" value="-" borderColor="#a06b7c" />
       <StatBox label="사회적 최적 생산량" id="pol-optimal" value="-" borderColor="#059669" />
     </div>
 
@@ -106,8 +106,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div class="tb-stat-row">
       <StatBox label="새 균형 생산량" id="pigou-qty" value="-" borderColor="#059669" />
-      <StatBox label="세수" id="pigou-revenue" value="-" borderColor="#8b5cf6" />
-      <StatBox label="오염 감소" id="pigou-reduction" value="-" borderColor="#3b82f6" />
+      <StatBox label="세수" id="pigou-revenue" value="-" borderColor="#a06b7c" />
+      <StatBox label="오염 감소" id="pigou-reduction" value="-" borderColor="#c47a52" />
       <StatBox label="사회적 최적 도달?" id="pigou-optimal" value="-" borderColor="#f59e0b" />
     </div>
 
@@ -159,7 +159,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       <StatBox label="시장 소비량" id="pos-market" value="-" borderColor="#f59e0b" />
       <StatBox label="사회적 최적" id="pos-optimal" value="-" borderColor="#059669" />
       <StatBox label="과소 소비량" id="pos-gap" value="-" borderColor="#ef4444" />
-      <StatBox label="보조금 후 소비량" id="pos-after" value="-" borderColor="#3b82f6" />
+      <StatBox label="보조금 후 소비량" id="pos-after" value="-" borderColor="#c47a52" />
     </div>
 
     <ChartContainer id="positive-chart" height="380px" />
@@ -216,42 +216,42 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <ExerciseBox title="각 사례의 외부성 유형을 판별하세요">
       <div id="ext-quiz">
-        <div style="margin-bottom:10px; padding:10px; background:#f8fafc; border-radius:6px;">
+        <div style="margin-bottom:10px; padding:10px; background:#f8f6f4; border-radius:6px;">
           <p><strong>1.</strong> 꽃집이 예쁜 화분을 진열하자 지나가는 사람들이 기분이 좋아졌다</p>
           <select class="ext-sel" data-q="0" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택</option><option value="pos">긍정적 외부성</option><option value="neg">부정적 외부성</option>
           </select>
           <span class="ext-res" data-q="0" style="margin-left:8px; font-weight:600;"></span>
         </div>
-        <div style="margin-bottom:10px; padding:10px; background:#f8fafc; border-radius:6px;">
+        <div style="margin-bottom:10px; padding:10px; background:#f8f6f4; border-radius:6px;">
           <p><strong>2.</strong> 새벽에 공사를 하여 주변 주민이 잠을 못 잤다</p>
           <select class="ext-sel" data-q="1" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택</option><option value="pos">긍정적 외부성</option><option value="neg">부정적 외부성</option>
           </select>
           <span class="ext-res" data-q="1" style="margin-left:8px; font-weight:600;"></span>
         </div>
-        <div style="margin-bottom:10px; padding:10px; background:#f8fafc; border-radius:6px;">
+        <div style="margin-bottom:10px; padding:10px; background:#f8f6f4; border-radius:6px;">
           <p><strong>3.</strong> 한 사람이 독감 백신을 맞아 주변 사람도 감염 위험이 줄었다</p>
           <select class="ext-sel" data-q="2" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택</option><option value="pos">긍정적 외부성</option><option value="neg">부정적 외부성</option>
           </select>
           <span class="ext-res" data-q="2" style="margin-left:8px; font-weight:600;"></span>
         </div>
-        <div style="margin-bottom:10px; padding:10px; background:#f8fafc; border-radius:6px;">
+        <div style="margin-bottom:10px; padding:10px; background:#f8f6f4; border-radius:6px;">
           <p><strong>4.</strong> 담배 연기가 옆 사람에게 피해를 준다</p>
           <select class="ext-sel" data-q="3" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택</option><option value="pos">긍정적 외부성</option><option value="neg">부정적 외부성</option>
           </select>
           <span class="ext-res" data-q="3" style="margin-left:8px; font-weight:600;"></span>
         </div>
-        <div style="margin-bottom:10px; padding:10px; background:#f8fafc; border-radius:6px;">
+        <div style="margin-bottom:10px; padding:10px; background:#f8f6f4; border-radius:6px;">
           <p><strong>5.</strong> 한 기업의 R&D 결과가 다른 기업에도 파급 효과를 준다</p>
           <select class="ext-sel" data-q="4" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택</option><option value="pos">긍정적 외부성</option><option value="neg">부정적 외부성</option>
           </select>
           <span class="ext-res" data-q="4" style="margin-left:8px; font-weight:600;"></span>
         </div>
-        <div style="margin-bottom:10px; padding:10px; background:#f8fafc; border-radius:6px;">
+        <div style="margin-bottom:10px; padding:10px; background:#f8f6f4; border-radius:6px;">
           <p><strong>6.</strong> 축산 농장의 악취가 인근 주택가에 퍼진다</p>
           <select class="ext-sel" data-q="5" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택</option><option value="pos">긍정적 외부성</option><option value="neg">부정적 외부성</option>
@@ -371,10 +371,10 @@ function init() {
         data: {
           labels: xVals,
           datasets: [
-            { label: '한계편익 (수요)', data: mbData, borderColor: '#3b82f6', tension: 0.3, pointRadius: 0, borderWidth: 3 },
+            { label: '한계편익 (수요)', data: mbData, borderColor: '#c47a52', tension: 0.3, pointRadius: 0, borderWidth: 3 },
             { label: '사적 한계비용', data: mcPrivate, borderColor: '#f59e0b', tension: 0, pointRadius: 0, borderWidth: 3 },
             { label: '사회적 한계비용', data: mcSocial, borderColor: '#ef4444', tension: 0.3, pointRadius: 0, borderWidth: 3, borderDash: [6, 4] },
-            { label: '현재 생산량', data: xVals.map(function(x) { return x === qty ? 100 : null; }), pointRadius: 10, pointBackgroundColor: '#8b5cf6', showLine: false }
+            { label: '현재 생산량', data: xVals.map(function(x) { return x === qty ? 100 : null; }), pointRadius: 10, pointBackgroundColor: '#a06b7c', showLine: false }
           ]
         },
         options: {
@@ -434,7 +434,7 @@ function init() {
         data: {
           labels: xVals,
           datasets: [
-            { label: '한계편익', data: mbData, borderColor: '#3b82f6', tension: 0.3, pointRadius: 0, borderWidth: 3 },
+            { label: '한계편익', data: mbData, borderColor: '#c47a52', tension: 0.3, pointRadius: 0, borderWidth: 3 },
             { label: '사적 한계비용', data: mcOld, borderColor: 'rgba(245,158,11,0.4)', tension: 0, pointRadius: 0, borderDash: [4, 4] },
             { label: '사적 비용 + 피구세', data: mcNew, borderColor: '#f59e0b', tension: 0, pointRadius: 0, borderWidth: 3 },
             { label: '사회적 한계비용', data: xVals.map(function(x) { return 2 + x / 50; }), borderColor: '#ef4444', tension: 0.3, pointRadius: 0, borderDash: [6, 4], borderWidth: 2 }
@@ -500,11 +500,11 @@ function init() {
         data: {
           labels: xVals,
           datasets: [
-            { label: '사적 편익 (수요)', data: privateBenefit, borderColor: '#3b82f6', tension: 0.3, pointRadius: 0, borderWidth: 3 },
+            { label: '사적 편익 (수요)', data: privateBenefit, borderColor: '#c47a52', tension: 0.3, pointRadius: 0, borderWidth: 3 },
             { label: '사회적 편익', data: socialBenefit, borderColor: '#059669', tension: 0.3, pointRadius: 0, borderWidth: 3, borderDash: [6, 4] },
             { label: '공급 (비용)', data: costCurve, borderColor: '#f59e0b', tension: 0.3, pointRadius: 0, borderWidth: 3 },
             { label: '시장 소비량', data: xVals.map(function(x) { return x === cfg.market ? 120 : null; }), pointRadius: 10, pointBackgroundColor: '#ef4444', showLine: false },
-            { label: '보조금 후', data: xVals.map(function(x) { return x === afterQty ? 120 : null; }), pointRadius: 10, pointBackgroundColor: '#3b82f6', showLine: false },
+            { label: '보조금 후', data: xVals.map(function(x) { return x === afterQty ? 120 : null; }), pointRadius: 10, pointBackgroundColor: '#c47a52', showLine: false },
             { label: '사회적 최적', data: xVals.map(function(x) { return x === cfg.optimal ? 120 : null; }), pointRadius: 10, pointBackgroundColor: '#059669', pointStyle: 'star', showLine: false }
           ]
         },

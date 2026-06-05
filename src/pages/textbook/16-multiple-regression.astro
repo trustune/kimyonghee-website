@@ -684,7 +684,7 @@ function drawR2Progression() {
   const pad = { l: 50, r: 20, t: 15, b: 30 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   if (r2History.length === 0) return;
@@ -694,18 +694,18 @@ function drawR2Progression() {
   const sy = (v) => H - pad.b - v * (H - pad.t - pad.b);
 
   // Grid
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#e4e0da';
   ctx.lineWidth = 1;
   [0, 0.25, 0.5, 0.75, 1].forEach(v => {
     ctx.beginPath(); ctx.moveTo(pad.l, sy(v)); ctx.lineTo(W - pad.r, sy(v)); ctx.stroke();
-    ctx.fillStyle = '#94a3b8';
+    ctx.fillStyle = '#a39d96';
     ctx.font = '10px Paperlogy, sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText(v.toFixed(2), pad.l - 6, sy(v) + 3);
   });
 
   // R2 line
-  ctx.strokeStyle = '#2563eb';
+  ctx.strokeStyle = '#a85a38';
   ctx.lineWidth = 2;
   ctx.beginPath();
   r2History.forEach((h, i) => {
@@ -728,7 +728,7 @@ function drawR2Progression() {
 
   // Points
   r2History.forEach((h, i) => {
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#a85a38';
     ctx.beginPath(); ctx.arc(sx(i), sy(h.r2), 4, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = '#22c55e';
     ctx.beginPath(); ctx.arc(sx(i), sy(Math.max(0, h.adjR2)), 4, 0, Math.PI * 2); ctx.fill();
@@ -736,7 +736,7 @@ function drawR2Progression() {
 
   // Legend
   ctx.font = '11px Paperlogy, sans-serif';
-  ctx.fillStyle = '#2563eb';
+  ctx.fillStyle = '#a85a38';
   ctx.fillText('R-squared', W - pad.r - 120, pad.t + 12);
   ctx.fillStyle = '#22c55e';
   ctx.fillText('Adj R-squared', W - pad.r - 120, pad.t + 26);
@@ -1038,7 +1038,7 @@ function draw3D() {
   const W = canvas.width, H = canvas.height;
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   if (data3D.length === 0) return;
@@ -1130,7 +1130,7 @@ function draw3D() {
 
     // Point
     const r = Math.max(3, 6 - d.depth * 0.8);
-    ctx.fillStyle = d.y > yhat ? '#ef4444' : '#2563eb';
+    ctx.fillStyle = d.y > yhat ? '#ef4444' : '#a85a38';
     ctx.globalAlpha = 0.85;
     ctx.beginPath();
     ctx.arc(d.px, d.py, r, 0, Math.PI * 2);
@@ -1140,7 +1140,7 @@ function draw3D() {
 
   // Axis labels
   ctx.font = '12px Paperlogy, sans-serif';
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   const axX = project3D(1.8, -1.7, 0, W, H);
   ctx.fillText('면적(m2)', axX.px, axX.py);
   const axZ = project3D(0, -1.7, 1.8, W, H);

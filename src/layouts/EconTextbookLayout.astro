@@ -37,7 +37,7 @@ const partInfo = chaptersData.parts.find(p => p.id === part);
 
   <div class="textbook-page" data-part={part} data-pagefind-body>
     {!noHeader && (
-      <header class="tb-header" style={`background: linear-gradient(135deg, ${partInfo?.color || '#059669'}, #0d9488)`}>
+      <header class="tb-header">
         <div class="tb-chapter-num">
           경제학 PART {part} &middot; {chapterNum}장
         </div>

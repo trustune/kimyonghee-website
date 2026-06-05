@@ -91,7 +91,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       <button class="tb-btn" id="scenario-generate" style="font-size: 1.1em; padding: 12px 24px;">새로운 시나리오 생성</button>
     </SimControls>
 
-    <div id="scenario-type" style="font-size: 1.3em; font-weight: bold; text-align: center; margin: 16px 0; padding: 12px; border-radius: 12px; background: #f1f5f9; color: #374151;">
+    <div id="scenario-type" style="font-size: 1.3em; font-weight: bold; text-align: center; margin: 16px 0; padding: 12px; border-radius: 12px; background: #f1eee9; color: #374151;">
       버튼을 눌러 시나리오를 생성하세요
     </div>
 
@@ -99,8 +99,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       <StatBox label="GDP 성장률" value="-" id="sc-gdp" borderColor="#059669" />
       <StatBox label="물가상승률" value="-" id="sc-cpi" borderColor="#ef4444" />
       <StatBox label="실업률" value="-" id="sc-unemp" borderColor="#f59e0b" />
-      <StatBox label="기준금리" value="-" id="sc-rate" borderColor="#3b82f6" />
-      <StatBox label="환율 (원/달러)" value="-" id="sc-fx" borderColor="#7c3aed" />
+      <StatBox label="기준금리" value="-" id="sc-rate" borderColor="#c47a52" />
+      <StatBox label="환율 (원/달러)" value="-" id="sc-fx" borderColor="#834f63" />
     </div>
 
     <div id="scenario-desc" style="padding: 16px; background: #fffbeb; border-radius: 12px; border-left: 4px solid #f59e0b; display: none;">
@@ -148,7 +148,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       <StatBox label="GDP 변화" value="-" id="sim-gdp" borderColor="#059669" />
       <StatBox label="물가 변화" value="-" id="sim-cpi" borderColor="#ef4444" />
       <StatBox label="실업률 변화" value="-" id="sim-unemp" borderColor="#f59e0b" />
-      <StatBox label="환율 변화" value="-" id="sim-fx" borderColor="#3b82f6" />
+      <StatBox label="환율 변화" value="-" id="sim-fx" borderColor="#c47a52" />
     </div>
 
     <ChartContainer id="simChart" height="420px" />
@@ -227,7 +227,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
       <p style="margin-top: 16px;"><strong>Q3.</strong> 한국처럼 소규모 개방 경제에서 환율이 급등하면 어떤 문제?</p>
       <button class="tb-btn" onclick="document.getElementById('cap-q3').style.display='block';">정답 보기</button>
-      <p id="cap-q3" style="display: none; margin-top: 8px; color: #3b82f6; font-weight: bold;">
+      <p id="cap-q3" style="display: none; margin-top: 8px; color: #c47a52; font-weight: bold;">
         수입 물가 급등 → 인플레이션. 외채 상환 부담 증가. 외국인 투자자 이탈.
         한국은행이 외환시장에 개입하거나 금리를 올려야 할 수 있습니다.
       </p>
@@ -283,7 +283,7 @@ waitForChart(function init() {
     },
     stagflation: {
       name: '스태그플레이션',
-      color: '#7c3aed',
+      color: '#834f63',
       gdp: [-1.0, 1.0], cpi: [4.5, 7.0], unemp: [5.5, 8.0], rate: [3.5, 5.5], fx: [1300, 1500],
       desc: '최악의 조합입니다. 경기가 나쁜데 물가도 오르고 있습니다. 경기를 살리면 물가가 더 오르고, 물가를 잡으면 경기가 더 나빠집니다. 신중한 판단이 필요합니다.'
     }
@@ -497,7 +497,7 @@ waitForChart(function init() {
     gradeChart.update();
 
     var grade = totalScore >= 80 ? 'A' : totalScore >= 60 ? 'B' : totalScore >= 40 ? 'C' : 'D';
-    var gradeColor = totalScore >= 80 ? '#059669' : totalScore >= 60 ? '#3b82f6' : totalScore >= 40 ? '#f59e0b' : '#ef4444';
+    var gradeColor = totalScore >= 80 ? '#059669' : totalScore >= 60 ? '#c47a52' : totalScore >= 40 ? '#f59e0b' : '#ef4444';
     var gradeMsg = totalScore >= 80 ? '훌륭합니다! 균형 잡힌 정책 대응이었습니다.' :
                    totalScore >= 60 ? '나쁘지 않습니다. 몇 가지 개선 여지가 있습니다.' :
                    totalScore >= 40 ? '아쉽습니다. 부작용이 크거나 대응이 부족했습니다.' :
@@ -557,9 +557,9 @@ waitForChart(function init() {
     }
 
     var tableHTML = '<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">' +
-      '<tr style="background: #f1f5f9;"><th style="padding: 8px; text-align: left;">시간</th><th>시나리오</th><th>점수</th><th>등급</th></tr>';
+      '<tr style="background: #f1eee9;"><th style="padding: 8px; text-align: left;">시간</th><th>시나리오</th><th>점수</th><th>등급</th></tr>';
     history.slice().reverse().forEach(function(h) {
-      var c = h.score >= 80 ? '#059669' : h.score >= 60 ? '#3b82f6' : h.score >= 40 ? '#f59e0b' : '#ef4444';
+      var c = h.score >= 80 ? '#059669' : h.score >= 60 ? '#c47a52' : h.score >= 40 ? '#f59e0b' : '#ef4444';
       tableHTML += '<tr style="border-bottom: 1px solid #e5e7eb;"><td style="padding: 6px 8px;">' + h.time + '</td><td style="text-align: center;">' + h.scenario + '</td><td style="text-align: center; font-weight: bold;">' + h.score + '</td><td style="text-align: center; color: ' + c + '; font-weight: bold;">' + h.grade + '</td></tr>';
     });
     tableHTML += '</table>';

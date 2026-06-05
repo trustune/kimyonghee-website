@@ -432,8 +432,8 @@ async function drawDecompose() {
     datasets.push({
       label: '원본 데이터',
       data: tsData.original,
-      borderColor: '#64748b',
-      backgroundColor: '#64748b22',
+      borderColor: '#6f6963',
+      backgroundColor: '#6f696322',
       borderWidth: 1.5,
       pointRadius: 0,
       fill: false,
@@ -443,7 +443,7 @@ async function drawDecompose() {
     datasets.push({
       label: '추세 (Trend)',
       data: tsData.trend,
-      borderColor: '#2563eb',
+      borderColor: '#a85a38',
       borderWidth: 2.5,
       pointRadius: 0,
       fill: false,
@@ -524,7 +524,7 @@ async function drawMA() {
         {
           label: '원본',
           data: data,
-          borderColor: '#94a3b8',
+          borderColor: '#a39d96',
           borderWidth: 1,
           pointRadius: 0,
           fill: false,
@@ -532,7 +532,7 @@ async function drawMA() {
         {
           label: `이동평균 (윈도우=${window})`,
           data: smoothed,
-          borderColor: '#2563eb',
+          borderColor: '#a85a38',
           borderWidth: 2.5,
           pointRadius: 0,
           fill: false,
@@ -623,7 +623,7 @@ async function drawACF() {
       datasets: [{
         label: '시계열',
         data: data,
-        borderColor: '#2563eb',
+        borderColor: '#a85a38',
         borderWidth: 1.5,
         pointRadius: 0,
         fill: false,
@@ -642,7 +642,7 @@ async function drawACF() {
   // ACF bar chart
   const lagLabels = Array.from({length: maxLag}, (_, i) => i + 1);
   const acfData = acfValues.slice(1);
-  const acfColors = acfData.map(v => Math.abs(v) > significance ? '#ef4444' : '#2563eb88');
+  const acfColors = acfData.map(v => Math.abs(v) > significance ? '#ef4444' : '#a85a3888');
 
   acfBarChart = destroyChart(acfBarChart);
   acfBarChart = new Chart(document.getElementById('acf-chart'), {
@@ -660,7 +660,7 @@ async function drawACF() {
           label: '유의 경계 (+)',
           data: lagLabels.map(() => significance),
           type: 'line',
-          borderColor: '#2563eb',
+          borderColor: '#a85a38',
           borderWidth: 1,
           borderDash: [4, 4],
           pointRadius: 0,
@@ -670,7 +670,7 @@ async function drawACF() {
           label: '유의 경계 (-)',
           data: lagLabels.map(() => -significance),
           type: 'line',
-          borderColor: '#2563eb',
+          borderColor: '#a85a38',
           borderWidth: 1,
           borderDash: [4, 4],
           pointRadius: 0,
@@ -777,7 +777,7 @@ async function drawForecast() {
     {
       label: '과거 데이터',
       data: historyData,
-      borderColor: '#64748b',
+      borderColor: '#6f6963',
       borderWidth: 1.5,
       pointRadius: 0,
       fill: false,
@@ -794,11 +794,11 @@ async function drawForecast() {
     {
       label: '예측 (' + (method === 'naive' ? '나이브' : method === 'ma' ? '이동평균' : '지수평활') + ')',
       data: forecastData,
-      borderColor: '#2563eb',
+      borderColor: '#a85a38',
       borderWidth: 2.5,
       borderDash: [6, 3],
       pointRadius: 3,
-      pointBackgroundColor: '#2563eb',
+      pointBackgroundColor: '#a85a38',
       fill: false,
     },
   ];
@@ -807,7 +807,7 @@ async function drawForecast() {
     datasets.push({
       label: '나이브 기준선',
       data: naiveData,
-      borderColor: '#94a3b8',
+      borderColor: '#a39d96',
       borderWidth: 1,
       borderDash: [4, 4],
       pointRadius: 0,

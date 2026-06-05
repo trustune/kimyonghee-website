@@ -66,34 +66,34 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <ExerciseBox title="나의 수요 입력">
       <div id="demand-inputs" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:8px;">
-        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+        <div style="padding:8px; background:#faf3ee; border-radius:6px; text-align:center;">
           <div>가격: 500원</div>
-          <input type="number" class="demand-input" data-price="500" value="10" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <input type="number" class="demand-input" data-price="500" value="10" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #e3b89c; border-radius:4px;">
           <div style="font-size:0.8rem; color:#6b7280;">개</div>
         </div>
-        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+        <div style="padding:8px; background:#faf3ee; border-radius:6px; text-align:center;">
           <div>가격: 1,000원</div>
-          <input type="number" class="demand-input" data-price="1000" value="8" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <input type="number" class="demand-input" data-price="1000" value="8" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #e3b89c; border-radius:4px;">
           <div style="font-size:0.8rem; color:#6b7280;">개</div>
         </div>
-        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+        <div style="padding:8px; background:#faf3ee; border-radius:6px; text-align:center;">
           <div>가격: 1,500원</div>
-          <input type="number" class="demand-input" data-price="1500" value="6" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <input type="number" class="demand-input" data-price="1500" value="6" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #e3b89c; border-radius:4px;">
           <div style="font-size:0.8rem; color:#6b7280;">개</div>
         </div>
-        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+        <div style="padding:8px; background:#faf3ee; border-radius:6px; text-align:center;">
           <div>가격: 2,000원</div>
-          <input type="number" class="demand-input" data-price="2000" value="4" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <input type="number" class="demand-input" data-price="2000" value="4" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #e3b89c; border-radius:4px;">
           <div style="font-size:0.8rem; color:#6b7280;">개</div>
         </div>
-        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+        <div style="padding:8px; background:#faf3ee; border-radius:6px; text-align:center;">
           <div>가격: 3,000원</div>
-          <input type="number" class="demand-input" data-price="3000" value="2" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <input type="number" class="demand-input" data-price="3000" value="2" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #e3b89c; border-radius:4px;">
           <div style="font-size:0.8rem; color:#6b7280;">개</div>
         </div>
-        <div style="padding:8px; background:#eff6ff; border-radius:6px; text-align:center;">
+        <div style="padding:8px; background:#faf3ee; border-radius:6px; text-align:center;">
           <div>가격: 5,000원</div>
-          <input type="number" class="demand-input" data-price="5000" value="0" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #93c5fd; border-radius:4px;">
+          <input type="number" class="demand-input" data-price="5000" value="0" min="0" max="50" style="width:60px; padding:4px; text-align:center; border:1px solid #e3b89c; border-radius:4px;">
           <div style="font-size:0.8rem; color:#6b7280;">개</div>
         </div>
       </div>
@@ -194,7 +194,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </SimControls>
 
     <div class="tb-stat-row">
-      <StatBox label="수요량" id="eq-demand" value="-" borderColor="#3b82f6" />
+      <StatBox label="수요량" id="eq-demand" value="-" borderColor="#c47a52" />
       <StatBox label="공급량" id="eq-supply" value="-" borderColor="#f59e0b" />
       <StatBox label="시장 상태" id="eq-status" value="-" borderColor="#059669" />
     </div>
@@ -238,7 +238,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div class="tb-stat-row">
       <StatBox label="균형 가격" id="shift-price" value="-" borderColor="#059669" />
-      <StatBox label="균형 거래량" id="shift-qty" value="-" borderColor="#3b82f6" />
+      <StatBox label="균형 거래량" id="shift-qty" value="-" borderColor="#c47a52" />
       <StatBox label="변화" id="shift-change" value="-" borderColor="#f59e0b" />
     </div>
 
@@ -275,7 +275,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div class="tb-stat-row">
       <StatBox label="규제 가격" id="ctrl-price" value="-" borderColor="#ef4444" />
-      <StatBox label="수요량" id="ctrl-demand" value="-" borderColor="#3b82f6" />
+      <StatBox label="수요량" id="ctrl-demand" value="-" borderColor="#c47a52" />
       <StatBox label="공급량" id="ctrl-supply" value="-" borderColor="#f59e0b" />
       <StatBox label="부족/잉여" id="ctrl-gap" value="-" borderColor="#059669" />
     </div>
@@ -375,12 +375,12 @@ function init() {
           label: '나의 수요곡선',
           data: dPoints,
           showLine: true,
-          borderColor: '#3b82f6',
+          borderColor: '#c47a52',
           backgroundColor: 'rgba(59,130,246,0.15)',
           fill: true,
           tension: 0.3,
           pointRadius: 6,
-          pointBackgroundColor: '#3b82f6'
+          pointBackgroundColor: '#c47a52'
         }]
       },
       options: {
@@ -474,9 +474,9 @@ function init() {
         type: 'scatter',
         data: {
           datasets: [
-            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3 },
+            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#c47a52', pointRadius: 0, borderWidth: 3 },
             { label: '공급곡선', data: sLine, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3 },
-            { label: '현재 가격', data: [{ x: qd, y: price }, { x: qs, y: price }], showLine: true, borderColor: '#ef4444', borderDash: [5, 5], pointRadius: 8, pointBackgroundColor: ['#3b82f6', '#f59e0b'] }
+            { label: '현재 가격', data: [{ x: qd, y: price }, { x: qs, y: price }], showLine: true, borderColor: '#ef4444', borderDash: [5, 5], pointRadius: 8, pointBackgroundColor: ['#c47a52', '#f59e0b'] }
           ]
         },
         options: {
@@ -553,7 +553,7 @@ function init() {
           datasets: [
             { label: '원래 수요', data: dOld, showLine: true, borderColor: 'rgba(59,130,246,0.3)', pointRadius: 0, borderDash: [4, 4] },
             { label: '원래 공급', data: sOld, showLine: true, borderColor: 'rgba(245,158,11,0.3)', pointRadius: 0, borderDash: [4, 4] },
-            { label: '새 수요', data: dNew, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3 },
+            { label: '새 수요', data: dNew, showLine: true, borderColor: '#c47a52', pointRadius: 0, borderWidth: 3 },
             { label: '새 공급', data: sNew, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3 },
             { label: '원래 균형', data: [{ x: eqOld.qty, y: eqOld.price }], pointRadius: 8, pointBackgroundColor: '#9ca3af' },
             { label: '새 균형', data: [{ x: eqNew.qty, y: eqNew.price }], pointRadius: 10, pointBackgroundColor: '#ef4444', pointBorderColor: '#fff', pointBorderWidth: 2 }
@@ -641,10 +641,10 @@ function init() {
         type: 'scatter',
         data: {
           datasets: [
-            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3 },
+            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#c47a52', pointRadius: 0, borderWidth: 3 },
             { label: '공급곡선', data: sLine, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3 },
             { label: '규제 가격', data: [{ x: 0, y: ctrlPrice }, { x: 16, y: ctrlPrice }], showLine: true, borderColor: '#ef4444', borderDash: [6, 4], borderWidth: 2, pointRadius: 0 },
-            { label: '수요점', data: [{ x: qd, y: ctrlPrice }], pointRadius: 8, pointBackgroundColor: '#3b82f6' },
+            { label: '수요점', data: [{ x: qd, y: ctrlPrice }], pointRadius: 8, pointBackgroundColor: '#c47a52' },
             { label: '공급점', data: [{ x: qs, y: ctrlPrice }], pointRadius: 8, pointBackgroundColor: '#f59e0b' }
           ]
         },

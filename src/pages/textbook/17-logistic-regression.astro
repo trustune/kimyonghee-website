@@ -244,7 +244,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
           <div id="cm-fp" style="padding: 14px; text-align: center; font-size: 1.3rem; font-weight: 800; background: #fee2e2; color: var(--tb-danger);">-</div>
           <div style="background: var(--tb-g100); padding: 10px; font-weight: 700; font-size: 0.8rem;">실제: 1</div>
           <div id="cm-fn" style="padding: 14px; text-align: center; font-size: 1.3rem; font-weight: 800; background: #fef3c7; color: #92400e;">-</div>
-          <div id="cm-tp" style="padding: 14px; text-align: center; font-size: 1.3rem; font-weight: 800; background: #dbeafe; color: var(--tb-primary);">-</div>
+          <div id="cm-tp" style="padding: 14px; text-align: center; font-size: 1.3rem; font-weight: 800; background: #f3e3d8; color: var(--tb-primary);">-</div>
         </div>
         <div class="tb-stat-row" style="margin-top: 10px;">
           <StatBox label="정확도" id="roc-accuracy" />
@@ -540,7 +540,7 @@ function drawWhyCanvas() {
   const pad = { l: 60, r: 30, t: 20, b: 40 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   if (whyData.x.length === 0) return;
@@ -554,7 +554,7 @@ function drawWhyCanvas() {
   const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
 
   // Grid lines at y=0, 0.5, 1
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#e4e0da';
   ctx.lineWidth = 1;
   [0, 0.5, 1].forEach(v => {
     ctx.beginPath(); ctx.moveTo(pad.l, sy(v)); ctx.lineTo(W - pad.r, sy(v)); ctx.stroke();
@@ -572,7 +572,7 @@ function drawWhyCanvas() {
   ctx.fillText('확률 < 0 (불가능)', pad.l + 8, sy(-0.15));
 
   // y = 0 and y = 1 reference lines
-  ctx.strokeStyle = '#94a3b8';
+  ctx.strokeStyle = '#a39d96';
   ctx.lineWidth = 1.5;
   ctx.setLineDash([6, 4]);
   [0, 1].forEach(v => {
@@ -618,7 +618,7 @@ function drawWhyCanvas() {
     // Simple gradient descent for MLE
     const fitResult = fitLogistic(whyData.x, whyData.y);
 
-    ctx.strokeStyle = '#2563eb';
+    ctx.strokeStyle = '#a85a38';
     ctx.lineWidth = 2.5;
     ctx.beginPath();
     let first = true;
@@ -637,7 +637,7 @@ function drawWhyCanvas() {
   // Data points
   whyData.x.forEach((xi, i) => {
     const yi = whyData.y[i];
-    ctx.fillStyle = yi === 1 ? '#2563eb' : '#ef4444';
+    ctx.fillStyle = yi === 1 ? '#a85a38' : '#ef4444';
     ctx.beginPath();
     ctx.arc(sx(xi), sy(yi), 5, 0, Math.PI * 2);
     ctx.fill();
@@ -647,7 +647,7 @@ function drawWhyCanvas() {
   });
 
   // Labels
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '12px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('X', W / 2, H - 6);
@@ -700,7 +700,7 @@ function drawSigCanvas() {
   const pad = { l: 60, r: 30, t: 20, b: 40 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   const b0 = parseFloat(document.getElementById('sig-b0').value);
@@ -713,14 +713,14 @@ function drawSigCanvas() {
   const sy = (v) => H - pad.b - (v - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
 
   // Grid
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#e4e0da';
   ctx.lineWidth = 1;
   [0, 0.25, 0.5, 0.75, 1].forEach(v => {
     ctx.beginPath(); ctx.moveTo(pad.l, sy(v)); ctx.lineTo(W - pad.r, sy(v)); ctx.stroke();
   });
 
   // p = 0.5 line (dashed)
-  ctx.strokeStyle = '#94a3b8';
+  ctx.strokeStyle = '#a39d96';
   ctx.lineWidth = 1;
   ctx.setLineDash([4, 4]);
   ctx.beginPath();
@@ -733,7 +733,7 @@ function drawSigCanvas() {
   if (Math.abs(b1) > 0.001) {
     const boundary = -b0 / b1;
     if (boundary >= xMin && boundary <= xMax) {
-      ctx.strokeStyle = '#7c3aed66';
+      ctx.strokeStyle = '#834f6366';
       ctx.lineWidth = 2;
       ctx.setLineDash([6, 4]);
       ctx.beginPath();
@@ -741,7 +741,7 @@ function drawSigCanvas() {
       ctx.lineTo(sx(boundary), sy(yMax));
       ctx.stroke();
       ctx.setLineDash([]);
-      ctx.fillStyle = '#7c3aed';
+      ctx.fillStyle = '#834f63';
       ctx.font = '11px Paperlogy, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('p=0.5', sx(boundary), sy(yMax) + 12);
@@ -752,7 +752,7 @@ function drawSigCanvas() {
   }
 
   // Sigmoid curve
-  ctx.strokeStyle = '#2563eb';
+  ctx.strokeStyle = '#a85a38';
   ctx.lineWidth = 3;
   ctx.beginPath();
   let first = true;
@@ -767,7 +767,7 @@ function drawSigCanvas() {
   if (sigData.x.length > 0) {
     sigData.x.forEach((xi, i) => {
       const yi = sigData.y[i];
-      ctx.fillStyle = yi === 1 ? '#2563eb' : '#ef4444';
+      ctx.fillStyle = yi === 1 ? '#a85a38' : '#ef4444';
       ctx.globalAlpha = 0.7;
       ctx.beginPath();
       ctx.arc(sx(xi), sy(yi), 5, 0, Math.PI * 2);
@@ -777,7 +777,7 @@ function drawSigCanvas() {
   }
 
   // Axis labels
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '12px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('X', W / 2, H - 6);
@@ -823,14 +823,14 @@ function drawROCCanvas(rocPoints, currentThreshold) {
   const pad = { l: 50, r: 20, t: 20, b: 40 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   const sx = (v) => pad.l + v * (W - pad.l - pad.r);
   const sy = (v) => H - pad.b - v * (H - pad.t - pad.b);
 
   // Diagonal (random classifier)
-  ctx.strokeStyle = '#cbd5e1';
+  ctx.strokeStyle = '#d6d3cf';
   ctx.lineWidth = 1.5;
   ctx.setLineDash([6, 4]);
   ctx.beginPath();
@@ -849,7 +849,7 @@ function drawROCCanvas(rocPoints, currentThreshold) {
   ctx.fill();
 
   // ROC curve
-  ctx.strokeStyle = '#2563eb';
+  ctx.strokeStyle = '#a85a38';
   ctx.lineWidth = 2.5;
   ctx.beginPath();
   let first = true;
@@ -879,7 +879,7 @@ function drawROCCanvas(rocPoints, currentThreshold) {
   ctx.fillText(`t=${currentThreshold.toFixed(2)}`, sx(closest.fpr) + 10, sy(closest.tpr) - 5);
 
   // Axes
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '12px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('FPR (1 - 특이도)', W / 2, H - 6);
@@ -1017,7 +1017,7 @@ function drawCostCanvas() {
   const pad = { l: 70, r: 30, t: 20, b: 40 };
 
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#f8f6f4';
   ctx.fillRect(0, 0, W, H);
 
   const costFN = parseInt(document.getElementById('cost-fn').value);
@@ -1060,19 +1060,19 @@ function drawCostCanvas() {
   const sy = (v) => H - pad.b - (v / costMax) * (H - pad.t - pad.b);
 
   // Grid
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#e4e0da';
   ctx.lineWidth = 1;
   for (let i = 0; i <= 4; i++) {
     const v = costMax * i / 4;
     ctx.beginPath(); ctx.moveTo(pad.l, sy(v)); ctx.lineTo(W - pad.r, sy(v)); ctx.stroke();
-    ctx.fillStyle = '#94a3b8';
+    ctx.fillStyle = '#a39d96';
     ctx.font = '10px Paperlogy, sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText(Math.round(v).toLocaleString(), pad.l - 6, sy(v) + 3);
   }
 
   // Cost curve
-  ctx.strokeStyle = '#2563eb';
+  ctx.strokeStyle = '#a85a38';
   ctx.lineWidth = 2.5;
   ctx.beginPath();
   thresholds.forEach((t, i) => {
@@ -1082,7 +1082,7 @@ function drawCostCanvas() {
   ctx.stroke();
 
   // Default threshold (0.5) marker
-  ctx.strokeStyle = '#94a3b8';
+  ctx.strokeStyle = '#a39d96';
   ctx.lineWidth = 1.5;
   ctx.setLineDash([4, 4]);
   ctx.beginPath();
@@ -1090,7 +1090,7 @@ function drawCostCanvas() {
   ctx.lineTo(sx(0.5), sy(costMax));
   ctx.stroke();
   ctx.setLineDash([]);
-  ctx.fillStyle = '#94a3b8';
+  ctx.fillStyle = '#a39d96';
   ctx.font = '11px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('기본 (0.5)', sx(0.5), sy(costMax) + 12);
@@ -1116,7 +1116,7 @@ function drawCostCanvas() {
   ctx.fillText('최적: ' + optimalThresh.toFixed(2), sx(optimalThresh), sy(minCost) - 12);
 
   // Axis label
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '12px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('분류 임계값', W / 2, H - 6);
@@ -1216,7 +1216,7 @@ init();
 
 <style>
   canvas {
-    background: #f8fafc;
+    background: #f8f6f4;
   }
   @media (max-width: 768px) {
     div[style*="grid-template-columns: 1fr 1fr"] {

@@ -157,7 +157,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </div>
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="합병 전 HHI" value="-" id="merger-hhi-before" borderColor="#3b82f6" />
+      <StatBox label="합병 전 HHI" value="-" id="merger-hhi-before" borderColor="#c47a52" />
       <StatBox label="합병 후 HHI" value="-" id="merger-hhi-after" borderColor="#ef4444" />
       <StatBox label="HHI 변화량" value="-" id="merger-hhi-delta" borderColor="#f59e0b" />
       <StatBox label="판정" value="-" id="merger-verdict" borderColor="#059669" />
@@ -195,7 +195,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="정답" value="0/5" id="ftc-score" borderColor="#059669" />
-      <StatBox label="진행" value="1/5" id="ftc-progress" borderColor="#3b82f6" />
+      <StatBox label="진행" value="1/5" id="ftc-progress" borderColor="#c47a52" />
     </div>
 
     <ChartContainer id="ftcChart" height="280px" />
@@ -233,10 +233,10 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <ChartContainer id="regBalChart" height="380px" />
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="소비자 후생" value="-" id="regbal-consumer" borderColor="#3b82f6" />
+      <StatBox label="소비자 후생" value="-" id="regbal-consumer" borderColor="#c47a52" />
       <StatBox label="혁신 수준" value="-" id="regbal-innovation" borderColor="#059669" />
       <StatBox label="시장 진입" value="-" id="regbal-entry" borderColor="#f59e0b" />
-      <StatBox label="총 사회후생" value="-" id="regbal-total" borderColor="#6366f1" />
+      <StatBox label="총 사회후생" value="-" id="regbal-total" borderColor="#7a5a70" />
     </div>
 
     <ExerciseBox title="최적 규제 탐색">
@@ -286,7 +286,7 @@ waitForChart(function init() {
     type: 'pie',
     data: {
       labels: ['1위', '2위', '3위', '기타'],
-      datasets: [{ data: [45, 25, 15, 15], backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#d1d5db'] }]
+      datasets: [{ data: [45, 25, 15, 15], backgroundColor: ['#ef4444', '#f59e0b', '#c47a52', '#d1d5db'] }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
@@ -341,7 +341,7 @@ waitForChart(function init() {
   var mergerInputs = document.getElementById('merger-inputs');
   var mergerASelect = document.getElementById('merger-a');
   var mergerBSelect = document.getElementById('merger-b');
-  var mergerColors = ['#ef4444', '#3b82f6', '#059669', '#f59e0b', '#6366f1', '#ec4899'];
+  var mergerColors = ['#ef4444', '#c47a52', '#059669', '#f59e0b', '#7a5a70', '#ec4899'];
 
   var mbCtx = document.getElementById('mergerBefore').getContext('2d');
   var maCtx = document.getElementById('mergerAfter').getContext('2d');
@@ -498,7 +498,7 @@ waitForChart(function init() {
     type: 'bar',
     data: {
       labels: ftcTypes,
-      datasets: [{ label: '사건 수', data: ftcTypeCount, backgroundColor: ['#ef4444', '#3b82f6', '#f59e0b', '#8b5cf6'] }]
+      datasets: [{ label: '사건 수', data: ftcTypeCount, backgroundColor: ['#ef4444', '#c47a52', '#f59e0b', '#a06b7c'] }]
     },
     options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }, plugins: { legend: { display: false } } }
   });
@@ -512,7 +512,7 @@ waitForChart(function init() {
     }
 
     var fc = ftcCases[ftcIdx];
-    var html = '<div style="padding: 16px; background: #f0f9ff; border-radius: 12px; border: 2px solid #bfdbfe;">' +
+    var html = '<div style="padding: 16px; background: #f0f9ff; border-radius: 12px; border: 2px solid #ecd6c4;">' +
       '<p style="font-weight: bold;">사건 ' + (ftcIdx + 1) + '/' + ftcCases.length + '</p>' +
       '<p style="margin-top: 8px; font-size: 1.05em;">' + fc.q + '</p>' +
       '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;">';
@@ -572,10 +572,10 @@ waitForChart(function init() {
     data: {
       labels: [],
       datasets: [
-        { label: '소비자 후생', data: [], borderColor: '#3b82f6', tension: 0.4, fill: false },
+        { label: '소비자 후생', data: [], borderColor: '#c47a52', tension: 0.4, fill: false },
         { label: '혁신 수준', data: [], borderColor: '#059669', tension: 0.4, fill: false },
         { label: '시장 진입', data: [], borderColor: '#f59e0b', tension: 0.4, fill: false },
-        { label: '총 사회후생', data: [], borderColor: '#6366f1', borderWidth: 3, tension: 0.4, fill: false }
+        { label: '총 사회후생', data: [], borderColor: '#7a5a70', borderWidth: 3, tension: 0.4, fill: false }
       ]
     },
     options: {

@@ -554,8 +554,8 @@ async function updatePvalueChart() {
       datasets: [{
         label: 'p-value',
         data,
-        borderColor: '#7c3aed',
-        backgroundColor: '#7c3aed22',
+        borderColor: '#834f63',
+        backgroundColor: '#834f6322',
         borderWidth: 2,
         pointRadius: 2,
         fill: false,
@@ -726,7 +726,7 @@ function drawErrorTradeoff() {
 
   // H0 curve
   ctx.beginPath();
-  ctx.strokeStyle = '#2563eb';
+  ctx.strokeStyle = '#a85a38';
   ctx.lineWidth = 2;
   for (let i = 0; i <= steps; i++) {
     const x = xMin + i * dx;
@@ -795,7 +795,7 @@ function drawErrorTradeoff() {
   }
 
   // Critical value lines
-  ctx.strokeStyle = '#64748b';
+  ctx.strokeStyle = '#6f6963';
   ctx.lineWidth = 1;
   ctx.setLineDash([4, 4]);
   [h0mu - zCrit * drawSE, h0mu + zCrit * drawSE].forEach(cv => {
@@ -807,7 +807,7 @@ function drawErrorTradeoff() {
   ctx.setLineDash([]);
 
   // X-axis
-  ctx.strokeStyle = '#1e293b';
+  ctx.strokeStyle = '#2c2823';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(padL, padT + plotH);
@@ -815,7 +815,7 @@ function drawErrorTradeoff() {
   ctx.stroke();
 
   // Labels
-  ctx.fillStyle = '#1e293b';
+  ctx.fillStyle = '#2c2823';
   ctx.font = 'bold 12px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('H0', toX(h0mu), padT + plotH + 20);
@@ -830,18 +830,18 @@ function drawErrorTradeoff() {
   const legY = 15;
   ctx.fillStyle = 'rgba(239, 68, 68, 0.5)';
   ctx.fillRect(padL, legY, 12, 12);
-  ctx.fillStyle = '#1e293b';
+  ctx.fillStyle = '#2c2823';
   ctx.fillText('alpha (Type I)', padL + 16, legY + 10);
 
   if (d > 0) {
     ctx.fillStyle = 'rgba(245, 158, 11, 0.4)';
     ctx.fillRect(padL + 120, legY, 12, 12);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#2c2823';
     ctx.fillText('beta (Type II)', padL + 136, legY + 10);
 
     ctx.fillStyle = 'rgba(34, 197, 94, 0.3)';
     ctx.fillRect(padL + 240, legY, 12, 12);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#2c2823';
     ctx.fillText('Power (1-beta)', padL + 256, legY + 10);
   }
 
@@ -925,11 +925,11 @@ function runPHack() {
     const barH = H - padB - toY(r.p);
     const y = toY(r.p);
 
-    ctx.fillStyle = r.sig ? '#ef4444' : '#2563eb88';
+    ctx.fillStyle = r.sig ? '#ef4444' : '#a85a3888';
     ctx.fillRect(x, y, barW, barH);
 
     // Label
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#6f6963';
     ctx.font = '9px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('X' + r.varIdx, x + barW / 2, H - padB + 14);
@@ -942,7 +942,7 @@ function runPHack() {
   });
 
   // Y-axis
-  ctx.strokeStyle = '#1e293b';
+  ctx.strokeStyle = '#2c2823';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(padL, padT);
@@ -950,20 +950,20 @@ function runPHack() {
   ctx.lineTo(W - padR, H - padB);
   ctx.stroke();
 
-  ctx.fillStyle = '#1e293b';
+  ctx.fillStyle = '#2c2823';
   ctx.font = '10px sans-serif';
   ctx.textAlign = 'right';
   for (let p = 0; p <= 1; p += 0.2) {
     const y = toY(p);
     ctx.fillText(p.toFixed(1), padL - 5, y + 3);
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#e4e0da';
     ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
   }
 
   ctx.save();
   ctx.translate(15, H / 2);
   ctx.rotate(-Math.PI / 2);
-  ctx.fillStyle = '#1e293b';
+  ctx.fillStyle = '#2c2823';
   ctx.font = '11px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('p-value', 0, 0);
@@ -1194,7 +1194,7 @@ function drawGuidedChart(tStat, pval, oneSided) {
 
   // Draw curve
   ctx.beginPath();
-  ctx.strokeStyle = '#2563eb';
+  ctx.strokeStyle = '#a85a38';
   ctx.lineWidth = 2;
   const steps = 200;
   const dx = (xMax - xMin) / steps;
@@ -1243,27 +1243,27 @@ function drawGuidedChart(tStat, pval, oneSided) {
 
   // Test statistic marker
   const clampedT = Math.max(xMin, Math.min(xMax, tStat));
-  ctx.strokeStyle = '#7c3aed';
+  ctx.strokeStyle = '#834f63';
   ctx.lineWidth = 2.5;
   ctx.beginPath();
   ctx.moveTo(toX(clampedT), padT);
   ctx.lineTo(toX(clampedT), padT + plotH);
   ctx.stroke();
 
-  ctx.fillStyle = '#7c3aed';
+  ctx.fillStyle = '#834f63';
   ctx.font = 'bold 12px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('t = ' + tStat.toFixed(2), toX(clampedT), padT - 5);
 
   // X-axis
-  ctx.strokeStyle = '#1e293b';
+  ctx.strokeStyle = '#2c2823';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(padL, padT + plotH);
   ctx.lineTo(W - padR, padT + plotH);
   ctx.stroke();
 
-  ctx.fillStyle = '#64748b';
+  ctx.fillStyle = '#6f6963';
   ctx.font = '10px sans-serif';
   for (let v = -4; v <= 4; v++) {
     ctx.textAlign = 'center';

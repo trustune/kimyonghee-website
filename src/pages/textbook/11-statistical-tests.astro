@@ -287,7 +287,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     <FormulaBox>
       <span class="hl">&#967;&#178;</span> = &#931; (O&#7522; - E&#7522;)&#178; / E&#7522;<br>
-      <span style="font-size:0.85rem; color:#94a3b8;">O = 관측빈도, E = 기대빈도 = (행합계 x 열합계) / 전체합계</span>
+      <span style="font-size:0.85rem; color:#a39d96;">O = 관측빈도, E = 기대빈도 = (행합계 x 열합계) / 전체합계</span>
     </FormulaBox>
 
     <ExerciseBox>
@@ -382,7 +382,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     <FormulaBox>
       <span class="hl">F</span> = 집단 간 분산(MS<sub>between</sub>) / 집단 내 분산(MS<sub>within</sub>)<br>
-      <span style="font-size:0.85rem; color:#94a3b8;">F가 크면 = 그룹 간 차이가 그룹 내 변동에 비해 크다 = 그룹 효과 있음</span>
+      <span style="font-size:0.85rem; color:#a39d96;">F가 크면 = 그룹 간 차이가 그룹 내 변동에 비해 크다 = 그룹 효과 있음</span>
     </FormulaBox>
 
     <ExerciseBox>
@@ -657,7 +657,7 @@ const TREE_NODES = {
     name: '일표본 t-검정 (One-sample t-test)',
     desc: '하나의 표본 평균이 알려진 기준값(모집단 평균)과 다른지를 검정한다.',
     example: '우리 회사 직원의 평균 급여가 업계 평균 3,500만원과 다른가?',
-    color: '#2563eb'
+    color: '#a85a38'
   },
   two_groups: {
     question: '두 그룹의 관계는?',
@@ -672,7 +672,7 @@ const TREE_NODES = {
     name: '일원배치 분산분석 (One-way ANOVA)',
     desc: '세 개 이상 독립 그룹의 평균이 모두 같은지를 한 번에 검정한다. F-통계량을 사용한다.',
     example: '영업부, 마케팅부, IT부의 직무만족도에 차이가 있는가?',
-    color: '#7c3aed'
+    color: '#834f63'
   },
   result_indep_t: {
     result: true,
@@ -700,7 +700,7 @@ const TREE_NODES = {
     name: '카이제곱 적합도 검정 (Goodness-of-fit)',
     desc: '관측된 빈도가 이론적으로 기대되는 빈도와 일치하는지를 검정한다.',
     example: '주사위가 공정한가? (각 면의 빈도가 1/6과 같은가?)',
-    color: '#06b6d4'
+    color: '#2f7d72'
   }
 };
 
@@ -986,8 +986,8 @@ async function drawChiHeatmap(rowLabels, colLabels, observed, expected) {
   const datasets = rowLabels.map((rl, i) => ({
     label: rl,
     data: colLabels.map((_, j) => observed[i][j] - expected[i][j]),
-    backgroundColor: ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed'][i % 5] + '88',
-    borderColor: ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed'][i % 5],
+    backgroundColor: ['#a85a38', '#ef4444', '#22c55e', '#f59e0b', '#834f63'][i % 5] + '88',
+    borderColor: ['#a85a38', '#ef4444', '#22c55e', '#f59e0b', '#834f63'][i % 5],
     borderWidth: 1,
     borderRadius: 4,
   }));
@@ -1109,7 +1109,7 @@ async function drawAnovaChart(groups, groupNames) {
   const sds = groups.map(g => stdev(g));
   const ns = groups.map(g => g.length);
   const ses = sds.map((s, i) => s / Math.sqrt(ns[i]));
-  const colors = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed'];
+  const colors = ['#a85a38', '#ef4444', '#22c55e', '#f59e0b', '#834f63'];
 
   anovaChart = new Chart(canvas, {
     type: 'bar',

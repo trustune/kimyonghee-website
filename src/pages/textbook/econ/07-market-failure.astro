@@ -67,10 +67,10 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </SimControls>
 
     <div class="tb-stat-row">
-      <StatBox label="소비자잉여" id="mono-cs" value="-" borderColor="#3b82f6" />
+      <StatBox label="소비자잉여" id="mono-cs" value="-" borderColor="#c47a52" />
       <StatBox label="독점 이윤" id="mono-profit" value="-" borderColor="#f59e0b" />
       <StatBox label="사중손실" id="mono-dwl" value="-" borderColor="#ef4444" />
-      <StatBox label="총잉여 감소" id="mono-loss" value="-" sub="경쟁 대비" borderColor="#8b5cf6" />
+      <StatBox label="총잉여 감소" id="mono-loss" value="-" sub="경쟁 대비" borderColor="#a06b7c" />
     </div>
 
     <ChartContainer id="monopoly-chart" height="380px" />
@@ -114,7 +114,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </ExerciseBox>
 
     <div class="tb-stat-row">
-      <StatBox label="남은 차" id="lemon-remaining" value="10대" borderColor="#3b82f6" />
+      <StatBox label="남은 차" id="lemon-remaining" value="10대" borderColor="#c47a52" />
       <StatBox label="평균 품질" id="lemon-avg-quality" value="-" borderColor="#059669" />
       <StatBox label="라운드" id="lemon-round" value="0" borderColor="#f59e0b" />
     </div>
@@ -152,7 +152,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div class="tb-stat-row">
       <StatBox label="고용량" id="mw-employment" value="-" borderColor="#059669" />
       <StatBox label="실업자 수" id="mw-unemployment" value="-" borderColor="#ef4444" />
-      <StatBox label="근로소득 총합" id="mw-income" value="-" borderColor="#3b82f6" />
+      <StatBox label="근로소득 총합" id="mw-income" value="-" borderColor="#c47a52" />
     </div>
 
     <ChartContainer id="mw-chart" height="350px" />
@@ -174,7 +174,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <ExerciseBox title="10가지 사례를 분류하세요">
       <p>각 사례가 어떤 유형의 시장 실패인지 선택하세요.</p>
       <div id="mf-quiz">
-        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8f6f4; border-radius:8px;">
           <p><strong>1.</strong> 전기가 한 회사에서만 공급된다</p>
           <select class="mf-select" data-q="0" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택하세요</option>
@@ -185,63 +185,63 @@ import SimControls from '../../../components/textbook/SimControls.astro';
           </select>
           <span class="mf-result" data-q="0" style="margin-left:8px;font-weight:600;"></span>
         </div>
-        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8f6f4; border-radius:8px;">
           <p><strong>2.</strong> 공장 매연이 주변 주민 건강을 해친다</p>
           <select class="mf-select" data-q="1" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
           </select>
           <span class="mf-result" data-q="1" style="margin-left:8px;font-weight:600;"></span>
         </div>
-        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8f6f4; border-radius:8px;">
           <p><strong>3.</strong> 국방은 누구나 혜택을 받지만 아무도 자발적으로 비용을 내지 않으려 한다</p>
           <select class="mf-select" data-q="2" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
           </select>
           <span class="mf-result" data-q="2" style="margin-left:8px;font-weight:600;"></span>
         </div>
-        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8f6f4; border-radius:8px;">
           <p><strong>4.</strong> 보험 가입자가 자신의 건강 상태를 숨긴다</p>
           <select class="mf-select" data-q="3" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
           </select>
           <span class="mf-result" data-q="3" style="margin-left:8px;font-weight:600;"></span>
         </div>
-        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8f6f4; border-radius:8px;">
           <p><strong>5.</strong> 꿀벌 농가 옆 과수원이 수분 혜택을 무료로 받는다</p>
           <select class="mf-select" data-q="4" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
           </select>
           <span class="mf-result" data-q="4" style="margin-left:8px;font-weight:600;"></span>
         </div>
-        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8f6f4; border-radius:8px;">
           <p><strong>6.</strong> 인터넷 검색은 구글이 90% 점유</p>
           <select class="mf-select" data-q="5" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
           </select>
           <span class="mf-result" data-q="5" style="margin-left:8px;font-weight:600;"></span>
         </div>
-        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8f6f4; border-radius:8px;">
           <p><strong>7.</strong> 가로등은 누구나 사용하고 막을 수 없다</p>
           <select class="mf-select" data-q="6" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
           </select>
           <span class="mf-result" data-q="6" style="margin-left:8px;font-weight:600;"></span>
         </div>
-        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8f6f4; border-radius:8px;">
           <p><strong>8.</strong> 중고 스마트폰의 실제 배터리 상태를 구매자가 모른다</p>
           <select class="mf-select" data-q="7" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
           </select>
           <span class="mf-result" data-q="7" style="margin-left:8px;font-weight:600;"></span>
         </div>
-        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8f6f4; border-radius:8px;">
           <p><strong>9.</strong> 교육을 많이 받은 사람은 사회 전체에 긍정적 영향을 미친다</p>
           <select class="mf-select" data-q="8" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
           </select>
           <span class="mf-result" data-q="8" style="margin-left:8px;font-weight:600;"></span>
         </div>
-        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8fafc; border-radius:8px;">
+        <div class="mf-item" style="margin-bottom:12px; padding:10px; background:#f8f6f4; border-radius:8px;">
           <p><strong>10.</strong> 수도 공급은 배관 설치 비용이 커서 자연적으로 한 업체만 존재한다</p>
           <select class="mf-select" data-q="9" style="padding:6px; border-radius:4px; border:1px solid #d1d5db;">
             <option value="">선택하세요</option><option value="독점">독점</option><option value="외부성">외부성</option><option value="공공재">공공재</option><option value="정보비대칭">정보비대칭</option>
@@ -363,7 +363,7 @@ function init() {
         type: 'scatter',
         data: {
           datasets: [
-            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3 },
+            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#c47a52', pointRadius: 0, borderWidth: 3 },
             { label: '공급곡선 (비용)', data: sLine, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3 },
             { label: '독점 가격', data: [{ x: 0, y: monoP }, { x: monoQ, y: monoP }], showLine: true, borderColor: '#ef4444', borderDash: [6, 4], pointRadius: 0, borderWidth: 2 },
             { label: '경쟁 균형', data: [{ x: compEqQty, y: compEqPrice }], pointRadius: 10, pointBackgroundColor: '#059669', pointBorderColor: '#fff', pointBorderWidth: 2 },
@@ -512,7 +512,7 @@ function init() {
         data: {
           labels: wages.map(function(w) { return (w / 1000).toFixed(1) + 'K'; }),
           datasets: [
-            { label: '노동 수요', data: dLine, borderColor: '#3b82f6', tension: 0.3, pointRadius: 0, borderWidth: 3 },
+            { label: '노동 수요', data: dLine, borderColor: '#c47a52', tension: 0.3, pointRadius: 0, borderWidth: 3 },
             { label: '노동 공급', data: sLine, borderColor: '#f59e0b', tension: 0.3, pointRadius: 0, borderWidth: 3 }
           ]
         },

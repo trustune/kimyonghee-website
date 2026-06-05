@@ -496,8 +496,8 @@ async function exploreVariable() {
       datasets: [{
         label: '빈도',
         data: hist,
-        backgroundColor: '#2563eb55',
-        borderColor: '#2563eb',
+        backgroundColor: '#a85a3855',
+        borderColor: '#a85a38',
         borderWidth: 1,
         borderRadius: 2,
       }]
@@ -521,7 +521,7 @@ async function exploreVariable() {
     if (y < 2000) return '#ef4444';
     if (y < 2010) return '#f59e0b';
     if (y < 2020) return '#22c55e';
-    return '#2563eb';
+    return '#a85a38';
   });
 
   varTimeChart = new Chart(canvasTime, {
@@ -531,8 +531,8 @@ async function exploreVariable() {
       datasets: [{
         label: v.label,
         data: arr,
-        borderColor: '#2563eb',
-        backgroundColor: '#2563eb22',
+        borderColor: '#a85a38',
+        backgroundColor: '#a85a3822',
         borderWidth: 2,
         pointRadius: 4,
         pointBackgroundColor: decadeColors,
@@ -572,7 +572,7 @@ async function drawTwoVarScatter() {
     if (y < 2000) return '#ef4444';
     if (y < 2010) return '#f59e0b';
     if (y < 2020) return '#22c55e';
-    return '#2563eb';
+    return '#a85a38';
   });
 
   const points = YEARS.map((y, i) => ({ x: xData[i], y: yData[i], year: y }));
@@ -597,7 +597,7 @@ async function drawTwoVarScatter() {
           label: '회귀선',
           type: 'line',
           data: [{ x: xMin, y: reg.a + reg.b * xMin }, { x: xMax, y: reg.a + reg.b * xMax }],
-          borderColor: '#64748b',
+          borderColor: '#6f6963',
           borderWidth: 2,
           borderDash: [6, 4],
           pointRadius: 0,
@@ -907,8 +907,8 @@ async function detectCrisis() {
           label: 'GDP 성장률 (%)',
           type: 'line',
           data: DATA.gdp.data,
-          borderColor: '#2563eb',
-          backgroundColor: '#2563eb22',
+          borderColor: '#a85a38',
+          backgroundColor: '#a85a3822',
           borderWidth: 2,
           pointRadius: 3,
           fill: false,
@@ -959,7 +959,7 @@ async function detectCrisis() {
         : '';
       const badge = eventName ? `<span style="background:#fee2e2;color:var(--tb-danger);padding:2px 8px;border-radius:10px;font-size:.78rem;font-weight:700;margin-left:8px;">${eventName}</span>` : '';
 
-      rHtml += `<div style="padding: 12px 16px; background: var(--tb-g100); border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--tb-danger);">
+      rHtml += `<div style="padding: 12px 16px; background: var(--tb-g100); border-radius: 8px; margin-bottom: 8px; border: 1px solid color-mix(in srgb, var(--tb-danger) 35%, var(--tb-g200));">
         <div style="font-weight: 700; margin-bottom: 4px;">${cy.year}년 -- ${cy.count}개 지표 이탈${badge}</div>
         <div style="font-size: .85rem; color: var(--tb-g600);">
           ${cy.details.map(d => `${d.var} (Z=${d.z})`).join(' | ')}

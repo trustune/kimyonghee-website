@@ -53,8 +53,8 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <h2>앙상블의 두 가지 전략: 배깅 vs 부스팅</h2>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 14px 0;">
-      <div style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); padding: 20px; border-radius: var(--tb-radius);">
-        <h3 style="color: #1e40af;">배깅 (Bagging)</h3>
+      <div style="background: linear-gradient(135deg, #f3e3d8, #ecd6c4); padding: 20px; border-radius: var(--tb-radius);">
+        <h3 style="color: #7a3f28;">배깅 (Bagging)</h3>
         <p style="font-size: 0.9rem; margin-top: 8px;">
           <strong>B</strong>ootstrap <strong>Agg</strong>regat<strong>ing</strong>의 약자.
           원본 데이터에서 복원 추출(bootstrap)로 여러 데이터셋을 만들고,
@@ -578,7 +578,7 @@ function waitForChart(fn) {
       const py = H - (d.y / 10) * H;
       ctx.beginPath();
       ctx.arc(px, py, 3.5, 0, Math.PI * 2);
-      ctx.fillStyle = d.cls === 0 ? '#2563eb' : '#ef4444';
+      ctx.fillStyle = d.cls === 0 ? '#a85a38' : '#ef4444';
       ctx.fill();
     }
     if (testData) {
@@ -587,7 +587,7 @@ function waitForChart(fn) {
         const py = H - (d.y / 10) * H;
         ctx.beginPath();
         ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = d.cls === 0 ? '#93c5fd' : '#fca5a5';
+        ctx.fillStyle = d.cls === 0 ? '#e3b89c' : '#fca5a5';
         ctx.fill();
         ctx.strokeStyle = '#999';
         ctx.lineWidth = 0.5;
@@ -805,7 +805,7 @@ function waitForChart(fn) {
       const radius = 2 + (boostWeights[i] / maxW) * 8;
       ctx.beginPath();
       ctx.arc(px, py, radius, 0, Math.PI * 2);
-      ctx.fillStyle = d.cls === 0 ? '#2563eb' : '#ef4444';
+      ctx.fillStyle = d.cls === 0 ? '#a85a38' : '#ef4444';
       ctx.globalAlpha = 0.3 + (boostWeights[i] / maxW) * 0.7;
       ctx.fill();
       ctx.globalAlpha = 1;
@@ -818,7 +818,7 @@ function waitForChart(fn) {
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#94a3b8';
+      ctx.fillStyle = '#a39d96';
       ctx.font = '13px Paperlogy, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('부스팅 진행 후 표시됩니다', canvas.width / 2, canvas.height / 2);
@@ -976,7 +976,7 @@ function waitForChart(fn) {
       type: 'bar',
       data: {
         labels: BIZ_LABELS,
-        datasets: [{ label: '정확도 감소 (%p)', data: [0, 0, 0, 0, 0], backgroundColor: ['#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#22c55e'] }],
+        datasets: [{ label: '정확도 감소 (%p)', data: [0, 0, 0, 0, 0], backgroundColor: ['#c47a52', '#a06b7c', '#f59e0b', '#ef4444', '#22c55e'] }],
       },
       options: {
         responsive: true, maintainAspectRatio: false,
@@ -1085,7 +1085,7 @@ function waitForChart(fn) {
         datasets: [{
           label: '테스트 정확도 (%)',
           data: [0, 0, 0, 0],
-          backgroundColor: ['#94a3b8', '#3b82f6', '#22c55e', '#f59e0b'],
+          backgroundColor: ['#a39d96', '#c47a52', '#22c55e', '#f59e0b'],
         }],
       },
       options: {

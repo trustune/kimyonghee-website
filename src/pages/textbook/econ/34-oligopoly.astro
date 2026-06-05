@@ -100,10 +100,10 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <canvas id="cournotCanvas" width="600" height="500" style="width: 100%; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; margin-top: 12px;"></canvas>
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="기업1 생산량" value="-" id="cournot-q1" borderColor="#3b82f6" />
+      <StatBox label="기업1 생산량" value="-" id="cournot-q1" borderColor="#c47a52" />
       <StatBox label="기업2 생산량" value="-" id="cournot-q2" borderColor="#ef4444" />
       <StatBox label="시장 가격" value="-" id="cournot-p" borderColor="#059669" />
-      <StatBox label="각 기업 이윤" value="-" id="cournot-profit" borderColor="#6366f1" />
+      <StatBox label="각 기업 이윤" value="-" id="cournot-profit" borderColor="#7a5a70" />
     </div>
 
     <ExerciseBox title="쿠르노 균형 분석">
@@ -148,7 +148,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <ChartContainer id="bertChart" height="350px" />
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="기업A 이윤" value="-" id="bert-profitA" borderColor="#3b82f6" />
+      <StatBox label="기업A 이윤" value="-" id="bert-profitA" borderColor="#c47a52" />
       <StatBox label="기업B 이윤" value="-" id="bert-profitB" borderColor="#ef4444" />
       <StatBox label="내쉬 균형?" value="-" id="bert-nash" borderColor="#059669" />
     </div>
@@ -234,8 +234,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <ChartContainer id="stackChart" height="380px" />
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
-      <div style="padding: 16px; background: #eff6ff; border-radius: 12px; border: 2px solid #3b82f6;">
-        <h4 style="margin: 0 0 8px; color: #3b82f6;">쿠르노 균형</h4>
+      <div style="padding: 16px; background: #faf3ee; border-radius: 12px; border: 2px solid #c47a52;">
+        <h4 style="margin: 0 0 8px; color: #c47a52;">쿠르노 균형</h4>
         <p>기업1: <strong id="stack-cq1">-</strong> | 기업2: <strong id="stack-cq2">-</strong></p>
         <p>가격: <strong id="stack-cp">-</strong> | 각 이윤: <strong id="stack-cprofit">-</strong></p>
       </div>
@@ -362,12 +362,12 @@ waitForChart(function init() {
     var intercept = (a - c) / (2 * b);
 
     /* RF1: Q1 = intercept - Q2/2 => Q2축에서 (0, intercept), Q1축에서 (2*intercept, 0) */
-    cCtx.strokeStyle = '#3b82f6'; cCtx.lineWidth = 2.5;
+    cCtx.strokeStyle = '#c47a52'; cCtx.lineWidth = 2.5;
     cCtx.beginPath();
     cCtx.moveTo(tX(0), tY(intercept));
     cCtx.lineTo(tX(2 * intercept), tY(0));
     cCtx.stroke();
-    cCtx.fillStyle = '#3b82f6'; cCtx.font = '12px sans-serif';
+    cCtx.fillStyle = '#c47a52'; cCtx.font = '12px sans-serif';
     cCtx.fillText('RF1 (기업1 반응함수)', tX(2 * intercept * 0.6), tY(intercept * 0.15));
 
     /* RF2: Q2 = intercept - Q1/2 => Q1축에서 (intercept, 0), Q2축에서 (0, 2*intercept) */
@@ -384,7 +384,7 @@ waitForChart(function init() {
     var pStar = a - b * 2 * qStar;
     var profit = (pStar - c) * qStar;
 
-    cCtx.fillStyle = '#6366f1';
+    cCtx.fillStyle = '#7a5a70';
     cCtx.beginPath(); cCtx.arc(tX(qStar), tY(qStar), 8, 0, Math.PI * 2); cCtx.fill();
 
     cCtx.strokeStyle = '#9ca3af'; cCtx.lineWidth = 1; cCtx.setLineDash([4, 4]);
@@ -392,7 +392,7 @@ waitForChart(function init() {
     cCtx.beginPath(); cCtx.moveTo(tX(qStar), tY(qStar)); cCtx.lineTo(tX(0), tY(qStar)); cCtx.stroke();
     cCtx.setLineDash([]);
 
-    cCtx.fillStyle = '#6366f1'; cCtx.font = 'bold 13px sans-serif'; cCtx.textAlign = 'left';
+    cCtx.fillStyle = '#7a5a70'; cCtx.font = 'bold 13px sans-serif'; cCtx.textAlign = 'left';
     cCtx.fillText('쿠르노 균형', tX(qStar) + 12, tY(qStar) - 8);
     cCtx.font = '11px sans-serif';
     cCtx.fillText('Q1*=Q2*=' + qStar.toFixed(1), tX(qStar) + 12, tY(qStar) + 8);
@@ -431,7 +431,7 @@ waitForChart(function init() {
     data: {
       labels: ['기업 A', '기업 B'],
       datasets: [
-        { label: '판매량', data: [0, 0], backgroundColor: ['#3b82f6', '#ef4444'], yAxisID: 'y' },
+        { label: '판매량', data: [0, 0], backgroundColor: ['#c47a52', '#ef4444'], yAxisID: 'y' },
         { label: '이윤', data: [0, 0], backgroundColor: ['rgba(59,130,246,0.3)', 'rgba(239,68,68,0.3)'], yAxisID: 'y1' }
       ]
     },
@@ -495,7 +495,7 @@ waitForChart(function init() {
     data: {
       labels: [],
       datasets: [
-        { label: '기업A 이윤', data: [], borderColor: '#3b82f6', tension: 0.3, fill: false },
+        { label: '기업A 이윤', data: [], borderColor: '#c47a52', tension: 0.3, fill: false },
         { label: '기업B 이윤', data: [], borderColor: '#ef4444', tension: 0.3, fill: false }
       ]
     },
@@ -537,7 +537,7 @@ waitForChart(function init() {
     resultDiv.innerHTML = '<h4 style="margin: 0 0 8px;">라운드 ' + round.num + ' 결과</h4>' +
       '<p>기업 A(당신): <strong>' + aStr + '</strong> | 기업 B: <strong>' + bStr + '</strong></p>' +
       '<p>시장 가격: <strong>' + price + '</strong> | 총 생산량: ' + totalQ + '</p>' +
-      '<p>기업 A 이윤: <strong style="color: #3b82f6;">' + profitA + '</strong> | 기업 B 이윤: <strong style="color: #ef4444;">' + profitB + '</strong></p>';
+      '<p>기업 A 이윤: <strong style="color: #c47a52;">' + profitA + '</strong> | 기업 B 이윤: <strong style="color: #ef4444;">' + profitB + '</strong></p>';
 
     cartelChart.data.labels.push('R' + round.num);
     cartelChart.data.datasets[0].data.push(profitA);
@@ -550,7 +550,7 @@ waitForChart(function init() {
     cartelRounds.forEach(function(r) {
       histHtml += '<tr style="border-bottom: 1px solid #f3f4f6; text-align: center;">' +
         '<td>' + r.num + '</td><td>' + (r.aCoops ? '협력' : '이탈') + '</td><td>' + (r.bCoops ? '협력' : '이탈') + '</td>' +
-        '<td>' + r.price + '</td><td style="color: #3b82f6;">' + r.profitA + '</td><td style="color: #ef4444;">' + r.profitB + '</td></tr>';
+        '<td>' + r.price + '</td><td style="color: #c47a52;">' + r.profitA + '</td><td style="color: #ef4444;">' + r.profitB + '</td></tr>';
     });
     histHtml += '</table>';
     document.getElementById('cartel-history').innerHTML = histHtml;
@@ -572,7 +572,7 @@ waitForChart(function init() {
     data: {
       labels: ['기업1 생산량', '기업2 생산량', '시장 가격', '기업1 이윤', '기업2 이윤'],
       datasets: [
-        { label: '쿠르노', data: [], backgroundColor: '#3b82f6' },
+        { label: '쿠르노', data: [], backgroundColor: '#c47a52' },
         { label: '슈타켈버그', data: [], backgroundColor: '#f59e0b' }
       ]
     },
@@ -663,7 +663,7 @@ waitForChart(function init() {
   var krSelect = document.getElementById('kr-select');
   var krPieCtx = document.getElementById('krPieChart').getContext('2d');
   var krBarCtx = document.getElementById('krBarChart').getContext('2d');
-  var krColors = ['#3b82f6', '#ef4444', '#059669', '#f59e0b'];
+  var krColors = ['#c47a52', '#ef4444', '#059669', '#f59e0b'];
 
   var krPieChart = new Chart(krPieCtx, {
     type: 'pie',

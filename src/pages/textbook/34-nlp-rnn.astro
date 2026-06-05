@@ -129,7 +129,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <span class="hl">TF-IDF(t, d)</span> = TF(t, d) x IDF(t)<br>
       TF = 문서 d에서 단어 t의 빈도<br>
       IDF = log(전체 문서 수 / 단어 t를 포함하는 문서 수)<br>
-      <span style="font-size: 0.85rem; color: #94a3b8;">흔한 단어는 IDF가 낮아져 가중치가 줄어든다</span>
+      <span style="font-size: 0.85rem; color: #a39d96;">흔한 단어는 IDF가 낮아져 가중치가 줄어든다</span>
     </FormulaBox>
   </div>
 
@@ -222,7 +222,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;">
       <span style="font-size: 0.85rem; font-weight: 700;">범례:</span>
-      <span class="tb-badge" style="background: #dbeafe; color: #2563eb;">음식</span>
+      <span class="tb-badge" style="background: #f3e3d8; color: #a85a38;">음식</span>
       <span class="tb-badge" style="background: #dcfce7; color: #16a34a;">감정</span>
       <span class="tb-badge" style="background: #fef3c7; color: #92400e;">직업</span>
       <span class="tb-badge" style="background: #fce7f3; color: #be185d;">가족</span>
@@ -307,7 +307,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <FormulaBox>
       <span class="hl">RNN의 핵심 수식:</span><br>
       h(t) = tanh(W_h * h(t-1) + W_x * x(t) + b)<br>
-      <span style="font-size: 0.85rem; color: #94a3b8;">h(t) = 현재 숨겨진 상태, h(t-1) = 이전 숨겨진 상태, x(t) = 현재 입력</span>
+      <span style="font-size: 0.85rem; color: #a39d96;">h(t) = 현재 숨겨진 상태, h(t-1) = 이전 숨겨진 상태, x(t) = 현재 입력</span>
     </FormulaBox>
 
     <ExplainBox>
@@ -480,7 +480,7 @@ function setupTokenizer() {
 
     // Character-level
     const charTokens = text.replace(/\s/g, '').split('');
-    renderTokens('tok-char-result', charTokens, '#dbeafe');
+    renderTokens('tok-char-result', charTokens, '#f3e3d8');
     el('tok-char-count', `(${charTokens.length}개)`);
     el('tok-stat-char', charTokens.length.toString());
 
@@ -610,7 +610,7 @@ const WORD_DATA = [
   { word: '산', x: 0.28, y: 0.53, cat: '장소' }
 ];
 
-const CAT_COLORS = { '음식': '#2563eb', '감정': '#16a34a', '직업': '#92400e', '가족': '#be185d', '장소': '#4338ca' };
+const CAT_COLORS = { '음식': '#a85a38', '감정': '#16a34a', '직업': '#92400e', '가족': '#be185d', '장소': '#4338ca' };
 
 function drawEmbeddingCanvas() {
   const canvas = document.getElementById('embed-canvas');
@@ -773,7 +773,7 @@ function setupSentiment() {
     const verdictEl = document.getElementById('sent-verdict');
     if (verdictEl) {
       verdictEl.textContent = verdict;
-      verdictEl.style.color = verdict === '긍정' ? '#16a34a' : verdict === '부정' ? '#dc2626' : '#64748b';
+      verdictEl.style.color = verdict === '긍정' ? '#16a34a' : verdict === '부정' ? '#dc2626' : '#6f6963';
     }
   };
 
@@ -872,7 +872,7 @@ function updateRNNCharts(seq, preds, hidden, currentStep) {
   if (canvas1) {
     const labels = seq.map((_, i) => `t${i + 1}`);
     const datasets = [
-      { label: '입력', data: seq.map((v, i) => i < currentStep ? v : null), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: false, pointRadius: 4, borderWidth: 2 },
+      { label: '입력', data: seq.map((v, i) => i < currentStep ? v : null), borderColor: '#a85a38', backgroundColor: 'rgba(37,99,235,0.1)', fill: false, pointRadius: 4, borderWidth: 2 },
       { label: '예측', data: [null, ...preds], borderColor: '#ef4444', backgroundColor: 'transparent', fill: false, pointRadius: 4, borderWidth: 2, borderDash: [5, 5] }
     ];
 
@@ -910,7 +910,7 @@ function updateRNNCharts(seq, preds, hidden, currentStep) {
         type: 'line',
         data: {
           labels: hLabels,
-          datasets: [{ label: '숨겨진 상태 h', data: hData, borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.1)', fill: true, pointRadius: 5, borderWidth: 2 }]
+          datasets: [{ label: '숨겨진 상태 h', data: hData, borderColor: '#834f63', backgroundColor: 'rgba(124,58,237,0.1)', fill: true, pointRadius: 5, borderWidth: 2 }]
         },
         options: {
           responsive: true, maintainAspectRatio: false, animation: false,

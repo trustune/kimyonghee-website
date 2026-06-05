@@ -104,9 +104,9 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="승" value="0" id="rps-win" borderColor="#059669" />
-      <StatBox label="무" value="0" id="rps-draw" borderColor="#6366f1" />
+      <StatBox label="무" value="0" id="rps-draw" borderColor="#7a5a70" />
       <StatBox label="패" value="0" id="rps-lose" borderColor="#ef4444" />
-      <StatBox label="승률" value="0%" id="rps-rate" borderColor="#0891b2" />
+      <StatBox label="승률" value="0%" id="rps-rate" borderColor="#2a6f66" />
     </div>
 
     <ChartContainer id="rpsChart" height="350px" />
@@ -137,8 +137,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
         <thead>
           <tr>
             <th style="padding: 10px; border: 2px solid #e5e7eb;"></th>
-            <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: 전략1</th>
-            <th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: 전략2</th>
+            <th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: 전략1</th>
+            <th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: 전략2</th>
           </tr>
         </thead>
         <tbody>
@@ -195,7 +195,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="정답" value="0/5" id="gq-score" borderColor="#059669" />
-      <StatBox label="정답률" value="0%" id="gq-pct" borderColor="#6366f1" />
+      <StatBox label="정답률" value="0%" id="gq-pct" borderColor="#7a5a70" />
     </div>
 
     <ExerciseBox title="생각해보기">
@@ -265,7 +265,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </SimControls>
 
     <div id="gallery-matrix" style="margin: 20px 0;"></div>
-    <div id="gallery-desc" style="margin: 16px 0; padding: 16px; background: #eff6ff; border-radius: 12px;"></div>
+    <div id="gallery-desc" style="margin: 16px 0; padding: 16px; background: #faf3ee; border-radius: 12px;"></div>
 
     <ChartContainer id="galleryChart" height="300px" />
 
@@ -561,8 +561,8 @@ waitForChart(function init() {
     var html = '<h3 style="text-align: center; margin-bottom: 12px;">' + game.title + '</h3>';
     html += '<table style="border-collapse: collapse; width: 100%; max-width: 450px; margin: 0 auto; text-align: center;">';
     html += '<tr><th style="padding: 10px; border: 2px solid #e5e7eb;"></th>';
-    html += '<th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: ' + game.labels[1][0] + '</th>';
-    html += '<th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: ' + game.labels[1][1] + '</th></tr>';
+    html += '<th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: ' + game.labels[1][0] + '</th>';
+    html += '<th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: ' + game.labels[1][1] + '</th></tr>';
 
     var labelsArr = [];
     var dataA = [], dataB = [], dataSum = [];
@@ -665,8 +665,8 @@ waitForChart(function init() {
     var matrixDiv = document.getElementById('gallery-matrix');
     var html = '<table style="border-collapse: collapse; width: 100%; max-width: 450px; margin: 0 auto; text-align: center;">';
     html += '<tr><th style="padding: 10px; border: 2px solid #e5e7eb;"></th>';
-    html += '<th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: ' + game.labels[1][0] + '</th>';
-    html += '<th style="padding: 10px; border: 2px solid #e5e7eb; background: #dbeafe;">B: ' + game.labels[1][1] + '</th></tr>';
+    html += '<th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: ' + game.labels[1][0] + '</th>';
+    html += '<th style="padding: 10px; border: 2px solid #e5e7eb; background: #f3e3d8;">B: ' + game.labels[1][1] + '</th></tr>';
 
     var chartLabels = [];
     var chartA = [], chartB = [];

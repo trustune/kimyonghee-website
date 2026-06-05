@@ -115,7 +115,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div id="gamble-container" style="margin: 20px 0;"></div>
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="안전 선택 비율" value="-" id="gm-safe" borderColor="#3b82f6" />
+      <StatBox label="안전 선택 비율" value="-" id="gm-safe" borderColor="#c47a52" />
       <StatBox label="위험 선택 비율" value="-" id="gm-risky" borderColor="#ef4444" />
       <StatBox label="전망이론 예측 일치" value="-" id="gm-match" borderColor="#059669" />
     </div>
@@ -149,7 +149,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       더 높은 가치를 부여하는 현상입니다. 손실회피의 직접적 결과입니다.
     </p>
 
-    <div style="padding: 20px; background: #f0f9ff; border-radius: 12px; margin: 20px 0; border: 2px solid #bfdbfe;">
+    <div style="padding: 20px; background: #f0f9ff; border-radius: 12px; margin: 20px 0; border: 2px solid #ecd6c4;">
       <h3 style="margin: 0 0 12px;">실험: 마그컵의 가치</h3>
 
       <div id="endow-phase1">
@@ -208,7 +208,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div id="status-quo-quiz" style="margin: 20px 0;"></div>
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="현상유지 선택" value="0회" id="sq-keep" borderColor="#3b82f6" />
+      <StatBox label="현상유지 선택" value="0회" id="sq-keep" borderColor="#c47a52" />
       <StatBox label="변경 선택" value="0회" id="sq-change" borderColor="#f59e0b" />
     </div>
 
@@ -320,7 +320,7 @@ waitForChart(function init() {
     vfCtx.fillRect(0, cy, cx, ch - cy);
 
     /* 축 */
-    vfCtx.strokeStyle = '#94a3b8';
+    vfCtx.strokeStyle = '#a39d96';
     vfCtx.lineWidth = 1;
     vfCtx.setLineDash([4, 3]);
     vfCtx.beginPath();
@@ -332,7 +332,7 @@ waitForChart(function init() {
     vfCtx.setLineDash([]);
 
     /* 축 레이블 */
-    vfCtx.fillStyle = '#64748b';
+    vfCtx.fillStyle = '#6f6963';
     vfCtx.font = '13px sans-serif';
     vfCtx.textAlign = 'right';
     vfCtx.fillText('이득(기쁨)', cw - 10, cy - 20);
@@ -343,7 +343,7 @@ waitForChart(function init() {
 
     /* 가치함수 곡선 */
     vfCtx.beginPath();
-    vfCtx.strokeStyle = '#6366f1';
+    vfCtx.strokeStyle = '#7a5a70';
     vfCtx.lineWidth = 3;
     for (var x = -100; x <= 100; x += 0.5) {
       var v = valueFunc(x, lambda);
@@ -381,7 +381,7 @@ waitForChart(function init() {
       vfCtx.stroke();
 
       /* 레이블 */
-      vfCtx.fillStyle = '#1e293b';
+      vfCtx.fillStyle = '#2c2823';
       vfCtx.font = 'bold 13px sans-serif';
       vfCtx.textAlign = 'center';
       vfCtx.fillText(amt + '만원', px, cy + (amt > 0 ? 18 : -8));
@@ -401,7 +401,7 @@ waitForChart(function init() {
       var ratio = Math.abs(lossVal) / gainVal;
 
       vfCtx.font = '12px sans-serif';
-      vfCtx.fillStyle = '#6366f1';
+      vfCtx.fillStyle = '#7a5a70';
       vfCtx.textAlign = 'left';
       vfCtx.fillText('|' + Math.abs(amt) + '만원 이득의 기쁨| = ' + gainVal.toFixed(1), 15, 25);
       vfCtx.fillText('|' + Math.abs(amt) + '만원 손실의 고통| = ' + Math.abs(lossVal).toFixed(1), 15, 45);
@@ -508,7 +508,7 @@ waitForChart(function init() {
         (matchesPrediction ? ' <span style="color: #059669;">(일치!)</span>' : ' <span style="color: #ef4444;">(불일치)</span>') + '</p>' +
         '<p style="margin-top: 8px;">' + g.explain + '</p>';
 
-      if (isSafe) { safeBtn.style.background = '#3b82f6'; safeBtn.style.color = '#fff'; }
+      if (isSafe) { safeBtn.style.background = '#c47a52'; safeBtn.style.color = '#fff'; }
       else { riskyBtn.style.background = '#ef4444'; riskyBtn.style.color = '#fff'; }
 
       gmChart.data.datasets[0].data[gi] = isSafe ? 1 : -1;
@@ -586,7 +586,7 @@ waitForChart(function init() {
     result.innerHTML =
       '<p><strong>당신의 판매 희망가:</strong> ' + sellPrice.toLocaleString() + '원</p>' +
       '<p><strong>당신의 구매 희망가:</strong> ' + buyPrice.toLocaleString() + '원</p>' +
-      '<p style="margin-top: 12px; font-size: 1.2em; font-weight: bold; color: #6366f1;">판매가/구매가 비율: ' + ratio.toFixed(2) + '배</p>' +
+      '<p style="margin-top: 12px; font-size: 1.2em; font-weight: bold; color: #7a5a70;">판매가/구매가 비율: ' + ratio.toFixed(2) + '배</p>' +
       '<p style="margin-top: 12px;"><strong>유명한 실험 결과 (Kahneman et al., 1990):</strong></p>' +
       '<p>평균 판매 희망가: $7.12, 평균 구매 희망가: $2.87 (약 2.5배 차이)</p>' +
       '<p style="margin-top: 8px;">같은 물건인데 "내 것"이면 더 높은 가치를 부여합니다. 이것이 <strong>보유 효과</strong>입니다.</p>';
@@ -641,7 +641,7 @@ waitForChart(function init() {
     changeBtn.textContent = sq.change;
 
     var fb = document.createElement('div');
-    fb.style.cssText = 'display: none; margin-top: 10px; padding: 8px; background: #eff6ff; border-radius: 6px; font-size: 0.9em;';
+    fb.style.cssText = 'display: none; margin-top: 10px; padding: 8px; background: #faf3ee; border-radius: 6px; font-size: 0.9em;';
 
     function handleSQ(isKeep) {
       if (fb.style.display === 'block') return;
@@ -649,7 +649,7 @@ waitForChart(function init() {
       fb.style.display = 'block';
       fb.innerHTML = '<p>' + (isKeep ? '<strong>현상유지 선택.</strong> ' : '<strong>변경 선택.</strong> ') + sq.insight + '</p>';
 
-      if (isKeep) { keepBtn.style.background = '#3b82f6'; keepBtn.style.color = '#fff'; }
+      if (isKeep) { keepBtn.style.background = '#c47a52'; keepBtn.style.color = '#fff'; }
       else { changeBtn.style.background = '#f59e0b'; changeBtn.style.color = '#fff'; }
 
       document.getElementById('sq-keep').textContent = sqKeep + '회';

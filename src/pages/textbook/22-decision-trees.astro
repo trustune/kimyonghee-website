@@ -276,7 +276,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     </div>
 
     <div class="tb-stat-row">
-      <StatBox label="훈련 정확도" id="stat-train-acc" borderColor="#2563eb" />
+      <StatBox label="훈련 정확도" id="stat-train-acc" borderColor="#a85a38" />
       <StatBox label="테스트 정확도" id="stat-test-acc" borderColor="#ef4444" />
       <StatBox label="리프 수" id="stat-leaf-count" />
       <StatBox label="최적 깊이" id="stat-best-depth" borderColor="#22c55e" />
@@ -672,22 +672,22 @@ function waitForChart(fn) {
     ctx.textAlign = 'center';
 
     if (buildPath.length === 0) {
-      ctx.fillStyle = '#94a3b8';
+      ctx.fillStyle = '#a39d96';
       ctx.fillText('분할을 선택하면 트리가 여기에 그려집니다', canvas.width / 2, canvas.height / 2);
       return;
     }
 
     // Simple tree rendering
     const drawNode = (x, y, text, isLeaf) => {
-      ctx.fillStyle = isLeaf ? '#dcfce7' : '#dbeafe';
-      ctx.strokeStyle = isLeaf ? '#22c55e' : '#2563eb';
+      ctx.fillStyle = isLeaf ? '#dcfce7' : '#f3e3d8';
+      ctx.strokeStyle = isLeaf ? '#22c55e' : '#a85a38';
       ctx.lineWidth = 2;
       const w = 120, h = 36, r = 8;
       ctx.beginPath();
       ctx.roundRect(x - w/2, y - h/2, w, h, r);
       ctx.fill();
       ctx.stroke();
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#2c2823';
       ctx.fillText(text, x, y + 4);
     };
 
@@ -698,7 +698,7 @@ function waitForChart(fn) {
       const bp = buildPath[i];
       drawNode(cx, cy, `${FEATURE_LABELS[bp.feature]} <= ${bp.threshold.toFixed(1)}`, false);
       if (i > 0) {
-        ctx.strokeStyle = '#94a3b8';
+        ctx.strokeStyle = '#a39d96';
         ctx.beginPath();
         ctx.moveTo(cx, cy - 18);
         ctx.lineTo(cx, cy - 36);
@@ -708,7 +708,7 @@ function waitForChart(fn) {
     }
     drawNode(cx - 80, cy, '잔류/이탈', true);
     drawNode(cx + 80, cy, '잔류/이탈', true);
-    ctx.strokeStyle = '#94a3b8';
+    ctx.strokeStyle = '#a39d96';
     ctx.beginPath();
     ctx.moveTo(cx, cy - 42);
     ctx.lineTo(cx - 80, cy - 18);
@@ -735,28 +735,28 @@ function waitForChart(fn) {
       ctx.roundRect(x - w/2, y - h/2, w, h, 6);
       ctx.fill();
       ctx.stroke();
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#2c2823';
       ctx.fillText(text, x, y + 4);
     };
 
     const drawLine = (x1, y1, x2, y2, label) => {
-      ctx.strokeStyle = '#94a3b8';
+      ctx.strokeStyle = '#a39d96';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(x1, y1 + 16);
       ctx.lineTo(x2, y2 - 16);
       ctx.stroke();
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#6f6963';
       ctx.font = '11px Paperlogy, sans-serif';
       ctx.fillText(label, (x1 + x2) / 2 + (x2 < x1 ? -20 : 20), (y1 + y2) / 2);
       ctx.font = '12px Paperlogy, sans-serif';
     };
 
     // Root
-    drawBox(350, 40, '만족도 <= 2?', '#2563eb', '#dbeafe');
+    drawBox(350, 40, '만족도 <= 2?', '#a85a38', '#f3e3d8');
     // Level 1
-    drawBox(180, 120, '야근 > 15시간?', '#2563eb', '#dbeafe');
-    drawBox(520, 120, '연봉 <= 4000?', '#2563eb', '#dbeafe');
+    drawBox(180, 120, '야근 > 15시간?', '#a85a38', '#f3e3d8');
+    drawBox(520, 120, '연봉 <= 4000?', '#a85a38', '#f3e3d8');
     drawLine(350, 40, 180, 120, '예');
     drawLine(350, 40, 520, 120, '아니오');
     // Level 2 leaves
@@ -771,12 +771,12 @@ function waitForChart(fn) {
 
     // Labels
     ctx.font = '11px Paperlogy, sans-serif';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#6f6963';
     ctx.textAlign = 'left';
     ctx.fillText('루트 노드 (Root)', 10, 290);
     ctx.fillText('내부 노드 (Internal)', 170, 290);
     ctx.fillText('리프 노드 (Leaf)', 400, 290);
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#a85a38';
     ctx.fillRect(10, 295, 30, 3);
     ctx.fillStyle = '#22c55e';
     ctx.fillRect(400, 295, 30, 3);
@@ -807,7 +807,7 @@ function waitForChart(fn) {
     ctx.fill();
 
     // Labels
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#2c2823';
     ctx.font = '12px Paperlogy, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(`A: ${(ratio * 100).toFixed(0)}%`, cx - 30, cy + r + 20);
@@ -822,8 +822,8 @@ function waitForChart(fn) {
     const g = gini([ratio * 100, (1 - ratio) * 100]);
     const e = entropy([ratio * 100, (1 - ratio) * 100]);
 
-    drawPieChart('canvas-gini-pie', ratio, '#3b82f6', '#f97316');
-    drawPieChart('canvas-entropy-pie', ratio, '#3b82f6', '#f97316');
+    drawPieChart('canvas-gini-pie', ratio, '#c47a52', '#f97316');
+    drawPieChart('canvas-entropy-pie', ratio, '#c47a52', '#f97316');
 
     document.getElementById('gini-values').innerHTML = `Gini = <strong>${g.toFixed(4)}</strong>`;
     document.getElementById('entropy-values').innerHTML = `Entropy = <strong>${e.toFixed(4)}</strong>`;
@@ -849,8 +849,8 @@ function waitForChart(fn) {
       data: {
         labels,
         datasets: [
-          { label: 'Gini', data: giniData, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, tension: 0.3, pointRadius: 0 },
-          { label: 'Entropy', data: entropyData, borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.1)', fill: true, tension: 0.3, pointRadius: 0 },
+          { label: 'Gini', data: giniData, borderColor: '#a85a38', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, tension: 0.3, pointRadius: 0 },
+          { label: 'Entropy', data: entropyData, borderColor: '#834f63', backgroundColor: 'rgba(124,58,237,0.1)', fill: true, tension: 0.3, pointRadius: 0 },
         ],
       },
       options: {
@@ -958,7 +958,7 @@ function waitForChart(fn) {
       const py = H - (d.y / 10) * H;
       ctx.beginPath();
       ctx.arc(px, py, d.isTrain ? 4 : 3, 0, Math.PI * 2);
-      ctx.fillStyle = d.cls === 0 ? '#2563eb' : '#ef4444';
+      ctx.fillStyle = d.cls === 0 ? '#a85a38' : '#ef4444';
       ctx.globalAlpha = d.isTrain ? 1 : 0.4;
       ctx.fill();
       if (!d.isTrain) {
@@ -980,7 +980,7 @@ function waitForChart(fn) {
       data: {
         labels: Array.from({ length: 20 }, (_, i) => i + 1),
         datasets: [
-          { label: '훈련 정확도', data: [], borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: false, tension: 0.3 },
+          { label: '훈련 정확도', data: [], borderColor: '#a85a38', backgroundColor: 'rgba(37,99,235,0.1)', fill: false, tension: 0.3 },
           { label: '테스트 정확도', data: [], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', fill: false, tension: 0.3 },
         ],
       },
@@ -1084,15 +1084,15 @@ function waitForChart(fn) {
       const isLeaf = n.feature === undefined;
       const w = isLeaf ? 60 : 100;
       const h = 28;
-      ctx.fillStyle = isLeaf ? (n.prediction === 1 ? '#fee2e2' : '#dcfce7') : '#dbeafe';
-      ctx.strokeStyle = isLeaf ? (n.prediction === 1 ? '#ef4444' : '#22c55e') : '#2563eb';
+      ctx.fillStyle = isLeaf ? (n.prediction === 1 ? '#fee2e2' : '#dcfce7') : '#f3e3d8';
+      ctx.strokeStyle = isLeaf ? (n.prediction === 1 ? '#ef4444' : '#22c55e') : '#a85a38';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.roundRect(x - w/2, y - h/2, w, h, 5);
       ctx.fill();
       ctx.stroke();
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#2c2823';
       if (isLeaf) {
         ctx.fillText(n.prediction === 1 ? '이탈' : '잔류', x, y + 4);
       } else {
@@ -1109,7 +1109,7 @@ function waitForChart(fn) {
         const rx = (rightX + 0.5) * xScale;
         const ny = y + yStep;
 
-        ctx.strokeStyle = '#94a3b8';
+        ctx.strokeStyle = '#a39d96';
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(x, y + h/2);
@@ -1138,7 +1138,7 @@ function waitForChart(fn) {
       data: {
         labels: [],
         datasets: [
-          { label: '훈련', data: [], borderColor: '#2563eb', tension: 0.3, pointRadius: 2 },
+          { label: '훈련', data: [], borderColor: '#a85a38', tension: 0.3, pointRadius: 2 },
           { label: '테스트', data: [], borderColor: '#ef4444', tension: 0.3, pointRadius: 2 },
         ],
       },
@@ -1221,7 +1221,7 @@ function waitForChart(fn) {
       type: 'bar',
       data: {
         labels: FEATURE_LABELS,
-        datasets: [{ label: '특성 중요도', data: [0, 0, 0, 0, 0], backgroundColor: ['#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#22c55e'] }],
+        datasets: [{ label: '특성 중요도', data: [0, 0, 0, 0, 0], backgroundColor: ['#c47a52', '#a06b7c', '#f59e0b', '#ef4444', '#22c55e'] }],
       },
       options: {
         responsive: true, maintainAspectRatio: false,

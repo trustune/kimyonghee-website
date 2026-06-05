@@ -78,7 +78,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </SimControls>
 
     <div class="tb-stat-row">
-      <StatBox label="소비자잉여" id="cs-value" value="-" borderColor="#3b82f6" />
+      <StatBox label="소비자잉여" id="cs-value" value="-" borderColor="#c47a52" />
       <StatBox label="생산자잉여" id="ps-value" value="-" borderColor="#f59e0b" />
       <StatBox label="총잉여" id="ts-value" value="-" borderColor="#059669" />
       <StatBox label="사중손실" id="dwl-value" value="-" sub="비효율의 크기" borderColor="#ef4444" />
@@ -113,9 +113,9 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </SimControls>
 
     <div class="tb-stat-row">
-      <StatBox label="소비자잉여" id="tax-cs" value="-" borderColor="#3b82f6" />
+      <StatBox label="소비자잉여" id="tax-cs" value="-" borderColor="#c47a52" />
       <StatBox label="생산자잉여" id="tax-ps" value="-" borderColor="#f59e0b" />
-      <StatBox label="정부 세수" id="tax-gov" value="-" borderColor="#8b5cf6" />
+      <StatBox label="정부 세수" id="tax-gov" value="-" borderColor="#a06b7c" />
       <StatBox label="사중손실" id="tax-dwl" value="-" borderColor="#ef4444" />
     </div>
 
@@ -144,31 +144,31 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <ExerciseBox title="누가 더 이득일까?">
       <div id="surplus-quiz">
-        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q1.</strong> 생수 가격이 500원에서 1,000원으로 올랐다. 수요가 비탄력적이라면?</p>
           <button class="tb-btn" onclick="checkSurplus(0, 'A')">소비자잉여가 크게 줄고 생산자잉여가 늘었다</button>
           <button class="tb-btn" onclick="checkSurplus(0, 'B')">생산자잉여가 크게 줄었다</button>
           <p class="surp-fb" data-q="0" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q2.</strong> 정부가 임대료 상한제(최고가격)를 실시하면 총잉여는?</p>
           <button class="tb-btn" onclick="checkSurplus(1, 'A')">총잉여가 줄어든다 (사중손실 발생)</button>
           <button class="tb-btn" onclick="checkSurplus(1, 'B')">총잉여가 늘어난다</button>
           <p class="surp-fb" data-q="1" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q3.</strong> 세금이 2배가 되면 사중손실은?</p>
           <button class="tb-btn" onclick="checkSurplus(2, 'A')">4배가 된다 (제곱에 비례)</button>
           <button class="tb-btn" onclick="checkSurplus(2, 'B')">2배가 된다</button>
           <p class="surp-fb" data-q="2" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q4.</strong> 자유무역으로 외국산 저가 상품이 들어오면?</p>
           <button class="tb-btn" onclick="checkSurplus(3, 'A')">소비자잉여 증가, 국내 생산자잉여 감소, 총잉여는 대체로 증가</button>
           <button class="tb-btn" onclick="checkSurplus(3, 'B')">모든 잉여가 감소한다</button>
           <p class="surp-fb" data-q="3" style="margin-top:8px;font-weight:600;display:none;"></p>
         </div>
-        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div class="surp-q" style="margin-bottom: 16px; padding: 12px; background: #f8f6f4; border-radius: 8px;">
           <p><strong>Q5.</strong> 경쟁이 치열한 시장과 독점 시장을 비교하면?</p>
           <button class="tb-btn" onclick="checkSurplus(4, 'A')">경쟁 시장의 총잉여가 더 크다</button>
           <button class="tb-btn" onclick="checkSurplus(4, 'B')">독점 시장의 총잉여가 더 크다</button>
@@ -361,7 +361,7 @@ function init() {
           datasets: [
             { label: '소비자잉여', data: csRegion, showLine: true, fill: true, backgroundColor: 'rgba(59,130,246,0.25)', borderColor: 'rgba(59,130,246,0.5)', pointRadius: 0 },
             { label: '생산자잉여', data: psRegion, showLine: true, fill: true, backgroundColor: 'rgba(245,158,11,0.25)', borderColor: 'rgba(245,158,11,0.5)', pointRadius: 0 },
-            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3, fill: false },
+            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#c47a52', pointRadius: 0, borderWidth: 3, fill: false },
             { label: '공급곡선', data: sLine, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3, fill: false },
             { label: '시장 가격', data: [{ x: 0, y: price }, { x: 16, y: price }], showLine: true, borderColor: '#ef4444', borderDash: [6, 4], pointRadius: 0 }
           ]
@@ -445,7 +445,7 @@ function init() {
         data: {
           datasets: [
             { label: '정부 세수', data: govRegion, showLine: true, fill: true, backgroundColor: 'rgba(139,92,246,0.2)', borderColor: 'rgba(139,92,246,0.5)', pointRadius: 0 },
-            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 3, fill: false },
+            { label: '수요곡선', data: dLine, showLine: true, borderColor: '#c47a52', pointRadius: 0, borderWidth: 3, fill: false },
             { label: '원래 공급곡선', data: sLine, showLine: true, borderColor: 'rgba(245,158,11,0.3)', pointRadius: 0, borderDash: [4,4], fill: false },
             { label: '세금 후 공급곡선', data: sTaxLine, showLine: true, borderColor: '#f59e0b', pointRadius: 0, borderWidth: 3, fill: false },
             { label: '소비자 가격', data: [{ x: 0, y: buyerPrice }, { x: newEqQ, y: buyerPrice }], showLine: true, borderColor: '#ef4444', borderDash: [5,3], pointRadius: 0 },

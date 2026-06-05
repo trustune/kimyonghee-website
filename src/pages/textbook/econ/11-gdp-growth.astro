@@ -113,7 +113,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="GDP 총액" value="-" id="gdp-total" borderColor="#059669" />
-      <StatBox label="소비 비중" value="-" id="gdp-c-pct" borderColor="#3b82f6" />
+      <StatBox label="소비 비중" value="-" id="gdp-c-pct" borderColor="#c47a52" />
       <StatBox label="투자 비중" value="-" id="gdp-i-pct" borderColor="#f59e0b" />
     </div>
 
@@ -167,7 +167,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="명목 GDP" value="-" id="nom-gdp" borderColor="#f59e0b" />
       <StatBox label="실질 GDP" value="-" id="real-gdp" borderColor="#059669" />
-      <StatBox label="GDP 디플레이터" value="-" id="deflator" borderColor="#7c3aed" />
+      <StatBox label="GDP 디플레이터" value="-" id="deflator" borderColor="#834f63" />
     </div>
 
     <SimControls>
@@ -219,7 +219,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="선택 연도" value="-" id="growth-year" borderColor="#059669" />
       <StatBox label="성장률" value="-" id="growth-rate" borderColor="#10b981" />
-      <StatBox label="60년 평균" value="6.8%" id="growth-avg" borderColor="#0d9488" />
+      <StatBox label="60년 평균" value="6.8%" id="growth-avg" borderColor="#2f7d72" />
     </div>
 
     <ChartContainer id="growthChart" height="380px" />
@@ -343,7 +343,7 @@ function init() {
       labels: ['소비 (C)', '투자 (I)', '정부 지출 (G)', '순수출 (NX)'],
       datasets: [{
         data: [980, 620, 360, 40],
-        backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#8b5cf6'],
+        backgroundColor: ['#c47a52', '#f59e0b', '#10b981', '#a06b7c'],
         borderWidth: 2,
         borderColor: '#fff'
       }]

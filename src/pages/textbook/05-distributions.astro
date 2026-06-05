@@ -628,8 +628,8 @@ async function generateDistribution() {
         {
           label: '히스토그램 (밀도)',
           data: density,
-          backgroundColor: '#2563eb55',
-          borderColor: '#2563eb',
+          backgroundColor: '#a85a3855',
+          borderColor: '#a85a38',
           borderWidth: 1,
           borderRadius: 2,
           order: 2,
@@ -738,7 +738,7 @@ async function drawSamplingDist() {
   if (cltMeans.length < 2) {
     cltSampChart = new Chart(canvas, {
       type: 'bar',
-      data: { labels: [], datasets: [{ data: [], backgroundColor: '#2563eb55' }] },
+      data: { labels: [], datasets: [{ data: [], backgroundColor: '#a85a3855' }] },
       options: { responsive: true, maintainAspectRatio: false, animation: false,
         plugins: { legend: { display: false } },
         scales: { y: { beginAtZero: true } }
@@ -765,8 +765,8 @@ async function drawSamplingDist() {
         {
           label: '표본평균 분포',
           data: hist,
-          backgroundColor: '#2563eb55',
-          borderColor: '#2563eb',
+          backgroundColor: '#a85a3855',
+          borderColor: '#a85a38',
           borderWidth: 1,
           borderRadius: 2,
           order: 2,
@@ -890,7 +890,7 @@ async function drawNormalExplorer() {
         {
           label: '정규분포 곡선',
           data: ys,
-          borderColor: '#2563eb',
+          borderColor: '#a85a38',
           borderWidth: 2,
           pointRadius: 0,
           fill: false,
@@ -899,7 +899,7 @@ async function drawNormalExplorer() {
         {
           label: `P(${a} < X < ${b})`,
           data: fills,
-          backgroundColor: '#2563eb33',
+          backgroundColor: '#a85a3833',
           borderColor: 'transparent',
           pointRadius: 0,
           fill: 'origin',
@@ -988,8 +988,8 @@ async function generateQQData() {
       datasets: [{
         label: '빈도',
         data: hist,
-        backgroundColor: '#7c3aed55',
-        borderColor: '#7c3aed',
+        backgroundColor: '#834f6355',
+        borderColor: '#834f63',
         borderWidth: 1,
         borderRadius: 2,
       }]
@@ -1029,7 +1029,7 @@ async function generateQQData() {
         {
           label: 'QQ점',
           data: theoretical.map((t, i) => ({ x: t, y: standardized[i] })),
-          backgroundColor: '#2563eb88',
+          backgroundColor: '#a85a3888',
           pointRadius: 3,
           order: 2,
         },

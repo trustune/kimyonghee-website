@@ -78,7 +78,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <FormulaBox>
       <span class="hl">Self-Attention 핵심 수식:</span><br>
       Attention(Q, K, V) = softmax(Q * K^T / sqrt(d_k)) * V<br>
-      <span style="font-size: 0.85rem; color: #94a3b8;">Q=Query(질문), K=Key(열쇠), V=Value(값). 각 단어가 Q, K, V를 동시에 가진다.</span>
+      <span style="font-size: 0.85rem; color: #a39d96;">Q=Query(질문), K=Key(열쇠), V=Value(값). 각 단어가 Q, K, V를 동시에 가진다.</span>
     </FormulaBox>
 
     <BusinessBox>
@@ -381,7 +381,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
       <li>AI의 사회적 영향(편향, 프라이버시, 윤리)은 기술만큼 중요한 주제이다.</li>
     </ul>
 
-    <div style="margin-top: 20px; padding: 18px; background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(124,58,237,0.1)); border-radius: var(--tb-radius);">
+    <div style="margin-top: 20px; padding: 18px; background: color-mix(in srgb, var(--tb-primary) 8%, var(--tb-g50)); border: 1px solid color-mix(in srgb, var(--tb-primary) 32%, var(--tb-g200)); border-radius: var(--tb-radius);">
       <strong style="font-size: 1.1rem; color: var(--tb-primary);">교과서를 마치며</strong>
       <p style="margin-top: 10px;">
         35장을 마칩니다.
@@ -443,7 +443,7 @@ function drawHeatmap(sentIdx) {
   // Column labels (top)
   ctx.font = '11px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   sent.words.forEach((w, i) => {
     ctx.fillText(w, pad + i * cellW + cellW / 2, pad - 8);
   });
@@ -463,7 +463,7 @@ function drawHeatmap(sentIdx) {
       ctx.fillRect(pad + c * cellW, pad + r * cellH, cellW - 1, cellH - 1);
 
       // Value text
-      ctx.fillStyle = val > 0.3 ? '#fff' : '#475569';
+      ctx.fillStyle = val > 0.3 ? '#fff' : '#58514a';
       ctx.font = '10px Paperlogy, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -473,7 +473,7 @@ function drawHeatmap(sentIdx) {
 
   // Highlight selected row
   if (selectedWord >= 0 && selectedWord < n) {
-    ctx.strokeStyle = '#2563eb';
+    ctx.strokeStyle = '#a85a38';
     ctx.lineWidth = 2;
     ctx.strokeRect(pad, pad + selectedWord * cellH, (W - pad), cellH);
   }
@@ -498,7 +498,7 @@ function drawAttnLines(sentIdx) {
   sent.words.forEach((w, i) => {
     const x = xPad + (i / (n - 1 || 1)) * (W - 2 * xPad);
 
-    ctx.fillStyle = (i === selectedWord) ? '#2563eb' : '#475569';
+    ctx.fillStyle = (i === selectedWord) ? '#a85a38' : '#58514a';
     ctx.font = (i === selectedWord) ? 'bold 14px Paperlogy, sans-serif' : '13px Paperlogy, sans-serif';
     ctx.fillText(w, x, yTop - 10);
     ctx.fillText(w, x, yBottom + 20);
@@ -506,7 +506,7 @@ function drawAttnLines(sentIdx) {
     // Dots
     ctx.beginPath();
     ctx.arc(x, yTop, 5, 0, Math.PI * 2);
-    ctx.fillStyle = (i === selectedWord) ? '#2563eb' : '#94a3b8';
+    ctx.fillStyle = (i === selectedWord) ? '#a85a38' : '#a39d96';
     ctx.fill();
 
     ctx.beginPath();
@@ -674,7 +674,7 @@ function updateGenChart(top5) {
 
   const labels = top5.map(([w]) => w);
   const data = top5.map(([, p]) => (p * 100));
-  const bgColors = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'];
+  const bgColors = ['#a85a38', '#c47a52', '#d49a78', '#e3b89c', '#ecd6c4'];
 
   if (genChart) {
     genChart.data.labels = labels;
@@ -734,14 +734,14 @@ function drawCompCanvas(canvasId, words, active, connections) {
     const x = xPad + i * gap;
     const isActive = active.includes(i);
 
-    ctx.fillStyle = isActive ? '#2563eb' : '#e2e8f0';
+    ctx.fillStyle = isActive ? '#a85a38' : '#e4e0da';
     const boxW = 60, boxH = 36;
     ctx.beginPath();
     ctx.roundRect(x - boxW / 2, yCenter - boxH / 2, boxW, boxH, 8);
     ctx.fill();
 
     ctx.font = isActive ? 'bold 11px Paperlogy, sans-serif' : '11px Paperlogy, sans-serif';
-    ctx.fillStyle = isActive ? '#fff' : '#475569';
+    ctx.fillStyle = isActive ? '#fff' : '#58514a';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(w, x, yCenter);

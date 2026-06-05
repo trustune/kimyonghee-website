@@ -117,7 +117,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="한국 비교우위" value="-" id="ca-kr" borderColor="#059669" />
       <StatBox label="베트남 비교우위" value="-" id="ca-vn" borderColor="#f59e0b" />
-      <StatBox label="무역 이득" value="-" id="ca-gain" borderColor="#3b82f6" />
+      <StatBox label="무역 이득" value="-" id="ca-gain" borderColor="#c47a52" />
     </div>
 
     <SimControls>
@@ -159,7 +159,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="관세율" value="-" id="tariff-rate" borderColor="#ef4444" />
       <StatBox label="국내 가격" value="-" id="tariff-price" borderColor="#f59e0b" />
-      <StatBox label="정부 관세 수입" value="-" id="tariff-revenue" borderColor="#3b82f6" />
+      <StatBox label="정부 관세 수입" value="-" id="tariff-revenue" borderColor="#c47a52" />
       <StatBox label="사중손실" value="-" id="tariff-dwl" borderColor="#dc2626" />
     </div>
 
@@ -214,7 +214,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="총 수출" value="-" id="trade-export" borderColor="#059669" />
       <StatBox label="총 수입" value="-" id="trade-import" borderColor="#ef4444" />
-      <StatBox label="무역수지" value="-" id="trade-balance" borderColor="#3b82f6" />
+      <StatBox label="무역수지" value="-" id="trade-balance" borderColor="#c47a52" />
     </div>
 
     <ChartContainer id="tradeChart" height="380px" />
@@ -429,7 +429,7 @@ function init() {
     type: 'scatter',
     data: {
       datasets: [
-        { label: '수요', data: getDemandPts(), showLine: true, borderColor: '#3b82f6', pointRadius: 0, borderWidth: 2, fill: false },
+        { label: '수요', data: getDemandPts(), showLine: true, borderColor: '#c47a52', pointRadius: 0, borderWidth: 2, fill: false },
         { label: '공급', data: getSupplyPts(), showLine: true, borderColor: '#ef4444', pointRadius: 0, borderWidth: 2, fill: false },
         { label: '세계 가격', data: [{ x: 0, y: worldPrice }, { x: 200, y: worldPrice }], showLine: true, borderColor: '#059669', borderWidth: 2, borderDash: [6, 3], pointRadius: 0, fill: false },
         { label: '관세 후 가격', data: [], showLine: true, borderColor: '#f59e0b', borderWidth: 3, borderDash: [6, 3], pointRadius: 0, fill: false }
@@ -510,7 +510,7 @@ function init() {
         {
           label: '무역수지',
           data: balance,
-          borderColor: '#3b82f6',
+          borderColor: '#c47a52',
           backgroundColor: balance.map(function(v) { return v >= 0 ? 'rgba(59,130,246,0.3)' : 'rgba(239,68,68,0.3)'; }),
           borderWidth: 2,
           fill: true,

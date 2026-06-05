@@ -137,3 +137,14 @@ git add .
 git commit -m "message"
 git push origin main
 ```
+
+---
+
+## Design Context (impeccable)
+
+This project is set up for the `impeccable` design skill. Read these before any UI / visual work:
+
+- **`PRODUCT.md`** (strategic): register = **brand**; warm, approachable, scholarly. Anti-references: generic AI/SaaS look, flashy marketing landing. Core rule: warmth comes from accent/type/imagery, **never a beige/cream background**.
+- **`DESIGN.md`** (visual): North Star **"The Reading Room"**. Near-monochrome ink-on-white + one **terracotta accent** (`oklch(50% 0.12 42)`); Source Serif 4 headings + Inter body; flat by default; WCAG AA. `.impeccable/design.json` is the live-panel sidecar.
+
+Quick commands: `/impeccable audit` (technical check), `/impeccable critique <page>` (UX review), `/impeccable polish <area>` (pre-ship pass), `/impeccable live` (in-browser variants). Open backlog from the last audit: add global `prefers-reduced-motion` alternatives; replace `border-left` accent stripes in `src/styles/textbook.css` with hairline borders.

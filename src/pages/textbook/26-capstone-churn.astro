@@ -507,7 +507,7 @@ function drawEDA() {
     }
 
     // Axis labels
-    ctx.fillStyle = '#1e293b'; ctx.font = '12px Paperlogy'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#2c2823'; ctx.font = '12px Paperlogy'; ctx.textAlign = 'center';
     for (let i = 0; i <= 5; i++) {
       const val = min + (max - min) * i / 5;
       ctx.fillText(val.toFixed(1), margin.left + plotW * i / 5, H - 10);
@@ -516,7 +516,7 @@ function drawEDA() {
     // Legend
     ctx.fillStyle = 'rgba(37, 99, 235, 0.6)'; ctx.fillRect(W - 150, 15, 14, 14);
     ctx.fillStyle = 'rgba(239, 68, 68, 0.6)'; ctx.fillRect(W - 150, 35, 14, 14);
-    ctx.fillStyle = '#1e293b'; ctx.textAlign = 'left'; ctx.font = '12px Paperlogy';
+    ctx.fillStyle = '#2c2823'; ctx.textAlign = 'left'; ctx.font = '12px Paperlogy';
     ctx.fillText('유지', W - 130, 27);
     ctx.fillText('이탈', W - 130, 47);
 
@@ -547,13 +547,13 @@ function drawEDA() {
       ctx.fillStyle = 'rgba(239, 68, 68, 0.6)';
       ctx.fillRect(x + barW + 2, margin.top + plotH - hY, barW, hY);
 
-      ctx.fillStyle = '#1e293b'; ctx.font = '11px Paperlogy'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#2c2823'; ctx.font = '11px Paperlogy'; ctx.textAlign = 'center';
       ctx.fillText(cat, x + barW, H - 10);
     });
 
     ctx.fillStyle = 'rgba(37, 99, 235, 0.6)'; ctx.fillRect(W - 150, 15, 14, 14);
     ctx.fillStyle = 'rgba(239, 68, 68, 0.6)'; ctx.fillRect(W - 150, 35, 14, 14);
-    ctx.fillStyle = '#1e293b'; ctx.textAlign = 'left'; ctx.font = '12px Paperlogy';
+    ctx.fillStyle = '#2c2823'; ctx.textAlign = 'left'; ctx.font = '12px Paperlogy';
     ctx.fillText('유지', W - 130, 27);
     ctx.fillText('이탈', W - 130, 47);
 
@@ -568,7 +568,7 @@ function drawEDA() {
   }
 
   // Y axis
-  ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1;
+  ctx.strokeStyle = '#d6d3cf'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(margin.left, margin.top); ctx.lineTo(margin.left, margin.top + plotH); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(margin.left, margin.top + plotH); ctx.lineTo(margin.left + plotW, margin.top + plotH); ctx.stroke();
 }
@@ -832,7 +832,7 @@ function drawModelComparison() {
   const keys = ['lr', 'dt', 'rf', 'knn'];
   const metrics = ['accuracy', 'precision', 'recall', 'f1'];
   const mLabels = ['Accuracy', 'Precision', 'Recall', 'F1'];
-  const colors = ['#2563eb', '#22c55e', '#f59e0b', '#ef4444'];
+  const colors = ['#a85a38', '#22c55e', '#f59e0b', '#ef4444'];
   const margin = { top: 30, right: 20, bottom: 50, left: 50 };
   const plotW = W - margin.left - margin.right;
   const plotH = H - margin.top - margin.bottom;
@@ -847,7 +847,7 @@ function drawModelComparison() {
       ctx.fillStyle = colors[mi];
       ctx.fillRect(x, margin.top + plotH - h, barW * 0.7, h);
     });
-    ctx.fillStyle = '#1e293b'; ctx.font = '11px Paperlogy'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#2c2823'; ctx.font = '11px Paperlogy'; ctx.textAlign = 'center';
     ctx.fillText(names[gi], margin.left + gi * groupW + groupW / 2, H - 10);
   });
 
@@ -855,7 +855,7 @@ function drawModelComparison() {
   metrics.forEach((m, i) => {
     ctx.fillStyle = colors[i];
     ctx.fillRect(W - 140, 15 + i * 18, 12, 12);
-    ctx.fillStyle = '#1e293b'; ctx.textAlign = 'left';
+    ctx.fillStyle = '#2c2823'; ctx.textAlign = 'left';
     ctx.fillText(mLabels[i], W - 122, 25 + i * 18);
   });
 }

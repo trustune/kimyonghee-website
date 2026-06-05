@@ -83,7 +83,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="균형 임금" value="-" id="lm-wage" borderColor="#059669" />
-      <StatBox label="고용량" value="-" id="lm-employ" borderColor="#3b82f6" />
+      <StatBox label="고용량" value="-" id="lm-employ" borderColor="#c47a52" />
       <StatBox label="실업" value="0명" id="lm-unemp" borderColor="#ef4444" />
     </div>
 
@@ -178,7 +178,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="최저시급" value="9,860원" id="mw-wage" borderColor="#059669" />
-      <StatBox label="고용 변화" value="0%" id="mw-employ" borderColor="#3b82f6" />
+      <StatBox label="고용 변화" value="0%" id="mw-employ" borderColor="#c47a52" />
       <StatBox label="총 임금소득" value="-" id="mw-total" borderColor="#f59e0b" />
       <StatBox label="실업 변화" value="-" id="mw-unemp" borderColor="#ef4444" />
     </div>
@@ -234,7 +234,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="총 투자비용" value="-" id="hc-cost" borderColor="#ef4444" />
       <StatBox label="생애 소득 차이" value="-" id="hc-premium" borderColor="#059669" />
-      <StatBox label="NPV" value="-" id="hc-npv" borderColor="#3b82f6" />
+      <StatBox label="NPV" value="-" id="hc-npv" borderColor="#c47a52" />
       <StatBox label="투자 수익률" value="-" id="hc-roi" borderColor="#f59e0b" />
     </div>
 
@@ -375,7 +375,7 @@ waitForChart(function init() {
     /* 원래 곡선 점선 */
     labCtx.setLineDash([6, 4]);
     labCtx.lineWidth = 1.5;
-    labCtx.strokeStyle = '#93c5fd';
+    labCtx.strokeStyle = '#e3b89c';
     labCtx.beginPath();
     labCtx.moveTo(toX(0), toY(85));
     labCtx.lineTo(toX(100), toY(85 - 80));
@@ -388,7 +388,7 @@ waitForChart(function init() {
     labCtx.setLineDash([]);
 
     /* 이동된 수요곡선 */
-    labCtx.strokeStyle = '#2563eb';
+    labCtx.strokeStyle = '#a85a38';
     labCtx.lineWidth = 3;
     labCtx.beginPath();
     labCtx.moveTo(toX(0), toY(Math.min(100, Math.max(0, dInt))));
@@ -477,7 +477,7 @@ waitForChart(function init() {
     /* 레이블 */
     labCtx.font = 'bold 14px sans-serif';
     labCtx.textAlign = 'left';
-    labCtx.fillStyle = '#2563eb';
+    labCtx.fillStyle = '#a85a38';
     labCtx.fillText('노동 수요 (D)', toX(70), toY(dInt - 56) + 20);
     labCtx.fillStyle = '#dc2626';
     labCtx.fillText('노동 공급 (S)', toX(70), toY(sInt + 35) - 10);
@@ -505,9 +505,9 @@ waitForChart(function init() {
     data: {
       labels: ageGroups,
       datasets: [
-        { label: '남성', data: maleRate, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', borderWidth: 3, tension: 0.4, fill: true, pointRadius: 4 },
+        { label: '남성', data: maleRate, borderColor: '#c47a52', backgroundColor: 'rgba(59,130,246,0.1)', borderWidth: 3, tension: 0.4, fill: true, pointRadius: 4 },
         { label: '여성', data: femaleRate, borderColor: '#ec4899', backgroundColor: 'rgba(236,72,153,0.1)', borderWidth: 3, tension: 0.4, fill: true, pointRadius: 4 },
-        { label: 'OECD 평균 (여성)', data: oecdFemale, borderColor: '#a855f7', borderWidth: 2, borderDash: [6, 3], tension: 0.4, fill: false, pointRadius: 3, hidden: true }
+        { label: 'OECD 평균 (여성)', data: oecdFemale, borderColor: '#a06b7c', borderWidth: 2, borderDash: [6, 3], tension: 0.4, fill: false, pointRadius: 3, hidden: true }
       ]
     },
     options: {
@@ -612,7 +612,7 @@ waitForChart(function init() {
       labels: [],
       datasets: [
         { label: '고졸 누적 소득 (만원)', data: [], borderColor: '#f59e0b', borderWidth: 2, tension: 0.1, fill: false, pointRadius: 0 },
-        { label: '대졸 누적 소득 (만원)', data: [], borderColor: '#3b82f6', borderWidth: 2, tension: 0.1, fill: false, pointRadius: 0 }
+        { label: '대졸 누적 소득 (만원)', data: [], borderColor: '#c47a52', borderWidth: 2, tension: 0.1, fill: false, pointRadius: 0 }
       ]
     },
     options: {

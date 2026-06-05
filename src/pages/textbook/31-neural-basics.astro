@@ -58,7 +58,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <FormulaBox>
       <span class="hl">z</span> = w1 * x1 + w2 * x2 + b<br>
       <span class="hl">a</span> = sigma(z) = 1 / (1 + e<sup>-z</sup>)<br>
-      <span style="font-size: 0.85rem; color: #94a3b8;">시그모이드 함수: z가 크면 1에 가깝고, z가 작으면 0에 가까운 값을 출력</span>
+      <span style="font-size: 0.85rem; color: #a39d96;">시그모이드 함수: z가 크면 1에 가깝고, z가 작으면 0에 가까운 값을 출력</span>
     </FormulaBox>
 
     <BusinessBox>
@@ -212,7 +212,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <FormulaBox>
       <span class="hl">이진 교차 엔트로피 손실:</span><br>
       L = -[ y * log(a) + (1 - y) * log(1 - a) ]<br>
-      <span style="font-size: 0.85rem; color: #94a3b8;">y=1일 때 a가 1에 가까우면 손실이 작고, y=0일 때 a가 0에 가까우면 손실이 작다</span>
+      <span style="font-size: 0.85rem; color: #a39d96;">y=1일 때 a가 1에 가까우면 손실이 작고, y=0일 때 a가 0에 가까우면 손실이 작다</span>
     </FormulaBox>
 
     <ExplainBox>
@@ -235,7 +235,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <FormulaBox>
       <span class="hl">가중치 업데이트 규칙:</span><br>
       w := w - lr * (dL/dw)<br>
-      <span style="font-size: 0.85rem; color: #94a3b8;">lr = 학습률(learning rate), dL/dw = 손실의 가중치에 대한 기울기</span>
+      <span style="font-size: 0.85rem; color: #a39d96;">lr = 학습률(learning rate), dL/dw = 손실의 가중치에 대한 기울기</span>
     </FormulaBox>
   </div>
 
@@ -615,7 +615,7 @@ function drawNeuronCanvas() {
   }
 
   // Draw grid
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#e4e0da';
   ctx.lineWidth = 0.5;
   for (let v = 0; v <= 1; v += 0.5) {
     ctx.beginPath();
@@ -629,7 +629,7 @@ function drawNeuronCanvas() {
   }
 
   // Draw axes
-  ctx.strokeStyle = '#94a3b8';
+  ctx.strokeStyle = '#a39d96';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(pad, H - pad);
@@ -639,7 +639,7 @@ function drawNeuronCanvas() {
   ctx.stroke();
 
   // Axis labels
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '12px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('x1', W / 2, H - 8);
@@ -662,7 +662,7 @@ function drawNeuronCanvas() {
   });
 
   // Draw decision boundary: w1*x1 + w2*x2 + b = 0
-  ctx.strokeStyle = '#7c3aed';
+  ctx.strokeStyle = '#834f63';
   ctx.lineWidth = 2.5;
   ctx.setLineDash([6, 4]);
   ctx.beginPath();
@@ -694,7 +694,7 @@ function drawNeuronCanvas() {
 
     ctx.beginPath();
     ctx.arc(cx, cy, 10, 0, 2 * Math.PI);
-    ctx.fillStyle = d.y === 1 ? '#ef4444' : '#2563eb';
+    ctx.fillStyle = d.y === 1 ? '#ef4444' : '#a85a38';
     ctx.fill();
     ctx.strokeStyle = isCorrect ? '#22c55e' : '#fbbf24';
     ctx.lineWidth = isCorrect ? 2 : 3;
@@ -762,10 +762,10 @@ async function drawActivationCharts() {
   const derivDatasets = [];
 
   const colors = {
-    sigmoid: '#2563eb',
+    sigmoid: '#a85a38',
     relu: '#ef4444',
     tanh: '#22c55e',
-    step: '#7c3aed'
+    step: '#834f63'
   };
 
   if (showSigmoid) {
@@ -796,7 +796,7 @@ async function drawActivationCharts() {
       const xPixel = xScale.getPixelForValue(idx);
       const ctx = chart.ctx;
       ctx.save();
-      ctx.strokeStyle = '#94a3b8';
+      ctx.strokeStyle = '#a39d96';
       ctx.lineWidth = 1;
       ctx.setLineDash([4, 4]);
       ctx.beginPath();
@@ -908,7 +908,7 @@ function drawGDCanvas() {
   ctx.putImageData(imgData, 0, 0);
 
   // Draw contour lines
-  ctx.strokeStyle = '#475569';
+  ctx.strokeStyle = '#58514a';
   ctx.lineWidth = 0.8;
   const step = 2;
   contourLevels.forEach(level => {
@@ -939,7 +939,7 @@ function drawGDCanvas() {
   ctx.stroke();
 
   // Axis labels
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '12px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('w1', W / 2, H - 5);
@@ -973,7 +973,7 @@ function drawGDCanvas() {
   if (gdStartPoint && gdPath.length <= 1) {
     ctx.beginPath();
     ctx.arc(toX(gdStartPoint[0]), toY(gdStartPoint[1]), 6, 0, 2 * Math.PI);
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#a85a38';
     ctx.fill();
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 2;
@@ -1114,7 +1114,7 @@ function drawXORBoundary() {
   DATA_XOR.forEach(d => {
     ctx.beginPath();
     ctx.arc(toX(d.x[0]), toY(d.x[1]), 12, 0, 2 * Math.PI);
-    ctx.fillStyle = d.y === 1 ? '#ef4444' : '#2563eb';
+    ctx.fillStyle = d.y === 1 ? '#ef4444' : '#a85a38';
     ctx.fill();
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 2;
@@ -1127,7 +1127,7 @@ function drawXORBoundary() {
   });
 
   // Axes
-  ctx.strokeStyle = '#94a3b8';
+  ctx.strokeStyle = '#a39d96';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(pad, H - pad);
@@ -1136,7 +1136,7 @@ function drawXORBoundary() {
   ctx.lineTo(pad, H - pad);
   ctx.stroke();
 
-  ctx.fillStyle = '#475569';
+  ctx.fillStyle = '#58514a';
   ctx.font = '11px Paperlogy, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('x1', W / 2, H - 8);
@@ -1302,7 +1302,7 @@ function drawNNBoundary() {
   nnData.forEach(d => {
     ctx.beginPath();
     ctx.arc(toX(d.x[0]), toY(d.x[1]), 4, 0, 2 * Math.PI);
-    ctx.fillStyle = d.y === 1 ? '#ef4444' : '#2563eb';
+    ctx.fillStyle = d.y === 1 ? '#ef4444' : '#a85a38';
     ctx.fill();
   });
 }
@@ -1329,7 +1329,7 @@ function updateNNLossChart(history) {
   } else {
     nnLossChart = new Chart(canvas, {
       type: 'line',
-      data: { labels, datasets: [{ label: '손실', data, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, pointRadius: 0, borderWidth: 2 }] },
+      data: { labels, datasets: [{ label: '손실', data, borderColor: '#a85a38', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, pointRadius: 0, borderWidth: 2 }] },
       options: {
         responsive: true, maintainAspectRatio: false, animation: false,
         plugins: { legend: { display: false } },

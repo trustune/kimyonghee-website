@@ -338,7 +338,7 @@ function randNorm(mu = 0, sigma = 1) {
   return mu + sigma * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
 }
 
-const COLORS = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed', '#06b6d4', '#ec4899', '#84cc16', '#f97316', '#14b8a6'];
+const COLORS = ['#a85a38', '#ef4444', '#22c55e', '#f59e0b', '#834f63', '#2f7d72', '#ec4899', '#84cc16', '#f97316', '#14b8a6'];
 
 function generateBlobData(pattern = 'blobs') {
   const data = [];
@@ -504,7 +504,7 @@ function drawKM() {
   kmData.forEach(p => {
     ctx.beginPath();
     ctx.arc(sx(p.x), sy(p.y), 4, 0, 2 * Math.PI);
-    ctx.fillStyle = p.cluster >= 0 ? COLORS[p.cluster % COLORS.length] + 'aa' : '#94a3b8';
+    ctx.fillStyle = p.cluster >= 0 ? COLORS[p.cluster % COLORS.length] + 'aa' : '#a39d96';
     ctx.fill();
   });
 
@@ -517,7 +517,7 @@ function drawKM() {
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 3;
     ctx.stroke();
-    ctx.strokeStyle = '#1e293b';
+    ctx.strokeStyle = '#2c2823';
     ctx.lineWidth = 1.5;
     ctx.stroke();
     // Cross marker
@@ -548,7 +548,7 @@ function runElbowAnalysis() {
   }
 
   // Draw elbow chart
-  drawLineChart('canvas-elbow', inertias, '관성 (Inertia)', '#2563eb');
+  drawLineChart('canvas-elbow', inertias, '관성 (Inertia)', '#a85a38');
   drawLineChart('canvas-silhouette', silhouettes, '실루엣 점수', '#22c55e');
 
   // Find elbow (biggest drop)
@@ -579,7 +579,7 @@ function drawLineChart(canvasId, values, label, color) {
   const range = maxV - minV || 1;
 
   // Grid lines
-  ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 0.5;
+  ctx.strokeStyle = '#e4e0da'; ctx.lineWidth = 0.5;
   for (let i = 0; i <= 4; i++) {
     const y = margin.top + plotH * i / 4;
     ctx.beginPath(); ctx.moveTo(margin.left, y); ctx.lineTo(margin.left + plotW, y); ctx.stroke();
@@ -607,7 +607,7 @@ function drawLineChart(canvasId, values, label, color) {
   });
 
   // X axis labels
-  ctx.fillStyle = '#1e293b'; ctx.font = '11px Paperlogy'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#2c2823'; ctx.font = '11px Paperlogy'; ctx.textAlign = 'center';
   values.forEach((_, i) => {
     const x = margin.left + (i / (values.length - 1)) * plotW;
     ctx.fillText('K=' + (i + 1), x, H - 8);
@@ -730,18 +730,18 @@ function drawSegCanvas(showClusters) {
   const sy = (y) => margin.top + plotH - (y - yMin) / (yMax - yMin) * plotH;
 
   // Grid
-  ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 0.5;
+  ctx.strokeStyle = '#e4e0da'; ctx.lineWidth = 0.5;
   for (let i = 0; i <= 4; i++) {
     const y = margin.top + plotH * i / 4;
     ctx.beginPath(); ctx.moveTo(margin.left, y); ctx.lineTo(margin.left + plotW, y); ctx.stroke();
   }
 
   // Axes
-  ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1;
+  ctx.strokeStyle = '#a39d96'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(margin.left, margin.top); ctx.lineTo(margin.left, margin.top + plotH); ctx.lineTo(margin.left + plotW, margin.top + plotH); ctx.stroke();
 
   // Labels
-  ctx.fillStyle = '#1e293b'; ctx.font = '12px Paperlogy'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#2c2823'; ctx.font = '12px Paperlogy'; ctx.textAlign = 'center';
   ctx.fillText('월 평균 지출 (만원)', margin.left + plotW / 2, H - 8);
   ctx.save(); ctx.translate(15, margin.top + plotH / 2); ctx.rotate(-Math.PI / 2);
   ctx.fillText('월 구매 횟수', 0, 0); ctx.restore();
@@ -750,7 +750,7 @@ function drawSegCanvas(showClusters) {
   segData.forEach(p => {
     ctx.beginPath();
     ctx.arc(sx(p.x), sy(p.y), 4, 0, 2 * Math.PI);
-    ctx.fillStyle = showClusters && p.cluster >= 0 ? COLORS[p.cluster % COLORS.length] + 'bb' : '#94a3b8';
+    ctx.fillStyle = showClusters && p.cluster >= 0 ? COLORS[p.cluster % COLORS.length] + 'bb' : '#a39d96';
     ctx.fill();
   });
 
@@ -760,7 +760,7 @@ function drawSegCanvas(showClusters) {
       ctx.beginPath(); ctx.arc(sx(c.x), sy(c.y), 10, 0, 2 * Math.PI);
       ctx.fillStyle = COLORS[i % COLORS.length]; ctx.fill();
       ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.stroke();
-      ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.strokeStyle = '#2c2823'; ctx.lineWidth = 1; ctx.stroke();
     });
   }
 }

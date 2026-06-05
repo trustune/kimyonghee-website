@@ -103,7 +103,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </div>
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="최적 생산량 (Q*)" value="-" id="mono-q" borderColor="#3b82f6" />
+      <StatBox label="최적 생산량 (Q*)" value="-" id="mono-q" borderColor="#c47a52" />
       <StatBox label="독점 가격 (P*)" value="-" id="mono-p" borderColor="#ef4444" />
       <StatBox label="독점 이윤" value="-" id="mono-profit" borderColor="#059669" />
       <StatBox label="사중손실(DWL)" value="-" id="mono-dwl" borderColor="#f59e0b" />
@@ -201,9 +201,9 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="가격" value="-" id="reg-price" borderColor="#ef4444" />
-      <StatBox label="생산량" value="-" id="reg-q" borderColor="#3b82f6" />
+      <StatBox label="생산량" value="-" id="reg-q" borderColor="#c47a52" />
       <StatBox label="기업 이윤" value="-" id="reg-profit" borderColor="#059669" />
-      <StatBox label="소비자잉여" value="-" id="reg-cs" borderColor="#6366f1" />
+      <StatBox label="소비자잉여" value="-" id="reg-cs" borderColor="#7a5a70" />
     </div>
 
     <ExerciseBox title="규제 딜레마">
@@ -404,13 +404,13 @@ waitForChart(function init() {
     ctx.fillRect(toX(0), toY(pStar), toX(qStar) - toX(0), toY(mc) - toY(pStar));
 
     /* 수요곡선 D */
-    ctx.strokeStyle = '#3b82f6';
+    ctx.strokeStyle = '#c47a52';
     ctx.lineWidth = 2.5;
     ctx.beginPath();
     ctx.moveTo(toX(0), toY(a));
     ctx.lineTo(toX(maxQ), toY(0));
     ctx.stroke();
-    ctx.fillStyle = '#3b82f6';
+    ctx.fillStyle = '#c47a52';
     ctx.fillText('D', toX(maxQ) - 15, toY(0) - 8);
 
     /* MR */
@@ -565,7 +565,7 @@ waitForChart(function init() {
     regCtx.beginPath(); regCtx.moveTo(pL, pT); regCtx.lineTo(pL, h - pB); regCtx.lineTo(w - pR, h - pB); regCtx.stroke();
 
     /* AC 곡선 (fc/Q + mc) */
-    regCtx.strokeStyle = '#8b5cf6'; regCtx.lineWidth = 2;
+    regCtx.strokeStyle = '#a06b7c'; regCtx.lineWidth = 2;
     regCtx.beginPath();
     for (var q = 2; q <= maxQ; q += 0.5) {
       var ac = fc / q + mcVal;
@@ -574,13 +574,13 @@ waitForChart(function init() {
       else regCtx.lineTo(tX(q), tY(ac));
     }
     regCtx.stroke();
-    regCtx.fillStyle = '#8b5cf6'; regCtx.font = '13px sans-serif'; regCtx.textAlign = 'left';
+    regCtx.fillStyle = '#a06b7c'; regCtx.font = '13px sans-serif'; regCtx.textAlign = 'left';
     regCtx.fillText('AC', tX(maxQ * 0.7), tY(fc / (maxQ * 0.7) + mcVal) - 8);
 
     /* D */
-    regCtx.strokeStyle = '#3b82f6'; regCtx.lineWidth = 2.5;
+    regCtx.strokeStyle = '#c47a52'; regCtx.lineWidth = 2.5;
     regCtx.beginPath(); regCtx.moveTo(tX(0), tY(aD)); regCtx.lineTo(tX(maxQ), tY(0)); regCtx.stroke();
-    regCtx.fillStyle = '#3b82f6'; regCtx.fillText('D', tX(maxQ) - 20, tY(0) - 8);
+    regCtx.fillStyle = '#c47a52'; regCtx.fillText('D', tX(maxQ) - 20, tY(0) - 8);
 
     /* MR */
     regCtx.strokeStyle = '#ef4444'; regCtx.lineWidth = 1.5; regCtx.setLineDash([6, 4]);
@@ -655,8 +655,8 @@ waitForChart(function init() {
   var lernerData = [
     { name: '의약품(특허)', p: 100, mc: 10, color: '#ef4444' },
     { name: '이동통신', p: 55, mc: 15, color: '#f59e0b' },
-    { name: '소프트웨어', p: 80, mc: 20, color: '#6366f1' },
-    { name: '자동차', p: 3000, mc: 2100, color: '#3b82f6' },
+    { name: '소프트웨어', p: 80, mc: 20, color: '#7a5a70' },
+    { name: '자동차', p: 3000, mc: 2100, color: '#c47a52' },
     { name: '항공', p: 200, mc: 150, color: '#14b8a6' },
     { name: '카페(스타벅스)', p: 5000, mc: 1500, color: '#ec4899' },
     { name: '편의점', p: 1500, mc: 1200, color: '#059669' },

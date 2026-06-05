@@ -483,7 +483,7 @@ function drawMarginCanvas() {
   if (norm > 0) {
     ctx.save();
     ctx.globalAlpha = 0.08;
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#6f6963';
     // Draw filled region between margin gutters
     const drawBoundaryLine = (offset) => {
       const pts = [];
@@ -520,9 +520,9 @@ function drawMarginCanvas() {
       ctx.stroke();
       ctx.setLineDash([]);
     };
-    drawLine(0, [], '#1e293b', 2.5);
+    drawLine(0, [], '#2c2823', 2.5);
     drawLine(1, [6, 4], '#ef4444', 1.5);
-    drawLine(-1, [6, 4], '#2563eb', 1.5);
+    drawLine(-1, [6, 4], '#a85a38', 1.5);
   }
 
   // Draw points
@@ -531,7 +531,7 @@ function drawMarginCanvas() {
     const isSV = svIndices.includes(i);
     ctx.beginPath();
     ctx.arc(px, py, isSV ? 9 : 5, 0, 2 * Math.PI);
-    ctx.fillStyle = p.label === 1 ? '#2563eb' : '#ef4444';
+    ctx.fillStyle = p.label === 1 ? '#a85a38' : '#ef4444';
     ctx.fill();
     if (isSV) {
       ctx.strokeStyle = '#fbbf24';
@@ -629,7 +629,7 @@ function drawCCanvas() {
   if (Math.abs(model.w2) > 0.001) {
     ctx.save();
     ctx.globalAlpha = 0.1;
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#6f6963';
     const upper = [], lower = [];
     for (let px = 0; px <= W; px += 5) {
       const dataX = xMin + (px - 30) / (W - 60) * (xMax - xMin);
@@ -650,9 +650,9 @@ function drawCCanvas() {
       ctx.lineTo(sx(xMax), sy((-model.w1 * xMax - model.b + offset) / model.w2));
       ctx.stroke(); ctx.setLineDash([]);
     };
-    drawLine(0, [], '#1e293b', 2.5);
-    drawLine(1, [6, 4], '#94a3b8', 1.5);
-    drawLine(-1, [6, 4], '#94a3b8', 1.5);
+    drawLine(0, [], '#2c2823', 2.5);
+    drawLine(1, [6, 4], '#a39d96', 1.5);
+    drawLine(-1, [6, 4], '#a39d96', 1.5);
   }
 
   // Count misclassifications and SVs
@@ -669,7 +669,7 @@ function drawCCanvas() {
     const val = p.label * (model.w1 * p.x + model.w2 * p.y + model.b);
     ctx.beginPath();
     ctx.arc(px, py, 5, 0, 2 * Math.PI);
-    ctx.fillStyle = p.label === 1 ? '#2563eb' : '#ef4444';
+    ctx.fillStyle = p.label === 1 ? '#a85a38' : '#ef4444';
     ctx.fill();
     if (val < 0) {
       ctx.strokeStyle = '#fbbf24';
@@ -731,7 +731,7 @@ function drawKernelCanvas() {
     }
 
     // Draw boundary contour
-    ctx.strokeStyle = '#1e293b';
+    ctx.strokeStyle = '#2c2823';
     ctx.lineWidth = 2;
     for (let px = 2; px < W - 2; px += 4) {
       for (let py = 2; py < H - 2; py += 4) {
@@ -749,7 +749,7 @@ function drawKernelCanvas() {
           s3 += p.label * Math.exp(-gamma * d3);
         });
         if ((s1 >= 0) !== (s2 >= 0) || (s1 >= 0) !== (s3 >= 0)) {
-          ctx.fillStyle = '#1e293b';
+          ctx.fillStyle = '#2c2823';
           ctx.fillRect(px, py, 2, 2);
         }
       }
@@ -773,7 +773,7 @@ function drawKernelCanvas() {
     // Draw failed linear boundary
     const model = trainLinearSVM(kernelData, 1, 0.005, 500);
     if (Math.abs(model.w2) > 0.001) {
-      ctx.beginPath(); ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2; ctx.setLineDash([8, 4]);
+      ctx.beginPath(); ctx.strokeStyle = '#a39d96'; ctx.lineWidth = 2; ctx.setLineDash([8, 4]);
       ctx.moveTo(sx(xMin), sy((-model.w1 * xMin - model.b) / model.w2));
       ctx.lineTo(sx(xMax), sy((-model.w1 * xMax - model.b) / model.w2));
       ctx.stroke(); ctx.setLineDash([]);
@@ -791,7 +791,7 @@ function drawKernelCanvas() {
   kernelData.forEach(p => {
     ctx.beginPath();
     ctx.arc(sx(p.x), sy(p.y), 5, 0, 2 * Math.PI);
-    ctx.fillStyle = p.label === 1 ? '#2563eb' : '#ef4444';
+    ctx.fillStyle = p.label === 1 ? '#a85a38' : '#ef4444';
     ctx.fill();
   });
 }
@@ -850,7 +850,7 @@ function drawComparison() {
 
     // Margin region (SVM only)
     if (isSVM && Math.abs(model.w2) > 0.001) {
-      ctx.save(); ctx.globalAlpha = 0.1; ctx.fillStyle = '#64748b';
+      ctx.save(); ctx.globalAlpha = 0.1; ctx.fillStyle = '#6f6963';
       const upper = [], lower = [];
       for (let px = 0; px <= W; px += 4) {
         const dx = xMin + (px - 20) / (W - 40) * (xMax - xMin);
@@ -866,7 +866,7 @@ function drawComparison() {
     // Decision boundary
     if (Math.abs(model.w2) > 0.001) {
       ctx.beginPath();
-      ctx.strokeStyle = isSVM ? '#1e293b' : '#7c3aed';
+      ctx.strokeStyle = isSVM ? '#2c2823' : '#834f63';
       ctx.lineWidth = 2.5;
       ctx.moveTo(sx(xMin), sy((-model.w1 * xMin - model.b) / model.w2));
       ctx.lineTo(sx(xMax), sy((-model.w1 * xMax - model.b) / model.w2));
@@ -877,7 +877,7 @@ function drawComparison() {
     compareData.forEach(p => {
       ctx.beginPath();
       ctx.arc(sx(p.x), sy(p.y), 4, 0, 2 * Math.PI);
-      ctx.fillStyle = p.label === 1 ? '#2563eb' : '#ef4444';
+      ctx.fillStyle = p.label === 1 ? '#a85a38' : '#ef4444';
       ctx.fill();
     });
   });

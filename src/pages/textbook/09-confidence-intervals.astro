@@ -276,7 +276,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
     <div id="poll-result" style="display: none;"></div>
 
     <div class="tb-stat-row" id="poll-stats" style="display: none;">
-      <StatBox label="A 후보 CI" id="poll-ci-a" value="-" borderColor="#2563eb" />
+      <StatBox label="A 후보 CI" id="poll-ci-a" value="-" borderColor="#a85a38" />
       <StatBox label="B 후보 CI" id="poll-ci-b" value="-" borderColor="#ef4444" />
       <StatBox label="오차범위" id="poll-moe" value="-" />
       <StatBox label="판정" id="poll-verdict" value="-" />
@@ -425,7 +425,7 @@ function run100CIs() {
   ctx.fillText('True mean = ' + TRUE_MEAN, trueX, 15);
 
   // Draw x-axis
-  ctx.strokeStyle = '#cbd5e1';
+  ctx.strokeStyle = '#d6d3cf';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(40, H - 35);
@@ -433,7 +433,7 @@ function run100CIs() {
   ctx.stroke();
 
   // Axis ticks
-  ctx.fillStyle = '#64748b';
+  ctx.fillStyle = '#6f6963';
   ctx.font = '10px sans-serif';
   for (let v = Math.ceil(xMin / 20) * 20; v <= xMax; v += 20) {
     const x = toX(v);
@@ -462,7 +462,7 @@ function run100CIs() {
     if (containsMean) hit++; else miss++;
 
     const y = 25 + i * gap;
-    const color = containsMean ? '#2563eb' : '#ef4444';
+    const color = containsMean ? '#a85a38' : '#ef4444';
 
     ctx.strokeStyle = color;
     ctx.lineWidth = barH;
@@ -542,9 +542,9 @@ function updateCIWidth() {
 
   // CI bar
   const barY = H / 2 - 10;
-  ctx.fillStyle = '#2563eb22';
+  ctx.fillStyle = '#a85a3822';
   ctx.fillRect(toX(lower), barY - 15, toX(upper) - toX(lower), 30);
-  ctx.strokeStyle = '#2563eb';
+  ctx.strokeStyle = '#a85a38';
   ctx.lineWidth = 3;
   ctx.beginPath();
   ctx.moveTo(toX(lower), barY);
@@ -560,13 +560,13 @@ function updateCIWidth() {
   });
 
   // Center dot
-  ctx.fillStyle = '#2563eb';
+  ctx.fillStyle = '#a85a38';
   ctx.beginPath();
   ctx.arc(midX, barY, 5, 0, Math.PI * 2);
   ctx.fill();
 
   // Labels
-  ctx.fillStyle = '#1e293b';
+  ctx.fillStyle = '#2c2823';
   ctx.font = '12px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText(Math.round(lower).toString(), toX(lower), barY + 28);
@@ -574,7 +574,7 @@ function updateCIWidth() {
   ctx.fillText(sampleMean.toString(), midX, barY - 22);
 
   // ME arrow annotation
-  ctx.fillStyle = '#64748b';
+  ctx.fillStyle = '#6f6963';
   ctx.font = '11px sans-serif';
   ctx.fillText('ME = ' + me.toFixed(1), midX + (toX(upper) - midX) / 2, barY - 22);
 
@@ -616,15 +616,15 @@ function analyzePoll() {
 
   // A candidate
   const yA = 60;
-  ctx.fillStyle = '#2563eb22';
+  ctx.fillStyle = '#a85a3822';
   ctx.fillRect(toX(ciA[0]), yA - 12, toX(ciA[1]) - toX(ciA[0]), 24);
-  ctx.strokeStyle = '#2563eb';
+  ctx.strokeStyle = '#a85a38';
   ctx.lineWidth = 3;
   ctx.beginPath(); ctx.moveTo(toX(ciA[0]), yA); ctx.lineTo(toX(ciA[1]), yA); ctx.stroke();
   [ciA[0], ciA[1]].forEach(v => {
     ctx.beginPath(); ctx.moveTo(toX(v), yA - 10); ctx.lineTo(toX(v), yA + 10); ctx.stroke();
   });
-  ctx.fillStyle = '#2563eb';
+  ctx.fillStyle = '#a85a38';
   ctx.beginPath(); ctx.arc(toX(pA), yA, 5, 0, Math.PI * 2); ctx.fill();
   ctx.font = 'bold 13px sans-serif';
   ctx.textAlign = 'left';
@@ -652,17 +652,17 @@ function analyzePoll() {
     const overlapRight = Math.min(ciA[1], ciB[1]);
     ctx.fillStyle = 'rgba(239, 68, 68, 0.1)';
     ctx.fillRect(toX(overlapLeft), 40, toX(overlapRight) - toX(overlapLeft), 110);
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#6f6963';
     ctx.font = '11px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('겹침 구간', (toX(overlapLeft) + toX(overlapRight)) / 2, H - 20);
   }
 
   // Axis
-  ctx.strokeStyle = '#cbd5e1';
+  ctx.strokeStyle = '#d6d3cf';
   ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(40, H - 35); ctx.lineTo(W - 40, H - 35); ctx.stroke();
-  ctx.fillStyle = '#64748b';
+  ctx.fillStyle = '#6f6963';
   ctx.font = '10px sans-serif';
   ctx.textAlign = 'center';
   for (let v = Math.ceil(xMin * 100) / 100; v <= xMax; v += 0.02) {

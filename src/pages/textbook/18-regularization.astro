@@ -530,7 +530,7 @@ async function drawPolyFit() {
         {
           label: '훈련 데이터',
           data: polyTrainX.map((x, i) => ({x, y: polyTrainY[i]})),
-          backgroundColor: '#2563eb88',
+          backgroundColor: '#a85a3888',
           pointRadius: 5,
         },
         {
@@ -583,7 +583,7 @@ async function drawPolyFit() {
     data: {
       labels: degrees,
       datasets: [
-        {label: '훈련 MSE', data: trainErrors, borderColor: '#2563eb', backgroundColor: '#2563eb22', fill: true, tension: 0.3},
+        {label: '훈련 MSE', data: trainErrors, borderColor: '#a85a38', backgroundColor: '#a85a3822', fill: true, tension: 0.3},
         {label: '테스트 MSE', data: testErrors, borderColor: '#ef4444', backgroundColor: '#ef444422', fill: true, tension: 0.3},
       ]
     },
@@ -657,7 +657,7 @@ async function drawBV() {
         {
           label: '데이터',
           data: bvData.xs.map((x, i) => ({x, y: bvData.ys[i]})),
-          backgroundColor: '#64748b88',
+          backgroundColor: '#6f696388',
           pointRadius: 5,
         },
         {
@@ -674,7 +674,7 @@ async function drawBV() {
           label: '모델 (차수=' + complexity + ')',
           data: curveX.map((x, i) => ({x, y: curveY[i]})),
           type: 'line',
-          borderColor: '#2563eb',
+          borderColor: '#a85a38',
           borderWidth: 2.5,
           pointRadius: 0,
           fill: false,
@@ -788,7 +788,7 @@ async function drawRegularization() {
   const rCoefs = ridgeCoefs(regX, regY, lambda);
   const lCoefs = lassoCoefs(regX, regY, lambda, 500);
 
-  const colors = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed', '#94a3b8', '#94a3b8', '#94a3b8'];
+  const colors = ['#a85a38', '#ef4444', '#22c55e', '#f59e0b', '#834f63', '#a39d96', '#a39d96', '#a39d96'];
 
   ridgeChart = destroyChart(ridgeChart);
   ridgeChart = new Chart(document.getElementById('ridge-chart'), {
@@ -870,7 +870,7 @@ async function runCV(animate = false) {
 
   // Display fold blocks
   const blocksDiv = document.getElementById('cv-blocks');
-  const foldColors = ['#2563eb', '#ef4444', '#22c55e', '#f59e0b', '#7c3aed', '#06b6d4', '#ec4899', '#64748b', '#ea580c', '#14b8a6'];
+  const foldColors = ['#a85a38', '#ef4444', '#22c55e', '#f59e0b', '#834f63', '#2f7d72', '#ec4899', '#6f6963', '#ea580c', '#14b8a6'];
 
   const foldErrors = [];
 
@@ -945,7 +945,7 @@ async function runCV(animate = false) {
           label: '평균 CV MSE',
           data: foldErrors.map(() => meanError),
           type: 'line',
-          borderColor: '#0f172a',
+          borderColor: '#1a1714',
           borderWidth: 2,
           borderDash: [8, 4],
           pointRadius: 0,

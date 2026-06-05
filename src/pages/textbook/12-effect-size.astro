@@ -157,7 +157,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     <FormulaBox>
       <span class="hl">Cohen's d</span> = (M&#8321; - M&#8322;) / SD<sub>pooled</sub><br>
-      <span style="font-size:0.85rem; color:#94a3b8;">small = 0.2 | medium = 0.5 | large = 0.8 (Cohen, 1988)</span>
+      <span style="font-size:0.85rem; color:#a39d96;">small = 0.2 | medium = 0.5 | large = 0.8 (Cohen, 1988)</span>
     </FormulaBox>
 
     <ExerciseBox>
@@ -278,7 +278,7 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     <FormulaBox>
       <span class="hl">검정력</span> = P(H&#8320; 기각 | H&#8321; 참)<br>
-      <span style="font-size:0.85rem; color:#94a3b8;">검정력 = 1 - beta (제2종 오류 확률)</span>
+      <span style="font-size:0.85rem; color:#a39d96;">검정력 = 1 - beta (제2종 오류 확률)</span>
     </FormulaBox>
 
     <ExerciseBox>
@@ -607,8 +607,8 @@ async function drawCohenD() {
         {
           label: '그룹 1 (M=0)',
           data: y1,
-          borderColor: '#2563eb',
-          backgroundColor: '#2563eb22',
+          borderColor: '#a85a38',
+          backgroundColor: '#a85a3822',
           fill: true,
           tension: 0.4,
           pointRadius: 0,
@@ -839,8 +839,8 @@ async function runPowerAnalysis() {
         {
           label: '검정력 (Power)',
           data: powers,
-          borderColor: '#2563eb',
-          backgroundColor: '#2563eb22',
+          borderColor: '#a85a38',
+          backgroundColor: '#a85a3822',
           fill: true,
           tension: 0.3,
           pointRadius: 0,

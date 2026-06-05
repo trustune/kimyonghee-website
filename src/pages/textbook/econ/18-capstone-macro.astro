@@ -60,8 +60,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       <StatBox label="GDP 성장률" value="-" id="dash-gdp" borderColor="#059669" />
       <StatBox label="인플레이션" value="-" id="dash-cpi" borderColor="#ef4444" />
       <StatBox label="실업률" value="-" id="dash-unemp" borderColor="#f59e0b" />
-      <StatBox label="기준금리" value="-" id="dash-rate" borderColor="#3b82f6" />
-      <StatBox label="환율" value="-" id="dash-fx" borderColor="#7c3aed" />
+      <StatBox label="기준금리" value="-" id="dash-rate" borderColor="#c47a52" />
+      <StatBox label="환율" value="-" id="dash-fx" borderColor="#834f63" />
     </div>
 
     <SimControls>
@@ -164,7 +164,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="균형 GDP" value="-" id="islm-gdp" borderColor="#059669" />
-      <StatBox label="균형 이자율" value="-" id="islm-rate" borderColor="#3b82f6" />
+      <StatBox label="균형 이자율" value="-" id="islm-rate" borderColor="#c47a52" />
     </div>
 
     <SimControls>
@@ -326,8 +326,8 @@ function init() {
         { label: 'GDP 성장률 (%)', data: gdpGrowth, borderColor: '#059669', borderWidth: 2, tension: 0.3, pointRadius: 2, yAxisID: 'y' },
         { label: '인플레이션 (%)', data: cpi, borderColor: '#ef4444', borderWidth: 2, tension: 0.3, pointRadius: 2, yAxisID: 'y' },
         { label: '실업률 (%)', data: unemp, borderColor: '#f59e0b', borderWidth: 2, tension: 0.3, pointRadius: 2, yAxisID: 'y' },
-        { label: '기준금리 (%)', data: baseRate, borderColor: '#3b82f6', borderWidth: 2, tension: 0.3, pointRadius: 2, yAxisID: 'y' },
-        { label: '환율 (원/달러)', data: exchangeRate, borderColor: '#7c3aed', borderWidth: 2, tension: 0.3, pointRadius: 2, yAxisID: 'y1' }
+        { label: '기준금리 (%)', data: baseRate, borderColor: '#c47a52', borderWidth: 2, tension: 0.3, pointRadius: 2, yAxisID: 'y' },
+        { label: '환율 (원/달러)', data: exchangeRate, borderColor: '#834f63', borderWidth: 2, tension: 0.3, pointRadius: 2, yAxisID: 'y1' }
       ]
     },
     options: {
@@ -499,8 +499,8 @@ function init() {
     type: 'scatter',
     data: {
       datasets: [
-        { label: 'IS', data: getISData(0), showLine: true, borderColor: '#3b82f6', borderWidth: 3, pointRadius: 0, fill: false },
-        { label: 'IS (원래)', data: getISData(0), showLine: true, borderColor: '#3b82f6', borderWidth: 1, borderDash: [5, 5], pointRadius: 0, fill: false },
+        { label: 'IS', data: getISData(0), showLine: true, borderColor: '#c47a52', borderWidth: 3, pointRadius: 0, fill: false },
+        { label: 'IS (원래)', data: getISData(0), showLine: true, borderColor: '#c47a52', borderWidth: 1, borderDash: [5, 5], pointRadius: 0, fill: false },
         { label: 'LM', data: getLMData(0), showLine: true, borderColor: '#ef4444', borderWidth: 3, pointRadius: 0, fill: false },
         { label: 'LM (원래)', data: getLMData(0), showLine: true, borderColor: '#ef4444', borderWidth: 1, borderDash: [5, 5], pointRadius: 0, fill: false },
         { label: '균형', data: [], pointRadius: 10, pointBackgroundColor: '#059669', borderColor: '#059669', showLine: false }

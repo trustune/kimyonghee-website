@@ -486,7 +486,7 @@ function drawBasketNetwork() {
   rules.forEach(r => { activeItems.add(r.from); activeItems.add(r.to); });
   const items = [...activeItems];
   if (items.length === 0) {
-    ctx.fillStyle = '#94a3b8'; ctx.font = '14px Paperlogy'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#a39d96'; ctx.font = '14px Paperlogy'; ctx.textAlign = 'center';
     ctx.fillText('조건을 만족하는 규칙이 없습니다. 슬라이더를 낮춰보세요.', W / 2, H / 2);
     document.getElementById('basket-rules').style.display = '';
     document.getElementById('stat-basket-total').textContent = n;
@@ -540,11 +540,11 @@ function drawBasketNetwork() {
     ctx.arc(pos.x, pos.y, radius, 0, 2 * Math.PI);
     ctx.fillStyle = '#fff';
     ctx.fill();
-    ctx.strokeStyle = '#2563eb';
+    ctx.strokeStyle = '#a85a38';
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#2c2823';
     ctx.font = 'bold 11px Paperlogy';
     ctx.textAlign = 'center';
     ctx.fillText(item, pos.x, pos.y + 4);
@@ -602,7 +602,7 @@ function calculateMetrics() {
   ctx.arc(cx - r / 2 + overlap / 4, cy, r, 0, 2 * Math.PI);
   ctx.fillStyle = 'rgba(37, 99, 235, 0.2)';
   ctx.fill();
-  ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.strokeStyle = '#a85a38'; ctx.lineWidth = 2; ctx.stroke();
 
   // Circle B
   ctx.beginPath();
@@ -612,18 +612,18 @@ function calculateMetrics() {
   ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 2; ctx.stroke();
 
   // Labels
-  ctx.fillStyle = '#2563eb'; ctx.font = 'bold 14px Paperlogy'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#a85a38'; ctx.font = 'bold 14px Paperlogy'; ctx.textAlign = 'center';
   ctx.fillText('A', cx - r, cy);
   ctx.fillText(A.toString(), cx - r, cy + 18);
   ctx.fillStyle = '#ef4444';
   ctx.fillText('B', cx + r, cy);
   ctx.fillText(B.toString(), cx + r, cy + 18);
-  ctx.fillStyle = '#7c3aed'; ctx.font = 'bold 16px Paperlogy';
+  ctx.fillStyle = '#834f63'; ctx.font = 'bold 16px Paperlogy';
   ctx.fillText(AB.toString(), cx, cy + 5);
   ctx.font = '11px Paperlogy';
   ctx.fillText('A ∩ B', cx, cy - 12);
 
-  ctx.fillStyle = '#64748b'; ctx.font = '11px Paperlogy';
+  ctx.fillStyle = '#6f6963'; ctx.font = '11px Paperlogy';
   ctx.fillText(`N = ${N}`, cx, H - 10);
 }
 
@@ -711,7 +711,7 @@ function getRecommendations() {
   predictions.slice(0, 8).forEach((p, i) => {
     const card = document.createElement('div');
     card.className = 'movie-card';
-    card.style.borderLeft = `4px solid ${p.predicted >= 4 ? 'var(--tb-success)' : p.predicted >= 3 ? 'var(--tb-warning)' : 'var(--tb-g300)'}`;
+    card.style.border = `1px solid ${p.predicted >= 4 ? 'var(--tb-success)' : p.predicted >= 3 ? 'var(--tb-warning)' : 'var(--tb-g300)'}`;
     card.innerHTML = `
       <div style="font-weight:700;font-size:.88rem;">#${i + 1} ${p.movie.title}</div>
       <div style="font-size:.78rem;color:var(--tb-g600);">${p.movie.genre.join(', ')}</div>

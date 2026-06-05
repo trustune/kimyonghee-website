@@ -24,6 +24,9 @@ pnpm-debug.log*
 .idea/
 deploy-broadcasting.ps1
 
+# impeccable design-tool local state (critique snapshots, live config)
+.impeccable/
+
 # Sensitive documentation files (keep locally, not on GitHub)
 DEPLOYMENT_GUIDE.md
 HANDOVER.md

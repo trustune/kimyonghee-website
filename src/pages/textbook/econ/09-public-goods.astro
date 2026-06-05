@@ -57,7 +57,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
         <tbody>
           <tr>
             <td style="padding:12px; border:1px solid #d1d5db; font-weight:600; background:#f0fdf4;">배제 가능</td>
-            <td style="padding:12px; border:1px solid #d1d5db; background:#eff6ff;"><strong>사적재</strong><br>삼각김밥, 옷, 자동차</td>
+            <td style="padding:12px; border:1px solid #d1d5db; background:#faf3ee;"><strong>사적재</strong><br>삼각김밥, 옷, 자동차</td>
             <td style="padding:12px; border:1px solid #d1d5db; background:#fef3c7;"><strong>클럽재 (자연독점재)</strong><br>유료 방송, 고속도로, 영화관</td>
           </tr>
           <tr>
@@ -122,15 +122,15 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </SimControls>
 
     <div class="tb-stat-row">
-      <StatBox label="라운드" id="fr-round" value="0" borderColor="#3b82f6" />
+      <StatBox label="라운드" id="fr-round" value="0" borderColor="#c47a52" />
       <StatBox label="기여자 수" id="fr-contributors" value="-" borderColor="#059669" />
       <StatBox label="나의 누적 이익" id="fr-my-profit" value="0만원" borderColor="#f59e0b" />
-      <StatBox label="사회 총이익" id="fr-social" value="0만원" borderColor="#8b5cf6" />
+      <StatBox label="사회 총이익" id="fr-social" value="0만원" borderColor="#a06b7c" />
     </div>
 
     <ChartContainer id="freeride-chart" height="300px" />
 
-    <div id="fr-log" style="margin-top:12px; padding:12px; background:#f8fafc; border-radius:8px; max-height:200px; overflow-y:auto;">
+    <div id="fr-log" style="margin-top:12px; padding:12px; background:#f8f6f4; border-radius:8px; max-height:200px; overflow-y:auto;">
       <p style="color:#6b7280;">게임을 시작하세요.</p>
     </div>
 
@@ -170,8 +170,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div class="tb-stat-row">
       <StatBox label="총 양 수" id="commons-total" value="-" borderColor="#f59e0b" />
       <StatBox label="목초지 건강도" id="commons-health" value="-" sub="100이 최상" borderColor="#059669" />
-      <StatBox label="내 양당 수익" id="commons-per-sheep" value="-" borderColor="#3b82f6" />
-      <StatBox label="내 총수익" id="commons-my-income" value="-" borderColor="#8b5cf6" />
+      <StatBox label="내 양당 수익" id="commons-per-sheep" value="-" borderColor="#c47a52" />
+      <StatBox label="내 총수익" id="commons-my-income" value="-" borderColor="#a06b7c" />
     </div>
 
     <ChartContainer id="commons-chart" height="350px" />
@@ -349,7 +349,7 @@ function init() {
   if (quizContainer) {
     var html = '';
     for (var i = 0; i < goods.length; i++) {
-      html += '<div style="padding:8px; background:#f8fafc; border-radius:6px; display:flex; align-items:center; gap:8px;">';
+      html += '<div style="padding:8px; background:#f8f6f4; border-radius:6px; display:flex; align-items:center; gap:8px;">';
       html += '<span style="font-weight:600; min-width:100px;">' + goods[i].name + '</span>';
       html += '<select class="classify-select" data-idx="' + i + '" style="padding:4px; border-radius:4px; border:1px solid #d1d5db; flex:1;">';
       html += '<option value="">?</option>';
@@ -495,7 +495,7 @@ function init() {
           labels: labels,
           datasets: [
             { label: '내 누적 이익 (만원)', data: profitData, borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', fill: true, tension: 0.3, yAxisID: 'y' },
-            { label: '기여자 수', data: contribData, borderColor: '#3b82f6', tension: 0.3, yAxisID: 'y1', pointStyle: 'rect' }
+            { label: '기여자 수', data: contribData, borderColor: '#c47a52', tension: 0.3, yAxisID: 'y1', pointStyle: 'rect' }
           ]
         },
         options: {
@@ -576,7 +576,7 @@ function init() {
           datasets: [
             { label: '내 총수익 (만원)', data: incomeData, borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.1)', fill: true, tension: 0.3, yAxisID: 'y' },
             { label: '목초지 건강도', data: healthData, borderColor: '#ef4444', borderDash: [5, 3], tension: 0.3, yAxisID: 'y1', pointRadius: 0 },
-            { label: '현재 선택', data: sheepRange.map(function(s) { return s === mySheep ? incomeData[s] : null; }), pointRadius: 10, pointBackgroundColor: '#3b82f6', showLine: false, yAxisID: 'y' }
+            { label: '현재 선택', data: sheepRange.map(function(s) { return s === mySheep ? incomeData[s] : null; }), pointRadius: 10, pointBackgroundColor: '#c47a52', showLine: false, yAxisID: 'y' }
           ]
         },
         options: {

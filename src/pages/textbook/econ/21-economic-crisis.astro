@@ -86,7 +86,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="시점" value="-" id="tl-date" borderColor="#374151" />
-      <StatBox label="환율 (원/달러)" value="-" id="tl-fx" borderColor="#3b82f6" />
+      <StatBox label="환율 (원/달러)" value="-" id="tl-fx" borderColor="#c47a52" />
       <StatBox label="주가 (KOSPI)" value="-" id="tl-kospi" borderColor="#059669" />
       <StatBox label="금리 (%)" value="-" id="tl-rate" borderColor="#ef4444" />
     </div>
@@ -140,9 +140,9 @@ import SimControls from '../../../components/textbook/SimControls.astro';
       </label>
     </SimControls>
 
-    <canvas id="contagionCanvas" style="width: 100%; height: 480px; border: 1px solid #e5e7eb; border-radius: 12px; background: #1e293b;"></canvas>
+    <canvas id="contagionCanvas" style="width: 100%; height: 480px; border: 1px solid #e5e7eb; border-radius: 12px; background: #2c2823;"></canvas>
 
-    <div id="contagion-log" style="padding: 12px; background: #f1f5f9; border-radius: 8px; margin-top: 12px; max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px;"></div>
+    <div id="contagion-log" style="padding: 12px; background: #f1eee9; border-radius: 8px; margin-top: 12px; max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px;"></div>
 
     <ExerciseBox title="네트워크 위기 분석">
       <p>시뮬레이션을 실행한 후 답하세요.</p>
@@ -177,8 +177,8 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="GDP 성장률" value="-" id="cr-gdp" borderColor="#059669" />
       <StatBox label="실업률" value="-" id="cr-unemp" borderColor="#f59e0b" />
-      <StatBox label="환율" value="-" id="cr-fx" borderColor="#3b82f6" />
-      <StatBox label="KOSPI" value="-" id="cr-kospi" borderColor="#7c3aed" />
+      <StatBox label="환율" value="-" id="cr-fx" borderColor="#c47a52" />
+      <StatBox label="KOSPI" value="-" id="cr-kospi" borderColor="#834f63" />
     </div>
 
     <ChartContainer id="crisisChart" height="400px" />
@@ -293,7 +293,7 @@ waitForChart(function init() {
     data: {
       labels: tlEvents.map(function(e) { return e.date; }),
       datasets: [
-        { label: '환율 (원/달러)', data: tlEvents.map(function(e) { return e.fx; }), borderColor: '#3b82f6', borderWidth: 2, tension: 0.3, yAxisID: 'y', pointRadius: 5, pointBackgroundColor: '#3b82f6' },
+        { label: '환율 (원/달러)', data: tlEvents.map(function(e) { return e.fx; }), borderColor: '#c47a52', borderWidth: 2, tension: 0.3, yAxisID: 'y', pointRadius: 5, pointBackgroundColor: '#c47a52' },
         { label: 'KOSPI', data: tlEvents.map(function(e) { return e.kospi; }), borderColor: '#059669', borderWidth: 2, tension: 0.3, yAxisID: 'y1', pointRadius: 5, pointBackgroundColor: '#059669' },
         { label: '금리 (%)', data: tlEvents.map(function(e) { return e.rate; }), borderColor: '#ef4444', borderWidth: 2, tension: 0.3, yAxisID: 'y2', pointRadius: 5, pointBackgroundColor: '#ef4444' }
       ]
@@ -358,7 +358,7 @@ waitForChart(function init() {
     cgCtx.clearRect(0, 0, cw, ch);
 
     /* 배경 */
-    cgCtx.fillStyle = '#1e293b';
+    cgCtx.fillStyle = '#2c2823';
     cgCtx.fillRect(0, 0, cw, ch);
 
     /* 연결선 */
@@ -422,7 +422,7 @@ waitForChart(function init() {
       cgCtx.arc(lx, legendY, 6, 0, Math.PI * 2);
       cgCtx.fillStyle = item.color;
       cgCtx.fill();
-      cgCtx.fillStyle = '#94a3b8';
+      cgCtx.fillStyle = '#a39d96';
       cgCtx.textAlign = 'left';
       cgCtx.fillText(item.label, lx + 12, legendY + 4);
     });
@@ -548,8 +548,8 @@ waitForChart(function init() {
       datasets: [
         { label: 'GDP 성장률 (%)', data: [], borderColor: '#059669', borderWidth: 3, tension: 0.3, yAxisID: 'y', pointRadius: 5 },
         { label: '실업률 (%)', data: [], borderColor: '#f59e0b', borderWidth: 3, tension: 0.3, yAxisID: 'y', pointRadius: 5 },
-        { label: '환율', data: [], borderColor: '#3b82f6', borderWidth: 2, tension: 0.3, yAxisID: 'y1', pointRadius: 4, borderDash: [5, 3] },
-        { label: 'KOSPI', data: [], borderColor: '#7c3aed', borderWidth: 2, tension: 0.3, yAxisID: 'y1', pointRadius: 4, borderDash: [5, 3] }
+        { label: '환율', data: [], borderColor: '#c47a52', borderWidth: 2, tension: 0.3, yAxisID: 'y1', pointRadius: 4, borderDash: [5, 3] },
+        { label: 'KOSPI', data: [], borderColor: '#834f63', borderWidth: 2, tension: 0.3, yAxisID: 'y1', pointRadius: 4, borderDash: [5, 3] }
       ]
     },
     options: {

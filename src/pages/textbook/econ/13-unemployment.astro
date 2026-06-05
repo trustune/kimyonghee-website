@@ -145,7 +145,7 @@ import SimControls from '../../../components/textbook/SimControls.astro';
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
       <StatBox label="실업률" value="-" id="ur-rate" borderColor="#ef4444" />
-      <StatBox label="경활참가율" value="-" id="ur-lfpr" borderColor="#3b82f6" />
+      <StatBox label="경활참가율" value="-" id="ur-lfpr" borderColor="#c47a52" />
       <StatBox label="고용률" value="-" id="ur-emp-rate" borderColor="#059669" />
       <StatBox label="실업자 수" value="-" id="ur-unemployed" borderColor="#f59e0b" />
     </div>
@@ -181,10 +181,10 @@ import SimControls from '../../../components/textbook/SimControls.astro';
     </FormulaBox>
 
     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0;">
-      <StatBox label="마찰적 실업률" value="-" id="nu-fric" borderColor="#3b82f6" />
+      <StatBox label="마찰적 실업률" value="-" id="nu-fric" borderColor="#c47a52" />
       <StatBox label="구조적 실업률" value="-" id="nu-struc" borderColor="#f59e0b" />
       <StatBox label="경기적 실업률" value="-" id="nu-cyc" borderColor="#ef4444" />
-      <StatBox label="총 실업률" value="-" id="nu-total" borderColor="#7c3aed" />
+      <StatBox label="총 실업률" value="-" id="nu-total" borderColor="#834f63" />
     </div>
 
     <SimControls>
@@ -379,7 +379,7 @@ function init() {
       labels: ['생산가능인구', '경제활동인구', '취업자', '실업자', '비경활인구'],
       datasets: [{
         data: [4500, 2800, 2700, 100, 1700],
-        backgroundColor: ['#6366f1', '#3b82f6', '#059669', '#ef4444', '#9ca3af'],
+        backgroundColor: ['#7a5a70', '#c47a52', '#059669', '#ef4444', '#9ca3af'],
         borderWidth: 0,
         borderRadius: 8
       }]
@@ -436,7 +436,7 @@ function init() {
       labels: ['마찰적', '구조적', '경기적', '자연실업률', '총 실업률'],
       datasets: [{
         data: [2.0, 1.5, 0, 3.5, 3.5],
-        backgroundColor: ['#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#7c3aed'],
+        backgroundColor: ['#c47a52', '#f59e0b', '#ef4444', '#a06b7c', '#834f63'],
         borderWidth: 0,
         borderRadius: 8
       }]

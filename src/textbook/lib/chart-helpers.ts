@@ -3,16 +3,18 @@
  * Provides consistent theming, factory functions, and dynamic loading.
  */
 
-/** Categorical color palette (color-blind safe) */
+/** Categorical chart palette — warm, brand-leaning, kept perceptually separable
+   for color-vision-deficiency (terracotta primary + a teal-earth and gold anchor,
+   not bright SaaS primaries). Lead series is the brand terracotta. */
 export const COLORS = {
-  blue: '#2563eb',
-  red: '#ef4444',
-  green: '#22c55e',
-  amber: '#f59e0b',
-  purple: '#7c3aed',
-  cyan: '#06b6d4',
-  pink: '#ec4899',
-  gray: '#64748b',
+  blue: '#a85a38',   // terracotta — primary series (brand accent)
+  red: '#d6453a',    // warm red
+  green: '#3f8f5a',  // earthy green
+  amber: '#c9882f',  // gold
+  purple: '#834f63', // warm plum
+  cyan: '#2f7d72',   // teal-earth
+  pink: '#b0617a',   // warm rose
+  gray: '#6f6963',   // warm gray
 } as const;
 
 /** Ordered array for multi-series charts */

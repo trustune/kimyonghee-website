@@ -320,11 +320,11 @@ import SimControls from '../../components/textbook/SimControls.astro';
 
     <div id="split-visual" style="margin:14px 0; display:none;">
       <div style="display:flex; height:40px; border-radius:10px; overflow:hidden; box-shadow:var(--tb-shadow);">
-        <div id="split-bar-train" style="background:linear-gradient(135deg,#2563eb,#3b82f6); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:.85rem; transition:width .4s;"></div>
+        <div id="split-bar-train" style="background:linear-gradient(135deg,#a85a38,#c47a52); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:.85rem; transition:width .4s;"></div>
         <div id="split-bar-test" style="background:linear-gradient(135deg,#ef4444,#f87171); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:.85rem; transition:width .4s;"></div>
       </div>
       <div class="tb-stat-row" style="margin-top:10px;">
-        <StatBox label="학습 데이터" id="stat-train-n" borderColor="#2563eb" />
+        <StatBox label="학습 데이터" id="stat-train-n" borderColor="#a85a38" />
         <StatBox label="검증 데이터" id="stat-test-n" borderColor="#ef4444" />
       </div>
 
@@ -641,7 +641,7 @@ function fmtK(v) { return Math.round(v).toLocaleString(); }
 
 const DISTRICTS = ['강남', '서초', '마포', '용산', '성동'];
 const DIST_BASE = { '강남': 18000, '서초': 15000, '마포': 10000, '용산': 12000, '성동': 9000 };
-const DIST_COLORS = { '강남': '#ef4444', '서초': '#f59e0b', '마포': '#22c55e', '용산': '#3b82f6', '성동': '#8b5cf6' };
+const DIST_COLORS = { '강남': '#ef4444', '서초': '#f59e0b', '마포': '#22c55e', '용산': '#c47a52', '성동': '#a06b7c' };
 const NUM_VARS = ['area_m2','floor','built_year','station_dist_m','school_score','price_10k'];
 const VAR_LABELS = {
   'area_m2':'면적(m2)','floor':'층수','built_year':'건축년도',
@@ -950,7 +950,7 @@ async function renderEDAHist() {
     chartInstances['chart-eda-hist'] = new Chart(ctx, {
       type: 'bar',
       data: { labels, datasets: [{ label: VAR_LABELS[varName], data: bins,
-        backgroundColor: 'rgba(37,99,235,0.6)', borderColor: '#2563eb', borderWidth: 1 }] },
+        backgroundColor: 'rgba(37,99,235,0.6)', borderColor: '#a85a38', borderWidth: 1 }] },
       options: { responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: { y: { title: { display: true, text: '빈도' } },
@@ -1031,14 +1031,14 @@ function renderHeatmap() {
       }
       ctx.fillStyle = `rgb(${r},${g},${b})`;
       ctx.fillRect(pad + j * cell, pad + i * cell, cell - 1, cell - 1);
-      ctx.fillStyle = Math.abs(val) > 0.5 ? '#fff' : '#1e293b';
+      ctx.fillStyle = Math.abs(val) > 0.5 ? '#fff' : '#2c2823';
       ctx.font = '11px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(val.toFixed(2), pad + j * cell + cell/2, pad + i * cell + cell/2);
     }
   }
-  ctx.fillStyle = '#1e293b';
+  ctx.fillStyle = '#2c2823';
   ctx.font = '11px sans-serif';
   for (let i = 0; i < n; i++) {
     ctx.textAlign = 'right';
@@ -1221,7 +1221,7 @@ async function runComparison() {
     data: {
       labels: epochLabels,
       datasets: [
-        { label: 'OLS', data: olsRes.losses, borderColor: '#2563eb', fill: false, pointRadius: 0, borderWidth: 2 },
+        { label: 'OLS', data: olsRes.losses, borderColor: '#a85a38', fill: false, pointRadius: 0, borderWidth: 2 },
         { label: 'Ridge', data: ridgeRes.losses, borderColor: '#22c55e', fill: false, pointRadius: 0, borderWidth: 2 },
         { label: 'Lasso', data: lassoRes.losses, borderColor: '#f59e0b', fill: false, pointRadius: 0, borderWidth: 2 }
       ]
@@ -1314,7 +1314,7 @@ async function runDiagnostics() {
   });
   chartInstances['chart-diag-hist'] = new Chart(document.getElementById('chart-diag-hist'), {
     type: 'bar',
-    data: { labels, datasets: [{ label: '잔차 빈도', data: bins, backgroundColor: 'rgba(124,58,237,0.5)', borderColor: '#7c3aed', borderWidth: 1 }] },
+    data: { labels, datasets: [{ label: '잔차 빈도', data: bins, backgroundColor: 'rgba(124,58,237,0.5)', borderColor: '#834f63', borderWidth: 1 }] },
     options: { responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: { y: { title: { display: true, text: '빈도' } }, x: { title: { display: true, text: '잔차 (만원)' } } }
@@ -1677,10 +1677,10 @@ function init() {
   }
   .verdict-high .verdict-tag { background: #991b1b; color: #fff; }
   .verdict-ok {
-    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-    color: #1e40af;
+    background: linear-gradient(135deg, #f3e3d8, #ecd6c4);
+    color: #7a3f28;
   }
-  .verdict-ok .verdict-tag { background: #1e40af; color: #fff; }
+  .verdict-ok .verdict-tag { background: #7a3f28; color: #fff; }
 
   /* ===== Responsive ===== */
   @media (max-width: 768px) {

@@ -133,8 +133,8 @@ img {
 }
 
 .prose pre {
-  background: #1f2937;
-  color: #f3f4f6;
+  background: #211d19;
+  color: #f0ece6;
   padding: var(--space-6);
   border-radius: var(--border-radius);
   overflow-x: auto;
@@ -142,7 +142,7 @@ img {
 }
 
 .dark .prose pre {
-  background: #0d0d0d;
+  background: #100f0d;
 }
 
 .prose pre code {
@@ -151,9 +151,27 @@ img {
 }
 
 .prose blockquote {
-  border-left: 3px solid var(--color-border);
-  padding-left: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background: var(--color-surface);
+  padding: var(--space-4) var(--space-6);
   margin: var(--space-8) 0;
   color: var(--color-text-secondary);
   font-style: italic;
+}
+
+/* Reduced motion: neutralize smooth scroll, transitions, and animations.
+   Reduced motion is not optional (WCAG 2.3.3 / impeccable). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
