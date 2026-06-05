@@ -1,5 +1,40 @@
 [
   {
+    "date": "2026-06-05",
+    "timestamp": "2026-06-05T15:39:07",
+    "total_articles": 1764,
+    "total_stories": 10,
+    "top_story": "젠슨 황 7개월 만의 방한 첫 일정, 홍대 T1 PC방서 페이커 회동 후 총수들과 '삼겹살 회동'·7일 두산 시구",
+    "top_stories": [
+      {
+        "title": "젠슨 황 7개월 만의 방한 첫 일정, 홍대 T1 PC방서 페이커 회동 후 총수들과 '삼겹살 회동'·7일 두산 시구",
+        "entity": "Story01",
+        "article_count": 55,
+        "category": "Gaming/Esports"
+      },
+      {
+        "title": "넷플릭스, 'FIFA 월드컵: 런치 에디션' 6월 11일 글로벌 출시 — 한국 1차 제외, 역대 최대 게임 베팅",
+        "entity": "Story02",
+        "article_count": 7,
+        "category": "OTT/Streaming"
+      },
+      {
+        "title": "CJ ENM 티빙 'CI 온라인 주민번호' 유출에 과기정통부 민관합동조사단·개인정보위 전방위 조사 착수",
+        "entity": "Story03",
+        "article_count": 45,
+        "category": "Media Business"
+      }
+    ],
+    "categories": {
+      "Gaming/Esports": 69,
+      "OTT/Streaming": 39,
+      "Media Business": 90,
+      "Regulation": 22,
+      "Film/Cinema": 10,
+      "Music/Audio": 52
+    }
+  },
+  {
     "date": "2026-05-10",
     "timestamp": "2026-05-10T13:41:59",
     "total_articles": 2253,
