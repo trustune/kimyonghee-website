@@ -8,7 +8,11 @@
       "url": "https://economist.co.kr/article/view/ecn202604160047",
       "type": "opinion",
       "category": "Expert Column",
-      "description": "Argues that AI competitiveness now hinges on securing stable, low-cost power and proposes a five-track policy agenda linking Korea's Energy Transition Plan with the new AI Data Center Act to avert 'AI hollowing-out.'"
+      "description": "Argues that AI competitiveness now hinges on securing stable, low-cost power and proposes a five-track policy agenda linking Korea's Energy Transition Plan with the new AI Data Center Act to avert 'AI hollowing-out.'",
+      "title_en": "AI-Ignited Power War: Where Does Korea Stand?",
+      "title_ko": "AI가 불붙인 전력 전쟁, 한국은 어디에 서 있나",
+      "description_en": "Argues that AI competitiveness now hinges on securing stable, low-cost power and proposes a five-track policy agenda linking Korea's Energy Transition Plan with the new AI Data Center Act to avert 'AI hollowing-out.'",
+      "description_ko": "AI 경쟁력이 이제 안정적이고 저렴한 전력 확보에 달려 있다고 보고, 에너지 전환 계획과 AI 데이터센터 관련 법제를 잇는 다섯 갈래 정책 과제를 제안한다."
     },
     {
       "id": "etnews-20251109",
@@ -18,7 +22,11 @@
       "url": "https://www.etnews.com/20251107000142",
       "type": "editorial",
       "category": "ET Opinion",
-      "description": "Critiques how Korea's broadcasting development fund paradoxically harms industry investment, with cable TV operators paying 168.4% of profits while IPTV pays only 4.7%."
+      "description": "Critiques how Korea's broadcasting development fund paradoxically harms industry investment, with cable TV operators paying 168.4% of profits while IPTV pays only 4.7%.",
+      "title_en": "The Broadcasting and Telecommunications Development Fund Paradox: Does 'Development' Suppress Investment?",
+      "title_ko": "방송통신발전기금의 역설: 발전이 투자를 억누르는가",
+      "description_en": "Critiques how Korea's broadcasting development fund paradoxically harms industry investment, with cable TV operators paying 168.4% of profits while IPTV pays only 4.7%.",
+      "description_ko": "방송통신발전기금이 오히려 산업 투자를 위축시키는 구조를 비판한다. 종합유선방송사업자는 이익의 168.4%를 부담하는 반면 IPTV는 4.7%만 낸다는 점을 짚는다."
     },
     {
       "id": "etnews-20251103",
@@ -28,7 +36,11 @@
       "url": "https://www.etnews.com/20251103000041",
       "type": "opinion",
       "category": "Expert Column",
-      "description": "Argues that proposed shared kickboard regulations threaten thousands of small business operators who depend on the sharing economy for their livelihoods."
+      "description": "Argues that proposed shared kickboard regulations threaten thousands of small business operators who depend on the sharing economy for their livelihoods.",
+      "title_en": "Regulatory Legislation Doesn't Just Block Innovation—Small Business Owners' Livelihoods Also at a Cliff's Edge",
+      "title_ko": "규제 입법은 혁신만 막지 않는다, 소상공인의 생계도 벼랑 끝에 선다",
+      "description_en": "Argues that proposed shared kickboard regulations threaten thousands of small business operators who depend on the sharing economy for their livelihoods.",
+      "description_ko": "공유 킥보드 규제안이 공유경제에 생계를 기대는 수천 명의 소상공인을 위협한다고 주장한다."
     },
     {
       "id": "etnews-20250922",
@@ -38,7 +50,11 @@
       "url": "https://www.etnews.com/20250922000238",
       "type": "opinion",
       "category": "Content Column",
-      "description": "Proposes five regulatory principles for AI transparency that balance innovation with trust-building in Korea's growing entertainment sector."
+      "description": "Proposes five regulatory principles for AI transparency that balance innovation with trust-building in Korea's growing entertainment sector.",
+      "title_en": "Direction of AI Transparency Regulation for Sustained K-Content Growth",
+      "title_ko": "K-콘텐츠의 지속 성장을 위한 AI 투명성 규제의 방향",
+      "description_en": "Proposes five regulatory principles for AI transparency that balance innovation with trust-building in Korea's growing entertainment sector.",
+      "description_ko": "혁신과 신뢰 구축의 균형을 맞추는 AI 투명성 규제 다섯 가지 원칙을 제안한다."
     },
     {
       "id": "etnews-20250825",
@@ -48,7 +64,11 @@
       "url": "https://www.etnews.com/20250825000142",
       "type": "opinion",
       "category": "Content Column",
-      "description": "Examines the need for transmission fee guideline reforms to ensure sustainable coexistence in the media industry ecosystem."
+      "description": "Examines the need for transmission fee guideline reforms to ensure sustainable coexistence in the media industry ecosystem.",
+      "title_en": "Media Industry Coexistence: Transmission Fee Guideline Reform as a Starting Point",
+      "title_ko": "미디어 산업의 공존: 송출수수료 가이드라인 개편을 출발점으로",
+      "description_en": "Examines the need for transmission fee guideline reforms to ensure sustainable coexistence in the media industry ecosystem.",
+      "description_ko": "미디어 산업 생태계의 지속가능한 공존을 위해 송출수수료 가이드라인 개편이 필요한 이유를 짚는다."
     },
     {
       "id": "etnews-20250721",
@@ -58,7 +78,11 @@
       "url": "https://www.etnews.com/20250721000242",
       "type": "opinion",
       "category": "Expert Column",
-      "description": "Proposes new frameworks for media governance structures adapted to the digital transformation era."
+      "description": "Proposes new frameworks for media governance structures adapted to the digital transformation era.",
+      "title_en": "Redesigning Media Governance in the Digital Transformation Era",
+      "title_ko": "디지털 전환 시대, 미디어 거버넌스를 다시 설계하다",
+      "description_en": "Proposes new frameworks for media governance structures adapted to the digital transformation era.",
+      "description_ko": "디지털 전환 시대에 맞는 미디어 거버넌스 구조의 새 틀을 제안한다."
     },
     {
       "id": "etnews-20250711",
@@ -68,7 +92,11 @@
       "url": "https://www.etnews.com/20250711000147",
       "type": "editorial",
       "category": "ET Opinion",
-      "description": "Analyzes how Korean content has established new success patterns in global OTT platform markets."
+      "description": "Analyzes how Korean content has established new success patterns in global OTT platform markets.",
+      "title_en": "The New Formula in Global OTT Markets: What K-Content Has Proven",
+      "title_ko": "글로벌 온라인 동영상 시장의 새 공식: K-콘텐츠가 증명한 것",
+      "description_en": "Analyzes how Korean content has established new success patterns in global OTT platform markets.",
+      "description_ko": "한국 콘텐츠가 글로벌 온라인 동영상 플랫폼 시장에서 어떻게 새로운 성공 공식을 만들어냈는지 분석한다."
     },
     {
       "id": "etnews-20250314",
@@ -78,7 +106,11 @@
       "url": "https://www.etnews.com/20250314000062",
       "type": "editorial",
       "category": "ET Opinion",
-      "description": "Argues for shifting from regulatory-focused approaches to promotional strategies in AI policy development."
+      "description": "Argues for shifting from regulatory-focused approaches to promotional strategies in AI policy development.",
+      "title_en": "In the AI Era, We Must Move Beyond Regulatory Frameworks to Accelerate Promotion",
+      "title_ko": "AI 시대, 규제의 틀을 넘어 진흥에 속도를 내야 한다",
+      "description_en": "Argues for shifting from regulatory-focused approaches to promotional strategies in AI policy development.",
+      "description_ko": "AI 정책에서 규제 중심 접근을 넘어 진흥 전략으로 무게중심을 옮겨야 한다고 주장한다."
     }
   ]
 }
