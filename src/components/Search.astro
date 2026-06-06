@@ -83,24 +83,38 @@ const isDev = import.meta.env.DEV;
           return;
         }
 
+        const isKo = document.documentElement.getAttribute('data-language') === 'ko';
+        const translations = isKo ? {
+          placeholder: '검색어를 입력하세요',
+          clear_search: '지우기',
+          load_more: '더 보기',
+          search_label: '검색',
+          filters_label: '필터',
+          zero_results: '[SEARCH_TERM]에 대한 결과가 없습니다',
+          many_results: '결과 [COUNT]건',
+          one_result: '결과 1건',
+          alt_search: '[SEARCH_TERM] 검색 결과',
+          search_suggestion: '검색어를 입력하면 결과가 표시됩니다',
+          searching: '검색 중...',
+        } : {
+          placeholder: 'Search...',
+          clear_search: 'Clear',
+          load_more: 'Load more',
+          search_label: 'Search',
+          filters_label: 'Filters',
+          zero_results: 'No results for [SEARCH_TERM]',
+          many_results: '[COUNT] results',
+          one_result: '1 result',
+          alt_search: 'Search results for [SEARCH_TERM]',
+          search_suggestion: 'Enter a search term to see results',
+          searching: 'Searching...',
+        };
         new window.PagefindUI({
           element: '#search',
           showSubResults: true,
           showImages: false,
           excerptLength: 15,
-          translations: {
-            placeholder: 'Search...',
-            clear_search: 'Clear',
-            load_more: 'Load more',
-            search_label: 'Search',
-            filters_label: 'Filters',
-            zero_results: 'No results for [SEARCH_TERM]',
-            many_results: '[COUNT] results',
-            one_result: '1 result',
-            alt_search: 'Search results for [SEARCH_TERM]',
-            search_suggestion: 'Enter a search term to see results',
-            searching: 'Searching...',
-          },
+          translations,
         });
         container.dataset.initialized = 'true';
       } catch {

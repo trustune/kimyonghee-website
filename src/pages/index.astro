@@ -67,57 +67,115 @@ const fmtDate = (d: any, lang: 'ko' | 'en') =>
       <canvas class="hero-flow" aria-hidden="true"></canvas>
       <div class="hero-veil" aria-hidden="true"></div>
       <div class="hero-inner container-wide">
-        <p class="hero-role anim" style="--d:0">
-          <span data-lang="ko">선문대학교 경영학과 교수</span>
-          <span data-lang="en">Assistant Professor, Sunmoon University</span>
-        </p>
-        <h1 class="hero-name anim" style="--d:1">
-          <span data-lang="ko">김용희</span><span data-lang="en">Yonghee&nbsp;Kim</span>
-        </h1>
-        <p class="hero-lede anim" style="--d:2">
-          <span data-lang="ko">디지털 플랫폼이 미디어 시장을 어떻게 바꾸는지, 그 변화가 정책에 어떤 의미를 갖는지 연구합니다. 미디어 경제학과 플랫폼 규제, 데이터 분석이 만나는 자리에서 일합니다.</span>
-          <span data-lang="en">I study how digital platforms reshape media markets, and what that change means for public policy. My work lives where media economics, platform regulation, and data analysis meet.</span>
-        </p>
-        <div class="hero-actions anim" style="--d:3">
-          <a class="btn btn-accent" href="/research/publications">
-            <span data-lang="ko">연구 보기</span><span data-lang="en">View research</span>
-            <span class="btn-arrow" aria-hidden="true">&rarr;</span>
-          </a>
-          <a class="btn btn-ghost" href="/about">
-            <span data-lang="ko">소개</span><span data-lang="en">About</span>
-          </a>
+        <div class="hero-text">
+          <p class="hero-role anim" style="--d:0">
+            <span data-lang="ko">선문대학교 경영학과 교수 · Ph.D.</span>
+            <span data-lang="en">Assistant Professor, Sunmoon University · Ph.D.</span>
+          </p>
+          <h1 class="hero-name anim" style="--d:1">
+            <span data-lang="ko">김용희</span><span data-lang="en">Yonghee Kim</span>
+          </h1>
+          <p class="hero-lede anim" style="--d:2">
+            <span data-lang="ko">디지털 플랫폼이 미디어 시장을 어떻게 바꾸는지, 그 변화가 정책에 어떤 의미를 갖는지 연구합니다.</span>
+            <span data-lang="en">I study how digital platforms reshape media markets, and what that change means for public policy.</span>
+          </p>
+          <div class="hero-actions anim" style="--d:3">
+            <a class="btn btn-accent" href="/research/publications">
+              <span data-lang="ko">연구 보기</span><span data-lang="en">View research</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a class="btn btn-ghost" href="/about">
+              <span data-lang="ko">소개</span><span data-lang="en">About</span>
+            </a>
+          </div>
+          <dl class="hero-stats anim" style="--d:4">
+            <div class="stat">
+              <dt class="stat-num">{scholar.citations.toLocaleString()}</dt>
+              <dd class="stat-lbl"><span data-lang="ko">누적 인용</span><span data-lang="en">citations</span></dd>
+            </div>
+            <div class="stat">
+              <dt class="stat-num">{scholar.hIndex}</dt>
+              <dd class="stat-lbl"><span data-lang="ko">h-지수</span><span data-lang="en">h-index</span></dd>
+            </div>
+            <div class="stat">
+              <dt class="stat-num">{pubTotal}+</dt>
+              <dd class="stat-lbl"><span data-lang="ko">발표 논문</span><span data-lang="en">publications</span></dd>
+            </div>
+          </dl>
         </div>
-        <dl class="hero-stats anim" style="--d:4">
-          <div class="stat">
-            <dt class="stat-num">{scholar.citations.toLocaleString()}</dt>
-            <dd class="stat-lbl"><span data-lang="ko">누적 인용</span><span data-lang="en">citations</span></dd>
-          </div>
-          <div class="stat">
-            <dt class="stat-num">{scholar.hIndex}</dt>
-            <dd class="stat-lbl"><span data-lang="ko">h-지수</span><span data-lang="en">h-index</span></dd>
-          </div>
-          <div class="stat">
-            <dt class="stat-num">{pubTotal}+</dt>
-            <dd class="stat-lbl"><span data-lang="ko">발표 논문</span><span data-lang="en">publications</span></dd>
-          </div>
-        </dl>
-      </div>
-      <div class="hero-scroll anim" style="--d:5" aria-hidden="true">
-        <span data-lang="ko">아래로</span><span data-lang="en">scroll</span>
-        <span class="scroll-line"></span>
+        <figure class="hero-portrait anim" style="--d:2">
+          <picture>
+            <source srcset="/images/profile.webp" type="image/webp" />
+            <img
+              src="/images/profile.jpg"
+              alt="김용희 교수 / Professor Yonghee Kim"
+              width="961"
+              height="1440"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
+        </figure>
       </div>
     </section>
 
-    <!-- ═══════════════ BIO ═══════════════ -->
-    <section class="bio container reveal">
-      <p>
-        <span data-lang="ko">선문대학교 경영학과에서 가르치며 대연산업정책연구원을 이끌고 있습니다. 계량경제 방법과 산업연관분석으로 방송 산업의 구조, 온라인 동영상 서비스 시장의 움직임, 정보통신 산업의 효율성을 살핍니다.</span>
-        <span data-lang="en">I teach in the Department of Business Administration at Sunmoon University and direct the Daeyeon Industrial Policy Institute. Using econometric methods and input-output analysis, I examine the structure of the broadcasting industry, the dynamics of online video markets, and the efficiency of Korea's ICT sector.</span>
-      </p>
-      <p>
-        <span data-lang="ko"><a href="https://www.etnews.com/" target="_blank" rel="noopener noreferrer">전자신문</a>에 정책 칼럼을 쓰고, 학술 연구와 산업 현장을 잇는 컨설팅 <a href="https://www.openroute.kr/" target="_blank" rel="noopener noreferrer">오픈루트</a>를 공동 창업했습니다. 연구의 끝이 논문에만 머물지 않고 정책과 시장으로 이어지도록 합니다.</span>
-        <span data-lang="en">I write policy commentary for <a href="https://www.etnews.com/" target="_blank" rel="noopener noreferrer">The Electronic Times</a> and cofounded <a href="https://www.openroute.kr/" target="_blank" rel="noopener noreferrer">OpenRoute</a>, a consultancy bridging academic research and industry practice, so that research reaches policy and markets, not just journals.</span>
-      </p>
+    <!-- ═══════════════ PROFILE ═══════════════ -->
+    <section class="profile container" aria-label="소개 / Profile">
+      <div class="profile-grid">
+        <aside class="profile-facts reveal">
+          <div class="fact-group">
+            <h2 class="fact-label"><span data-lang="ko">현재</span><span data-lang="en">Now</span></h2>
+            <ul class="role-list">
+              <li class="role">
+                <span class="role-org"><span data-lang="ko">선문대학교 경영학과</span><span data-lang="en">Sunmoon University</span></span>
+                <span class="role-title"><span data-lang="ko">교수</span><span data-lang="en">Assistant Professor</span></span>
+              </li>
+              <li class="role">
+                <span class="role-org"><span data-lang="ko">대연산업정책연구원</span><span data-lang="en">Daeyeon Industrial Policy Institute</span></span>
+                <span class="role-title"><span data-lang="ko">원장</span><span data-lang="en">Director</span></span>
+              </li>
+              <li class="role">
+                <a class="role-org" href="https://www.etnews.com/" target="_blank" rel="noopener noreferrer"><span data-lang="ko">전자신문</span><span data-lang="en">The Electronic Times</span></a>
+                <span class="role-title"><span data-lang="ko">정책 칼럼니스트</span><span data-lang="en">Columnist</span></span>
+              </li>
+              <li class="role">
+                <a class="role-org" href="https://www.openroute.kr/" target="_blank" rel="noopener noreferrer"><span data-lang="ko">오픈루트</span><span data-lang="en">OpenRoute</span></a>
+                <span class="role-title"><span data-lang="ko">공동창업자</span><span data-lang="en">Cofounder</span></span>
+              </li>
+            </ul>
+          </div>
+          <div class="fact-group">
+            <h2 class="fact-label"><span data-lang="ko">관심 분야</span><span data-lang="en">Focus</span></h2>
+            <ul class="focus-tags">
+              <li><span data-lang="ko">미디어 경제학</span><span data-lang="en">Media Economics</span></li>
+              <li><span data-lang="ko">플랫폼 규제</span><span data-lang="en">Platform Regulation</span></li>
+              <li><span data-lang="ko">데이터 분석</span><span data-lang="en">Data Analysis</span></li>
+              <li><span data-lang="ko">미디어 ESG</span><span data-lang="en">Media ESG</span></li>
+            </ul>
+          </div>
+        </aside>
+
+        <div class="profile-body reveal" style="--i:1">
+          <p class="profile-lead">
+            <span data-lang="ko">계량경제 방법과 산업연관분석으로 방송 산업의 구조, 온라인 동영상 서비스 시장의 움직임, 정보통신 산업의 효율성을 분석합니다.</span>
+            <span data-lang="en">Using econometric methods and input-output analysis, I examine the structure of the broadcasting industry, the dynamics of online video markets, and the efficiency of Korea's ICT sector.</span>
+          </p>
+          <p>
+            <span data-lang="ko">강의실과 연구, 정책 자문과 창업의 현장을 오가며 일합니다. 연구가 논문에서 끝나지 않고 정책과 시장으로 이어지도록, 미디어 산업이 더 건강하게 작동하는 규칙을 함께 설계하려 합니다.</span>
+            <span data-lang="en">I move between the classroom, research, policy advising, and the startup floor, so that research does not stop at the journal but reaches policy and markets, helping design rules that let the media industry work better.</span>
+          </p>
+          <div class="profile-cta">
+            <a class="text-link" href="/about">
+              <span data-lang="ko">전체 이력 보기</span><span data-lang="en">Full profile</span>
+              <span class="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a class="text-link" href="/cv">
+              <span data-lang="ko">이력서</span><span data-lang="en">Curriculum Vitae</span>
+              <span class="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ═══════════════ RESEARCH ═══════════════ -->
@@ -202,7 +260,7 @@ const fmtDate = (d: any, lang: 'ko' | 'en') =>
                 <span data-lang="en">{(project.data as any).description_en || (project.data as any).description}</span>
               </p>
             )}
-            <span class="card-date">{fmtDate(project.data.date, 'en')}</span>
+            <span class="card-date"><span data-lang="ko">{fmtDate(project.data.date, 'ko')}</span><span data-lang="en">{fmtDate(project.data.date, 'en')}</span></span>
           </a>
         ))}
       </div>
@@ -280,7 +338,43 @@ const fmtDate = (d: any, lang: 'ko' | 'en') =>
     position: relative;
     z-index: 2;
     padding-block: var(--space-20);
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: center;
   }
+  .hero-text { min-width: 0; }
+
+  /* Portrait — offset terracotta frame */
+  .hero-portrait {
+    position: relative;
+    justify-self: end;
+    width: 100%;
+    max-width: 340px;
+    margin: 0;
+  }
+  .hero-portrait picture { display: block; }
+  .hero-portrait img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-soft);
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface);
+  }
+  .hero-portrait::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    transform: translate(18px, 18px);
+    border: 1.5px solid var(--color-accent);
+    border-radius: var(--radius-soft);
+    transition: transform var(--transition-slow);
+  }
+  .hero-portrait:hover::before { transform: translate(11px, 11px); }
 
   .hero-role {
     font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1.05rem);
@@ -290,12 +384,14 @@ const fmtDate = (d: any, lang: 'ko' | 'en') =>
     margin-bottom: var(--space-5);
   }
   .hero-name {
-    font-size: var(--step-6);
+    font-size: clamp(2.8rem, 1.9rem + 4.2vw, 5rem);
     font-weight: var(--weight-black);
-    line-height: 0.98;
+    line-height: 1;
     letter-spacing: -0.035em;
     color: var(--color-text);
     margin: 0;
+    overflow-wrap: normal;
+    word-break: keep-all;
   }
   .hero-lede {
     max-width: 34ch;
@@ -336,31 +432,6 @@ const fmtDate = (d: any, lang: 'ko' | 'en') =>
     font-weight: var(--weight-medium);
   }
 
-  .hero-scroll {
-    position: absolute;
-    z-index: 2;
-    right: clamp(1.5rem, 4vw, 4rem);
-    bottom: var(--space-10);
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    writing-mode: vertical-rl;
-  }
-  .hero-scroll .scroll-line {
-    width: 1px;
-    height: 44px;
-    background: linear-gradient(var(--color-accent), transparent);
-    animation: scrollPulse 2.4s var(--ease-out-expo) infinite;
-  }
-  @keyframes scrollPulse {
-    0%, 100% { transform: scaleY(0.4); opacity: 0.4; transform-origin: top; }
-    50% { transform: scaleY(1); opacity: 1; transform-origin: top; }
-  }
-
   /* Hero entrance choreography */
   .anim {
     opacity: 0;
@@ -372,23 +443,73 @@ const fmtDate = (d: any, lang: 'ko' | 'en') =>
     to { opacity: 1; transform: none; }
   }
 
-  /* ═══════════════ BIO ═══════════════ */
-  .bio {
-    padding-block: var(--section-gap);
-    max-width: 60ch;
-    font-size: clamp(1.05rem, 1rem + 0.45vw, 1.3rem);
-    line-height: 1.85;
-    color: var(--color-text);
+  /* ═══════════════ PROFILE ═══════════════ */
+  .profile { padding-block: var(--section-gap); }
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 0.82fr 1.18fr;
+    gap: clamp(2.5rem, 1.5rem + 5vw, 6rem);
+    align-items: start;
   }
-  .bio p + p { margin-top: var(--space-6); }
-  .bio a {
+  .profile-facts { position: sticky; top: 6rem; }
+  .fact-group + .fact-group { margin-top: var(--space-10); }
+  .fact-label {
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+  }
+  .role-list { list-style: none; padding: 0; margin: 0; }
+  .role {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .role:last-child { border-bottom: none; }
+  .role-org { font-size: 1rem; font-weight: var(--weight-bold); color: var(--color-text); }
+  a.role-org { transition: color var(--transition-fast); }
+  a.role-org:hover { color: var(--color-accent); }
+  .role-title { font-size: 0.85rem; color: var(--color-text-muted); text-align: right; white-space: nowrap; }
+
+  .focus-tags { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .focus-tags li {
+    font-size: 0.8rem;
+    font-weight: var(--weight-medium);
+    padding: 0.32rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-secondary);
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+  }
+  .focus-tags li:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+  .profile-lead {
+    font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.75rem);
+    line-height: 1.5;
+    font-weight: var(--weight-medium);
+    color: var(--color-text);
+    margin-bottom: var(--space-6);
+    text-wrap: balance;
+  }
+  .profile-body > p:not(.profile-lead) {
+    font-size: 1.075rem;
+    line-height: 1.85;
+    color: var(--color-text-secondary);
+    max-width: 60ch;
+  }
+  .profile-body > p + p { margin-top: var(--space-5); }
+  .profile-body a:not(.text-link) {
     color: var(--color-accent);
     text-decoration: underline;
-    text-underline-offset: 0.22em;
-    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.2em;
     font-weight: var(--weight-medium);
   }
-  .bio a:hover { color: var(--color-accent-hover); }
+  .profile-cta { display: flex; gap: var(--space-6); margin-top: var(--space-8); flex-wrap: wrap; }
 
   /* ═══════════════ BLOCKS ═══════════════ */
   .block { padding-bottom: var(--section-gap); }
@@ -541,10 +662,18 @@ const fmtDate = (d: any, lang: 'ko' | 'en') =>
   .intel-more { margin-top: var(--space-2); }
 
   /* ═══════════════ Responsive ═══════════════ */
+  @media (max-width: 1000px) {
+    .hero { min-height: auto; }
+    .hero-inner { grid-template-columns: 1fr; gap: var(--space-10); }
+    .hero-portrait { order: -1; justify-self: start; max-width: 220px; }
+    .hero-portrait::before { transform: translate(12px, 12px); }
+    .profile-grid { grid-template-columns: 1fr; gap: var(--space-10); }
+    .profile-facts { position: static; }
+  }
+
   @media (max-width: 760px) {
-    .hero { min-height: clamp(34rem, 88vh, 48rem); }
     .hero-inner { padding-block: var(--space-16); }
-    .hero-scroll { display: none; }
+    .hero-portrait { max-width: 180px; }
     .row-link {
       grid-template-columns: 3.2rem 1fr;
       gap: var(--space-3);
@@ -553,11 +682,13 @@ const fmtDate = (d: any, lang: 'ko' | 'en') =>
     .row-link:hover { padding-inline: var(--space-2); }
     .row-arrow { display: none; }
     .block-head { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+    .role { flex-direction: column; align-items: flex-start; gap: 2px; }
+    .role-title { text-align: left; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .anim { opacity: 1 !important; transform: none !important; animation: none !important; }
-    .hero-scroll .scroll-line { animation: none; }
+    .hero-portrait::before { transition: none; }
   }
 </style>
 

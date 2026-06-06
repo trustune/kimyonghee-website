@@ -39,3 +39,5 @@ HANDOVER_COMPLETE.md
 LOCAL_SETUP_GUIDE.md
 
 scripts/vis.mjs
+
+scripts/contrast.mjs

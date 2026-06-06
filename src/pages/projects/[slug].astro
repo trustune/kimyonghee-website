@@ -20,12 +20,21 @@ const showCharts = project.slug === 'broadcasting-revenue-2015-2024';
 
 // Chart data
 const revenueLabels = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
+// 브랜드 조화 데이터 팔레트 (테라코타 중심의 따뜻한 램프 — 무지개색 대신)
+const PAL = {
+  terracotta: '176, 84, 50',
+  green: '74, 107, 93',
+  ochre: '184, 134, 47',
+  blue: '92, 107, 122',
+  plum: '122, 85, 99',
+  gray: '138, 132, 123',
+};
 const revenueDatasets = [
   {
     label: 'Pay-TV Subscriptions',
     data: [27.5, 28.3, 29.4, 31.2, 32.4, 33.5, 36.5, 37.1, 37.3, 37.6],
-    borderColor: 'rgba(102, 126, 234, 1)',
-    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+    borderColor: `rgba(${PAL.terracotta}, 1)`,
+    backgroundColor: `rgba(${PAL.terracotta}, 0.08)`,
     borderWidth: 3,
     fill: true,
     tension: 0.4
@@ -33,8 +42,8 @@ const revenueDatasets = [
   {
     label: 'Broadcasting Advertising',
     data: [35.0, 34.6, 31.8, 32.4, 33.0, 31.4, 31.0, 28.8, 25.0, 22.9],
-    borderColor: 'rgba(239, 68, 68, 1)',
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    borderColor: `rgba(${PAL.green}, 1)`,
+    backgroundColor: `rgba(${PAL.green}, 0.08)`,
     borderWidth: 3,
     fill: true,
     tension: 0.4
@@ -42,8 +51,8 @@ const revenueDatasets = [
   {
     label: 'Home Shopping Fees',
     data: [0, 0, 24.4, 24.0, 23.7, 23.5, 22.0, 21.5, 20.5, 20.2],
-    borderColor: 'rgba(245, 158, 11, 1)',
-    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    borderColor: `rgba(${PAL.ochre}, 1)`,
+    backgroundColor: `rgba(${PAL.ochre}, 0.08)`,
     borderWidth: 3,
     fill: true,
     tension: 0.4
@@ -53,12 +62,12 @@ const revenueDatasets = [
 const pieLabels = ['Pay-TV Subscriptions', 'Broadcasting Advertising', 'Home Shopping Fees', 'Program Sales', 'Government Subsidy', 'Other'];
 const pieValues = [37.6, 22.9, 20.2, 9.5, 2.8, 7.0];
 const pieColors = [
-  'rgba(102, 126, 234, 0.8)',
-  'rgba(239, 68, 68, 0.8)',
-  'rgba(245, 158, 11, 0.8)',
-  'rgba(16, 185, 129, 0.8)',
-  'rgba(139, 92, 246, 0.8)',
-  'rgba(107, 114, 128, 0.8)'
+  `rgba(${PAL.terracotta}, 0.85)`,
+  `rgba(${PAL.green}, 0.85)`,
+  `rgba(${PAL.ochre}, 0.85)`,
+  `rgba(${PAL.blue}, 0.85)`,
+  `rgba(${PAL.plum}, 0.85)`,
+  `rgba(${PAL.gray}, 0.85)`
 ];
 
 const d = data as any;
