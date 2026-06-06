@@ -38,242 +38,670 @@ const featured = stories.filter((s: any) => s.type === 'featured');
 const briefs = stories.filter((s: any) => s.type === 'brief');
 
 function esc(s: string) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-const GC: Record<string,string> = { A:'#1a6bff', B:'#e67e22', C:'#95a5a6' };
+// 등급 색: 학술 신호는 테라코타 단색 위계로 표현(파랑 금지)
+const GRADE_LABEL: Record<string,string> = { A: 'A', B: 'B', C: 'C' };
+
+// 통계 라벨(ko/en) — 데이터 키와 분리
+const statCards: { num: any; ko: string; en: string }[] = [
+  { num: stats.total_journals || 0, ko: '추적 저널', en: 'journals tracked' },
+  { num: Number(stats.total_papers || 0).toLocaleString(), ko: '수집 논문', en: 'papers collected' },
+  { num: Number(stats.papers_2026 || 0).toLocaleString(), ko: '2026년 논문', en: 'papers in 2026' },
+  { num: stats.total_calls || 0, ko: 'CFP·특집호', en: 'CFP / special issues' },
+];
 ---
 
-<BaseLayout title="JournalINT" description="Journal Intelligence Terminal — 95개 학술 저널 인텔리전스">
+<BaseLayout
+  title="저널 동향 · JournalINT"
+  description="저널 인텔리전스 터미널 — 95개 학술 저널과 6만여 편의 논문을 추적해 매주 정리하는 학술 동향 브리핑.">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css">
+  <div class="ji">
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <header class="ji-head container-wide reveal">
+      <p class="ji-eyebrow">
+        <span data-lang="ko">저널 동향</span><span data-lang="en">Journal Intelligence</span>
+      </p>
+      <h1 class="ji-title">Journal<span class="ji-mark">INT</span></h1>
+      <p class="ji-lede">
+        <span data-lang="ko">학술 저널의 흐름을 매주 한자리에 모읍니다. 95개 저널과 {Number(stats.total_papers || 0).toLocaleString()}편의 논문을 추적해, 주목할 연구와 학술 동향을 정리합니다.</span>
+        <span data-lang="en">A weekly read on where scholarship is moving. Tracking 95 journals and {Number(stats.total_papers || 0).toLocaleString()} papers to surface the research and trends worth knowing.</span>
+      </p>
+      {(issueTitle || ts) && (
+        <p class="ji-issue">
+          <span class="ji-issue-tag" data-lang="ko">이번 호</span><span class="ji-issue-tag" data-lang="en">This issue</span>
+          <span class="ji-issue-name">{issueTitle || ts}</span>
+          {ts && <time class="ji-issue-date" datetime={ts}>{ts}</time>}
+        </p>
+      )}
+      <nav class="ji-switch" aria-label="동향 채널 / Intelligence channels">
+        <a href="/mediaint" class="ji-switch-link">
+          <span data-lang="ko">미디어 동향</span><span data-lang="en">Media</span>
+        </a>
+        <a href="/journalint" class="ji-switch-link is-active" aria-current="page">
+          <span data-lang="ko">저널 동향</span><span data-lang="en">Journals</span>
+        </a>
+      </nav>
+    </header>
 
-<style>
-  .ji { font-family: 'Paperlogy', 'Inter', sans-serif; max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
-  .ji-header { margin-bottom: 2rem; }
-  .ji-title { font-family: 'Paperlogy'; font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
-  .ji-title b { color: var(--color-accent, #1a6bff); }
-  .ji-sub { font-size: 0.85rem; color: var(--color-text-light, #888); margin-top: 0.25rem; }
-
-  .ji-intelnav { display: flex; gap: 0; margin-top: 0.75rem; }
-  .ji-intelnav a { font-size: 0.82rem; font-weight: 500; color: var(--color-text-light, #888); text-decoration: none; padding: 0.4rem 1rem; border: 1px solid var(--color-border, #e0e0e0); background: var(--color-bg, #f5f5f7); }
-  .ji-intelnav a:first-child { border-radius: 6px 0 0 6px; }
-  .ji-intelnav a:last-child { border-radius: 0 6px 6px 0; border-left: none; }
-  .ji-intelnav a:hover { color: var(--color-accent, #1a6bff); }
-  .ji-intelnav a.active { background: var(--color-accent, #1a6bff); color: #fff; border-color: var(--color-accent, #1a6bff); font-weight: 700; }
-
-  .ji-stats { display: flex; gap: 1.5rem; padding: 0.75rem 0; border-top: 2px solid var(--color-text, #111); border-bottom: 1px solid var(--color-border, #e5e5e5); flex-wrap: wrap; margin-bottom: 1.5rem; }
-  .ji-st b { font-size: 1.15rem; color: var(--color-accent, #1a6bff); margin-right: 0.2rem; }
-  .ji-st span { font-size: 0.7rem; color: var(--color-text-light, #888); }
-
-  .ji-sec { font-size: 0.75rem; font-weight: 800; letter-spacing: 1.5px; color: var(--color-text-light, #888); margin: 2.5rem 0 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--color-text, #111); }
-  .ji-grade { font-size: 0.6rem; font-weight: 800; padding: 1px 5px; border-radius: 3px; color: #fff; display: inline-block; }
-
-  /* Top Story */
-  .ji-top { background: var(--color-surface, #fff); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 2rem; border-left: 4px solid var(--color-accent, #1a6bff); }
-  .ji-top h1 { font-family: 'Paperlogy'; font-size: 1.5rem; font-weight: 800; line-height: 1.4; margin: 0 0 1rem; color: var(--color-text, #111); }
-  .ji-top .lede { font-size: 0.95rem; color: var(--color-text-light, #444); line-height: 1.8; margin-bottom: 1rem; }
-  .ji-top .kps { margin: 0 0 1rem 1.2rem; font-size: 0.85rem; color: var(--color-text-light, #555); line-height: 1.7; }
-  .ji-top .kps li { margin-bottom: 0.3rem; }
-  .ji-top .tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
-  .ji-tag { font-size: 0.68rem; padding: 2px 8px; border-radius: 12px; background: #eef3ff; color: #1a6bff; font-weight: 600; }
-  .ji-srcbar { display: flex; gap: 0.5rem; flex-wrap: wrap; padding-top: 0.75rem; border-top: 1px solid var(--color-border, #e5e5e5); }
-  .ji-src { font-size: 0.72rem; color: var(--color-accent, #1a6bff); text-decoration: none; padding: 2px 8px; background: var(--color-bg, #f5f5f7); border-radius: 4px; }
-  .ji-src:hover { background: #eef3ff; }
-
-  /* Spotlight */
-  .ji-spotlight { background: var(--color-surface, #fff); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 2rem; border-left: 4px solid #e67e22; }
-  .ji-spotlight h2 { font-family: 'Paperlogy'; font-size: 1.3rem; font-weight: 800; line-height: 1.4; margin: 0 0 0.75rem; color: var(--color-text, #111); }
-  .ji-spot-meta { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
-  .ji-spot-journal { font-size: 0.75rem; font-weight: 600; color: var(--color-accent, #1a6bff); }
-  .ji-spot-cit { font-size: 0.75rem; font-weight: 700; color: #e67e22; }
-  .ji-spot-year { font-size: 0.75rem; color: var(--color-text-light, #888); }
-  .ji-spot-paper { font-size: 0.85rem; font-style: italic; color: var(--color-text-light, #555); margin-bottom: 0.75rem; padding: 0.5rem 0.75rem; background: var(--color-bg, #f9f9f9); border-radius: 6px; }
-  .ji-spot-body { font-size: 0.85rem; color: var(--color-text-light, #444); line-height: 1.85; white-space: pre-line; }
-
-  /* Featured cards */
-  .ji-cards { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-  .ji-card { background: var(--color-surface, #fff); border-radius: 10px; padding: 1.75rem; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
-  .ji-card h3 { font-family: 'Paperlogy'; font-size: 1.1rem; font-weight: 700; line-height: 1.4; margin: 0 0 0.75rem; }
-  .ji-card .syn { font-size: 0.85rem; color: var(--color-text-light, #444); line-height: 1.85; margin-bottom: 0.75rem; white-space: pre-line; }
-  .ji-card .kps { margin: 0 0 0.75rem 1rem; font-size: 0.8rem; color: var(--color-text-light, #555); line-height: 1.7; }
-  .ji-card .kps li { margin-bottom: 0.25rem; }
-
-  /* Topics */
-  .ji-topics { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .ji-topic { font-size: 0.78rem; padding: 0.3rem 0.75rem; border-radius: 20px; background: var(--color-surface, #fff); border: 1px solid var(--color-border, #e5e5e5); color: var(--color-text, #333); box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-  .ji-topic b { color: var(--color-accent, #1a6bff); margin-left: 0.3rem; font-size: 0.7rem; }
-
-  /* Briefs */
-  .ji-briefs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-  .ji-brief { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.75rem; background: var(--color-surface, #fff); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-  .ji-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-  .ji-brief a { font-size: 0.8rem; font-weight: 600; color: var(--color-text, #111); text-decoration: none; line-height: 1.4; }
-  .ji-brief a:hover { color: var(--color-accent, #1a6bff); }
-  .ji-brief-m { font-size: 0.7rem; color: var(--color-text-light, #888); margin-top: 0.15rem; }
-
-  /* Archive */
-  .ji-archive { display: flex; flex-direction: column; gap: 0.5rem; }
-  .ji-archive-item { display: flex; align-items: center; gap: 1rem; padding: 0.6rem 0.8rem; background: var(--color-surface, #fff); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); text-decoration: none; transition: box-shadow 0.2s; }
-  .ji-archive-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-  .ji-archive-date { font-size: 0.75rem; font-weight: 700; color: var(--color-accent, #1a6bff); min-width: 90px; }
-  .ji-archive-title { font-size: 0.82rem; font-weight: 500; color: var(--color-text, #111); flex: 1; }
-  .ji-archive-cnt { font-size: 0.72rem; color: var(--color-text-light, #888); background: var(--color-bg, #f5f5f7); padding: 2px 8px; border-radius: 10px; }
-
-  .ji-footer { text-align: center; padding: 2rem; color: var(--color-text-light, #bbb); font-size: 0.7rem; margin-top: 2rem; }
-
-  @media (max-width: 768px) {
-    .ji-cards, .ji-briefs { grid-template-columns: 1fr; }
-    .ji-top h1 { font-size: 1.2rem; }
-  }
-</style>
-
-<div class="ji">
-  <div class="ji-header">
-    <div class="ji-title">Journal<b>INT</b></div>
-    <div class="ji-sub">Journal Intelligence Terminal &mdash; {issueTitle || ts} &mdash; 95개 추적 저널 &middot; {Number(stats.total_papers || 0).toLocaleString()}편 논문 DB</div>
-    <div class="ji-intelnav">
-      <a href="/mediaint">MediaINT</a>
-      <a href="/journalint" class="active">JournalINT</a>
-    </div>
-  </div>
-
-  <div class="ji-stats">
-    <div class="ji-st"><b>{stats.total_journals || 0}</b><span>추적 저널</span></div>
-    <div class="ji-st"><b>{Number(stats.total_papers || 0).toLocaleString()}</b><span>수집 논문</span></div>
-    <div class="ji-st"><b>{Number(stats.papers_2026 || 0).toLocaleString()}</b><span>2026년 논문</span></div>
-    <div class="ji-st"><b>{stats.total_calls || 0}</b><span>CFP/SI</span></div>
-    {grades.map((g: any) => (
-      <div class="ji-st">
-        <b style={`color:${GC[g.grade] || '#666'}`}>{g.cnt}</b>
-        <span>{g.grade}등급</span>
-      </div>
-    ))}
-  </div>
-
-  {/* Top Story */}
-  {topStory && (
-    <Fragment>
-      <div class="ji-sec">TOP STORY</div>
-      <article class="ji-top">
-        <div class="tags">
-          {(topStory.tags || []).map((t: string) => <span class="ji-tag">{t}</span>)}
-        </div>
-        <h1>{esc(topStory.title)}</h1>
-        <p class="lede">{esc(topStory.synthesis)}</p>
-        {topStory.key_points?.length > 0 && (
-          <ul class="kps">
-            {topStory.key_points.map((kp: string) => <li>{esc(kp)}</li>)}
-          </ul>
-        )}
-        <div class="ji-srcbar">
-          {(topStory.sources || []).map((s: any) => (
-            <a href={s.url} target="_blank" rel="noopener" class="ji-src">{s.name}</a>
-          ))}
-        </div>
-      </article>
-    </Fragment>
-  )}
-
-  {/* Spotlight: 주목 논문 */}
-  {spotlight && (
-    <Fragment>
-      <div class="ji-sec">RESEARCH SPOTLIGHT</div>
-      <article class="ji-spotlight">
-        <div class="tags">
-          {(spotlight.tags || []).map((t: string) => <span class="ji-tag">{t}</span>)}
-        </div>
-        <h2>{esc(spotlight.title)}</h2>
-        <div class="ji-spot-meta">
-          <span class="ji-spot-journal">{spotlight.journal}</span>
-          <span class="ji-spot-cit">{spotlight.citations} citations</span>
-          <span class="ji-spot-year">{spotlight.year}</span>
-        </div>
-        <div class="ji-spot-paper">{esc(spotlight.paper_title)}</div>
-        <p class="ji-spot-body">{esc(spotlight.synthesis)}</p>
-        {spotlight.doi && (
-          <div class="ji-srcbar">
-            <a href={spotlight.doi} target="_blank" rel="noopener" class="ji-src">DOI 원문 보기</a>
+    <!-- ═══════════════ STATS ═══════════════ -->
+    <section class="container-wide ji-statsblock reveal" aria-label="요약 통계 / Summary statistics">
+      <dl class="ji-stats">
+        {statCards.map((s, i) => (
+          <div class="ji-stat" style={`--i:${i}`}>
+            <dt class="ji-stat-num">{s.num}</dt>
+            <dd class="ji-stat-lbl"><span data-lang="ko">{s.ko}</span><span data-lang="en">{s.en}</span></dd>
           </div>
-        )}
-      </article>
-    </Fragment>
-  )}
+        ))}
+        {grades.map((g: any, i: number) => (
+          <div class={`ji-stat ji-stat--grade grade-${g.grade}`} style={`--i:${statCards.length + i}`}>
+            <dt class="ji-stat-num">{g.cnt}</dt>
+            <dd class="ji-stat-lbl">
+              <span data-lang="ko">{GRADE_LABEL[g.grade] || g.grade}등급 저널</span>
+              <span data-lang="en">grade {GRADE_LABEL[g.grade] || g.grade}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
 
-  {/* Featured Stories */}
-  {featured.length > 0 && (
-    <Fragment>
-      <div class="ji-sec">FEATURED STORIES</div>
-      <div class="ji-cards">
-        {featured.map((s: any) => (
-          <article class="ji-card">
-            <div class="tags" style="margin-bottom:0.5rem;">
-              {(s.tags || []).map((t: string) => <span class="ji-tag">{t}</span>)}
+    <!-- ═══════════════ TOP STORY ═══════════════ -->
+    {topStory && (
+      <section class="block container-wide">
+        <div class="block-head reveal">
+          <h2 class="block-title"><span data-lang="ko">이 주의 머리기사</span><span data-lang="en">Top Story</span></h2>
+        </div>
+        <article class="ji-top reveal">
+          {(topStory.tags || []).length > 0 && (
+            <div class="ji-tags">
+              {(topStory.tags || []).map((t: string) => <span class="ji-tag">{t}</span>)}
             </div>
-            <h3>{esc(s.title)}</h3>
-            <p class="syn">{esc(s.synthesis)}</p>
-            {s.key_points?.length > 0 && (
-              <ul class="kps">
-                {s.key_points.map((kp: string) => <li>{esc(kp)}</li>)}
-              </ul>
-            )}
-            <div class="ji-srcbar" style="margin-top:auto;">
-              {(s.sources || []).map((src: any) => (
-                <a href={src.url} target="_blank" rel="noopener" class="ji-src">{src.name}</a>
+          )}
+          <h3 class="ji-top-title">
+            <span data-lang="ko">{esc(topStory.title)}</span>
+            <span data-lang="en">{esc(topStory.title_en || topStory.title)}</span>
+          </h3>
+          <p class="ji-top-lede">
+            <span data-lang="ko">{esc(topStory.synthesis)}</span>
+            <span data-lang="en">{esc(topStory.synthesis_en || topStory.synthesis)}</span>
+          </p>
+          {topStory.key_points?.length > 0 && (
+            <ul class="ji-points">
+              {topStory.key_points.map((kp: string) => <li>{esc(kp)}</li>)}
+            </ul>
+          )}
+          {(topStory.sources || []).length > 0 && (
+            <div class="ji-srcbar">
+              <span class="ji-srcbar-lbl" data-lang="ko">출처</span><span class="ji-srcbar-lbl" data-lang="en">Sources</span>
+              {(topStory.sources || []).map((s: any) => (
+                <a href={s.url} target="_blank" rel="noopener" class="ji-src">{s.name}</a>
               ))}
             </div>
-          </article>
-        ))}
-      </div>
-    </Fragment>
-  )}
+          )}
+        </article>
+      </section>
+    )}
 
-  {/* Hot Topics */}
-  {topTopics.length > 0 && (
-    <Fragment>
-      <div class="ji-sec">2025-2026 HOT TOPICS (95개 저널 기준)</div>
-      <div class="ji-topics">
-        {topTopics.map((t: any) => (
-          <span class="ji-topic">{t.topic}<b>{Number(t.cnt).toLocaleString()}</b></span>
-        ))}
-      </div>
-    </Fragment>
-  )}
-
-  {/* Briefs */}
-  {briefs.length > 0 && (
-    <Fragment>
-      <div class="ji-sec">HEADLINES</div>
-      <div class="ji-briefs">
-        {briefs.map((b: any) => (
-          <div class="ji-brief">
-            <span class="ji-dot" style={`background:${GC[b.grade] || '#ccc'}`}></span>
-            <div>
-              <a href={b.url} target="_blank" rel="noopener">{esc(b.title)}</a>
-              <div class="ji-brief-m">{b.journal || ''}</div>
+    <!-- ═══════════════ RESEARCH SPOTLIGHT ═══════════════ -->
+    {spotlight && (
+      <section class="block container-wide">
+        <div class="block-head reveal">
+          <h2 class="block-title"><span data-lang="ko">주목 논문</span><span data-lang="en">Research Spotlight</span></h2>
+        </div>
+        <article class="ji-spot reveal">
+          {(spotlight.tags || []).length > 0 && (
+            <div class="ji-tags">
+              {(spotlight.tags || []).map((t: string) => <span class="ji-tag">{t}</span>)}
             </div>
+          )}
+          <h3 class="ji-spot-title">
+            <span data-lang="ko">{esc(spotlight.title)}</span>
+            <span data-lang="en">{esc(spotlight.title_en || spotlight.title)}</span>
+          </h3>
+          <div class="ji-spot-meta">
+            <span class="ji-spot-journal">{spotlight.journal}</span>
+            <span class="ji-spot-dot" aria-hidden="true">·</span>
+            <span class="ji-spot-cit">
+              {spotlight.citations}<span data-lang="ko"> 인용</span><span data-lang="en"> citations</span>
+            </span>
+            <span class="ji-spot-dot" aria-hidden="true">·</span>
+            <span class="ji-spot-year">{spotlight.year}</span>
           </div>
-        ))}
-      </div>
-    </Fragment>
-  )}
+          {spotlight.paper_title && (
+            <p class="ji-spot-paper">{esc(spotlight.paper_title)}</p>
+          )}
+          <p class="ji-spot-body">{esc(spotlight.synthesis)}</p>
+          {spotlight.doi && (
+            <div class="ji-srcbar">
+              <a href={spotlight.doi} target="_blank" rel="noopener" class="ji-src">
+                <span data-lang="ko">DOI 원문 보기</span><span data-lang="en">View via DOI</span>
+              </a>
+            </div>
+          )}
+        </article>
+      </section>
+    )}
 
-  {/* Archive */}
-  {archive.length > 0 && (
-    <Fragment>
-      <div class="ji-sec">ARCHIVE</div>
-      <div class="ji-archive">
-        {archive.map((a: any) => (
-          <a href={`/journalint/${a.issue}`} class="ji-archive-item">
-            <span class="ji-archive-date">{a.date}</span>
-            <span class="ji-archive-title">{a.title}</span>
-            <span class="ji-archive-cnt">{a.story_count}건</span>
-          </a>
-        ))}
-      </div>
-    </Fragment>
-  )}
+    <!-- ═══════════════ FEATURED STORIES ═══════════════ -->
+    {featured.length > 0 && (
+      <section class="block container-wide">
+        <div class="block-head reveal">
+          <h2 class="block-title"><span data-lang="ko">주요 소식</span><span data-lang="en">Featured Stories</span></h2>
+        </div>
+        <div class="ji-cards">
+          {featured.map((s: any, i: number) => (
+            <article class="ji-card reveal" style={`--i:${i}`}>
+              {(s.tags || []).length > 0 && (
+                <div class="ji-tags">
+                  {(s.tags || []).map((t: string) => <span class="ji-tag">{t}</span>)}
+                </div>
+              )}
+              <h3 class="ji-card-title">{esc(s.title)}</h3>
+              <p class="ji-card-syn">{esc(s.synthesis)}</p>
+              {s.key_points?.length > 0 && (
+                <ul class="ji-points ji-points--sm">
+                  {s.key_points.map((kp: string) => <li>{esc(kp)}</li>)}
+                </ul>
+              )}
+              {(s.sources || []).length > 0 && (
+                <div class="ji-srcbar">
+                  {(s.sources || []).map((src: any) => (
+                    <a href={src.url} target="_blank" rel="noopener" class="ji-src">{src.name}</a>
+                  ))}
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
 
-  <div class="ji-footer">
-    JournalINT v1 &middot; 95개 학술 저널 인텔리전스 &middot; Papers DB ({Number(stats.total_papers || 0).toLocaleString()}편) &middot; Claude Agent Sweep &middot; {ts}
+    <!-- ═══════════════ HOT TOPICS ═══════════════ -->
+    {topTopics.length > 0 && (
+      <section class="block container-wide">
+        <div class="block-head reveal">
+          <h2 class="block-title"><span data-lang="ko">주요 연구 주제</span><span data-lang="en">Hot Topics</span></h2>
+          <span class="ji-head-note">
+            <span data-lang="ko">2025–2026 · 95개 저널 기준</span>
+            <span data-lang="en">2025–2026 · across 95 journals</span>
+          </span>
+        </div>
+        <div class="ji-topics reveal">
+          {topTopics.map((t: any) => (
+            <span class="ji-topic">
+              <span class="ji-topic-name">{t.topic}</span>
+              <span class="ji-topic-cnt">{Number(t.cnt).toLocaleString()}</span>
+            </span>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- ═══════════════ HEADLINES (briefs) ═══════════════ -->
+    {briefs.length > 0 && (
+      <section class="block container-wide">
+        <div class="block-head reveal">
+          <h2 class="block-title"><span data-lang="ko">짧은 소식</span><span data-lang="en">Headlines</span></h2>
+        </div>
+        <ul class="ji-briefs">
+          {briefs.map((b: any, i: number) => (
+            <li class={`ji-brief reveal grade-${b.grade || 'none'}`} style={`--i:${i}`}>
+              <span class="ji-brief-dot" aria-hidden="true"></span>
+              <a href={b.url} target="_blank" rel="noopener" class="ji-brief-link">
+                <span class="ji-brief-title">{esc(b.title)}</span>
+                {b.journal && <span class="ji-brief-meta">{b.journal}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- ═══════════════ ARCHIVE ═══════════════ -->
+    {archive.length > 0 && (
+      <section class="block container-wide">
+        <div class="block-head reveal">
+          <h2 class="block-title"><span data-lang="ko">지난 호</span><span data-lang="en">Archive</span></h2>
+        </div>
+        <ul class="ji-archive">
+          {archive.map((a: any, i: number) => (
+            <li class="ji-arc-row reveal" style={`--i:${i}`}>
+              <a href={`/journalint/${a.issue}`} class="ji-arc-link">
+                <time class="ji-arc-date" datetime={a.date}>{a.date}</time>
+                <span class="ji-arc-title">{a.title}</span>
+                <span class="ji-arc-cnt">
+                  {a.story_count}<span data-lang="ko"> 건</span><span data-lang="en"> items</span>
+                </span>
+                <span class="ji-arc-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- ═══════════════ FOOTER NOTE ═══════════════ -->
+    <p class="ji-colophon container-wide reveal">
+      <span data-lang="ko">JournalINT · 95개 학술 저널 인텔리전스 · 논문 데이터베이스 {Number(stats.total_papers || 0).toLocaleString()}편 · {ts} 갱신</span>
+      <span data-lang="en">JournalINT · intelligence across 95 academic journals · database of {Number(stats.total_papers || 0).toLocaleString()} papers · updated {ts}</span>
+    </p>
   </div>
-</div>
 
 </BaseLayout>
+
+<style>
+  .ji { width: 100%; }
+
+  /* ═══════════════ HEADER ═══════════════ */
+  .ji-head {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-10);
+  }
+  .ji-eyebrow {
+    font-size: 0.8rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+  }
+  .ji-title {
+    font-size: var(--step-5);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--color-text);
+  }
+  .ji-mark { color: var(--color-accent); }
+  .ji-lede {
+    max-width: 54ch;
+    margin-top: var(--space-6);
+    font-size: clamp(1.05rem, 1rem + 0.5vw, 1.3rem);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  .ji-issue {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    margin-top: var(--space-8);
+    padding: var(--space-3) var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-soft);
+    background: var(--color-bg-sunken);
+  }
+  .ji-issue-tag {
+    font-size: 0.7rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+  .ji-issue-name {
+    font-size: 0.98rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+  }
+  .ji-issue-date {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 채널 전환 (MediaINT / JournalINT) */
+  .ji-switch {
+    display: inline-flex;
+    margin-top: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    padding: 4px;
+    gap: 2px;
+  }
+  .ji-switch-link {
+    font-size: 0.85rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-secondary);
+    padding: 0.4rem 1.1rem;
+    border-radius: var(--radius-pill);
+    transition: color var(--transition-fast), background var(--transition-fast);
+  }
+  .ji-switch-link:hover { color: var(--color-text); }
+  .ji-switch-link.is-active {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .ji-switch-link.is-active:hover { color: #fff; }
+
+  /* ═══════════════ STATS ═══════════════ */
+  .ji-statsblock { padding-bottom: var(--section-gap); }
+  .ji-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+    gap: var(--space-2);
+    border-top: 2px solid var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .ji-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-5) var(--space-4) var(--space-5) 0;
+  }
+  .ji-stat-num {
+    font-size: clamp(1.5rem, 1.2rem + 1.3vw, 2.1rem);
+    font-weight: var(--weight-heavy);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+  .ji-stat-lbl {
+    font-size: 0.78rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+  }
+  /* 저널 등급은 학술 신호색(앰버)로 — 위계만 표현, 본문색 아님 */
+  .ji-stat--grade .ji-stat-num { color: var(--color-index-amber); }
+  .ji-stat--grade.grade-B .ji-stat-num { color: var(--color-accent); }
+  .ji-stat--grade.grade-C .ji-stat-num { color: var(--color-text-muted); }
+
+  /* ═══════════════ TOP STORY ═══════════════ */
+  .ji-top {
+    padding: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-soft);
+    background: var(--color-bg-sunken);
+  }
+  .ji-top-title {
+    font-size: var(--step-2);
+    font-weight: var(--weight-bold);
+    line-height: 1.35;
+    color: var(--color-text);
+    margin-top: var(--space-3);
+  }
+  .ji-top-lede {
+    margin-top: var(--space-5);
+    font-size: clamp(1rem, 0.96rem + 0.3vw, 1.12rem);
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    max-width: 70ch;
+  }
+
+  /* ═══════════════ SPOTLIGHT ═══════════════ */
+  .ji-spot {
+    padding: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-index-amber);
+    border-radius: var(--radius-soft);
+    background: var(--color-surface);
+  }
+  .ji-spot-title {
+    font-size: var(--step-1);
+    font-weight: var(--weight-bold);
+    line-height: 1.4;
+    color: var(--color-text);
+    margin-top: var(--space-3);
+  }
+  .ji-spot-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    font-size: 0.85rem;
+  }
+  .ji-spot-journal { font-weight: var(--weight-semibold); color: var(--color-accent); }
+  .ji-spot-cit { font-weight: var(--weight-semibold); color: var(--color-index-amber); font-variant-numeric: tabular-nums; }
+  .ji-spot-year { color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
+  .ji-spot-dot { color: var(--color-border-strong); }
+  .ji-spot-paper {
+    margin-top: var(--space-5);
+    padding: var(--space-3) var(--space-4);
+    border-left: 2px solid var(--color-border-strong);
+    background: var(--color-bg);
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+  .ji-spot-body {
+    margin-top: var(--space-5);
+    font-size: clamp(1rem, 0.96rem + 0.3vw, 1.08rem);
+    line-height: 1.85;
+    color: var(--color-text-secondary);
+    white-space: pre-line;
+    max-width: 70ch;
+  }
+
+  /* ═══════════════ shared: tags / points / sources ═══════════════ */
+  .ji-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-2); }
+  .ji-tag {
+    font-size: 0.7rem;
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.01em;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-surface);
+    color: var(--color-accent);
+  }
+
+  .ji-points {
+    list-style: none;
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .ji-points li {
+    position: relative;
+    padding-left: var(--space-5);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+  .ji-points li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+  .ji-points--sm li { font-size: 0.88rem; }
+
+  .ji-srcbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-light);
+  }
+  .ji-srcbar-lbl {
+    font-size: 0.7rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-right: var(--space-1);
+  }
+  .ji-src {
+    font-size: 0.78rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-accent);
+    padding: 3px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg);
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+  }
+  .ji-src:hover { color: var(--color-accent-hover); border-color: var(--color-accent); }
+
+  /* ═══════════════ FEATURED CARDS ═══════════════ */
+  .ji-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+    gap: var(--space-5);
+  }
+  .ji-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-soft);
+    background: var(--color-bg);
+    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+  }
+  .ji-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: 0 18px 40px -24px rgba(var(--shadow-color) / 0.5);
+  }
+  .ji-card-title {
+    font-size: var(--step-1);
+    font-weight: var(--weight-bold);
+    line-height: 1.4;
+    color: var(--color-text);
+    margin-top: var(--space-1);
+  }
+  .ji-card-syn {
+    margin-top: var(--space-2);
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    white-space: pre-line;
+    flex: 1;
+  }
+
+  /* ═══════════════ HOT TOPICS ═══════════════ */
+  .ji-head-note { font-size: 0.82rem; color: var(--color-text-muted); }
+  .ji-topics { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .ji-topic {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.4rem 0.5rem 0.4rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg);
+    transition: border-color var(--transition-fast);
+  }
+  .ji-topic:hover { border-color: var(--color-border-strong); }
+  .ji-topic-name { font-size: 0.85rem; color: var(--color-text); }
+  .ji-topic-cnt {
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    background: var(--color-accent-surface);
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ═══════════════ HEADLINES (briefs) ═══════════════ */
+  .ji-briefs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+    gap: var(--space-1) var(--space-8);
+  }
+  .ji-brief {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .ji-brief-dot {
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    margin-top: 0.5em;
+    border-radius: 50%;
+    background: var(--color-index-amber);
+  }
+  .ji-brief.grade-B .ji-brief-dot { background: var(--color-accent); }
+  .ji-brief.grade-C .ji-brief-dot,
+  .ji-brief.grade-none .ji-brief-dot { background: var(--color-border-strong); }
+  .ji-brief-link { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .ji-brief-title {
+    font-size: 0.95rem;
+    font-weight: var(--weight-semibold);
+    line-height: 1.45;
+    color: var(--color-text);
+    transition: color var(--transition-fast);
+  }
+  .ji-brief-link:hover .ji-brief-title { color: var(--color-accent); }
+  .ji-brief-meta { font-size: 0.8rem; color: var(--color-text-muted); }
+
+  /* ═══════════════ ARCHIVE ═══════════════ */
+  .ji-archive { list-style: none; margin: 0; padding: 0; }
+  .ji-arc-row { border-bottom: 1px solid var(--color-border-light); }
+  .ji-arc-link {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr auto auto;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-2);
+    color: var(--color-text);
+    transition: background var(--transition-base), padding var(--transition-base);
+  }
+  .ji-arc-link:hover {
+    background: var(--color-accent-light);
+    padding-inline: var(--space-4);
+    color: var(--color-text);
+  }
+  .ji-arc-date {
+    font-size: 0.85rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .ji-arc-title {
+    font-size: 0.98rem;
+    font-weight: var(--weight-medium);
+    line-height: 1.4;
+    color: var(--color-text);
+    min-width: 0;
+  }
+  .ji-arc-cnt { font-size: 0.82rem; color: var(--color-text-muted); white-space: nowrap; }
+  .ji-arc-arrow {
+    color: var(--color-text-muted);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity var(--transition-base), transform var(--transition-base), color var(--transition-base);
+  }
+  .ji-arc-link:hover .ji-arc-arrow { opacity: 1; transform: none; color: var(--color-accent); }
+
+  /* ═══════════════ COLOPHON ═══════════════ */
+  .ji-colophon {
+    display: block;
+    margin-top: var(--space-8);
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-top: 1px solid var(--color-border-light);
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  /* ═══════════════ Responsive ═══════════════ */
+  @media (max-width: 760px) {
+    .ji-head { padding-top: var(--space-12); }
+    .ji-arc-link {
+      grid-template-columns: 1fr auto;
+      gap: var(--space-1) var(--space-3);
+    }
+    .ji-arc-date { grid-column: 1 / -1; }
+    .ji-arc-arrow { display: none; }
+  }
+</style>

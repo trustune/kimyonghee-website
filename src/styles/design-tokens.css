@@ -1,40 +1,68 @@
 /* Design Tokens - kimyonghee.com */
-/* Modern Minimal Academic Portfolio */
+/* "조용한 신호 / A Quiet Signal" — Paperlogy 단일 패밀리, 테라코타 한 점, 모던한 여백과 모션 */
 
 :root {
-  /* Typography - Inter + Source Serif 4 */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --font-serif: 'Source Serif 4', 'Georgia', 'Times New Roman', serif;
+  /* ── Typography ───────────────────────────────────────────────
+     단일 패밀리(Paperlogy)로 한글·영문을 모두 운용한다. 위계는 글꼴이
+     아니라 무게/크기 대비로 만든다. 기존 페이지가 참조하는 --font-serif
+     도 Paperlogy로 별칭 처리해 전 페이지가 자동으로 새 글꼴을 입는다. */
+  --font-sans: 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Pretendard', system-ui, sans-serif;
+  --font-display: var(--font-sans);
+  --font-serif: var(--font-sans);            /* legacy alias → Paperlogy */
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace;
 
-  /* Type Scale (1.2 minor third) */
-  --step--1: clamp(0.833rem, 0.8rem + 0.17vw, 0.875rem);
+  /* 무게 토큰 — 위계는 여기서 만든다 */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-heavy: 800;
+  --weight-black: 900;
+
+  /* Type Scale (modular, fluid). ≥1.25 사이 대비로 평평하지 않게. */
+  --step--1: clamp(0.82rem, 0.79rem + 0.16vw, 0.875rem);
   --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
-  --step-1: clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem);
-  --step-2: clamp(1.35rem, 1.2rem + 0.75vw, 1.625rem);
-  --step-3: clamp(1.6rem, 1.35rem + 1.25vw, 2.1rem);
-  --step-4: clamp(2rem, 1.6rem + 2vw, 2.75rem);
-  --step-5: clamp(2.4rem, 1.9rem + 2.5vw, 3.5rem);
+  --step-1: clamp(1.15rem, 1.06rem + 0.42vw, 1.3rem);
+  --step-2: clamp(1.4rem, 1.22rem + 0.85vw, 1.75rem);
+  --step-3: clamp(1.7rem, 1.4rem + 1.45vw, 2.35rem);
+  --step-4: clamp(2.15rem, 1.65rem + 2.4vw, 3.2rem);
+  --step-5: clamp(2.7rem, 1.95rem + 3.6vw, 4.4rem);
+  --step-6: clamp(3.3rem, 2.1rem + 5.6vw, 6rem);   /* 히어로 전용 ceiling ~96px */
 
-  /* Colors - Warm ink-on-white with a terracotta accent (OKLCH).
-     Canvas stays true white; warmth lives in the accent + a whisper in the neutrals. */
-  --color-bg: #ffffff;                            /* true white canvas (No-Beige Rule) */
-  --color-surface: #f8f6f4;                       /* barely-warm raised panels */
-  --color-text: #1a1a1a;                          /* near-black body/heading ink */
-  --color-text-secondary: #4a4a4a;               /* supporting copy, nav, footer */
-  --color-text-muted: oklch(50% 0.012 55);       /* warm gray, AA-compliant (was #8a8a8a ~3.5:1) */
-  --color-border: #d6d3cf;                        /* hairline divider, whisper warm */
-  --color-border-light: #ececea;
-  --color-accent: oklch(50% 0.12 42);            /* terracotta - links, emphasis, focus */
-  --color-accent-hover: oklch(43% 0.12 40);      /* deeper terracotta - hover/active */
-  --color-accent-light: oklch(96.5% 0.013 48);   /* soft warm wash - small surfaces only */
-  --color-accent-surface: oklch(95% 0.022 48);   /* ~6% warm tint - callouts/featured only */
+  /* 한글 본문은 영문보다 행간을 약간 넉넉하게 */
+  --leading-tight: 1.18;
+  --leading-snug: 1.32;
+  --leading-body: 1.78;
+  --leading-relaxed: 1.85;
 
-  /* Spacing (4px base) */
+  /* ── Colors ───────────────────────────────────────────────────
+     순백 캔버스 + 따뜻한 먹빛 잉크 + 테라코타 한 점(OKLCH).
+     온기는 악센트·타이포·이미지가 만든다 — 배경은 절대 베이지가 아니다. */
+  --color-bg: #ffffff;                            /* 순백 캔버스 (No-Beige Rule) */
+  --color-bg-sunken: #faf9f7;                     /* 섹션 구분용 살짝 가라앉은 면 */
+  --color-surface: #f6f4f1;                       /* 살짝 따뜻한 패널(코드·칩) */
+  --color-text: #1a1714;                          /* 따뜻한 near-black 본문/제목 */
+  --color-text-secondary: #4a463f;               /* 보조 카피, nav, 푸터 */
+  --color-text-muted: oklch(48% 0.012 55);       /* 날짜·캡션, AA 충족 */
+  --color-border: #ddd9d3;                        /* 헤어라인, whisper-warm */
+  --color-border-light: #ece9e4;
+  --color-border-strong: #c8c3bb;
+  --color-accent: oklch(50% 0.13 42);            /* 테라코타 — 링크·강조·포커스 (AA on white) */
+  --color-accent-hover: oklch(43% 0.13 40);      /* 더 깊은 테라코타 — hover/active */
+  --color-accent-bright: oklch(58% 0.16 42);     /* 큰 장식·모션 전용(본문 텍스트 금지) */
+  --color-accent-light: oklch(96.5% 0.014 48);   /* 부드러운 온기 워시 — 작은 면만 */
+  --color-accent-surface: oklch(95% 0.024 48);   /* ~6% 온기 틴트 — 콜아웃·피처드만 */
+  --color-index-amber: #b45309;                   /* SCIE 학술 신호 전용 */
+
+  /* RGB shadows (테라코타 글로우/그림자 합성용) */
+  --shadow-color: 26 23 20;                        /* --color-text 의 rgb */
+
+  /* ── Spacing (4px base) ── */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
   --space-4: 1rem;
+  --space-5: 1.25rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
   --space-10: 2.5rem;
@@ -42,29 +70,56 @@
   --space-16: 4rem;
   --space-20: 5rem;
   --space-24: 6rem;
+  --space-32: 8rem;
+  /* 큰 화면에서 숨 쉬는 유체 섹션 간격 */
+  --section-gap: clamp(4rem, 2.5rem + 7vw, 8rem);
 
-  /* Layout */
+  /* ── Layout ── */
   --measure: 65ch;
-  --measure-wide: 80ch;
-  --container-max: 960px;
-  --border-radius: 2px;
+  --measure-wide: 78ch;
+  --container-max: 980px;
+  --container-wide: 1180px;
+  --border-radius: 3px;
+  --radius-soft: 8px;
+  --radius-pill: 999px;
 
-  /* Transitions */
-  --transition-fast: 120ms ease;
-  --transition-base: 200ms ease;
+  /* ── Motion ───────────────────────────────────────────────────
+     지수 ease-out 곡선. 바운스·일래스틱 금지. */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --transition-fast: 130ms var(--ease-out-quart);
+  --transition-base: 240ms var(--ease-out-quart);
+  --transition-slow: 620ms var(--ease-out-expo);
+  --reveal-duration: 760ms;
+
+  /* ── z-index scale (semantic) ── */
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-drawer: 1200;
+  --z-modal: 1300;
+  --z-toast: 1400;
+  --z-tooltip: 1500;
 }
 
-/* Dark Mode */
+/* ── Dark Mode ── */
 .dark {
-  --color-bg: #0f0f0f;                            /* true near-black */
-  --color-surface: #1a1815;                       /* whisper-warm raised */
-  --color-text: #e6e3df;                          /* warm off-white */
-  --color-text-secondary: #a8a39d;
-  --color-text-muted: #8a847c;                    /* warm muted, lifted for contrast */
-  --color-border: #2c2926;
-  --color-border-light: #201e1b;
-  --color-accent: oklch(74% 0.11 55);            /* warm terracotta-tan, legible on dark */
-  --color-accent-hover: oklch(82% 0.09 58);
+  --color-bg: #100e0c;                            /* 따뜻한 near-black */
+  --color-bg-sunken: #15120f;
+  --color-surface: #1b1814;                       /* whisper-warm 패널 */
+  --color-text: #ece8e1;                          /* 따뜻한 off-white */
+  --color-text-secondary: #aaa49b;
+  --color-text-muted: #8a847b;
+  --color-border: #2e2a25;
+  --color-border-light: #221f1b;
+  --color-border-strong: #423d36;
+  --color-accent: oklch(76% 0.115 56);           /* 따뜻한 테라코타-탄, 어두운 배경에서 가독 */
+  --color-accent-hover: oklch(83% 0.095 58);
+  --color-accent-bright: oklch(72% 0.14 50);
   --color-accent-light: #1c1814;
-  --color-accent-surface: oklch(30% 0.04 45);
+  --color-accent-surface: oklch(30% 0.045 45);
+  --color-index-amber: #e08a3c;
+  --shadow-color: 0 0 0;
 }

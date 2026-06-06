@@ -20,167 +20,294 @@ const sortedCourses = [...courses].sort((a, b) => {
 
   return String(a.code).localeCompare(String(b.code));
 });
+
+// 학기별 그룹핑 — 최신 학기가 먼저. 표시 순서를 보존하기 위해 Map 사용.
+const termLabel = (semester, lang) => {
+  const { year, term } = parseSemester(semester);
+  if (!year) return semester;
+  return lang === 'ko' ? `${year}년 ${term}학기` : `${year} Term ${term}`;
+};
+
+const groups = [];
+const seen = new Map();
+for (const course of sortedCourses) {
+  let group = seen.get(course.semester);
+  if (!group) {
+    group = { semester: course.semester, courses: [] };
+    seen.set(course.semester, group);
+    groups.push(group);
+  }
+  group.courses.push(course);
+}
+
+// 표시용 헬퍼 — 한국어 제목/설명/일정이 없으면 영어로 폴백.
+const titleKo = (c) => (c as any).title_ko || c.title;
+const titleEn = (c) => (c as any).title_en || c.title;
+const descKo = (c) => (c as any).description_ko || c.description;
+const descEn = (c) => c.description;
+const scheduleKo = (c) => (c as any).schedule_ko || c.schedule;
+const scheduleEn = (c) => c.schedule;
+
+// 이수 구분 라벨 — 데이터에는 영어만 있어 한국어는 매핑한다.
+const typeMap = { 'Major Elective': '전공선택', 'Major Required': '전공필수', 'General Elective': '교양선택', 'General Required': '교양필수' };
+const typeKo = (c) => typeMap[c.type] || typeMap[(c as any).type_en] || c.type || '전공';
+const typeEn = (c) => (c as any).type_en || c.type || 'Course';
 ---
 
-<BaseLayout title="Teaching" description="Courses taught by Yonghee Kim">
+<BaseLayout
+  title="강의"
+  description="김용희 교수의 강의 과목. 미디어 정책, 데이터 분석, 경영정보시스템을 다룹니다.">
   <div class="teaching-page">
-    <!-- Header -->
-    <header class="page-header">
-      <h1>Teaching</h1>
-      <p class="subtitle">Courses on Media Policy, Data Analytics, and Business Information Systems</p>
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <header class="page-head reveal">
+      <p class="eyebrow">
+        <span data-lang="ko">강의</span><span data-lang="en">Teaching</span>
+      </p>
+      <h1 class="page-title">
+        <span data-lang="ko">강의 과목</span><span data-lang="en">Courses</span>
+      </h1>
+      <p class="page-lede">
+        <span data-lang="ko">미디어 정책, 데이터 분석, 경영정보시스템을 가르칩니다. 이론과 실습을 함께 다루며, 생성형 AI와 데이터 기반 의사결정 역량을 기르는 데 무게를 둡니다.</span>
+        <span data-lang="en">I teach media policy, data analytics, and business information systems. My courses pair theory with hands-on practice, with an emphasis on generative AI and data-driven decision-making.</span>
+      </p>
     </header>
 
-    <!-- Courses -->
-    {sortedCourses.length > 0 && (
-      <section class="courses-section">
-        {sortedCourses.map((course, index) => (
-          <a href={`/courses/${course.id || course.code}`} class="course-item">
-            <div class="course-top">
-              <div class="course-info">
-                <h3 class="course-title">{course.title}</h3>
-                <div class="course-meta">
-                  <span>{course.schedule}</span>
-                  <span class="meta-sep">&middot;</span>
-                  <span>Semester {course.semester}</span>
-                  <span class="meta-sep">&middot;</span>
-                  <span>Year {course.year}</span>
-                  <span class="meta-sep">&middot;</span>
-                  <span>{course.credits} Credits</span>
-                </div>
+    <!-- ═══════════════ COURSES BY TERM ═══════════════ -->
+    {groups.map((group) => (
+      <section class="term-block">
+        <div class="block-head reveal">
+          <h2 class="block-title">
+            <span data-lang="ko">{termLabel(group.semester, 'ko')}</span>
+            <span data-lang="en">{termLabel(group.semester, 'en')}</span>
+          </h2>
+          <span class="term-count">
+            {group.courses.length}<span data-lang="ko"> 과목</span><span data-lang="en"> courses</span>
+          </span>
+        </div>
+
+        <div class="cards">
+          {group.courses.map((course, i) => (
+            <a href={`/courses/${course.id || course.code}`} class="course-card reveal" style={`--i:${i}`}>
+              <div class="card-top">
+                <span class="card-type">
+                  <span data-lang="ko">{typeKo(course)}</span>
+                  <span data-lang="en">{typeEn(course)}</span>
+                </span>
+                <span class="card-code">{course.code}</span>
               </div>
-              <div class="course-code">{course.code}</div>
-            </div>
-            <p class="course-description">{course.description}</p>
-          </a>
-        ))}
+
+              <h3 class="card-title">
+                <span data-lang="ko">{titleKo(course)}</span>
+                <span data-lang="en">{titleEn(course)}</span>
+              </h3>
+
+              <p class="card-desc">
+                <span data-lang="ko">{descKo(course)}</span>
+                <span data-lang="en">{descEn(course)}</span>
+              </p>
+
+              <dl class="card-meta">
+                <div class="meta-pair">
+                  <dt><span data-lang="ko">일정</span><span data-lang="en">Schedule</span></dt>
+                  <dd>
+                    <span data-lang="ko">{scheduleKo(course)}</span>
+                    <span data-lang="en">{scheduleEn(course)}</span>
+                  </dd>
+                </div>
+                <div class="meta-pair">
+                  <dt><span data-lang="ko">학년</span><span data-lang="en">Year</span></dt>
+                  <dd>
+                    <span data-lang="ko">{course.year}학년</span>
+                    <span data-lang="en">Year {course.year}</span>
+                  </dd>
+                </div>
+                <div class="meta-pair">
+                  <dt><span data-lang="ko">학점</span><span data-lang="en">Credits</span></dt>
+                  <dd>
+                    <span data-lang="ko">{course.credits}학점</span>
+                    <span data-lang="en">{course.credits} credits</span>
+                  </dd>
+                </div>
+              </dl>
+
+              <span class="card-more text-link">
+                <span data-lang="ko">강의계획서</span><span data-lang="en">Syllabus</span>
+                <span class="arrow" aria-hidden="true">&rarr;</span>
+              </span>
+            </a>
+          ))}
+        </div>
       </section>
-    )}
+    ))}
   </div>
 </BaseLayout>
 
 <style>
   .teaching-page {
+    width: 100%;
     max-width: var(--container-max);
-    margin: 0 auto;
-    padding: var(--space-16) var(--space-8);
+    margin-inline: auto;
+    padding: var(--space-16) var(--space-8) var(--section-gap);
   }
 
-  /* Header */
-  .page-header {
-    margin-bottom: var(--space-12);
+  /* ═══════════════ HEADER ═══════════════ */
+  .page-head {
+    margin-bottom: var(--section-gap);
+    max-width: 60ch;
   }
-
-  .page-header h1 {
-    font-family: var(--font-serif);
-    font-size: var(--step-3);
-    font-weight: 400;
+  .eyebrow {
+    font-size: 0.85rem;
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+  }
+  .page-title {
+    font-size: var(--step-4);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.03em;
+    line-height: 1.04;
     color: var(--color-text);
-    margin-bottom: var(--space-2);
+    margin-bottom: var(--space-6);
   }
-
-  .subtitle {
-    font-size: var(--step-0);
+  .page-lede {
+    font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+    line-height: 1.75;
     color: var(--color-text-secondary);
-    font-weight: 300;
   }
 
-  /* Courses - single column list */
-  .courses-section {
+  /* ═══════════════ TERM BLOCK ═══════════════ */
+  .term-block { margin-bottom: var(--section-gap); }
+  .term-block:last-child { margin-bottom: 0; }
+
+  .block-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--color-text);
+  }
+  .block-title {
+    font-size: var(--step-3);
+    font-weight: var(--weight-heavy);
+    letter-spacing: -0.025em;
+    color: var(--color-text);
+  }
+  .term-count {
+    font-size: 0.85rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* ═══════════════ COURSE CARDS ═══════════════ */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+    gap: var(--space-5);
+  }
+
+  .course-card {
     display: flex;
     flex-direction: column;
-  }
-
-  .course-item {
-    display: block;
-    padding: var(--space-8) 0;
-    border-bottom: 1px solid var(--color-border-light);
-    text-decoration: none;
-    color: inherit;
-    transition: background var(--transition-fast);
-  }
-
-  .course-item:first-child {
-    padding-top: 0;
-  }
-
-  .course-item:last-child {
-    border-bottom: none;
-  }
-
-  .course-item:hover {
-    background: var(--color-surface);
-    margin-left: calc(-1 * var(--space-4));
-    margin-right: calc(-1 * var(--space-4));
-    padding-left: var(--space-4);
-    padding-right: var(--space-4);
-    border-radius: var(--border-radius);
-  }
-
-  .course-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--space-4);
-    margin-bottom: var(--space-3);
-  }
-
-  .course-info {
-    flex: 1;
-  }
-
-  .course-title {
-    font-size: var(--step-1);
-    font-weight: 600;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-soft);
+    background: var(--color-bg);
     color: var(--color-text);
-    margin-bottom: var(--space-2);
-    line-height: 1.4;
+    transition:
+      transform var(--transition-base),
+      border-color var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+  .course-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: 0 18px 40px -24px rgba(var(--shadow-color) / 0.5);
+    color: var(--color-text);
   }
 
-  .course-meta {
+  .card-top {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
   }
-
-  .meta-sep {
-    color: var(--color-border);
-  }
-
-  .course-code {
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
-    font-weight: 500;
+  .card-type {
+    font-size: 0.7rem;
+    font-weight: var(--weight-bold);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+  }
+  .card-code {
+    font-size: 0.78rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
     white-space: nowrap;
-    flex-shrink: 0;
   }
 
-  .course-description {
-    font-size: 0.9375rem;
+  .card-title {
+    font-size: var(--step-1);
+    font-weight: var(--weight-bold);
+    line-height: 1.35;
+    color: var(--color-text);
+  }
+
+  .card-desc {
+    font-size: 0.92rem;
     color: var(--color-text-secondary);
     line-height: 1.7;
-    max-width: var(--measure);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  /* Responsive */
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin-top: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-light);
+  }
+  .meta-pair { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .meta-pair dt {
+    font-size: 0.68rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+  .meta-pair dd {
+    font-size: 0.86rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-text);
+  }
+
+  .card-more {
+    margin-top: var(--space-3);
+    align-self: flex-start;
+  }
+  .course-card:hover .card-more .arrow { transform: translateX(4px); }
+
+  /* ═══════════════ RESPONSIVE ═══════════════ */
   @media (max-width: 768px) {
     .teaching-page {
-      padding: var(--space-8) var(--space-4);
+      padding: var(--space-10) var(--space-4) var(--space-16);
     }
-
-    .course-top {
+    .block-head {
       flex-direction: column;
-      gap: var(--space-1);
+      align-items: flex-start;
+      gap: var(--space-2);
     }
-
-    .course-item:hover {
-      margin-left: calc(-1 * var(--space-2));
-      margin-right: calc(-1 * var(--space-2));
-      padding-left: var(--space-2);
-      padding-right: var(--space-2);
-    }
+    .card-meta { gap: var(--space-3) var(--space-4); }
   }
 </style>

@@ -1,6 +1,10 @@
 ---
 title: "Korean Film Holdback Analysis: Maximizing Revenue Across Distribution Windows"
+title_ko: "한국 영화 홀드백 분석: 유통 창구별 수익 극대화"
+title_en: "Korean Film Holdback Analysis: Maximizing Revenue Across Distribution Windows"
 subtitle: "An Empirical Analysis of 395 Films and 500 Audience Members Reveals the 6-Month Rule Has No Empirical Basis"
+subtitle_ko: "영화 395편과 관객 500명을 실증 분석한 결과, 6개월 규칙에는 실증적 근거가 없다"
+subtitle_en: "An Empirical Analysis of 395 Films and 500 Audience Members Reveals the 6-Month Rule Has No Empirical Basis"
 date: "2026-02-27"
 category: "Media Economics"
 tags: ["Holdback", "Film Distribution", "OTT", "IPTV", "Window Strategy", "PSM", "KOFIC"]
@@ -27,7 +31,11 @@ related_publications: []
 related_projects: ["netflix-korea-economic-impact-2024"]
 conference: ""
 description: "KOFIC commissioned study analyzing holdback periods for 395 Korean films (2021-2024). PSM analysis shows holdback contributes less than 3% to box office revenue, while 82% of audiences complete viewing within 90 days. The conventional 6-month holdback has no empirical support."
+description_ko: "영화진흥위원회 수탁 연구로, 영화 395편(2021~2024)의 홀드백 기간을 분석했다. 성향점수매칭 분석 결과 홀드백이 극장 매출에 기여하는 비중은 3% 미만이며, 관객의 82%는 개봉 90일 안에 관람을 마친다. 관행으로 굳어진 6개월 홀드백에는 실증적 근거가 없다."
+description_en: "KOFIC commissioned study analyzing holdback periods for 395 Korean films (2021-2024). PSM analysis shows holdback contributes less than 3% to box office revenue, while 82% of audiences complete viewing within 90 days. The conventional 6-month holdback has no empirical support."
 summary: "Using PSM, Bootstrap, and RDD methods on 395 films and 500 survey respondents, this study finds that film quality (93%) overwhelmingly determines box office performance, not holdback length (less than 3%). The optimal holdback window is 45-105 days depending on film scale, and the 6-month convention produces near-zero residual audience value. OTT viewers visit theaters more frequently than non-viewers, suggesting a complementary rather than substitutive relationship."
+summary_ko: "영화 395편과 설문 응답자 500명을 대상으로 성향점수매칭, 부트스트랩, 회귀불연속설계를 적용한 결과, 극장 성과를 압도적으로 좌우하는 것은 작품의 완성도(93%)이며 홀드백 기간(3% 미만)이 아니었다. 최적 홀드백 기간은 영화 규모에 따라 45~105일이며, 관행적인 6개월은 잔여 관객 가치를 사실상 0에 가깝게 만든다. 온라인 동영상 서비스 이용자는 비이용자보다 극장을 더 자주 찾아, 두 매체가 대체재가 아니라 보완재 관계임을 시사한다."
+summary_en: "Using PSM, Bootstrap, and RDD methods on 395 films and 500 survey respondents, this study finds that film quality (93%) overwhelmingly determines box office performance, not holdback length (less than 3%). The optimal holdback window is 45-105 days depending on film scale, and the 6-month convention produces near-zero residual audience value. OTT viewers visit theaters more frequently than non-viewers, suggesting a complementary rather than substitutive relationship."
 key_findings:
   - "Holdback contributes less than 3% to box office revenue; film quality accounts for 93% (Random Forest)"
   - "PSM causal analysis: 90-day holdback ATE = +25,621 KRW, p = 0.912 (statistically insignificant)"

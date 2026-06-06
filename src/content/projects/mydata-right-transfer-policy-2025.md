@@ -1,6 +1,10 @@
 ---
 title: "The Right to Data Transfer: Social Problems and Response Plans"
+title_ko: "개인정보 전송요구권: 사회적 문제와 대응 방안"
+title_en: "The Right to Data Transfer: Social Problems and Response Plans"
 subtitle: "Critical Analysis of Personal Information Protection Act Enforcement Decree Amendment"
+subtitle_ko: "개인정보 보호법 시행령 개정안에 대한 비판적 분석"
+subtitle_en: "Critical Analysis of Personal Information Protection Act Enforcement Decree Amendment"
 date: "2025-11-21"
 category: "Data Policy"
 tags: ["MyData", "Data Privacy", "Regulation", "Policy Analysis", "Startup Ecosystem", "GDPR"]
@@ -14,7 +18,11 @@ related_projects: []
 conference: "MyData Policy Startup Seminar"
 venue: "Korea Startup Forum, D.CAMP, Gangnam, Seoul"
 description: "In-depth analysis of the proposed expansion of the Right to Request Data Transfer, examining seven critical concerns including regulatory procedural violations, constitutional issues, GDPR non-compliance, and threats to the startup ecosystem."
+description_ko: "개인정보 전송요구권 확대 개정안을 심층 분석한다. 규제 절차 위반, 위헌 소지, GDPR 기준 불일치, 스타트업 생태계 위협 등 일곱 가지 핵심 쟁점을 짚는다."
+description_en: "In-depth analysis of the proposed expansion of the Right to Request Data Transfer, examining seven critical concerns including regulatory procedural violations, constitutional issues, GDPR non-compliance, and threats to the startup ecosystem."
 summary: "The June 2025 amendment proposal ignores Regulatory Reform Committee recommendations (August 2024), violates constitutional principles, contradicts GDPR standards, and threatens to destroy Korea's startup ecosystem through unfair privileges to specialized agencies."
+summary_ko: "2025년 6월 개정안은 규제개혁위원회의 권고(2024년 8월)를 무시하고, 헌법 원칙에 어긋나며, GDPR 기준과 충돌한다. 또한 전문기관에 부당한 특혜를 부여해 한국 스타트업 생태계를 무너뜨릴 우려가 있다."
+summary_en: "The June 2025 amendment proposal ignores Regulatory Reform Committee recommendations (August 2024), violates constitutional principles, contradicts GDPR standards, and threatens to destroy Korea's startup ecosystem through unfair privileges to specialized agencies."
 key_findings:
   - "Procedural violation: Re-proposing rejected content only 4 months after Regulatory Reform Committee decision"
   - "Constitutional issue: Unconstitutional delegation of proxy rights via enforcement decree"

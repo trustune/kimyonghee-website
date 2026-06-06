@@ -1,30 +1,59 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Search from '../components/Search.astro';
+
+const tips = [
+  {
+    ko: '여러 개의 키워드를 함께 입력하면 더 정확한 결과를 얻을 수 있습니다.',
+    en: 'Combine several keywords for more precise results.',
+  },
+  {
+    ko: '검색 결과를 누르면 해당 페이지로 이동합니다.',
+    en: 'Click a result to open the matching page.',
+  },
+  {
+    ko: '검색은 밝은 화면과 어두운 화면에서 모두 동작합니다.',
+    en: 'Search works in both light and dark modes.',
+  },
+];
 ---
 
 <BaseLayout
-  title="Search - Yonghee Kim"
-  description="Search content across research, blog, and teaching materials"
+  title="검색 · Search — Yonghee Kim"
+  description="연구 논문, 글, 강의 자료 등 사이트 전체 콘텐츠를 검색합니다. Search across research, writing, and teaching materials."
 >
-  <div class="search-page">
-    <header class="page-header">
-      <h1>Search</h1>
-      <p class="page-description">
-        Search across all content including research papers, blog posts, and teaching materials.
+  <div class="search-page container">
+    <header class="page-head reveal">
+      <p class="eyebrow">
+        <span data-lang="ko">사이트 검색</span><span data-lang="en">Site Search</span>
+      </p>
+      <h1 class="page-title">
+        <span data-lang="ko">검색</span><span data-lang="en">Search</span>
+      </h1>
+      <p class="page-lede">
+        <span data-lang="ko">연구 논문, 글, 강의 자료를 비롯해 사이트의 모든 콘텐츠에서 원하는 내용을 찾습니다.</span>
+        <span data-lang="en">Find anything across the site — research papers, writing, teaching materials, and more.</span>
       </p>
     </header>
 
-    <div class="search-container">
+    <div class="search-container reveal" style="--i:1">
       <Search />
     </div>
 
-    <section class="search-tips">
-      <h2>Search Tips</h2>
-      <ul>
-        <li>Use multiple keywords for more precise results</li>
-        <li>Click on search results to navigate to the page</li>
-        <li>Search works in both light and dark modes</li>
+    <section class="tips reveal" style="--i:2" aria-label="검색 도움말 / Search tips">
+      <h2 class="tips-title">
+        <span data-lang="ko">검색 도움말</span><span data-lang="en">Search Tips</span>
+      </h2>
+      <ul class="tips-list">
+        {tips.map((tip, i) => (
+          <li class="tip" style={`--i:${i}`}>
+            <span class="tip-mark" aria-hidden="true"></span>
+            <span class="tip-text">
+              <span data-lang="ko">{tip.ko}</span>
+              <span data-lang="en">{tip.en}</span>
+            </span>
+          </li>
+        ))}
       </ul>
     </section>
   </div>
@@ -32,93 +61,87 @@ import Search from '../components/Search.astro';
 
 <style>
   .search-page {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: var(--space-16) var(--space-8);
+    padding-block: var(--section-gap);
   }
 
-  .page-header {
+  /* ── Header ── */
+  .page-head {
+    max-width: var(--measure-wide);
     margin-bottom: var(--space-12);
   }
-
-  .page-header h1 {
-    font-family: var(--font-serif);
+  .eyebrow {
+    font-size: 0.78rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+  }
+  .page-title {
     font-size: var(--step-4);
-    font-weight: 400;
+    font-weight: var(--weight-black);
+    letter-spacing: -0.03em;
+    line-height: var(--leading-tight);
     color: var(--color-text);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-5);
   }
-
-  .page-description {
-    font-size: var(--step-0);
-    color: var(--color-text-secondary);
+  .page-lede {
+    font-size: clamp(1.05rem, 1rem + 0.45vw, 1.3rem);
     line-height: 1.7;
-    max-width: var(--measure);
+    color: var(--color-text-secondary);
+    max-width: 52ch;
   }
 
+  /* ── Search field ── */
   .search-container {
-    max-width: 900px;
-    margin: 0 auto var(--space-16);
+    max-width: var(--container-max);
+    margin-bottom: var(--space-16);
   }
 
-  .search-tips {
-    max-width: 900px;
-    margin: 0 auto;
+  /* ── Tips ── */
+  .tips {
+    max-width: var(--container-max);
     padding: var(--space-8);
-    background: var(--color-surface);
+    background: var(--color-bg-sunken);
     border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-soft);
   }
-
-  .search-tips h2 {
-    font-family: var(--font-serif);
+  .tips-title {
     font-size: var(--step-1);
-    font-weight: 400;
+    font-weight: var(--weight-bold);
+    letter-spacing: -0.02em;
     color: var(--color-text);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-5);
   }
-
-  .search-tips ul {
+  .tips-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
   }
-
-  .search-tips li {
-    padding: var(--space-2) 0;
-    padding-left: var(--space-6);
-    position: relative;
-    line-height: 1.6;
+  .tip {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: var(--space-3);
+    line-height: 1.65;
     color: var(--color-text-secondary);
   }
-
-  .search-tips li::before {
-    content: "\2013";
-    position: absolute;
-    left: 0;
-    color: var(--color-accent);
-    font-weight: bold;
+  .tip-mark {
+    width: 7px;
+    height: 7px;
+    margin-top: 0.6em;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex-shrink: 0;
   }
+  .tip-text { min-width: 0; }
 
-  @media (max-width: 768px) {
-    .search-page {
-      padding: var(--space-8) var(--space-4);
-    }
-
-    .page-header h1 {
-      font-size: var(--step-3);
-    }
-
-    .page-description {
-      font-size: 1rem;
-    }
-
-    .search-tips {
-      padding: var(--space-6);
-    }
-
-    .search-tips h2 {
-      font-size: var(--step-0);
-    }
+  @media (max-width: 760px) {
+    .page-title { font-size: var(--step-3); }
+    .tips { padding: var(--space-6); }
+    .tips-title { font-size: var(--step-0); }
   }
 </style>

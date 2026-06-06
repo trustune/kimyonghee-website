@@ -14,59 +14,102 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 const { title, title_en, excerpt, excerpt_en, date, category, tags, image, author, enableShare } = entry.data;
+const readingTime = (entry.data as any).readingTime as number | undefined;
 
-const formattedDate = new Date(date).toLocaleDateString('en-US', {
+const titleKo = title;
+const titleEn = title_en || title;
+
+const formattedDateKo = new Date(date).toLocaleDateString('ko-KR', {
   year: 'numeric',
   month: 'long',
-  day: 'numeric'
+  day: 'numeric',
+});
+const formattedDateEn = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
 });
 
 const currentUrl = `https://kimyonghee.com/writing/${entry.slug}`;
 const fullImageUrl = image ? `https://kimyonghee.com${image}` : '';
 ---
 
-<BaseLayout title={`${title_en || title} | Yonghee Kim`} description={excerpt_en || excerpt} image={fullImageUrl} url={currentUrl}>
-  <article class="blog-post">
+<BaseLayout title={`${titleEn} | Yonghee Kim`} description={excerpt_en || excerpt} image={fullImageUrl} url={currentUrl}>
+  <article class="post container">
     <header class="post-header">
-      <div class="back-link">
-        <a href="/writing">&larr; Back to Blog</a>
+      <a href="/writing" class="back-link reveal" aria-label="글 목록으로 / Back to writing">
+        <span class="back-arrow" aria-hidden="true">&larr;</span>
+        <span data-lang="ko">글 목록</span><span data-lang="en">Back to writing</span>
+      </a>
+
+      <div class="post-cat reveal">
+        <span class="cat-tag">{category}</span>
       </div>
 
-      {image && (
-        <img
-          src={image}
-          alt={title_en || title}
-          class="post-hero-image"
-        />
+      <h1 class="post-title reveal">
+        <span data-lang="ko">{titleKo}</span><span data-lang="en">{titleEn}</span>
+      </h1>
+
+      {(excerpt || excerpt_en) && (
+        <p class="post-lede reveal">
+          <span data-lang="ko">{excerpt}</span>
+          <span data-lang="en">{excerpt_en || excerpt}</span>
+        </p>
       )}
 
-      <div class="post-meta">
-        <span>{formattedDate}</span>
-        <span class="meta-sep">&middot;</span>
-        <span>{category}</span>
-        <span class="meta-sep">&middot;</span>
-        <span>by {author}</span>
-      </div>
-
-      <h1 class="post-title">{title_en || title}</h1>
-
-      {tags && tags.length > 0 && (
-        <div class="post-tags">
-          {tags.map((tag) => (
-            <span class="post-tag">#{tag}</span>
-          ))}
+      <dl class="post-meta reveal">
+        <div class="meta-item">
+          <dt class="meta-label"><span data-lang="ko">작성일</span><span data-lang="en">Published</span></dt>
+          <dd class="meta-value">
+            <span data-lang="ko">{formattedDateKo}</span>
+            <span data-lang="en">{formattedDateEn}</span>
+          </dd>
         </div>
-      )}
+        <div class="meta-item">
+          <dt class="meta-label"><span data-lang="ko">분류</span><span data-lang="en">Category</span></dt>
+          <dd class="meta-value">{category}</dd>
+        </div>
+        {readingTime && readingTime > 0 && (
+          <div class="meta-item">
+            <dt class="meta-label"><span data-lang="ko">읽는 시간</span><span data-lang="en">Reading time</span></dt>
+            <dd class="meta-value">
+              <span data-lang="ko">{readingTime}분</span>
+              <span data-lang="en">{readingTime} min</span>
+            </dd>
+          </div>
+        )}
+        <div class="meta-item">
+          <dt class="meta-label"><span data-lang="ko">글쓴이</span><span data-lang="en">Author</span></dt>
+          <dd class="meta-value">{author}</dd>
+        </div>
+      </dl>
     </header>
 
-    <div class="prose">
+    {image && (
+      <figure class="post-hero reveal">
+        <img src={image} alt={titleEn} class="post-hero-image" loading="lazy" />
+      </figure>
+    )}
+
+    <div class="prose post-body reveal">
       <Content />
     </div>
 
+    {tags && tags.length > 0 && (
+      <div class="post-tags reveal">
+        <span class="tags-label"><span data-lang="ko">키워드</span><span data-lang="en">Keywords</span></span>
+        <ul class="tags-list">
+          {tags.map((tag) => (
+            <li class="post-tag">#{tag}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+
     {enableShare && (
-      <div class="share-section">
+      <div class="share-section reveal">
         <SocialShare
-          title={title_en || title}
+          title={titleEn}
           url={currentUrl}
           excerpt={excerpt_en || excerpt}
           image={fullImageUrl}
@@ -74,218 +117,177 @@ const fullImageUrl = image ? `https://kimyonghee.com${image}` : '';
       </div>
     )}
 
-    <footer class="post-footer">
-      <a href="/writing">&larr; Back to all blog posts</a>
+    <footer class="post-footer reveal">
+      <a href="/writing" class="text-link">
+        <span class="arrow" aria-hidden="true">&larr;</span>
+        <span data-lang="ko">전체 글 보기</span><span data-lang="en">View all writing</span>
+      </a>
     </footer>
   </article>
 </BaseLayout>
 
 <style>
-  .blog-post {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: var(--space-12) var(--space-4);
+  .post {
+    max-width: 760px;
+    padding-block: var(--section-gap);
   }
 
+  /* ── Header ── */
   .post-header {
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-10);
   }
 
   .back-link {
-    margin-bottom: var(--space-6);
-  }
-
-  .back-link a {
-    color: var(--color-accent);
-    text-decoration: none;
-    font-size: 0.9375rem;
-    transition: color var(--transition-fast);
-  }
-
-  .back-link a:hover {
-    color: var(--color-accent-hover);
-  }
-
-  .post-hero-image {
-    width: 100%;
-    height: auto;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: var(--border-radius);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     margin-bottom: var(--space-8);
+    font-size: 0.9rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
   }
-
-  .post-meta {
-    display: flex;
-    gap: var(--space-3);
-    margin-bottom: var(--space-4);
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
+  .back-link .back-arrow {
+    transition: transform var(--transition-base);
   }
+  .back-link:hover { color: var(--color-accent-hover); }
+  .back-link:hover .back-arrow { transform: translateX(-3px); }
 
-  .meta-sep {
-    color: var(--color-border);
+  .post-cat {
+    margin-bottom: var(--space-5);
+  }
+  .cat-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
   }
 
   .post-title {
-    font-family: var(--font-serif);
-    font-size: var(--step-3);
-    font-weight: 400;
-    line-height: 1.2;
+    font-size: var(--step-4);
+    font-weight: var(--weight-black);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
     color: var(--color-text);
     margin: 0 0 var(--space-6) 0;
   }
 
+  .post-lede {
+    font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-8) 0;
+    max-width: 56ch;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    margin: 0;
+  }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .meta-label {
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+  .meta-value {
+    font-size: 0.92rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Hero image ── */
+  .post-hero {
+    margin: 0 0 var(--space-12) 0;
+  }
+  .post-hero-image {
+    width: 100%;
+    height: auto;
+    max-height: 440px;
+    object-fit: cover;
+    border-radius: var(--radius-soft);
+    border: 1px solid var(--color-border-light);
+  }
+
+  /* ── Body ── */
+  .post-body {
+    font-size: var(--step-0);
+    color: var(--color-text);
+  }
+
+  /* ── Tags ── */
   .post-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border-light);
   }
-
+  .tags-label {
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+  .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
   .post-tag {
     background: var(--color-surface);
     border: 1px solid var(--color-border-light);
     padding: var(--space-1) var(--space-3);
-    border-radius: var(--border-radius);
-    font-size: 0.8125rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.8rem;
     color: var(--color-text-secondary);
+    margin: 0;
   }
 
-  /* Prose */
-  .prose {
-    line-height: 1.8;
-    color: var(--color-text);
-    font-size: var(--step-0);
-  }
-
+  /* ── Share ── */
   .share-section {
-    margin-top: var(--space-12);
-    padding-top: var(--space-8);
-    border-top: 1px solid var(--color-border-light);
+    margin-top: var(--space-10);
   }
 
+  /* ── Footer ── */
   .post-footer {
     margin-top: var(--space-12);
     padding-top: var(--space-8);
     border-top: 1px solid var(--color-border-light);
-    text-align: center;
   }
-
-  .post-footer a {
-    color: var(--color-accent);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color var(--transition-fast);
+  .post-footer .text-link .arrow {
+    transition: transform var(--transition-base);
   }
+  .post-footer .text-link:hover .arrow { transform: translateX(-4px); }
 
-  .post-footer a:hover {
-    color: var(--color-accent-hover);
-  }
-
-  /* Responsive */
+  /* ── Responsive ── */
   @media (max-width: 768px) {
-    .blog-post {
-      padding: var(--space-8) var(--space-4);
+    .post {
+      padding-block: var(--space-12);
     }
-
     .post-title {
-      font-size: var(--step-2);
+      font-size: var(--step-3);
     }
-
     .post-meta {
-      flex-wrap: wrap;
+      gap: var(--space-6);
     }
-  }
-
-  @media (max-width: 480px) {
-    .blog-post {
-      padding: var(--space-6) var(--space-3);
-    }
-  }
-</style>
-
-<style is:global>
-  .prose h2 {
-    font-family: var(--font-serif);
-    font-size: var(--step-2);
-    font-weight: 400;
-    margin-top: var(--space-12);
-    margin-bottom: var(--space-4);
-    color: var(--color-text);
-  }
-
-  .prose h3 {
-    font-family: var(--font-serif);
-    font-size: var(--step-1);
-    font-weight: 400;
-    margin-top: var(--space-8);
-    margin-bottom: var(--space-3);
-    color: var(--color-text);
-  }
-
-  .prose p {
-    margin-bottom: var(--space-6);
-  }
-
-  .prose ul,
-  .prose ol {
-    margin: var(--space-6) 0;
-    padding-left: var(--space-8);
-  }
-
-  .prose li {
-    margin-bottom: var(--space-2);
-  }
-
-  .prose a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-    text-decoration-thickness: 1px;
-  }
-
-  .prose a:hover {
-    color: var(--color-accent-hover);
-  }
-
-  .prose img {
-    width: 100%;
-    border-radius: var(--border-radius);
-    margin: var(--space-8) 0;
-  }
-
-  .prose strong {
-    font-weight: 600;
-    color: var(--color-text);
-  }
-
-  .prose code {
-    background: var(--color-surface);
-    padding: 0.125rem 0.375rem;
-    border-radius: var(--border-radius);
-    font-size: 0.875em;
-    font-family: var(--font-mono);
-  }
-
-  .prose pre {
-    background: var(--color-text);
-    color: var(--color-bg);
-    padding: var(--space-6);
-    border-radius: var(--border-radius);
-    overflow-x: auto;
-    margin: var(--space-8) 0;
-  }
-
-  .prose pre code {
-    background: transparent;
-    padding: 0;
-  }
-
-  .prose blockquote {
-    border-left: 3px solid var(--color-accent);
-    padding-left: var(--space-6);
-    margin: var(--space-8) 0;
-    color: var(--color-text-secondary);
-    font-style: italic;
   }
 </style>

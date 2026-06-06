@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import pubData from '../data/publications.json';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -8,21 +9,24 @@ const publications = await getCollection('publications');
 const projects = await getCollection('projects');
 const blogPosts = await getCollection('blog');
 
-// Load JournalINT latest data
+const scholar = (pubData as any).scholarStats || { citations: 0, hIndex: 0, i10Index: 0 };
+const publishedCount = publications.filter((p) => p.data.status === 'published').length;
+const domesticCount = Array.isArray((pubData as any).domestic_publications) ? (pubData as any).domestic_publications.length : 0;
+const pubTotal = publishedCount + domesticCount;
+
+// JournalINT latest
 let jiData: any = null;
 try {
   const jiPath = path.join(process.cwd(), 'public/data/journalint/latest.json');
   const raw = JSON.parse(fs.readFileSync(jiPath, 'utf-8'));
   const stories = raw.stories || [];
   jiData = {
-    issueTitle: raw.issue_title || '',
     topStory: stories.find((s: any) => s.type === 'top'),
     spotlight: stories.find((s: any) => s.type === 'spotlight'),
-    stats: raw.stats || {}
   };
 } catch {}
 
-// Load MediaINT latest data
+// MediaINT latest
 let miData: any = null;
 try {
   const miPath = path.join(process.cwd(), 'public/data/mediaint/latest.json');
@@ -31,18 +35,16 @@ try {
   const featured = clusters.filter((c: any) => (c.article_count || c.articles?.length || 0) >= 2).slice(0, 3);
   const totalArts = clusters.reduce((s: number, c: any) => s + (c.article_count || c.articles?.length || 0), 0);
   miData = {
-    timestamp: (raw.timestamp || '').slice(0, 10),
     totalArticles: totalArts,
-    totalStories: featured.length,
     topStory: featured[0] || null,
     stories: featured.slice(1, 3),
   };
 } catch {}
 
 const recentPubs = publications
-  .filter(p => p.data.status === 'published')
+  .filter((p) => p.data.status === 'published')
   .sort((a, b) => b.data.year - a.data.year)
-  .slice(0, 3);
+  .slice(0, 4);
 
 const featuredProjects = projects
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
@@ -51,346 +53,654 @@ const featuredProjects = projects
 const recentPosts = blogPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 3);
+
+const fmtDate = (d: any, lang: 'ko' | 'en') =>
+  new Date(d).toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US', { year: 'numeric', month: 'short' });
 ---
 
-<BaseLayout title="Home" description="Assistant Professor of Business Administration at Sunmoon University, specializing in media policy, digital platforms, AI governance, and data analytics.">
-  <div class="homepage">
-    <header class="hero">
-      <h1 class="name">Yonghee Kim</h1>
-      <p class="subtitle">Assistant Professor, Department of Business Administration, Sunmoon University</p>
-    </header>
-
-    <section class="bio">
-      <p>
-        I study how digital platforms reshape media markets and what that means for public policy. My work sits at the intersection of media economics, platform regulation, and data science&mdash;using econometric methods and input-output analysis to evaluate broadcasting industry structure, OTT market dynamics, and ICT efficiency in Korea.
-      </p>
-      <p>
-        I teach at <a href="https://mgt.sunmoon.ac.kr/mgt/ad/pp/profsrintrcnPage.do?profsrSe=A&mi=41267" target="_blank" rel="noopener noreferrer">Sunmoon University</a> and direct the Daeyeon Industrial Policy Institute. I also write policy commentary for <a href="https://www.etnews.com/" target="_blank" rel="noopener noreferrer">The Electronic Times</a> and cofounded <a href="https://www.openroute.kr/" target="_blank" rel="noopener noreferrer">OpenRoute</a>, a consultancy bridging academic research and industry practice.
-      </p>
-    </section>
-
-    <hr />
-
-    <section class="section">
-      <h2 class="section-title">Recent Research</h2>
-      <ul class="item-list">
-        {recentPubs.map(pub => (
-          <li>
-            <a href={`/research/${pub.slug}`}>
-              {pub.data.title}
-              <span class="item-meta">
-                {pub.data.journal}, {pub.data.year}
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-      <a href="/research/publications" class="view-all">View all research &rarr;</a>
-    </section>
-
-    <hr />
-
-    <section class="section">
-      <h2 class="section-title">Recent Blog Posts</h2>
-      <ul class="item-list">
-        {recentPosts.map(post => (
-          <li>
-            <a href={`/writing/${post.slug}`}>
-              {post.data.title_en || post.data.title}
-              <span class="item-meta">
-                {new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-      <a href="/writing" class="view-all">View all blog posts &rarr;</a>
-    </section>
-
-    <hr />
-
-    <section class="section">
-      <h2 class="section-title">Current Projects</h2>
-      <ul class="item-list">
-        {featuredProjects.map(project => (
-          <li>
-            <a href={`/projects/${project.slug}`}>
-              {project.data.title_en || project.data.title}
-              <span class="item-meta">
-                {new Date(project.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-      <a href="/projects" class="view-all">View all projects &rarr;</a>
-    </section>
-
-    {miData && miData.topStory && (
-      <Fragment>
-        <hr />
-        <section class="section">
-          <h2 class="section-title">Media Intelligence</h2>
-          <p class="ji-intro">AI-curated briefing on global media &amp; entertainment industry &mdash; {miData.totalArticles} articles aggregated from {miData.totalStories}+ multi-source stories.</p>
-
-          <div class="ji-card">
-            <div class="ji-label">Top Story &middot; {miData.topStory.article_count || 0} sources</div>
-            <a href="/mediaint" class="ji-card-title">{miData.topStory.synthesis_title || miData.topStory.headline}</a>
-            <p class="ji-card-body">{(miData.topStory.synthesis || '').slice(0, 250)}...</p>
+<BaseLayout
+  title="Home"
+  description="디지털 플랫폼이 미디어 시장을 어떻게 바꾸는지 연구하는 선문대학교 경영학과 교수 김용희. 미디어 경제학, 플랫폼 규제, 데이터 분석.">
+  <div class="home">
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <section class="hero" aria-label="소개 / Introduction">
+      <canvas class="hero-flow" aria-hidden="true"></canvas>
+      <div class="hero-veil" aria-hidden="true"></div>
+      <div class="hero-inner container-wide">
+        <p class="hero-role anim" style="--d:0">
+          <span data-lang="ko">선문대학교 경영학과 교수</span>
+          <span data-lang="en">Assistant Professor, Sunmoon University</span>
+        </p>
+        <h1 class="hero-name anim" style="--d:1">
+          <span data-lang="ko">김용희</span><span data-lang="en">Yonghee&nbsp;Kim</span>
+        </h1>
+        <p class="hero-lede anim" style="--d:2">
+          <span data-lang="ko">디지털 플랫폼이 미디어 시장을 어떻게 바꾸는지, 그 변화가 정책에 어떤 의미를 갖는지 연구합니다. 미디어 경제학과 플랫폼 규제, 데이터 분석이 만나는 자리에서 일합니다.</span>
+          <span data-lang="en">I study how digital platforms reshape media markets, and what that change means for public policy. My work lives where media economics, platform regulation, and data analysis meet.</span>
+        </p>
+        <div class="hero-actions anim" style="--d:3">
+          <a class="btn btn-accent" href="/research/publications">
+            <span data-lang="ko">연구 보기</span><span data-lang="en">View research</span>
+            <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+          </a>
+          <a class="btn btn-ghost" href="/about">
+            <span data-lang="ko">소개</span><span data-lang="en">About</span>
+          </a>
+        </div>
+        <dl class="hero-stats anim" style="--d:4">
+          <div class="stat">
+            <dt class="stat-num">{scholar.citations.toLocaleString()}</dt>
+            <dd class="stat-lbl"><span data-lang="ko">누적 인용</span><span data-lang="en">citations</span></dd>
           </div>
+          <div class="stat">
+            <dt class="stat-num">{scholar.hIndex}</dt>
+            <dd class="stat-lbl"><span data-lang="ko">h-지수</span><span data-lang="en">h-index</span></dd>
+          </div>
+          <div class="stat">
+            <dt class="stat-num">{pubTotal}+</dt>
+            <dd class="stat-lbl"><span data-lang="ko">발표 논문</span><span data-lang="en">publications</span></dd>
+          </div>
+        </dl>
+      </div>
+      <div class="hero-scroll anim" style="--d:5" aria-hidden="true">
+        <span data-lang="ko">아래로</span><span data-lang="en">scroll</span>
+        <span class="scroll-line"></span>
+      </div>
+    </section>
 
-          {miData.stories.map((s: any) => (
-            <div class="ji-card">
-              <div class="ji-label">{s.primary_cat || 'Media'} &middot; {s.article_count || 0} sources</div>
-              <a href="/mediaint" class="ji-card-title">{s.synthesis_title || s.headline}</a>
-            </div>
-          ))}
+    <!-- ═══════════════ BIO ═══════════════ -->
+    <section class="bio container reveal">
+      <p>
+        <span data-lang="ko">선문대학교 경영학과에서 가르치며 대연산업정책연구원을 이끌고 있습니다. 계량경제 방법과 산업연관분석으로 방송 산업의 구조, 온라인 동영상 서비스 시장의 움직임, 정보통신 산업의 효율성을 살핍니다.</span>
+        <span data-lang="en">I teach in the Department of Business Administration at Sunmoon University and direct the Daeyeon Industrial Policy Institute. Using econometric methods and input-output analysis, I examine the structure of the broadcasting industry, the dynamics of online video markets, and the efficiency of Korea's ICT sector.</span>
+      </p>
+      <p>
+        <span data-lang="ko"><a href="https://www.etnews.com/" target="_blank" rel="noopener noreferrer">전자신문</a>에 정책 칼럼을 쓰고, 학술 연구와 산업 현장을 잇는 컨설팅 <a href="https://www.openroute.kr/" target="_blank" rel="noopener noreferrer">오픈루트</a>를 공동 창업했습니다. 연구의 끝이 논문에만 머물지 않고 정책과 시장으로 이어지도록 합니다.</span>
+        <span data-lang="en">I write policy commentary for <a href="https://www.etnews.com/" target="_blank" rel="noopener noreferrer">The Electronic Times</a> and cofounded <a href="https://www.openroute.kr/" target="_blank" rel="noopener noreferrer">OpenRoute</a>, a consultancy bridging academic research and industry practice, so that research reaches policy and markets, not just journals.</span>
+      </p>
+    </section>
 
-          <a href="/mediaint" class="view-all">Read full media briefing &rarr;</a>
-        </section>
-      </Fragment>
-    )}
+    <!-- ═══════════════ RESEARCH ═══════════════ -->
+    <section class="block container">
+      <div class="block-head reveal">
+        <h2 class="block-title"><span data-lang="ko">최근 연구</span><span data-lang="en">Recent Research</span></h2>
+        <a class="text-link" href="/research/publications">
+          <span data-lang="ko">전체 연구</span><span data-lang="en">All research</span>
+          <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+      <ul class="rows">
+        {recentPubs.map((pub, i) => (
+          <li class="row reveal" style={`--i:${i}`}>
+            <a href={`/research/${pub.slug}`} class="row-link">
+              <span class="row-index" aria-hidden="true">{pub.data.year}</span>
+              <span class="row-main">
+                <span class="row-title">
+                  <span data-lang="ko">{(pub.data as any).title_ko || pub.data.title}</span>
+                  <span data-lang="en">{pub.data.title}</span>
+                </span>
+                <span class="row-meta">{pub.data.journal}{pub.data.type ? ` · ${pub.data.type.toUpperCase()}` : ''}</span>
+              </span>
+              <span class="row-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-    {jiData && (jiData.topStory || jiData.spotlight) && (
-      <Fragment>
-        <hr />
-        <section class="section">
-          <h2 class="section-title">Journal Intelligence</h2>
-          <p class="ji-intro">Weekly briefing on 95 tracked academic journals &mdash; CFPs, editor changes, trending research, and notable papers.</p>
+    <!-- ═══════════════ WRITING ═══════════════ -->
+    <section class="block container">
+      <div class="block-head reveal">
+        <h2 class="block-title"><span data-lang="ko">최근 글</span><span data-lang="en">Recent Writing</span></h2>
+        <a class="text-link" href="/writing">
+          <span data-lang="ko">전체 글</span><span data-lang="en">All writing</span>
+          <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+      <ul class="rows">
+        {recentPosts.map((post, i) => (
+          <li class="row reveal" style={`--i:${i}`}>
+            <a href={`/writing/${post.slug}`} class="row-link">
+              <span class="row-index row-index--dot" aria-hidden="true"></span>
+              <span class="row-main">
+                <span class="row-title">
+                  <span data-lang="ko">{(post.data as any).title_ko || post.data.title}</span>
+                  <span data-lang="en">{(post.data as any).title_en || post.data.title}</span>
+                </span>
+                <span class="row-meta">
+                  <span data-lang="ko">{fmtDate(post.data.date, 'ko')}</span>
+                  <span data-lang="en">{fmtDate(post.data.date, 'en')}</span>
+                </span>
+              </span>
+              <span class="row-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-          {jiData.topStory && (
-            <div class="ji-card">
-              <div class="ji-label">This Week</div>
-              <a href="/journalint" class="ji-card-title">{jiData.topStory.title_en || jiData.topStory.title}</a>
-              <p class="ji-card-body">{jiData.topStory.synthesis_en || (jiData.topStory.synthesis || '').slice(0, 200) + '...'}</p>
-            </div>
+    <!-- ═══════════════ PROJECTS ═══════════════ -->
+    <section class="block container">
+      <div class="block-head reveal">
+        <h2 class="block-title"><span data-lang="ko">진행 중인 프로젝트</span><span data-lang="en">Current Projects</span></h2>
+        <a class="text-link" href="/projects">
+          <span data-lang="ko">전체 프로젝트</span><span data-lang="en">All projects</span>
+          <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+      <div class="cards">
+        {featuredProjects.map((project, i) => (
+          <a href={`/projects/${project.slug}`} class="card reveal" style={`--i:${i}`}>
+            <span class="card-cat">{(project.data as any).category || 'Project'}</span>
+            <h3 class="card-title">
+              <span data-lang="ko">{(project.data as any).title_ko || project.data.title}</span>
+              <span data-lang="en">{(project.data as any).title_en || project.data.title}</span>
+            </h3>
+            {(project.data as any).description && (
+              <p class="card-desc">
+                <span data-lang="ko">{(project.data as any).description_ko || (project.data as any).description}</span>
+                <span data-lang="en">{(project.data as any).description_en || (project.data as any).description}</span>
+              </p>
+            )}
+            <span class="card-date">{fmtDate(project.data.date, 'en')}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- ═══════════════ INTELLIGENCE ═══════════════ -->
+    {(miData?.topStory || jiData?.topStory) && (
+      <section class="block container intel">
+        <div class="block-head reveal">
+          <h2 class="block-title"><span data-lang="ko">주간 동향</span><span data-lang="en">Weekly Intelligence</span></h2>
+        </div>
+        <p class="intel-intro reveal">
+          <span data-lang="ko">전 세계 미디어·엔터테인먼트 산업과 95개 학술지를 추적해 매주 정리하는 브리핑입니다.</span>
+          <span data-lang="en">A weekly briefing that tracks the global media and entertainment industry and 95 academic journals.</span>
+        </p>
+        <div class="intel-grid">
+          {miData?.topStory && (
+            <a href="/mediaint" class="intel-card reveal" style="--i:0">
+              <span class="intel-label"><span data-lang="ko">미디어 동향</span><span data-lang="en">Media</span> · {miData.topStory.article_count || 0}<span data-lang="ko"> 출처</span><span data-lang="en"> sources</span></span>
+              <h3 class="intel-title">{miData.topStory.synthesis_title || miData.topStory.headline}</h3>
+              <p class="intel-body">{(miData.topStory.synthesis || '').slice(0, 180)}…</p>
+              <span class="intel-more text-link"><span data-lang="ko">미디어 브리핑</span><span data-lang="en">Media briefing</span> <span class="arrow">&rarr;</span></span>
+            </a>
           )}
-
-          {jiData.spotlight && (
-            <div class="ji-card">
-              <div class="ji-label">Research Spotlight</div>
-              <a href="/journalint" class="ji-card-title">{jiData.spotlight.title_en || jiData.spotlight.paper_title || jiData.spotlight.title}</a>
-              <p class="ji-card-body">{jiData.spotlight.journal} &middot; {jiData.spotlight.citations} citations</p>
-            </div>
+          {jiData?.topStory && (
+            <a href="/journalint" class="intel-card reveal" style="--i:1">
+              <span class="intel-label"><span data-lang="ko">저널 동향</span><span data-lang="en">Journals</span></span>
+              <h3 class="intel-title">
+                <span data-lang="ko">{jiData.topStory.title || jiData.topStory.title_en}</span>
+                <span data-lang="en">{jiData.topStory.title_en || jiData.topStory.title}</span>
+              </h3>
+              <p class="intel-body">
+                <span data-lang="ko">{(jiData.topStory.synthesis || jiData.topStory.synthesis_en || '').slice(0, 180)}…</span>
+                <span data-lang="en">{(jiData.topStory.synthesis_en || jiData.topStory.synthesis || '').slice(0, 180)}…</span>
+              </p>
+              <span class="intel-more text-link"><span data-lang="ko">저널 브리핑</span><span data-lang="en">Journal briefing</span> <span class="arrow">&rarr;</span></span>
+            </a>
           )}
-
-          <a href="/journalint" class="view-all">Read full briefing &rarr;</a>
-        </section>
-      </Fragment>
+        </div>
+      </section>
     )}
   </div>
 </BaseLayout>
 
 <style>
-  .homepage {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: var(--space-16) var(--space-8);
-  }
+  .home { width: 100%; }
 
-  /* Hero */
+  /* ═══════════════ HERO ═══════════════ */
   .hero {
-    margin-bottom: var(--space-12);
+    position: relative;
+    min-height: clamp(40rem, 82vh, 56rem);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .hero-flow {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.85;
+    z-index: 0;
+  }
+  .hero-veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 90% at 18% 42%, color-mix(in srgb, var(--color-bg) 78%, transparent) 0%, transparent 58%),
+      linear-gradient(to bottom, transparent 60%, var(--color-bg) 100%);
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    padding-block: var(--space-20);
   }
 
-  .name {
-    font-family: var(--font-serif);
-    font-size: var(--step-4);
-    font-weight: 400;
+  .hero-role {
+    font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1.05rem);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.01em;
+    margin-bottom: var(--space-5);
+  }
+  .hero-name {
+    font-size: var(--step-6);
+    font-weight: var(--weight-black);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
     color: var(--color-text);
-    letter-spacing: -0.02em;
     margin: 0;
-    line-height: 1.1;
   }
-
-  .subtitle {
-    font-size: var(--step-0);
+  .hero-lede {
+    max-width: 34ch;
+    margin-top: var(--space-8);
+    font-size: clamp(1.1rem, 1rem + 0.6vw, 1.45rem);
+    line-height: 1.6;
     color: var(--color-text-secondary);
-    margin: var(--space-4) 0 0 0;
+    font-weight: var(--weight-regular);
+  }
+  html[data-language="en"] .hero-lede { max-width: 46ch; }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-10);
   }
 
-  /* Bio */
+  .hero-stats {
+    display: flex;
+    gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    max-width: 32rem;
+  }
+  .hero-stats .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num {
+    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.2rem);
+    font-weight: var(--weight-heavy);
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-weight: var(--weight-medium);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    z-index: 2;
+    right: clamp(1.5rem, 4vw, 4rem);
+    bottom: var(--space-10);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    writing-mode: vertical-rl;
+  }
+  .hero-scroll .scroll-line {
+    width: 1px;
+    height: 44px;
+    background: linear-gradient(var(--color-accent), transparent);
+    animation: scrollPulse 2.4s var(--ease-out-expo) infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(0.4); opacity: 0.4; transform-origin: top; }
+    50% { transform: scaleY(1); opacity: 1; transform-origin: top; }
+  }
+
+  /* Hero entrance choreography */
+  .anim {
+    opacity: 0;
+    transform: translateY(26px);
+    animation: heroIn 0.9s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--d) * 110ms + 80ms);
+  }
+  @keyframes heroIn {
+    to { opacity: 1; transform: none; }
+  }
+
+  /* ═══════════════ BIO ═══════════════ */
   .bio {
-    font-size: var(--step-0);
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-    margin-bottom: 0;
+    padding-block: var(--section-gap);
+    max-width: 60ch;
+    font-size: clamp(1.05rem, 1rem + 0.45vw, 1.3rem);
+    line-height: 1.85;
+    color: var(--color-text);
   }
-
-  .bio p {
-    margin: 0 0 var(--space-6) 0;
-  }
-
-  .bio p:last-child {
-    margin-bottom: 0;
-  }
-
+  .bio p + p { margin-top: var(--space-6); }
   .bio a {
     color: var(--color-accent);
     text-decoration: underline;
-    text-underline-offset: 0.2em;
-    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1.5px;
+    font-weight: var(--weight-medium);
+  }
+  .bio a:hover { color: var(--color-accent-hover); }
+
+  /* ═══════════════ BLOCKS ═══════════════ */
+  .block { padding-bottom: var(--section-gap); }
+  .block-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--color-text);
+  }
+  .block-title {
+    font-size: var(--step-3);
+    font-weight: var(--weight-heavy);
+    letter-spacing: -0.025em;
   }
 
-  .bio a:hover {
-    color: var(--color-accent-hover);
-  }
-
-  .bio em {
-    font-style: italic;
-  }
-
-  /* Horizontal rules */
-  hr {
-    border: none;
-    border-top: 1px solid var(--color-border-light);
-    margin: var(--space-12) 0;
-  }
-
-  /* Sections */
-  .section {
-    margin-bottom: 0;
-  }
-
-  .section-title {
-    font-family: var(--font-serif);
-    font-size: var(--step-1);
-    font-weight: 400;
+  /* Editorial rows */
+  .rows { list-style: none; padding: 0; margin: 0; }
+  .row { border-bottom: 1px solid var(--color-border-light); }
+  .row-link {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr auto;
+    align-items: baseline;
+    gap: var(--space-5);
+    padding: var(--space-5) var(--space-2);
     color: var(--color-text);
-    margin: 0 0 var(--space-4) 0;
+    transition: background var(--transition-base), padding var(--transition-base);
   }
-
-  /* Item lists */
-  .item-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .item-list li {
-    padding: var(--space-3) 0;
-    border-bottom: 1px solid var(--color-border-light);
-  }
-
-  .item-list li:last-child {
-    border-bottom: none;
-  }
-
-  .item-list a {
+  .row-link:hover {
+    background: var(--color-accent-light);
+    padding-inline: var(--space-4);
     color: var(--color-text);
-    text-decoration: none;
-    transition: color var(--transition-fast);
-    display: block;
-    line-height: 1.5;
   }
-
-  .item-list a:hover {
-    color: var(--color-accent);
-  }
-
-  .item-meta {
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
-    margin-left: var(--space-2);
-  }
-
-  .item-meta::before {
-    content: "(";
-  }
-
-  .item-meta::after {
-    content: ")";
-  }
-
-  /* View all links */
-  .view-all {
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-    text-decoration: none;
-    margin-top: var(--space-4);
-    display: inline-block;
-    transition: color var(--transition-fast);
-  }
-
-  .view-all:hover {
-    color: var(--color-accent);
-  }
-
-  /* JournalINT section */
-  .ji-intro {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    margin: 0 0 var(--space-6) 0;
-    line-height: 1.6;
-  }
-
-  .ji-card {
-    padding: var(--space-4) 0;
-    border-bottom: 1px solid var(--color-border-light);
-  }
-
-  .ji-card:last-of-type {
-    border-bottom: none;
-  }
-
-  .ji-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-accent);
-    margin-bottom: var(--space-1);
-  }
-
-  .ji-card-title {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--color-text);
-    text-decoration: none;
-    line-height: 1.5;
-    display: block;
-  }
-
-  .ji-card-title:hover {
-    color: var(--color-accent);
-  }
-
-  .ji-card-body {
+  .row-index {
     font-size: 0.85rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+  .row-index--dot { position: relative; }
+  .row-index--dot::before {
+    content: "";
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    transform: translateY(-1px);
+  }
+  .row-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .row-title {
+    font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+    font-weight: var(--weight-semibold);
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+  .row-meta { font-size: 0.88rem; color: var(--color-text-muted); }
+  .row-arrow {
     color: var(--color-text-muted);
-    margin: var(--space-2) 0 0 0;
-    line-height: 1.6;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity var(--transition-base), transform var(--transition-base), color var(--transition-base);
+  }
+  .row-link:hover .row-arrow { opacity: 1; transform: none; color: var(--color-accent); }
+
+  /* Project cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: var(--space-5);
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-soft);
+    background: var(--color-bg);
+    color: var(--color-text);
+    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: 0 18px 40px -24px rgba(var(--shadow-color) / 0.5);
+    color: var(--color-text);
+  }
+  .card-cat {
+    font-size: 0.7rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+  }
+  .card-title {
+    font-size: var(--step-1);
+    font-weight: var(--weight-bold);
+    line-height: 1.35;
+  }
+  .card-desc {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-date { font-size: 0.8rem; color: var(--color-text-muted); margin-top: auto; }
+
+  /* Intelligence */
+  .intel-intro {
+    max-width: 52ch;
+    margin-top: calc(var(--space-8) * -1 + var(--space-2));
+    margin-bottom: var(--space-8);
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .intel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: var(--space-5);
+  }
+  .intel-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-soft);
+    background: var(--color-bg-sunken);
+    color: var(--color-text);
+    transition: transform var(--transition-base), border-color var(--transition-base);
+  }
+  .intel-card:hover { transform: translateY(-4px); border-color: var(--color-accent); color: var(--color-text); }
+  .intel-label {
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-accent);
+  }
+  .intel-title { font-size: var(--step-1); font-weight: var(--weight-bold); line-height: 1.4; }
+  .intel-body { font-size: 0.92rem; color: var(--color-text-secondary); line-height: 1.7; flex: 1; }
+  .intel-more { margin-top: var(--space-2); }
+
+  /* ═══════════════ Responsive ═══════════════ */
+  @media (max-width: 760px) {
+    .hero { min-height: clamp(34rem, 88vh, 48rem); }
+    .hero-inner { padding-block: var(--space-16); }
+    .hero-scroll { display: none; }
+    .row-link {
+      grid-template-columns: 3.2rem 1fr;
+      gap: var(--space-3);
+      padding-inline: 0;
+    }
+    .row-link:hover { padding-inline: var(--space-2); }
+    .row-arrow { display: none; }
+    .block-head { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
   }
 
-  /* Responsive */
-  @media (max-width: 768px) {
-    .homepage {
-      padding: var(--space-8) var(--space-4);
-    }
-
-    .hero {
-      margin-bottom: var(--space-8);
-    }
-
-    hr {
-      margin: var(--space-8) 0;
-    }
-
-    .item-meta {
-      display: block;
-      margin-left: 0;
-      margin-top: var(--space-1);
-    }
-
-    .item-meta::before,
-    .item-meta::after {
-      content: none;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .homepage {
-      padding: var(--space-6) var(--space-3);
-    }
+  @media (prefers-reduced-motion: reduce) {
+    .anim { opacity: 1 !important; transform: none !important; animation: none !important; }
+    .hero-scroll .scroll-line { animation: none; }
   }
 </style>
+
+<script>
+  // ═══════════════ Hero flow field ═══════════════
+  // 미디어·데이터의 흐름을 형상화한 정적이지 않은 배경. 텍스트 가독을 해치지
+  // 않도록 옅게. reduced-motion / 숨은 탭 / 화면 밖에서는 멈춘다.
+  function initHeroFlow() {
+    const canvas = document.querySelector('.hero-flow');
+    if (!(canvas instanceof HTMLCanvasElement)) return;
+
+    // 이전 인스턴스 정리 (View Transitions 재진입 대비)
+    if ((window as any).__heroFlowStop) { (window as any).__heroFlowStop(); }
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let W = 0, H = 0, dpr = 1;
+    let particles: { x: number; y: number; px: number; py: number; life: number; max: number; accent: boolean }[] = [];
+    let raf = 0;
+    let running = false;
+    let t = 0;
+
+    const css = getComputedStyle(document.documentElement);
+    function inkColor() {
+      const dark = document.documentElement.classList.contains('dark');
+      return dark ? '236, 232, 225' : '26, 23, 20';
+    }
+    // 테라코타 근삿값 (캔버스는 oklch 미지원이라 rgb로)
+    function accentColor() {
+      const dark = document.documentElement.classList.contains('dark');
+      return dark ? '214, 150, 92' : '176, 84, 50';
+    }
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = Math.max(1, Math.floor(rect.width));
+      H = Math.max(1, Math.floor(rect.height));
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // 배경 클리어
+      const bg = document.documentElement.classList.contains('dark') ? '#100e0c' : '#ffffff';
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+      const count = Math.min(420, Math.max(120, Math.floor((W * H) / 5200)));
+      particles = new Array(count).fill(0).map(makeParticle);
+    }
+
+    function makeParticle() {
+      const x = Math.random() * W;
+      const y = Math.random() * H;
+      return { x, y, px: x, py: y, life: Math.random() * 200, max: 140 + Math.random() * 220, accent: Math.random() < 0.16 };
+    }
+
+    // 부드러운 흐름장: 사인 합성으로 Perlin 유사 효과
+    function field(x: number, y: number) {
+      const a = Math.sin(x * 0.0021 + t) + Math.cos(y * 0.0019 - t * 0.8) + Math.sin((x + y) * 0.0012 + t * 0.6);
+      return a * 1.15;
+    }
+
+    function step() {
+      if (!running) return;
+      t += 0.0016;
+      // 잔상 페이드
+      const dark = document.documentElement.classList.contains('dark');
+      ctx.fillStyle = dark ? 'rgba(16, 14, 12, 0.055)' : 'rgba(255, 255, 255, 0.055)';
+      ctx.fillRect(0, 0, W, H);
+
+      const ink = inkColor();
+      const acc = accentColor();
+      ctx.lineWidth = 1;
+      for (const p of particles) {
+        const ang = field(p.x, p.y);
+        p.px = p.x; p.py = p.y;
+        p.x += Math.cos(ang) * 1.25;
+        p.y += Math.sin(ang) * 1.25;
+        p.life++;
+        ctx.strokeStyle = p.accent ? `rgba(${acc}, 0.16)` : `rgba(${ink}, 0.05)`;
+        ctx.beginPath();
+        ctx.moveTo(p.px, p.py);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+        if (p.life > p.max || p.x < -10 || p.x > W + 10 || p.y < -10 || p.y > H + 10) {
+          Object.assign(p, makeParticle());
+        }
+      }
+      raf = requestAnimationFrame(step);
+    }
+
+    function staticRender() {
+      // reduced-motion: 흐름선을 한 번만 그려 정적 텍스처로
+      const ink = inkColor();
+      const acc = accentColor();
+      ctx.lineWidth = 1;
+      const pts = new Array(180).fill(0).map(makeParticle);
+      for (const p of pts) {
+        for (let i = 0; i < 60; i++) {
+          const ang = field(p.x, p.y);
+          p.px = p.x; p.py = p.y;
+          p.x += Math.cos(ang) * 1.4;
+          p.y += Math.sin(ang) * 1.4;
+          ctx.strokeStyle = p.accent ? `rgba(${acc}, 0.12)` : `rgba(${ink}, 0.045)`;
+          ctx.beginPath(); ctx.moveTo(p.px, p.py); ctx.lineTo(p.x, p.y); ctx.stroke();
+        }
+      }
+    }
+
+    function start() { if (!running && !reduce) { running = true; raf = requestAnimationFrame(step); } }
+    function stop() { running = false; cancelAnimationFrame(raf); }
+
+    resize();
+    if (reduce) { staticRender(); }
+    else { start(); }
+
+    const onResize = () => { resize(); };
+    window.addEventListener('resize', onResize, { passive: true });
+
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) start(); else stop();
+      }
+    }, { threshold: 0.01 });
+    io.observe(canvas);
+
+    const onVis = () => { if (document.hidden) stop(); else if (isOnScreen()) start(); };
+    function isOnScreen() {
+      const r = canvas.getBoundingClientRect();
+      return r.bottom > 0 && r.top < window.innerHeight;
+    }
+    document.addEventListener('visibilitychange', onVis);
+
+    (window as any).__heroFlowStop = () => {
+      stop();
+      window.removeEventListener('resize', onResize);
+      document.removeEventListener('visibilitychange', onVis);
+      io.disconnect();
+      (window as any).__heroFlowStop = null;
+    };
+  }
+
+  initHeroFlow();
+  document.addEventListener('astro:page-load', initHeroFlow);
+</script>

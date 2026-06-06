@@ -11,151 +11,259 @@ export async function getStaticPaths() {
 }
 
 const { course } = Astro.props;
+const c = course as any;
 
-// Evaluation labels in English
-const evalLabels = {
-  midterm: 'Midterm',
-  final: 'Final',
-  project: 'Project',
-  assignment: 'Assignment',
-  quiz: 'Quiz',
-  attendance: 'Attendance',
-  participation: 'Participation',
-  individual: 'Individual'
+// 평가 항목 라벨 (한국어 / English)
+const evalLabels: Record<string, { ko: string; en: string }> = {
+  midterm: { ko: '중간고사', en: 'Midterm' },
+  final: { ko: '기말고사', en: 'Final' },
+  project: { ko: '프로젝트', en: 'Project' },
+  assignment: { ko: '과제', en: 'Assignment' },
+  quiz: { ko: '퀴즈', en: 'Quiz' },
+  attendance: { ko: '출석', en: 'Attendance' },
+  participation: { ko: '참여', en: 'Participation' },
+  individual: { ko: '개별 평가', en: 'Individual' }
 };
+
+// 데이터의 *_ko / *_en 필드를 우아하게 폴백한다.
+// 2025년 강의는 _ko 필드에도 영어가 들어 있어, 한국어 측은 _ko가 있으면 그것을,
+// 없으면 기본 필드를 사용한다(원어 유지). 영어 측은 _en > 기본 순.
+const titleKo = c.title_ko || c.title;
+const titleEn = c.title_en || c.title;
+const descKo = c.description_ko || c.description;
+const descEn = c.description || c.description_en;
+const objectivesKo: string[] = c.objectives_ko || c.objectives || [];
+const objectivesEn: string[] = c.objectives || c.objectives_en || [];
+const scheduleKo = c.schedule_ko || c.schedule;
+const scheduleEn = c.schedule;
+const deptKo = c.department_ko || c.department;
+const deptEn = c.department_en || c.department;
+const officeKo = c.office_ko || c.office;
+const officeEn = c.office;
+const officeHoursKo = c.office_hours_ko || c.office_hours;
+const officeHoursEn = c.office_hours;
+const textbookStr = typeof c.textbook === 'object' ? null : c.textbook;
+const textbookStrKo = c.textbook_ko || textbookStr;
+const textbookStrEn = textbookStr;
+
+// 시험 주차 판별: 영문 'Exam' 또는 한국어 '고사'/'시험'
+const isExamWeek = (w: any) =>
+  /exam/i.test(w.topic || '') || /고사|시험/.test(w.topic_ko || '');
+
+const weeklyTopics: any[] = c.weekly_topics || [];
+
+const pageTitle = `${titleKo} - 김용희`;
 ---
 
-<BaseLayout title={`${course.title} - Kim Yonghee`} description={course.description}>
-  <div class="course-page">
-    <!-- Back Link -->
-    <nav class="breadcrumb">
+<BaseLayout title={pageTitle} description={descKo}>
+  <div class="course-page container">
+    <!-- 뒤로 -->
+    <nav class="breadcrumb reveal" aria-label="이동 경로 / Breadcrumb">
       <a href="/teaching" class="back-link">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
-        Back to Teaching
+        <span data-lang="ko">강의 목록으로</span>
+        <span data-lang="en">Back to Teaching</span>
       </a>
     </nav>
 
-    <!-- Page Header -->
-    <header class="page-header">
-      <h1>{course.title}</h1>
-      <p class="title-en">{course.title_en}</p>
+    <!-- 헤더 -->
+    <header class="page-header reveal">
+      <p class="header-eyebrow">
+        <span data-lang="ko">강의 과목</span>
+        <span data-lang="en">Course</span>
+      </p>
+      <h1 class="header-title">
+        <span data-lang="ko">{titleKo}</span>
+        <span data-lang="en">{titleEn}</span>
+      </h1>
+      <p class="header-subtitle">
+        <span data-lang="ko">{titleEn}</span>
+        <span data-lang="en">{c.semester} · {c.code}</span>
+      </p>
 
-      <div class="course-info-grid">
+      <dl class="info-grid">
         <div class="info-item">
-          <span class="info-label">Course Code</span>
-          <span class="info-value">{course.code}</span>
+          <dt class="info-label"><span data-lang="ko">과목 코드</span><span data-lang="en">Course Code</span></dt>
+          <dd class="info-value">{c.code}</dd>
         </div>
         <div class="info-item">
-          <span class="info-label">Semester</span>
-          <span class="info-value">{course.semester}</span>
+          <dt class="info-label"><span data-lang="ko">학기</span><span data-lang="en">Semester</span></dt>
+          <dd class="info-value">{c.semester}</dd>
         </div>
         <div class="info-item">
-          <span class="info-label">Schedule</span>
-          <span class="info-value">{course.schedule}</span>
+          <dt class="info-label"><span data-lang="ko">시간</span><span data-lang="en">Schedule</span></dt>
+          <dd class="info-value">
+            <span data-lang="ko">{scheduleKo}</span>
+            <span data-lang="en">{scheduleEn}</span>
+          </dd>
         </div>
         <div class="info-item">
-          <span class="info-label">Credits</span>
-          <span class="info-value">{course.credits}/{course.hours}</span>
+          <dt class="info-label"><span data-lang="ko">학점 / 시수</span><span data-lang="en">Credits / Hours</span></dt>
+          <dd class="info-value">{c.credits}/{c.hours}</dd>
         </div>
         <div class="info-item">
-          <span class="info-label">Year</span>
-          <span class="info-value">Year {course.year}</span>
+          <dt class="info-label"><span data-lang="ko">학년</span><span data-lang="en">Year</span></dt>
+          <dd class="info-value">
+            <span data-lang="ko">{c.year}학년</span>
+            <span data-lang="en">Year {c.year}</span>
+          </dd>
         </div>
         <div class="info-item">
-          <span class="info-label">Department</span>
-          <span class="info-value">{course.department}</span>
+          <dt class="info-label"><span data-lang="ko">학과</span><span data-lang="en">Department</span></dt>
+          <dd class="info-value">
+            <span data-lang="ko">{deptKo}</span>
+            <span data-lang="en">{deptEn}</span>
+          </dd>
         </div>
-      </div>
+      </dl>
 
-      <div class="contact-info">
-        <p><strong>Instructor:</strong> {course.instructor}</p>
-        <p><strong>Email:</strong> <a href={`mailto:${course.email}`}>{course.email}</a></p>
-        {course.office && <p><strong>Office:</strong> {course.office}</p>}
-        {course.office_hours && <p><strong>Office Hours:</strong> {course.office_hours}</p>}
+      <div class="contact-card">
+        <div class="contact-row">
+          <span class="contact-key"><span data-lang="ko">담당 교수</span><span data-lang="en">Instructor</span></span>
+          <span class="contact-val">{c.instructor}</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-key"><span data-lang="ko">이메일</span><span data-lang="en">Email</span></span>
+          <span class="contact-val"><a href={`mailto:${c.email}`}>{c.email}</a></span>
+        </div>
+        {(officeKo || officeEn) && (
+          <div class="contact-row">
+            <span class="contact-key"><span data-lang="ko">연구실</span><span data-lang="en">Office</span></span>
+            <span class="contact-val">
+              <span data-lang="ko">{officeKo}</span>
+              <span data-lang="en">{officeEn}</span>
+            </span>
+          </div>
+        )}
+        {(officeHoursKo || officeHoursEn) && (
+          <div class="contact-row">
+            <span class="contact-key"><span data-lang="ko">상담 시간</span><span data-lang="en">Office Hours</span></span>
+            <span class="contact-val">
+              <span data-lang="ko">{officeHoursKo}</span>
+              <span data-lang="en">{officeHoursEn}</span>
+            </span>
+          </div>
+        )}
       </div>
     </header>
 
-    <!-- Course Description -->
-    <section class="section">
-      <h2>Course Description</h2>
-      <p class="description">{course.description}</p>
-    </section>
-
-    <!-- Learning Objectives -->
-    <section class="section">
-      <h2>Learning Objectives</h2>
-      <ul class="objectives-list">
-        {course.objectives.map(obj => (
-          <li>{obj}</li>
-        ))}
-      </ul>
-    </section>
-
-    <!-- Evaluation -->
-    <section class="section">
-      <h2>Evaluation</h2>
-      <div class="evaluation-grid">
-        {Object.entries(course.evaluation).map(([key, value]) => (
-          <div class="eval-card">
-            <div class="eval-label">{evalLabels[key] || key}</div>
-            <div class="eval-value">{value}<span class="percent">%</span></div>
-          </div>
-        ))}
+    <!-- 강의 개요 -->
+    <section class="block reveal">
+      <div class="block-head">
+        <h2 class="block-title"><span data-lang="ko">강의 개요</span><span data-lang="en">Course Description</span></h2>
       </div>
+      <p class="description">
+        <span data-lang="ko">{descKo}</span>
+        <span data-lang="en">{descEn}</span>
+      </p>
     </section>
 
-    <!-- Weekly Schedule -->
-    <section class="section">
-      <h2>Weekly Schedule</h2>
-      <div class="schedule-table-wrapper">
-        <table class="schedule-table">
-          <thead>
-            <tr>
-              <th class="week-col">Week</th>
-              <th class="topic-col">Topic</th>
-              <th class="details-col">Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {course.weekly_topics.map((week) => (
-              <tr class={week.topic.includes('Exam') ? 'exam-row' : ''}>
-                <td class="week-num">{week.week}</td>
-                <td class="topic">{week.topic}</td>
-                <td class="details">{week.details}</td>
+    <!-- 학습 목표 -->
+    {objectivesKo.length > 0 && (
+      <section class="block reveal">
+        <div class="block-head">
+          <h2 class="block-title"><span data-lang="ko">학습 목표</span><span data-lang="en">Learning Objectives</span></h2>
+        </div>
+        <ul class="objectives">
+          {objectivesKo.map((obj, i) => (
+            <li class="objective reveal" style={`--i:${i}`}>
+              <span class="objective-mark" aria-hidden="true">&rarr;</span>
+              <span class="objective-text">
+                <span data-lang="ko">{obj}</span>
+                <span data-lang="en">{objectivesEn[i] ?? obj}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- 평가 -->
+    {c.evaluation && (
+      <section class="block reveal">
+        <div class="block-head">
+          <h2 class="block-title"><span data-lang="ko">평가</span><span data-lang="en">Evaluation</span></h2>
+        </div>
+        <div class="eval-grid">
+          {Object.entries(c.evaluation).map(([key, value], i) => (
+            <div class="eval-card reveal" style={`--i:${i}`}>
+              <div class="eval-value">{value}<span class="eval-percent">%</span></div>
+              <div class="eval-label">
+                {evalLabels[key]
+                  ? (<><span data-lang="ko">{evalLabels[key].ko}</span><span data-lang="en">{evalLabels[key].en}</span></>)
+                  : key}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- 주차별 일정 -->
+    {weeklyTopics.length > 0 && (
+      <section class="block reveal">
+        <div class="block-head">
+          <h2 class="block-title"><span data-lang="ko">주차별 일정</span><span data-lang="en">Weekly Schedule</span></h2>
+        </div>
+        <div class="schedule-wrapper">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th class="col-week" scope="col"><span data-lang="ko">주차</span><span data-lang="en">Week</span></th>
+                <th class="col-topic" scope="col"><span data-lang="ko">주제</span><span data-lang="en">Topic</span></th>
+                <th class="col-details" scope="col"><span data-lang="ko">세부 내용</span><span data-lang="en">Details</span></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
+            </thead>
+            <tbody>
+              {weeklyTopics.map((week) => (
+                <tr class={isExamWeek(week) ? 'exam-row' : ''}>
+                  <td class="cell-week">{week.week}</td>
+                  <td class="cell-topic">
+                    <span data-lang="ko">{week.topic_ko || week.topic}</span>
+                    <span data-lang="en">{week.topic}</span>
+                  </td>
+                  <td class="cell-details">
+                    <span data-lang="ko">{week.details_ko || week.details}</span>
+                    <span data-lang="en">{week.details}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
 
-    <!-- Textbook -->
-    <section class="section">
-      <h2>Textbook</h2>
-      {typeof course.textbook === 'object' ? (
+    <!-- 교재 -->
+    <section class="block reveal">
+      <div class="block-head">
+        <h2 class="block-title"><span data-lang="ko">교재</span><span data-lang="en">Textbook</span></h2>
+      </div>
+      {typeof c.textbook === 'object' ? (
         <div class="textbook-card">
-          <div class="textbook-title">{course.textbook.title}</div>
-          <div class="textbook-author">{course.textbook.author}</div>
-          <div class="textbook-publisher">{course.textbook.publisher}, {course.textbook.year}</div>
+          <div class="textbook-title">{c.textbook.title}</div>
+          <div class="textbook-author">{c.textbook.author}</div>
+          <div class="textbook-publisher">{c.textbook.publisher}, {c.textbook.year}</div>
         </div>
       ) : (
-        <div class="textbook-simple">
-          <p>{course.textbook}</p>
+        <div class="textbook-card textbook-card--simple">
+          <p class="textbook-title">
+            <span data-lang="ko">{textbookStrKo}</span>
+            <span data-lang="en">{textbookStrEn}</span>
+          </p>
         </div>
       )}
     </section>
 
-    <!-- Back to Teaching -->
-    <div class="footer-nav">
-      <a href="/teaching" class="back-link">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        Back to Teaching
+    <!-- 하단 내비게이션 -->
+    <div class="footer-nav reveal">
+      <a href="/teaching" class="text-link">
+        <span class="arrow arrow--back" aria-hidden="true">&larr;</span>
+        <span data-lang="ko">강의 목록으로</span>
+        <span data-lang="en">Back to Teaching</span>
       </a>
     </div>
   </div>
@@ -163,350 +271,321 @@ const evalLabels = {
 
 <style>
   .course-page {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: var(--space-12) var(--space-8);
+    padding-block: var(--space-16) var(--space-20);
   }
 
-  /* Breadcrumb */
+  /* ── Breadcrumb ── */
   .breadcrumb {
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-10);
   }
-
   .back-link {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
     color: var(--color-accent);
-    text-decoration: none;
-    font-size: var(--step-0);
-    font-weight: 500;
-    transition: color var(--transition-fast);
+    font-size: 0.95rem;
+    font-weight: var(--weight-semibold);
   }
+  .back-link:hover { color: var(--color-accent-hover); }
+  .back-link svg { display: inline-block; }
 
-  .back-link:hover {
-    color: var(--color-accent-hover);
-  }
-
-  /* Page Header */
+  /* ── Header ── */
   .page-header {
-    margin-bottom: var(--space-16);
-    padding-bottom: var(--space-8);
+    margin-bottom: var(--section-gap);
+    padding-bottom: var(--space-10);
     border-bottom: 1px solid var(--color-border);
   }
-
-  .page-header h1 {
-    font-family: var(--font-serif);
-    font-size: var(--step-3);
-    color: var(--color-text);
-    margin-bottom: var(--space-2);
+  .header-eyebrow {
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
   }
-
-  .title-en {
+  .header-title {
+    font-size: var(--step-4);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+  .header-subtitle {
     font-size: var(--step-1);
     color: var(--color-text-muted);
-    font-weight: 300;
-    margin-bottom: var(--space-8);
+    font-weight: var(--weight-medium);
+    margin-bottom: var(--space-10);
   }
 
-  .course-info-grid {
+  /* 정보 그리드 */
+  .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: var(--space-6) var(--space-8);
     margin-bottom: var(--space-8);
-    padding: var(--space-6);
-    background: var(--color-surface);
+    padding: var(--space-8);
+    background: var(--color-bg-sunken);
     border: 1px solid var(--color-border-light);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-soft);
   }
-
   .info-item {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
+    min-width: 0;
   }
-
   .info-label {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.07em;
     color: var(--color-text-muted);
-    font-weight: 600;
+    font-weight: var(--weight-bold);
   }
-
   .info-value {
     font-size: var(--step-0);
     color: var(--color-text);
-    font-weight: 500;
+    font-weight: var(--weight-semibold);
+    margin: 0;
   }
 
-  .contact-info {
-    padding: var(--space-6);
+  /* 연락처 카드 */
+  .contact-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6) var(--space-8);
     background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
     border-left: 3px solid var(--color-accent);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-soft);
   }
-
-  .contact-info p {
-    margin-bottom: var(--space-2);
-    color: var(--color-text-secondary);
+  .contact-row {
+    display: flex;
+    gap: var(--space-4);
     font-size: var(--step-0);
+    line-height: 1.5;
   }
-
-  .contact-info p:last-child {
-    margin-bottom: 0;
+  .contact-key {
+    flex: 0 0 8rem;
+    color: var(--color-text-muted);
+    font-weight: var(--weight-semibold);
+    font-size: 0.85rem;
   }
-
-  .contact-info a {
+  .contact-val { color: var(--color-text); min-width: 0; }
+  .contact-val a {
     color: var(--color-accent);
-    text-decoration: none;
-  }
-
-  .contact-info a:hover {
-    color: var(--color-accent-hover);
     text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
   }
+  .contact-val a:hover { color: var(--color-accent-hover); }
 
-  /* Section */
-  .section {
-    margin-bottom: var(--space-16);
+  /* ── Blocks ── */
+  .block { margin-bottom: var(--section-gap); }
+  .block-head {
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--color-text);
   }
-
-  .section h2 {
-    font-family: var(--font-serif);
+  .block-title {
     font-size: var(--step-2);
-    color: var(--color-text);
-    margin-bottom: var(--space-6);
-    padding-bottom: var(--space-2);
-    border-bottom: 1px solid var(--color-border);
+    font-weight: var(--weight-heavy);
+    letter-spacing: -0.02em;
   }
 
   .description {
-    font-size: var(--step-0);
-    line-height: 1.8;
-    color: var(--color-text-secondary);
-    max-width: var(--measure);
+    font-size: clamp(1.02rem, 0.98rem + 0.35vw, 1.18rem);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    max-width: 68ch;
   }
 
-  /* Objectives */
-  .objectives-list {
+  /* ── Objectives ── */
+  .objectives {
     list-style: none;
     padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
   }
-
-  .objectives-list li {
-    padding: var(--space-4) var(--space-4) var(--space-4) var(--space-8);
-    margin-bottom: var(--space-3);
+  .objective {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
     background: var(--color-bg);
     border: 1px solid var(--color-border-light);
     border-left: 3px solid var(--color-accent);
     border-radius: var(--border-radius);
-    color: var(--color-text-secondary);
-    line-height: 1.7;
-    position: relative;
+    transition: border-color var(--transition-base), background var(--transition-base);
   }
-
-  .objectives-list li::before {
-    content: "\2192";
-    position: absolute;
-    left: var(--space-4);
+  .objective:hover {
+    border-color: var(--color-border-strong);
+    border-left-color: var(--color-accent);
+    background: var(--color-accent-light);
+  }
+  .objective-mark {
     color: var(--color-accent);
-    font-weight: bold;
+    font-weight: var(--weight-bold);
+    flex-shrink: 0;
+  }
+  .objective-text {
+    color: var(--color-text);
+    line-height: 1.65;
+    min-width: 0;
   }
 
-  /* Evaluation */
-  .evaluation-grid {
+  /* ── Evaluation ── */
+  .eval-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+    gap: var(--space-4);
   }
-
   .eval-card {
-    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6) var(--space-4);
     background: var(--color-bg);
     border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-soft);
     text-align: center;
-    transition: border-color var(--transition-fast);
+    transition: transform var(--transition-base), border-color var(--transition-base);
   }
-
   .eval-card:hover {
+    transform: translateY(-3px);
     border-color: var(--color-accent);
   }
-
-  .eval-label {
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-2);
-    font-weight: 500;
-  }
-
   .eval-value {
     font-size: var(--step-3);
     color: var(--color-accent);
-    font-weight: 700;
+    font-weight: var(--weight-heavy);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
-
-  .percent {
+  .eval-percent {
     font-size: var(--step-1);
-    margin-left: var(--space-1);
+    margin-left: 1px;
+    font-weight: var(--weight-bold);
+  }
+  .eval-label {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    font-weight: var(--weight-medium);
   }
 
-  /* Schedule Table */
-  .schedule-table-wrapper {
+  /* ── Schedule table ── */
+  .schedule-wrapper {
     overflow-x: auto;
-    border-radius: var(--border-radius);
     border: 1px solid var(--color-border);
+    border-radius: var(--radius-soft);
   }
-
   .schedule-table {
     width: 100%;
     border-collapse: collapse;
     background: var(--color-bg);
+    font-size: var(--step-0);
   }
-
-  .schedule-table thead {
-    background: var(--color-surface);
-  }
-
+  .schedule-table thead { background: var(--color-surface); }
   .schedule-table th {
     padding: var(--space-4);
     text-align: left;
-    font-weight: 600;
+    font-weight: var(--weight-bold);
     color: var(--color-text);
     border-bottom: 1px solid var(--color-border);
-    font-size: 0.875rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    white-space: nowrap;
   }
-
-  .week-col {
-    width: 80px;
-  }
-
-  .topic-col {
-    width: 35%;
-  }
-
-  .details-col {
-    width: auto;
-  }
+  .col-week { width: 5rem; }
+  .col-topic { width: 32%; }
+  .col-details { width: auto; }
 
   .schedule-table td {
     padding: var(--space-4);
     border-bottom: 1px solid var(--color-border-light);
     color: var(--color-text-secondary);
+    vertical-align: top;
   }
+  .schedule-table tbody tr:last-child td { border-bottom: none; }
+  .schedule-table tbody tr:hover { background: var(--color-bg-sunken); }
 
-  .schedule-table tbody tr:hover {
-    background: var(--color-surface);
-  }
-
-  .week-num {
+  .cell-week {
     text-align: center;
-    font-weight: 600;
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .cell-topic {
+    font-weight: var(--weight-semibold);
     color: var(--color-text);
   }
-
-  .topic {
-    font-weight: 500;
-    color: var(--color-text);
-  }
-
-  .details {
-    font-size: var(--step-0);
+  .cell-details {
+    font-size: 0.92rem;
     color: var(--color-text-muted);
   }
 
-  .exam-row {
-    background: var(--color-accent-light);
-  }
+  .exam-row { background: var(--color-accent-light); }
+  .exam-row:hover { background: var(--color-accent-light); }
+  .exam-row .cell-topic { color: var(--color-accent); font-weight: var(--weight-bold); }
+  .exam-row .cell-week { color: var(--color-accent); }
 
-  .exam-row:hover {
-    background: var(--color-accent-light);
-  }
-
-  .exam-row .topic {
-    color: var(--color-accent);
-    font-weight: 600;
-  }
-
-  /* Textbook */
+  /* ── Textbook ── */
   .textbook-card {
     padding: var(--space-8);
     background: var(--color-surface);
-    border-left: 3px solid var(--color-border);
-    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border-light);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-soft);
   }
-
+  .textbook-card--simple { padding: var(--space-6) var(--space-8); }
   .textbook-title {
-    font-family: var(--font-serif);
     font-size: var(--step-1);
-    font-weight: 600;
+    font-weight: var(--weight-bold);
     color: var(--color-text);
-    margin-bottom: var(--space-2);
+    line-height: 1.4;
+    margin: 0 0 var(--space-2);
   }
-
+  .textbook-card--simple .textbook-title {
+    margin: 0;
+    font-weight: var(--weight-semibold);
+  }
   .textbook-author {
     font-size: var(--step-0);
     color: var(--color-text-secondary);
     margin-bottom: var(--space-1);
   }
-
   .textbook-publisher {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: var(--color-text-muted);
   }
 
-  .textbook-simple {
-    padding: var(--space-6);
-    background: var(--color-surface);
-    border-left: 3px solid var(--color-border);
-    border-radius: var(--border-radius);
-  }
-
-  .textbook-simple p {
-    color: var(--color-text-secondary);
-    margin: 0;
-  }
-
-  /* Footer Nav */
+  /* ── Footer nav ── */
   .footer-nav {
-    margin-top: var(--space-16);
+    margin-top: var(--space-8);
     padding-top: var(--space-8);
     border-top: 1px solid var(--color-border);
   }
+  .arrow--back { transition: transform var(--transition-base); }
+  .footer-nav .text-link:hover .arrow--back { transform: translateX(-4px); }
 
-  /* Responsive */
+  /* ── Responsive ── */
   @media (max-width: 768px) {
-    .course-page {
-      padding: var(--space-8) var(--space-4);
-    }
-
-    .page-header h1 {
-      font-size: var(--step-2);
-    }
-
-    .title-en {
-      font-size: var(--step-0);
-    }
-
-    .course-info-grid {
+    .course-page { padding-block: var(--space-10) var(--space-16); }
+    .header-title { font-size: var(--step-3); }
+    .info-grid {
       grid-template-columns: 1fr 1fr;
+      padding: var(--space-6);
+      gap: var(--space-5);
     }
-
-    .evaluation-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
+    .contact-card { padding: var(--space-5) var(--space-6); }
+    .contact-row { flex-direction: column; gap: var(--space-1); }
+    .contact-key { flex-basis: auto; }
+    .eval-grid { grid-template-columns: repeat(2, 1fr); }
     .schedule-table th,
-    .schedule-table td {
-      padding: var(--space-3) var(--space-2);
-      font-size: 0.875rem;
-    }
-
-    .week-col {
-      width: 50px;
-    }
+    .schedule-table td { padding: var(--space-3) var(--space-2); }
+    .col-week { width: 3rem; }
   }
 </style>

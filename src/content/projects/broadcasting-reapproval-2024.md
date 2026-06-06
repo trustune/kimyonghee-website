@@ -1,6 +1,10 @@
 ---
 title: "The Investment Paradox: Korea's Broadcasting Reapproval System"
+title_ko: "투자의 역설: 한국 방송 재승인 제도"
+title_en: "The Investment Paradox: Korea's Broadcasting Reapproval System"
 subtitle: "Why Higher Content Investment Doesn't Always Lead to Better Performance"
+subtitle_ko: "콘텐츠 투자를 늘린다고 늘 성과가 좋아지지는 않는 이유"
+subtitle_en: "Why Higher Content Investment Doesn't Always Lead to Better Performance"
 date: "2025-10-11"
 category: "Broadcasting Policy"
 tags: ["Broadcasting", "Media Policy", "Regulation Reform", "Content Investment", "Data Analysis"]
@@ -18,7 +22,11 @@ related_publications: []
 related_projects: ["broadcasting-revenue-2015-2024"]
 conference: "Korean Society for Journalism & Communication Studies 2024 Fall Conference"
 description: "An empirical investigation into Korea's broadcasting reapproval system reveals an investment paradox: stricter content investment requirements correlate with poorer financial performance."
+description_ko: "한국 방송 재승인 제도를 실증적으로 분석한 결과, 콘텐츠 투자 의무를 강화할수록 오히려 재무 성과가 나빠지는 투자의 역설이 확인되었다."
+description_en: "An empirical investigation into Korea's broadcasting reapproval system reveals an investment paradox: stricter content investment requirements correlate with poorer financial performance."
 summary: "Korea grants only 3-4 years reapproval period despite 7-year legal maximum - shortest globally. Analysis of 10 years of data reveals higher investment ratios correlate with lower profitability."
+summary_ko: "한국은 법정 최대 7년이 가능한데도 실제 재승인 기간은 3~4년에 그쳐 세계에서 가장 짧다. 10년치 자료를 분석한 결과, 투자 비율이 높을수록 수익성은 낮아지는 경향이 나타났다."
+summary_en: "Korea grants only 3-4 years reapproval period despite 7-year legal maximum - shortest globally. Analysis of 10 years of data reveals higher investment ratios correlate with lower profitability."
 key_findings:
   - "Korea grants 3-4 years actual reapproval (legal max: 7 years) - shortest globally"
   - "Investment paradox: 70% requirement shows negative correlation with profit margins"

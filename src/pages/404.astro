@@ -2,287 +2,343 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const popularPages = [
-  { title: 'Research & Publications', href: '/research/publications', description: 'View all research papers and publications' },
-  { title: 'Projects', href: '/projects', description: 'Explore research projects and analysis' },
-  { title: 'About', href: '/about', description: 'Learn more about my background and experience' },
-  { title: 'Writing', href: '/writing', description: 'Read latest posts and insights' },
-  { title: 'Teaching', href: '/teaching', description: 'View courses and teaching materials' },
-  { title: 'Search', href: '/search', description: 'Search across all content' },
+  {
+    href: '/research/publications',
+    title_ko: '연구 · 논문',
+    title_en: 'Research & Publications',
+    desc_ko: '발표한 연구와 논문 전체를 봅니다.',
+    desc_en: 'View all research papers and publications.',
+  },
+  {
+    href: '/projects',
+    title_ko: '프로젝트',
+    title_en: 'Projects',
+    desc_ko: '진행 중인 연구 프로젝트와 분석을 살펴봅니다.',
+    desc_en: 'Explore research projects and analysis.',
+  },
+  {
+    href: '/about',
+    title_ko: '소개',
+    title_en: 'About',
+    desc_ko: '학력과 경력 등 배경을 소개합니다.',
+    desc_en: 'Learn more about my background and experience.',
+  },
+  {
+    href: '/writing',
+    title_ko: '글',
+    title_en: 'Writing',
+    desc_ko: '최근 칼럼과 글을 읽습니다.',
+    desc_en: 'Read recent posts and commentary.',
+  },
+  {
+    href: '/teaching',
+    title_ko: '강의',
+    title_en: 'Teaching',
+    desc_ko: '강의 과목과 교재를 안내합니다.',
+    desc_en: 'View courses and teaching materials.',
+  },
+  {
+    href: '/search',
+    title_ko: '검색',
+    title_en: 'Search',
+    desc_ko: '사이트 전체에서 검색합니다.',
+    desc_en: 'Search across all content.',
+  },
 ];
 ---
 
-<BaseLayout title="404 - Page Not Found">
-  <div class="not-found-page">
-    <div class="not-found-content">
-      <div class="not-found-header">
-        <h1 class="not-found-title">404</h1>
-        <h2 class="not-found-subtitle">Page Not Found</h2>
-        <p class="not-found-description">
-          The page you're looking for doesn't exist or has been moved.
+<BaseLayout
+  title="404 — 페이지를 찾을 수 없음"
+  description="요청하신 페이지를 찾을 수 없습니다. 홈으로 돌아가거나 다른 페이지를 둘러보세요.">
+  <section class="nf">
+    <div class="container nf-inner">
+      <header class="nf-head reveal" style="--i:0">
+        <p class="nf-code" aria-hidden="true">404</p>
+        <h1 class="nf-title">
+          <span data-lang="ko">페이지를 찾을 수 없습니다</span>
+          <span data-lang="en">Page not found</span>
+        </h1>
+        <p class="nf-lede">
+          <span data-lang="ko">찾으시는 페이지가 없거나 주소가 바뀌었습니다. 아래에서 검색하거나, 자주 찾는 페이지로 이동해 보세요.</span>
+          <span data-lang="en">The page you are looking for does not exist or has moved. Search below, or head to one of the pages people visit most.</span>
         </p>
-      </div>
+        <div class="nf-actions">
+          <a class="btn btn-accent" href="/">
+            <span data-lang="ko">홈으로</span><span data-lang="en">Go home</span>
+            <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+          </a>
+          <a class="btn btn-ghost" href="/projects">
+            <span data-lang="ko">프로젝트 보기</span><span data-lang="en">View projects</span>
+          </a>
+        </div>
+      </header>
 
-      <div class="not-found-search">
-        <h3 class="search-title">Try searching:</h3>
+      <div class="nf-search reveal" style="--i:1">
+        <label class="nf-search-label" for="search-input">
+          <span data-lang="ko">검색</span><span data-lang="en">Search</span>
+        </label>
         <div class="search-box">
-          <input
-            type="search"
-            id="search-input"
-            placeholder="Search for pages..."
-            class="search-input"
-          />
-          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="11" cy="11" r="8"/>
             <path d="m21 21-4.35-4.35"/>
           </svg>
+          <input
+            type="search"
+            id="search-input"
+            class="search-input"
+            autocomplete="off"
+            aria-label="페이지 검색 / Search pages"
+            data-ph-ko="페이지 검색…"
+            data-ph-en="Search pages…"
+            placeholder="페이지 검색…"
+          />
         </div>
         <div id="search-results" class="search-results"></div>
       </div>
 
-      <div class="popular-pages">
-        <h3 class="popular-title">Popular Pages</h3>
-        <div class="popular-grid">
-          {popularPages.map(page => (
-            <a href={page.href} class="popular-card">
-              <h4 class="popular-card-title">{page.title}</h4>
-              <p class="popular-card-description">{page.description}</p>
+      <div class="nf-popular reveal" style="--i:2">
+        <h2 class="nf-popular-title">
+          <span data-lang="ko">자주 찾는 페이지</span><span data-lang="en">Popular pages</span>
+        </h2>
+        <div class="cards">
+          {popularPages.map((page, i) => (
+            <a href={page.href} class="card reveal" style={`--i:${i + 3}`}>
+              <h3 class="card-title">
+                <span data-lang="ko">{page.title_ko}</span>
+                <span data-lang="en">{page.title_en}</span>
+              </h3>
+              <p class="card-desc">
+                <span data-lang="ko">{page.desc_ko}</span>
+                <span data-lang="en">{page.desc_en}</span>
+              </p>
+              <span class="card-go text-link" aria-hidden="true">
+                <span data-lang="ko">이동</span><span data-lang="en">Open</span>
+                <span class="arrow">&rarr;</span>
+              </span>
             </a>
           ))}
         </div>
       </div>
-
-      <div class="not-found-actions">
-        <a href="/" class="btn-primary">Go to Homepage</a>
-        <a href="/projects" class="btn-secondary">View Projects</a>
-      </div>
     </div>
-  </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .not-found-page {
-    min-height: 100vh;
+  .nf {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: var(--space-8);
-    background: var(--color-bg);
+    min-height: calc(100vh - 6rem);
+    padding-block: var(--section-gap);
   }
-
-  .not-found-content {
-    max-width: var(--container-max);
+  .nf-inner {
     width: 100%;
+    max-width: 60rem;
   }
 
-  .not-found-header {
-    text-align: center;
-    margin-bottom: var(--space-12);
-  }
-
-  .not-found-title {
-    font-family: var(--font-serif);
-    font-size: 8rem;
-    font-weight: 400;
-    color: var(--color-text-muted);
+  /* ── Header ── */
+  .nf-head { margin-bottom: var(--space-16); }
+  .nf-code {
+    font-size: clamp(4rem, 2.5rem + 9vw, 8rem);
+    font-weight: var(--weight-black);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--color-accent);
+    font-variant-numeric: tabular-nums;
     margin-bottom: var(--space-4);
-    line-height: 1;
   }
-
-  .not-found-subtitle {
-    font-family: var(--font-serif);
+  .nf-title {
     font-size: var(--step-3);
-    font-weight: 400;
+    font-weight: var(--weight-heavy);
+    letter-spacing: -0.025em;
     color: var(--color-text);
     margin-bottom: var(--space-4);
   }
-
-  .not-found-description {
-    font-size: var(--step-0);
+  .nf-lede {
+    max-width: 48ch;
+    font-size: clamp(1.02rem, 0.97rem + 0.4vw, 1.2rem);
+    line-height: 1.7;
     color: var(--color-text-secondary);
   }
-
-  .not-found-search {
-    background: var(--color-surface);
-    padding: var(--space-8);
-    border-radius: var(--border-radius);
-    border: 1px solid var(--color-border);
-    margin-bottom: var(--space-8);
+  .nf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
   }
 
-  .search-title {
-    font-size: var(--step-0);
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: var(--space-4);
+  /* ── Search ── */
+  .nf-search { margin-bottom: var(--space-16); }
+  .nf-search-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
   }
-
-  .search-box {
-    position: relative;
-  }
-
-  .search-input {
-    width: 100%;
-    padding: var(--space-3) var(--space-4) var(--space-3) var(--space-12);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    font-size: var(--step-0);
-    background: var(--color-bg);
-    color: var(--color-text);
-    transition: border-color var(--transition-fast);
-  }
-
-  .search-input:focus {
-    outline: none;
-    border-color: var(--color-accent);
-  }
-
+  .search-box { position: relative; max-width: 32rem; }
   .search-icon {
     position: absolute;
     left: var(--space-4);
     top: 50%;
     transform: translateY(-50%);
     color: var(--color-text-muted);
+    pointer-events: none;
   }
-
-  .search-results {
-    margin-top: var(--space-4);
-  }
-
-  .search-result {
-    padding: var(--space-3);
+  .search-input {
+    width: 100%;
+    padding: 0.85rem var(--space-4) 0.85rem var(--space-12);
+    border: 1px solid var(--color-border-strong);
     border-radius: var(--border-radius);
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    background: var(--color-bg);
+    color: var(--color-text);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .search-input::placeholder { color: var(--color-text-muted); }
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-light);
+  }
+
+  .search-results { margin-top: var(--space-3); max-width: 32rem; }
+  .search-result {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border-light);
     transition: background var(--transition-fast);
   }
-
-  .search-result:hover {
-    background: var(--color-border-light);
-  }
-
+  .search-result:hover { background: var(--color-accent-light); }
   .search-result a {
     color: var(--color-accent);
-    text-decoration: none;
-    font-weight: 500;
+    font-weight: var(--weight-semibold);
+    font-size: 0.95rem;
+  }
+  .search-result a:hover { color: var(--color-accent-hover); }
+  .search-result--empty {
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
   }
 
-  .popular-pages {
-    margin-bottom: var(--space-8);
-  }
-
-  .popular-title {
+  /* ── Popular ── */
+  .nf-popular-title {
     font-size: var(--step-1);
-    font-weight: 400;
-    color: var(--color-text);
-    margin-bottom: var(--space-4);
+    font-weight: var(--weight-bold);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-text);
   }
-
-  .popular-grid {
+  .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
     gap: var(--space-4);
   }
-
-  .popular-card {
-    padding: var(--space-6);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    text-decoration: none;
-    transition: border-color var(--transition-fast);
-  }
-
-  .popular-card:hover {
-    border-color: var(--color-accent);
-  }
-
-  .popular-card-title {
-    font-size: var(--step-0);
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: var(--space-2);
-  }
-
-  .popular-card-description {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    margin: 0;
-  }
-
-  .not-found-actions {
+  .card {
     display: flex;
-    gap: var(--space-4);
-    justify-content: center;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-soft);
+    background: var(--color-bg);
+    color: var(--color-text);
+    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
   }
-
-  .btn-primary, .btn-secondary {
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    text-decoration: none;
-    transition: all var(--transition-fast);
-    font-size: 0.9375rem;
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: 0 18px 40px -24px rgba(var(--shadow-color) / 0.5);
+    color: var(--color-text);
   }
-
-  .btn-primary {
-    background: var(--color-accent);
-    color: #fff;
+  .card-title {
+    font-size: var(--step-1);
+    font-weight: var(--weight-bold);
+    line-height: 1.35;
   }
-
-  .btn-primary:hover {
-    background: var(--color-accent-hover);
-    color: #fff;
+  .card-desc {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    flex: 1;
   }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--color-accent);
-    border: 1px solid var(--color-accent);
+  .card-go {
+    font-size: 0.88rem;
+    margin-top: var(--space-2);
   }
+  .card:hover .card-go .arrow { transform: translateX(4px); }
+  .card-go .arrow { transition: transform var(--transition-base); }
 
-  .btn-secondary:hover {
-    background: var(--color-accent-light);
-    color: var(--color-accent);
+  @media (max-width: 760px) {
+    .nf-head { margin-bottom: var(--space-12); }
+    .nf-search { margin-bottom: var(--space-12); }
   }
 </style>
 
 <script>
-  // Simple search functionality
-  const searchInput = document.getElementById('search-input') as HTMLInputElement;
-  const searchResults = document.getElementById('search-results');
+  // ── 검색: 정적 인덱스에서 제목 매칭 (홈 어휘와 동일한 행 스타일) ──
+  function initNotFoundSearch() {
+    const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+    const searchResults = document.getElementById('search-results');
+    if (!searchInput || !searchResults) return;
 
-  const pages = [
-    { title: 'Home', url: '/' },
-    { title: 'About', url: '/about' },
-    { title: 'CV', url: '/cv' },
-    { title: 'Research & Publications', url: '/research/publications' },
-    { title: 'Projects', url: '/projects' },
-    { title: 'Netflix Korea Economic Impact', url: '/projects/netflix-korea-economic-impact-2024' },
-    { title: 'Broadcasting Revenue Analysis', url: '/projects/broadcasting-revenue-2015-2024' },
-    { title: 'MyData Policy', url: '/projects/mydata-right-transfer-policy-2025' },
-    { title: 'Writing', url: '/writing' },
-    { title: 'Teaching', url: '/teaching' },
-    { title: 'Search', url: '/search' },
-  ];
+    // 현재 언어에 맞춰 placeholder / 빈 결과 문구를 고른다.
+    const lang = () =>
+      document.documentElement.getAttribute('data-language') === 'en' ? 'en' : 'ko';
+    const syncPlaceholder = () => {
+      const ph = searchInput.getAttribute(lang() === 'en' ? 'data-ph-en' : 'data-ph-ko');
+      if (ph) searchInput.placeholder = ph;
+    };
+    syncPlaceholder();
+    document.addEventListener('language-change', syncPlaceholder);
+    new MutationObserver(syncPlaceholder).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-language'],
+    });
 
-  searchInput?.addEventListener('input', (e) => {
-    const query = (e.target as HTMLInputElement).value.toLowerCase();
+    const pages = [
+      { ko: '홈', en: 'Home', url: '/' },
+      { ko: '소개', en: 'About', url: '/about' },
+      { ko: '이력', en: 'CV', url: '/cv' },
+      { ko: '연구 · 논문', en: 'Research & Publications', url: '/research/publications' },
+      { ko: '프로젝트', en: 'Projects', url: '/projects' },
+      { ko: '글', en: 'Writing', url: '/writing' },
+      { ko: '강의', en: 'Teaching', url: '/teaching' },
+      { ko: '검색', en: 'Search', url: '/search' },
+      { ko: '미디어 동향', en: 'MediaINT', url: '/mediaint' },
+      { ko: '저널 동향', en: 'JournalINT', url: '/journalint' },
+    ];
 
-    if (!query || !searchResults) {
-      searchResults.innerHTML = '';
-      return;
-    }
+    const render = () => {
+      const query = searchInput.value.trim().toLowerCase();
+      if (!query) {
+        searchResults.innerHTML = '';
+        return;
+      }
+      const results = pages.filter(
+        (p) => p.ko.toLowerCase().includes(query) || p.en.toLowerCase().includes(query),
+      );
+      if (results.length === 0) {
+        const msg =
+          lang() === 'en' ? 'No matching pages found.' : '일치하는 페이지가 없습니다.';
+        searchResults.innerHTML = `<div class="search-result search-result--empty">${msg}</div>`;
+        return;
+      }
+      const label = (p: { ko: string; en: string }) => (lang() === 'en' ? p.en : p.ko);
+      searchResults.innerHTML = results
+        .map(
+          (p) =>
+            `<div class="search-result"><a href="${p.url}">${label(p)}</a></div>`,
+        )
+        .join('');
+    };
 
-    const results = pages.filter(page =>
-      page.title.toLowerCase().includes(query)
-    );
+    searchInput.addEventListener('input', render);
+    document.addEventListener('language-change', render);
+  }
 
-    if (results.length > 0) {
-      searchResults.innerHTML = results.map(page => `
-        <div class="search-result">
-          <a href="${page.url}">${page.title}</a>
-        </div>
-      `).join('');
-    } else {
-      searchResults.innerHTML = `<div class="search-result">No results found</div>`;
-    }
-  });
+  initNotFoundSearch();
+  document.addEventListener('astro:page-load', initNotFoundSearch);
 </script>

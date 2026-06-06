@@ -7,38 +7,67 @@ const allProjects = await getCollection('projects');
 const projects = allProjects
   .map(project => ({
     id: project.slug,
-    ...project.data,
+    ...(project.data as any),
   }))
   .sort((a, b) => new Date(b.date) - new Date(a.date));
 
 const categories = [...new Set(projects.map(p => p.category))];
 const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].sort((a, b) => b - a);
+
+// 카테고리 한국어 라벨 — 데이터에 없는 값은 원문 그대로 폴백
+const categoryKo: Record<string, string> = {
+  'Media Economics': '미디어 경제학',
+  'Broadcasting Policy': '방송 정책',
+  'Media Policy': '미디어 정책',
+  'Data Policy': '데이터 정책',
+};
+const catKo = (c: string) => categoryKo[c] || c;
+
+const fmtDate = (d: any, lang: 'ko' | 'en') =>
+  new Date(d).toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
 ---
 
-<BaseLayout title="Projects - Yonghee Kim" description="Research projects and data analysis work">
-  <div class="projects-container">
-    <header class="page-header">
-      <h1 class="page-title">Research Projects</h1>
+<BaseLayout
+  title="프로젝트 · Projects"
+  description="디지털 플랫폼과 미디어 시장을 다룬 연구 프로젝트와 데이터 분석 작업. Research projects and data analysis work.">
+  <div class="projects-page">
+    <header class="page-header reveal">
+      <p class="page-eyebrow">
+        <span data-lang="ko">연구 프로젝트</span>
+        <span data-lang="en">Research Projects</span>
+      </p>
+      <h1 class="page-title">
+        <span data-lang="ko">프로젝트</span>
+        <span data-lang="en">Projects</span>
+      </h1>
+      <p class="page-lede">
+        <span data-lang="ko">계량경제 방법과 산업연관분석으로 방송·미디어 시장의 구조와 정책을 다룬 연구입니다. 검색과 분류로 원하는 작업을 찾아보세요.</span>
+        <span data-lang="en">Empirical work on the structure and policy of broadcasting and media markets, built on econometric methods and input-output analysis. Search or filter to find a specific project.</span>
+      </p>
 
-      <div class="stats-row">
+      <dl class="stats-row">
         <div class="stat-item">
-          <span class="stat-number">{projects.length}</span>
-          <span class="stat-label">Projects</span>
+          <dt class="stat-number">{projects.length}</dt>
+          <dd class="stat-label"><span data-lang="ko">프로젝트</span><span data-lang="en">Projects</span></dd>
         </div>
         <div class="stat-item">
-          <span class="stat-number">{categories.length}</span>
-          <span class="stat-label">Categories</span>
+          <dt class="stat-number">{categories.length}</dt>
+          <dd class="stat-label"><span data-lang="ko">분류</span><span data-lang="en">Categories</span></dd>
         </div>
         <div class="stat-item">
-          <span class="stat-number">{years[0]}-{years[years.length-1]}</span>
-          <span class="stat-label">Period</span>
+          <dt class="stat-number">{years[0]}&ndash;{years[years.length - 1]}</dt>
+          <dd class="stat-label"><span data-lang="ko">기간</span><span data-lang="en">Period</span></dd>
         </div>
-      </div>
+      </dl>
     </header>
 
-    <div class="controls-bar">
+    <div class="controls-bar reveal">
       <div class="search-box">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.35-4.35"></path>
         </svg>
@@ -46,173 +75,206 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
           type="text"
           id="searchInput"
           class="search-input"
-          placeholder="Search projects..."
+          aria-label="프로젝트 검색 / Search projects"
+          data-ph-ko="프로젝트 검색…"
+          data-ph-en="Search projects…"
+          placeholder="프로젝트 검색…"
         />
       </div>
 
-      <select id="categoryFilter" class="filter-select">
-        <option value="all">All Categories</option>
+      <select id="categoryFilter" class="filter-select" aria-label="분류 선택 / Filter by category">
+        <option value="all" data-lang="ko">전체 분류</option>
+        <option value="all" data-lang="en">All categories</option>
         {categories.map(cat => (
-          <option value={cat}>{cat}</option>
+          <>
+            <option value={cat} data-lang="ko">{catKo(cat)}</option>
+            <option value={cat} data-lang="en">{cat}</option>
+          </>
         ))}
       </select>
 
-      <select id="yearFilter" class="filter-select">
-        <option value="all">All Years</option>
+      <select id="yearFilter" class="filter-select" aria-label="연도 선택 / Filter by year">
+        <option value="all" data-lang="ko">전체 연도</option>
+        <option value="all" data-lang="en">All years</option>
         {years.map(year => (
           <option value={year}>{year}</option>
         ))}
       </select>
 
-      <button id="resetBtn" class="reset-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <button id="resetBtn" class="reset-btn" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <polyline points="1 4 1 10 7 10"></polyline>
           <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
         </svg>
-        <span>Reset</span>
+        <span data-lang="ko">초기화</span><span data-lang="en">Reset</span>
       </button>
     </div>
 
     <div class="projects-list" id="projectsList">
-      {projects.map((project) => (
+      {projects.map((project, i) => (
         <article
-          class="project-item"
+          class="project-item reveal"
+          style={`--i:${i}`}
           data-category={project.category}
           data-year={new Date(project.date).getFullYear()}
           data-date={project.date}
-          data-search-text={`${project.title} ${project.title_en} ${project.subtitle} ${project.subtitle_en} ${project.description} ${project.description_en} ${project.summary} ${project.tags?.join(' ') || ''}`}
+          data-search-text={`${project.title} ${project.title_en || ''} ${project.title_ko || ''} ${project.subtitle || ''} ${project.subtitle_en || ''} ${project.description} ${project.description_en || ''} ${project.summary} ${(project.tags || []).join(' ')}`}
         >
-          <div class="project-main">
-            <div class="project-header-row">
-              <div class="project-meta-left">
-                <span class="category-badge">{project.category}</span>
-                {project.featured && (
-                  <span class="featured-badge">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                    Featured
-                  </span>
-                )}
-              </div>
-              <div class="project-date">
-                {new Date(project.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric'
-                })}
-              </div>
+          <div class="project-header-row">
+            <div class="project-meta-left">
+              <span class="category-badge">
+                <span data-lang="ko">{catKo(project.category)}</span>
+                <span data-lang="en">{project.category}</span>
+              </span>
+              {project.featured && (
+                <span class="featured-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <span data-lang="ko">주요 연구</span><span data-lang="en">Featured</span>
+                </span>
+              )}
             </div>
+            <div class="project-date">
+              <span data-lang="ko">{fmtDate(project.date, 'ko')}</span>
+              <span data-lang="en">{fmtDate(project.date, 'en')}</span>
+            </div>
+          </div>
 
-            <h3 class="project-title">
-              <a href={`/projects/${project.id}`}>
-                {project.title_en || project.title}
-              </a>
-            </h3>
+          <h3 class="project-title">
+            <a href={`/projects/${project.id}`}>
+              <span data-lang="ko">{project.title_ko || project.title}</span>
+              <span data-lang="en">{project.title_en || project.title}</span>
+            </a>
+          </h3>
 
-            {(project.subtitle_en || project.subtitle) && (
-              <p class="project-subtitle">
-                {project.subtitle_en || project.subtitle}
-              </p>
-            )}
-
-            <p class="project-description">
-              {project.description_en || project.description}
+          {(project.subtitle_ko || project.subtitle_en || project.subtitle) && (
+            <p class="project-subtitle">
+              <span data-lang="ko">{project.subtitle_ko || project.subtitle || project.subtitle_en}</span>
+              <span data-lang="en">{project.subtitle_en || project.subtitle}</span>
             </p>
+          )}
 
-            {project.conference && (
-              <div class="conference-info">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                {project.conference_en || project.conference}
-              </div>
-            )}
+          <p class="project-description">
+            <span data-lang="ko">{project.description_ko || project.description}</span>
+            <span data-lang="en">{project.description_en || project.description}</span>
+          </p>
 
-            <div class="project-footer">
-              <div class="tags-row">
-                {project.tags && project.tags.slice(0, 4).map(tag => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
-
-              <a href={`/projects/${project.id}`} class="view-link">
-                View Details
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
+          {project.conference && (
+            <div class="conference-info">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span data-lang="ko">{project.conference_ko || project.conference}</span>
+              <span data-lang="en">{project.conference_en || project.conference}</span>
             </div>
+          )}
+
+          <div class="project-footer">
+            <div class="tags-row">
+              {project.tags && project.tags.slice(0, 4).map(tag => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+
+            <a href={`/projects/${project.id}`} class="view-link">
+              <span data-lang="ko">자세히 보기</span><span data-lang="en">View details</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
           </div>
         </article>
       ))}
     </div>
 
     <div id="noResults" class="no-results" style="display: none;">
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
         <circle cx="11" cy="11" r="8"></circle>
         <path d="m21 21-4.35-4.35"></path>
         <line x1="11" y1="8" x2="11" y2="14"></line>
         <line x1="8" y1="11" x2="14" y2="11"></line>
       </svg>
-      <p>No projects found matching your criteria.</p>
-      <button id="resetFromEmpty" class="reset-link">
-        Clear filters
+      <p>
+        <span data-lang="ko">조건에 맞는 프로젝트가 없습니다.</span>
+        <span data-lang="en">No projects match your criteria.</span>
+      </p>
+      <button id="resetFromEmpty" class="reset-link" type="button">
+        <span data-lang="ko">필터 지우기</span><span data-lang="en">Clear filters</span>
       </button>
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .projects-container {
+  .projects-page {
     max-width: var(--container-max);
     margin: 0 auto;
-    padding: var(--space-8) var(--space-6);
+    padding: var(--space-16) var(--space-8) var(--section-gap);
   }
 
+  /* ═══════════════ HEADER ═══════════════ */
   .page-header {
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-10);
+    padding-bottom: var(--space-8);
+    border-bottom: 2px solid var(--color-text);
+  }
+
+  .page-eyebrow {
+    font-size: 0.8rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
   }
 
   .page-title {
-    font-family: var(--font-serif);
-    font-size: var(--step-4);
+    font-size: var(--step-5);
+    font-weight: var(--weight-black);
+    letter-spacing: -0.03em;
+    line-height: 1.02;
     color: var(--color-text);
-    margin-bottom: var(--space-6);
-    font-weight: 400;
+  }
+
+  .page-lede {
+    max-width: 56ch;
+    margin-top: var(--space-5);
+    font-size: clamp(1rem, 0.95rem + 0.4vw, 1.18rem);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
   }
 
   .stats-row {
     display: flex;
-    gap: var(--space-8);
-    padding: var(--space-4) 0;
-    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+    gap: clamp(1.5rem, 1rem + 3vw, 3rem);
+    margin-top: var(--space-8);
   }
-
   .stat-item {
     display: flex;
     align-items: baseline;
     gap: var(--space-2);
   }
-
   .stat-number {
     font-size: var(--step-2);
-    font-weight: 700;
+    font-weight: var(--weight-heavy);
+    letter-spacing: -0.02em;
     color: var(--color-accent);
-    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
   }
-
   .stat-label {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: var(--weight-medium);
   }
 
+  /* ═══════════════ CONTROLS ═══════════════ */
   .controls-bar {
     display: flex;
     gap: var(--space-3);
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-10);
     flex-wrap: wrap;
   }
 
@@ -221,7 +283,6 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     min-width: 250px;
     position: relative;
   }
-
   .search-icon {
     position: absolute;
     left: var(--space-4);
@@ -230,18 +291,18 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     color: var(--color-text-muted);
     pointer-events: none;
   }
-
   .search-input {
     width: 100%;
     padding: var(--space-3) var(--space-4) var(--space-3) 2.75rem;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
+    font-family: var(--font-sans);
     font-size: 0.9375rem;
     background: var(--color-bg);
     color: var(--color-text);
     transition: border-color var(--transition-fast);
   }
-
+  .search-input::placeholder { color: var(--color-text-muted); }
   .search-input:focus {
     outline: none;
     border-color: var(--color-accent);
@@ -251,6 +312,7 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     padding: var(--space-3) var(--space-4);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
+    font-family: var(--font-sans);
     font-size: 0.9375rem;
     background: var(--color-bg);
     color: var(--color-text);
@@ -258,7 +320,6 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     transition: border-color var(--transition-fast);
     min-width: 150px;
   }
-
   .filter-select:hover,
   .filter-select:focus {
     outline: none;
@@ -266,54 +327,57 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
   }
 
   .reset-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-3) var(--space-4);
     background: var(--color-bg);
     color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-strong);
     border-radius: var(--border-radius);
+    font-family: var(--font-sans);
     font-size: 0.9375rem;
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: border-color var(--transition-fast), color var(--transition-fast);
   }
-
   .reset-btn:hover {
-    border-color: #ef4444;
-    color: #ef4444;
+    border-color: var(--color-text);
+    color: var(--color-text);
   }
 
+  /* ═══════════════ LIST ═══════════════ */
   .projects-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: var(--space-5);
   }
 
   .project-item {
     background: var(--color-bg);
     border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-soft);
     padding: var(--space-6);
-    transition: border-color var(--transition-fast);
+    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
   }
-
   .project-item:hover {
+    transform: translateY(-3px);
     border-color: var(--color-accent);
+    box-shadow: 0 18px 40px -24px rgba(var(--shadow-color) / 0.5);
   }
 
   .project-header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: var(--space-3);
     margin-bottom: var(--space-3);
   }
-
   .project-meta-left {
     display: flex;
     align-items: center;
     gap: var(--space-2);
+    flex-wrap: wrap;
   }
 
   .category-badge {
@@ -321,63 +385,60 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     background: transparent;
     color: var(--color-accent);
     border: 1px solid var(--color-accent);
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: var(--border-radius);
+    font-size: 0.7rem;
+    font-weight: var(--weight-bold);
+    border-radius: var(--radius-pill);
     text-transform: uppercase;
-    letter-spacing: 0.025em;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
   }
 
   .featured-badge {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: var(--space-1);
     padding: var(--space-1) var(--space-2);
-    background: #fef3c7;
-    color: #92400e;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    border-radius: var(--border-radius);
+    background: var(--color-accent-surface);
+    color: var(--color-accent-hover);
+    font-size: 0.68rem;
+    font-weight: var(--weight-bold);
+    border-radius: var(--radius-pill);
     text-transform: uppercase;
-    letter-spacing: 0.025em;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
   }
 
   .project-date {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    font-weight: 500;
-    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: var(--weight-medium);
+    white-space: nowrap;
   }
 
   .project-title {
     font-size: var(--step-1);
-    font-weight: 700;
-    margin-bottom: var(--space-2);
+    font-weight: var(--weight-bold);
     line-height: 1.4;
+    margin-bottom: var(--space-2);
   }
-
   .project-title a {
     color: var(--color-text);
-    text-decoration: none;
     transition: color var(--transition-fast);
   }
-
-  .project-title a:hover {
-    color: var(--color-accent);
-  }
+  .project-title a:hover { color: var(--color-accent); }
 
   .project-subtitle {
-    font-size: 0.9375rem;
+    font-size: 0.95rem;
     color: var(--color-text-secondary);
     margin-bottom: var(--space-3);
-    font-weight: 500;
-    line-height: 1.5;
+    font-weight: var(--weight-medium);
+    line-height: 1.55;
   }
 
   .project-description {
     font-size: 0.9375rem;
     color: var(--color-text-secondary);
-    line-height: 1.6;
+    line-height: 1.7;
     margin-bottom: var(--space-4);
   }
 
@@ -386,17 +447,14 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-2) var(--space-3);
-    background: #fffbeb;
-    border-left: 3px solid #f59e0b;
+    background: var(--color-surface);
+    border-left: 2px solid var(--color-accent);
     font-size: 0.875rem;
-    color: #78350f;
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-4);
     border-radius: var(--border-radius);
   }
-
-  .conference-info svg {
-    flex-shrink: 0;
-  }
+  .conference-info svg { flex-shrink: 0; color: var(--color-accent); }
 
   .project-footer {
     display: flex;
@@ -407,150 +465,72 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     padding-top: var(--space-4);
     border-top: 1px solid var(--color-border-light);
   }
-
   .tags-row {
     display: flex;
     gap: var(--space-2);
     flex-wrap: wrap;
   }
-
   .tag {
     padding: var(--space-1) var(--space-2);
     background: var(--color-surface);
     color: var(--color-text-secondary);
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: var(--weight-medium);
     border-radius: var(--border-radius);
   }
 
   .view-link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: var(--space-1);
     color: var(--color-accent);
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     font-size: 0.9375rem;
-    text-decoration: none;
+    white-space: nowrap;
     transition: color var(--transition-fast);
   }
+  .view-link:hover { color: var(--color-accent-hover); }
+  .view-link svg { transition: transform var(--transition-base); }
+  .view-link:hover svg { transform: translateX(3px); }
 
-  .view-link:hover {
-    color: var(--color-accent-hover);
-  }
-
-  .view-link svg {
-    transition: transform var(--transition-fast);
-  }
-
-  .view-link:hover svg {
-    transform: translateX(2px);
-  }
-
+  /* ═══════════════ EMPTY ═══════════════ */
   .no-results {
     text-align: center;
     padding: var(--space-16) var(--space-8);
   }
-
   .no-results svg {
     margin: 0 auto var(--space-6);
-    color: var(--color-border);
+    color: var(--color-border-strong);
   }
-
   .no-results p {
     color: var(--color-text-secondary);
     font-size: var(--step-0);
     margin-bottom: var(--space-4);
   }
-
   .reset-link {
     color: var(--color-accent);
-    font-weight: 600;
-    text-decoration: none;
+    font-weight: var(--weight-semibold);
     background: none;
     border: none;
     cursor: pointer;
     font-size: 0.9375rem;
   }
+  .reset-link:hover { color: var(--color-accent-hover); text-decoration: underline; }
 
-  .reset-link:hover {
-    text-decoration: underline;
-  }
-
+  /* ═══════════════ Responsive ═══════════════ */
   @media (max-width: 1024px) {
-    .projects-container {
-      padding: var(--space-8) var(--space-6);
-    }
-
-    .page-title {
-      font-size: var(--step-3);
-    }
-
-    .controls-bar {
-      gap: var(--space-2);
-    }
-
-    .filter-select {
-      min-width: 120px;
-    }
+    .filter-select { min-width: 120px; }
   }
 
   @media (max-width: 768px) {
-    .projects-container {
-      padding: var(--space-6) var(--space-4);
-    }
-
-    .page-title {
-      font-size: var(--step-2);
-    }
-
-    .stats-row {
-      flex-direction: column;
-      gap: var(--space-3);
-      padding: var(--space-3) 0;
-    }
-
-    .stat-number {
-      font-size: var(--step-1);
-    }
-
-    .controls-bar {
-      flex-direction: column;
-    }
-
-    .search-box {
-      width: 100%;
-      min-width: auto;
-    }
-
-    .filter-select {
-      width: 100%;
-      min-width: auto;
-    }
-
-    .reset-btn {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .project-item {
-      padding: var(--space-4);
-    }
-
-    .project-title {
-      font-size: var(--step-0);
-    }
-
-    .project-subtitle,
-    .project-description {
-      font-size: 0.875rem;
-    }
-
-    .project-footer {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-3);
-    }
-
+    .projects-page { padding: var(--space-12) var(--space-4) var(--section-gap); }
+    .page-title { font-size: var(--step-4); }
+    .stats-row { gap: var(--space-6); }
+    .controls-bar { flex-direction: column; }
+    .search-box { width: 100%; min-width: 0; }
+    .filter-select { width: 100%; min-width: 0; }
+    .reset-btn { width: 100%; justify-content: center; }
+    .project-footer { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
     .view-link {
       width: 100%;
       justify-content: center;
@@ -561,23 +541,14 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
   }
 
   @media (max-width: 640px) {
-    .projects-container {
-      padding: var(--space-4) var(--space-3);
-    }
+    .projects-page { padding: var(--space-10) var(--space-3) var(--section-gap); }
+    .page-title { font-size: var(--step-3); }
+    .project-item { padding: var(--space-4); }
+    .project-header-row { flex-wrap: wrap; }
+  }
 
-    .page-title {
-      font-size: var(--step-2);
-    }
-
-    .project-item {
-      padding: var(--space-4);
-    }
-
-    .category-badge,
-    .featured-badge {
-      font-size: 0.625rem;
-      padding: 0.2rem var(--space-2);
-    }
+  @media (prefers-reduced-motion: reduce) {
+    .project-item:hover { transform: none; }
   }
 </style>
 
@@ -592,6 +563,18 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
     const noResults = document.getElementById('noResults');
 
     if (!searchInput || !projectsList) return;
+
+    // 검색창 플레이스홀더를 활성 언어에 맞춰 갱신
+    function syncPlaceholder() {
+      const lang = document.documentElement.getAttribute('data-language') || 'ko';
+      const ph = searchInput.getAttribute(lang === 'en' ? 'data-ph-en' : 'data-ph-ko');
+      if (ph) searchInput.setAttribute('placeholder', ph);
+    }
+    syncPlaceholder();
+    new MutationObserver(syncPlaceholder).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-language'],
+    });
 
     function filterProjects() {
       const searchTerm = searchInput.value.toLowerCase();
@@ -611,7 +594,7 @@ const years = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].so
         const yearMatch = year === 'all' || itemYear === year;
 
         if (searchMatch && categoryMatch && yearMatch) {
-          item.style.display = 'block';
+          item.style.display = '';
           visibleCount++;
         } else {
           item.style.display = 'none';

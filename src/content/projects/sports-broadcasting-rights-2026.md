@@ -1,6 +1,10 @@
 ---
 title: "Sports Broadcasting Rights in the Platform Era"
+title_ko: "플랫폼 시대의 스포츠 중계권"
+title_en: "Sports Broadcasting Rights in the Platform Era"
 subtitle: "How the 30-Year Korea Pool Collapsed and What Comes Next"
+subtitle_ko: "30년 이어진 코리아 풀은 어떻게 무너졌고, 다음은 무엇인가"
+subtitle_en: "How the 30-Year Korea Pool Collapsed and What Comes Next"
 date: "2026-03-22"
 category: "Media Policy"
 tags: ["Sports Broadcasting", "Broadcasting Rights", "Universal Access", "Platform Economy", "Olympics", "FIFA World Cup", "JTBC", "Korea Pool", "Game Theory", "VRIO", "Regulatory Capture"]
@@ -34,7 +38,11 @@ related_publications: []
 related_projects: ["broadcasting-revenue-2015-2024"]
 conference: "JTBC Internal Briefing (Invited Expert Presentation, 90 min)"
 description: "A comprehensive analysis of the structural transformation in sports broadcasting rights — integrating game theory, VRIO resource analysis, 6-country regulatory comparison, and two-sided market economics to examine the Korea Pool collapse, universal access debates, and 2026 FIFA World Cup strategy."
+description_ko: "스포츠 중계권의 구조적 전환을 종합 분석한다. 게임이론, VRIO 자원 분석, 6개국 규제 비교, 양면시장 경제학을 결합해 코리아 풀의 붕괴, 보편적 시청권 논쟁, 2026 FIFA 월드컵 전략을 살핀다."
+description_en: "A comprehensive analysis of the structural transformation in sports broadcasting rights — integrating game theory, VRIO resource analysis, 6-country regulatory comparison, and two-sided market economics to examine the Korea Pool collapse, universal access debates, and 2026 FIFA World Cup strategy."
 summary: "The 2026 Milano Olympics marked the end of Korea's 30-year collective broadcasting era. This project applies game theory to reveal how terrestrial broadcasters' negotiation refusal was a calculated strategic move (regulatory capture through a Chicken Game payoff structure), uses VRIO analysis to demonstrate JTBC's competitive position, and compares universal access regimes across 6 countries to show that European-style regulation cannot be transplanted without corresponding institutional infrastructure."
+summary_ko: "2026 밀라노 올림픽은 30년간 이어진 한국의 공동 중계 시대가 막을 내린 전환점이었다. 이 연구는 게임이론을 적용해 지상파의 협상 거부가 치킨게임 보수 구조를 통한 규제 포획이라는 계산된 전략적 선택이었음을 밝히고, VRIO 분석으로 JTBC의 경쟁적 위치를 보여 주며, 6개국의 보편적 시청권 제도를 비교해 유럽식 규제가 그에 상응하는 제도적 인프라 없이는 그대로 이식될 수 없음을 논증한다."
+summary_en: "The 2026 Milano Olympics marked the end of Korea's 30-year collective broadcasting era. This project applies game theory to reveal how terrestrial broadcasters' negotiation refusal was a calculated strategic move (regulatory capture through a Chicken Game payoff structure), uses VRIO analysis to demonstrate JTBC's competitive position, and compares universal access regimes across 6 countries to show that European-style regulation cannot be transplanted without corresponding institutional infrastructure."
 key_findings:
   - "Global rights prices grew 30,000x: $50K (1960 Squaw Valley) → $12.75B per cycle (2032 Brisbane)"
   - "Korea Pool dissolution was structurally inevitable: IOC competitive bidding + terrestrial financial decline + media environment shift"

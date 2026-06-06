@@ -27,6 +27,11 @@ deploy-broadcasting.ps1
 # impeccable design-tool local state (critique snapshots, live config)
 .impeccable/
 
+# local visual-QA artifacts (Playwright screenshots + shoot scripts)
+.shots/
+scripts/shoot.mjs
+scripts/verify.mjs
+
 # Sensitive documentation files (keep locally, not on GitHub)
 DEPLOYMENT_GUIDE.md
 HANDOVER.md

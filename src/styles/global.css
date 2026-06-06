@@ -1,7 +1,7 @@
 /* Global Styles - kimyonghee.com */
 @import './design-tokens.css';
 
-/* Reset */
+/* ── Reset ── */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -11,29 +11,47 @@
 html {
   font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: var(--leading-body);
   color: var(--color-text);
   background: var(--color-bg);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* 부드러운 스크롤 보정: 스티키 헤더 높이만큼 앵커 오프셋 */
+  scroll-padding-top: 6rem;
 }
 
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--color-bg);
+  overflow-x: hidden;
+}
+
+/* 한글은 단어 단위로 줄바꿈해야 자연스럽다. 영문 긴 단어는 넘치지 않게. */
+h1, h2, h3, h4, h5, h6, p, li, a, blockquote, figcaption, dd, dt, span {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  line-height: 1.3;
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.015em;
   color: var(--color-text);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 a {
   color: inherit;
+  text-decoration: none;
   transition: color var(--transition-fast);
 }
 
@@ -41,66 +59,161 @@ a:hover {
   color: var(--color-accent);
 }
 
-img {
+img, svg, video, canvas {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* Focus visible for accessibility */
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+strong, b { font-weight: var(--weight-semibold); }
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
 }
 
-/* Skip nav link */
+/* ── Focus visible ── */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Skip nav ── */
 .skip-nav {
   position: absolute;
   top: -100%;
   left: var(--space-4);
-  z-index: 200;
+  z-index: var(--z-tooltip);
   padding: var(--space-2) var(--space-4);
   background: var(--color-accent);
   color: #fff;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--weight-semibold);
   text-decoration: none;
   border-radius: var(--border-radius);
 }
+.skip-nav:focus { top: var(--space-4); color: #fff; }
 
-.skip-nav:focus {
-  top: var(--space-4);
+/* ════════════════════════════════════════════════════════════════
+   i18n — 언어 토글
+   html[data-language="ko"] → ko만, "en" → en만. data-lang 없는 요소
+   (이름·숫자·날짜·로고)는 항상 보인다. 활성 요소는 자연 display 유지.
+   ════════════════════════════════════════════════════════════════ */
+html[data-language="ko"] [data-lang="en"],
+html[data-language="en"] [data-lang="ko"] {
+  display: none !important;
 }
 
-/* Prose styling for markdown content */
+/* 언어 전환 시 본문 글꼴 미세 조정: 영문은 자간을 약간 넓혀 가독 */
+html[data-language="en"] body { letter-spacing: 0.003em; }
+
+/* ════════════════════════════════════════════════════════════════
+   Motion primitives — reveal-on-scroll
+   JS가 확인됐을 때만 초기 숨김을 적용한다. JS/헤드리스/숨은 탭에서는
+   콘텐츠가 항상 보이도록(접근성·SEO) .js 게이트로 보호한다.
+   ════════════════════════════════════════════════════════════════ */
+/* 콘텐츠는 기본적으로 보인다. JS가 "화면 밖" 요소에만 .reveal-armed 를
+   붙여 초기 숨김을 적용하고, 안전 타임아웃이 끝까지 가시성을 보장한다.
+   → JS 실패·헤드리스·숨은 탭에서도 빈 화면이 되지 않는다. */
+.js .reveal.reveal-armed {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity var(--reveal-duration) var(--ease-out-expo),
+    transform var(--reveal-duration) var(--ease-out-expo);
+  transition-delay: calc(var(--i, 0) * 70ms);
+  will-change: opacity, transform;
+}
+.js .reveal.reveal-armed.is-in { opacity: 1; transform: none; }
+/* 좌→우로 들어오는 변형 */
+.js .reveal-x.reveal-armed {
+  opacity: 0;
+  transform: translateX(-26px);
+  transition:
+    opacity var(--reveal-duration) var(--ease-out-expo),
+    transform var(--reveal-duration) var(--ease-out-expo);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.js .reveal-x.reveal-armed.is-in { opacity: 1; transform: none; }
+
+/* ── Shared building blocks ── */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-8);
+}
+.container-wide { max-width: var(--container-wide); }
+
+/* Buttons */
+.btn {
+  --btn-bg: var(--color-text);
+  --btn-fg: var(--color-bg);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.7rem 1.3rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  border: 1px solid var(--btn-bg);
+  border-radius: var(--border-radius);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  cursor: pointer;
+  transition: transform var(--transition-base), background var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+}
+.btn:hover { transform: translateY(-2px); color: var(--btn-fg); }
+.btn .btn-arrow { transition: transform var(--transition-base); }
+.btn:hover .btn-arrow { transform: translateX(3px); }
+
+.btn-accent { --btn-bg: var(--color-accent); --btn-fg: #fff; }
+.btn-accent:hover { --btn-bg: var(--color-accent-hover); }
+
+.btn-ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+.btn-ghost:hover { --btn-fg: var(--color-text); border-color: var(--color-text); background: transparent; }
+
+/* 텍스트 화살표 링크 */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.95rem;
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent);
+}
+.text-link .arrow { transition: transform var(--transition-base); }
+.text-link:hover { color: var(--color-accent-hover); }
+.text-link:hover .arrow { transform: translateX(4px); }
+
+/* ════════════════════════════════════════════════════════════════
+   Prose — 마크다운 본문
+   ════════════════════════════════════════════════════════════════ */
+.prose { line-height: var(--leading-body); }
+
 .prose h2 {
   font-size: var(--step-2);
   margin-top: var(--space-12);
   margin-bottom: var(--space-4);
   color: var(--color-text);
-  font-weight: 500;
+  font-weight: var(--weight-bold);
 }
-
 .prose h3 {
   font-size: var(--step-1);
   margin-top: var(--space-8);
   margin-bottom: var(--space-3);
   color: var(--color-text);
-  font-weight: 500;
+  font-weight: var(--weight-semibold);
 }
-
-.prose p {
-  margin-bottom: var(--space-6);
-}
-
-.prose ul, .prose ol {
-  margin: var(--space-6) 0;
-  padding-left: var(--space-8);
-}
-
-.prose li {
-  margin-bottom: var(--space-2);
-}
+.prose p { margin-bottom: var(--space-6); }
+.prose ul, .prose ol { margin: var(--space-6) 0; padding-left: var(--space-8); }
+.prose li { margin-bottom: var(--space-2); }
 
 .prose a {
   color: var(--color-accent);
@@ -108,21 +221,10 @@ img {
   text-underline-offset: 0.2em;
   text-decoration-thickness: 1px;
 }
+.prose a:hover { color: var(--color-accent-hover); }
 
-.prose a:hover {
-  color: var(--color-accent-hover);
-}
-
-.prose img {
-  width: 100%;
-  border-radius: var(--border-radius);
-  margin: var(--space-8) 0;
-}
-
-.prose strong {
-  font-weight: 600;
-  color: var(--color-text);
-}
+.prose img { width: 100%; border-radius: var(--radius-soft); margin: var(--space-8) 0; }
+.prose strong { font-weight: var(--weight-bold); color: var(--color-text); }
 
 .prose code {
   background: var(--color-surface);
@@ -131,47 +233,41 @@ img {
   font-size: 0.9em;
   font-family: var(--font-mono);
 }
-
 .prose pre {
-  background: #211d19;
+  background: #1c1916;
   color: #f0ece6;
   padding: var(--space-6);
-  border-radius: var(--border-radius);
+  border-radius: var(--radius-soft);
   overflow-x: auto;
   margin: var(--space-8) 0;
 }
-
-.dark .prose pre {
-  background: #100f0d;
-}
-
-.prose pre code {
-  background: transparent;
-  padding: 0;
-}
+.dark .prose pre { background: #0a0908; }
+.prose pre code { background: transparent; padding: 0; }
 
 .prose blockquote {
   border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
+  border-radius: var(--radius-soft);
   background: var(--color-surface);
   padding: var(--space-4) var(--space-6);
   margin: var(--space-8) 0;
   color: var(--color-text-secondary);
-  font-style: italic;
 }
 
-/* Reduced motion: neutralize smooth scroll, transitions, and animations.
-   Reduced motion is not optional (WCAG 2.3.3 / impeccable). */
+/* ── Reduced motion ──
+   움직임은 선택이 아니다(WCAG 2.3.3 / impeccable). 모든 reveal·트랜지션
+   ·캔버스 모션은 정적 대안으로 대체된다. */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .js .reveal,
+  .js .reveal-x {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

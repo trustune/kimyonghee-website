@@ -1,6 +1,10 @@
 ---
 title: "Netflix Korea's Economic Impact on K-Content Ecosystem"
+title_ko: "넷플릭스 코리아가 K-콘텐츠 생태계에 미친 경제적 영향"
+title_en: "Netflix Korea's Economic Impact on K-Content Ecosystem"
 subtitle: "How 3.3 Trillion Won of 'Invisible FDI' Sustained Korea's Creative Industry Through Crisis"
+subtitle_ko: "3.3조 원의 '보이지 않는 외국인직접투자'가 위기 속 한국 창작 산업을 지탱한 방식"
+subtitle_en: "How 3.3 Trillion Won of 'Invisible FDI' Sustained Korea's Creative Industry Through Crisis"
 date: "2025-12-05"
 category: "Media Economics"
 tags: ["Netflix", "K-Content", "FDI", "Input-Output Analysis", "Economic Impact", "Employment", "COVID-19"]
@@ -24,7 +28,11 @@ related_publications: []
 related_projects: ["broadcasting-revenue-2015-2024", "broadcasting-reapproval-2024"]
 conference: ""
 description: "Using input-output analysis, this study measures Netflix Korea's economic contribution: 3.3 trillion won in content-related FDI generated 6.9 trillion won in production and sustained 28,500 jobs during the pandemic."
+description_ko: "산업연관분석을 활용해 넷플릭스 코리아의 경제적 기여를 측정한다. 콘텐츠 관련 외국인직접투자 3.3조 원이 생산유발 6.9조 원을 만들어냈고, 팬데믹 기간 2만 8,500개의 일자리를 지탱했다."
+description_en: "Using input-output analysis, this study measures Netflix Korea's economic contribution: 3.3 trillion won in content-related FDI generated 6.9 trillion won in production and sustained 28,500 jobs during the pandemic."
 summary: "Financial statements show only 450 billion won, but actual investment including content production reached 3.3 trillion won (4-year cumulative). This content-driven FDI created 3.6x more jobs per billion won than semiconductor industry."
+summary_ko: "재무제표에는 4,500억 원만 나타나지만, 콘텐츠 제작을 포함한 실제 투자는 3.3조 원(4년 누적)에 이른다. 이 콘텐츠 중심 외국인직접투자는 10억 원당 일자리 창출 효과가 반도체 산업보다 3.6배 높았다."
+summary_en: "Financial statements show only 450 billion won, but actual investment including content production reached 3.3 trillion won (4-year cumulative). This content-driven FDI created 3.6x more jobs per billion won than semiconductor industry."
 key_findings:
   - "Hidden FDI discovered: 3.3 trillion won total vs 450 billion won in financial statements"
   - "Global Capital Pipeline: Net inflow +487 billion won (2023) - more comes in than goes out"

@@ -1,6 +1,6 @@
 ---
 name: kimyonghee.com
-description: A warm, lucid academic portfolio for a media-policy scholar — editorial restraint with a teacher's clarity.
+description: A warm, lucid, bilingual (KO/EN) academic portfolio for a media-policy scholar. Single-typeface (Paperlogy) system, terracotta accent, intentional motion. North Star evolved to "A Quiet Signal / 조용한 신호" (2026-06).
 colors:
   ink: "#1a1a1a"
   ink-secondary: "#4a4a4a"
@@ -15,27 +15,27 @@ colors:
   index-amber: "#b45309"
 typography:
   display:
-    fontFamily: "Source Serif 4, Georgia, serif"
+    fontFamily: "Paperlogy, 'Apple SD Gothic Neo', system-ui, sans-serif"
     fontSize: "clamp(2.4rem, 1.9rem + 2.5vw, 3.5rem)"
     fontWeight: 400
     lineHeight: 1.3
   headline:
-    fontFamily: "Source Serif 4, Georgia, serif"
+    fontFamily: "Paperlogy, 'Apple SD Gothic Neo', system-ui, sans-serif"
     fontSize: "clamp(1.6rem, 1.35rem + 1.25vw, 2.1rem)"
     fontWeight: 400
     lineHeight: 1.3
   title:
-    fontFamily: "Source Serif 4, Georgia, serif"
+    fontFamily: "Paperlogy, 'Apple SD Gothic Neo', system-ui, sans-serif"
     fontSize: "clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem)"
     fontWeight: 600
     lineHeight: 1.4
   body:
-    fontFamily: "Inter, system-ui, sans-serif"
+    fontFamily: "Paperlogy, 'Apple SD Gothic Neo', system-ui, sans-serif"
     fontSize: "clamp(1rem, 0.95rem + 0.25vw, 1.0625rem)"
     fontWeight: 400
     lineHeight: 1.6
   label:
-    fontFamily: "Inter, system-ui, sans-serif"
+    fontFamily: "Paperlogy, 'Apple SD Gothic Neo', system-ui, sans-serif"
     fontSize: "0.75rem"
     fontWeight: 600
     letterSpacing: "0.08em"

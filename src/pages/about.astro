@@ -1,173 +1,356 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import awards from '../data/awards.json';
+
+const sortedAwards = [...awards.awards]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 10);
 ---
 
-<BaseLayout title="About" description="About Yonghee Kim">
-  <div class="about-page">
-    <!-- Header -->
-    <header class="page-header">
-      <div class="header-content">
-        <div class="profile-image-container">
-          <img src="/images/profile.jpg" alt="Yonghee Kim" class="profile-image" />
-        </div>
-        <div class="header-text">
-          <h1>About</h1>
-          <p class="subtitle">Yonghee Kim, Ph.D.</p>
-        </div>
+<BaseLayout
+  title="소개 · About"
+  description="선문대학교 경영학과 교수 김용희의 소개 — 현직, 연구 관심분야, 학력, 경력, 수상, 자격증, 연락처.">
+  <div class="about-page container">
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <header class="about-hero reveal">
+      <div class="profile-frame">
+        <img src="/images/profile.jpg" alt="김용희 / Yonghee Kim" class="profile-image" width="200" height="200" />
+      </div>
+      <div class="about-hero-text">
+        <p class="about-eyebrow">
+          <span data-lang="ko">소개</span><span data-lang="en">About</span>
+        </p>
+        <h1 class="about-name">
+          <span data-lang="ko">김용희</span><span data-lang="en">Yonghee&nbsp;Kim</span>
+        </h1>
+        <p class="about-role">
+          <span data-lang="ko">선문대학교 경영학과 교수 · Ph.D.</span>
+          <span data-lang="en">Assistant Professor, Department of Business Administration, Sunmoon University · Ph.D.</span>
+        </p>
+        <p class="about-lede">
+          <span data-lang="ko">미디어·정보통신 정책과 디지털 플랫폼이 시장을 바꾸는 방식을 계량경제와 데이터 분석으로 연구합니다. 연구의 결과가 정책과 산업 현장으로 이어지도록 일합니다.</span>
+          <span data-lang="en">I study how media and ICT policy and digital platforms reshape markets, using econometric methods and data analysis. My aim is to carry research through to policy and industry practice.</span>
+        </p>
       </div>
     </header>
 
-    <!-- Current Position -->
-    <section class="section">
-      <h2>Current Position</h2>
-      <div class="position-list">
-        <div class="position-item">
-          <h3>Professor, Department of Business Administration, Sunmoon University</h3>
-          <p class="period">2025.3 - Present</p>
-        </div>
-        <div class="position-item">
-          <h3>Director, Daeyeon Industrial Policy Institute</h3>
-        </div>
-        <div class="position-item">
-          <h3>Research Fellow, OpenRoute Inc.</h3>
-        </div>
+    <!-- ═══════════════ CURRENT POSITION ═══════════════ -->
+    <section class="block">
+      <div class="block-head reveal">
+        <h2 class="block-title"><span data-lang="ko">현직</span><span data-lang="en">Current Position</span></h2>
       </div>
-    </section>
-
-    <!-- Research Interests -->
-    <section class="section">
-      <h2>Research Interests</h2>
-      <div class="interests">
-        <div class="interest-category">
-          <h3>Primary</h3>
-          <ul>
-            <li>Media & ICT Policy and Management</li>
-            <li>Government Policy Consulting</li>
-            <li>Media ESG</li>
-          </ul>
-        </div>
-        <div class="interest-category">
-          <h3>Methods</h3>
-          <ul>
-            <li>Econometrics</li>
-            <li>Big Data Analysis</li>
-            <li>Data Envelopment Analysis</li>
-            <li>Structural Equation Modeling</li>
-          </ul>
-        </div>
-        <div class="interest-category">
-          <h3>Topics</h3>
-          <ul>
-            <li>Media Industry Policy</li>
-            <li>Media ESG</li>
-            <li>ICT & Media Industry Efficiency</li>
-            <li>OTT & Broadcasting Policy</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Education -->
-    <section class="section">
-      <h2>Education</h2>
-      <div class="education-list">
-        <div class="education-item">
-          <h3>Ph.D. in Business Administration (OMIS)</h3>
-          <p class="institution">Soongsil University</p>
-          <p class="period">2013 - 2016</p>
-        </div>
-        <div class="education-item">
-          <h3>M.S. in Business Administration (OMIS)</h3>
-          <p class="institution">Soongsil University</p>
-          <p class="period">2010 - 2012</p>
-        </div>
-        <div class="education-item">
-          <h3>B.A. in Economics</h3>
-          <p class="institution">Soongsil University</p>
-          <p class="period">2000 - 2010</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Professional Experience -->
-    <section class="section">
-      <h2>Professional Experience</h2>
-      <div class="experience-list">
-        <div class="experience-item">
-          <h3>Adjunct Professor</h3>
-          <p class="institution">Graduate School of Media & Communication, Kyung Hee University</p>
-          <p class="period">2023.9 - 2025.2</p>
-        </div>
-        <div class="experience-item">
-          <h3>OTT Professor</h3>
-          <p class="institution">Dongguk University</p>
-          <p class="period">2022.7 - 2023.6</p>
-        </div>
-        <div class="experience-item">
-          <h3>Adjunct Professor</h3>
-          <p class="institution">KAIST</p>
-          <p class="period">2022.7 - 2023.6</p>
-        </div>
-        <div class="experience-item">
-          <h3>Assistant Professor</h3>
-          <p class="institution">Soongsil University</p>
-          <p class="period">2017.4 - 2021.2</p>
-        </div>
-        <div class="experience-item">
-          <h3>Policy Manager (SO & PP)</h3>
-          <p class="institution">Korea Cable TV & Telecommunications Association</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Awards & Honors -->
-    <section class="section">
-      <h2>Awards & Honors</h2>
-      <div class="awards-list">
-        {awards.awards.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10).map(award => (
-          <div class="award-item">
-            <span class="award-title">{award.title}</span>
-            {award.subtitle && <span class="award-subtitle"> &mdash; {award.subtitle}</span>}
-            <span class="award-meta">
-              {award.organization}, {new Date(award.date).getFullYear()}
+      <ul class="rows">
+        <li class="row reveal" style="--i:0">
+          <div class="row-static">
+            <span class="row-index row-index--dot" aria-hidden="true"></span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">선문대학교 경영학과 교수</span>
+                <span data-lang="en">Professor, Department of Business Administration, Sunmoon University</span>
+              </span>
+              <span class="row-meta">2025.3 &ndash; <span data-lang="ko">현재</span><span data-lang="en">Present</span></span>
             </span>
           </div>
+        </li>
+        <li class="row reveal" style="--i:1">
+          <div class="row-static">
+            <span class="row-index row-index--dot" aria-hidden="true"></span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">대연산업정책연구원 원장</span>
+                <span data-lang="en">Director, Daeyeon Industrial Policy Institute</span>
+              </span>
+            </span>
+          </div>
+        </li>
+        <li class="row reveal" style="--i:2">
+          <div class="row-static">
+            <span class="row-index row-index--dot" aria-hidden="true"></span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">오픈루트 연구위원</span>
+                <span data-lang="en">Research Fellow, OpenRoute Inc.</span>
+              </span>
+            </span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════ RESEARCH INTERESTS ═══════════════ -->
+    <section class="block">
+      <div class="block-head reveal">
+        <h2 class="block-title"><span data-lang="ko">연구 관심분야</span><span data-lang="en">Research Interests</span></h2>
+      </div>
+      <div class="cards">
+        <div class="card interest-card reveal" style="--i:0">
+          <span class="card-cat"><span data-lang="ko">주제</span><span data-lang="en">Primary</span></span>
+          <ul class="interest-list">
+            <li><span data-lang="ko">미디어·정보통신 정책과 경영</span><span data-lang="en">Media &amp; ICT Policy and Management</span></li>
+            <li><span data-lang="ko">정부 정책 컨설팅</span><span data-lang="en">Government Policy Consulting</span></li>
+            <li><span data-lang="ko">미디어 ESG</span><span data-lang="en">Media ESG</span></li>
+          </ul>
+        </div>
+        <div class="card interest-card reveal" style="--i:1">
+          <span class="card-cat"><span data-lang="ko">방법론</span><span data-lang="en">Methods</span></span>
+          <ul class="interest-list">
+            <li><span data-lang="ko">계량경제 분석</span><span data-lang="en">Econometrics</span></li>
+            <li><span data-lang="ko">빅데이터 분석</span><span data-lang="en">Big Data Analysis</span></li>
+            <li><span data-lang="ko">자료포락분석</span><span data-lang="en">Data Envelopment Analysis</span></li>
+            <li><span data-lang="ko">구조방정식 모형</span><span data-lang="en">Structural Equation Modeling</span></li>
+          </ul>
+        </div>
+        <div class="card interest-card reveal" style="--i:2">
+          <span class="card-cat"><span data-lang="ko">분야</span><span data-lang="en">Topics</span></span>
+          <ul class="interest-list">
+            <li><span data-lang="ko">미디어 산업 정책</span><span data-lang="en">Media Industry Policy</span></li>
+            <li><span data-lang="ko">미디어 ESG</span><span data-lang="en">Media ESG</span></li>
+            <li><span data-lang="ko">정보통신·미디어 산업 효율성</span><span data-lang="en">ICT &amp; Media Industry Efficiency</span></li>
+            <li><span data-lang="ko">온라인 동영상 서비스·방송 정책</span><span data-lang="en">OTT &amp; Broadcasting Policy</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ EDUCATION ═══════════════ -->
+    <section class="block">
+      <div class="block-head reveal">
+        <h2 class="block-title"><span data-lang="ko">학력</span><span data-lang="en">Education</span></h2>
+      </div>
+      <ul class="rows">
+        <li class="row reveal" style="--i:0">
+          <div class="row-static">
+            <span class="row-index" aria-hidden="true">2016</span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">경영학 박사 (생산운영·경영정보)</span>
+                <span data-lang="en">Ph.D. in Business Administration (OMIS)</span>
+              </span>
+              <span class="row-meta">
+                <span data-lang="ko">숭실대학교 · 2013&ndash;2016</span>
+                <span data-lang="en">Soongsil University · 2013&ndash;2016</span>
+              </span>
+            </span>
+          </div>
+        </li>
+        <li class="row reveal" style="--i:1">
+          <div class="row-static">
+            <span class="row-index" aria-hidden="true">2012</span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">경영학 석사 (생산운영·경영정보)</span>
+                <span data-lang="en">M.S. in Business Administration (OMIS)</span>
+              </span>
+              <span class="row-meta">
+                <span data-lang="ko">숭실대학교 · 2010&ndash;2012</span>
+                <span data-lang="en">Soongsil University · 2010&ndash;2012</span>
+              </span>
+            </span>
+          </div>
+        </li>
+        <li class="row reveal" style="--i:2">
+          <div class="row-static">
+            <span class="row-index" aria-hidden="true">2010</span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">경제학 학사</span>
+                <span data-lang="en">B.A. in Economics</span>
+              </span>
+              <span class="row-meta">
+                <span data-lang="ko">숭실대학교 · 2000&ndash;2010</span>
+                <span data-lang="en">Soongsil University · 2000&ndash;2010</span>
+              </span>
+            </span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════ PROFESSIONAL EXPERIENCE ═══════════════ -->
+    <section class="block">
+      <div class="block-head reveal">
+        <h2 class="block-title"><span data-lang="ko">경력</span><span data-lang="en">Experience</span></h2>
+      </div>
+      <ul class="rows">
+        <li class="row reveal" style="--i:0">
+          <div class="row-static">
+            <span class="row-index" aria-hidden="true">2023</span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">겸임교수</span>
+                <span data-lang="en">Adjunct Professor</span>
+              </span>
+              <span class="row-meta">
+                <span data-lang="ko">경희대학교 미디어대학원 · 2023.9&ndash;2025.2</span>
+                <span data-lang="en">Graduate School of Media &amp; Communication, Kyung Hee University · 2023.9&ndash;2025.2</span>
+              </span>
+            </span>
+          </div>
+        </li>
+        <li class="row reveal" style="--i:1">
+          <div class="row-static">
+            <span class="row-index" aria-hidden="true">2022</span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">OTT 교수</span>
+                <span data-lang="en">OTT Professor</span>
+              </span>
+              <span class="row-meta">
+                <span data-lang="ko">동국대학교 · 2022.7&ndash;2023.6</span>
+                <span data-lang="en">Dongguk University · 2022.7&ndash;2023.6</span>
+              </span>
+            </span>
+          </div>
+        </li>
+        <li class="row reveal" style="--i:2">
+          <div class="row-static">
+            <span class="row-index" aria-hidden="true">2022</span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">겸임교수</span>
+                <span data-lang="en">Adjunct Professor</span>
+              </span>
+              <span class="row-meta">KAIST · 2022.7&ndash;2023.6</span>
+            </span>
+          </div>
+        </li>
+        <li class="row reveal" style="--i:3">
+          <div class="row-static">
+            <span class="row-index" aria-hidden="true">2017</span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">조교수</span>
+                <span data-lang="en">Assistant Professor</span>
+              </span>
+              <span class="row-meta">
+                <span data-lang="ko">숭실대학교 · 2017.4&ndash;2021.2</span>
+                <span data-lang="en">Soongsil University · 2017.4&ndash;2021.2</span>
+              </span>
+            </span>
+          </div>
+        </li>
+        <li class="row reveal" style="--i:4">
+          <div class="row-static">
+            <span class="row-index row-index--dot" aria-hidden="true"></span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">정책팀장 (SO·PP)</span>
+                <span data-lang="en">Policy Manager (SO &amp; PP)</span>
+              </span>
+              <span class="row-meta">
+                <span data-lang="ko">한국케이블TV방송협회</span>
+                <span data-lang="en">Korea Cable TV &amp; Telecommunications Association</span>
+              </span>
+            </span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════ AWARDS & HONORS ═══════════════ -->
+    <section class="block">
+      <div class="block-head reveal">
+        <h2 class="block-title"><span data-lang="ko">수상</span><span data-lang="en">Awards &amp; Honors</span></h2>
+      </div>
+      <ul class="rows">
+        {sortedAwards.map((award, i) => (
+          <li class="row reveal" style={`--i:${i}`}>
+            <div class="row-static">
+              <span class="row-index" aria-hidden="true">{new Date(award.date).getFullYear()}</span>
+              <span class="row-main">
+                <span class="row-title">
+                  {award.title}{award.subtitle ? <span class="award-subtitle"> &mdash; {award.subtitle}</span> : null}
+                </span>
+                <span class="row-meta">{award.organization}</span>
+              </span>
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
 
-    <!-- Certifications -->
-    <section class="section">
-      <h2>Professional Certifications</h2>
-      <div class="cert-list">
-        <div class="cert-item">
-          <span class="cert-name">Associate Certified Sustainability Assurance</span>
-          <span class="cert-meta">Accountability, 2023</span>
-        </div>
-        <div class="cert-item">
-          <span class="cert-name">Computer Specialist in Spreadsheet & Database</span>
-          <span class="cert-meta">Korea Chamber of Commerce and Industry, 2008</span>
-        </div>
-        <div class="cert-item">
-          <span class="cert-name">Information Equipment Operation Technician</span>
-          <span class="cert-meta">Human Resources Development Service of Korea, 2008</span>
-        </div>
+    <!-- ═══════════════ CERTIFICATIONS ═══════════════ -->
+    <section class="block">
+      <div class="block-head reveal">
+        <h2 class="block-title"><span data-lang="ko">자격증</span><span data-lang="en">Certifications</span></h2>
       </div>
+      <ul class="rows">
+        <li class="row reveal" style="--i:0">
+          <div class="row-static">
+            <span class="row-index" aria-hidden="true">2023</span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">지속가능성 인증 심사역 (ACSA)</span>
+                <span data-lang="en">Associate Certified Sustainability Assurance</span>
+              </span>
+              <span class="row-meta">AccountAbility</span>
+            </span>
+          </div>
+        </li>
+        <li class="row reveal" style="--i:1">
+          <div class="row-static">
+            <span class="row-index" aria-hidden="true">2008</span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">컴퓨터활용능력 (스프레드시트·데이터베이스)</span>
+                <span data-lang="en">Computer Specialist in Spreadsheet &amp; Database</span>
+              </span>
+              <span class="row-meta">
+                <span data-lang="ko">대한상공회의소</span>
+                <span data-lang="en">Korea Chamber of Commerce and Industry</span>
+              </span>
+            </span>
+          </div>
+        </li>
+        <li class="row reveal" style="--i:2">
+          <div class="row-static">
+            <span class="row-index" aria-hidden="true">2008</span>
+            <span class="row-main">
+              <span class="row-title">
+                <span data-lang="ko">정보기기운용기능사</span>
+                <span data-lang="en">Information Equipment Operation Technician</span>
+              </span>
+              <span class="row-meta">
+                <span data-lang="ko">한국산업인력공단</span>
+                <span data-lang="en">Human Resources Development Service of Korea</span>
+              </span>
+            </span>
+          </div>
+        </li>
+      </ul>
     </section>
 
-    <!-- Contact -->
-    <section class="section">
-      <h2>Contact</h2>
-      <div class="contact-info">
-        <p><strong>Email:</strong> <a href="mailto:yhkim1981@sunmoon.ac.kr">yhkim1981@sunmoon.ac.kr</a></p>
-        <p><strong>Office:</strong> Department of Business Administration, Sunmoon University</p>
-        <p><strong>Address:</strong> 70 Sunmun-ro 221beon-gil, Tangjeong-myeon, Asan-si, Chungnam, South Korea</p>
+    <!-- ═══════════════ CONTACT ═══════════════ -->
+    <section class="block contact-block">
+      <div class="block-head reveal">
+        <h2 class="block-title"><span data-lang="ko">연락처</span><span data-lang="en">Contact</span></h2>
       </div>
-      <div class="contact-links">
-        <a href="https://github.com/yhkim1981-svg" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://scholar.google.com/citations?user=semkeskAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
-        <a href="https://orcid.org/0000-0002-5643-2748" target="_blank" rel="noopener noreferrer">ORCID</a>
+      <div class="contact-grid reveal">
+        <dl class="contact-info">
+          <div class="contact-row">
+            <dt><span data-lang="ko">이메일</span><span data-lang="en">Email</span></dt>
+            <dd><a href="mailto:yhkim1981@sunmoon.ac.kr">yhkim1981@sunmoon.ac.kr</a></dd>
+          </div>
+          <div class="contact-row">
+            <dt><span data-lang="ko">소속</span><span data-lang="en">Office</span></dt>
+            <dd>
+              <span data-lang="ko">선문대학교 경영학과</span>
+              <span data-lang="en">Department of Business Administration, Sunmoon University</span>
+            </dd>
+          </div>
+          <div class="contact-row">
+            <dt><span data-lang="ko">주소</span><span data-lang="en">Address</span></dt>
+            <dd>
+              <span data-lang="ko">충남 아산시 탕정면 선문로221번길 70</span>
+              <span data-lang="en">70 Sunmun-ro 221beon-gil, Tangjeong-myeon, Asan-si, Chungnam, Korea</span>
+            </dd>
+          </div>
+        </dl>
+        <div class="contact-links">
+          <a href="https://github.com/yhkim1981-svg" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://scholar.google.com/citations?user=semkeskAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+          <a href="https://orcid.org/0000-0002-5643-2748" target="_blank" rel="noopener noreferrer">ORCID</a>
+        </div>
       </div>
     </section>
   </div>
@@ -175,280 +358,245 @@ import awards from '../data/awards.json';
 
 <style>
   .about-page {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: var(--space-16) var(--space-8);
+    padding-block: var(--space-16) var(--space-8);
   }
 
-  /* Header */
-  .page-header {
-    margin-bottom: var(--space-12);
-    padding-bottom: var(--space-12);
-    border-bottom: 1px solid var(--color-border-light);
-  }
-
-  .header-content {
+  /* ═══════════════ HERO ═══════════════ */
+  .about-hero {
     display: flex;
     align-items: center;
-    gap: var(--space-8);
-  }
-
-  .profile-image-container {
-    flex-shrink: 0;
-  }
-
-  .profile-image {
-    width: 180px;
-    height: 180px;
-    border-radius: var(--border-radius);
-    object-fit: cover;
-    border: 2px solid var(--color-border);
-  }
-
-  .header-text {
-    flex: 1;
-  }
-
-  .page-header h1 {
-    font-family: var(--font-serif);
-    font-size: var(--step-3);
-    font-weight: 400;
-    color: var(--color-text);
-    margin-bottom: var(--space-2);
-  }
-
-  .subtitle {
-    font-size: var(--step-1);
-    color: var(--color-text-secondary);
-    font-weight: 300;
-  }
-
-  /* Sections */
-  .section {
-    margin-bottom: var(--space-12);
-    padding-bottom: var(--space-12);
+    gap: var(--space-10);
+    padding-bottom: var(--section-gap);
+    margin-bottom: var(--space-4);
     border-bottom: 1px solid var(--color-border-light);
   }
-
-  .section:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+  .profile-frame {
+    flex-shrink: 0;
+    position: relative;
   }
-
-  .section h2 {
-    font-family: var(--font-serif);
-    font-size: var(--step-2);
-    font-weight: 400;
-    color: var(--color-text);
-    margin-bottom: var(--space-8);
+  .profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: var(--radius-soft);
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 20px 44px -28px rgba(var(--shadow-color) / 0.45);
   }
-
-  /* Position */
-  .position-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-  }
-
-  .position-item h3 {
-    font-size: var(--step-0);
-    color: var(--color-text);
-    font-weight: 600;
-    margin-bottom: var(--space-1);
-  }
-
-  .period {
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
-  }
-
-  /* Research Interests */
-  .interests {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--space-8);
-  }
-
-  .interest-category h3 {
-    font-size: 1rem;
-    font-weight: 600;
+  .about-hero-text { min-width: 0; }
+  .about-eyebrow {
+    font-size: 0.92rem;
+    font-weight: var(--weight-semibold);
     color: var(--color-accent);
+    letter-spacing: 0.01em;
+    margin-bottom: var(--space-3);
+  }
+  .about-name {
+    font-size: var(--step-5);
+    font-weight: var(--weight-black);
+    line-height: 1;
+    letter-spacing: -0.035em;
     margin-bottom: var(--space-4);
   }
-
-  .interest-category ul {
-    list-style: none;
-    padding: 0;
+  .about-role {
+    font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
   }
-
-  .interest-category li {
-    padding: var(--space-2) 0;
+  .about-lede {
+    max-width: 56ch;
     color: var(--color-text-secondary);
-    border-bottom: 1px solid var(--color-border-light);
-    font-size: 0.9375rem;
+    font-size: clamp(1rem, 0.97rem + 0.25vw, 1.1rem);
+    line-height: 1.75;
   }
 
-  .interest-category li:last-child {
-    border-bottom: none;
+  /* ═══════════════ BLOCKS (홈페이지 어휘 재사용) ═══════════════ */
+  .block { padding-block: var(--space-12); }
+  .block-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--color-text);
+  }
+  .block-title {
+    font-size: var(--step-3);
+    font-weight: var(--weight-heavy);
+    letter-spacing: -0.025em;
   }
 
-  /* Education */
-  .education-list,
-  .experience-list {
+  /* ── Editorial rows (정적, 링크 아님) ── */
+  .rows { list-style: none; padding: 0; margin: 0; }
+  .row { border-bottom: 1px solid var(--color-border-light); }
+  .row:last-child { border-bottom: none; }
+  .row-static {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    align-items: baseline;
+    gap: var(--space-5);
+    padding: var(--space-5) var(--space-2);
+  }
+  .row-index {
+    font-size: 0.85rem;
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+  .row-index--dot { position: relative; }
+  .row-index--dot::before {
+    content: "";
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    transform: translateY(-1px);
+  }
+  .row-main { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .row-title {
+    font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.18rem);
+    font-weight: var(--weight-semibold);
+    line-height: 1.45;
+    color: var(--color-text);
+  }
+  .row-meta { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.55; }
+  .award-subtitle {
+    font-weight: var(--weight-regular);
+    color: var(--color-text-secondary);
+  }
+
+  /* ── Interest cards ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-5);
+  }
+  .card {
     display: flex;
     flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-soft);
+    background: var(--color-bg);
+    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: 0 18px 40px -24px rgba(var(--shadow-color) / 0.5);
+  }
+  .card-cat {
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+  }
+  .interest-list { list-style: none; padding: 0; margin: 0; }
+  .interest-list li {
+    padding: var(--space-2) 0;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border-light);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .interest-list li:last-child { border-bottom: none; }
+
+  /* ═══════════════ CONTACT ═══════════════ */
+  .contact-block { padding-bottom: var(--space-8); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
     gap: var(--space-8);
   }
-
-  .education-item h3,
-  .experience-item h3 {
-    font-size: var(--step-0);
-    color: var(--color-text);
-    font-weight: 600;
-    margin-bottom: var(--space-1);
-  }
-
-  .institution {
-    color: var(--color-accent);
-    font-weight: 500;
-    margin-bottom: var(--space-1);
-    font-size: 0.9375rem;
-  }
-
-  .thesis {
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
-    font-style: italic;
-    margin-top: var(--space-2);
-  }
-
-  /* Awards - simple list */
-  .awards-list {
+  .contact-info {
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
   }
-
-  .award-item {
-    padding-bottom: var(--space-4);
-    border-bottom: 1px solid var(--color-border-light);
+  .contact-row {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    align-items: baseline;
+    gap: var(--space-5);
+  }
+  .contact-row dt {
+    font-size: 0.78rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+  .contact-row dd {
+    color: var(--color-text);
+    font-size: 0.98rem;
     line-height: 1.6;
   }
-
-  .award-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .award-title {
-    font-weight: 600;
-    color: var(--color-text);
-    font-size: 0.9375rem;
-  }
-
-  .award-subtitle {
-    color: var(--color-text-secondary);
-    font-size: 0.9375rem;
-  }
-
-  .award-meta {
-    display: block;
-    color: var(--color-text-muted);
-    font-size: 0.8125rem;
-    margin-top: var(--space-1);
-  }
-
-  /* Certifications */
-  .cert-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .cert-item {
-    padding-bottom: var(--space-4);
-    border-bottom: 1px solid var(--color-border-light);
-  }
-
-  .cert-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .cert-name {
-    display: block;
-    font-weight: 600;
-    color: var(--color-text);
-    font-size: 0.9375rem;
-  }
-
-  .cert-meta {
-    display: block;
-    color: var(--color-text-muted);
-    font-size: 0.8125rem;
-    margin-top: var(--space-1);
-  }
-
-  /* Contact */
-  .contact-info {
-    margin-bottom: var(--space-6);
-  }
-
-  .contact-info p {
-    margin-bottom: var(--space-2);
-    color: var(--color-text-secondary);
-    font-size: 0.9375rem;
-  }
-
   .contact-info a {
     color: var(--color-accent);
-    text-decoration: none;
-    transition: color var(--transition-fast);
-  }
-
-  .contact-info a:hover {
-    color: var(--color-accent-hover);
     text-decoration: underline;
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 1px;
   }
-
+  .contact-info a:hover { color: var(--color-accent-hover); }
   .contact-links {
     display: flex;
-    gap: var(--space-6);
+    gap: var(--space-2);
     flex-wrap: wrap;
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border-light);
   }
-
   .contact-links a {
-    color: var(--color-accent);
-    text-decoration: none;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    transition: color var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: var(--weight-semibold);
+    transition: color var(--transition-base), border-color var(--transition-base), background var(--transition-base);
   }
-
   .contact-links a:hover {
-    color: var(--color-accent-hover);
-    text-decoration: underline;
+    color: #fff;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
   }
 
-  /* Responsive */
-  @media (max-width: 768px) {
-    .about-page {
-      padding: var(--space-8) var(--space-4);
+  /* ═══════════════ Responsive ═══════════════ */
+  @media (min-width: 720px) {
+    .contact-grid {
+      grid-template-columns: 1.6fr 1fr;
+      align-items: start;
     }
+    .contact-links {
+      flex-direction: column;
+      align-items: flex-start;
+      border-top: none;
+      padding-top: 0;
+    }
+  }
 
-    .header-content {
+  @media (max-width: 760px) {
+    .about-hero {
       flex-direction: column;
       text-align: center;
       gap: var(--space-6);
     }
-
-    .profile-image {
-      width: 140px;
-      height: 140px;
+    .about-lede { margin-inline: auto; }
+    .profile-image { width: 150px; height: 150px; }
+    .row-static {
+      grid-template-columns: 3.2rem 1fr;
+      gap: var(--space-3);
+      padding-inline: 0;
     }
-
-    .interests {
+    .block-head { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+    .contact-row {
       grid-template-columns: 1fr;
+      gap: var(--space-1);
     }
   }
 </style>

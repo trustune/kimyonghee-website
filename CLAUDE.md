@@ -87,9 +87,11 @@ Use `data-lang` attributes for language switching in Astro components:
 <a href="/link" data-lang="ko">더 보기</a>
 ```
 
-The CSS in `BaseLayout.astro` handles visibility:
-- Elements with `data-lang="en"` are shown when `html[data-language="en"]`
-- Elements with `data-lang="ko"` are shown when `html[data-language="ko"]`
+How it works (implemented):
+- `src/styles/global.css` holds the toggle CSS: `html[data-language="ko"] [data-lang="en"]` and `html[data-language="en"] [data-lang="ko"]` are `display:none`. The active language keeps its natural display; elements **without** `data-lang` (names, numbers, dates, logo) always show.
+- `BaseLayout.astro` head runs an inline script that sets `html[data-language]` **before paint**: stored choice in `localStorage('language')` wins, else `navigator.language` (starts with `ko` -> Korean, otherwise English). This gives auto locale detection (Korea -> 한국어, elsewhere -> English) with no flash.
+- The header has a KO/EN toggle (`[data-set-lang]`, event-delegated) that persists to `localStorage` and re-applies on `astro:after-swap`.
+- **Always author both languages.** Every human-readable string needs a ko and an en counterpart. Exceptions kept in their original language: paper titles, journal names, person/org proper nouns, DOIs, code, email.
 
 ---
 
@@ -145,6 +147,6 @@ git push origin main
 This project is set up for the `impeccable` design skill. Read these before any UI / visual work:
 
 - **`PRODUCT.md`** (strategic): register = **brand**; warm, approachable, scholarly. Anti-references: generic AI/SaaS look, flashy marketing landing. Core rule: warmth comes from accent/type/imagery, **never a beige/cream background**.
-- **`DESIGN.md`** (visual): North Star **"The Reading Room"**. Near-monochrome ink-on-white + one **terracotta accent** (`oklch(50% 0.12 42)`); Source Serif 4 headings + Inter body; flat by default; WCAG AA. `.impeccable/design.json` is the live-panel sidecar.
+- **`DESIGN.md`** (visual): North Star **"A Quiet Signal / 조용한 신호"** (evolved 2026-06). Near-monochrome ink-on-white + one **terracotta accent** (`oklch(50% 0.13 42)`); **Paperlogy** is the single typeface for both Korean and Latin (carries hierarchy by weight 400-900; `--font-sans` and `--font-serif` are both aliased to it, so Inter / Source Serif 4 are gone). Motion is intentional: hero flow-field canvas on the homepage, scroll `reveal` reveals (armed only when off-screen so JS-failure never blanks content), animated nav underline, scroll-progress bar. Tokens live in `src/styles/design-tokens.css`; shared classes (`.container`, `.btn*`, `.text-link`, `.reveal`, `.block*`, `.row*`, `.card*`) in `src/styles/global.css` and demonstrated in `src/pages/index.astro`. `.impeccable/design.json` is the live-panel sidecar.
 
 Quick commands: `/impeccable audit` (technical check), `/impeccable critique <page>` (UX review), `/impeccable polish <area>` (pre-ship pass), `/impeccable live` (in-browser variants). Open backlog from the last audit: add global `prefers-reduced-motion` alternatives; replace `border-left` accent stripes in `src/styles/textbook.css` with hairline borders.

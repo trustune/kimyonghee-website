@@ -13,372 +13,534 @@ export async function getStaticPaths() {
 const { publication } = Astro.props;
 const { Content } = await publication.render();
 const { data } = publication;
+
+const d = data as any;
+const titleKo: string | undefined = d.title_ko;
+const keywords: string[] = Array.isArray(d.keywords) ? d.keywords : [];
+const methodology: string[] = Array.isArray(d.methodology) ? d.methodology : [];
+const statMethods: string[] = Array.isArray(d.statistical_methods) ? d.statistical_methods : [];
+const software: string[] = Array.isArray(d.software_used) ? d.software_used : [];
+const researchArea: string[] = Array.isArray(d.research_area) ? d.research_area : [];
+const dataPeriod = d.data_period;
+const sampleSize: number | undefined = d.sample_size;
+
+// 상태 라벨(ko/en) — 원본 status 문자열을 사람이 읽는 양국어로
+const statusLabels: Record<string, { ko: string; en: string }> = {
+  'published': { ko: '게재 완료', en: 'Published' },
+  'working-paper': { ko: '워킹 페이퍼', en: 'Working Paper' },
+  'work-in-progress': { ko: '진행 중', en: 'Work in Progress' },
+  'under-review': { ko: '심사 중', en: 'Under Review' },
+  'forthcoming': { ko: '게재 예정', en: 'Forthcoming' },
+};
+const statusLabel = statusLabels[data.status] ?? { ko: data.status, en: data.status };
+
+const hasMetrics = Boolean(data.impact_factor || data.quartile || (data.citations && data.citations > 0));
+const hasMeta = methodology.length > 0 || statMethods.length > 0 || software.length > 0 ||
+  researchArea.length > 0 || Boolean(dataPeriod) || Boolean(sampleSize);
 ---
 
 <BaseLayout
   title={`${data.title} | Yonghee Kim`}
   description={data.abstract}
 >
-  <article class="publication-detail">
-    <header class="pub-header">
-      <div class="pub-meta-top">
-        <span class="status-badge" data-status={data.status}>{data.status.replace('-', ' ').toUpperCase()}</span>
-        <span class="category-badge">{data.category}</span>
+  <article class="pub">
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <header class="pub-head container reveal">
+      <div class="pub-tags">
+        <span class="tag tag-status" data-status={data.status}>
+          <span data-lang="ko">{statusLabel.ko}</span><span data-lang="en">{statusLabel.en}</span>
+        </span>
+        <span class="tag tag-cat">{data.category}</span>
+        {data.type && <span class="tag tag-type">{data.type.toUpperCase()}</span>}
       </div>
 
       <h1 class="pub-title">{data.title}</h1>
+      {titleKo && (
+        <p class="pub-title-ko" data-lang="ko">{titleKo}</p>
+      )}
 
-      <div class="pub-authors">
-        {data.authors.join(', ')}
+      <p class="pub-authors">{data.authors.join(', ')}</p>
+
+      <p class="pub-venue">
+        <span class="venue-name">{data.journal}</span>
+        {data.year && <span class="venue-bit">({data.year})</span>}
+        {data.volume && <span class="venue-bit">Vol. {data.volume}</span>}
+        {data.issue && <span class="venue-bit">No. {data.issue}</span>}
+        {data.pages && <span class="venue-bit">pp. {data.pages}</span>}
+      </p>
+
+      <div class="pub-cta">
+        {data.doi && (
+          <a class="btn btn-accent" href={`https://doi.org/${data.doi}`} target="_blank" rel="noopener noreferrer">
+            <span data-lang="ko">원문 보기 (DOI)</span><span data-lang="en">View paper (DOI)</span>
+            <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        )}
+        {d.pdf && (
+          <a class="btn btn-ghost" href={d.pdf} target="_blank" rel="noopener noreferrer">
+            <span data-lang="ko">PDF 내려받기</span><span data-lang="en">Download PDF</span>
+          </a>
+        )}
       </div>
+    </header>
 
-      <div class="pub-journal-info">
-        <span class="journal-name">{data.journal}</span>
-        {data.year && <span class="pub-year">({data.year})</span>}
-        {data.volume && <span class="pub-volume">Vol. {data.volume}</span>}
-        {data.issue && <span class="pub-issue">({data.issue})</span>}
-        {data.pages && <span class="pub-pages">: {data.pages}</span>}
-      </div>
-
-      {(data.impact_factor || data.quartile || data.citations > 0) && (
-        <div class="pub-metrics">
+    <!-- ═══════════════ METRICS ═══════════════ -->
+    {hasMetrics && (
+      <section class="container reveal">
+        <dl class="metrics">
           {data.impact_factor && (
             <div class="metric">
-              <span class="metric-label">Impact Factor</span>
-              <span class="metric-value">{data.impact_factor}</span>
+              <dt class="metric-label"><span data-lang="ko">영향력 지수</span><span data-lang="en">Impact Factor</span></dt>
+              <dd class="metric-value">{data.impact_factor}</dd>
             </div>
           )}
           {data.quartile && (
             <div class="metric">
-              <span class="metric-label">Quartile</span>
-              <span class="metric-value">{data.quartile}</span>
+              <dt class="metric-label"><span data-lang="ko">분위</span><span data-lang="en">Quartile</span></dt>
+              <dd class="metric-value">{data.quartile}</dd>
             </div>
           )}
           {data.citations > 0 && (
             <div class="metric">
-              <span class="metric-label">Citations</span>
-              <span class="metric-value">{data.citations}</span>
+              <dt class="metric-label"><span data-lang="ko">인용</span><span data-lang="en">Citations</span></dt>
+              <dd class="metric-value">{data.citations}</dd>
             </div>
           )}
-        </div>
-      )}
+        </dl>
+      </section>
+    )}
 
-      {data.doi && (
-        <div class="pub-doi">
-          <span class="doi-label">DOI:</span>
-          <a href={`https://doi.org/${data.doi}`} target="_blank" rel="noopener noreferrer">
-            {data.doi}
-          </a>
-        </div>
-      )}
-
-      <div class="pub-abstract">
-        <h2>Abstract</h2>
-        <p>{data.abstract}</p>
+    <!-- ═══════════════ ABSTRACT ═══════════════ -->
+    <section class="container reveal">
+      <div class="panel panel-abstract">
+        <h2 class="panel-title"><span data-lang="ko">초록</span><span data-lang="en">Abstract</span></h2>
+        <p class="panel-text">{data.abstract}</p>
       </div>
-    </header>
+    </section>
 
-    <div class="pub-content">
-      <Content />
-    </div>
+    <!-- ═══════════════ KEYWORDS ═══════════════ -->
+    {keywords.length > 0 && (
+      <section class="container reveal">
+        <div class="meta-block">
+          <h2 class="meta-head"><span data-lang="ko">키워드</span><span data-lang="en">Keywords</span></h2>
+          <ul class="chips">
+            {keywords.map((kw, i) => (
+              <li class="chip" style={`--i:${i}`}>{kw}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
 
-    <footer class="pub-footer">
+    <!-- ═══════════════ METHODOLOGY / META ═══════════════ -->
+    {hasMeta && (
+      <section class="container reveal">
+        <h2 class="meta-head meta-head--lead"><span data-lang="ko">연구 방법</span><span data-lang="en">Methodology</span></h2>
+        <dl class="meta-grid">
+          {researchArea.length > 0 && (
+            <div class="meta-row">
+              <dt class="meta-key"><span data-lang="ko">연구 분야</span><span data-lang="en">Research Areas</span></dt>
+              <dd class="meta-val">{researchArea.join(' · ')}</dd>
+            </div>
+          )}
+          {methodology.length > 0 && (
+            <div class="meta-row">
+              <dt class="meta-key"><span data-lang="ko">방법론</span><span data-lang="en">Methodology</span></dt>
+              <dd class="meta-val">{methodology.join(' · ')}</dd>
+            </div>
+          )}
+          {statMethods.length > 0 && (
+            <div class="meta-row">
+              <dt class="meta-key"><span data-lang="ko">통계 기법</span><span data-lang="en">Statistical Methods</span></dt>
+              <dd class="meta-val">{statMethods.join(' · ')}</dd>
+            </div>
+          )}
+          {software.length > 0 && (
+            <div class="meta-row">
+              <dt class="meta-key"><span data-lang="ko">분석 도구</span><span data-lang="en">Software</span></dt>
+              <dd class="meta-val">{software.join(' · ')}</dd>
+            </div>
+          )}
+          {dataPeriod && (
+            <div class="meta-row">
+              <dt class="meta-key"><span data-lang="ko">자료 기간</span><span data-lang="en">Data Period</span></dt>
+              <dd class="meta-val">{dataPeriod.start} – {dataPeriod.end}</dd>
+            </div>
+          )}
+          {sampleSize && (
+            <div class="meta-row">
+              <dt class="meta-key"><span data-lang="ko">표본 크기</span><span data-lang="en">Sample Size</span></dt>
+              <dd class="meta-val">N = {sampleSize.toLocaleString()}</dd>
+            </div>
+          )}
+        </dl>
+      </section>
+    )}
+
+    <!-- ═══════════════ DOI line (fallback if no CTA) ═══════════════ -->
+    {data.doi && (
+      <section class="container reveal">
+        <p class="doi-line">
+          <span class="doi-label">DOI</span>
+          <a href={`https://doi.org/${data.doi}`} target="_blank" rel="noopener noreferrer">{data.doi}</a>
+        </p>
+      </section>
+    )}
+
+    <!-- ═══════════════ BODY ═══════════════ -->
+    <section class="container reveal">
+      <div class="pub-body">
+        <Content />
+      </div>
+    </section>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer class="container reveal">
       <a href="/research/publications" class="back-link">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
-        Back to Publications
+        <span data-lang="ko">논문 목록으로</span><span data-lang="en">Back to Publications</span>
       </a>
     </footer>
   </article>
 </BaseLayout>
 
 <style>
-  .publication-detail {
-    max-width: var(--measure-wide);
-    margin: 0 auto;
-    padding: var(--space-12) var(--space-6);
+  .pub {
+    width: 100%;
+    padding-block: var(--space-12) var(--space-16);
   }
+  /* 본문 컬럼은 가독 폭으로 좁힌다 */
+  .pub .container { max-width: var(--measure-wide); }
+  .pub > * + * { margin-top: var(--space-10); }
 
-  .pub-header {
-    margin-bottom: var(--space-12);
-    padding-bottom: var(--space-8);
-    border-bottom: 1px solid var(--color-border);
+  /* ═══════════════ HEADER ═══════════════ */
+  .pub-head {
+    padding-bottom: var(--space-10);
+    border-bottom: 2px solid var(--color-text);
   }
-
-  .pub-meta-top {
+  .pub-tags {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-2);
     margin-bottom: var(--space-6);
   }
-
-  .status-badge,
-  .category-badge {
-    padding: var(--space-1) var(--space-3);
-    font-size: var(--step-0);
-    font-weight: 600;
-    border-radius: var(--border-radius);
+  .tag {
+    padding: 0.25rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-family: var(--font-sans);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    background: var(--color-bg);
   }
-
-  .status-badge[data-status="published"] {
-    background: transparent;
+  .tag-status[data-status="published"],
+  .tag-status[data-status="forthcoming"] {
     color: var(--color-accent);
-    border: 1px solid var(--color-accent);
+    border-color: var(--color-accent);
   }
-
-  .status-badge[data-status="working-paper"] {
-    background: transparent;
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
+  .tag-type {
+    color: var(--color-index-amber);
+    border-color: color-mix(in srgb, var(--color-index-amber) 45%, var(--color-border));
   }
-
-  .status-badge[data-status="work-in-progress"] {
-    background: transparent;
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-border);
-  }
-
-  .category-badge {
+  .tag-cat {
     background: var(--color-surface);
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border-light);
+    border-color: var(--color-border-light);
   }
 
   .pub-title {
-    font-size: var(--step-3);
-    font-weight: 700;
+    font-size: var(--step-4);
+    font-weight: var(--weight-heavy);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
     color: var(--color-text);
-    margin-bottom: var(--space-4);
-    line-height: 1.3;
-    font-family: var(--font-serif);
+  }
+  .pub-title-ko {
+    margin-top: var(--space-3);
+    font-size: var(--step-1);
+    font-weight: var(--weight-medium);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
   }
 
   .pub-authors {
+    margin-top: var(--space-5);
     font-size: var(--step-1);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-4);
-    font-family: var(--font-sans);
-  }
-
-  .pub-journal-info {
-    font-size: var(--step-0);
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-6);
-  }
-
-  .journal-name {
-    font-weight: 600;
-    color: var(--color-accent);
-    font-style: italic;
-  }
-
-  .pub-metrics {
-    display: flex;
-    gap: var(--space-8);
-    margin-bottom: var(--space-6);
-    padding: var(--space-4);
-    background: var(--color-surface);
-    border-radius: var(--border-radius);
-    border: 1px solid var(--color-border-light);
-  }
-
-  .metric {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .metric-label {
-    font-size: var(--step-0);
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-family: var(--font-sans);
-  }
-
-  .metric-value {
-    font-size: var(--step-2);
-    font-weight: 700;
+    font-weight: var(--weight-medium);
     color: var(--color-text);
-    font-family: var(--font-sans);
   }
-
-  .pub-doi {
-    margin-bottom: var(--space-6);
-    padding: var(--space-3) var(--space-4);
-    background: var(--color-surface);
-    border-left: 3px solid var(--color-accent);
-    border-radius: var(--border-radius);
+  .pub-venue {
+    margin-top: var(--space-3);
     font-size: var(--step-0);
+    color: var(--color-text-muted);
   }
-
-  .doi-label {
-    font-weight: 600;
-    color: var(--color-text-secondary);
-    margin-right: var(--space-2);
-  }
-
-  .pub-doi a {
+  .venue-name {
+    font-weight: var(--weight-semibold);
+    font-style: italic;
     color: var(--color-accent);
-    text-decoration: none;
-    font-family: var(--font-mono);
-    transition: color var(--transition-fast);
+  }
+  .venue-bit { margin-left: 0.5ch; }
+
+  .pub-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
   }
 
-  .pub-doi a:hover {
-    color: var(--color-accent-hover);
-    text-decoration: underline;
+  /* ═══════════════ METRICS ═══════════════ */
+  .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-10);
+    padding: var(--space-6) var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-soft);
+    background: var(--color-bg-sunken);
   }
-
-  .pub-abstract {
-    margin-bottom: var(--space-8);
-    padding: var(--space-6);
-    background: var(--color-surface);
-    border-left: 3px solid var(--color-border);
-    border-radius: var(--border-radius);
-  }
-
-  .pub-abstract h2 {
-    font-size: var(--step-0);
-    font-weight: 700;
-    color: var(--color-text-secondary);
+  .metric { display: flex; flex-direction: column; gap: var(--space-1); }
+  .metric-label {
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: var(--space-3);
-    font-family: var(--font-sans);
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+  .metric-value {
+    font-size: var(--step-3);
+    font-weight: var(--weight-heavy);
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
 
-  .pub-abstract p {
+  /* ═══════════════ PANELS ═══════════════ */
+  .panel {
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-soft);
+    background: var(--color-surface);
+  }
+  .panel-abstract { border-left: 3px solid var(--color-accent); }
+  .panel-title {
+    font-size: 0.78rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+  }
+  .panel-text {
     font-size: var(--step-0);
-    line-height: 1.7;
-    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
     margin: 0;
   }
 
-  .pub-content {
-    font-size: var(--step-0);
-    line-height: 1.75;
+  /* ═══════════════ KEYWORDS / META ═══════════════ */
+  .meta-head {
+    font-size: 0.78rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+  }
+  .meta-head--lead {
+    font-size: var(--step-1);
+    font-weight: var(--weight-bold);
+    letter-spacing: -0.01em;
+    text-transform: none;
     color: var(--color-text);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-6);
   }
 
-  .pub-content :global(h2) {
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .chip {
+    padding: 0.32rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-pill);
+    transition: border-color var(--transition-base), color var(--transition-base);
+  }
+  .chip:hover { border-color: var(--color-accent); color: var(--color-text); }
+
+  .meta-grid {
+    display: grid;
+    gap: 0;
+    margin: 0;
+  }
+  .meta-row {
+    display: grid;
+    grid-template-columns: minmax(8rem, 13rem) 1fr;
+    gap: var(--space-5);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .meta-row:last-child { border-bottom: none; }
+  .meta-key {
+    font-size: 0.85rem;
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+  }
+  .meta-val {
+    font-size: var(--step-0);
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  /* ═══════════════ DOI line ═══════════════ */
+  .doi-line {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  .doi-label {
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.06em;
+    margin-right: var(--space-2);
+    color: var(--color-text-secondary);
+  }
+  .doi-line a {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+  .doi-line a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+  /* ═══════════════ BODY (markdown) ═══════════════ */
+  .pub-body {
+    font-size: var(--step-0);
+    line-height: var(--leading-body);
+    color: var(--color-text);
+  }
+  .pub-body :global(h2) {
     font-size: var(--step-2);
-    font-weight: 700;
+    font-weight: var(--weight-bold);
     color: var(--color-text);
     margin-top: var(--space-12);
     margin-bottom: var(--space-4);
-    font-family: var(--font-serif);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
   }
-
-  .pub-content :global(h3) {
+  .pub-body :global(h3) {
     font-size: var(--step-1);
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     color: var(--color-text);
     margin-top: var(--space-8);
     margin-bottom: var(--space-3);
   }
-
-  .pub-content :global(h4) {
-    font-size: var(--step-1);
-    font-weight: 600;
+  .pub-body :global(h4) {
+    font-size: var(--step-0);
+    font-weight: var(--weight-semibold);
     color: var(--color-text-secondary);
     margin-top: var(--space-6);
     margin-bottom: var(--space-2);
   }
-
-  .pub-content :global(p) {
-    margin-bottom: var(--space-6);
+  .pub-body :global(p) { margin-bottom: var(--space-6); }
+  .pub-body :global(ul),
+  .pub-body :global(ol) {
+    margin: var(--space-6) 0;
+    padding-left: var(--space-6);
   }
-
-  .pub-content :global(ul),
-  .pub-content :global(ol) {
-    list-style: none;
-    margin-bottom: var(--space-6);
-    padding-left: 0;
-  }
-
-  .pub-content :global(li) {
-    display: inline;
-    margin-bottom: 0;
-  }
-
-  .pub-content :global(li)::after {
-    content: '. ';
-  }
-
-  .pub-content :global(li:last-child)::after {
-    content: '';
-  }
-
-  .pub-content :global(strong) {
-    font-weight: 600;
+  .pub-body :global(li) { margin-bottom: var(--space-2); }
+  .pub-body :global(strong) {
+    font-weight: var(--weight-semibold);
     color: var(--color-text);
   }
-
-  .pub-content :global(code) {
+  .pub-body :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+  .pub-body :global(a:hover) { color: var(--color-accent-hover); }
+  .pub-body :global(code) {
     background: var(--color-surface);
-    padding: var(--space-1) var(--space-2);
+    padding: 0.15rem 0.4rem;
     border-radius: var(--border-radius);
-    font-size: var(--step-0);
+    font-size: 0.9em;
     font-family: var(--font-mono);
     border: 1px solid var(--color-border-light);
   }
-
-  .pub-content :global(blockquote) {
+  .pub-body :global(pre) {
+    background: #1c1916;
+    color: #f0ece6;
+    padding: var(--space-6);
+    border-radius: var(--radius-soft);
+    overflow-x: auto;
+    margin: var(--space-8) 0;
+  }
+  .pub-body :global(pre code) { background: transparent; padding: 0; border: none; }
+  .pub-body :global(blockquote) {
+    border: 1px solid var(--color-border);
     border-left: 3px solid var(--color-accent);
-    padding-left: var(--space-4);
-    margin: var(--space-6) 0;
-    color: var(--color-text-muted);
-    font-style: italic;
+    border-radius: var(--radius-soft);
+    background: var(--color-surface);
+    padding: var(--space-4) var(--space-6);
+    margin: var(--space-8) 0;
+    color: var(--color-text-secondary);
+  }
+  .pub-body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--space-8) 0;
+    font-size: 0.92rem;
+  }
+  .pub-body :global(th),
+  .pub-body :global(td) {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .pub-body :global(th) {
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
   }
 
-  .pub-footer {
-    margin-top: var(--space-12);
+  /* ═══════════════ FOOTER ═══════════════ */
+  .pub footer {
+    margin-top: var(--space-16);
     padding-top: var(--space-8);
     border-top: 1px solid var(--color-border);
   }
-
   .back-link {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
+    font-weight: var(--weight-semibold);
     color: var(--color-accent);
-    text-decoration: none;
-    font-weight: 600;
-    font-family: var(--font-sans);
-    transition: color var(--transition-fast), gap var(--transition-fast);
   }
+  .back-link:hover { color: var(--color-accent-hover); }
+  .back-link svg { transition: transform var(--transition-base); }
+  .back-link:hover svg { transform: translateX(-4px); }
 
-  .back-link:hover {
-    color: var(--color-accent-hover);
-    gap: var(--space-3);
-  }
-
-  .back-link svg {
-    transition: transform var(--transition-fast);
-  }
-
-  .back-link:hover svg {
-    transform: translateX(-4px);
-  }
-
+  /* ═══════════════ Responsive ═══════════════ */
   @media (max-width: 768px) {
-    .publication-detail {
-      padding: var(--space-8) var(--space-4);
-    }
-
-    .pub-title {
-      font-size: var(--step-2);
-    }
-
-    .pub-metrics {
-      flex-direction: column;
-      gap: var(--space-4);
+    .pub-title { font-size: var(--step-3); }
+    .metrics { gap: var(--space-6); padding: var(--space-5) var(--space-6); }
+    .panel { padding: var(--space-6); }
+    .meta-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
     }
   }
 </style>

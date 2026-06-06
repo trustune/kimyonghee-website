@@ -13,27 +13,58 @@ interface Props {
 
 const {
   title,
-  description = "Assistant Professor specializing in media policy, digital platforms, and AI governance",
+  description = "미디어 정책, 디지털 플랫폼, 인공지능 거버넌스, 데이터 분석을 연구하는 선문대학교 경영학과 교수 김용희",
   image,
   url = `https://kimyonghee.com${Astro.url.pathname}`
 } = Astro.props;
 const currentPath = Astro.url.pathname;
+
+const nav = [
+  { href: '/research/publications', ko: '연구', en: 'Research', match: (p: string) => p.startsWith('/research') },
+  { href: '/writing', ko: '글', en: 'Writing', match: (p: string) => p.startsWith('/writing') || p.startsWith('/blog') },
+  { href: '/projects', ko: '프로젝트', en: 'Projects', match: (p: string) => p.startsWith('/projects') },
+  { href: '/teaching', ko: '강의', en: 'Teaching', match: (p: string) => p.startsWith('/teaching') || p.startsWith('/courses') },
+  { href: '/textbook', ko: '교재', en: 'Textbook', match: (p: string) => p.startsWith('/textbook'), reload: true },
+  { href: '/mediaint', ko: '동향', en: 'Intelligence', match: (p: string) => p.startsWith('/mediaint') || p.startsWith('/journalint') },
+  { href: '/about', ko: '소개', en: 'About', match: (p: string) => p === '/about' },
+];
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-language="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} | Yonghee Kim</title>
+  <title>{title} | 김용희 Yonghee Kim</title>
   <meta name="description" content={description}>
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#100e0c" media="(prefers-color-scheme: dark)">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- Fonts: Inter (sans) + Source Serif 4 (serif) + Paperlogy (MediaINT) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- 언어·테마·JS 플래그를 렌더 전에 적용해 깜빡임 방지 -->
+  <script is:inline>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      try {
+        var stored = localStorage.getItem('language');
+        var nav = (navigator.language || (navigator.languages && navigator.languages[0]) || 'en').toLowerCase();
+        var lang = (stored === 'ko' || stored === 'en') ? stored : (nav.indexOf('ko') === 0 ? 'ko' : 'en');
+        d.setAttribute('data-language', lang);
+        d.setAttribute('lang', lang);
+      } catch (e) {
+        d.setAttribute('data-language', 'en');
+      }
+      try {
+        var t = localStorage.getItem('theme');
+        var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (dark) { d.classList.add('dark'); d.style.colorScheme = 'dark'; }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Font: Paperlogy (한글·영문 단일 패밀리) -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css">
 
   <!-- Open Graph -->
@@ -50,19 +81,20 @@ const currentPath = Astro.url.pathname;
       <meta property="og:image:alt" content={title}>
     </>
   )}
-  <meta property="og:site_name" content="Yonghee Kim">
-  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="김용희 Yonghee Kim">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:locale:alternate" content="en_US">
 
   <!-- Twitter -->
   <meta property="twitter:card" content={image ? "summary_large_image" : "summary"}>
   <meta property="twitter:url" content={url}>
-  <meta property="twitter:title" content={`${title} | Yonghee Kim`}>
+  <meta property="twitter:title" content={`${title} | 김용희 Yonghee Kim`}>
   <meta property="twitter:description" content={description}>
   {image && <meta property="twitter:image" content={image}>}
 
   <link rel="alternate" type="application/rss+xml" title="Yonghee Kim Writing" href="/rss.xml" />
 
-  <!-- KaTeX for math rendering -->
+  <!-- KaTeX (교재 수식) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
 
   <!-- Schema.org Person JSON-LD -->
@@ -71,6 +103,7 @@ const currentPath = Astro.url.pathname;
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Yonghee Kim",
+    "alternateName": "김용희",
     "jobTitle": "Assistant Professor",
     "worksFor": { "@type": "Organization", "name": "Sunmoon University" },
     "url": "https://kimyonghee.com",
@@ -86,59 +119,43 @@ const currentPath = Astro.url.pathname;
   <Analytics />
 </head>
 <body>
-  <a href="#main-content" class="skip-nav">Skip to content</a>
+  <a href="#main-content" class="skip-nav">
+    <span data-lang="ko">본문 바로가기</span><span data-lang="en">Skip to content</span>
+  </a>
+
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
   <header class="site-header">
-    <div class="header-container">
-      <nav class="nav" role="navigation" aria-label="Main navigation">
-        <a href="/" class="logo">Yonghee Kim</a>
+    <div class="header-inner">
+      <nav class="nav" role="navigation" aria-label="주 메뉴">
+        <a href="/" class="logo" aria-label="홈 / Home">
+          <span data-lang="ko">김용희</span><span data-lang="en">Yonghee Kim</span>
+        </a>
 
-        <!-- Mobile Menu Toggle -->
-        <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <button class="mobile-menu-toggle" aria-label="메뉴 열기 / Toggle menu" aria-expanded="false">
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
         </button>
 
-        <!-- Desktop & Mobile Navigation -->
         <div class="nav-links">
-          <a
-            href="/research/publications"
-            class={currentPath.startsWith('/research') ? 'active' : ''}
-            aria-current={currentPath.startsWith('/research') ? 'page' : undefined}
-          >Research</a>
-          <a
-            href="/writing"
-            class={currentPath.startsWith('/writing') ? 'active' : ''}
-            aria-current={currentPath.startsWith('/writing') ? 'page' : undefined}
-          >Blog</a>
-          <a
-            href="/projects"
-            class={currentPath.startsWith('/projects') ? 'active' : ''}
-            aria-current={currentPath.startsWith('/projects') ? 'page' : undefined}
-          >Projects</a>
-          <a
-            href="/teaching"
-            class={currentPath.startsWith('/teaching') || currentPath.startsWith('/courses') ? 'active' : ''}
-            aria-current={currentPath.startsWith('/teaching') || currentPath.startsWith('/courses') ? 'page' : undefined}
-          >Teaching</a>
-          <a
-            href="/textbook"
-            class={currentPath.startsWith('/textbook') ? 'active' : ''}
-            aria-current={currentPath.startsWith('/textbook') ? 'page' : undefined}
-            data-astro-reload
-          >Textbook</a>
-          <a
-            href="/mediaint"
-            class={currentPath.startsWith('/mediaint') || currentPath.startsWith('/journalint') ? 'active' : ''}
-            aria-current={currentPath.startsWith('/mediaint') || currentPath.startsWith('/journalint') ? 'page' : undefined}
-          >Intelligence</a>
-          <a
-            href="/about"
-            class={currentPath === '/about' ? 'active' : ''}
-            aria-current={currentPath === '/about' ? 'page' : undefined}
-          >About</a>
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              class={item.match(currentPath) ? 'nav-item active' : 'nav-item'}
+              aria-current={item.match(currentPath) ? 'page' : undefined}
+              data-astro-reload={item.reload ? true : undefined}
+            >
+              <span data-lang="ko">{item.ko}</span><span data-lang="en">{item.en}</span>
+            </a>
+          ))}
+
           <div class="nav-controls">
+            <div class="lang-toggle" role="group" aria-label="Language / 언어">
+              <button type="button" class="lang-opt" data-set-lang="ko" aria-label="한국어로 보기">KO</button>
+              <span class="lang-sep" aria-hidden="true"></span>
+              <button type="button" class="lang-opt" data-set-lang="en" aria-label="View in English">EN</button>
+            </div>
             <DarkModeToggle />
           </div>
         </div>
@@ -151,20 +168,30 @@ const currentPath = Astro.url.pathname;
   </main>
 
   <footer class="site-footer">
-    <div class="footer-container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <span data-lang="ko">김용희</span><span data-lang="en">Yonghee Kim</span>
+        </a>
+        <p class="footer-tagline">
+          <span data-lang="ko">미디어 정책과 디지털 플랫폼, 데이터가 만나는 자리에서 연구합니다.</span>
+          <span data-lang="en">Research at the meeting point of media policy, digital platforms, and data.</span>
+        </p>
+      </div>
+
       <div class="footer-grid">
         <div class="footer-col">
-          <h3 class="footer-heading">Navigation</h3>
+          <h3 class="footer-heading"><span data-lang="ko">둘러보기</span><span data-lang="en">Navigation</span></h3>
           <ul class="footer-list">
-            <li><a href="/research/publications">Research</a></li>
-            <li><a href="/writing">Blog</a></li>
-            <li><a href="/projects">Projects</a></li>
-            <li><a href="/teaching">Teaching</a></li>
-            <li><a href="/about">About</a></li>
+            <li><a href="/research/publications"><span data-lang="ko">연구</span><span data-lang="en">Research</span></a></li>
+            <li><a href="/writing"><span data-lang="ko">글</span><span data-lang="en">Writing</span></a></li>
+            <li><a href="/projects"><span data-lang="ko">프로젝트</span><span data-lang="en">Projects</span></a></li>
+            <li><a href="/teaching"><span data-lang="ko">강의</span><span data-lang="en">Teaching</span></a></li>
+            <li><a href="/about"><span data-lang="ko">소개</span><span data-lang="en">About</span></a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h3 class="footer-heading">External</h3>
+          <h3 class="footer-heading"><span data-lang="ko">외부 링크</span><span data-lang="en">External</span></h3>
           <ul class="footer-list">
             <li><a href="https://scholar.google.com/citations?user=semkeskAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
             <li><a href="https://orcid.org/0000-0002-5643-2748" target="_blank" rel="noopener noreferrer">ORCID</a></li>
@@ -174,18 +201,18 @@ const currentPath = Astro.url.pathname;
           </ul>
         </div>
         <div class="footer-col">
-          <h3 class="footer-heading">Contact</h3>
+          <h3 class="footer-heading"><span data-lang="ko">연락처</span><span data-lang="en">Contact</span></h3>
           <ul class="footer-list">
             <li><a href="mailto:yhkim1981@sunmoon.ac.kr">yhkim1981@sunmoon.ac.kr</a></li>
-            <li>Sunmoon University</li>
-            <li>Asan, Chungnam, South Korea</li>
+            <li><span data-lang="ko">선문대학교 경영학과</span><span data-lang="en">Sunmoon University</span></li>
+            <li><span data-lang="ko">충남 아산</span><span data-lang="en">Asan, Chungnam, Korea</span></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h3 class="footer-heading">Credits</h3>
+          <h3 class="footer-heading"><span data-lang="ko">만든 정보</span><span data-lang="en">Colophon</span></h3>
           <ul class="footer-list">
-            <li>Built with Astro</li>
-            <li>Deployed on Nginx</li>
+            <li><span data-lang="ko">글꼴 페이퍼로지</span><span data-lang="en">Set in Paperlogy</span></li>
+            <li><span data-lang="ko">Astro로 제작</span><span data-lang="en">Built with Astro</span></li>
             <li>&copy; {new Date().getFullYear()} Yonghee Kim</li>
           </ul>
         </div>
@@ -194,22 +221,46 @@ const currentPath = Astro.url.pathname;
   </footer>
 
   <style>
-    /* Header */
+    /* ── Scroll progress ── */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      z-index: calc(var(--z-sticky) + 1);
+      pointer-events: none;
+      background: transparent;
+    }
+    .scroll-progress span {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: var(--color-accent);
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      transition: transform 80ms linear;
+    }
+
+    /* ── Header ── */
     .site-header {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: var(--color-bg);
-      border-bottom: 1px solid var(--color-border);
+      z-index: var(--z-sticky);
+      background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+      backdrop-filter: saturate(140%) blur(10px);
+      -webkit-backdrop-filter: saturate(140%) blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition-base), background var(--transition-base), padding var(--transition-base);
       padding: var(--space-4) 0;
     }
-
-    .header-container {
-      max-width: var(--container-max);
+    .site-header.scrolled {
+      border-bottom-color: var(--color-border);
+      padding: var(--space-3) 0;
+    }
+    .header-inner {
+      max-width: var(--container-wide);
       margin: 0 auto;
       padding: 0 var(--space-8);
     }
-
     .nav {
       display: flex;
       justify-content: space-between;
@@ -218,77 +269,64 @@ const currentPath = Astro.url.pathname;
     }
 
     .logo {
-      font-family: var(--font-serif);
+      font-family: var(--font-display);
       font-size: var(--step-1);
-      font-weight: 500;
-      text-decoration: none;
+      font-weight: var(--weight-heavy);
+      letter-spacing: -0.02em;
       color: var(--color-text);
-      z-index: 102;
+      z-index: calc(var(--z-drawer) + 1);
     }
+    .logo:hover { color: var(--color-accent); }
 
-    .logo:hover {
-      color: var(--color-text);
-    }
-
-    /* Mobile Menu Toggle */
+    /* ── Mobile toggle ── */
     .mobile-menu-toggle {
       display: none;
       flex-direction: column;
-      gap: var(--space-1);
+      gap: 5px;
       background: none;
       border: none;
       cursor: pointer;
       padding: var(--space-2);
-      z-index: 102;
+      z-index: calc(var(--z-drawer) + 1);
     }
-
     .hamburger-line {
-      width: 24px;
-      height: 2px;
+      width: 24px; height: 2px;
       background-color: var(--color-text);
-      transition: all var(--transition-base);
+      transition: transform var(--transition-base), opacity var(--transition-base);
     }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(2) { opacity: 0; }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-    .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-
-    .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
-      opacity: 0;
-    }
-
-    .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
-    }
-
-    /* Navigation Links */
+    /* ── Nav links ── */
     .nav-links {
       display: flex;
-      gap: var(--space-8);
+      gap: var(--space-6);
       align-items: center;
     }
-
-    .nav-links a {
-      text-decoration: none;
+    .nav-item {
+      position: relative;
       font-family: var(--font-sans);
-      font-size: 0.875rem;
-      font-weight: 400;
+      font-size: 0.92rem;
+      font-weight: var(--weight-medium);
       color: var(--color-text-secondary);
       padding: var(--space-2) 0;
-      transition: color var(--transition-fast);
       white-space: nowrap;
+      transition: color var(--transition-fast);
     }
-
-    .nav-links a:hover {
-      color: var(--color-text);
+    .nav-item::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 100%;
+      bottom: -2px;
+      height: 1.5px;
+      background: var(--color-accent);
+      transition: right var(--transition-base);
     }
-
-    .nav-links a.active {
-      color: var(--color-accent);
-      text-decoration: underline;
-      text-underline-offset: 0.4em;
-      text-decoration-thickness: 1.5px;
-    }
+    .nav-item:hover { color: var(--color-text); }
+    .nav-item:hover::after { right: 0; }
+    .nav-item.active { color: var(--color-text); font-weight: var(--weight-semibold); }
+    .nav-item.active::after { right: 0; }
 
     .nav-controls {
       display: flex;
@@ -296,194 +334,265 @@ const currentPath = Astro.url.pathname;
       align-items: center;
     }
 
-    /* Main */
-    .site-main {
-      flex: 1;
-      width: 100%;
+    /* ── Language toggle ── */
+    .lang-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      padding: 3px 5px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+    }
+    .lang-opt {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.04em;
+      color: var(--color-text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      transition: color var(--transition-fast), background var(--transition-fast);
+    }
+    .lang-opt:hover { color: var(--color-text); }
+    .lang-sep { width: 1px; height: 11px; background: var(--color-border); }
+    html[data-language="ko"] .lang-opt[data-set-lang="ko"],
+    html[data-language="en"] .lang-opt[data-set-lang="en"] {
+      color: #fff;
+      background: var(--color-accent);
     }
 
-    /* Footer */
+    /* ── Main ── */
+    .site-main { flex: 1; width: 100%; }
+
+    /* ── Footer ── */
     .site-footer {
       border-top: 1px solid var(--color-border);
-      padding: var(--space-16) 0 var(--space-12);
-      margin-top: var(--space-24);
+      padding: var(--section-gap) 0 var(--space-12);
+      margin-top: var(--section-gap);
+      background: var(--color-bg-sunken);
     }
-
-    .footer-container {
-      max-width: var(--container-max);
+    .footer-inner {
+      max-width: var(--container-wide);
       margin: 0 auto;
       padding: 0 var(--space-8);
+      display: grid;
+      grid-template-columns: 1.4fr 2.6fr;
+      gap: var(--space-16);
     }
-
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: var(--step-2);
+      font-weight: var(--weight-heavy);
+      letter-spacing: -0.02em;
+      color: var(--color-text);
+    }
+    .footer-logo:hover { color: var(--color-accent); }
+    .footer-tagline {
+      margin-top: var(--space-4);
+      max-width: 32ch;
+      color: var(--color-text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
     .footer-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-12);
+      gap: var(--space-8);
     }
-
     .footer-heading {
       font-family: var(--font-sans);
-      font-size: 0.75rem;
-      font-weight: 600;
+      font-size: 0.72rem;
+      font-weight: var(--weight-bold);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       color: var(--color-text);
       margin-bottom: var(--space-4);
     }
+    .footer-list { list-style: none; padding: 0; }
+    .footer-list li { font-size: 0.9rem; color: var(--color-text-secondary); line-height: 2; }
+    .footer-list a { color: var(--color-text-secondary); }
+    .footer-list a:hover { color: var(--color-accent); }
 
-    .footer-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .footer-list li {
-      font-size: 0.875rem;
-      color: var(--color-text-secondary);
-      line-height: 1.8;
-    }
-
-    .footer-list a {
-      text-decoration: none;
-      color: var(--color-text-secondary);
-      transition: color var(--transition-fast);
-    }
-
-    .footer-list a:hover {
-      color: var(--color-text);
-    }
-
-    /* Tablet */
+    /* ── Tablet ── */
     @media (max-width: 1024px) {
-      .header-container,
-      .footer-container {
-        padding: 0 var(--space-6);
-      }
-
-      .nav-links {
-        gap: var(--space-6);
-      }
+      .header-inner, .footer-inner { padding: 0 var(--space-6); }
     }
 
-    /* Mobile */
-    @media (max-width: 768px) {
-      .header-container,
-      .footer-container {
-        padding: 0 var(--space-4);
-      }
-
-      .site-header {
-        padding: var(--space-3) 0;
-      }
-
-      .mobile-menu-toggle {
-        display: flex;
-      }
+    /* ── Mobile / compact: hamburger drawer ── */
+    @media (max-width: 1000px) {
+      .header-inner { padding: 0 var(--space-5); }
+      .site-header { padding: var(--space-3) 0; }
+      .mobile-menu-toggle { display: flex; }
 
       .nav-links {
         position: fixed;
-        top: 0;
-        right: -100%;
-        width: 280px;
-        height: 100vh;
+        top: 0; right: -100%;
+        width: min(320px, 84vw);
+        height: 100dvh;
         background: var(--color-bg);
         flex-direction: column;
+        align-items: flex-start;
         gap: 0;
         padding: var(--space-24) var(--space-8) var(--space-8);
-        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
-        transition: right var(--transition-base);
-        z-index: 101;
+        box-shadow: -8px 0 40px rgba(0,0,0,0.12);
+        transition: right var(--transition-slow);
+        z-index: var(--z-drawer);
         overflow-y: auto;
       }
-
-      .nav-links.active {
-        right: 0;
-      }
-
-      .nav-links a {
+      .nav-links.active { right: 0; }
+      .nav-item {
         width: 100%;
         padding: var(--space-4) 0;
         border-bottom: 1px solid var(--color-border-light);
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
-
-      .nav-links a.active {
-        text-decoration: none;
-        font-weight: 500;
-      }
-
+      .nav-item::after { display: none; }
       .nav-controls {
         width: 100%;
-        padding-top: var(--space-4);
+        padding-top: var(--space-6);
         margin-top: var(--space-4);
-        border-top: 1px solid var(--color-border);
-        justify-content: center;
-        gap: var(--space-6);
-      }
-
-      .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-8);
+        justify-content: space-between;
       }
     }
 
-    @media (max-width: 480px) {
-      .nav-links {
-        width: 100%;
-      }
-
-      .footer-grid {
+    @media (max-width: 760px) {
+      .footer-inner {
         grid-template-columns: 1fr;
-        gap: var(--space-8);
+        gap: var(--space-10);
       }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
+    }
+    @media (max-width: 460px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); }
     }
   </style>
 
   <script>
-    let mobileMenuAbortController;
+    // ── 언어 토글 (이벤트 위임, 중복 바인딩 가드) ──
+    function applyLanguage(lang) {
+      const d = document.documentElement;
+      d.setAttribute('data-language', lang);
+      d.setAttribute('lang', lang);
+      try { localStorage.setItem('language', lang); } catch (e) {}
+    }
+    function onLangClick(e) {
+      const target = e.target;
+      if (!(target instanceof Element)) return;
+      const btn = target.closest('[data-set-lang]');
+      if (!btn) return;
+      applyLanguage(btn.getAttribute('data-set-lang'));
+    }
+    if (!document.documentElement.hasAttribute('data-lang-bound')) {
+      document.addEventListener('click', onLangClick);
+      document.documentElement.setAttribute('data-lang-bound', 'true');
+    }
+    // View Transitions 후 저장된 언어 재적용
+    document.addEventListener('astro:after-swap', () => {
+      try {
+        const stored = localStorage.getItem('language');
+        if (stored === 'ko' || stored === 'en') {
+          document.documentElement.setAttribute('data-language', stored);
+          document.documentElement.setAttribute('lang', stored);
+        }
+      } catch (e) {}
+    });
 
-    function initMobileMenu() {
-      if (mobileMenuAbortController) {
-        mobileMenuAbortController.abort();
+    // ── 스크롤 진행바 + 헤더 상태 ──
+    function initScroll() {
+      const bar = document.querySelector('.scroll-progress span');
+      const header = document.querySelector('.site-header');
+      let ticking = false;
+      function update() {
+        const st = window.scrollY || document.documentElement.scrollTop;
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const ratio = h > 0 ? Math.min(st / h, 1) : 0;
+        if (bar) bar.style.transform = `scaleX(${ratio})`;
+        if (header) header.classList.toggle('scrolled', st > 8);
+        ticking = false;
       }
+      function onScroll() {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      update();
+    }
 
+    // ── reveal-on-scroll (IntersectionObserver) ──
+    // 콘텐츠는 기본 가시. 화면 밖 요소만 .reveal-armed 로 숨겼다가 진입 시 보인다.
+    // 안전 타임아웃으로 어떤 경우에도 빈 화면이 남지 않게 한다.
+    function initReveal() {
+      const els = Array.from(document.querySelectorAll('.reveal, .reveal-x')).filter(
+        (el) => !el.classList.contains('is-in')
+      );
+      if (!els.length) return;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        els.forEach((el) => el.classList.add('is-in'));
+        return;
+      }
+      const vh = window.innerHeight;
+      els.forEach((el) => {
+        if (el.getBoundingClientRect().top < vh * 0.9) {
+          el.classList.add('is-in');           // 이미 화면 안 → 즉시 표시
+        } else {
+          el.classList.add('reveal-armed');    // 화면 밖 → 진입 시 애니메이션
+        }
+      });
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-in');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      document.querySelectorAll('.reveal-armed:not(.is-in)').forEach((el) => io.observe(el));
+      // 안전장치: 1.8초 뒤 남은 armed 요소를 강제로 표시(스크롤하지 않아도)
+      window.setTimeout(() => {
+        document.querySelectorAll('.reveal-armed:not(.is-in)').forEach((el) => el.classList.add('is-in'));
+      }, 1800);
+    }
+
+    // ── 모바일 메뉴 ──
+    let mobileMenuAbortController;
+    function initMobileMenu() {
+      if (mobileMenuAbortController) mobileMenuAbortController.abort();
       mobileMenuAbortController = new AbortController();
       const { signal } = mobileMenuAbortController;
-
       const menuToggle = document.querySelector('.mobile-menu-toggle');
       const navLinks = document.querySelector('.nav-links');
-
       if (!menuToggle || !navLinks) return;
-
       function closeMenu() {
         menuToggle.classList.remove('active');
         menuToggle.setAttribute('aria-expanded', 'false');
         navLinks.classList.remove('active');
         document.body.style.overflow = '';
       }
-
       menuToggle.addEventListener('click', () => {
         const isOpen = navLinks.classList.toggle('active');
         menuToggle.classList.toggle('active');
         menuToggle.setAttribute('aria-expanded', String(isOpen));
         document.body.style.overflow = isOpen ? 'hidden' : '';
       }, { signal });
-
-      navLinks.querySelectorAll('a').forEach(link => {
+      navLinks.querySelectorAll('a').forEach((link) => {
         link.addEventListener('click', closeMenu, { signal });
       });
-
       document.addEventListener('click', (e) => {
-        if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
-          closeMenu();
-        }
+        if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) closeMenu();
       }, { signal });
     }
 
-    if (!document.documentElement.hasAttribute('data-mobile-menu-init')) {
-      document.addEventListener('DOMContentLoaded', initMobileMenu);
-      document.addEventListener('astro:page-load', initMobileMenu);
-      document.documentElement.setAttribute('data-mobile-menu-init', 'true');
+    function initAll() {
+      initScroll();
+      initReveal();
+      initMobileMenu();
     }
+    initAll();
+    document.addEventListener('astro:page-load', initAll);
   </script>
 </body>
 </html>

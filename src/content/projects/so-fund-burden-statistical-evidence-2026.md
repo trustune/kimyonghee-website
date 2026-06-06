@@ -1,6 +1,10 @@
 ---
 title: "Statistical Evidence for Asymmetric Fund Burden on Cable SO Operators"
+title_ko: "케이블 SO 사업자에 대한 기금 부담 비대칭의 통계적 증거"
+title_en: "Statistical Evidence for Asymmetric Fund Burden on Cable SO Operators"
 subtitle: "Panel Data Analysis (90 SO firms, 2017-2024): Cox PH, Logit, Gini, and Nonparametric Tests"
+subtitle_ko: "패널 자료 분석(SO 90개사, 2017~2024): 콕스 비례위험, 로짓, 지니, 비모수 검정"
+subtitle_en: "Panel Data Analysis (90 SO firms, 2017-2024): Cox PH, Logit, Gini, and Nonparametric Tests"
 date: "2026-04-09"
 category: "Broadcasting Policy"
 tags: ["Broadcasting Fund", "Cable TV", "SO", "IPTV", "Panel Data", "Cox PH", "Logit", "Gini", "Regulatory Asymmetry"]
@@ -21,7 +25,11 @@ related_publications: []
 related_projects: ["broadcasting-revenue-2015-2024"]
 conference: ""
 description: "Panel analysis of 90 cable SO firms over 8 years (N=724) reveals that fund burden significantly accelerates capital erosion (Cox HR=3.9, p=0.020), SO bears 3.8x higher effective burden than IPTV (Welch p=0.003), and the burden Gini reaches 0.513 (extreme inequality)."
+description_ko: "케이블 SO 90개사를 8년간(N=724) 패널 분석한 결과, 기금 부담이 자본 잠식을 유의하게 가속하고(콕스 위험비=3.9, p=0.020), SO가 IPTV보다 실효 부담을 3.8배 더 지며(웰치 검정 p=0.003), 부담의 지니계수가 0.513(극심한 불평등)에 이르는 것으로 나타났다."
+description_en: "Panel analysis of 90 cable SO firms over 8 years (N=724) reveals that fund burden significantly accelerates capital erosion (Cox HR=3.9, p=0.020), SO bears 3.8x higher effective burden than IPTV (Welch p=0.003), and the burden Gini reaches 0.513 (extreme inequality)."
 summary: "Using Cox PH, Logit, and nonparametric tests on a 90-firm panel (N=724, 2017-2024), this study provides statistical evidence that Korea's uniform 1.5% Broadcasting Development Fund rate produces extreme burden asymmetry: SO operators face 3.9x higher capital erosion risk per 1%p fund increase (p=0.020), bear 3.8x higher effective burden than IPTV (p=0.003), and the system produces a Gini of 0.513 -- higher than OECD income inequality."
+summary_ko: "SO 90개사 패널(N=724, 2017~2024)에 콕스 비례위험, 로짓, 비모수 검정을 적용해, 한국의 일률적 1.5% 방송통신발전기금 요율이 극심한 부담 비대칭을 낳는다는 통계적 증거를 제시한다. SO 사업자는 기금/매출 비율이 1%p 오를 때 자본 잠식 위험이 3.9배 높아지고(p=0.020), IPTV보다 실효 부담을 3.8배 더 지며(p=0.003), 이 제도의 지니계수는 0.513으로 OECD 소득 불평등보다 높다."
+summary_en: "Using Cox PH, Logit, and nonparametric tests on a 90-firm panel (N=724, 2017-2024), this study provides statistical evidence that Korea's uniform 1.5% Broadcasting Development Fund rate produces extreme burden asymmetry: SO operators face 3.9x higher capital erosion risk per 1%p fund increase (p=0.020), bear 3.8x higher effective burden than IPTV (p=0.003), and the system produces a Gini of 0.513 -- higher than OECD income inequality."
 key_findings:
   - "Cox PH: 1%p increase in fund/revenue ratio raises capital erosion hazard by 3.9x (HR=3.902, p=0.020)"
   - "Welch t-test: SO effective burden (22.1%) vs IPTV (5.8%), 3.8x gap (t=3.23, p=0.003)"
