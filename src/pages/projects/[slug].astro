@@ -71,15 +71,17 @@ const subtitleKo = d.subtitle_ko || d.subtitle || '';
 const subtitleEn = d.subtitle_en || d.subtitle || '';
 const conferenceKo = d.conference_ko || d.conference || '';
 const conferenceEn = d.conference_en || d.conference || '';
-const summaryKo = d.summary || '';
+const summaryKo = d.summary_ko || d.summary || '';
 const summaryEn = d.summary_en || d.summary || '';
 
 const keyFindingsKo: string[] = (d.key_findings_ko && d.key_findings_ko.length > 0) ? d.key_findings_ko : (d.key_findings || []);
 const keyFindingsEn: string[] = d.key_findings || [];
 const hasFindings = keyFindingsEn.length > 0;
 
-const policyProposals: string[] = d.policy_proposals || [];
-const policyConcerns: string[] = d.policy_concerns || [];
+const policyProposalsEn: string[] = d.policy_proposals || [];
+const policyProposalsKo: string[] = (d.policy_proposals_ko && d.policy_proposals_ko.length > 0) ? d.policy_proposals_ko : policyProposalsEn;
+const policyConcernsEn: string[] = d.policy_concerns || [];
+const policyConcernsKo: string[] = (d.policy_concerns_ko && d.policy_concerns_ko.length > 0) ? d.policy_concerns_ko : policyConcernsEn;
 
 const methodology: string[] = d.methodology || [];
 const dataSources: { name: string; type: string }[] = d.data_sources || [];
@@ -166,13 +168,18 @@ const dateEn = new Date(data.date).toLocaleDateString('en-US', { year: 'numeric'
     )}
 
     {/* ═══════════════ POLICY PROPOSALS ═══════════════ */}
-    {policyProposals.length > 0 && (
+    {policyProposalsEn.length > 0 && (
       <section class="callout callout--policy reveal">
         <h2 class="callout-title">
           <span data-lang="ko">정책 제언</span><span data-lang="en">Policy Proposals</span>
         </h2>
-        <ul class="finding-list">
-          {policyProposals.map((item: string, i: number) => (
+        <ul class="finding-list" data-lang="ko">
+          {policyProposalsKo.map((item: string, i: number) => (
+            <li style={`--i:${i}`}>{item}</li>
+          ))}
+        </ul>
+        <ul class="finding-list" data-lang="en">
+          {policyProposalsEn.map((item: string, i: number) => (
             <li style={`--i:${i}`}>{item}</li>
           ))}
         </ul>
@@ -180,13 +187,18 @@ const dateEn = new Date(data.date).toLocaleDateString('en-US', { year: 'numeric'
     )}
 
     {/* ═══════════════ POLICY CONCERNS ═══════════════ */}
-    {policyConcerns.length > 0 && (
+    {policyConcernsEn.length > 0 && (
       <section class="callout callout--policy reveal">
         <h2 class="callout-title">
           <span data-lang="ko">정책 쟁점</span><span data-lang="en">Policy Concerns</span>
         </h2>
-        <ul class="finding-list">
-          {policyConcerns.map((item: string, i: number) => (
+        <ul class="finding-list" data-lang="ko">
+          {policyConcernsKo.map((item: string, i: number) => (
+            <li style={`--i:${i}`}>{item}</li>
+          ))}
+        </ul>
+        <ul class="finding-list" data-lang="en">
+          {policyConcernsEn.map((item: string, i: number) => (
             <li style={`--i:${i}`}>{item}</li>
           ))}
         </ul>

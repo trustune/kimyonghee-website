@@ -42,11 +42,25 @@ key_findings:
   - "Counter-cyclical buffer: Filled 120.7% of broadcasting ad revenue gap"
   - "Human capital preservation: Sustained 8,777 jobs during 2020-2021 pandemic crisis"
   - "Hidden tax contribution: 143 billion won indirect taxes vs 3.6 billion corporate tax (40x)"
+key_findings_ko:
+  - "숨은 외국인직접투자 발견: 재무제표상 4,500억 원이지만 실제 총투자는 3.3조 원"
+  - "글로벌 자본 파이프라인: 순유입 +4,870억 원(2023년), 빠져나가는 돈보다 들어오는 돈이 더 많음"
+  - "생산유발 효과: 4년간 6.9조 원(2.07배)"
+  - "고용 효율: 반도체 산업 대비 일자리 창출 3.6배"
+  - "국내 환류율: 투자의 93.3%가 한국 안에서 순환"
+  - "경기 역행 완충: 방송 광고 매출 감소분의 120.7%를 메움"
+  - "인적 자본 보존: 2020~2021년 팬데믹 위기 동안 8,777개 일자리 유지"
+  - "숨은 세수 기여: 법인세 36억 원 대비 간접세 1,430억 원(40배)"
 policy_proposals:
   - "Recognize 'content FDI' employment efficiency in foreign investment policy"
   - "Account for hidden investment beyond financial statements in economic impact assessment"
   - "Acknowledge counter-cyclical investment's industry stabilization contribution"
   - "Consider indirect tax contribution (Tax Base Expansion) in evaluating foreign platform companies"
+policy_proposals_ko:
+  - "외국인투자 정책에서 '콘텐츠 외국인직접투자'의 고용 효율을 인정"
+  - "경제적 영향 평가 시 재무제표 너머의 숨은 투자를 반영"
+  - "경기 역행 투자가 산업 안정화에 기여하는 점을 인정"
+  - "해외 플랫폼 기업 평가 시 간접세 기여(과세 기반 확대)를 고려"
 featured: true
 ---
 
@@ -403,9 +417,21 @@ featured: true
 }
 </style>
 
+<div data-lang="ko">
+
+<h2>재무제표 너머: 넷플릭스 코리아의 전체 투자를 측정하다</h2>
+
+<p>넷플릭스 코리아의 경제적 기여를 다루는 일반적인 분석은 회사가 보고한 매출과 이익에 초점을 맞춘다. 그러나 이 방식은 <strong>넷플릭스 본사(미국)에서 한국 제작사로 직접 흘러가는 콘텐츠 제작 투자</strong>를 빠뜨린다. 이 자금은 한국 재무제표를 거치지 않고 우회한다.</p>
+
+</div>
+
+<div data-lang="en">
+
 <h2>Beyond Financial Statements: Measuring Netflix Korea's Full Investment</h2>
 
 <p>Standard analyses of Netflix Korea's economic contribution focus on the company's reported revenue and profits. However, this approach omits <strong>content production investments that flow directly from Netflix Inc. (US) to Korean production companies</strong>, bypassing Korean financial statements entirely.</p>
+
+</div>
 
 <div class="metric-cards">
   <div class="metric-card">
@@ -426,6 +452,19 @@ featured: true
   </div>
 </div>
 
+<div data-lang="ko">
+
+<div class="insight-box">
+  <h4>장부 밖의 외국인직접투자</h4>
+  <p><strong>재무제표가 보여주는 것:</strong> 약 4,500억 원(두 자회사의 영업비용)<br/>
+  <strong>실제 투자:</strong> 약 3.3조 원(콘텐츠 제작 포함)<br/>
+  <strong>그 격차:</strong> 한국 자회사를 우회하는 외국인직접투자 2.9조 원</p>
+</div>
+
+</div>
+
+<div data-lang="en">
+
 <div class="insight-box">
   <h4>The Off-Balance-Sheet FDI</h4>
   <p><strong>Financial statements show:</strong> ~450 billion KRW (two subsidiaries' operating costs)<br/>
@@ -433,11 +472,25 @@ featured: true
   <strong>The gap:</strong> 2.9 trillion KRW of foreign direct investment that bypasses Korean subsidiaries</p>
 </div>
 
+</div>
+
 <hr class="section-divider">
+
+<div data-lang="ko">
+
+<h2>1부: 글로벌 자본 파이프라인 - 빠져나가는 것보다 들어오는 것이 더 많다</h2>
+
+흔한 비판은 넷플릭스가 구독료를 미국으로 빼간다는 것이다. 그러나 실제 자본 흐름 데이터를 보면 **넷플릭스는 수수료로 빼가는 것보다 더 많은 글로벌 자본을 한국으로 끌어들인다.**
+
+</div>
+
+<div data-lang="en">
 
 <h2>Part 1: The Global Capital Pipeline - More Comes In Than Goes Out</h2>
 
 A common criticism is that Netflix extracts subscription fees to the US. However, the actual capital flow data show that **Netflix channels more global capital into Korea than it withdraws in fees.**
+
+</div>
 
 <div class="pipeline-highlight">
   <h3>The Core Thesis: Capital U-Turn Model</h3>
@@ -492,6 +545,21 @@ A common criticism is that Netflix extracts subscription fees to the US. However
   </div>
 </div>
 
+<div data-lang="ko">
+
+<div class="insight-box green">
+  <h4>한국이 캐시카우가 아니라 제작 거점인 이유</h4>
+  <p><strong>전형적인 외국 기업 모델:</strong> 한국에서 벌어 --> 이익을 본국으로 송금 --> 재투자 없음(자본 유출)<br/><br/>
+  <strong>넷플릭스 모델:</strong> 한국에서 벌고 + 전 세계에서 벌어 --> 한국에서 번 것보다 더 많이 재투자 --> 한국이 순수혜자가 됨<br/><br/>
+  한국 구독료만으로는 "오징어 게임 2" 규모의 제작을 감당할 수 없다. 넷플릭스는 190개국이 넘는 나라의 구독 매출을 한국 제작으로 흘려보낸다. 한국은 넷플릭스의 글로벌 콘텐츠 제작 거점으로 기능하며, 투자가 빠져나가기보다 들어온다.</p>
+</div>
+
+<p class="data-source">출처: DART 재무제표(2023), 넷플릭스 코리아 관계자 확인(콘텐츠 투자: 2023~2025년 3년간 25억 달러)</p>
+
+</div>
+
+<div data-lang="en">
+
 <div class="insight-box green">
   <h4>Why Korea is a Production Base, Not a Cash Cow</h4>
   <p><strong>Typical foreign company model:</strong> Earn in Korea --> Send profits home --> Zero reinvestment (capital drain)<br/><br/>
@@ -501,9 +569,21 @@ A common criticism is that Netflix extracts subscription fees to the US. However
 
 <p class="data-source">Source: DART Financial Statements (2023), Netflix Korea representative confirmation (Content Investment: USD 2.5B / 3 years for 2023-2025)</p>
 
+</div>
+
 <hr class="section-divider">
 
+<div data-lang="ko">
+
+<h2>2부: 연도별 투자 흐름</h2>
+
+</div>
+
+<div data-lang="en">
+
 <h2>Part 2: Investment Flow by Year</h2>
+
+</div>
 
 <div class="chart-container">
   <div class="chart-title">Netflix Korea Investment Flow (2020-2023)</div>
@@ -559,13 +639,35 @@ A common criticism is that Netflix extracts subscription fees to the US. However
   </tbody>
 </table>
 
+<div data-lang="ko">
+
+<p class="data-source">출처: DART 재무제표(영업비용), 넷플릭스 공식 발표(콘텐츠 투자: 2023~2025년 3년간 25억 달러)</p>
+
+</div>
+
+<div data-lang="en">
+
 <p class="data-source">Source: DART Financial Statements (Operating Costs), Netflix Official Announcements (Content Investment: USD 2.5B / 3 years for 2023-2025)</p>
 
+</div>
+
 <hr class="section-divider">
+
+<div data-lang="ko">
+
+<h2>3부: 고용 효율 - 3.6배의 우위</h2>
+
+산업별 일자리 창출 효율을 비교하면, **콘텐츠 투자는 10억 원당 일자리 창출이 반도체 제조보다 3.6배 많다.**
+
+</div>
+
+<div data-lang="en">
 
 <h2>Part 3: Employment Efficiency - The 3.6x Advantage</h2>
 
 When we compare job creation efficiency across industries, **content investment creates 3.6 times more jobs per 1 billion won than semiconductor manufacturing**.
+
+</div>
 
 <div class="chart-container">
   <div class="chart-title">Employment Inducement Coefficient by Industry (Jobs per 1 Billion KRW)</div>
@@ -621,6 +723,19 @@ When we compare job creation efficiency across industries, **content investment 
   </tbody>
 </table>
 
+<div data-lang="ko">
+
+<div class="insight-box">
+  <h4>3.6배의 고용 효율</h4>
+  <p><strong>콘텐츠 산업(8.29)</strong> 대 <strong>반도체(2.34)</strong> = 10억 원당 일자리 3.54배<br/><br/>
+  <strong>왜인가?</strong> 콘텐츠 제작은 노동집약적이다. 감독, 작가, 배우, 촬영감독, 조명, 음향, 시각효과 아티스트, 의상 디자이너, 세트 제작, 케이터링, 운전 인력까지...<br/><br/>
+  <strong>정책적 함의:</strong> 외국인직접투자의 질을 측정할 때 투자 규모와 함께 고용 효율도 비중 있게 다뤄야 한다.</p>
+</div>
+
+</div>
+
+<div data-lang="en">
+
 <div class="insight-box">
   <h4>The 3.6x Employment Efficiency</h4>
   <p><strong>Content industry (8.29)</strong> vs <strong>Semiconductor (2.34)</strong> = 3.54x more jobs per 1 billion won<br/><br/>
@@ -628,7 +743,23 @@ When we compare job creation efficiency across industries, **content investment 
   <strong>Policy Implication:</strong> When measuring FDI quality, employment efficiency should be weighted alongside investment volume.</p>
 </div>
 
+</div>
+
 <hr class="section-divider">
+
+<div data-lang="ko">
+
+<h2>4부: 경기 역행 안전망</h2>
+
+2020년부터 코로나19로 전통 방송 광고 매출이 위축되는 동안, 넷플릭스는 한국 콘텐츠 투자를 해마다 늘렸다.
+
+### 방송 산업의 맥락 (검증된 데이터)
+
+방송통신위원회 자료에 따르면, 한국 방송 광고 매출은 **2019년 3.30조 원**으로 정점을 찍은 뒤 줄곧 감소해 왔다.
+
+</div>
+
+<div data-lang="en">
 
 <h2>Part 4: The Counter-Cyclical Safety Net</h2>
 
@@ -637,6 +768,8 @@ When COVID-19 contracted traditional broadcasting advertising revenue starting i
 ### Broadcasting Industry Context (Verified Data)
 
 According to Korea Communications Commission data, Korean broadcasting advertising revenue peaked at **3.30 trillion KRW in 2019** and has been declining since.
+
+</div>
 
 <div class="comparison-grid">
   <div class="comparison-box legacy">
@@ -714,6 +847,22 @@ According to Korea Communications Commission data, Korean broadcasting advertisi
   </tbody>
 </table>
 
+<div data-lang="ko">
+
+<p class="data-source">출처: 방송통신위원회 방송 매출 자료(광고 매출), 넷플릭스 공식 발표(투자)</p>
+
+<div class="insight-box green">
+  <h4>경기 역행 매출 대체</h4>
+  <p><strong>방송 광고 매출 감소(2019~2024):</strong> -1.01조 원(-30.6%)<br/>
+  <strong>넷플릭스 투자(2023):</strong> 1.22조 원<br/>
+  <strong>격차 보전:</strong> 광고 매출 감소분의 120.7% 보전<br/>
+  넷플릭스의 콘텐츠 투자는 이 기간 방송 광고 매출의 구조적 감소를 상쇄했다.</p>
+</div>
+
+</div>
+
+<div data-lang="en">
+
 <p class="data-source">Source: Korea Communications Commission Broadcasting Revenue Data (Ad Revenue), Netflix Official (Investment)</p>
 
 <div class="insight-box green">
@@ -724,16 +873,44 @@ According to Korea Communications Commission data, Korean broadcasting advertisi
   Netflix's content investment offset the structural decline in broadcasting advertising revenue during this period.</p>
 </div>
 
+</div>
+
 <hr class="section-divider">
+
+<div data-lang="ko">
+
+<h2>5부: 인적 자본의 보존</h2>
+
+콘텐츠 산업 인력은 대부분 프리랜서이고 프로젝트 단위로 일한다. 프로젝트가 멈추면 종사자들은 곧바로 소득을 잃는다. 코로나19 기간 넷플릭스의 지속적인 투자는 숙련된 제작 인력의 고용을 유지시켰다.
+
+</div>
+
+<div data-lang="en">
 
 <h2>Part 5: Human Capital Preservation</h2>
 
 The content industry's workforce is predominantly freelance and project-based. When projects stop, workers immediately lose income. During COVID-19, Netflix's continued investment sustained employment for skilled production talent.
 
+</div>
+
 <div class="chart-container">
   <div class="chart-title">Employment Induced by Netflix Investment (Persons)</div>
   <canvas id="employmentTimeline"></canvas>
 </div>
+
+<div data-lang="ko">
+
+<div class="insight-box">
+  <h4>이것이 중요한 이유</h4>
+  <p><strong>숙련 형성:</strong> 콘텐츠 산업의 숙련은 쌓는 데 7~10년이 걸린다<br/>
+  <strong>산업 이탈 위험:</strong> 종사자가 배달이나 긱 경제로 한번 떠나면 좀처럼 돌아오지 않는다<br/>
+  <strong>넷플릭스 효과:</strong> K-콘텐츠의 경쟁 기반을 지킨 "고용 연속성"을 제공했다<br/>
+  <strong>2020~2021년 합계:</strong> 팬데믹의 가장 힘든 시기에 8,777개 일자리 유지</p>
+</div>
+
+</div>
+
+<div data-lang="en">
 
 <div class="insight-box">
   <h4>Why This Matters</h4>
@@ -743,9 +920,21 @@ The content industry's workforce is predominantly freelance and project-based. W
   <strong>2020-2021 Total:</strong> 8,777 jobs sustained during pandemic's worst years</p>
 </div>
 
+</div>
+
 <hr class="section-divider">
 
+<div data-lang="ko">
+
+<h2>6부: 4년 누적 영향 요약</h2>
+
+</div>
+
+<div data-lang="en">
+
 <h2>Part 6: Four-Year Cumulative Impact Summary</h2>
+
+</div>
 
 <div class="chart-container">
   <div class="chart-title">Cumulative Economic Ripple Effects (2020-2023)</div>
@@ -828,9 +1017,21 @@ The content industry's workforce is predominantly freelance and project-based. W
 
 <hr class="section-divider">
 
+<div data-lang="ko">
+
+<h2>7부: 간접세 기여</h2>
+
+<p>넷플릭스의 세금 기여에 대한 통상적인 평가는 재무제표에 보고된 법인세에만 초점을 맞춘다. 이 관점은 넷플릭스가 한국 국고에 기여하는 전체 세금의 2.5%만을 설명할 뿐이다. 산업연관분석은 콘텐츠 제작 공급망을 통해 발생하는 상당한 간접세 수입을 확인한다.</p>
+
+</div>
+
+<div data-lang="en">
+
 <h2>Part 7: The Indirect Tax Contribution</h2>
 
 <p>Conventional assessments of Netflix's tax contribution focus solely on corporate income tax reported in financial statements. This perspective accounts for only 2.5% of Netflix's total tax contribution to the Korean treasury. Input-output analysis identifies substantial indirect tax revenue generated through the content production supply chain.</p>
+
+</div>
 
 <div class="metric-cards">
   <div class="metric-card">
@@ -905,6 +1106,25 @@ The content industry's workforce is predominantly freelance and project-based. W
   </tbody>
 </table>
 
+<div data-lang="ko">
+
+<p class="data-source">출처: DART(법인세), 산업연관분석(4년 누적 생산유발에서 산출한 간접세)</p>
+
+<div class="insight-box orange">
+  <h4>간접세가 더 중요한 이유</h4>
+  <p><strong>부가가치세, 생산세, 공급망 세금은 콘텐츠 제작에 내재되어 있다:</strong><br/><br/>
+  • 넷플릭스의 한국 제작 파트너가 장비를 사고, 인력을 고용하고, 스튜디오를 빌리고, 자재를 구매할 때 부가가치세와 생산세를 낸다<br/>
+  • 이 세금들은 넷플릭스 재무제표에는 나타나지 않지만 한국 국고에 대한 실질적 기여다<br/>
+  • 수익성에 좌우되는 법인세와 달리, 간접세는 제작 활동이 일어날 때마다 발생한다<br/>
+  • 40배의 비율(1,430억 원 대 36억 원)은 제작 활동이 법인 이익만으로 따지는 것보다 훨씬 많은 세수를 만들어냄을 보여준다</p>
+</div>
+
+<p><strong>정책적 함의:</strong> 해외 디지털 플랫폼을 둘러싼 현재의 논의는 거의 전적으로 법인세에 집중되어 있다. 산업연관분석은 넷플릭스가 제작 유발 간접세를 통해 기여하는 규모가 눈에 보이는 법인세보다 40배 크다는 것을 보여준다. 이는 디지털 플랫폼의 재정 기여를 평가하려면 플랫폼 자체의 수익성만이 아니라 가치사슬 전체를 고려해야 함을 시사한다.</p>
+
+</div>
+
+<div data-lang="en">
+
 <p class="data-source">Source: DART (Corporate Tax), IO Analysis (Indirect Tax from 4-year cumulative production inducement)</p>
 
 <div class="insight-box orange">
@@ -918,9 +1138,54 @@ The content industry's workforce is predominantly freelance and project-based. W
 
 <p><strong>Policy Implication:</strong> Current debate on foreign digital platforms focuses almost exclusively on corporate income tax. Input-output analysis shows that Netflix's contribution through production-induced indirect taxes is 40 times larger than its visible corporate tax. This suggests evaluating digital platforms' fiscal contributions requires accounting for the entire value chain, not just the platform's own profitability.</p>
 
+</div>
+
 <hr class="section-divider">
 
+<div data-lang="ko">
+
+<h2>결론: 논쟁의 틀을 다시 짜다</h2>
+
+</div>
+
+<div data-lang="en">
+
 <h2>Conclusion: Reframing the Debate</h2>
+
+</div>
+
+<div data-lang="ko">
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>기존의 틀</th>
+      <th>새로운 틀 (산업연관 증거)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>"구독료를 미국으로 빼간다"</td>
+      <td><strong>순유입 +4,870억 원(2023)</strong> - 나가는 것보다 돌아오는 것이 더 많다</td>
+    </tr>
+    <tr>
+      <td>"세금을 거의 안 낸다"</td>
+      <td><strong>총 세수 기여 1,430억 원</strong> - 보이는 세금 대비 숨은 세금 40배</td>
+    </tr>
+    <tr>
+      <td>"외국 기업의 이익 추출"</td>
+      <td><strong>이해가 일치하는 구조적 파트너</strong> - 한국은 제작 거점이다</td>
+    </tr>
+    <tr>
+      <td>"한국 미디어와 경쟁한다"</td>
+      <td><strong>생태계를 구한 위기 완충재</strong> - 광고 매출 감소분의 120%를 메웠다</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+<div data-lang="en">
 
 <table class="data-table">
   <thead>
@@ -949,7 +1214,43 @@ The content industry's workforce is predominantly freelance and project-based. W
   </tbody>
 </table>
 
+</div>
+
 <hr class="section-divider">
+
+<div data-lang="ko">
+
+<h2>분석 방법 및 데이터 투명성</h2>
+
+**분석 틀**: 한국은행 ECOS 산업연관표를 활용한 산업연관분석
+
+**사용한 주요 계수**:
+- 생산유발계수(레온티에프 역행렬): 2.0147
+- 부가가치유발계수: 1.0543
+- 고용유발계수: 10억 원당 8.290명
+- 수입유발계수: 0.159
+
+**단위 기준**:
+- 1조 원 = 1,000억 원 = 10,000억 원(억 단위)
+- 고용계수는 10억 원당 기준
+
+**데이터 출처**:
+- 한국은행 ECOS 산업연관표(신계열, 2020~2023)
+- DART를 통한 넷플릭스 코리아 재무제표
+- 넷플릭스 본사 공식 투자 발표(2023~2025년 3년간 25억 달러)
+- 방송통신위원회 방송 매출 자료
+
+**산업 분류**:
+- 넷플릭스 운영: J(정보통신·방송 서비스)
+- 콘텐츠 제작: R(예술·스포츠·여가)
+
+**한계**:
+- 콘텐츠 투자의 세부 부문별 내역은 비공개
+- 2024년 산업연관표는 아직 미발표
+
+</div>
+
+<div data-lang="en">
 
 <h2>Methodology & Data Transparency</h2>
 
@@ -978,6 +1279,8 @@ The content industry's workforce is predominantly freelance and project-based. W
 **Limitations**:
 - Content investment breakdown by sub-sector not disclosed
 - 2024 IO tables not yet available
+
+</div>
 
 ---
 

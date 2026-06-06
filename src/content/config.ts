@@ -97,7 +97,9 @@ const projectCollection = defineCollection({
     key_findings: z.array(z.string()),
     key_findings_ko: z.array(z.string()).optional(),
     policy_proposals: z.array(z.string()).optional(),
+    policy_proposals_ko: z.array(z.string()).optional(),
     policy_concerns: z.array(z.string()).optional(),
+    policy_concerns_ko: z.array(z.string()).optional(),
     methodology: z.array(z.string()).default([]),
     data_period: z.object({
       start: z.string(),

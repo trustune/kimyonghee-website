@@ -16,8 +16,10 @@ const { Content } = await entry.render();
 const { title, title_en, excerpt, excerpt_en, date, category, tags, image, author, enableShare } = entry.data;
 const readingTime = (entry.data as any).readingTime as number | undefined;
 
-const titleKo = title;
+const titleKo = (entry.data as any).title_ko || title;
 const titleEn = title_en || title;
+const excerptKo = (entry.data as any).excerpt_ko || excerpt;
+const excerptEn = excerpt_en || excerpt;
 
 const formattedDateKo = new Date(date).toLocaleDateString('ko-KR', {
   year: 'numeric',
@@ -52,8 +54,8 @@ const fullImageUrl = image ? `https://kimyonghee.com${image}` : '';
 
       {(excerpt || excerpt_en) && (
         <p class="post-lede reveal">
-          <span data-lang="ko">{excerpt}</span>
-          <span data-lang="en">{excerpt_en || excerpt}</span>
+          <span data-lang="ko">{excerptKo}</span>
+          <span data-lang="en">{excerptEn}</span>
         </p>
       )}
 
