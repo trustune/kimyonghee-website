@@ -259,9 +259,13 @@ const sortedAwards = [...awards.awards]
               <span class="row-index" aria-hidden="true">{new Date(award.date).getFullYear()}</span>
               <span class="row-main">
                 <span class="row-title">
-                  {award.title}{award.subtitle ? <span class="award-subtitle"> &mdash; {award.subtitle}</span> : null}
+                  <span data-lang="ko">{(award as any).title_ko || award.title}{(award as any).subtitle_ko ? <span class="award-subtitle"> · {(award as any).subtitle_ko}</span> : null}</span>
+                  <span data-lang="en">{award.title}{award.subtitle ? <span class="award-subtitle"> · {award.subtitle}</span> : null}</span>
                 </span>
-                <span class="row-meta">{award.organization}</span>
+                <span class="row-meta">
+                  <span data-lang="ko">{(award as any).organization_ko || award.organization}</span>
+                  <span data-lang="en">{award.organization}</span>
+                </span>
               </span>
             </div>
           </li>

@@ -386,108 +386,324 @@
   ],
   "domestic_publications": [
     {
-      "id": "kim2019-iot-korean",
+      "id": "kci-2024-ott-levy",
       "type": "kci",
       "status": "published",
-      "title": "A Study on the Successful Adoption of IoT Services: Focusing on iBeacon and Nearby",
-      "title_en": "A Study on the Successful Adoption of IoT Services: Focusing on iBeacon and Nearby",
+      "title": "글로벌 OTT 서비스에 대한 부담금 제도 도입의 국제적 동향과 정책 과제: 주요국 사례 비교와 한국에의 시사점",
       "authors": [
-        "Kim, Y.",
-        "Park, Y.",
-        "Choi, J."
+        "홍순건",
+        "김용희"
       ],
-      "journal": "Journal of Information Technology Services",
-      "journal_en": "Journal of Information Technology Services",
-      "year": 2019,
-      "volume": 18,
+      "journal": "영상문화콘텐츠연구",
+      "year": 2024,
+      "category": "Media",
+      "citations": 0,
+      "note": "게재확정"
+    },
+    {
+      "id": "kci-2024-influencer",
+      "type": "kci",
+      "status": "published",
+      "title": "인플루언서와 팔로워의 파라소셜 관계와 구매에 관한 연구",
+      "authors": [
+        "신성빈",
+        "김용희"
+      ],
+      "journal": "영상문화콘텐츠연구",
+      "year": 2024,
+      "volume": 31,
+      "pages": "87-111",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2023-ott-subscribe",
+      "type": "kci",
+      "status": "published",
+      "title": "OTT 서비스별 가입과 지속사용의도에 영향을 미치는 요인에 대한 연구",
+      "authors": [
+        "김대규",
+        "김용희"
+      ],
+      "journal": "영상문화콘텐츠연구",
+      "year": 2023,
+      "volume": 29,
+      "pages": "223-260",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2023-fair-trade",
+      "type": "kci",
+      "status": "published",
+      "title": "방송 산업 내 플랫폼사업자와 콘텐츠사업자 간 공정거래환경 조성 연구",
+      "authors": [
+        "김용희",
+        "도준호"
+      ],
+      "journal": "한국인터넷방송통신학회 논문지",
+      "year": 2023,
+      "volume": 23,
+      "issue": 2,
+      "pages": "175-183",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2021-hate-speech",
+      "type": "kci",
+      "status": "published",
+      "title": "온라인 동영상 서비스의 혐오표현 콘텐츠 이용 경험과 규제 인식이 이용 및 지속 이용 의도에 미치는 영향",
+      "authors": [
+        "김형지",
+        "김유석",
+        "김용희"
+      ],
+      "journal": "서비스경영학회지",
+      "year": 2021,
+      "volume": 22,
       "issue": 1,
-      "pages": "89-102",
-      "category": "IoT",
-      "citations": 12,
-      "abstract": "This study analyzed the factors for the successful adoption of IoT services, focusing on iBeacon and Nearby technologies."
+      "pages": "231-249",
+      "category": "Media",
+      "citations": 0
     },
     {
-      "id": "kim2015-sng-korean",
+      "id": "kci-2020-ott-success",
       "type": "kci",
       "status": "published",
-      "title": "A Study on Switching Intentions of Social Network Game Users: Focusing on KakaoTalk Platform-Based Games",
-      "title_en": "A Study on Switching Intentions of Social Network Game Users: Focusing on KakaoTalk Platform-Based Games",
+      "title": "OTT 사업자의 성공요인 분석: 영상 중심 미디어 기업과 IP 중심의 미디어 기업 사례를 중심으로",
       "authors": [
-        "Kim, Y.",
-        "Choi, J."
+        "신호철",
+        "김용희"
       ],
-      "journal": "Journal of Korea Game Society",
-      "journal_en": "Journal of Korea Game Society",
+      "journal": "서비스경영학회지",
+      "year": 2020,
+      "volume": 21,
+      "issue": 3,
+      "pages": "301-322",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2019-mcn-migration",
+      "type": "kci",
+      "status": "published",
+      "title": "새로운 방송 서비스로의 이전: 이주 이론을 통한 MCN 전환의도 연구",
+      "authors": [
+        "김용희"
+      ],
+      "journal": "International Journal of Industrial Distribution & Business",
+      "year": 2019,
+      "volume": 10,
+      "issue": 1,
+      "pages": "59-67",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2018-rpa",
+      "type": "kci",
+      "status": "published",
+      "title": "RPA 도입을 통한 기대성과요인의 상대적 중요도와 우선순위에 관한 연구",
+      "authors": [
+        "최상웅",
+        "김용희",
+        "전용수",
+        "최정일"
+      ],
+      "journal": "한국IT정책경영학회 논문지",
+      "year": 2018,
+      "volume": 10,
+      "issue": 5,
+      "pages": "955-961",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2018-healthcare",
+      "type": "kci",
+      "status": "published",
+      "title": "디지털 헬스케어 서비스 활성화를 위한 고객지향적 속성에 관한 탐색적 연구: 해석적 구조 모형을 이용하여",
+      "authors": [
+        "지대범",
+        "최정일",
+        "김용희"
+      ],
+      "journal": "한국IT서비스학회지",
+      "year": 2018,
+      "volume": 17,
+      "issue": 1,
+      "pages": "105-119",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2016-smarthome-cvm",
+      "type": "kci",
+      "status": "published",
+      "title": "조건부가치측정법을 이용한 스마트 홈 서비스의 지불 의사액 추정",
+      "authors": [
+        "김용희",
+        "임성은",
+        "최정일"
+      ],
+      "journal": "품질경영학회지",
+      "year": 2016,
+      "volume": 44,
+      "issue": 4,
+      "pages": "833-843",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2015-media-structure",
+      "type": "kci",
+      "status": "published",
+      "title": "미디어 산업의 구조적 변화에 관한 연구: SK의 수평적 사업다각화와 CJ의 탈다각화 사례를 중심으로",
+      "authors": [
+        "노성래",
+        "김용희",
+        "최정일"
+      ],
+      "journal": "서비스경영학회지",
       "year": 2015,
-      "volume": 15,
-      "issue": 6,
-      "pages": "103-114",
-      "category": "Game",
-      "citations": 7,
-      "abstract": "This study analyzed the factors influencing switching intentions of social network game users."
+      "volume": 16,
+      "issue": 4,
+      "pages": "183-206",
+      "category": "Media",
+      "citations": 0
     },
     {
-      "id": "kim2015-app-korean",
+      "id": "kci-2015-appliance",
       "type": "kci",
       "status": "published",
-      "title": "A Study on the Impact of Smartphone Application Service Dissatisfaction on Customer Behavior",
-      "title_en": "A Study on the Impact of Smartphone Application Service Dissatisfaction on Customer Behavior",
+      "title": "어플라이언스 시스템의 혁신특성과 품질이 채택의도에 미치는 영향에 관한 연구",
       "authors": [
-        "Kim, Y.",
-        "Park, Y.",
-        "Choi, J."
+        "유응준",
+        "김용희",
+        "박영주",
+        "최정일"
       ],
-      "journal": "Journal of Information Technology Services",
-      "journal_en": "Journal of Information Technology Services",
+      "journal": "품질경영학회지",
+      "year": 2015,
+      "volume": 43,
+      "issue": 3,
+      "pages": "421-438",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2015-iot-ibeacon",
+      "type": "kci",
+      "status": "published",
+      "title": "IoT 서비스의 성공적 수용에 관한 연구: iBeacon과 Nearby를 중심으로",
+      "authors": [
+        "김용희",
+        "최병무",
+        "최정일"
+      ],
+      "journal": "한국IT서비스학회지",
       "year": 2015,
       "volume": 14,
-      "issue": 4,
-      "pages": "205-222",
-      "category": "Mobile Services",
-      "citations": 6,
-      "abstract": "This study empirically analyzed the impact of dissatisfaction factors in smartphone application services on customer behavior."
-    },
-    {
-      "id": "kim2014-univ-korean",
-      "type": "kci",
-      "status": "published",
-      "title": "A Study on the Evaluation of Operational Efficiency of Korean Universities: Using Bootstrap DEA and Tobit Regression",
-      "title_en": "A Study on the Evaluation of Operational Efficiency of Korean Universities: Using Bootstrap DEA and Tobit Regression",
-      "authors": [
-        "Kim, Y.",
-        "Choi, J.",
-        "Kim, Y. S."
-      ],
-      "journal": "Journal of the Korean Operations Research and Management Science Society",
-      "journal_en": "Journal of the Korean Operations Research and Management Science Society",
-      "year": 2014,
-      "volume": 39,
-      "issue": 4,
-      "pages": "19-33",
-      "category": "Efficiency Analysis",
-      "citations": 5,
-      "abstract": "This study evaluated the operational efficiency of Korean universities using Bootstrap DEA and Tobit Regression."
-    },
-    {
-      "id": "kim2026-regulatory-sandwich",
-      "type": "kci",
-      "status": "published",
-      "title": "규제 샌드위치 효과: 플랫폼 규제 논의에 대한 기업 규모별 시장 반응",
-      "title_en": "The Regulatory Sandwich Effect: Size-Based Heterogeneity in Market Reaction to Platform Regulation",
-      "authors": [
-        "Kim, Y.",
-        "Yoo, S."
-      ],
-      "journal": "대한경영학회지",
-      "journal_en": "Korean Academy of Management Journal",
-      "year": 2026,
-      "volume": 39,
-      "issue": 2,
-      "pages": "401-420",
-      "category": "Platform Regulation",
+      "issue": 1,
+      "pages": "217-236",
+      "category": "Media",
       "citations": 0,
-      "abstract": "본 연구는 방송통신발전기금 부담금 확대 논의가 플랫폼 기업의 주가에 미치는 영향을 사건연구 방법론을 통해 실증 분석하였다. 2024년 3월부터 2025년 1월까지 발생한 4개 주요 정책 이벤트를 대상으로 플랫폼 기업 11개사와 IT서비스 기업 6개사의 주가 반응을 비교 분석하였으며, 플랫폼 기업은 IT서비스 기업보다 유의하게 큰 부정적 반응을 보였다. 특히 기업 규모에 따라 이질적 반응이 관찰되었는데, 대형 플랫폼은 제한적 반응을 보인 반면 중형 플랫폼이 가장 큰 부정적 영향을 받았다. 본 연구는 이러한 현상을 규제 샌드위치 효과(Regulatory Sandwich Effect)로 명명하였다.",
-      "abstract_en": "This study empirically analyzes the impact of discussions on expanding the Broadcasting Development Fund levy on platform companies'  stock prices using an event study methodology. Analyzing stock price reactions of 11 platform and 6 IT service companies across four major policy events from March 2024 to January 2025, we find that platform companies show significantly larger negative reactions than IT service companies. Notably, heterogeneous reactions are observed by firm size: large platforms show limited reactions, while mid-sized platforms are most negatively affected. We term this the Regulatory Sandwich Effect — mid-sized platforms lack the market power, bargaining leverage, capital access, and strategic flexibility of large platforms to absorb or pass on regulatory costs, yet remain subject to regulation unlike smaller firms. ANOVA results confirm significant tier differences at the 5-10% level across all regulatory events, suggesting nonlinear market impacts by firm size."
+      "firstAuthor": true
+    },
+    {
+      "id": "kci-2014-univ-efficiency",
+      "type": "kci",
+      "status": "published",
+      "title": "한국 대학의 운영 효율성 평가에 관한 연구: Bootstrap DEA와 Tobit Regression을 중심으로",
+      "authors": [
+        "김용희",
+        "박영주",
+        "최정일",
+        "이원철"
+      ],
+      "journal": "한국경영공학회지",
+      "year": 2014,
+      "volume": 19,
+      "issue": 1,
+      "pages": "57-75",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2013-sns-sharing",
+      "type": "kci",
+      "status": "published",
+      "title": "소셜네트워크서비스의 기능적 속성과 개인의 심리적 동기요인이 사용자의 정보 공유 의도에 미치는 영향",
+      "authors": [
+        "김한범",
+        "김용희",
+        "장미호",
+        "최정일"
+      ],
+      "journal": "한국IT서비스학회지",
+      "year": 2013,
+      "volume": 12,
+      "issue": 4,
+      "pages": "145-164",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2012-smartphone-app",
+      "type": "kci",
+      "status": "published",
+      "title": "스마트폰 어플리케이션 서비스의 불만족이 고객 행동에 미치는 영향에 관한 연구",
+      "authors": [
+        "김용희",
+        "최정일",
+        "진영호",
+        "이동원"
+      ],
+      "journal": "품질경영학회지",
+      "year": 2012,
+      "volume": 40,
+      "issue": 3,
+      "pages": "359-371",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2012-bigdata",
+      "type": "kci",
+      "status": "published",
+      "title": "Does Big Data Matter to Value Creation?: 오라클 솔루션을 중심으로",
+      "authors": [
+        "김용희",
+        "유응준",
+        "강미선",
+        "최정일"
+      ],
+      "journal": "한국IT서비스학회지",
+      "year": 2012,
+      "volume": 11,
+      "issue": 3,
+      "pages": "39-48",
+      "category": "Media",
+      "citations": 0
+    },
+    {
+      "id": "kci-2011-global-media",
+      "type": "kci",
+      "status": "published",
+      "title": "글로벌 미디어 기업 창출에 관한 이슈와 전략적 접근",
+      "authors": [
+        "최정일",
+        "김사승",
+        "김용희"
+      ],
+      "journal": "한국IT서비스학회지",
+      "year": 2011,
+      "volume": 10,
+      "issue": 3,
+      "pages": "31-47",
+      "category": "Media",
+      "citations": 0
     }
   ]
 }

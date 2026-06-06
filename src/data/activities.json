@@ -1,0 +1,31 @@
+{
+  "activities": [
+    { "org": "한국품질경영학회", "role": "산학협력위원장", "start": "2024.6", "end": "현재", "current": true },
+    { "org": "한국PR학회", "role": "기획위원", "start": "2023.12", "end": "현재", "current": true },
+    { "org": "한국방송학회", "role": "연구이사", "start": "2023.11", "end": "현재", "current": true },
+    { "org": "CJ ENM", "role": "시청자위원회 위원", "start": "2023.9", "end": "현재", "current": true },
+    { "org": "중앙전파관리소 (과학기술정보통신부)", "role": "주된방송분야 확인 자문위원", "start": "2023.3", "end": "현재", "current": true },
+    { "org": "(주)HCN", "role": "시청자위원회 위원", "start": "2022.9", "end": "현재", "current": true },
+    { "org": "과학기술정보통신부", "role": "유료방송 가입자수 검증 전문심의회 위원", "start": "2022.9", "end": "현재", "current": true },
+    { "org": "방송통신위원회", "role": "모바일앱 이용자보호 제도개선 연구반", "start": "2022.6", "end": "현재", "current": true },
+    { "org": "한국방송통신전파진흥원", "role": "방송발전기금 연구반", "start": "2022.4", "end": "현재", "current": true },
+    { "org": "전자신문", "role": "[ET시론] 고정 필진", "start": "2022.1", "end": "현재", "current": true },
+    { "org": "한국소통학회", "role": "대외협력이사 · 편집위원", "start": "2022.1", "end": "현재", "current": true },
+    { "org": "한국서비스경영학회", "role": "이사", "start": "2020.1", "end": "현재", "current": true },
+    { "org": "한국전파진흥협회", "role": "교육원 운영위원", "start": "2020.1", "end": "현재", "current": true },
+    { "org": "한국전파진흥협회", "role": "클라우드컴퓨팅 전문인력양성기관 연구위원", "start": "2019.1", "end": "현재", "current": true },
+    { "org": "한국방송채널진흥협회", "role": "정책자문위원", "start": "2019.5", "end": "현재", "current": true },
+    { "org": "한국OTT포럼", "role": "총무 및 연구이사", "start": "2019.7", "end": "현재", "current": true },
+    { "org": "한국MCN협회", "role": "자문위원", "start": "2018.8", "end": "현재", "current": true },
+    { "org": "국무조정실", "role": "융합발전위원회 전문위원", "start": "2023.9", "end": "2024.3", "current": false },
+    { "org": "방송통신위원회", "role": "종합편성채널 재승인 심사위원", "start": "2023.2", "end": "2023.6", "current": false },
+    { "org": "한국방송학회", "role": "총무이사", "start": "2022.1", "end": "2023.11", "current": false },
+    { "org": "(주)티알엔 (쇼핑엔티)", "role": "시청자위원회 위원", "start": "2021.9", "end": "2023.8", "current": false },
+    { "org": "(주)딜라이브", "role": "지역채널심의위원회 위원", "start": "2021.4", "end": "2023.2", "current": false },
+    { "org": "시청자미디어재단", "role": "사회적가치 자문위원", "start": "2020.8", "end": "2022.4", "current": false },
+    { "org": "과학기술정보통신부", "role": "미디어분야 장관 자문위원", "start": "2020.1", "end": "2022.1", "current": false },
+    { "org": "한국IT서비스학회", "role": "이사", "start": "2018.1", "end": "2019.12", "current": false },
+    { "org": "한국품질경영학회", "role": "이사", "start": "2018.1", "end": "2019.12", "current": false },
+    { "org": "(주)HCN", "role": "지역채널심의위원장", "start": "2016.3", "end": "2021.3", "current": false }
+  ]
+}
