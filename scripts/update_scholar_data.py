@@ -51,18 +51,6 @@ def normalize_title(title: str) -> str:
     return re.sub(r"[^a-z0-9]+", "", title)
 
 
-def _try_enable_free_proxies(scholarly_mod) -> None:
-    """Best-effort: rotate free proxies to reduce Google blocking. Never fatal."""
-    try:
-        from scholarly import ProxyGenerator
-        pg = ProxyGenerator()
-        if pg.FreeProxies():
-            scholarly_mod.use_proxy(pg)
-            print("[scholar] free-proxy rotation enabled")
-    except Exception as e:
-        print(f"[scholar] proxy setup skipped ({e}); continuing without proxy")
-
-
 def get_scholar_data(author_id, max_retries=3, retry_delay_seconds=20, request_delay_seconds=2):
     """Fetch author stats/publications from Google Scholar. Returns dict or None (never raises)."""
     try:
@@ -71,7 +59,8 @@ def get_scholar_data(author_id, max_retries=3, retry_delay_seconds=20, request_d
         print(f"[scholar] scholarly unavailable: {e}")
         return None
 
-    _try_enable_free_proxies(scholarly)
+    # 직결 사용: 무료 프록시는 느리고 자주 행(hang)되어 오히려 차단 시 실패가 길어진다.
+    # 차단되면 빠르게 실패시키고(아래 재시도), is_fetch_valid 가 마지막 정상값을 보존한다.
     print(f"[scholar] fetching profile: {author_id}")
 
     author = None
