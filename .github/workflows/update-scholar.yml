@@ -42,7 +42,7 @@ jobs:
         env:
           PYTHONIOENCODING: utf-8
           SCHOLAR_AUTHOR_ID: semkeskAAAAJ
-          SCHOLAR_MAX_RETRIES: '1'
+          SCHOLAR_MAX_RETRIES: '3'
           SCHOLAR_RETRY_DELAY_SECONDS: '20'
           SCHOLAR_REQUEST_DELAY_SECONDS: '2'
 
