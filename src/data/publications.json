@@ -66,7 +66,7 @@
       "category": "OTT Services",
       "abstract": "This study examines factors driving subscriber migration from traditional pay-TV to OTT services using the push-pull-mooring framework, analyzing switching behavior in the evolving media consumption landscape.",
       "pdf": "",
-      "citations": 2
+      "citations": 3
     },
     {
       "id": "kim2025-platform",
@@ -111,7 +111,7 @@
       "category": "Efficiency Analysis",
       "abstract": "This paper evaluates operational efficiency of media companies using Data Envelopment Analysis and Malmquist productivity indices, providing insights into performance trends and competitive positioning in the media industry.",
       "pdf": "",
-      "citations": 8
+      "citations": 9
     },
     {
       "id": "kim2024-global",
@@ -258,7 +258,7 @@
       "quartile": "Q1",
       "doi": "10.1080/14783363.2017.1310708",
       "category": "IoT",
-      "citations": 519,
+      "citations": 523,
       "abstract": "This study aims to comprehensively examine the adoption of smart home service. A new model combining VAM (Value-based Adoption Model) and TAM (Technical Acceptance Model) was developed and analysed with a set of variables from Unified Theory of Acceptance and Use of Technology and Elaboration Likelihood Model.",
       "status": "published"
     },
@@ -281,7 +281,7 @@
       "category": "Fintech",
       "abstract": "This study examines factors affecting adoption of mobile payment services in the Fintech industry, analyzing user acceptance patterns and behavioral intentions toward mobile financial technology services.",
       "pdf": "",
-      "citations": 422
+      "citations": 424
     },
     {
       "id": "kim2015-portal",
@@ -326,7 +326,7 @@
     }
   ],
   "scholarStats": {
-    "citations": 1308,
+    "citations": 1318,
     "hIndex": 8,
     "i10Index": 7
   },
@@ -349,19 +349,19 @@
     },
     {
       "year": 2018,
-      "citations": 46
+      "citations": 49
     },
     {
       "year": 2019,
-      "citations": 110
+      "citations": 108
     },
     {
       "year": 2020,
-      "citations": 166
+      "citations": 167
     },
     {
       "year": 2021,
-      "citations": 181
+      "citations": 180
     },
     {
       "year": 2022,
@@ -369,19 +369,19 @@
     },
     {
       "year": 2023,
-      "citations": 181
+      "citations": 179
     },
     {
       "year": 2024,
-      "citations": 158
+      "citations": 160
     },
     {
       "year": 2025,
-      "citations": 162
+      "citations": 161
     },
     {
       "year": 2026,
-      "citations": 48
+      "citations": 57
     }
   ],
   "domestic_publications": [
